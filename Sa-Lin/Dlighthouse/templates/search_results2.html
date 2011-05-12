@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>Lighthouse Search Result</title>
+</head>
+<h1>Lighthouse Search Result</h1>
+
+<p>You searched for <strong>{{ query }}</strong></p>
+
+{% if results %}
+    <p>Lighthouse found <strong>{{ results|length }}</strong> routine{{ resultss|pluralize }}:</p>
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>Description</th>
+	   <th>URL</th>
+	   </tr>	
+        {% for item in results %}
+	   <tr>
+	   <td>{{ item.thePrecision }}</td>
+	   <td>{{ item.routineName }}</td> 
+	   <td>{{ item.matrixType }}</td> 
+	   <td>{{ item.structureType }}</td>
+	   <td>{{ item.description }}</td> 
+	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+{% else %}
+    <p>No routines matched your search criteria.</p>
+{% endif %}
+</html>
