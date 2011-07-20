@@ -72,7 +72,7 @@ class LinearLeastSquare(models.Model):
 		return self.routineName
 
 
-
+"""
 class SymmetricEigenvalue(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
@@ -100,5 +100,19 @@ class nonSymmetricEigenvalue(models.Model):
 
 	def __unicode__(self):
 		return self.routineName
+"""
 
+
+class Eigensolver(models.Model):
+	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+	routineName = models.CharField('Routine Name', max_length=30)
+	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+	structureType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	url = models.URLField()
+	problem = models.ForeignKey(Problem)
+	description = models.CharField('Description', max_length=225)
+	info = models.ForeignKey(RoutineInfo)
+
+	def __unicode__(self):
+		return self.routineName
 

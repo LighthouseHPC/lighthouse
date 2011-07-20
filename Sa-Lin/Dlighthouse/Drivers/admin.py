@@ -2,8 +2,9 @@ from Drivers.models import Problem
 from Drivers.models import RoutineInfo
 from Drivers.models import LinearEquation
 from Drivers.models import LinearLeastSquare
-from Drivers.models import SymmetricEigenvalue
-from Drivers.models import nonSymmetricEigenvalue
+#from Drivers.models import SymmetricEigenvalue
+#from Drivers.models import nonSymmetricEigenvalue
+from Drivers.models import Eigensolver
 from django.contrib import admin
 from django import forms
 
@@ -54,6 +55,7 @@ class LinearLeastSquareAdmin(admin.ModelAdmin):
 	raw_id_fields = ('problem', 'info',)
 
 
+"""
 class SymmetricEigenvalueAdmin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
 	
@@ -70,6 +72,17 @@ class nonSymmetricEigenvalueAdmin(admin.ModelAdmin):
 	search_fields = ['routineName', 'description']
 	ordering = ('id',)
 	raw_id_fields = ('problem', 'info',)
+"""
+
+
+
+class EigensolverAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
 
 
 
@@ -78,6 +91,7 @@ admin.site.register(Problem, ProblemAdmin)
 admin.site.register(RoutineInfo, RoutineInfoAdmin)
 admin.site.register(LinearEquation, LinearEquationAdmin)
 admin.site.register(LinearLeastSquare, LinearLeastSquareAdmin)
-admin.site.register(SymmetricEigenvalue, SymmetricEigenvalueAdmin)
-admin.site.register(nonSymmetricEigenvalue, nonSymmetricEigenvalueAdmin)
+#admin.site.register(SymmetricEigenvalue, SymmetricEigenvalueAdmin)
+#admin.site.register(nonSymmetricEigenvalue, nonSymmetricEigenvalueAdmin)
+admin.site.register(Eigensolver, EigensolverAdmin)
 
