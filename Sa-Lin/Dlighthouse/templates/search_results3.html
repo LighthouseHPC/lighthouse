@@ -1,0 +1,134 @@
+<html>
+<head>
+    <title>Lighthouse Search Result</title>
+</head>
+<h1>Lighthouse Search Result</h1>
+
+<p>You searched for <strong>{{ query }}</strong></p>
+
+{% if not results_le and not results_lls and not results_sym and not results_nonsym %}
+No routines matched your search criteria.
+
+
+
+{% else %}
+  {% if results_le %}
+    <p>Lighthouse found <strong>{{ results_le|length }}</strong> <ins>Linear Equation</ins> routine{{ results_le|pluralize }}:</p>
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>Problem to Solve</th>
+	   <th>URL</th>
+	   </tr>	
+        {% for item in results_le %}
+	   <tr>
+	   <td>{{ item.thePrecision }}</td>
+	   <td>{{ item.routineName }}</td> 
+	   <td>{{ item.matrixType }}</td> 
+	   <td>{{ item.structureType }}</td>
+	   <td>{{ item.problem }}</td> 
+	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+  {% endif %}
+
+
+  {% if results_lls %}
+    <p>Lighthouse found <strong>{{ results_lls|length }}</strong> <ins>Linear Least Square</ins> routine{{ results_lls|pluralize }}:</p>
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>Problem to Solve</th>
+	   <th>URL</th>
+	   </tr>	
+        {% for item in results_lls %}
+	   <tr>
+	   <td>{{ item.thePrecision }}</td>
+	   <td>{{ item.routineName }}</td> 
+	   <td>{{ item.matrixType }}</td> 
+	   <td>{{ item.structureType }}</td>
+	   <td>{{ item.problem }}</td> 
+	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+  {% endif %}
+
+
+  {% if results_sym %}
+    <p>Lighthouse found <strong>{{ results_sym|length }}</strong> <ins>Symmetric Eigenvalue</ins> routine{{ results_lls|pluralize }}:</p>
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>Problem to Solve</th>
+	   <th>URL</th>
+	   </tr>	
+        {% for item in results_sym %}
+	   <tr>
+	   <td>{{ item.thePrecision }}</td>
+	   <td>{{ item.routineName }}</td> 
+	   <td>{{ item.matrixType }}</td> 
+	   <td>{{ item.structureType }}</td>
+	   <td>{{ item.problem }}</td> 
+	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+  {% endif %}
+
+
+  {% if results_nonsym %}
+    <p>Lighthouse found <strong>{{ results_nonsym|length }}</strong> <ins>Non-Symmetric Eigenvalue routine{{ results_lls|pluralize }}:</p>
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>Problem to Solve</th>
+	   <th>URL</th>
+	   </tr>	
+        {% for item in results_nonsym %}
+	   <tr>
+	   <td>{{ item.thePrecision }}</td>
+	   <td>{{ item.routineName }}</td> 
+	   <td>{{ item.matrixType }}</td> 
+	   <td>{{ item.structureType }}</td>
+	   <td>{{ item.problem }}</td> 
+	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+  {% endif %}
+{% endif %}
+</html>
