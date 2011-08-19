@@ -6,7 +6,7 @@ from django.db.models import get_model
 from itertools import chain
 from haystack.query import SearchQuerySet
 from Dlighthouse.Drivers.models import Problem, RoutineInfo, LinearEquation, LinearLeastSquare, Eigensolver 
-from Dlighthouse.Drivers.forms import ProblemForm, PrecisionForm, ComplexForm, MatrixTypeForm, ZeroStructureForm, StorageForm
+from Dlighthouse.Drivers.forms import ProblemForm, PrecisionForm, ComplexForm, MatrixTypeForm, StorageForm
 
 
 
@@ -23,25 +23,23 @@ def search_form(request):
 
 
 def search_problem(request):
-    if request.method == 'GET':
-        form_Prob = ProblemForm(request.GET)
+	form_Prob = ProblemForm(request.GET or None)
 	if form_Prob.is_valid():
  		for val in form_Prob.fields['question_prob'].choices:
 			if val[0] == form_Prob.cleaned_data['question_prob']:
 				### --- Do the following if there are more than one models --- ###
 				#ct = ContentType.objects.get(model=val[0])   ###ct: <ContentType: linear equation>
 				#Model_List.append(ct.model_class())		###ct.model_class(): <class 'Drivers.models.LinearEquation'>
-				#routines = SearchQuerySet().models(*Model_List).all()
-				
-				routines = SearchQuerySet().models(get_model('Drivers', val[0])).all()				
+				#routines = SearchQuerySet().models(*Model_List).all()			
+				routines = SearchQuerySet().models(get_model('Drivers', val[0])).all()	
 				form_Prec = PrecisionForm()
 				request.session['Question1'] = [val[0], val[1]]
 				return render_to_response('problem.html', {'query_prob': val[1], 'form': form_Prec, 'results': routines})
 			
 
-    else:
-        form_Prob = ProblemForm()
-        return render_to_response('search_form.html', {'form': form_Prob})
+	else:
+		form_Prob = ProblemForm()
+		return render_to_response('search_form.html', {'form': form_Prob})
 
 
 
@@ -50,31 +48,31 @@ def search_problem(request):
 
 
 def search_precision(request):
-    Model_name = get_model('Drivers', request.session.get('Question1')[0])
-    if request.method == 'GET':
-        form_Prec = PrecisionForm(request.GET)
+	form_Prec = PrecisionForm(request.GET or None)
 	if form_Prec.is_valid():
 		form_Comp = ComplexForm()	
-		if form_Prec.cleaned_data['question_prec'] == unicode('s'):
+		if form_Prec.cleaned_data['question_prec'] == unicode('d'):
+			val_0 = 'd'
+			val_1 = 'Double'
+			request.session['filter_dict']={'thePrecision__in':['d', 'z']}
+
+			
+		else:
 			val_0 = 's'
 			val_1 = 'Single'
 			request.session['filter_dict']={'thePrecision__in':['s', 'c']}
 			
-		else:
-			val_0 = 'd'
-			val_1 = 'Double'
-			request.session['filter_dict']={'thePrecision__in':['d', 'z']}
-			
-		routines = Model_name.objects.filter(**request.session['filter_dict'])
+		routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
 			
 		request.session['Question2'] = [val_0, val_1] 						
 		
 		return render_to_response('precision.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': val_1, 'form': form_Comp, 'results': routines})
 
  			
-    else:
-        form_Prec = PrecisionForm()
-        return render_to_response('problem.html', {'form': form_Prec})
+	else:
+        	form_Prec = PrecisionForm()
+		routines = get_model('Drivers', request.session.get('Question1')[0]).objects.all()
+        	return render_to_response('problem.html', {'query_prob': request.session.get('Question1')[1], 'form': form_Prec, 'results': routines})
 
 
 
@@ -83,11 +81,8 @@ def search_precision(request):
 
 
 def search_complex(request):
-    Model_name = get_model('Drivers', request.session.get('Question1')[0])
-    if request.method == 'GET':
-        form_Comp = ComplexForm(request.GET)
+        form_Comp = ComplexForm(request.GET or None)
 	if form_Comp.is_valid():
-		form_Type = MatrixTypeForm()
 		if form_Comp.cleaned_data['question_comp'] == unicode('y'):
 			val_0 = 'y'
 			val_1 = 'Yes'
@@ -104,15 +99,17 @@ def search_complex(request):
 			if request.session.get('Question2')[0] == 'd':
 				request.session['filter_dict']['thePrecision__in'] = ['d']
 			
-		routines = Model_name.objects.filter(**request.session['filter_dict'])
+		routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
 
-		request.session['Question3'] = [val_0, val_1] 	
-			
+		request.session['Question3'] = [val_0, val_1] 
+		form_Type = MatrixTypeForm(request)	
+		
         	return render_to_response('complex.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': request.session.get('Question2')[1], 'query_comp': val_1, 'form': form_Type, 'results': routines})
 
-    else:
-        form_Comp = ComplexForm()
-        return render_to_response('problem.html', {'form': form_Comp})
+	else:
+		form_Comp = ComplexForm()
+		routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
+		return render_to_response('precision.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': request.session.get('Question2')[1], 'form': form_Comp, 'results': routines})
 
 
 
@@ -121,22 +118,21 @@ def search_complex(request):
 
 
 def search_matrixtype(request):
-    Model_name = get_model('Drivers', request.session.get('Question1')[0])
-    if request.method == 'GET':
-        form_Type = MatrixTypeForm(request.GET)
+        form_Type = MatrixTypeForm(request, request.GET or None)
 	if form_Type.is_valid():
-		form_Stor = StorageForm()
  		for val in form_Type.fields['question_type'].choices:
 			if val[0] == form_Type.cleaned_data['question_type']:
 				request.session['filter_dict']['matrixType'] = val[0]
-				routines = Model_name.objects.filter(**request.session['filter_dict'])
+				routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
 				request.session['Question4'] = [val[0], val[1]]
+				form_Stor = StorageForm(request)
 				return render_to_response('matrixtype.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': request.session.get('Question2')[1], 'query_comp': request.session.get('Question3')[1], 'query_type': val[1], 'form': form_Stor, 'results': routines}) 
 
 	
-    else:
-        form_Type = MatrixTypeForm()
-        return render_to_response('problem.html', {'form': form_Type})
+	else:
+		form_Type = MatrixTypeForm(request)
+		routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
+		return render_to_response('complex.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': request.session.get('Question2')[1], 'query_comp': request.session.get('Question3')[1], 'form': form_Type, 'results': routines})
 
 
 
@@ -144,21 +140,20 @@ def search_matrixtype(request):
 
 
 def search_storage(request):
-    Model_name = get_model('Drivers', request.session.get('Question1')[0])
-    if request.method == 'GET':
-        form_Stor = StorageForm(request.GET)
+        form_Stor = StorageForm(request, request.GET or None)
 	if form_Stor.is_valid():
  		for val in form_Stor.fields['question_stor'].choices:
 			if val[0] == form_Stor.cleaned_data['question_stor']:
 				request.session['filter_dict']['structureType'] = val[0]
-				routines = Model_name.objects.filter(**request.session['filter_dict'])
+				routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
 				request.session['Question5'] = [val[0], val[1]]
 				return render_to_response('storagetype.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': request.session.get('Question2')[1], 'query_comp': request.session.get('Question3')[1], 'query_type': request.session.get('Question4')[1], 'query_stor': val[1], 'results': routines}) 
 
 	
-    else:
-        form_Stor = StorageForm()
-        return render_to_response('problem.html', {'form': form_Stor})   
+	else:
+		form_Stor = StorageForm(request)
+		routines = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict'])
+		return render_to_response('matrixtype.html', {'query_prob': request.session.get('Question1')[1], 'query_prec': request.session.get('Question2')[1], 'query_comp': request.session.get('Question3')[1], 'query_type': request.session.get('Question4')[1],'form': form_Stor, 'results': routines})   
 
 
 

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 PRECISION_CHOICES = (
@@ -53,7 +54,9 @@ class LinearEquation(models.Model):
 	info = models.ForeignKey(RoutineInfo)
 
 	def __unicode__(self):
-		return self.routineName
+		return self.matrixType
+		return self.structureType
+
 
 
 
@@ -69,8 +72,8 @@ class LinearLeastSquare(models.Model):
 	info = models.ForeignKey(RoutineInfo)
 
 	def __unicode__(self):
-		return self.routineName
-
+		return self.matrixType
+		return self.structureType
 
 """
 class SymmetricEigenvalue(models.Model):
@@ -84,8 +87,8 @@ class SymmetricEigenvalue(models.Model):
 	info = models.ForeignKey(RoutineInfo)
 
 	def __unicode__(self):
-		return self.routineName
-
+		return self.matrixType
+		return self.structureType
 
 
 class nonSymmetricEigenvalue(models.Model):
@@ -99,7 +102,8 @@ class nonSymmetricEigenvalue(models.Model):
 	info = models.ForeignKey(RoutineInfo)
 
 	def __unicode__(self):
-		return self.routineName
+		return self.matrixType
+		return self.structureType
 """
 
 
@@ -114,5 +118,8 @@ class Eigensolver(models.Model):
 	info = models.ForeignKey(RoutineInfo)
 
 	def __unicode__(self):
-		return self.routineName
+		return self.matrixType
+		return self.structureType
+
+
 
