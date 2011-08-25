@@ -1,4 +1,7 @@
-import csv, urllib, MySQLdb
+#This file is to generate "routine_info.csv" for constructing the "RoutineInfo" model.
+
+
+import csv, urllib, MySQLdb, sys
 
 def file_name(precision, name, i):
     return str(precision+name+"_"+i+".txt") 
@@ -17,10 +20,22 @@ for idn, precision, routine, url in reader:
 	precisionList.append(precision)
 	routineList.append(routine)
 	urlList.append(url)
-	fileList.append(precision+routine+"_"+idn+".txt")
+	fileList.append([precision+routine+"_"+idn+".txt"])
 
 x = 0
-for item in idList:
-	print item, precisionList[x], routineList[x], urlList[x], fileList[x] 
+routineInfo_list = []
+for item in fileList:
+	routineInfo_list.append(item) 
 	x += 1
+
+
+
+
+writer = csv.writer(open("routine_info.csv", "wb"))
+
+for item in routineInfo_list:
+	writer.writerow(item)
+
+
+
 
