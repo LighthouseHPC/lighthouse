@@ -1,0 +1,42 @@
+      SUBROUTINE SSTERF( N, D, E, INFO )
+*
+*  -- LAPACK routine (version 3.3.1) --
+*  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+*  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+*  -- April 2011                                                      --
+*
+*     .. Scalar Arguments ..
+      INTEGER            INFO, N
+*     ..
+*     .. Array Arguments ..
+      REAL               D( * ), E( * )
+*     ..
+*
+*  Purpose
+*  =======
+*
+*  SSTERF computes all eigenvalues of a symmetric tridiagonal matrix
+*  using the Pal-Walker-Kahan variant of the QL or QR algorithm.
+*
+*  Arguments
+*  =========
+*
+*  N       (input) INTEGER
+*          The order of the matrix.  N >= 0.
+*
+*  D       (input/output) REAL array, dimension (N)
+*          On entry, the n diagonal elements of the tridiagonal matrix.
+*          On exit, if INFO = 0, the eigenvalues in ascending order.
+*
+*  E       (input/output) REAL array, dimension (N-1)
+*          On entry, the (n-1) subdiagonal elements of the tridiagonal
+*          matrix.
+*          On exit, E has been destroyed.
+*
+*  INFO    (output) INTEGER
+*          = 0:  successful exit
+*          < 0:  if INFO = -i, the i-th argument had an illegal value
+*          > 0:  the algorithm failed to find all of the eigenvalues in
+*                a total of 30*N iterations; if INFO = i, then i
+*                elements of E have not converged to zero.
+*
