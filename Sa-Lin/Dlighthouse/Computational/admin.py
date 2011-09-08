@@ -1,6 +1,6 @@
-from Computational.models import Problem
-from Computational.models import RoutineInfo_Comput
-from Computational.models import Eigensolver_Comput
+from Drivers.models import RoutineInfo
+from Computational.models import LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate
+#from Computational.models import Eigensolver_Comput
 from django.contrib import admin
 from django import forms
 
@@ -13,27 +13,12 @@ class EntryAdminForm(forms.ModelForm):
 	       help_text='<a href="http://www.netlib.org/lapack/" target="_blank">LAPACK Official Site</a>')
     
 	class Meta:
-        	model = RoutineInfo_Comput
+        	model = RoutineInfo
 
 
 
 
-class ProblemAdmin(admin.ModelAdmin):
-	list_display = ('id', 'problem')
-	ordering = ('id',)
-
-
-
-class RoutineInfo_ComputAdmin(admin.ModelAdmin):
-	list_display = ('id', 'routine')
-	ordering = ('id',)
-	search_fields = ['routine']
-	form = EntryAdminForm
-
-
-
-
-class Eigensolver_ComputAdmin(admin.ModelAdmin):
+class LinearEquation_factorAdmin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
 	
 	list_filter = ['matrixType', 'thePrecision', 'structureType']
@@ -44,7 +29,79 @@ class Eigensolver_ComputAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Problem, ProblemAdmin)
-admin.site.register(RoutineInfo_Comput, RoutineInfo_ComputAdmin)
-admin.site.register(Eigensolver_Comput, Eigensolver_ComputAdmin)
+class LinearEquation_solveAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
 
+
+
+
+class LinearEquation_condition_numberAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
+
+
+
+
+class LinearEquation_error_boundAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
+
+
+
+
+class LinearEquation_invertAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
+
+
+
+
+class LinearEquation_equilibrateAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
+
+
+
+
+
+
+
+'''
+class Eigensolver_ComputAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+	
+	list_filter = ['matrixType', 'thePrecision', 'structureType']
+	search_fields = ['routineName', 'description']
+	ordering = ('id',)
+	raw_id_fields = ('problem', 'info',)
+'''
+
+
+admin.site.register(LinearEquation_factor, LinearEquation_factorAdmin)
+admin.site.register(LinearEquation_solve, LinearEquation_solveAdmin)
+admin.site.register(LinearEquation_condition_number, LinearEquation_condition_numberAdmin)
+admin.site.register(LinearEquation_error_bound, LinearEquation_error_boundAdmin)
+admin.site.register(LinearEquation_invert, LinearEquation_invertAdmin)
+admin.site.register(LinearEquation_equilibrate, LinearEquation_equilibrateAdmin)
+#admin.site.register(Eigensolver_Comput, Eigensolver_ComputAdmin)

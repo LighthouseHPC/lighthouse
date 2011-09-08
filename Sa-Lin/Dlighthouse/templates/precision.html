@@ -123,6 +123,24 @@
   <li>{{ query_prob }}</li>
 </ul>
 
+
+<tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
+<ul>
+  <li>{{ query_comp }}</li>
+</ul>
+
+
+<tr><th><label for="id_question_zero">What is the type of your matrix?</label></th>
+<ul>
+  <li>{{ query_type }}</li>
+</ul>
+
+
+<tr><th><label for="id_question_stor">How is your matrix stored?</label></th>
+<ul>
+  <li>{{ query_stor }}</li>
+</ul>
+
  
 <tr><th><label for="id_question_prec">Would you like to use single or double precision?</label></th>
 <ul>
@@ -131,14 +149,10 @@
 
 
 
-<form action="/search/problem/precision/complex/" name="frmComp" method="get">
-        <p>
-            {{ form.as_ul }}
-        </p>
-        <input type="submit" value="Submit">
-</form>
 
 
+
+<p>Lighthouse found <strong>{{ results|length }}</strong> routines for you:</p> 
 
 
     <ul>

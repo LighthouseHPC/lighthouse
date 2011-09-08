@@ -6,7 +6,7 @@ myDB = MySQLdb.connect("", "salin", "yell@w1234", "shark")
 cursor = myDB.cursor()
 
 
-nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Drivers/problem.csv' INTO TABLE Drivers_problem")
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/RoutineInfo/problem.csv' INTO TABLE Drivers_problem")
 
 
 nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Drivers/le.csv' INTO TABLE Drivers_linearequation")
@@ -25,11 +25,11 @@ nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighth
 
 
 
-reader = csv.reader(open("/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/Drivers/routine_info.csv"))
+reader = csv.reader(open("/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/RoutineInfo/routine_info.csv"))
 
 i = 1
 for file in reader:
-	fd = open("/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/Drivers/Routines/routineInfo/"+file[0], "r")
+	fd = open("/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/RoutineInfo/RoutineTxt/"+file[0], "r")
 	myDB.query("insert into Drivers_routineinfo (id, routine, info) values (\'%d\', \'%s\', \'%s\')" % (i, file[0], myDB.escape_string(fd.read())))
 	i += 1
 

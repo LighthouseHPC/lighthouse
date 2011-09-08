@@ -15,6 +15,7 @@ MATRIX_CHOICES = (
 	(u'symmetric', u'symmetric'), 
 	(u'Hermitian', u'Hermitian'), 
 	(u'SPD', u'SPD'),
+	(u'HPD', u'HPD'),
 	)
 
 STORAGE_CHOICES = (

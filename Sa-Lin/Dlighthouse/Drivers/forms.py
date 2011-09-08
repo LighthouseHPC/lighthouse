@@ -23,9 +23,15 @@ class EigensolverForm(forms.ModelForm):
 
 
 Problem_choices = (
-	('LinearEquation', 'Linear Equation, solve Ax = b (square matrix)'),
-	('LinearLeastSquare', 'Linear Least Squares'),
-	('Eigensolver', 'Eigensolver'),
+	('LinearEquation_comb',			'Linear Equation, solve A * X = B (square matrix)'),
+	('LinearEquation_trans', 		'Linear Equation, solve A**T * X = B or A**H * X = B (square matrix)'),
+	('LinearEquation_error_bound',		'Linear Equation with Error Bound'),
+	('LinearEquation_factor',		'Matrix Factorization'),
+	('LinearEquation_condition_number',	'Condition Number'),
+	('LinearEquation_invert',		'Matrix Inverse'),
+	('LinearEquation_equilibrate',		'Equilibrate'),		
+#	('LinearLeastSquare',	'Linear Least Squares'),
+#	('Eigensolver',		'Eigensolver'),
 )
 
 class ProblemForm(forms.Form):
@@ -49,52 +55,22 @@ class ComplexForm(forms.Form):
 
 
 
-#MatrixType_Choices = (
-#	('general', 'General'),
-#       ('symmetric', 'Symmetric'),
-#       ('Hermitian', 'Hermitian'),
-#       ('SPD', 'SPD (symmetric and positive definite)'),
-#	('what', 'I don\'t know'),
-#)
 
 class MatrixTypeForm(forms.Form):
 	question_type = forms.ChoiceField(label='What is the type of your matrix?', choices=[], widget=forms.RadioSelect())
 	def __init__(self, request, *args, **kwargs):
 		super(MatrixTypeForm, self).__init__(*args, **kwargs)
-		self.fields['question_type'].choices = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict']).values_list('matrixType', 'matrixType').distinct()
+		self.fields['question_type'].choices = get_model(request.session.get('Application'), request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict']).values_list('matrixType', 'matrixType').distinct()
 
 
 
-
-'''
-ZeroStructure_Choices = (
-	('den', 'Dense'),
-	('ban', 'Banded'),
-	('tri', 'Tridiagonal'),
-	('what', 'I don\'t know'),
-)
-
-class ZeroStructureForm(forms.Form):
-	question_zero = forms.ChoiceField(choices=ZeroStructure_Choices, label='What is the zero structure of your matrix?', widget=forms.RadioSelect())
-'''
-
-
-
-
-#StorageType_Choices = (
-#	('full', 'Full'),
-#	('banded', 'Banded'),
-#	('packed', 'Packed'),
-#	('tridiagonal', 'Tridiagonal'),
-#	('what', 'I don\'t know'),
-#)  	
 
 
 class StorageForm(forms.Form):
 	question_stor = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
 	def __init__(self, request, *args, **kwargs):
 		super(StorageForm, self).__init__(*args, **kwargs)
-		self.fields['question_stor'].choices = get_model('Drivers', request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict']).values_list('structureType', 'structureType').distinct()
+		self.fields['question_stor'].choices = get_model(request.session.get('Application'), request.session.get('Question1')[0]).objects.filter(**request.session['filter_dict']).values_list('structureType', 'structureType').distinct()
 
 
 

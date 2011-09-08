@@ -124,7 +124,7 @@
 </ul>
      
         
-<form action="/search/problem/precision" name="frmPrec" method="get">
+<form action="/search/problem/complex" name="frmComp" method="get">
         <p>
             {{ form.as_ul }}
         </p>
@@ -133,6 +133,7 @@
 
 
 
+<p>Lighthouse found <strong>{{ results|length }}</strong> routines for you:</p> 
 
     <ul>
 	<table width="100%" border = "1">
