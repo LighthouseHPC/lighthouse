@@ -1,6 +1,9 @@
 from Driver.models import RoutineInfo
-from Computational.models import LinearEquation_computational, LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate
-#from Computational.models import Eigensolver_Comput
+from Driver.models import LinearEquation_simple, LinearEquation_expert, LinearEquation_driver
+from Driver.models import LinearLeastSquare
+#from Driver.models import SymmetricEigenvalue
+#from Driver.models import nonSymmetricEigenvalue
+from Driver.models import Eigensolver
 from django.contrib import admin
 from django import forms
 
@@ -18,7 +21,81 @@ class EntryAdminForm(forms.ModelForm):
 
 
 
-class LinearEquation_computationalAdmin(admin.ModelAdmin):
+
+
+class RoutineInfoAdmin(admin.ModelAdmin):
+	list_display = ('id', 'routine')
+	ordering = ('id',)
+	search_fields = ['routine']
+	form = EntryAdminForm
+
+
+
+class LinearEquation_simpleAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+	
+
+
+
+class LinearEquation_expertAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+
+
+
+class LinearEquation_driverAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+
+
+
+class LinearLeastSquareAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+
+
+"""
+class SymmetricEigenvalueAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+
+class nonSymmetricEigenvalueAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+"""
+
+
+
+class EigensolverAdmin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
 	
 	list_filter = ['matrixType', 'thePrecision', 'storageType']
@@ -30,91 +107,12 @@ class LinearEquation_computationalAdmin(admin.ModelAdmin):
 
 
 
-class LinearEquation_factorAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
+admin.site.register(RoutineInfo, RoutineInfoAdmin)
+admin.site.register(LinearEquation_simple, LinearEquation_simpleAdmin)
+admin.site.register(LinearEquation_expert, LinearEquation_expertAdmin)
+admin.site.register(LinearEquation_driver, LinearEquation_driverAdmin)
+admin.site.register(LinearLeastSquare, LinearLeastSquareAdmin)
+#admin.site.register(SymmetricEigenvalue, SymmetricEigenvalueAdmin)
+#admin.site.register(nonSymmetricEigenvalue, nonSymmetricEigenvalueAdmin)
+admin.site.register(Eigensolver, EigensolverAdmin)
 
-
-
-
-class LinearEquation_solveAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-
-
-
-
-class LinearEquation_condition_numberAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-
-
-
-
-class LinearEquation_error_boundAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-
-
-
-
-class LinearEquation_invertAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-
-
-
-
-class LinearEquation_equilibrateAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-
-
-
-
-
-
-
-'''
-class Eigensolver_ComputAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
-	
-	list_filter = ['matrixType', 'thePrecision', 'storageType']
-	search_fields = ['routineName', 'notes']
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-'''
-
-
-admin.site.register(LinearEquation_computational, LinearEquation_computationalAdmin)
-admin.site.register(LinearEquation_factor, LinearEquation_factorAdmin)
-admin.site.register(LinearEquation_solve, LinearEquation_solveAdmin)
-admin.site.register(LinearEquation_condition_number, LinearEquation_condition_numberAdmin)
-admin.site.register(LinearEquation_error_bound, LinearEquation_error_boundAdmin)
-admin.site.register(LinearEquation_invert, LinearEquation_invertAdmin)
-admin.site.register(LinearEquation_equilibrate, LinearEquation_equilibrateAdmin)
-#admin.site.register(Eigensolver_Comput, Eigensolver_ComputAdmin)

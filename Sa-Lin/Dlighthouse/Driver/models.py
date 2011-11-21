@@ -1,5 +1,5 @@
 from django.db import models
-from Driver.models import RoutineInfo
+
 
 # Create your models here.
 
@@ -16,7 +16,6 @@ MATRIX_CHOICES = (
 	(u'Hermitian', u'Hermitian'), 
 	(u'SPD', u'SPD'),
 	(u'HPD', u'HPD'),
-	(u'triangular', u'triangular'),
 	)
 
 STORAGE_CHOICES = (
@@ -29,8 +28,94 @@ STORAGE_CHOICES = (
 
 
 
+class RoutineInfo(models.Model):
+	routine = models.CharField('Routine', max_length=30)
+	info = models.TextField('Information', blank=True, null=True)
 
-class LinearEquation_computational(models.Model):
+	def __unicode__(self):
+		return self.info
+
+
+
+
+
+class LinearEquation_driver(models.Model):
+	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+	routineName = models.CharField('Routine Name', max_length=30)
+	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	url = models.URLField()
+	notes = models.CharField('Notes', max_length=225)
+	info = models.ForeignKey(RoutineInfo)
+
+        class Admin:
+		list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+	def __unicode__(self):
+		return self.matrixType
+		return self.storageType
+
+
+
+
+class LinearEquation_simple(models.Model):
+	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+	routineName = models.CharField('Routine Name', max_length=30)
+	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	url = models.URLField()
+	notes = models.CharField('Notes', max_length=225)
+	info = models.ForeignKey(RoutineInfo)
+
+        class Admin:
+		list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+	def __unicode__(self):
+		return self.matrixType
+		return self.storageType
+
+
+
+
+
+class LinearEquation_expert(models.Model):
+	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+	routineName = models.CharField('Routine Name', max_length=30)
+	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	url = models.URLField()
+	notes = models.CharField('Notes', max_length=225)
+	info = models.ForeignKey(RoutineInfo)
+
+        class Admin:
+		list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+	def __unicode__(self):
+		return self.matrixType
+		return self.storageType
+
+
+
+
+
+
+
+
+class LinearLeastSquare(models.Model):
+	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+	routineName = models.CharField('Routine Name', max_length=30)
+	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	url = models.URLField()
+	notes = models.CharField('Notes', max_length=225)
+	info = models.ForeignKey(RoutineInfo)
+
+	def __unicode__(self):
+		return self.matrixType
+		return self.storageType
+
+"""
+class SymmetricEigenvalue(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
 	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
@@ -44,9 +129,22 @@ class LinearEquation_computational(models.Model):
 		return self.storageType
 
 
+class nonSymmetricEigenvalue(models.Model):
+	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+	routineName = models.CharField('Routine Name', max_length=30)
+	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	url = models.URLField()
+	notes = models.CharField('Notes', max_length=225)
+	info = models.ForeignKey(RoutineInfo)
+
+	def __unicode__(self):
+		return self.matrixType
+		return self.storageType
+"""
 
 
-class LinearEquation_factor(models.Model):
+class Eigensolver(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
 	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
@@ -59,97 +157,5 @@ class LinearEquation_factor(models.Model):
 		return self.matrixType
 		return self.storageType
 
-
-
-
-class LinearEquation_solve(models.Model):
-	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
-	routineName = models.CharField('Routine Name', max_length=30)
-	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
-	url = models.URLField()
-	notes = models.CharField('Notes', max_length=225)
-	info = models.ForeignKey(RoutineInfo)
-
-	def __unicode__(self):
-		return self.matrixType
-		return self.storageType
-
-
-
-class LinearEquation_condition_number(models.Model):
-	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
-	routineName = models.CharField('Routine Name', max_length=30)
-	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
-	url = models.URLField()
-	notes = models.CharField('Notes', max_length=225)
-	info = models.ForeignKey(RoutineInfo)
-
-	def __unicode__(self):
-		return self.matrixType
-		return self.storageType
-
-
-
-class LinearEquation_error_bound(models.Model):
-	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
-	routineName = models.CharField('Routine Name', max_length=30)
-	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
-	url = models.URLField()
-	notes = models.CharField('Notes', max_length=225)
-	info = models.ForeignKey(RoutineInfo)
-
-	def __unicode__(self):
-		return self.matrixType
-		return self.storageType
-
-
-
-class LinearEquation_invert(models.Model):
-	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
-	routineName = models.CharField('Routine Name', max_length=30)
-	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
-	url = models.URLField()
-	notes = models.CharField('Notes', max_length=225)
-	info = models.ForeignKey(RoutineInfo)
-
-	def __unicode__(self):
-		return self.matrixType
-		return self.storageType
-
-
-
-
-class LinearEquation_equilibrate(models.Model):
-	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
-	routineName = models.CharField('Routine Name', max_length=30)
-	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
-	url = models.URLField()
-	notes = models.CharField('Notes', max_length=225)
-	info = models.ForeignKey(RoutineInfo)
-
-	def __unicode__(self):
-		return self.matrixType
-		return self.storageType
-
-
-'''
-class Eigensolver_Comput(models.Model):
-	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
-	routineName = models.CharField('Routine Name', max_length=30)
-	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
-	url = models.URLField()
-	notes = models.CharField('Notes', max_length=225)
-	info = models.ForeignKey(RoutineInfo)
-
-	def __unicode__(self):
-		return self.matrixType
-		return self.storageType
-'''
 
 

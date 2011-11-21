@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
-from Dlighthouse.Drivers import views
-
+from Dlighthouse.Driver import views
+from Dlighthouse import settings
 
 
 
@@ -21,14 +21,25 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^dojango/', include('dojango.urls')),
 #    (r'^search/', include('haystack.urls')),
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
-### --- The following two lines use Drivers.views --- ###
+
+### --- The following two lines use Driver.views --- ###
     (r'^search-form/$', views.search_form),
     (r'^search/problem/$', views.search_problem),
     (r'^search/problem/complex/$', views.search_complex), 
+    (r'^search/problem/equation/$', views.search_equation),
+    (r'^search/problem/equation/complex/$', views.search_complex),
     (r'^search/problem/complex/matrixtype/$', views.search_matrixtype),   
     (r'^search/problem/complex/matrixtype/storage/$', views.search_storage),
     (r'^search/problem/complex/matrixtype/storage/precision/$', views.search_precision),
-    (r'^search-form2/$', views.search_form2),
     (r'^search/$', views.search_result),
+    (r'^search-advanced/$', views.search_advanced),
+    (r'^advanced/result/$', views.advanced_result),
+
+
+#    (r'^grid/$', views.grid),
+#    (r'^datagrid/$', views.datagrid),
+#    (r'^checkbox/$', views.checkbox),
+#    (r'^handle/$', views.handle),
 )

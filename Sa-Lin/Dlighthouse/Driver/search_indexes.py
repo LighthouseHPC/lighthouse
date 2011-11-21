@@ -1,12 +1,15 @@
 import datetime
 from haystack.indexes import *
 from haystack import site
-from Computational.models import LinearEquation_computational, LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate
-#from Computational.models import Eigensolver_Comput
+from Driver.models import LinearEquation_simple, LinearEquation_expert, LinearEquation_driver
+from Driver.models import LinearLeastSquare
+from Driver.models import Eigensolver
+#from Driver.models import SymmetricEigenvalue
+#from Driver.models import nonSymmetricEigenvalue
 
 
 
-class LinearEquation_computationalIndex(SearchIndex):
+class LinearEquation_simpleIndex(SearchIndex):
     text = CharField(document=True, use_template=True) 
     thePrecision = CharField(model_attr='thePrecision')
     routineName = CharField(model_attr='routineName')
@@ -18,40 +21,8 @@ class LinearEquation_computationalIndex(SearchIndex):
 
 
 
-class LinearEquation_factorIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
 
-
-class LinearEquation_solveIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
-
-
-class LinearEquation_condition_numberIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
-
-
-class LinearEquation_error_boundIndex(SearchIndex):
+class LinearEquation_expertIndex(SearchIndex):
     text = CharField(document=True, use_template=True) 
     thePrecision = CharField(model_attr='thePrecision')
     routineName = CharField(model_attr='routineName')
@@ -63,7 +34,23 @@ class LinearEquation_error_boundIndex(SearchIndex):
 
 
 
-class LinearEquation_invertIndex(SearchIndex):
+
+
+class LinearEquation_driverIndex(SearchIndex):
+    text = CharField(document=True, use_template=True) 
+    thePrecision = CharField(model_attr='thePrecision')
+    routineName = CharField(model_attr='routineName')
+    matrixType = CharField(model_attr='matrixType')
+    storageType = CharField(model_attr='storageType')
+    url = CharField(model_attr='url')
+    notes = CharField(model_attr='notes')
+    info = CharField(model_attr='info')
+
+ 
+
+
+
+class LinearLeastSquareIndex(SearchIndex):
     text = CharField(document=True, use_template=True) 
     thePrecision = CharField(model_attr='thePrecision')
     routineName = CharField(model_attr='routineName')
@@ -74,7 +61,8 @@ class LinearEquation_invertIndex(SearchIndex):
     info = CharField(model_attr='info')
 
 
-class LinearEquation_equilibrateIndex(SearchIndex):
+"""
+class SymmetricEigenvalueIndex(SearchIndex):
     text = CharField(document=True, use_template=True) 
     thePrecision = CharField(model_attr='thePrecision')
     routineName = CharField(model_attr='routineName')
@@ -84,8 +72,9 @@ class LinearEquation_equilibrateIndex(SearchIndex):
     notes = CharField(model_attr='notes')
     info = CharField(model_attr='info')
 
-'''
-class Eigensolver_ComputIndex(SearchIndex):
+
+
+class nonSymmetricEigenvalueIndex(SearchIndex):
     text = CharField(document=True, use_template=True) 
     thePrecision = CharField(model_attr='thePrecision')
     routineName = CharField(model_attr='routineName')
@@ -94,18 +83,27 @@ class Eigensolver_ComputIndex(SearchIndex):
     url = CharField(model_attr='url')
     notes = CharField(model_attr='notes')
     info = CharField(model_attr='info')
-'''
+"""
 
 
+class EigensolverIndex(SearchIndex):
+    text = CharField(document=True, use_template=True) 
+    thePrecision = CharField(model_attr='thePrecision')
+    routineName = CharField(model_attr='routineName')
+    matrixType = CharField(model_attr='matrixType')
+    storageType = CharField(model_attr='storageType')
+    url = CharField(model_attr='url')
+    notes = CharField(model_attr='notes')
+    info = CharField(model_attr='info')
 
-site.register(LinearEquation_computational, LinearEquation_computationalIndex)
-site.register(LinearEquation_factor, LinearEquation_factorIndex)
-site.register(LinearEquation_solve, LinearEquation_solveIndex)
-site.register(LinearEquation_condition_number, LinearEquation_condition_numberIndex)
-site.register(LinearEquation_error_bound, LinearEquation_error_boundIndex)
-site.register(LinearEquation_invert, LinearEquation_invertIndex)
-site.register(LinearEquation_equilibrate, LinearEquation_equilibrateIndex)
-#site.register(Eigensolver_Comput, Eigensolver_ComputIndex)
+
+site.register(LinearEquation_simple, LinearEquation_simpleIndex)
+site.register(LinearEquation_expert, LinearEquation_expertIndex)
+site.register(LinearEquation_driver, LinearEquation_driverIndex)
+site.register(LinearLeastSquare, LinearLeastSquareIndex)
+#site.register(SymmetricEigenvalue, SymmetricEigenvalueIndex)
+#site.register(nonSymmetricEigenvalue, nonSymmetricEigenvalueIndex)
+site.register(Eigensolver, EigensolverIndex)
 
 
 

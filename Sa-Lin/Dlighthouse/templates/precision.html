@@ -1,128 +1,45 @@
 {% extends "dojango/base.html" %}
+{% load highlight %}
 
 
-{% block dojango_page_title %}Lighthouse Search{% endblock %}
-
-{% block dojango_post_dj_config %}
-<script>djConfig.parseOnLoad = false;</script>
-{% endblock %}
-
-{% block dojango_header_extra %}
-<style type="text/css">
-	html, body {
-		height: 100%;
-		width: 100%;
-		padding: 0;
-		border: 0;
-	}
-	#main {
-		height: 100%;
-		width: 100%;
-		padding: 0;
-		border: 0;
-	}
-	#leftAccordion {
-		width: 65%;
-	}
-	#bottomTabs {
-		height: 25%;
-	}
-	#main .dijitSplitterH {
-		height: 7px
-	}
-	#main .dijitSplitterV {
-		width: 7px
-	}
-	/* pre-loader specific stuff to prevent unsightly flash of unstyled
-	 content */
-	#loader {
-		padding:0;
-		margin:0;
-		position:absolute;
-		top:0;
-		left:0;
-		width:100%;
-		height:100%;
-		background:#ededed;
-		z-index:999;
-		vertical-align:center;
-	}
-	#loaderInner {
-		padding:5px;
-		position:relative;
-		left:0;
-		top:0;
-		width:275px;
-		background:#3c3;
-		color:#fff;
-	}
-	hr.spacer {
-		border:0;
-		background-color:#ededed;
-		width:80%;
-		height:1px;
-	}
-	/* for custom menu buttons, do not appear to have any effect */
-	.myCustomTheme .dijitButtonNode {
-		border:1px solid #000;
-		vertical-align: middle;
-		padding: 0.2em 0.2em;
-		background: url("themeTesterImages/blackButtonEnabled.gif")
-		repeat-x bottom left #474747;
-		color: blue;
-	}
-	.myCustomTheme .dijitButtonHover .dijitButtonNode, .myCustomTheme
-	.dijitToggleButtonHover .dijitButtonNode {
-		background: url("themeTesterImages/blackButtonHover.gif")
-		repeat-x bottom left #3b3b3b !important;
-	}
-</style>
-<script type="text/javascript">
-	window.__globalList = {
-		dojo: true,
-		dijit: true,
-		dojox: true,
-		djConfig: true
-	};
-	for(var i in window) {
-		window.__globalList[i] = true;
-	}
-</script>
-{% endblock %}
-
-{% block dojango_body %}
-<body class="{{ DOJANGO.THEME }}">
-	<!-- basic preloader: -->
-	<div id="loader">
-		<div id="loaderInner">
-			Loading themeTester:
-		</div>
-	</div>
-	<!-- "main" BorderContainer just contains page title and another 
-		BorderContainer -->
-	<div id="main" dojoType="dijit.layout.BorderContainer">
-
-		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">
-			Lighthouse</h1>
-		<!-- "mainSplit" BorderContainer has all the real content -->
-		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" 
-			design="sidebar" region="center" id="mainSplit">
-
-			<div dojoType="dijit.layout.AccordionContainer" duration="200"
-				minSize="65" style="width: 460px;" id="leftAccordion" 
-				region="leading" splitter="true">
-
-				<div dojoType="dijit.layout.AccordionPane" title="Search" 
-					selected="true">
-
-
-<!-- ########################################################################################################## -->
-<!-- Question and search result area -->
-<tr><th><label for="id_question_prob">What is the type of the problem you would like to solve?</label></th>
+{% block dojango_content_questions %}
+<!-- ########### All questions answered: ###########-->
+<tr><th><label for="id_question_prob">Which of the following functions do you wish to execute?</label></th>
+{% for item in query_prob %} 
 <ul>
-  <li>{{ query_prob }}</li>
+  <li>{{ item.1 }}</li>
+</ul>
+{% endfor %}
+
+
+{% if query_equa %} 
+<tr><th><label for="id_question_equa">What form of the linear system do you want to solve?</label></th>
+<ul>
+  <li>{{ query_equa }}</li>
 </ul>
 
+<tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
+<ul>
+  <li>{{ query_comp }}</li>
+</ul>
+
+<tr><th><label for="id_question_zero">What is the type of your matrix?</label></th>
+<ul>
+  <li>{{ query_type }}</li>
+</ul>
+
+
+<tr><th><label for="id_question_stor">How is your matrix stored?</label></th>
+<ul>
+  <li>{{ query_stor }}</li>
+</ul>
+
+<tr><th><label for="id_question_prec">Would you like to use single or double precision?</label></th>
+<ul>
+  <li>{{ query_prec }}</li>
+</ul>
+
+{% else %}
 
 <tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
 <ul>
@@ -141,433 +58,66 @@
   <li>{{ query_stor }}</li>
 </ul>
 
- 
 <tr><th><label for="id_question_prec">Would you like to use single or double precision?</label></th>
 <ul>
   <li>{{ query_prec }}</li>
 </ul>
+{% endif %}
 
 
 
+<form action="/search-form/">
+	<button dojoType="dijit.form.Button" type="submit" name="clear" id="clearButton"
+	title="Click to clear the search result">
+	Clear
+	</button>
+</form>
+
+
+<!-- ########### "Precision" (final) search result: ###########-->
+{% if results %}
+<TABLE id='table_main'>
+<TR>
+<TH>Lighthouse found <strong>{{ results|length }}</strong> routine{{ results|pluralize }} for you:</TH>
+</TR>	
+{% for item in results %}
+<TR> <TD>
+<dl>
+  <dt style="font-weight: bold;">{{ item.thePrecision|upper }}{{ item.routineName|upper }}</dt>
+  <dd>{% highlight item.info with "Purpose" %}<a href="{{ item.url }}" target="_blank">more</a>
+	<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
+	<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
+	<div id="animDiv" class="box">
+	{{ item.info }}
+	</div-->
+  <dd>
+  <table style="display:none;" id={{ item.id }} width="80%" border = "1">
+	<a href="javascript:void();" onclick="show_hide({{ item.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
+</a>
+     <tr>
+     <th>Precision</th>
+     <th>Routine Name</th>
+     <th>Matrix Type</th>
+     <th>Storage</th>
+     </tr>
+
+     <tr>
+     <td>{{ item.thePrecision }}</td>
+     <td>{{ item.routineName }}</td> 
+     <td>{{ item.matrixType }}</td> 
+     <td>{{ item.storageType }}</td>      
+     </tr>
+  </table>
+  </dd> 
+</dl>
+</TD> </TR>
+{% empty %}
+{% endfor %}
+</TABLE> 
+{% endif %} 
 
 
 
-<p>Lighthouse found <strong>{{ results|length }}</strong> routines for you:</p> 
-
-
-    <ul>
-	<table width="100%" border = "1">
-	   <!tr>
-	   <!th colspan="4">{{ table }}</th>
-	   <!/tr>
-	   <tr>
-	   <th>Precision</th>
-	   <th>Routine Name</th>
-	   <th>Matrix Type</th>
-	   <th>Storage</th>
-	   <th>Problem to Solve</th>
-	   <th>URL</th>
-	   </tr>	
-        {% for item in results %}
-	   <tr>
-	   <td>{{ item.thePrecision }}</td>
-	   <td>{{ item.routineName }}</td> 
-	   <td>{{ item.matrixType }}</td> 
-	   <td>{{ item.structureType }}</td>
-	   <td>{{ item.problem }}</td> 
-	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
-        {% endfor %}
-	</table>
-    </ul>
-
-
-
-  {% if results_le %}
-    <p>Lighthouse found <strong>{{ results_le|length }}</strong> <ins>Linear Equation</ins> routine{{ results_le|pluralize }}:</p>
-    <ul>
-	<table width="100%" border = "1">
-	   <!tr>
-	   <!th colspan="4">{{ table }}</th>
-	   <!/tr>
-	   <tr>
-	   <th>Precision</th>
-	   <th>Routine Name</th>
-	   <th>Matrix Type</th>
-	   <th>Storage</th>
-	   <th>Problem to Solve</th>
-	   <th>URL</th>
-	   </tr>	
-        {% for item in results_le %}
-	   <tr>
-	   <td>{{ item.thePrecision }}</td>
-	   <td>{{ item.routineName }}</td> 
-	   <td>{{ item.matrixType }}</td> 
-	   <td>{{ item.structureType }}</td>
-	   <td>{{ item.problem }}</td> 
-	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
-        {% endfor %}
-	</table>
-    </ul>
-    <br />
-  {% endif %}
-
-
-  {% if results_lls %}
-    <p>Lighthouse found <strong>{{ results_lls|length }}</strong> <ins>Linear Least Square</ins> routine{{ results_lls|pluralize }}:</p>
-    <ul>
-	<table width="100%" border = "1">
-	   <!tr>
-	   <!th colspan="4">{{ table }}</th>
-	   <!/tr>
-	   <tr>
-	   <th>Precision</th>
-	   <th>Routine Name</th>
-	   <th>Matrix Type</th>
-	   <th>Storage</th>
-	   <th>Problem to Solve</th>
-	   <th>URL</th>
-	   </tr>	
-        {% for item in results_lls %}
-	   <tr>
-	   <td>{{ item.thePrecision }}</td>
-	   <td>{{ item.routineName }}</td> 
-	   <td>{{ item.matrixType }}</td> 
-	   <td>{{ item.structureType }}</td>
-	   <td>{{ item.problem }}</td> 
-	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
-        {% endfor %}
-	</table>
-    </ul>
-    <br />
-  {% endif %}
-
-
-  {% if results_sym %}
-    <p>Lighthouse found <strong>{{ results_sym|length }}</strong> <ins>Symmetric Eigenvalue</ins> routine{{ results_lls|pluralize }}:</p>
-    <ul>
-	<table width="100%" border = "1">
-	   <!tr>
-	   <!th colspan="4">{{ table }}</th>
-	   <!/tr>
-	   <tr>
-	   <th>Precision</th>
-	   <th>Routine Name</th>
-	   <th>Matrix Type</th>
-	   <th>Storage</th>
-	   <th>Problem to Solve</th>
-	   <th>URL</th>
-	   </tr>	
-        {% for item in results_sym %}
-	   <tr>
-	   <td>{{ item.thePrecision }}</td>
-	   <td>{{ item.routineName }}</td> 
-	   <td>{{ item.matrixType }}</td> 
-	   <td>{{ item.structureType }}</td>
-	   <td>{{ item.problem }}</td> 
-	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
-        {% endfor %}
-	</table>
-    </ul>
-    <br />
-  {% endif %}
-
-
-  {% if results_nonsym %}
-    <p>Lighthouse found <strong>{{ results_nonsym|length }}</strong> <ins>Non-Symmetric Eigenvalue routine{{ results_lls|pluralize }}:</p>
-    <ul>
-	<table width="100%" border = "1">
-	   <!tr>
-	   <!th colspan="4">{{ table }}</th>
-	   <!/tr>
-	   <tr>
-	   <th>Precision</th>
-	   <th>Routine Name</th>
-	   <th>Matrix Type</th>
-	   <th>Storage</th>
-	   <th>Problem to Solve</th>
-	   <th>URL</th>
-	   </tr>	
-        {% for item in results_nonsym %}
-	   <tr>
-	   <td>{{ item.thePrecision }}</td>
-	   <td>{{ item.routineName }}</td> 
-	   <td>{{ item.matrixType }}</td> 
-	   <td>{{ item.structureType }}</td>
-	   <td>{{ item.problem }}</td> 
-	   <td><a href= "{{ item.url }}" target="_blank">{{ item.url }} </a></td>          
-        {% endfor %}
-	</table>
-    </ul>
-    <br />
-  {% endif %}
 <!-- ########################################################################################################## -->
 
-					<form action="/search/" method="get">
-						<!fieldset>
-							<!legend>
-								 <! Search Expression>
-							<!/legend>
-							<!p>
-								<!input name="q" id="searchText" 
-								value=""
-								title="Enter search expression here" size="60"/>
-							<!/p>
-						<!/fieldset>
-
-
-						<table>
-							<tr>
-								<!th colspan="2" align="center">
-								<!button dojoType="dijit.form.Button" 
-								type="submit" name="search" id="searchButton"
-								title="Click here to search for expression">
-									<! Search>
-								<!/button>
-								<!/th>
-								<th colspan="2" align="center">
-								<button dojoType="dijit.form.Button" 
-								type="submit" name="clear" id="clearButton"
-								title="Click to clear the search result">
-									Clear
-								</button>
-								</th>
-							</tr>
-						</table>
-					</form>
-
-
-				</div>
-
-
-				<!div dojoType="dijit.layout.AccordionPane" 
-				title="Decision Tree">
-				<!/div>
-				<!div dojoType="dijit.layout.AccordionPane" 
-				title="Refine Result">
-				<!/div>
-				<!div dojoType="dijit.layout.AccordionPane" title="Preferences">
-				<!/div>
-			</div><!-- end AccordionContainer -->
-			<!-- top tabs (marked as "center" to take up the main part of the 
-				BorderContainer) -->
-			<div dojoType="dijit.layout.TabContainer" region="center" 
-			id="topTabs">
-				<!-- first tab? -->
-				<div id="tab1" dojoType="dijit.layout.ContentPane" 
-				title="Script" selected="true"
-				style="padding:10px;display:none; ">
-					<textarea id="scriptArea" rows="25" cols="80" 
-					title="Enter or drop commands here">
-					</textarea>
-				</div><!-- end first tab -->
-				<!-- second upper tab -->
-
-				<div id="tab2" dojoType="dijit.layout.ContentPane" 
-				title="Graphics"
-				style="padding:10px; display:none;">
-				</div><!-- end:second upper tab -->
-				<!-- start third upper tab -->
-				<div id="tab3" dojoType="dijit.layout.ContentPane" 
-				title="Expert"
-				style="padding:10px; display:none;  ">
-				</div><!-- end third upper tab-->
-			</div><!-- end of region="center" TabContainer -->
-			<!-- bottom right tabs -->
-			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
-			tabPosition="bottom" selectedChild="btab1"
-			region="bottom" splitter="true">
-
-				<!-- btab 1 -->
-				<div id="btab1" dojoType="dijit.layout.ContentPane" 
-				title="Run" style=" padding:10px; "
-				style="height: auto;">
-					<table>
-						<tr>
-							<th colspan="2" align="center">
-							<button dojoType=dijit.form.Button 
-							title="Click to run script"
-							type="submit" name="run">
-								Run
-							</button>
-							</th>
-						</tr>
-					</table>
-				</div><!-- end btab1 -->
-				<!-- btab 2 -->
-				<div id="btab2" dojoType="dijit.layout.ContentPane" 
-				title="Export" style=" padding:10px; "
-				style="height: auto;">
-					<table>
-						<tr>
-							<th colspan="2" align="center">
-							<button dojoType=dijit.form.Button 
-							title="Click to run script"
-							type="submit" name="export">
-								Export
-							</button>
-							</th>
-						</tr>
-					</table>
-				</div><!-- end btab2 -->
-				<!-- btab3 -->
-				<div id="btab3" dojoType="dijit.layout.ContentPane" 
-				title="Authors" style="padding:20px;">
-					<span  id="themeData"></span>
-				</div>
-				<!-- end btab3 -->
-			</div><!-- end Bottom TabContainer -->
-		</div> <!-- end of "mainSplit" BorderContainer -->
-	</div><!-- end of "main" BorderContainer -->
-	<!-- dialog in body -->
-	<div id="dialog1" dojoType="dijit.Dialog" title="Floating Modal Dialog" 
-	style="display:none;" href="{{ DOJANGO.DIJIT_URL }}/tests/layout/doc0.html">
-	</div>
-	<div id="dojangoDialog" dojoType="dijit.Dialog" 
-	title="Welcome to Lighthouse" 
-	style="text-align:center;">
-		<h1 style="font-size:2em; font-weight:bold;">
-			Congratulations, Lighthouse is running!</h1>
-		<img src="{{ DOJANGO.DOJANGO_URL }}/resources/dojango_logo.jpg" 
-		height="150" style="margin:4em;" />
-		<br />
-		Press ESC to close dialog, or
-		<br />
-		<button dojoType="dijit.form.Button" 
-		onclick="dijit.byId('dojangoDialog').hide()">
-			Close dialog
-		</button>
-	</div>
-	<script type="text/javascript">
-		// dojo.requires()
-
-		var loadingEl = dojo.byId("loaderInner");
-
-		loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
-		dojo.require("dijit.Menu");
-		// dojo.require("dijit.Calendar");
-		// dojo.require("dijit._Calendar");
-		dojo.require("dijit.ColorPalette");
-		dojo.require("dijit.ProgressBar");
-		dojo.require("dijit.TitlePane");
-		dojo.require("dijit.Tooltip");
-		dojo.require("dijit.Tree");
-		loadingEl.innerHTML += "<br />* Tree widget - dijit.Tree";
-
-		// editor:
-		loadingEl.innerHTML += "<br />* Rich text editor - dijit.Editor";
-		dojo.require("dijit.Editor");
-
-		// dnd:
-		loadingEl.innerHTML += "<br />* Drag and drop library - dojo.dnd";
-		dojo.require("dojo.dnd.Source");
-
-		// various Form elemetns
-		loadingEl.innerHTML += "<br />* Form widgets - dijit.form";
-		dojo.require("dijit.form.CheckBox");
-		dojo.require("dijit.form.Textarea");
-		dojo.require("dijit.form.FilteringSelect");
-		dojo.require("dijit.form.TextBox");
-		dojo.require("dijit.form.DateTextBox");
-		dojo.require("dijit.form.TimeTextBox");
-		dojo.require("dijit.form.Button");
-		dojo.require("dijit.InlineEditBox");
-		dojo.require("dijit.form.NumberSpinner");
-		dojo.require("dijit.form.Slider");
-		// dojo.require("HorizontalSlider");
-		// dojo.require("VerticalRule");
-
-		// layouts used in page
-		loadingEl.innerHTML += "<br />* Layout engine widgets - dijit.layout";
-		dojo.require("dijit.layout.AccordionContainer");
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.BorderContainer");
-		loadingEl.innerHTML += "<br />* Dialog widgets - dijit.Dialog";
-		dojo.require("dijit.Dialog");
-
-		// scan page for widgets and instantiate them
-		dojo.require("dojo.parser");
-
-		// humm?
-		dojo.require("dojo.date.locale");
-
-		// for the Tree
-		loadingEl.innerHTML +=
-		"<br />* Dojo server data interfaces - dojo.data stores";
-		dojo.require("dojo.data.ItemFileReadStore");
-		dojo.require("dojox.data.QueryReadStore");
-
-		// for the colorpalette
-		function setColor(color) {
-			var theSpan = dojo.byId("outputSpan");
-			dojo.style(theSpan,"color",color);
-			theSpan.innerHTML = color;
-		}
-
-		// for the calendar
-		function myHandler(id,newValue) {
-			console.debug("onChange for id = " + id + ", value: " + newValue);
-		}
-
-		dojo.addOnLoad( function() {
-
-			// this is just a list of 'official' dijit themes, you can use
-			// ?theme=String for 'un-supported' themes, too. (eg: yours)
-			var availableThemes = [{
-				theme:"1",
-				author:"Sa-Lin Cheng Bernstein",
-				baseUri:"../themes/"
-			},{
-				theme:"2",
-				author:"Mohammad H. Huwaidi",
-				baseUri:"../themes/"
-			},{
-				theme:"3",
-				author:"Elizabeth R. Jessup",
-				baseUri:"../themes/"
-			},{
-				theme:"4",
-				author:"Boyana Norris",
-				baseUri:"../themes/"
-			}
-
-			];
-
-			var holder = dojo.byId('themeData');
-			var tmpString='';
-			dojo.forEach(availableThemes, function(theme) {
-				tmpString += '<a href="?theme='+theme.theme+'">'+
-				theme.theme+'</'+'a>: '+theme.author+' <br>';
-			});
-			holder.innerHTML = tmpString;
-
-			var start = new Date().getTime();
-			dojo.parser.parse(dojo.byId('container'));
-			console.info("Total parse time: " + (new Date().getTime() - start)
-			+ "ms");
-			//dijit.byId("dojangoDialog").show();
-
-			dojo.byId('loaderInner').innerHTML += " done.";
-			setTimeout( function hideLoader() {
-				var loader = dojo.byId('loader');
-				dojo.fadeOut({
-					node: loader,
-					duration:500,
-					onEnd: function() {
-						loader.style.display = "none";
-					}
-				}).play();
-			}, 250);
-			var strayGlobals = [];
-			for(var i in window) {
-				if(!window.__globalList[i]) {
-					strayGlobals.push(i);
-				}
-			}
-			if(strayGlobals.length) {
-				console.warn("Stray globals: "+strayGlobals.join(", "));
-			}
-		});
-	</script>
-</body>
 {% endblock %}

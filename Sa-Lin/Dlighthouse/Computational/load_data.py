@@ -7,6 +7,9 @@ cursor = myDB.cursor()
 
 
 
+#nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Computational/le_computational_all.csv' INTO TABLE Computational_linearequation_computational")
+
+
 nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Computational/le_factor.csv' INTO TABLE Computational_linearequation_factor")
 
 
