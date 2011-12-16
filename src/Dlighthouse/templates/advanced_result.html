@@ -1,0 +1,106 @@
+{% extends "dojango/base.html" %}
+{% load highlight %}
+
+
+{% block dojango_content_questions %}
+<h2 align="center"><font color="orange">Advanced Search</font></h2>
+<!-- ########### Advanced Search Result: ###########-->
+
+{{ selected }}
+
+
+{% if results_simple %}
+<TABLE id='table_main'>
+<TR>
+<TH>Lighthouse found <strong>{{ results_simple|length }}</strong> <u>Simple Driver</u> routine{{ results_simple|pluralize }} for you:</TH>
+</TR>	
+{% for item in results_simple %}
+<TR> <TD>
+<dl>
+  <dt style="font-weight: bold;">{{ item.thePrecision|upper }}{{ item.routineName|upper }}</dt>
+  <dd>{% highlight item.info with "Purpose" %}<a href="{{ item.url }}" target="_blank">more</a>
+	<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
+	<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
+	<div id="animDiv" class="box">
+	{{ item.info }}
+	</div-->
+  <dd>
+  <table style="display:none;" id={{ item.id }} width="80%" border = "1">
+	<a href="javascript:void();" onclick="show_hide({{ item.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
+</a>
+     <tr>
+     <th>Precision</th>
+     <th>Routine Name</th>
+     <th>Matrix Type</th>
+     <th>Storage</th>
+     </tr>
+
+     <tr>
+     <td>{{ item.thePrecision }}</td>
+     <td>{{ item.routineName }}</td> 
+     <td>{{ item.matrixType }}</td> 
+     <td>{{ item.storageType }}</td>      
+     </tr>
+  </table>
+  </dd> 
+</dl>
+</TD> </TR>
+{% empty %}
+{% endfor %}
+</TABLE> 
+
+{% else %}
+<p> None of the Simple Driver routines match your search criteria. </P>
+{% endif %} 
+
+
+
+{% if results_expert %}
+<TABLE id='table_main'>
+<TR>
+<TH>Lighthouse found <strong>{{ results_expert|length }}</strong> <u>Expert Driver</u> routine{{ results_expert|pluralize }} for you:</TH>
+</TR>	
+{% for item in results_expert %}
+<TR> <TD>
+<dl>
+  <dt style="font-weight: bold;">{{ item.thePrecision|upper }}{{ item.routineName|upper }}</dt>
+  <dd>{% highlight item.info with "Purpose" %}<a href="{{ item.url }}" target="_blank">more</a>
+	<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
+	<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
+	<div id="animDiv" class="box">
+	{{ item.info }}
+	</div-->
+  <dd>
+  <table style="display:none;" id={{ item.id }} width="80%" border = "1">
+	<a href="javascript:void();" onclick="show_hide({{ item.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
+</a>
+     <tr>
+     <th>Precision</th>
+     <th>Routine Name</th>
+     <th>Matrix Type</th>
+     <th>Storage</th>
+     </tr>
+
+     <tr>
+     <td>{{ item.thePrecision }}</td>
+     <td>{{ item.routineName }}</td> 
+     <td>{{ item.matrixType }}</td> 
+     <td>{{ item.storageType }}</td>      
+     </tr>
+  </table>
+  </dd> 
+</dl>
+</TD> </TR>
+{% empty %}
+{% endfor %}
+</TABLE> 
+
+{% else %}
+<p> None of the Expert Driver routines match your search criteria. </P>
+{% endif %} 
+
+<!-- ########################################################################################################## -->
+
+
+{% endblock %}
+
