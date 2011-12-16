@@ -2,9 +2,10 @@
 {% load highlight %}
 
 
-{% block dojango_content_questions %}
+{% block dojango_content_simple %}
+<h2 align="center"><font color="blue">Guided Search</font></h2>
 <!-- ########### All questions answered: ###########-->
-<tr><th><label for="id_question_prob">Which of the following functions do you wish to execute?</label></th>
+<tr><th><label for="id_question_prob">Which of the following do you wish to compute?</label></th>
 {% for item in query_prob %} 
 <ul>
   <li>{{ item.1 }}</li>
@@ -12,11 +13,18 @@
 {% endfor %}
 
 
-{% if query_equa %} 
+{% if query_equa != 0 %} 
 <tr><th><label for="id_question_equa">What form of the linear system do you want to solve?</label></th>
 <ul>
-  <li>{{ query_equa }}</li>
+  <li>{{ query_equa|safe }}</li>
 </ul>
+
+
+<tr><th><label for="id_question_fact">Is your matrix factorized?</label></th>
+<ul>
+  <li>{{ query_fact }}</li>
+</ul>
+
 
 <tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
 <ul>
@@ -66,12 +74,18 @@
 
 
 
+<TABLE align="right">
+<TR>
+<TD>
 <form action="/search-form/">
 	<button dojoType="dijit.form.Button" type="submit" name="clear" id="clearButton"
 	title="Click to clear the search result">
 	Clear
 	</button>
 </form>
+</TD>
+</TR>
+</TABLE>
 
 
 <!-- ########### "Precision" (final) search result: ###########-->
