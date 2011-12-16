@@ -24,19 +24,22 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
 
-### --- The following two lines use Driver.views --- ###
+### --- The following lines use Driver.views --- ###
     (r'^search-form/$', views.search_form),
-    (r'^search/problem/$', views.search_problem),
-    (r'^search/problem/complex/$', views.search_complex), 
+    (r'^search/problem/$', views.search_problem), 
     (r'^search/problem/equation/$', views.search_equation),
-    (r'^search/problem/equation/complex/$', views.search_complex),
+    (r'^search/problem/equation/factor/$', views.search_factor),
+    (r'^search/problem/equation/factor/complex$', views.search_complex),
+    (r'^search/problem/complex/$', views.search_complex),
     (r'^search/problem/complex/matrixtype/$', views.search_matrixtype),   
     (r'^search/problem/complex/matrixtype/storage/$', views.search_storage),
     (r'^search/problem/complex/matrixtype/storage/precision/$', views.search_precision),
-    (r'^search/$', views.search_result),
-    (r'^search-advanced/$', views.search_advanced),
-    (r'^advanced/result/$', views.advanced_result),
 
+    (r'^advanced-search/$', views.advancedsearch),
+    (r'^advanced/form/$', views.advancedsearchform),
+    (r'^advanced/result/$', views.advancedresult),
+
+#    (r'^search/$', views.search_result),
 
 #    (r'^grid/$', views.grid),
 #    (r'^datagrid/$', views.datagrid),

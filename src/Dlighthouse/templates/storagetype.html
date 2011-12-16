@@ -3,9 +3,10 @@
 
 
 
-{% block dojango_content_questions %}
+{% block dojango_content_simple %}
+<h2 align="center"><font color="blue">Guided Search</font></h2>
 <!-- ########### Questions 1, 2, 3, & 4 answered, Question 5 asked: ###########-->
-<tr><th><label for="id_question_prob">Which of the following functions do you wish to execute?</label></th>
+<tr><th><label for="id_question_prob">Which of the following do you wish to compute?</label></th>
 {% for item in query_prob %} 
 <ul>
   <li>{{ item.1 }}</li>
@@ -16,7 +17,7 @@
 {% if query_equa %} 
 <tr><th><label for="id_question_equa">What form of the linear system do you want to solve?</label></th>
 <ul>
-  <li>{{ query_equa }}</li>
+  <li>{{ query_equa|safe }}</li>
 </ul>
 
 <tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
@@ -58,23 +59,26 @@
 {% endif %}
 
 <form action="/search/problem/complex/matrixtype/storage/precision/" name="frmComp" method="get">
-        <p>
-            {{ form.as_ul }}
-        </p>
+<p>{{ form.as_ul }}</p>
+<TABLE align="right">
+<TR>
+<TD>
 	<button dojoType="dijit.form.Button" type="submit" name="Submit" id="submitButton"
 	title="Submit Answer">
 	Submit
 	</button>
 </form>
-
-
-
+</TD>
+<TD>
 <form action="/search-form/">
 	<button dojoType="dijit.form.Button" type="submit" name="clear" id="clearButton"
 	title="Click to clear the search result">
 	Clear
 	</button>
 </form>
+</TD>
+</TR>
+</TABLE>
 
 
 <!-- ########### "storageType" search result: ###########-->
