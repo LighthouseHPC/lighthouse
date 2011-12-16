@@ -335,7 +335,7 @@
 
 	<!-- "main" BorderContainer just contains page title and another 
 		BorderContainer -->
-	<div id="main" dojoType="dijit.layout.BorderContainer">
+	<div id="main" dojoType="dijit.layout.BorderContainer" gutters="true" >
 
 		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">
 			Lighthouse
@@ -343,115 +343,60 @@
 
 		<!-- "mainSplit" BorderContainer has all the real content -->
 		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" 
-			design="sidebar" region="center" id="mainSplit">
+			design="sidebar" region="center" gutters="true" id="mainSplit" 
+            style="margin: 10px;" >
 
-			<div dojoType="dijit.layout.AccordionContainer" duration="200"
-				minSize="200" style="width: 500px;" id="leftAccordion" 
-				region="leading" splitter="true">
 				<!-- decision tree -->
-				<div dojoType="dijit.layout.AccordionPane" title="Routine Search" selected=tabContainer.selectedChildWidget>
+                  <div dojoType="dijit.layout.TabContainer" region="leading" id="searchTabs"
+                       minSize="200" style="width:400px" splitter="true"  >
 
+                       <!-- first tab -->
+                       <div dojoType="dijit.layout.ContentPane" id="searchtab1" title="Simple Search" selected="true"
+                            style="padding:10px;display:none; ">
 
-                      <div dojoType="dijit.layout.TabContainer" region="center" id="searchTabs">
-                        <!--minSize="400" style="width: 500px;" > -->
-                           <!-- first tab -->
-                           <div id="searchtab1" dojoType="dijit.layout.ContentPane" title="Simple Search" selected="true"
-                                style="padding:10px;display:none; ">
+				 	       <form action="/search/" method="get">
+					           <input type="text" name="q" />
+				 	           <button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
+						            title="Search String">
+					            Search
+					            </button>
+				    	    </form>
 
-				 	        <form action="/search/" method="get">
-					        <input type="text" name="q">
-				 		        <button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
-						        title="Search String">
-						        Search
-						        </button>
-                                <!-- <form action="/advanced-search/">
-                                   <button dojoType="dijit.form.Button" type="submit" name="advanced" id="advancedButton"
-                                   title="Click for Advanced Search">
-                                   Advanced Search
-                                   </button>
-                                -->
-
-				    		</form>
-					        {% block dojango_content_questions %}{% endblock %}
-
+					    {% block dojango_content_questions %}{% endblock %}
                         </div> <!-- end first tab simple search -->
 
-
                         <!-- second tab -->
-                        <div id="searchtab2" dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="true"
-                        style="padding:10px;display:none; ">
+                        <div id="searchtab2" dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="false"
+                             style="padding:10px;display:none; ">
                         
                         </div> <!-- end advanced serach tab -->
 
                      </div> <!-- end TabContainer -->
-				</div><!-- end decision tree ContentPane-->
-			</div><!-- end AccordionContainer -->
+
+			    <!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
+			    <div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
+				    <!-- second tab -->
+				    <div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" style="padding:10px;display:none; ">
+					    <textarea dojoType="dijit.form.SimpleTextarea" id="scriptArea" rows="30" style="width:100%;height:100%" 
+					    align="left" title="Enter or drop commands here">
+					    Type your script here!
+					    </textarea>
+				    </div><!-- end second tab -->
+                </div> <!-- end top tab container -->
 
 
-			<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
-			<div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
-				<!-- second tab -->
-				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script""
-				style="padding:10px;display:none; ">
-					<textarea dojoType="dijit.form.SimpleTextarea" id="scriptArea" rows="30" cols="100" 
-					align="left" title="Enter or drop commands here">
-					Type your script here!
-					</textarea>
-				</div><!-- end second tab -->
+			    <!-- bottom right tabs -->
+			    <div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
+			        tabPosition="top" selectedChild="btab1"
+			        region="bottom" splitter="true">
 
-
-				<!-- start third upper tab -->
-				<!-- div id="tab3" dojoType="dijit.layout.ContentPane" 
-				title="Expert"
-				style="padding:10px; display:none;  ">
-				</div><!-- end third upper tab-->
-			</div><!-- end of region="center" TabContainer -->
-
-
-			<!-- bottom right tabs -->
-			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
-			tabPosition="top" selectedChild="btab1"
-			region="bottom" splitter="true">
-
-				<!-- btab 1 -->
-				<!-- div id="btab1" dojoType="dijit.layout.ContentPane" 
-				title="Run" style=" padding:10px; "
-				style="height: auto;">
-					<!-- table>
-						<tr>
-							<th colspan="2" align="center">
-							<button dojoType=dijit.form.Button 
-							title="Click to run script"
-							type="submit" name="run">
-								Run
-							</button>
-							</th>
-						</tr>
-					</table>
-				</div><!-- end btab1 -->
-				<!-- btab 2 -->
-				<!-- div id="btab2" dojoType="dijit.layout.ContentPane" 
-				title="Export" style=" padding:10px; "
-				style="height: auto;">
-					<table>
-						<tr>
-							<th colspan="2" align="center">
-							<button dojoType=dijit.form.Button 
-							title="Click to run script"
-							type="submit" name="export">
-								Export
-							</button>
-							</th>
-						</tr>
-					</table>
-				</div><!-- end btab2 -->
-				<!-- btab3 -->
-				<div id="btab3" dojoType="dijit.layout.ContentPane" 
-				title="Authors" style="padding:20px;">
-					<span  id="themeData"></span>
-				</div>
-				<!-- end btab3 -->
-			</div><!-- end Bottom TabContainer -->
+				    <!-- btab3 -->
+				    <div id="btab3" dojoType="dijit.layout.ContentPane" 
+				        title="Authors" style="padding:10px;">
+					    <span  id="themeData"></span>
+				    </div>
+				    <!-- end btab3 -->
+			    </div><!-- end Bottom TabContainer -->
 		</div> <!-- end of "mainSplit" BorderContainer -->
 	</div><!-- end of "main" BorderContainer -->
 
