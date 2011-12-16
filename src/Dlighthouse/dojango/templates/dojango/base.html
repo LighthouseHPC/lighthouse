@@ -337,13 +337,14 @@
 		BorderContainer -->
 	<div id="main" dojoType="dijit.layout.BorderContainer" gutters="true" >
 
-		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">
-			Lighthouse
-		</h1>
+	    <div id="header" dojoType="dijit.layout.BorderContainer" gutters="true" region="top" style="margin:5px;" >
+	        <img src="{{ DOJANGO.DOJANGO_URL }}/resources/lhbanner.png" 
+		        height="50px;" />
+         </div>
 
 		<!-- "mainSplit" BorderContainer has all the real content -->
 		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" 
-			design="sidebar" region="center" gutters="true" id="mainSplit" 
+			design="sidebar" region="center" id="mainSplit" 
             style="margin: 10px;" >
 
 				<!-- decision tree -->
@@ -366,10 +367,10 @@
                         </div> <!-- end first tab simple search -->
 
                         <!-- second tab -->
-                        <div id="searchtab2" dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="false"
+                        <div dojoType="dijit.layout.ContentPane" id="searchtab2" title="Advanced Search" selected="true"
                              style="padding:10px;display:none; ">
 
-                        <!-- TODO: Sa-Lin, please insert advanced search form code -->
+					    {% block advanced_content %}{% endblock %}
                         
                         </div> <!-- end advanced serach tab -->
 
