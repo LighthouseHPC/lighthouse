@@ -344,182 +344,51 @@
 			design="sidebar" region="center" id="mainSplit">
 
 			<div dojoType="dijit.layout.AccordionContainer" duration="200"
-				minSize="100" style="width: 500px;" id="leftAccordion" 
+				minSize="200" style="width: 500px;" id="leftAccordion" 
 				region="leading" splitter="true">
-
 				<!-- decision tree -->
 				<div dojoType="dijit.layout.AccordionPane" title="Routine Search" selected=tabContainer.selectedChildWidget>
-					<table>
-					<tr><td>
 
-				 	<form action="/search/" method="get">
-					<input type="text" name="q">
-				 		<button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
-						title="Search String">
-						Search
-						</button>
+
+                      <div dojoType="dijit.layout.TabContainer" region="center" id="searchTabs">
+                        <!--minSize="400" style="width: 500px;" > -->
+                           <!-- first tab -->
+                           <div id="searchtab1" dojoType="dijit.layout.ContentPane" title="Simple Search" selected="true"
+                                style="padding:10px;display:none; ">
+
+				 	        <form action="/search/" method="get">
+					        <input type="text" name="q">
+				 		        <button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
+						        title="Search String">
+						        Search
+						        </button>
+                                <!-- <form action="/advanced-search/">
+                                   <button dojoType="dijit.form.Button" type="submit" name="advanced" id="advancedButton"
+                                   title="Click for Advanced Search">
+                                   Advanced Search
+                                   </button>
+                                -->
+
 				    		</form>
-					</td>
-					<td>
-					<form action="/search-form/">
-						<button dojoType="dijit.form.Button" type="submit" name="simple" id="simpleButton"
-						title="Click for Simple Search">
-						Simple Search
-						</button>
-						</form>
-					</td>
-					<td>
-					<form action="/advanced-search/">
-						<button dojoType="dijit.form.Button" type="submit" name="advanced" id="advancedButton"
-						title="Click for Advanced Search">
-						Advanced Search
-						</button>
-						</form>
-					</td></tr>
-					</table>				
-					{% block dojango_content_questions %}{% endblock %}
+					        {% block dojango_content_questions %}{% endblock %}
 
-{% comment %}
-					<!-- ########### decision tree search result: ###########-->
-					{% load highlight %}
-					{% if results %}
-					<TABLE id='table_main'>
-					{% for key, value in results.items %}
-					<TR>
-					<TH>Lighthouse found <strong>{{ value|length }}</strong> "{{ key }}" routine{{ value|pluralize }} for you:</TH>
- 					</TR>
-					{% endfor %}
-					{% for key, value in results.items %}
-					{% for routine in value %}	
-					<TR> <TD>
-					<dl>
-					  <dt style="font-weight: bold;">{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}</dt>
-					  <dd>{% highlight routine.info with "Purpose" %}<a href="{{ routine.url }}" target="_blank">more</a>
-						<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
-						<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
-						<div id="animDiv" class="box">
-						{{ item.info }}
-						</div-->
-					  <dd>
-					  <table style="display:none;" id={{ routine.id }} width="80%" border = "1">
-						<a href="javascript:void();" onclick="show_hide({{ routine.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
-</a>
-				    	     <tr>
-					     <th>Precision</th>
-					     <th>Routine Name</th>
-					     <th>Matrix Type</th>
-					     <th>Storage</th>
-					     </tr>
+                        </div> <!-- end first tab simple search -->
 
-					     <tr>
-					     <td>{{ routine.thePrecision }}</td>
-					     <td>{{ routine.routineName }}</td> 
-					     <td>{{ routine.matrixType }}</td> 
-					     <td>{{ routine.structureType }}</td>      
-				 	     </tr>
-					  </table>
-					  </dd> 
-					</dl>
-					</TD> </TR>
-					{% empty %}
-					{% endfor %}
-					{% endfor %}
-					</TABLE> 
-					{% endif %}
-					<!-- ########### end decision tree search result: ###########-->
-{% endcomment %}
+
+                        <!-- second tab -->
+                        <div id="searchtab2" dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="true"
+                        style="padding:10px;display:none; ">
+                        
+                        </div> <!-- end advanced serach tab -->
+
+                     </div> <!-- end TabContainer -->
+
 				</div><!-- end decision tree -->
-
-
-{% comment %}
-				<!-- general search -->
-				<div dojoType="dijit.layout.AccordionPane" title="General Search" selected="true >
-				<h2>Please enter a word or phrase:</h2>  
-
-				    <form action="/search/" method="get">
-					<input type="text" name="q">
-				 	<button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
-					title="Search String">
-					Search
-					</button>
-				    </form>
-
-								<!--/th>
-								<th colspan="2" align="center">
-								<button dojoType="dijit.form.Button" 
-								type="submit" name="clear" id="clearButton"
-								title="Click to clear the search result">
-									Clear
-								</button >
-								</th>
-							</tr>
-						</table>
-					</form>
-					<!-- ########### general search result: ###########-->
-					{% block dojango_content2 %}{% endblock %}
-					<!-- ########### end general search result: ###########-->
-
-				</div><!-- end general search -->
-{% endcomment %}
 			</div><!-- end AccordionContainer -->
 
 
 			<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
 			<div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
-{% comment %}
-				<!-- first upper tab -->
-				<div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result"
-				style="padding:10px; display:none;">
-
-					{% load highlight %}
-					{% if results %}
-					<TABLE id='table_main'>
-					{% for key, value in results.items %}
-					<TR>
-					<TH>Lighthouse found <strong>{{ value|length }}</strong> "{{ key }}" routine{{ value|pluralize }} for you:</TH>
- 					</TR>
-					{% endfor %}
-					{% for key, value in results.items %}
-					{% for routine in value %}	
-					<TR> <TD>
-					<dl>
-					  <dt style="font-weight: bold;">{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}</dt>
-					  <dd>{% highlight routine.info with "Purpose" %}<a href="{{ routine.url }}" target="_blank">more</a>
-						<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
-						<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
-						<div id="animDiv" class="box">
-						{{ item.info }}
-						</div-->
-					  <dd>
-					  <table style="display:none;" id={{ routine.id }} width="80%" border = "1">
-						<a href="javascript:void();" onclick="show_hide({{ routine.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
-</a>
-				    	     <tr>
-					     <th>Precision</th>
-					     <th>Routine Name</th>
-					     <th>Matrix Type</th>
-					     <th>Storage</th>
-					     </tr>
-
-					     <tr>
-					     <td>{{ routine.thePrecision }}</td>
-					     <td>{{ routine.routineName }}</td> 
-					     <td>{{ routine.matrixType }}</td> 
-					     <td>{{ routine.structureType }}</td>      
-				 	     </tr>
-					  </table>
-					  </dd> 
-					</dl>
-					</TD> </TR>
-					{% empty %}
-					{% endfor %}
-					{% endfor %}
-					</TABLE> 
-					{% endif %}
-					
-				</div><!-- end:first upper tab -->
-
-{% endcomment %}
 				<!-- second tab -->
 				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script""
 				style="padding:10px;display:none; ">
