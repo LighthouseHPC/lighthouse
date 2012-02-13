@@ -39,6 +39,8 @@ urlpatterns = patterns('',
     (r'^advanced/form/$', views.advancedsearchform),
     (r'^advanced/result/$', views.advancedresult),
 
+    (r'^scripts/$', views.runscript), # Boyana
+
 #    (r'^search/$', views.search_result),
 
 #    (r'^grid/$', views.grid),

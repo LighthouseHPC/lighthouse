@@ -367,7 +367,11 @@ def advancedresult(request):
 
 
 
+def runscript(request):
 
+  #result
+  #context = {'thecode': 
+  pass
 
 
 
