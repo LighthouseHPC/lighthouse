@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>The Simplest Dojo DataGrid Example of All Time</title>
+<link rel="stylesheet" type="text/css"
+ href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css" />
+
+<link rel="stylesheet" type="text/css"
+ href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css" />
+
+ <link rel="stylesheet" type="text/css"
+ href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css" />
+</head>
+
+<body class="claro">
+	<div style="width: 600px; height: 200px">
+		<table id="billsGrid" dojoType="dojox.grid.DataGrid">
+	  		<thead>
+	    		<tr>
+	      			<th field="number">Number</th>
+	      			<th field="name">Name</th>
+	      			<th field="position">Position</th>
+	      			<th field="victories" width="180px">Super Bowl Victories</th>
+	    		</tr>
+	  		</thead>
+		</table>
+	</div>
+
+<script type="text/javascript"
+ src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
+	djConfig="parseOnLoad:true"></script>
+
+<script type="text/javascript">
+	dojo.require("dojox.grid.DataGrid");
+	dojo.require("dojo.data.ItemFileReadStore");
+</script>
+
+<script type="text/javascript">
+dojo.ready(function() {
+	var theGreatestTeamOfAllTime = {
+		items: [ {
+				  "number":"12",
+				  "name":"Jim Kelly",
+				  "position":"QB",
+				  "victories":"0"
+				  },
+		         {
+				  "number":"34",
+				  "name":"Thurman Thomas",
+				  "position":"RB",
+				  "victories":"0"
+				  },
+		         {
+				  "number":"89",
+				  "name":"Steve Tasker",
+				  "position":"WR",
+				  "victories":"0"
+				  },
+			{
+				"number":"78",
+				"name":"Bruce Smith",
+				"position":"DE",
+				"victories":"0"
+			}
+		       ],
+		identifier: "number"
+	};
+
+	var dataStore =
+	new dojo.data.ItemFileReadStore(
+		{ data:theGreatestTeamOfAllTime }
+	);
+	var grid = dijit.byId("billsGrid");
+	grid.setStore(dataStore);
+});
+</script>
+
+</body>
+</html>
+

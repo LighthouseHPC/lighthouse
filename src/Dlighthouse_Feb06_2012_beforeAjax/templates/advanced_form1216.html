@@ -1,0 +1,136 @@
+{% extends "dojango/base.html" %}
+
+
+{% block dojango_content_questions %}
+<h2 align="center"><font color="orange">Advanced Search</font></h2>
+{% comment %}
+{% for key in Fields.items %}
+{{ key.1.1 }}
+<br></br>
+{% endfor %}
+
+
+{{ form }}
+
+{% comment %}
+{% for item in Forms %}
+{% with item.Name|add:'Complex' as test %}
+{{ test }}
+{% endwith %}
+
+<br></br>
+{%endfor %}
+{% endcomment %}
+
+
+<p><b>Please select the function(s) that you'd like to execute.</b></p>
+
+<form name="advanced" action="/advanced/result/" name="frmProb" method="get">
+<TABLE id='ver-zebra'>
+
+<!-- Colgroup -->
+<colgroup>
+	<col class="vzebra-odd">
+	<col class="vzebra-even">
+	<col class="vzebra-odd">
+	<col class="vzebra-even">
+</colgroup>
+
+<!-- Table Header -->
+<thead>
+<tr>
+<th scope="col"><b>Routine Category</b></th>
+{% for item in Question_advanced %}
+<th><b>{{ item }}</b></th>
+{% endfor %}
+</tr>
+</thead>
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Description</b></font></td>
+{% for item in Forms %}
+{% if item.Description.label == 'Solve a system of linear equations' %}
+<td>Solve a system of linear equations <ul>
+<li><label for="id_Description_0"><input type="checkbox" name="Description" value="Driver LinearEquation_expert notes original" id="id_Description_0" /> AX = B</label></li>
+<li><label for="id_Description_1"><input type="checkbox" name="Description" value="Driver LinearEquation_expert notes transpose" id="id_Description_1" /> A<sup>T</sup>X = B</label></li>
+<li><label for="id_Description_2"><input type="checkbox" name="Description" value="Driver LinearEquation_expert notes Hermitian_trans" id="id_Description_2" /> A<sup>H</sup>X = B</label></li></ul> 
+<i>and</i></td>
+{% else %}
+<td>{{ item.Description }}</td>
+{% endif %}
+{% endfor %}
+</tr>
+
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Function</b></font></td>
+{% for item in Forms %}
+<td>{{ item.Function }}</td>
+{% endfor %}
+</tr>
+
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Complex Numbers</b></font></td>
+{% for item in Forms %}
+<td>{{ item.Complex }}</td>
+{% endfor %}
+</tr>
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Matrix Type</b></font></td>
+{% for item in Forms %}
+<td>{{ item.MatrixType }}</td>
+{% endfor %}
+</tr>
+
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Storage</b></font></td>
+{% for item in Forms %}
+<td>{{ item.StorageType }}</td>
+{% endfor %}
+</tr>
+
+</tr>
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Precision</b></font></td>
+{% for item in Forms %}
+<td>{{ item.Precision }}</td>
+{% endfor %}
+</tr>
+
+</tr>
+</TABLE>
+
+
+
+
+<TABLE align="right">
+<TR>
+<TD>
+	<button dojoType="dijit.form.Button" type="submit" name="Submit" id="submitButton"
+	title="Submit Answer">
+	Submit
+	</button >
+</form>
+</TD>
+<TD>
+<form action="/advanced-search/">
+	<button dojoType="dijit.form.Button" type="submit" name="clear" id="clearButton"
+	title="Click to clear the search result">
+	Clear
+	</button>
+</form>
+</TD>
+</TR>
+</TABLE>
+
+<!-- ########################################################################################################## -->
+
+{% endblock %}
