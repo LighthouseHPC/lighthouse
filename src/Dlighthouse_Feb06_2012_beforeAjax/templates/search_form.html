@@ -1,0 +1,44 @@
+<!-- ########### Simple search form: ###########-->
+
+<h2 align="center"><font color="blue">Guided Search</font></h2>
+<!-- ########### Question 1 asked: ###########-->
+<form name="question_prob" action="/search/problem/" name="frmProb" method="get">
+<tr><th><label for="id_question_prob_0">Which of the following do you wish to compute?</label></th><td><ol>
+<li><label for="id_question_prob_0"><input type="radio" name="question_prob" value="Combine LinearEquation_only solve" id="id_question_prob_0" onclick="disableCheckboxes()"/> Solve a linear equation only</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li><label for="id_question_prob_1"><input type="radio" name="question_prob" value="Computational LinearEquation_computational factor" id="id_question_prob_1" onclick="disableCheckboxes()"/> Factor a matrix (PA = LU)</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li><label for="id_question_prob_2"><input type="radio" name="question_prob" value="Computational LinearEquation_computational refine" id="id_question_prob_2" onclick="disableCheckboxes()"/> Refine the solution to a linear system</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li><label for="id_question_prob_3"><input type="radio" name="question_prob" value="Computational LinearEquation_computational error" id="id_question_prob_3" onclick="disableCheckboxes()"/> Compute forward or backward error bounds for the solution to a linear system</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li><label for="id_question_prob_4"><input type="radio" name="question_prob" value="Computational LinearEquation_computational condition" id="id_question_prob_4" onclick="disableCheckboxes()"/> Estimate the condition number of a matrix</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li><label for="id_question_prob_5"><input type="radio" name="question_prob" value="Computational LinearEquation_computational equilibrate" id="id_question_prob_5" onclick="disableCheckboxes()"/> Equilibrate a matrix</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li><label for="id_question_prob_6"><input type="radio" name="question_prob" value="Computational LinearEquation_computational inverse" id="id_question_prob_6" onclick="disableCheckboxes()"/> Invert a matrix using provided factors (P, L, U)</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></li>
+<li style="padding: 7px"><label for="id_question_prob_7">Solve a linear equation <i>and</i> </label></li>
+<ul><table>
+<tr><dd><label for="id_question_prob_8"><input type="checkbox" name="question_prob" value="Driver LinearEquation_expert refine" id="id_question_prob_8" onclick="disableRadiobuttons()"/> Refine the solution</label></dd></tr>
+<tr><dd><label for="id_question_prob_9"><input type="checkbox" name="question_prob" value="Driver LinearEquation_expert error" id="id_question_prob_9" onclick="disableRadiobuttons()"/> Compute forward or backward error bounds for the solution</label></dd></tr>
+<tr><dd><label for="id_question_prob_10" ><input type="checkbox" name="question_prob" value="Driver LinearEquation_expert condition" id="id_question_prob_10" onclick="disableRadiobuttons()"/> Estimate the condition number of a matrix</label></dd></tr>
+<tr><dd><label for="id_question_prob_11" ><input type="checkbox" name="question_prob" value="Driver LinearEquation_expert equilibrate" id="id_question_prob_11" onclick="disableRadiobuttons()"/> Equilibrate a matrix</label></dd></tr></table></ul>
+</ol></td></tr>
+
+
+
+
+<TABLE align="right">
+<TR>
+<TD>
+	<button type="submit" name="Submit" id="submitButton"
+	title="Submit Answer">
+	Submit
+	</button >
+</form>
+</TD>
+<TD>
+<form action="/index/">
+	<button type="submit" name="clear" id="clearButton"
+	title="Click to clear the search result">
+	Clear
+	</button>
+</form>
+</TD>
+</TR>
+</TABLE>
+

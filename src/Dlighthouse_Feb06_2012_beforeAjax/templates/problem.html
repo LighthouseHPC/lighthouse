@@ -1,0 +1,70 @@
+{% extends "dojango/base.html" %}
+
+
+{% block dojango_content_questions %}
+<h2 align="center"><font color="blue">Guided Search</font></h2>
+
+
+<!-- ########### Questions 1 answered & Question 2 asked: ###########-->
+<tr><th><label for="id_question_prob">Which of the following functions do you wish to execute?</label></th>
+{% for item in query_prob %} 
+<ul>
+  <li>{{ item.1 }}</li>
+</ul>
+{% endfor %}
+     
+
+
+<form action= {{ Action }} name="frmProblem" method="get">
+{% if Action == '/search/problem/complex/' %}
+        <p>
+            {{ form.as_ul }}
+        <p>
+
+{% else %}
+	<tr><th><label for="id_question_equa_0">What form of the linear system do you want to solve?</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></th><td><ul>
+	{% for choice in form.question_equa.field.choices %}
+	  <li>
+	    <input type="radio" name="question_equa" value="{{choice.0}}"
+	    <label for="">{{choice.1|safe}}</label>
+	  </li>
+	{% endfor %}
+	</ul></td></tr>
+{% endif %} 
+
+<TABLE align="right">
+<TR>
+<TD>
+	<button type="submit" name="Submit" id="submitButton"
+	title="Submit Answer">
+	Submit
+	</button>
+</form>
+</TD>
+<TD>
+<form action="/index/">
+	<button type="submit" name="clear" id="clearButton"
+	title="Click to clear the search result">
+	Clear
+	</button>
+</form>
+</TD>
+</TR>
+</TABLE>
+{% endblock %}
+<!-- ########################################################################################################## -->
+
+
+
+
+<!-- ########### Simple search result: ###########-->
+{% block dojango_content_search_result %}
+{% include "simpleResult.html" %}
+{% endblock %}
+
+
+<!-- ########### Advanced search questions: ###########-->
+{% block dojango_content_advanced_questions %}
+{% include "advanced_search.html" %}
+{% endblock %}
+

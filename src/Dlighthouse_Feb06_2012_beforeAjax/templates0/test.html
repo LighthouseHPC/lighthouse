@@ -1,0 +1,32 @@
+<html>
+<head><title>Lapack Routines</title></head>
+ 
+<body>
+
+    <p>Lighthouse found <strong>{{ results|length }}</strong> routine{{ results|pluralize }}:</p>
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>id</th>
+	   </tr>	
+        {% for item in results %}
+	   <tr>
+	   <td>{{ item.thePrecision }}</td>
+	   <td>{{ item.routineName }}</td> 
+	   <td>{{ item.matrixType }}</td> 
+	   <td>{{ item.structureType }}</td>
+	   <td>{{ item.id }}</td>          
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+
+</body>
+</html>

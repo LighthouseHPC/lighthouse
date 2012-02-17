@@ -1,0 +1,25 @@
+{% extends "dojango/base_orig.html" %}
+{% load dojango_grid %}
+{% block dojango_page_title %} datagrid {% endblock %}
+
+{% block dojango_content %}
+<H1>Linear Equation:</H1>
+<div style="height:500px; width:900px">
+    {% with myApp=appname myModel=modelname %}
+    {% datagrid Drivers LinearEquation %}
+    list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'info')
+    query = { 'matrixType': 'SPD', 'thePrecision': 's' }
+    formatter = {}
+    {% enddatagrid %}
+    {% endwith %}
+</div>
+
+
+
+<div style="height:300px; width:900px">
+    {% simple_datagrid Drivers LinearEquation %}
+</div>
+
+{% endblock %}
+
+

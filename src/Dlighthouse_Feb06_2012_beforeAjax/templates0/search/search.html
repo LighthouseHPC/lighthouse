@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Lighthouse Search{% endblock %}
+
+
+{% block content %}
+<form method="get" action=".">
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" value="Search">
+                </td>
+            </tr>
+        </table>
+
+
+<hr> 
+<h3>Lighthouse Search Results:</h3>
+<p>You searched for <strong>{{ query }}</strong></p>
+{% if query %}
+   	<p>Lighthouse found <strong>{{ result_count }}</strong> routines{{ results|pluralize }}:</p>
+
+    <ul>
+	<table width="100%" border = "1">
+	   <!tr>
+	   <!th colspan="4">{{ table }}</th>
+	   <!/tr>
+	   <tr>
+	   <th>Precision</th>
+	   <th>Routine Name</th>
+	   <th>Matrix Type</th>
+	   <th>Storage</th>
+	   <th>Description</th>
+	   <th>URL</th>
+	   </tr>	
+
+	{% for result in page.object_list %}
+  	   <tr>
+	   <td>{{ result.thePrecision }}</td>
+	   <td>{{ result.routineName }}</td> 
+	   <td>{{ result.matrixType }}</td> 
+	   <td>{{ result.structureType }}</td>
+	   <td>{{ result.description }}</td> 
+	   <td><a href= "{{ result.object.url }}" target="_blank">{{ result.object.url }} </a></td>    
+        {% endfor %}
+	</table>
+    </ul>
+    <br />
+
+{% else %}
+	<p<No results found.</p>      
+{% endif %}
+</form>
+{% endblock %}
