@@ -1,15 +1,20 @@
 import string, types, sys
+from django.template import RequestContext
+from django.shortcuts import render_to_response, redirect, render
+from django.template.loader import render_to_string
+
 from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert 
 from Computational.models import LinearEquation_computational
 from Combine.models import LinearEquation_only
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from Driver.forms import ProblemForm, EquationForm, FactorForm, PrecisionForm, ComplexForm, MatrixTypeForm, StorageForm, AdvancedForm, LinearEquation_computationalForm, LinearEquation_simpleForm, LinearEquation_expertForm, scriptForm
+
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import get_model, Q
 from itertools import chain
 from haystack.query import SearchQuerySet
-from Driver.forms import ProblemForm, EquationForm, FactorForm, PrecisionForm, ComplexForm, MatrixTypeForm, StorageForm, AdvancedForm, LinearEquation_computationalForm, LinearEquation_simpleForm, LinearEquation_expertForm
-from django.template import RequestContext
+
+
+
 
 
 ###-------------------- Notes ----------------------###
@@ -37,11 +42,13 @@ def combine_Q(aList):
 
 
 
-###---------------- Simple Search ------------------###
+###---------------- Home Page ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
-def search_form(request):
+def search_forms(request):
     request.session.clear()	
-    return render_to_response('search_form.html')
+    context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
+    return render_to_response('index.html', context_instance=RequestContext(request, context))
+
 
 
 
@@ -78,13 +85,13 @@ def search_problem(request):
 			request.session['Question_factor']=[0, 0]	
 
 		context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
-		return render_to_response('problem.html', context_instance=RequestContext(request, context))
+		#return render_to_response('problem.html', context_instance=RequestContext(request, context))
+		return redirect('http://google.com/')
 			
 
 	else:
-		form_Prob = ProblemForm()
-		context = {'form': form_Prob}
-		return render_to_response('search_form.html', context_instance=RequestContext(request, context))
+		context = {'form': ProblemForm()}
+		return render_to_response('index.html', context_instance=RequestContext(request, context))
 
 
 
@@ -320,6 +327,21 @@ def str_to_class(str):
     return getattr(sys.modules[__name__], str)
 
 
+#determine 's', 'd', 'c', 'z'
+def whatPrecision(comp, prec):
+	if comp == 'yes' and prec == 'single':
+		thePrecision = 'c'
+	elif comp == 'yes' and prec == 'double':
+		thePrecision = 'z'
+	elif comp == 'no' and prec == 'single':
+		thePrecision = 's'
+	else:
+		thePrecision = 'd'
+	return thePrecision
+
+
+
+
 
 ###---Notes---###
 '''
@@ -334,36 +356,102 @@ def str_to_class(str):
 def advancedsearchform(request):
 	form_advanced = AdvancedForm(request.GET or None)
 	request.session['Question_advanced'] = []
-	request.session['Apps'] = []
-	request.session['Models'] = []
+	request.session['App_Model'] = []			#---request.session['App_Model'] is a list of tuples: [(app1, model1), (app2, model2), (),...]
 	request.session['Forms'] = []
-	request.session['Fields'] = {}
+	request.session['Function'] = []
+	request.session['Complex'] = []
+	request.session['MatrixType'] = []
+	request.session['StorageType'] = []
+	request.session['Precision'] = []
+
 	if form_advanced.is_valid():
 		selected = form_advanced.cleaned_data['advanced']
 		for answer in selected:
 			request.session['Question_advanced'].append(AdvancedForm().find(answer)) 
-			request.session['Apps'].append(answer.split()[0])
-			request.session['Models'].append(answer.split()[1][:-4])
+			request.session['App_Model'].append((answer.split()[0], answer.split()[1][:-4])) 
 			form = str_to_class(answer.split()[1])()
 			request.session['Forms'].append(form)
-			fieldList = []
-			for item in form.fields.items():
-				fieldList.append(item[0])
-			request.session['Fields'][answer.split()[1][:-4]]=fieldList
-
-		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 'Fields': request.session['Fields']}
+			request.session['Function'].append(form[answer.split()[1][:-4]+"Function"])
+			request.session['Complex'].append(form[answer.split()[1][:-4]+"Complex"])
+			request.session['MatrixType'].append(form[answer.split()[1][:-4]+"MatrixType"])
+			request.session['StorageType'].append(form[answer.split()[1][:-4]+"StorageType"])
+			request.session['Precision'].append(form[answer.split()[1][:-4]+"Precision"])
+				
+		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 'StorageType':request.session['StorageType'], 'Precision': request.session['Precision']}
 		return render_to_response('advanced_form.html', context_instance=RequestContext(request, context))
+
+	else:
+   		form = AdvancedForm()	
+    		context = {'form': form}
+    		return render_to_response('advanced_search.html', context_instance=RequestContext(request, context))
+
+
 
 	
 
 
 def advancedresult(request):
-#	for item in request.session['Forms']:
-#		form = item(request.GET or None)
-#		if form.is_valid():
+#----- Display checked items -------#
+	for item in ['GETS', 'DescriptionGETS', 'FunctionGETS', 'ComplexGETS', 'MatrixTypeGETS', 'StorageTypeGETS', 'PrecisionGETS']:  
+		request.session[item] = []
+
+	request.session['Results'] = {}
+
+	for model in request.session['App_Model']:
+		form_empty = str_to_class(model[1]+'Form')()
+		form = str_to_class(model[1]+'Form')(request.GET or None)
+		if model[1] == 'LinearEquation_expert': 		
+			request.session['DescriptionGETS'].append(form[model[1]+"Description"])	
+		request.session['GETS'].append(form)
+		request.session['FunctionGETS'].append(form[model[1]+"Function"])
+		request.session['ComplexGETS'].append(form[model[1]+"Complex"])
+		request.session['MatrixTypeGETS'].append(form[model[1]+"MatrixType"])
+		request.session['StorageTypeGETS'].append(form[model[1]+"StorageType"])
+		request.session['PrecisionGETS'].append(form[model[1]+"Precision"])
+		request.session['Results'][model[1]] = []
+
+#----- Collect the checked data -----#
+#Recored results in request.session['Routines']={modelName1:[<class>], modelName2:[<class>], ...}
+		if form.is_valid():
+			selected_Function = form.cleaned_data[model[1]+'Function']
+			selected_Complex = form.cleaned_data[model[1]+'Complex']
+			selected_MatrixType = form.cleaned_data[model[1]+'MatrixType']
+			selected_StorageType = form.cleaned_data[model[1]+'StorageType']
+			selected_Precision = form.cleaned_data[model[1]+'Precision']
+			selected_Description = 0
+			if model[1] == 'LinearEquation_expert':
+				selected_Description = form.cleaned_data[model[1]+'Description']
+				for comp in selected_Complex:
+					for precision in selected_Precision:
+						for matrix in selected_MatrixType:
+							for storage in selected_StorageType:
+								for function in selected_Function:
+									for equation in selected_Description:
+										if equation=='solve':
+											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find_function(function), 'Description': form_empty.find_equation(equation), 'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})
+ 										else: 
+											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find_function(function), 'Description': form_empty.find_equation(equation), 'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains='trans').filter(notes__icontains=function)})
+
+			else:
+				for comp in selected_Complex:
+					for precision in selected_Precision:
+						for matrix in selected_MatrixType:
+							for storage in selected_StorageType:
+								for function in selected_Function:
+									request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find(function), 'Description': form.Description, 'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})						
+		
 			
-	context = {'selected': request.session['Forms']}
+	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'], 'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'], 'PrecisionGETS': request.session['PrecisionGETS'], 'DescriptionGETS': request.session['DescriptionGETS'], 'selected_Description': selected_Description, 'Results': request.session['Results']}
 	return render_to_response('advanced_result.html', context_instance=RequestContext(request, context))
+
+#	else:
+#   		form = AdvancedForm()	
+#    		context = {'form': form}
+
+#    		return render_to_response('advanced_search.html', context_instance=RequestContext(request, context))
+
+
+
 
 
 
