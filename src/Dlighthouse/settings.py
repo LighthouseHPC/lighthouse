@@ -26,7 +26,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        #'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'shark',                      # Or path to database file if using sqlite3.
         'USER': 'salin',                      # Not used with sqlite3.
         'PASSWORD': 'yell@w1234',                  # Not used with sqlite3.
@@ -152,7 +153,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'Driver',
     'Computational',
-    'haystack',
+#    'haystack',
     'dojango',
 )
 

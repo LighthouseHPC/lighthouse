@@ -1,5 +1,5 @@
 from django.db import models
-from Drivers.models import Problem, RoutineInfo
+from Driver.models import Problem, RoutineInfo
 
 # Create your models here.
 
