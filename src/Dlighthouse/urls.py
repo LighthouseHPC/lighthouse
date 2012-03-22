@@ -1,12 +1,16 @@
 from django.conf.urls.defaults import *
-from Dlighthouse.Driver import views
+from django.conf import settings
+
 from Dlighthouse import settings
-
-
+from Dlighthouse.Driver import views
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
+
+# To enable dajaxice
+from dajaxice.core import dajaxice_autodiscover
+dajaxice_autodiscover()
 
 
 urlpatterns = patterns('',
@@ -19,13 +23,22 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+
+    #  dajaxice URLS
+    (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
+
+    # For dojango
     (r'^dojango/', include('dojango.urls')),
-#    (r'^search/', include('haystack.urls')),
+
+    # For Haystack
+    (r'^search/', include('haystack.urls')),
+
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),
 
 
 ### --- The following lines use Driver.views --- ###
-    (r'^search-form/$', views.search_form),
+    (r'^index/$', views.search_forms),
     (r'^search/problem/$', views.search_problem), 
     (r'^search/problem/equation/$', views.search_equation),
     (r'^search/problem/equation/factor/$', views.search_factor),
@@ -39,12 +52,4 @@ urlpatterns = patterns('',
     (r'^advanced/form/$', views.advancedsearchform),
     (r'^advanced/result/$', views.advancedresult),
 
-    (r'^scripts/$', views.runscript), # Boyana
-
-#    (r'^search/$', views.search_result),
-
-#    (r'^grid/$', views.grid),
-#    (r'^datagrid/$', views.datagrid),
-#    (r'^checkbox/$', views.checkbox),
-#    (r'^handle/$', views.handle),
 )
