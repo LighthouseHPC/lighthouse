@@ -1,5 +1,5 @@
-from Drivers.models import RoutineInfo
-from Combine.models import LinearEquation_comb, LinearEquation_trans
+from Driver.models import RoutineInfo
+from Combine.models import LinearEquation_only
 from django.contrib import admin
 from django import forms
 
@@ -17,31 +17,16 @@ class EntryAdminForm(forms.ModelForm):
 
 
 
-
-
-class LinearEquation_combAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
+class LinearEquation_onlyAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
 	
-	list_filter = ['matrixType', 'thePrecision', 'structureType']
-	search_fields = ['routineName', 'description']
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
 	ordering = ('id',)
-	raw_id_fields = ('problem', 'info',)
+	raw_id_fields = ('info',)
 
 
 
 
-class LinearEquation_transAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'structureType', 'url', 'description')
-	
-	list_filter = ['matrixType', 'thePrecision', 'structureType']
-	search_fields = ['routineName', 'description']
-	ordering = ('id',)
-	raw_id_fields = ('problem', 'info',)
-
-
-
-
-
-admin.site.register(LinearEquation_comb, LinearEquation_combAdmin)
-admin.site.register(LinearEquation_trans, LinearEquation_transAdmin)
+admin.site.register(LinearEquation_only, LinearEquation_onlyAdmin)
 
