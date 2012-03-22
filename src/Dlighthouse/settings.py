@@ -26,13 +26,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'shark',                      # Or path to database file if using sqlite3.
-        'USER': 'salin',                      # Not used with sqlite3.
-        'PASSWORD': 'yell@w1234',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'yellow1234',                  # Not used with sqlite3.
+        'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -60,6 +59,18 @@ USE_I18N = True
 USE_L10N = True
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__)) 
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+	#'/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/templates', -->This will cause problem when deplying.
+        os.path.join(SITE_ROOT, 'templates'),
+)
+
+TEMPLATE_ROOT = os.path.join(SITE_ROOT, 'templates') 
+TEMPLATE_URL = '/templates/'
+
 
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -123,13 +134,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'Dlighthouse.urls'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-	#'/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/templates', -->This will cause problem when deplying.
-        os.path.join(SITE_ROOT, 'templates'),
-)
 
 
 # Haystack configuration.
@@ -137,6 +141,23 @@ HAYSTACK_SITECONF = 'Dlighthouse.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = '/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/index.whoosh'
 HAYSTACK_INCLUDE_SPELLING = True
+
+# Haystack 2.x (see http://readthedocs.org/docs/django-haystack/en/latest/migration_from_1_to_2.html)
+#HAYSTACK_CONNECTIONS = {
+#  'default' : {
+#      'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+#      'PATH': '/Users/norris/research/lighthouse/lighthouse-taxonomy/src/Dlighthouse/index.whoosh',
+#      'STORAGE': 'file', 
+#      'INCLUDE_SPELLING': True
+#   },
+#   'autocomplete' : {
+#      'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+#      'PATH': '/Users/norris/research/lighthouse/lighthouse-taxonomy/Boyana/Dlighthouse/index.whoosh',
+#      'STORAGE': 'file', 
+#      'POST_LIMIT': 128 * 1024 * 1024,
+#      'INCLUDE_SPELLING': True
+#   }
+#}
 
 
 
@@ -153,17 +174,15 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'Driver',
     'Computational',
-#    'haystack',
+    'Combine',
+    'haystack',
     'dojango',
+    'dajaxice',
+    'dajax',
+    
 )
 
 
-
-
-DOJANGO_DATAGRID_ACCESS = (
-  'Driver.LinearEquation',
-  'Driver.Eigensolver',
-)
 
 
 DOJANGO_DOJO_THEME = "soria"
@@ -196,7 +215,20 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   "django.contrib.auth.context_processors.auth",
   "django.core.context_processors.media",
   "django.core.context_processors.csrf",
+
+# Must define a function "templates(request)" in django.core.context_processors 
+# in order to enable the template tag {{ templates }} for TEMPLATE_URL
+  #"django.core.context_processors.templates",
+
+# For dajaxice.
+  "django.core.context_processors.request",
 )
 
 
+DAJAXICE_MEDIA_PREFIX = "dajaxice"
+DAJAXICE_DEBUG = True
+DAJAXICE_JS_DOCSTRINGS = True
+#DAJAXICE_NOTIFY_EXCEPTIONS = True
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
