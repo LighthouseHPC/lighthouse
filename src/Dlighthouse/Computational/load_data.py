@@ -1,13 +1,13 @@
 import csv
 import MySQLdb
 
-myDB = MySQLdb.connect("", "salin", "yell@w1234", "shark") 
+myDB = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", passwd="yellow1234", db="shark") 
 
 cursor = myDB.cursor()
 
 
 
-#nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Computational/le_computational_all.csv' INTO TABLE Computational_linearequation_computational")
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Computational/le_computational_all.csv' INTO TABLE Computational_linearequation_computational")
 
 
 nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Computational/le_factor.csv' INTO TABLE Computational_linearequation_factor")
@@ -31,6 +31,8 @@ nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighth
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Computational/eigensolver_comp.csv' INTO TABLE Computational_eigensolver_comput")
 
 
-
+myDB.commit()
+cursor.close()
+myDB.close()
 
 
