@@ -1,0 +1,813 @@
+{% spaceless %}
+	{% load dojango_base %}
+	{% load dojango_filters %}
+	{% if not DOJANGO %}
+		{# if the context processor did not pass the DOJANGO context, we set it here #}
+		{% set_dojango_context %}
+	{% endif %}
+	
+	{% if not LANGUAGE_CODE %}
+		{% load i18n %}
+		{% get_current_language as LANGUAGE_CODE %}
+		{% get_current_language_bidi as LANGUAGE_BIDI %}
+	{% endif %}
+{% block _dojango_doctype %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% endblock %}
+{% endspaceless %}
+
+{% block _dojango_html_start_tag %}
+<html xmlns="http://www.w3.org/1999/xhtml"{% block _dojango_html_lang %}{% endblock %}>
+{% endblock %}
+
+
+{% spaceless %}
+	<head>
+		{% block _dojango_meta_content_type %}
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		{% endblock %}
+		{# This must be before any non-english text, i.e. title. http://www.dojotoolkit.org/book/dojo-book-0-9/part-3-programmatic-dijit-and-dojo/i18n/globalization-guidelines/encoding-guideli#textfiles #}
+		{% block _dojango_meta_content_lang %}{% endblock %}
+
+		<title>Lighthouse Search</title>
+
+
+		{% block _dojango_dojo_styles %}
+			<style type="text/css">
+				@import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
+				@import "{{ DOJANGO.THEME_CSS_URL }}";
+			</style>
+		{% endblock %}
+
+
+		<script type="text/javascript">
+			{# baseUrl setting is needed, if you want to combine a local with a remote build! #}
+			{% block _dojango_dj_config %}
+				var djConfig = {
+					'isDebug':{{ DOJANGO.DEBUG|json }},
+					'parseOnLoad':true,
+					'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
+					{% if not DOJANGO.IS_LOCAL %}
+						,'dojoBlankHtmlUrl':
+						"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+						,'dojoIframeHistoryUrl':
+						"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+					{% endif %}
+					{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+						,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 
+						'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': 
+						'{{ DOJANGO.DOJOX_URL }}'}
+					{% endif %}
+				};
+			{% endblock %}
+		</script>
+	
+
+		{% block _dojango_post_dj_config %}
+		{# don't use this block, it is used by base_i18n.html #}
+		{% endblock %}
+	
+	
+		{% block dojango_post_dj_config %}
+		{# if you want to manipulate djConfig stuff #}
+			<script>djConfig.parseOnLoad = false;</script>
+		{% endblock %}
+	
+	
+		<script type="text/javascript" src="{{ DOJANGO.DOJO_SRC_FILE }}">
+		</script>
+	
+
+		{# for a locally built version dojango should already be included #}
+		{% if not DOJANGO.IS_LOCAL_BUILD %}
+			<script type="text/javascript" src="{{ DOJANGO.DOJANGO_SRC_FILE }}">
+			</script>
+		{% endif %}
+
+	
+		{% block dojango_header_extra %}
+		<style type="text/css">
+			html, body {
+				height: 100%;
+				width: 100%;
+				padding: 0;
+				border: 0;
+			}
+			#main {
+				height: 100%;
+				width: 100%;
+				padding: 0;
+				border: 0;
+			}
+			#leftAccordion {
+				width: 65%;
+				font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif;
+				font-size:16px;
+			}
+			#bottomTabs {
+				height: 15%;
+			}
+			#main .dijitSplitterH {
+				height: 7px
+			}
+			#main .dijitSplitterV {
+				width: 7px
+			}
+			/* pre-loader specific stuff to prevent unsightly flash of unstyled
+			 content */
+			#loader {
+				padding:0;
+				margin:0;
+				position:absolute;
+				top:0;
+				left:0;
+				width:100%;
+				height:100%;
+				background:#ededed;
+				z-index:999;
+				vertical-align:center;
+			}
+			#loaderInner {
+				padding:5px;
+				position:relative;
+				left:0;
+				top:0;
+				width:275px;
+				background:#3c3;
+				color:#fff;
+			}
+			hr.spacer {
+				border:0;
+				background-color:#ededed;
+				width:80%;
+				height:1px;
+			}
+			/* for custom menu buttons, do not appear to have any effect */
+			.myCustomTheme .dijitButtonNode {
+				border:1px solid #000;
+				vertical-align: middle;
+				padding: 0.2em 0.2em;
+				background: url("themeTesterImages/blackButtonEnabled.gif")
+				repeat-x bottom left #474747;
+				color: blue;
+			}
+			.myCustomTheme .dijitButtonHover .dijitButtonNode, .myCustomTheme
+			.dijitToggleButtonHover .dijitButtonNode {
+				background: url("themeTesterImages/blackButtonHover.gif")
+				repeat-x bottom left #3b3b3b !important;
+
+
+			}
+
+
+			/* table for displaying search result */
+			#table_main
+			{
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				font-size: 12px;
+				margin: 0px;
+				width: 480px;
+				text-align: left;
+				border-collapse: collapse;
+				/*background: url("{{ MEDIA_URL }}DSC03338.jpg") no-repeat;*/
+			}
+			#table_main th
+			{
+				font-size: 14px;
+				font-weight: normal;
+				padding: 10px 8px;
+				color: #039;
+			}
+			#table_main td
+			{
+				padding: 8px;
+				color: #669;
+			}
+
+			/* box for dispalying the routine information */
+			 .box {
+			    margin-top: 10px;
+			    color: #292929;
+			    width: 90%;
+			    border: 1px solid #BABABA;
+			    background-color: #ddd;
+			    padding-left: 10px;
+			    padding-right: 10px;
+			    margin-left: 10px;
+			    margin-bottom: 1em;
+			    -o-border-radius: 10px;
+			    -moz-border-radius: 12px;
+			    -webkit-border-radius: 10px;
+			    -webkit-box-shadow: 0px 3px 7px #adadad;
+			    border-radius: 10px;
+			    -moz-box-sizing: border-box;
+			    -opera-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    -khtml-box-sizing: border-box;
+			    box-sizing: border-box;
+			    overflow: hidden;
+			}
+
+
+			/* Table: Horizontal Zebra */
+			#hor-zebra
+			{
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				font-size: 12px;
+				margin: 15px;
+        			/*width: 720px;*/
+				text-align: left;
+				border-collapse: collapse;
+			}
+			#hor-zebra th
+			{
+				font-size: 12px;
+				font-weight: normal;
+				padding: 10px 8px;
+				color: #039;
+				background: #98AFC7;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+				border-left: 1px solid #ccc;
+			}
+			#hor-zebra td
+			{
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+				border-left: 1px solid #ccc;
+				padding: 8px;
+				color: #669;
+			}
+			#hor-zebra .odd
+			{
+				background: #e8edff; 
+			}
+
+
+
+			/* Table: Vertical Zebra */
+			#ver-zebra
+			{
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				font-size: 12px;
+				margin: 15px;
+				//width: 480px;
+				text-align: left;
+				border-collapse: collapse;
+			}
+			#ver-zebra th
+			{
+				font-size: 12px;
+				font-weight: normal;
+				padding: 12px 15px;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #fff;
+				color: #039;
+				background: #ACC3DB;
+				border-top: 1px solid #fff;
+				border-bottom: 1px solid #fff;
+
+			}
+			#ver-zebra td
+			{
+				padding: 8px 15px;
+				border-right: 1px solid #fff;
+				border-left: 1px solid #fff;
+				color: #669;
+				border-top: 1px solid #fff;
+				border-bottom: 1px solid #fff;
+			}
+			.vzebra-odd
+			{
+				background: #F5FFEA;
+
+			}
+			.vzebra-even
+			{
+				background: #eff2ff;
+
+			}
+			#ver-zebra #vzebra-adventure, #ver-zebra #vzebra-children
+			{
+				background: #d0dafd;
+				border-bottom: 1px solid #c8d4fd;
+
+			}
+			#ver-zebra #vzebra-comedy, #ver-zebra #vzebra-action
+			{
+				background: #dce4ff;
+				border-bottom: 1px solid #d6dfff;
+			}
+
+
+
+		</style>
+		<script type="text/javascript">
+			window.__globalList = {
+				dojo: true,
+				dijit: true,
+				dojox: true,
+				djConfig: true
+			};
+			for(var i in window) {
+				window.__globalList[i] = true;
+			}
+		</script>
+		{% endblock %}
+	</head>
+{% endspaceless %}
+
+
+
+{% block dojango_body %}
+	<body class="{{ DOJANGO.THEME }}">
+	<!-- basic preloader: -->
+	<div id="loader">
+		<div id="loaderInner">
+			Loading themeTester:
+		</div>
+	</div>
+
+	<!-- "main" BorderContainer just contains page title and another 
+		BorderContainer -->
+	<div id="main" dojoType="dijit.layout.BorderContainer">
+
+		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">
+			Lighthouse
+		</h1>
+
+		<!-- "mainSplit" BorderContainer has all the real content -->
+		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" 
+			design="sidebar" region="center" id="mainSplit">
+
+			<div dojoType="dijit.layout.AccordionContainer" duration="200"
+				minSize="100" style="width: 500px;" id="leftAccordion" 
+				region="leading" splitter="true">
+
+				<!-- decision tree -->
+				<div dojoType="dijit.layout.AccordionPane" title="Routine Search" selected=tabContainer.selectedChildWidget>
+					<table>
+					<tr><td>
+
+				 	<form action="/search/" method="get">
+					<input type="text" name="q">
+				 		<button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
+						title="Search String">
+						Search
+						</button>
+				    		</form>
+					</td>
+					<td>
+					<form action="/search-form/">
+						<button dojoType="dijit.form.Button" type="submit" name="simple" id="simpleButton"
+						title="Click for Simple Search">
+						Simple Search
+						</button>
+						</form>
+					</td>
+					<td>
+					<form action="/advanced-search/">
+						<button dojoType="dijit.form.Button" type="submit" name="advanced" id="advancedButton"
+						title="Click for Advanced Search">
+						Advanced Search
+						</button>
+						</form>
+					</td></tr>
+					</table>				
+					{% block dojango_content_questions %}{% endblock %}
+
+{% comment %}
+					<!-- ########### decision tree search result: ###########-->
+					{% load highlight %}
+					{% if results %}
+					<TABLE id='table_main'>
+					{% for key, value in results.items %}
+					<TR>
+					<TH>Lighthouse found <strong>{{ value|length }}</strong> "{{ key }}" routine{{ value|pluralize }} for you:</TH>
+ 					</TR>
+					{% endfor %}
+					{% for key, value in results.items %}
+					{% for routine in value %}	
+					<TR> <TD>
+					<dl>
+					  <dt style="font-weight: bold;">{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}</dt>
+					  <dd>{% highlight routine.info with "Purpose" %}<a href="{{ routine.url }}" target="_blank">more</a>
+						<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
+						<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
+						<div id="animDiv" class="box">
+						{{ item.info }}
+						</div-->
+					  <dd>
+					  <table style="display:none;" id={{ routine.id }} width="80%" border = "1">
+						<a href="javascript:void();" onclick="show_hide({{ routine.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
+</a>
+				    	     <tr>
+					     <th>Precision</th>
+					     <th>Routine Name</th>
+					     <th>Matrix Type</th>
+					     <th>Storage</th>
+					     </tr>
+
+					     <tr>
+					     <td>{{ routine.thePrecision }}</td>
+					     <td>{{ routine.routineName }}</td> 
+					     <td>{{ routine.matrixType }}</td> 
+					     <td>{{ routine.structureType }}</td>      
+				 	     </tr>
+					  </table>
+					  </dd> 
+					</dl>
+					</TD> </TR>
+					{% empty %}
+					{% endfor %}
+					{% endfor %}
+					</TABLE> 
+					{% endif %}
+					<!-- ########### end decision tree search result: ###########-->
+{% endcomment %}
+				</div><!-- end decision tree -->
+
+
+{% comment %}
+				<!-- general search -->
+				<div dojoType="dijit.layout.AccordionPane" title="General Search" selected="true >
+				<h2>Please enter a word or phrase:</h2>  
+
+				    <form action="/search/" method="get">
+					<input type="text" name="q">
+				 	<button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
+					title="Search String">
+					Search
+					</button>
+				    </form>
+
+								<!--/th>
+								<th colspan="2" align="center">
+								<button dojoType="dijit.form.Button" 
+								type="submit" name="clear" id="clearButton"
+								title="Click to clear the search result">
+									Clear
+								</button >
+								</th>
+							</tr>
+						</table>
+					</form>
+					<!-- ########### general search result: ###########-->
+					{% block dojango_content2 %}{% endblock %}
+					<!-- ########### end general search result: ###########-->
+
+				</div><!-- end general search -->
+{% endcomment %}
+			</div><!-- end AccordionContainer -->
+
+
+			<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
+			<div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
+{% comment %}
+				<!-- first upper tab -->
+				<div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result"
+				style="padding:10px; display:none;">
+
+					{% load highlight %}
+					{% if results %}
+					<TABLE id='table_main'>
+					{% for key, value in results.items %}
+					<TR>
+					<TH>Lighthouse found <strong>{{ value|length }}</strong> "{{ key }}" routine{{ value|pluralize }} for you:</TH>
+ 					</TR>
+					{% endfor %}
+					{% for key, value in results.items %}
+					{% for routine in value %}	
+					<TR> <TD>
+					<dl>
+					  <dt style="font-weight: bold;">{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}</dt>
+					  <dd>{% highlight routine.info with "Purpose" %}<a href="{{ routine.url }}" target="_blank">more</a>
+						<!--button dojoType="dijit.form.Button" onClick="doAnimation(1);">Wipe Out</button>
+						<button dojoType="dijit.form.Button" onClick="doAnimation(2);">Wipe In</button></dd>
+						<div id="animDiv" class="box">
+						{{ item.info }}
+						</div-->
+					  <dd>
+					  <table style="display:none;" id={{ routine.id }} width="80%" border = "1">
+						<a href="javascript:void();" onclick="show_hide({{ routine.id }})"><img src="{{ MEDIA_URL }}smile.jpg" width="20" height="20" />
+</a>
+				    	     <tr>
+					     <th>Precision</th>
+					     <th>Routine Name</th>
+					     <th>Matrix Type</th>
+					     <th>Storage</th>
+					     </tr>
+
+					     <tr>
+					     <td>{{ routine.thePrecision }}</td>
+					     <td>{{ routine.routineName }}</td> 
+					     <td>{{ routine.matrixType }}</td> 
+					     <td>{{ routine.structureType }}</td>      
+				 	     </tr>
+					  </table>
+					  </dd> 
+					</dl>
+					</TD> </TR>
+					{% empty %}
+					{% endfor %}
+					{% endfor %}
+					</TABLE> 
+					{% endif %}
+					
+				</div><!-- end:first upper tab -->
+
+{% endcomment %}
+				<!-- second tab -->
+				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script""
+				style="padding:10px;display:none; ">
+					<textarea dojoType="dijit.form.SimpleTextarea" id="scriptArea" rows="30" cols="100" 
+					align="left" title="Enter or drop commands here">
+					Type your script here!
+					</textarea>
+				</div><!-- end second tab -->
+
+
+				<!-- start third upper tab -->
+				<!-- div id="tab3" dojoType="dijit.layout.ContentPane" 
+				title="Expert"
+				style="padding:10px; display:none;  ">
+				</div><!-- end third upper tab-->
+			</div><!-- end of region="center" TabContainer -->
+
+
+			<!-- bottom right tabs -->
+			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
+			tabPosition="top" selectedChild="btab1"
+			region="bottom" splitter="true">
+
+				<!-- btab 1 -->
+				<!-- div id="btab1" dojoType="dijit.layout.ContentPane" 
+				title="Run" style=" padding:10px; "
+				style="height: auto;">
+					<!-- table>
+						<tr>
+							<th colspan="2" align="center">
+							<button dojoType=dijit.form.Button 
+							title="Click to run script"
+							type="submit" name="run">
+								Run
+							</button>
+							</th>
+						</tr>
+					</table>
+				</div><!-- end btab1 -->
+				<!-- btab 2 -->
+				<!-- div id="btab2" dojoType="dijit.layout.ContentPane" 
+				title="Export" style=" padding:10px; "
+				style="height: auto;">
+					<table>
+						<tr>
+							<th colspan="2" align="center">
+							<button dojoType=dijit.form.Button 
+							title="Click to run script"
+							type="submit" name="export">
+								Export
+							</button>
+							</th>
+						</tr>
+					</table>
+				</div><!-- end btab2 -->
+				<!-- btab3 -->
+				<div id="btab3" dojoType="dijit.layout.ContentPane" 
+				title="Authors" style="padding:20px;">
+					<span  id="themeData"></span>
+				</div>
+				<!-- end btab3 -->
+			</div><!-- end Bottom TabContainer -->
+		</div> <!-- end of "mainSplit" BorderContainer -->
+	</div><!-- end of "main" BorderContainer -->
+
+
+	<!-- dialog in body -->
+	<div id="dialog1" dojoType="dijit.Dialog" title="Floating Modal Dialog" 
+	style="display:none;" href="{{ DOJANGO.DIJIT_URL }}/tests/layout/doc0.html">
+	</div>
+
+	<div id="dojangoDialog" dojoType="dijit.Dialog" 
+	title="Welcome to Lighthouse" 
+	style="text-align:center;">
+		<h1 style="font-size:2em; font-weight:bold;">
+			Congratulations, Lighthouse is running!</h1>
+		<img src="{{ DOJANGO.DOJANGO_URL }}/resources/dojango_logo.jpg" 
+		height="150" style="margin:4em;" />
+		<br />
+		Press ESC to close dialog, or
+		<br />
+		<button dojoType="dijit.form.Button" 
+		onclick="dijit.byId('dojangoDialog').hide()">
+			Close dialog
+		</button>
+	</div>
+
+	<script type="text/javascript">
+		// dojo.requires()
+
+		var loadingEl = dojo.byId("loaderInner");
+
+		loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
+		dojo.require("dijit.Menu");
+		// dojo.require("dijit.Calendar");
+		// dojo.require("dijit._Calendar");
+		dojo.require("dijit.ColorPalette");
+		dojo.require("dijit.ProgressBar");
+		dojo.require("dijit.TitlePane");
+		dojo.require("dijit.Tooltip");
+		dojo.require("dijit.Tree");
+		loadingEl.innerHTML += "<br />* Tree widget - dijit.Tree";
+
+		// editor:
+		loadingEl.innerHTML += "<br />* Rich text editor - dijit.Editor";
+		dojo.require("dijit.Editor");
+
+		// dnd:
+		loadingEl.innerHTML += "<br />* Drag and drop library - dojo.dnd";
+		dojo.require("dojo.dnd.Source");
+
+		// various Form elemetns
+		loadingEl.innerHTML += "<br />* Form widgets - dijit.form";
+		dojo.require("dijit.form.CheckBox");
+		dojo.require("dijit.form.Textarea");
+		dojo.require("dijit.form.FilteringSelect");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.DateTextBox");
+		dojo.require("dijit.form.TimeTextBox");
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.InlineEditBox");
+		dojo.require("dijit.form.NumberSpinner");
+		dojo.require("dijit.form.Slider");
+		// dojo.require("HorizontalSlider");
+		// dojo.require("VerticalRule");
+
+		// layouts used in page
+		loadingEl.innerHTML += "<br />* Layout engine widgets - dijit.layout";
+		dojo.require("dijit.layout.AccordionContainer");
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.BorderContainer");
+		loadingEl.innerHTML += "<br />* Dialog widgets - dijit.Dialog";
+		dojo.require("dijit.Dialog");
+
+		// scan page for widgets and instantiate them
+		dojo.require("dojo.parser");
+
+		// humm?
+		dojo.require("dojo.date.locale");
+
+		// for the Tree
+		loadingEl.innerHTML +=
+		"<br />* Dojo server data interfaces - dojo.data stores";
+		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dojox.data.QueryReadStore");
+
+		// for the colorpalette
+		function setColor(color) {
+			var theSpan = dojo.byId("outputSpan");
+			dojo.style(theSpan,"color",color);
+			theSpan.innerHTML = color;
+		}
+
+		// for the calendar
+		function myHandler(id,newValue) {
+			console.debug("onChange for id = " + id + ", value: " + newValue);
+		}
+
+		dojo.addOnLoad( function() {
+
+			// this is just a list of 'official' dijit themes, you can use
+			// ?theme=String for 'un-supported' themes, too. (eg: yours)
+			var availableThemes = [{
+				theme:"1",
+				author:"Sa-Lin Cheng Bernstein",
+				baseUri:"../themes/"
+			},{
+				theme:"2",
+				author:"Elizabeth R. Jessup",
+				baseUri:"../themes/"
+			},{
+				theme:"3",
+				author:"Boyana Norris",
+				baseUri:"../themes/"
+			}
+
+			];
+
+			var holder = dojo.byId('themeData');
+			var tmpString='';
+			dojo.forEach(availableThemes, function(theme) {
+				tmpString += '<a href="?theme='+theme.theme+'">'+
+				theme.theme+'</'+'a>: '+theme.author+' <br>';
+			});
+			holder.innerHTML = tmpString;
+
+			var start = new Date().getTime();
+			dojo.parser.parse(dojo.byId('container'));
+			console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
+
+			//dijit.byId("dojangoDialog").show();
+
+			dojo.byId('loaderInner').innerHTML += " done.";
+			setTimeout( function hideLoader() {
+				var loader = dojo.byId('loader');
+				dojo.fadeOut({
+					node: loader,
+					duration:500,
+					onEnd: function() {
+						loader.style.display = "none";
+					}
+				}).play();
+			}, 250);
+			var strayGlobals = [];
+			for(var i in window) {
+				if(!window.__globalList[i]) {
+					strayGlobals.push(i);
+				}
+			}
+			if(strayGlobals.length) {
+				console.warn("Stray globals: "+strayGlobals.join(", "));
+			}
+		});
+
+
+		//for showing the table in the search result
+		function show_hide(tblid, show) {
+		if (tbl = document.getElementById(tblid)) {
+		if (null == show) show = tbl.style.display == 'none';
+		tbl.style.display = (show ? '' : 'none');
+		}
+		}
+
+		//for showing the routine information
+  		dojo.require("dojo.fx");
+  		var wipeOut = dojo.fx.wipeOut({node: "animDiv",duration: 1000});
+  		var wipeIn = dojo.fx.wipeIn({node: "animDiv",duration: 1000});
+  		var currentAnimation;
+
+		function doAnimation(index) {
+		    switch(index) {
+		      case 1:
+			currentAnimation = wipeOut;
+			break;
+		      case 2: 
+			currentAnimation = wipeIn;
+			break;
+			}
+		  //Play the animation. Without this call, it will not run.
+		    currentAnimation.play();
+ 		}
+
+
+
+		function disableRadiobuttons() {
+		    length = document.question_prob.length;
+		    for (i=0; i<length; i++)
+			{
+			    if (document.question_prob[i].type == "radio")
+				document.question_prob[i].disabled = "disabled";
+			}
+		}
+
+
+		
+		function disableCheckboxes() {
+		    length = document.question_prob.length;
+		    for (i=0; i<length; i++)
+			{
+			    if (document.question_prob[i].type == "checkbox")
+				document.question_prob[i].disabled = "disabled";
+			}
+		}
+
+		
+		function disableComplex(dict) {
+		   length = document.question_comp.length;
+		   for (i=0; i<length; i++)
+			{
+			    if (document.question_comp[i].value != dict)
+				document.question_comp[i].disabled = "disabled";
+			}
+		}
+
+	</script>
+
+
+    	{% block dojango_require %}
+        	<script type="text/javascript">
+        		{% for require in DOJANGO.COLLECTOR %}
+        			{% spaceless %}
+        				dojo.require("{{ require }}");
+        			{% endspaceless %}
+        		{% endfor %}		
+        	</script>
+        {% endblock %}
+    </body>
+{% endblock %}
+
+</html>
