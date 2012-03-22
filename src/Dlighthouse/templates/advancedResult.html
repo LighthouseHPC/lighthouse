@@ -1,0 +1,198 @@
+{% extends "dojango/base.html" %}
+{% load highlight %}
+
+
+
+{% block dojango_content_advancedSearch %}
+<h2 align="center"><font color="orange">Advanced Search</font></h2>
+<!-- ########### Advanced Search: Display Checked Items ###########-->
+
+
+<TABLE id='ver-zebra'>
+
+<!-- Colgroup -->
+<colgroup>
+	<col class="vzebra-odd">
+	<col class="vzebra-even">
+	<col class="vzebra-odd">
+	<col class="vzebra-even">
+</colgroup>
+
+<!-- Table Header -->
+<thead>
+<tr>
+<th scope="col"><b>Routine Category</b></th>
+{% for item in Question_advanced %}
+<th><b>{{ item }}</b></th>
+{% endfor %}
+</tr>
+</thead>
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Description</b></font></td>
+{% for item in GETS %}
+{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
+<td>Solve a system of linear equations <ul>
+{% for choice in DescriptionGETS.0.field.choices %}
+  <li>
+    <input type="checkbox" name="LinearEquation_expertDescription" value="{{choice.0}}"
+      {% if choice.0 in selected_Description  %}
+         checked="checked"
+      {% endif %}/>
+    <label for="">{{choice.1|safe}}</label>
+  </li>
+{% endfor %}
+</ul><i>and</i></td>
+{% else %}
+<td>{{ item.Description }}</td>
+{% endif %}
+{% endfor %}
+</tr>
+
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Function</b></font></td>
+{% for item in FunctionGETS %}
+<td>{{ item }}</td>
+{% endfor %}
+</tr>
+
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Complex Numbers</b></font></td>
+{% for item in ComplexGETS %}
+<td>{{ item }}</td>
+{% endfor %}
+</tr>
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Matrix Type</b></font></td>
+{% for item in MatrixTypeGETS %}
+<td>{{ item }}</td>
+{% endfor %}
+</tr>
+
+
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Storage</b></font></td>
+{% for item in StorageTypeGETS %}
+<td>{{ item }}</td>
+{% endfor %}
+</tr>
+
+</tr>
+
+<tr>
+<td bgcolor="#ACC3DB"><font color="#039"><b>Precision</b></font></td>
+{% for item in PrecisionGETS %}
+<td>{{ item }}</td>
+{% endfor %}
+</tr>
+
+</tr>
+</TABLE>
+
+
+<TABLE align="right">
+<TR>
+<TD>
+<form action="/index/">
+	<button type="submit" name="clear" id="clearButton"
+	title="Click to clear the search result">
+	Clear
+	</button>
+</form>
+</TD>
+</TR>
+</TABLE> 
+
+{% endblock %}
+<!-- ########################################################################################################## -->
+
+
+
+
+
+<!-- ########### Advanced Search Result: ###########-->
+
+{% block dojango_content_search_result %}
+
+{% for model, value in Results.items %}
+<TABLE id='table_main'>
+<TR>
+<TH >{{ model|cut:"LinearEquation_"|upper }}:</TH>
+</TR>
+<TR>
+	<table id='hor-zebra' width="80%">
+	<tr>
+	<th>Description</th> 
+	<th>Function</th>
+	<th>Complex Numbers</th>
+	<th>Matrix Type</th>
+	<th>Storage Type</th>
+	<th>Precision</th>  
+	<th>Routine</th>
+	</tr>
+
+	{% for list in value %}
+	{% if forloop.counter|divisibleby:2 %}		
+	<tr>
+	<td>{{ list.items.1.1|safe }}</td>
+	<td>{{ list.items.0.1 }}</td>
+	<td>{{ list.items.2.1 }}</td>
+	<td>{{ list.items.3.1 }}</td>
+	<td>{{ list.items.6.1 }}</td>
+	<td>{{ list.items.4.1 }}</td>
+	<td> {% if list.items.5.1 %}
+		{% for routine in list.items.5.1 %}
+		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+	    	{% endfor %}
+	     {% else %}
+		N/A
+	     {% endif %}	
+	</td> 
+	</tr>
+	{% else %}
+	<tr class='odd'>
+	<td>{{ list.items.1.1|safe }}</td>
+	<td>{{ list.items.0.1 }}</td>
+	<td>{{ list.items.2.1 }}</td>
+	<td>{{ list.items.3.1 }}</td>
+	<td>{{ list.items.6.1 }}</td>
+	<td>{{ list.items.4.1 }}</td>
+	<td> {% if list.items.5.1 %}
+		{% for routine in list.items.5.1 %}
+		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+	    	{% endfor %}
+	     {% else %}
+		N/A
+	     {% endif %}	
+	</td> 
+	</tr>
+	{% endif %}
+	{% endfor %}
+	</table>
+</TR> 
+</TABLE> 
+<br></br>
+{% endfor %}
+
+{% endblock %}
+
+
+
+
+{% comment %}
+ There is a bug in {% cycle ... %} 
+{% endcomment %}
+
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_simpleSearch %}
+{% include "simpleSearch.html" %}
+{% endblock %}
+

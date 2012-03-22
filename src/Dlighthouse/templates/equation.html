@@ -1,7 +1,7 @@
 {% extends "dojango/base.html" %}
 
 
-{% block dojango_content_questions %}
+{% block dojango_content_simpleSearch %}
 <h2 align="center"><font color="blue">Guided Search</font></h2>
 <!-- ########### Questions 1, 2, & 3 answered, Question 4 asked: ###########-->
 <tr><th><label for="id_question_prob">Which of the following functions do you wish to execute?</label></th>
@@ -13,51 +13,17 @@
 
 
 
-{% if query_equa != 0 %} 
+
 <tr><th><label for="id_question_equa">What form of the linear system do you want to solve?</label></th>
 <ul>
   <li>{{ query_equa|safe }}</li>
 </ul>
 
-<tr><th><label for="id_question_fact">Is your matrix factorized?</label></th>
-<ul>
-  <li>{{ query_fact }}</li>
-</ul>
 
 
-
-<tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
-<ul>
-  <li>{{ query_comp }}</li>
-</ul>
-
-
-<tr><th><label for="id_question_zero">What is the type of your matrix?</label></th>
-<ul>
-  <li>{{ query_type }}</li>
-</ul>
-
-
-
-
-{% else %}
-<tr><th><label for="id_question_comp">Are there complex numbers in your matrix?</label></th>
-<ul>
-  <li>{{ query_comp }}</li>
-</ul>
-
-<tr><th><label for="id_question_zero">What is the type of your matrix?</label></th>
-<ul>
-  <li>{{ query_type }}</li>
-</ul>
-
-
-{% endif %}
-
-
-
-<form action="/search/problem/complex/matrixtype/storage/" name="frmStor" method="get">
+<form action="/search/problem/equation/factor/" name="frmComp" method="get">
 <p>{{ form.as_ul }}</p>
+
 <TABLE align="right">
 <TR>
 <TD>
@@ -77,7 +43,6 @@
 </TD>
 </TR>
 </TABLE>
-
 {% endblock %}
 <!-- ########################################################################################################## -->
 
@@ -90,7 +55,8 @@
 {% endblock %}
 
 <!-- ########### Advanced search questions: ###########-->
-{% block dojango_content_advanced_questions %}
-{% include "advanced_search.html" %}
+
+{% block dojango_content_advancedSearch %}
+{% include "advancedSearch.html" %}
 {% endblock %}
 
