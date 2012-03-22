@@ -58,40 +58,41 @@ def search_forms(request):
 #or 
 #Question_complex: Are there complex numbers in your matrix? 
 def search_problem(request):
-	form_Prob = ProblemForm(request.GET or None)
-	request.session['Question_problem'] = []
-	request.session['queries'] = []
+        form_Prob = ProblemForm(request.GET or None)
+        request.session['Question_problem'] = []
+        request.session['queries'] = []
 
-	if form_Prob.is_valid():
-		selected = form_Prob.cleaned_data['question_prob']
-		for answer in selected:
-			request.session['Question_problem'].append((answer, ProblemForm().find(answer))) 
+        if form_Prob.is_valid():
+                selected = form_Prob.cleaned_data['question_prob']
+                for answer in selected:
+                        request.session['Question_problem'].append((answer, ProblemForm().find(answer))) 
 
-		appName = selected[0].split()[0]
-		modelName = selected[0].split()[1]
-		for item in selected:
-			request.session['queries'].append(Q(notes__icontains=item.split()[2]))
+                appName = selected[0].split()[0]
+                modelName = selected[0].split()[1]
+                for item in selected:
+                        request.session['queries'].append(Q(notes__icontains=item.split()[2]))
 
-		request.session['Routines'] = get_model(appName,modelName).objects.filter(combine_Q(request.session['queries']))	
+                request.session['Routines'] = get_model(appName,modelName).objects.filter(combine_Q(request.session['queries']))        
 
-		if appName == 'Driver' or appName == 'Combine':
-			form = EquationForm()
-			action = '/search/problem/equation/'
-	
-		else:
-			form = ComplexForm()
-			action = '/search/problem/complex/'
-			request.session['Question_equation']=[0, 0]
-			request.session['Question_factor']=[0, 0]	
+                if appName == 'Driver' or appName == 'Combine':
+                        form = EquationForm()
+                        action = '/search/problem/equation/'
+        
+                else:
+                        form = ComplexForm()
+                        action = '/search/problem/complex/'
+                        request.session['Question_equation']=[0, 0]
+                        request.session['Question_factor']=[0, 0]       
 
-		context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
-		#return render_to_response('problem.html', context_instance=RequestContext(request, context))
-		return redirect('http://google.com/')
-			
+                context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
+                return render_to_response('problem.html', context_instance=RequestContext(request, context))
+                        
 
-	else:
-		context = {'form': ProblemForm()}
-		return render_to_response('index.html', context_instance=RequestContext(request, context))
+        else:
+                context = {'form': ProblemForm()}
+                return render_to_response('search_form.html', context_instance=RequestContext(request, context))
+
+
 
 
 
@@ -318,7 +319,7 @@ def advancedsearch(request):
     form = AdvancedForm()	
     context = {'form': form}
 
-    return render_to_response('advanced_search.html', context_instance=RequestContext(request, context))
+    return render_to_response('advancedSearch.html', context_instance=RequestContext(request, context))
 
 
 
@@ -378,12 +379,12 @@ def advancedsearchform(request):
 			request.session['Precision'].append(form[answer.split()[1][:-4]+"Precision"])
 				
 		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 'StorageType':request.session['StorageType'], 'Precision': request.session['Precision']}
-		return render_to_response('advanced_form.html', context_instance=RequestContext(request, context))
+		return render_to_response('advancedForm.html', context_instance=RequestContext(request, context))
 
 	else:
    		form = AdvancedForm()	
     		context = {'form': form}
-    		return render_to_response('advanced_search.html', context_instance=RequestContext(request, context))
+    		return render_to_response('advancedSearch.html', context_instance=RequestContext(request, context))
 
 
 
@@ -442,7 +443,7 @@ def advancedresult(request):
 		
 			
 	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'], 'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'], 'PrecisionGETS': request.session['PrecisionGETS'], 'DescriptionGETS': request.session['DescriptionGETS'], 'selected_Description': selected_Description, 'Results': request.session['Results']}
-	return render_to_response('advanced_result.html', context_instance=RequestContext(request, context))
+	return render_to_response('advancedResult.html', context_instance=RequestContext(request, context))
 
 #	else:
 #   		form = AdvancedForm()	
@@ -455,11 +456,7 @@ def advancedresult(request):
 
 
 
-def runscript(request):
 
-  #result
-  #context = {'thecode': 
-  pass
 
 
 
