@@ -15,13 +15,15 @@
      
 
 
-<form action= {{ Action }} name="frmProblem" method="get">
+
 {% if Action == '/search/problem/complex/' %}
+<form action= {{ Action }} name="frmComp" method="get">
         <p>
             {{ form.as_ul }}
         <p>
 
 {% else %}
+<form id=="frmEqua" action= {{ Action }} name="frmEqua" method="get">
 	<tr><th><label for="id_question_equa_0">What form of the linear system do you want to solve?</label><img src="{{ MEDIA_URL }}question.png" width="20" height="20" /></th><td><ul>
 	{% for choice in form.question_equa.field.choices %}
 	  <li>

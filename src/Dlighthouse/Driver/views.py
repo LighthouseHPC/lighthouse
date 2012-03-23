@@ -90,7 +90,7 @@ def search_problem(request):
 
         else:
                 context = {'form': ProblemForm()}
-                return render_to_response('search_form.html', context_instance=RequestContext(request, context))
+                return render_to_response('index.html', context_instance=RequestContext(request, context))
 
 
 
