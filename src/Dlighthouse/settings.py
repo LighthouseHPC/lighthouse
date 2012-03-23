@@ -178,7 +178,7 @@ INSTALLED_APPS = (
     'haystack',
     'dojango',
     'dajaxice',
-    'dajax',
+    #'dajax',
     
 )
 

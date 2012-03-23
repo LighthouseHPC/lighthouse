@@ -48,7 +48,7 @@
 		{% dajaxice_js_import %}
 
                 <script type="text/javascript">
-                        {# baseUrl setting is needed, if you want to combine a local with a remote build! #}
+                        // baseUrl setting is needed, if you want to combine a local with a remote build!
                         {% block _dojango_dj_config %}
                                 var djConfig = {
                                         'isDebug':{{ DOJANGO.DEBUG|json }},
@@ -104,7 +104,12 @@
 
 
                 {% block dojango_header_extra %}
+			
+		{# for dajx prototype
 		{% include "dajaxDojo.html" %}
+		#}
+		
+		
 		{% include "style.html" %}
                 <script type="text/javascript">
                         window.__globalList = {
