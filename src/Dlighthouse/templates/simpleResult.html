@@ -12,7 +12,7 @@
 	<div class="dojoDndItem" id="dojoDndItem">
 		<h3 style="color: #669;">{{ item.thePrecision|upper }}{{ item.routineName|upper }}</h3>
 		<p>{% highlight item.info with "Purpose" %}
-			<button dojoType="dijit.form.Button" onClick="dijit.byId('{{ item.id }}').show()">more</button>
+			<button dojoType="dijit.form.Button" onmouseover="dijit.byId('{{ item.id }}').show()">more</button>
 		</p>
 				<div class="dijitHidden">
 				<div dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}" id={{ item.id }}>
