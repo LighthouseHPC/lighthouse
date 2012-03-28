@@ -1,4 +1,43 @@
 <script type="text/javascript">
+	// for displaying help info
+	var tooltipDialog;
+	
+	function showHelpInTooltipDialog(node, Title) {
+		if (!tooltipDialog) {
+			var htmlFragment = '<div></div>';
+			htmlFragment += '<div id="helpTwo" style="background-color:#FFFFD6;">'+
+					'<iframe width="500px" height="300px" src="http://127.0.0.1:8000/media/Help/'+Title +'"'+'>'+
+					'</iframe>'+
+					'</div>';
+	
+			// CREATE TOOLTIP DIALOG
+			tooltipDialog = new dijit.TooltipDialog({
+				content: htmlFragment,
+				autofocus: !dojo.isIE, // NOTE: turning focus ON in IE causes errors when reopening the dialog
+				refocus: !dojo.isIE
+			});
+		 
+			// DISPLAY TOOLTIP DIALOG AROUND THE CLICKED ELEMENT
+			dijit.popup.open({ popup: tooltipDialog, around: node });
+			tooltipDialog.opened_ = true;
+			//node.innerHTML = "Hide";	
+		}
+		      
+		else {
+			if (tooltipDialog.opened_) {
+				dijit.popup.close(tooltipDialog);
+				tooltipDialog.opened_ = false;
+				//node.innerHTML = "Show";
+			}
+			else {
+				dijit.popup.open({ popup: tooltipDialog, around: node });
+				 tooltipDialog.opened_ = true;
+				//node.innerHTML = "Hide";
+			}
+		}
+	}
+	
+	
 	// for the colorpalette
 	function setColor(color) {
 		var theSpan = dojo.byId("outputSpan");
@@ -70,10 +109,10 @@
 
 	// showing/hiding the table in the search result by clicking the image
 	function show_hide(tblid, show) {
-	if (tbl = document.getElementById(tblid)) {
-	if (null == show) show = tbl.style.display == 'none';
-	tbl.style.display = (show ? '' : 'none');
-	}
+		if (tbl == document.getElementById(tblid)) {
+			if (null == show) show = tbl.style.display == 'none';
+			tbl.style.display = (show ? '' : 'none');
+		}
 	}
 
 
@@ -101,7 +140,7 @@
 
 
 	
-	// disable THE OTHER radiobutton in the "complex numbers" question
+	// disable THE OTHER radiobutton in the "complex numbers" question --> NOT working yet!
 	function disableComplex(dict) {
 	   length = document.frmComp.length;
 	   for (i=0; i<length; i++)
@@ -119,33 +158,15 @@
 		if (location.pathname == '/advanced/form/' || location.pathname == '/advanced/result/' ) {
 			dijit.byId('leftTab').selectChild(dijit.byId('advancedSearch'));
 		}
-		console.log(location.pathname);
+		//console.log(location.pathname);
 	});	
 
 
-
+/*
 	//dajaxice functions for "help" infomation
 	function callback_linearEquationHelp(data){
 		alert(data.message);
 	} 
-
-/*
-	//simple search form submissions
- 	dojo.ready(function()
-        {
-          dojo.connect(dojo.byId("question_prob"), "onsubmit", dojo.partial('send_form', 'question_prob', 'ul_prob', 'question_type', 'div_type'));
-        });
-
-
-	function send_form(formId, ulId, nextFormId, nextFormDiv){
-		var selectedValues = []
-		optionValue = dojo.formToObject(formId)[formId];
-		if (typeof(optionValue)=='object')
-			selectedValues = optionValue
-		else
-			selectedValues[0] = optionValue
-		
-		Dajaxice.Driver.formUpdate(Dajax.process, {'formId':formId, 'selectedValues': selectedValues, 'ulId': ulId, 'nextFormId': nextFormId, 'nextFormDiv': nextFormDiv});
-	}
 */
+
 </script>
