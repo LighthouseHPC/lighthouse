@@ -1,0 +1,32 @@
+<html>
+    <body>
+        <p>
+            Matrix factorization (or matrix decomposition) is a product of an input matrix <i>A</i> so that
+            <pre>
+                <i>A = F<sub>1</sub>F<sub>2</sub>...F<sub>k</sub></i>.
+            </pre>
+            Matrix factorization is a base technique for implementing matrix algorithms, including solving a system of linear
+            equations. In LAPACK, routines that perform matrix factoring are in the form of <i>xyyTRF</i>.
+        </p>
+        <p>
+            The method of the factorization depends on the properties of the matrix <i>A</i>.
+            The main types of factorizations in LAPACK are:
+            <ul>
+                <li>
+                    <i>LU</i> decomposition: <i>A=LU</i>,
+                </li>
+                <li>
+                    Related <i>LU</i> decomposition: <i>A=PLU</i>,
+                </li>
+                <li>
+                    Cholesky decomposition: <i>A=U<sup>T</sup>U</i> or <i>A=L<sup>T</sup>L</i>, 
+                </li>
+                <li>
+                    Alternative Cholesky decomposition: <i>A=UPU<sup>T</sup></i> or <i>A=LPL<sup>T</sup></i>,
+                </li>
+            </ul>
+            whiere <i>L</i> is lower triangular, <i>U</i> is upper triangular, and <i>P</i> is a permutation matrix.
+        </p>
+        
+    </body>
+</html>

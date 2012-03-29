@@ -1,0 +1,27 @@
+<html>
+    <body>
+        <p>
+            The condition number of a system of linear equations <i>Ax=b</i> measures the stability to numerical operations.
+            A system of equations is considered to be well-conditioned/ill-conditioned if a slight change in the coefficient matrix <i>A</i>
+            or in the vector <i>b</i> results in a small/great change in the solution vector <i>x</i>.
+        </p>
+        <p>
+            The condition number of a square matrix <i>A</i> is defined as:
+            <pre>
+                <i>cond(A)</i> = ||<i>A</i>||||<i>A<sup>-1</sup></i>||,
+            </pre>
+            where ||<i>A</i>|| is the norm of matrix <i>A</i>.
+        </p>
+        <p>
+            The condition estimation routines in LAPACK compute the reciprocal condition number, <i>RCOND</i>, which is defined as:
+            <pre>
+                <i>RCOND</i> = 1/<i>cond(A)</i>.
+            </pre>
+        </p>
+        <p>
+            Condition numbers near one indicate well-conditioned matrices.
+            Condition numbers much greater than one imply ill-conditioned matrices.
+        </p>
+        
+    </body>
+</html>
