@@ -177,7 +177,7 @@ INSTALLED_APPS = (
     'Combine',
     'haystack',
     'dojango',
-    'dajaxice',
+    #'dajaxice',
     #'dajax',
     
 )
@@ -221,14 +221,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   #"django.core.context_processors.templates",
 
 # For dajaxice.
-  "django.core.context_processors.request",
+  #"django.core.context_processors.request",
 )
 
 
-DAJAXICE_MEDIA_PREFIX = "dajaxice"
-DAJAXICE_DEBUG = True
-DAJAXICE_JS_DOCSTRINGS = True
+#DAJAXICE_MEDIA_PREFIX = "dajaxice"
+#DAJAXICE_DEBUG = True
+#DAJAXICE_JS_DOCSTRINGS = True
 #DAJAXICE_NOTIFY_EXCEPTIONS = True
 
 import logging
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
