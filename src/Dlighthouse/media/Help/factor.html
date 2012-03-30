@@ -1,31 +1,36 @@
 <html>
+    <head>
+        <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+    </head>
     <body>
         <p>
-            Matrix factorization (or matrix decomposition) is a product of an input matrix <i>A</i> so that
+            Matrix factorization (or matrix decomposition) is a product of an input matrix <span lang="latex">A</span> so that
             <pre>
-                <i>A = F<sub>1</sub>F<sub>2</sub>...F<sub>k</sub></i>.
+                <span lang="latex">A = F_1F_2...F_k</span>.
             </pre>
             Matrix factorization is a base technique for implementing matrix algorithms, including solving a system of linear
             equations. In LAPACK, routines that perform matrix factoring are in the form of <i>xyyTRF</i>.
         </p>
         <p>
-            The method of the factorization depends on the properties of the matrix <i>A</i>.
-            The main types of factorizations in LAPACK are:
+            The method of the factorization depends on the properties of the matrix <span lang="latex">A</span>.
+            The main types of factorizations in LAPACK for solving a system of linear equations are:
             <ul>
                 <li>
-                    <i>LU</i> decomposition: <i>A=LU</i>,
+                    <i>LU</i> decomposition: <span lang="latex">A=LU</span>,
                 </li>
                 <li>
-                    Related <i>LU</i> decomposition: <i>A=PLU</i>,
+                    Related <i>LU</i> decomposition: <span lang="latex">A=PLU</span>,
                 </li>
                 <li>
-                    Cholesky decomposition: <i>A=U<sup>T</sup>U</i> or <i>A=L<sup>T</sup>L</i>, 
+                    Cholesky decomposition: <span lang="latex">A=U^TU (A=U^HU)</span>
+                    or <span lang="latex">A=LL^T (A=LL^H)</span>, 
                 </li>
                 <li>
-                    Alternative Cholesky decomposition: <i>A=UPU<sup>T</sup></i> or <i>A=LPL<sup>T</sup></i>,
+                    Alternative Cholesky decomposition: <span lang="latex">A=UPU^T (A=UPU^H)</span> or
+                    <span lang="latex">A=LPL^T (A=LPL^H)</span>,
                 </li>
             </ul>
-            whiere <i>L</i> is lower triangular, <i>U</i> is upper triangular, and <i>P</i> is a permutation matrix.
+            whiere <span lang="latex">L</span> is lower triangular, <span lang="latex">U</span> is upper triangular, and <span lang="latex">P</span> is a permutation matrix.
         </p>
         
     </body>
