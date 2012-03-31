@@ -11,14 +11,14 @@ Problem_choices = (
 	('Combine LinearEquation_only solve',					'Solve a linear equation only'),
 	('Computational LinearEquation_computational factor',			'Factor a matrix (PA = LU)'),
 	('Computational LinearEquation_computational refine',			'Refine the solution to a linear system'),
-	('Computational LinearEquation_computational error',			'Compute forward or backward error bounds for the solution to a linear system'),
+	('Computational LinearEquation_computational error',			'Compute forward or backward error bound for the solution to a linear system'),
 	('Computational LinearEquation_computational condition', 		'Estimate the condition number of a matrix'),
 	('Computational LinearEquation_computational equilibrate',		'Equilibrate a matrix'),
 	('Computational LinearEquation_computational inverse',			'Invert a matrix using provided factors (P, L, U)'),
 	('Driver LinearEquation_expert',					'Solve a linear equation AND'),
 	('Driver LinearEquation_expert refine',					'Refine the solution'),
 	('Driver LinearEquation_expert error',					'Compute forward or backward error bounds for the solution'),
-	('Driver LinearEquation_expert condition', 				'Estimate the condition number of a matrix'),
+	('Driver LinearEquation_expert condition', 				'Estimate the condition number of the matrix'),
 	('Driver LinearEquation_expert equilibrate',				'Equilibrate a matrix'),
 )
 
@@ -115,91 +115,124 @@ class AdvancedForm(forms.Form):
 
 
 Function_choices = (
-	('notes factor',			'Factor a matrix (PA = LU)'),
-	('notes error',				'Compute forward or backward error bounds for the solution to a linear system'),
-	('notes refine',			'Refine the solution to a linear system'),
-	('notes condition', 			'Estimate the condition number of a matrix'),
-	('notes equilibrate',			'Equilibrate a matrix'),
-	('notes inverse',			'Invert a matrix using provided factors (P, L, U)'),
-	('notes solve',				'Solve a linear system using provided factors (P, L, U)'), 
+	('factor',			'factor a matrix (PA = LU)'),
+	('error',			'compute forward or backward error bounds for the solution to a linear system'),
+	('refine',			'refine the solution to a linear system'),
+	('condition', 			'estimate the condition number of a matrix'),
+	('equilibrate',			'equilibrate a matrix'),
+	('inverse',			'invert a matrix using provided factors (P, L, U)'),
+	('solve',			'solve a linear system using provided factors (P, L, U)'), 
 )
 
 Complex_choices = (
-	('complex yes',				'Yes'),
-	('complex no',				'No'),
+	('yes',				'yes'),
+	('no',				'no'),
 )
 
 MatrixTypeComputational_choices = (
-	('matrixType general',			'General'),
-	('matrixType symmetric',		'Symmetric'),
-	('matrixType SPD',			'SPD'),	
-	('matrixType Hermitian',		'Hermitian'),	
-	('matrixType HPD',			'HPD'),	
-	('matrixType triangular',		'Triangular'),	
+	('general',			'general'),
+	('symmetric',			'symmetric'),
+	('SPD',				'SPD'),	
+	('Hermitian',			'Hermitian'),	
+	('HPD',				'HPD'),	
+	('triangular',			'triangular'),	
 )
 
 MatrixType_choices = (
-	('matrixType general',			'General'),
-	('matrixType symmetric',		'Symmetric'),
-	('matrixType SPD',			'SPD'),	
-	('matrixType Hermitian',		'Hermitian'),	
-	('matrixType HPD',			'HPD'),		
+	('general',			'general'),
+	('symmetric',			'symmetric'),
+	('SPD',				'SPD'),	
+	('Hermitian',			'Hermitian'),	
+	('HPD',				'HPD'),		
 )
 
 StorageType_choices = (
-	('storageType full',			'Full'),
-	('storageType band',			'band'),
-	('storageType packed',			'Packed'),
-	('storageType tridiagonal',		'Tridiagonal'),
+	('full',			'full'),
+	('band',			'band'),
+	('packed',			'packed'),
+	('tridiagonal',			'tridiagonal'),
 )
 
 Precision_choices = (
-	('thePrecision single',			'Single'),
-	('thePrecision double',			'Double'),
+	('single',			'single'),
+	('double',			'double'),
 )
 
 
 
 ###--------------- Linear Equation Computational Forms ------------------###
 class LinearEquation_computationalForm(forms.Form):
-	Description = 'Perform various computational tasks listed as follows:'
-	Function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Function_choices)
+	Description = 'Perform various computational tasks'
+	LinearEquation_computationalFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Function_choices)
 	LinearEquation_computationalComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
-	MatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixTypeComputational_choices)
-	StorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
-	Precision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+	LinearEquation_computationalMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixTypeComputational_choices)
+	LinearEquation_computationalStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
+	LinearEquation_computationalPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+
+	@staticmethod
+	def find(answer):
+		for item in Function_choices:
+			if answer == item[0]:
+				return item[1]
+
+
 
 
 ###--------------- Linear Equation Simple Driver Forms ------------------###
 class LinearEquation_simpleForm(forms.Form):
 	Description = 'Solve a system of linear equations'
-	Function = 'AX = B'
+	LinearEquation_simpleFunction = forms.MultipleChoiceField(choices=([('solve','AX=B')]), widget=forms.CheckboxSelectMultiple(), initial=['solve'])
 	LinearEquation_simpleComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
-	MatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)
-	StorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
-	Precision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+	LinearEquation_simpleMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)
+	LinearEquation_simpleStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
+	LinearEquation_simplePrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+
+	@staticmethod
+	def find(answer):
+		return 'AX=B'
+
+
+
 
 
 ###--------------- Linear Equation Expert Driver Forms ------------------###
 ExpertDriverEquation_choices = (
-	('Driver LinearEquation_expert notes original',					'AX = B'),
-	('Driver LinearEquation_expert notes transpose',				'A<sup>T</sup>X = B'),
-	('Driver LinearEquation_expert notes Hermitian_trans',				'A<sup>H</sup>X = B'),
+	('solve',					'AX = B'),
+	('transpose',					'A<sup>T</sup>X = B'),
+	('Hermitian_trans',				'A<sup>H</sup>X = B'),
 )
 
 ExpertDriverFunction_choices = (
-	('Driver LinearEquation_expert notes condition',				'Estimate the matrix condition number'),
-	('Driver LinearEquation_expert notes error',					'Compute error bounds for the solution'),
-	('Driver LinearEquation_expert notes refine',					'Refine the solution'),
-	('Driver LinearEquation_expert notes equilibrate',				'Equilibrate the matrix'),
-)
+	('condition',					'estimate the matrix condition number'),
+	('error',					'compute error bounds for the solution'),
+	('refine',					'refine the solution'),
+	('equilibrate',					'equilibrate the matrix'),
+)	
 
 class LinearEquation_expertForm(forms.Form):
-	Description = forms.MultipleChoiceField(label='Solve a system of linear equations', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverEquation_choices)
-	Function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverFunction_choices)
-	Complex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)	
-	MatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)	
-	StorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)	
-	Precision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+	LinearEquation_expertDescription = forms.MultipleChoiceField(label='Solve a system of linear equations', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverEquation_choices)
+	LinearEquation_expertFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverFunction_choices)
+	LinearEquation_expertComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)	
+	LinearEquation_expertMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)	
+	LinearEquation_expertStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)	
+	LinearEquation_expertPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
 
+	@staticmethod
+	def find_equation(answer):
+		for item in ExpertDriverEquation_choices:
+			if answer == item[0]:
+				return item[1]
+
+	@staticmethod
+	def find_function(answer):
+		for item in ExpertDriverFunction_choices:
+			if answer == item[0]:
+				return item[1]
+
+
+
+
+###--------------- for the script area ------------------###
+class scriptForm(forms.Form):
+      script= forms.CharField(widget=forms.Textarea)
 
