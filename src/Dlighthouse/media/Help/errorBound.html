@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+    </head>
+    <body>
+        <p>
+            A forward or backward error bound is generated when computing the condition number of the solution to a linear system.
+        </p>
+        <p>
+             If <span lang="latex">x</span> is the solution to <span lang="latex">Ax=b</span>, and let
+            <span lang="latex">x+\delta x</span> be the solution to the perturbed problem
+            <span lang="latex">A(x+\delta x)=b+\delta b</span>, then
+            <pre>
+                <span lang="latex">Ax + A \delta x = b + \delta b</span>,
+            </pre>
+            and it leads to the bound:
+            <pre>
+                <span lang="latex">\frac{\parallel \delta x \parallel}{\parallel x \parallel }
+                \leq
+                \kappa(A) \frac{\parallel \delta b \parallel}{\parallel b \parallel }</span>.
+            </pre>
+            <span lang="latex">\kappa(A)</span> is the condition number of a square matrix <span lang="latex">A</span>.
+        </p>
+        <p>
+            Similarly, let <span lang="latex">x+\delta x</span> be the solution to the perturbed problem
+            <span lang="latex">(A + \delta A)(x+\delta x)=b</span>. It leads to the bound:
+            <pre>
+                <span lang="latex">\frac{\parallel \delta x \parallel}{\parallel x \parallel }
+                \leq
+                \kappa(A) \frac{\parallel \delta A \parallel}{\parallel A \parallel }</span>.
+            </pre>
+            <span lang="latex">\frac{\parallel \delta x \parallel}{\parallel x \parallel }</span> is the <b>forward error bound</b>
+            for the computed solution, and <span lang="latex">\frac{\parallel \delta b \parallel}{\parallel b \parallel }</span> or
+            <span lang="latex">\frac{\parallel \delta A \parallel}{\parallel A \parallel }</span> is the <b>backward error bound</b>. 
+        </p>
+        
+    </body>
+</html>
