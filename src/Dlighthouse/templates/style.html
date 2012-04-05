@@ -15,10 +15,10 @@
                 height: 65%;
         }
         #main .dijitSplitterH {
-                height: 7px
+                height: 3px
         }
         #main .dijitSplitterV {
-                width: 7px
+                width: 5px
         }
         /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
         #loader {
@@ -65,6 +65,27 @@
 
         }
 
+        
+        
+        /* for Help button tooltipdialog */
+	.tooltipLink .dijitButtonNode,
+	.tooltipLink .dijitButtonNode .dijitDropDownButtonHover,
+	.buttonLink .dijitButtonNode,
+	.buttonLink .dijitButtonHover .dijitButtonNode {
+		background: none !important;
+		border:none;
+	}
+	.tooltipLink .dijitArrowButtonInner {
+		display:none;
+	}
+	.tooltipLink button,
+	.tooltipLink button .dijitButtonText,
+	.buttonLink button .dijitButtonText {
+		text-decoration:underline !important;
+		color:blue;
+		display:inline;
+	}
+        
 
         /* table for displaying routine info summary */
         #table_main
@@ -114,6 +135,69 @@
             overflow: hidden;
         }
 
+        /* Custom CSS for UI prettification */
+        #title-div
+        {
+                background-color: #e0ebfc; 
+                border-style: solid; 
+                border-width: 3px; 
+                border-color: #c9dcfa;                                
+                text-align: center; 
+                text-align: middle; 
+                font-family: "Tahoma", "Geneva", "sans-serif";
+                font-size: 17px; 
+                color: #003366;   
+        }
+
+        #question-div
+        {
+                background-color: #f7fafe; 
+                border-style:solid; 
+                border-width:3px; 
+                border-color: #e0ecfb; 
+                padding-top: 10px; 
+                padding-left: 10px;">        
+        }
+        
+        #button-div
+        {
+                background-color: #e0ebfc; 
+                border-style: solid; 
+                border-width: 3px; 
+                border-color: #c9dcfa; 
+                height: 28px;"
+        }
+
+        #icon-table
+        {
+                width: 100%; 
+                border: 0px solid;
+        }
+
+        #icon-cell
+        {
+                text-align:left; 
+                padding-left:5px; 
+                padding-right:5px; 
+                width:24px;
+        }
+
+        #title-cell
+        {
+                text-align:left
+        }
+
+        #custom-ul
+        {
+                style="margin-left: 0; 
+                padding-left: 20px;"        
+        }
+
+        #custom-li
+        {
+                list-style-type: none; 
+                padding-left:-10px;                   
+        }                        
 
         /* Table: Horizontal Zebra */
         #hor-zebra
@@ -130,25 +214,25 @@
                 font-size: 12px;
                 font-weight: bold;
                 padding: 10px 8px;
-                color: #039;
-                 /*background: #98AFC7;*/
-                 /*border-top: 1px solid #ccc;*/
-                 /*border-bottom: 1px solid #ccc;*/
-                 /*border-right: 1px solid #ccc;*/
-                 /*border-left: 1px solid #ccc;*/
+                color: #003366;
+                background: #c9dcfa;
+                border-top: 1px solid #fff;
+                border-bottom: 1px solid #fff;
+                border-right: 1px solid #fff;
+                border-left: 1px solid #fff;
         }
         #hor-zebra td
         {
-                 /*border-top: 1px solid #ccc;*/
-                 /*border-bottom: 1px solid #ccc;*/
-                 /*border-right: 1px solid #ccc;*/
-                 /*border-left: 1px solid #ccc;*/
+                border-top: 1px solid #fff;
+                border-bottom: 1px solid #fff;
+                border-right: 1px solid #fff;
+                border-left: 1px solid #fff;
                 padding: 8px;
-                color: #669;
+                color: #003366;
         }
         #hor-zebra .odd
         {
-                background: #FDEEF4;
+                background: #f7fafe;
         }
 
 
@@ -156,10 +240,10 @@
         /* Table: Vertical Zebra */
         #ver-zebra
         {
-                font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+                /*font-family: "Tahoma", "Geneva", "sans-serif";*/
                 font-size: 12px;
                 margin: 15px;
-                //width: 480px;
+                /*width: 480px;*/
                 text-align: left;
                 border-collapse: collapse;
         }
@@ -170,8 +254,8 @@
                 padding: 12px 15px;
                 border-right: 1px solid #fff;
                 border-left: 1px solid #fff;
-                color: #039;
-                background: #ACC3DB;
+                color: #003366;
+                background: #c9dcfa;
                 border-top: 1px solid #fff;
                 border-bottom: 1px solid #fff;
 
@@ -181,18 +265,18 @@
                 padding: 8px 15px;
                 border-right: 1px solid #fff;
                 border-left: 1px solid #fff;
-                color: #669;
+                color: #003366;
                 border-top: 1px solid #fff;
                 border-bottom: 1px solid #fff;
         }
         .vzebra-odd
         {
-                background: #F5FFEA;
+                background: #e0ebfc;
 
         }
         .vzebra-even
         {
-                background: #eff2ff;
+                background: #f7fafe;
 
         }
         #ver-zebra #vzebra-adventure, #ver-zebra #vzebra-children
@@ -207,7 +291,7 @@
                 border-bottom: 1px solid #d6dfff;
         }
 
-	/* spacing between list items*/
-	ul.wide li { margin-top: 5px; }
+        /* spacing between list items*/
+        ul.wide li { margin-top: 5px; }
 
 </style>

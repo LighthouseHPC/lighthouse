@@ -2,12 +2,28 @@
 
 
 {% block dojango_content_advancedSearch %}
-<h2 align="center"><font color="orange">Advanced Search</font></h2>
-
-<h2>Please check <i>at least</i> <u>one</u> box in each cell.</h2>
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                <img src="{{ MEDIA_URL }}Images/advancedSearch.png" width="32" height="32"/>
+            </td>       
+           <td id="title-cell">
+                Advanced Search
+            </td>
+        </tr>
+    </table>    
+</div>
+<br>
 
 <form name="advanced" action="/advanced/result/" name="frmProb" method="get">
-<TABLE id='ver-zebra'>
+		
+		<div style="padding-left:10px;">
+			<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>			
+			<b>Please check <i>at least</i> <u>one</u> box in each cell.</b>
+		</div>
+
+<table id='ver-zebra'>
 
 <!-- Colgroup -->
 <colgroup>
@@ -19,98 +35,136 @@
 
 <!-- Table Header -->
 <thead>
-<tr>
-<th scope="col"><b>Routine Category</b></th>
-{% for item in Question_advanced %}
-<th><b>{{ item }}</b></th>
-{% endfor %}
-</tr>
+	<tr>
+		<th scope="col">
+			<b>Routine Category</b>
+		</th>
+		{% for item in Question_advanced %}
+		<th>
+			<b>{{ item }}</b>
+		</th>
+		{% endfor %}
+	</tr>
 </thead>
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Description</b></font></td>
-{% for item in Forms %}
-{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
-<td>Solve a system of linear equations <ul>
-<li><label for="id_LinearEquation_expertDescription_0"><input type="checkbox" name="LinearEquation_expertDescription" value="solve" id="id_LinearEquation_expertDescription_0" /> AX = B</label></li>
-<li><label for="id_LinearEquation_expertDescription_1"><input type="checkbox" name="LinearEquation_expertDescription" value="transpose" id="id_LinearEquation_expertDescription_1" /> A<sup>T</sup>X = B</label></li>
-<li><label for="id_LinearEquation_expertDescription_2"><input type="checkbox" name="LinearEquation_expertDescription" value="Hermitian_trans" id="id_LinearEquation_expertDescription_2" /> A<sup>H</sup>X = B</label></li>
-</ul><i>and</i></td>
-{% else %}
-<td>{{ item.Description }}</td>
-{% endif %}
-{% endfor %}
+	<td>
+		<b>Description</b>
+	</td>
+	{% for item in Forms %}
+	{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
+	<td>Solve a system of linear equations 
+		<ul>
+			<li>
+				<label for="id_LinearEquation_expertDescription_0">
+					<input type="checkbox" name="LinearEquation_expertDescription" value="solve" id="id_LinearEquation_expertDescription_0" /> AX = B
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertDescription_1">
+					<input type="checkbox" name="LinearEquation_expertDescription" value="transpose" id="id_LinearEquation_expertDescription_1" /> A<sup>T</sup>X = B
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertDescription_2">
+					<input type="checkbox" name="LinearEquation_expertDescription" value="Hermitian_trans" id="id_LinearEquation_expertDescription_2" /> A<sup>H</sup>X = B
+				</label>
+			</li>
+		</ul>
+		<i>and</i>
+	</td>
+	{% else %}
+	<td>
+		{{ item.Description }}
+	</td>
+	{% endif %}
+	{% endfor %}
 </tr>
 
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Function</b></font></td>
-{% for item in Function %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Function</b>
+	</td>
+	{% for item in Function %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Complex Numbers</b></font></td>
-{% for item in Complex %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Complex Numbers</b>
+	</td>
+	{% for item in Complex %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Matrix Type</b></font></td>
-{% for item in MatrixType %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Matrix Type</b>
+	</td>
+	{% for item in MatrixType %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Storage</b></font></td>
-{% for item in StorageType %}
-<td>{{ item }}</td>
-{% endfor %}
-</tr>
-
+	<td>
+		<b>Storage</b>
+	</td>
+	{% for item in StorageType %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Precision</b></font></td>
-{% for item in Precision %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Precision</b>
+	</td>
+	{% for item in Precision %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
-</tr>
-</TABLE>
+</table>
 
-
-
-
-<TABLE align="right">
-<TR>
-<TD>
-	<button type="submit" name="Submit" id="submitButton"
-	title="Submit Answer">
-	Submit
-	</button >
-</form>
-</TD>
-<TD>
-<form action="/index/">
-	<button type="submit" name="clear" id="clearButton"
-	title="Click to clear the search result">
-	Clear
-	</button>
-</form>
-</TD>
-</TR>
-</TABLE>
+<div id="button-div">
+    <table align="right">
+    <tr>
+    <td>
+            <button type="submit" name="Submit" id="submitButton"
+            title="Submit Answer">
+            <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+            </button >
+    </form>
+    </td>
+    <td>
+    <form action="/index/">
+            <button type="submit" name="clear" id="clearButton"
+            title="Restart Search"> <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+            </button>
+    </form>
+    </td>
+    </tr>
+    </table>
+</div>
 {% endblock %}
 <!-- ########################################################################################################## -->
 

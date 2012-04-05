@@ -1,118 +1,4 @@
 <script type="text/javascript">
-	// for displaying help info
-	//var tooltipDialog;	
-	//function showHelpInTooltipDialog(node, Title, fileName) {
-	//	if (!tooltipDialog) {
-	//		var divTitle = dojo.create("div", {id: "divTitle", innerHTML: "<h2>"+Title+"</h2>"}, dojo.body());
-	//		var divIframe = dojo.create("div", {
-	//			id: "divIframe",
-	//			style: {backgroundColor: "#FFFFD6"}
-	//			},
-	//			divTitle
-	//		);
-	//		
-	//		var htmlFragment1 = dojo.create("iframe", {
-	//			style:{width: "500px", height: "400px", zIndex: "600"},
-	//			id: fileName,
-	//			src: "http://127.0.0.1:8000/media/Help/"+fileName,
-	//			}
-	//		);
-	//		
-	//		htmlFragment=dojo.byId("divIframe").appendChild(htmlFragment1);  
-	//		console.log(divIframe);
-	//		
-	//		//var htmlFragment = '<div><h2>'+Title+'</h2></div>';
-	//		//htmlFragment += '<div style="background-color:#FFFFD6;">'+
-	//		//		'<iframe id= "hello" width="500px" height="360px" scrolling=no src="http://127.0.0.1:8000/media/Help/'+fileName+'"></iframe>'+
-	//		//		'</div>';
-	//		//
-	//		//console.log(typeof(htmlFragment));
-	//
-	//		// CREATE TOOLTIP DIALOG
-	//		tooltipDialog = new dijit.TooltipDialog({
-	//			content: htmlFragment,
-	//			autofocus: !dojo.isIE, // NOTE: turning focus ON in IE causes errors when reopening the dialog
-	//			refocus: !dojo.isIE
-	//		});
-	//
-	//		
-	//	 
-	//		// DYNAMICALLY CHANGE THE HEIGHT OF IFRAME
-	//		var iframe = dojo.byId(fileName);
-	//		
-	//		function sizeIframe(){
-	//			iframe.style.height = getDocHeight() + "px";
-	//		}
-	//		function getDocHeight() {
-	//		    var D = document;
-	//		    return Math.max(
-	//			Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
-	//			Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
-	//			Math.max(D.body.clientHeight, D.documentElement.clientHeight)
-	//		    );
-	//		}
-	//		
-	//		
-	//		// DISPLAY TOOLTIP DIALOG AROUND THE CLICKED ELEMENT
-	//		dijit.popup.open({ popup: tooltipDialog, around: node });
-	//		tooltipDialog.opened_ = true;
-	//		//node.innerHTML = "Hide";
-	//	}
-	//	      
-	//	else {
-	//		if (tooltipDialog.opened_) {
-	//			dijit.popup.close(tooltipDialog);
-	//			tooltipDialog.opened_ = false;
-	//			//node.innerHTML = "Show";
-	//		}
-	//		else {
-	//			dijit.popup.open({ popup: tooltipDialog, around: node });
-	//			 tooltipDialog.opened_ = true;
-	//			//node.innerHTML = "Hide";
-	//		}
-	//	}
-	//}
-	
-	
-	var tooltipDialog;
-	function showHelpInTooltipDialog(node, Title, fileName) {
-		var rn = Math.random();
-		console.log(rn);
-
-		//if (!tooltipDialog) {
-		if (true) {
-			var htmlFragment = '<div id="hello"><h2>'+Title +'</h2></div>';
-			htmlFragment += '<div style="background-color:#FFFFD6;">'+
-					'<iframe width="500px" height="360px" src="http://127.0.0.1:8000/media/Help/'+fileName+'?var='+rn+'"></iframe>'+
-					'</div>';
-	
-			// CREATE TOOLTIP DIALOG
-			tooltipDialog = new dijit.TooltipDialog({
-				content: htmlFragment,
-				autofocus: !dojo.isIE, // NOTE: turning focus ON in IE causes errors when reopening the dialog
-				refocus: !dojo.isIE
-			});
-	
-			
-			// DISPLAY TOOLTIP DIALOG AROUND THE CLICKED ELEMENT
-			dijit.popup.open({ popup: tooltipDialog, around: node });
-			tooltipDialog.opened_ = true;
-			//node.innerHTML = "Hide";
-		}
-		      
-		else {
-			if (tooltipDialog.opened_) {
-				dijit.popup.close(tooltipDialog);
-				tooltipDialog.opened_ = false;
-				//node.innerHTML = "Show";
-			}
-			else {
-				dijit.popup.open({ popup: tooltipDialog, around: node });
-				 tooltipDialog.opened_ = true;
-				//node.innerHTML = "Hide";
-			}
-		}
-	}
 	
 	// for the colorpalette
 	function setColor(color) {
@@ -136,10 +22,14 @@
 			baseUri:"../themes/"
 		},{
 			theme:"2",
-			author:"Elizabeth R. Jessup",
+			author:"Javed Hossain",
 			baseUri:"../themes/"
 		},{
 			theme:"3",
+			author:"Elizabeth R. Jessup",
+			baseUri:"../themes/"
+		},{
+			theme:"4",
 			author:"Boyana Norris",
 			baseUri:"../themes/"
 		}
@@ -227,15 +117,12 @@
 	}
 
 
-
-
-	// automatically select simple/advanced/key-word search tab
-	dojo.ready(function() {
-		if (location.pathname == '/advanced/form/' || location.pathname == '/advanced/result/' ) {
-			dijit.byId('leftTab').selectChild(dijit.byId('advancedSearch'));
-		}
-		//console.log(location.pathname);
-	});	
+	function show_confirm()
+                {
+                        var restart = "";
+                        restart = confirm("Are you sure you want restart search?");
+                        return restart;
+                }
 
 
 /*

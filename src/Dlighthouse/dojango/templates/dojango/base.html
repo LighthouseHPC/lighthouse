@@ -140,40 +140,64 @@
 	<!-- "main" BorderContainer just contains page title and another 
 		BorderContainer -->
 	<div id="main" dojoType="dijit.layout.BorderContainer">
-		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top">Lighthouse</h1>
+		<h1 id="header" dojoType="dijit.layout.ContentPane" region="top" style="height:32px;">
+                        <img src="{{ MEDIA_URL }}/Images/Header.png"/>
+                </h1>
 
 		<!-- "mainSplit" BorderContainer has all the real content -->
 		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" 
 			design="sidebar" region="center" id="mainSplit">
 
 			<div dojoType="dijit.layout.TabContainer" duration="200"
-				minSize="100" style="width: 520px;" id="leftTab" 
+				minSize="100" style="width: 550px;" id="leftTab" 
 				region="leading" splitter="true">
 
 				<!-- Simple Search-->
-				<div dojoType="dijit.layout.ContentPane" title="Simple Search" id="simpleSearch" selected="true">	
-					<div id="simpleSearch">		
+				<div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">		
 					{% block dojango_content_simpleSearch %}{% endblock %}
-					</div>
 				</div><!-- end Simple Search -->
 
 				<!--  Advanced Search -->
-				<div dojoType="dijit.layout.ContentPane" title="Advanced Search" id="advancedSearch" >
-					<div id="advancedSearch">
+				<div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ request.session.selectedAdvancedSearchTab|default:"false" }}" style="padding:10px;">
 					{% block dojango_content_advancedSearch %}{% endblock %}
-					</div>
 				</div><!-- end Advanced Search -->
 
 				<!--  General Search -->
-				<div dojoType="dijit.layout.ContentPane" title="Key-word Search" id="keyWordSearch">
-				<h2>Please enter a word or phrase:</h2>  
-				 	<form action="/search/" method="get">
-					<input type="text" name="q">
-				 		<button dojoType="dijit.form.Button" type="submit" name="Search" id="searchButton"
-						title="Search String">
-						Search
-						</button>
-				    	</form>
+                               <div dojoType="dijit.layout.ContentPane" title="Key-word Search" selected="{{ request.session.selectedKeywordSearchTab|default:"false" }}" style="padding:10px;">
+                                        <div id="title-div">
+                                                <table id="icon-table">
+                                                        <tr>
+                                                                <td id="icon-cell">
+                                                                        <img src="{{ MEDIA_URL }}Images/keywordSearch.png" width="32" height="32"/>
+                                                                </td>           
+                                                                <td id="title-cell">
+                                                                        Key-word Search
+                                                                </td>
+                                                        </tr>
+                                                </table>        
+                                        </div>
+                                        <br>
+                                        <div id="button-div">
+                                                <table id="icon-table">
+                                                        <tr>
+                                                        <td style="padding-left:5px; width:188px;">
+                                                            <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+                                                            <b> Please enter a word or phrase: </b>
+                                                        </td>
+                                                        <form action="/search/" method="get">
+                                                        <td style="padding-left:5px; padding-right:10px;">
+                                                                <input type="text" name="q" style="width:100%; font-size:14px;">
+                                                        </td>
+                                                        <td style="text-align:right; width:20px;">
+                                                                <button type="submit" name="Search" id="searchButton" title="Search String">
+                                                                        <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+                                                                </button >                      
+                                                        </td>
+                                                        </form>
+                                                        </tr>
+                                                </table>
+        				    	
+                                        </div>
 				</div><!-- end General Search -->
 
 			</div><!-- end TabsContainer -->
@@ -183,16 +207,14 @@
 			<div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
 
 				<!-- first upper tab -->
-				<div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result"
+				<div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result" selected="true"
 				style="padding:10px; display:none;">
-				<div id="simpleResult">
-					{% block dojango_content_search_result %}{% endblock %}	
-				</div>	
+					{% block dojango_content_search_result %}{% endblock %}		
 				</div><!-- end:first upper tab -->
 
 				<!-- second tab -->
-				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script""
-				style="padding:10px;display:none; ">
+				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="false"
+				style="padding:10px; height:45%;">
        <ul dojoType="dijit.Menu" id="popupMenu" targetNodeIds="tab2" contextMenuForWindow="true"
           style="display:none;">
   <li dojoType="dijit.MenuItem" onClick="alert('just a test!')">Scalar</li>
@@ -223,13 +245,21 @@
 						Type your script here!
 						</textarea-->
 
-						<div> 
-						<form action="/script/" method="post">
-							{{ scriptForm }}
+						        <div>
+							<form action="/script/" method="post">
+               {% csrf_token %}
+ 
+               {{ scriptForm.non_field_errors }}
+               <div class="fieldWrapper">
+                   {{ scriptForm.script.errors }}
+                   {{ scriptForm.script }}
+               </div>
+ 
+
 							<button type="submit" name="Submit" id="submitButton" title="Submit Answer">
 							Submit
 							</button >
-						</form>
+							</form>
 						</div>
 						<div>{% block dojango_content_script %}{% endblock %}</div>
 
@@ -245,22 +275,46 @@
 			<!-- bottom right tabs -->
 			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
 			tabPosition="top" selectedChild="btab1"
-			region="bottom" splitter="true">
+			region="bottom" splitter="true" style="height:55%">
 				<!-- btab 1 -->
 				<div id="btab1" dojoType="dijit.layout.ContentPane" title="Work Area" style="padding:0px;">
                                         <div dojoType="dijit.layout.SplitContainer" orientation="horizontal"
                                                 sizerWidth="5" activeSizing="false"
                                                 style="border: 0px solid #bfbfbf; float: left; width: 100%; height: 100%;">
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50"" style="padding:10px;">
-                                                        <h2 style="text-align:center;">Selected Routines:</h2>
-							<br/>
+                                                        <div id="title-div">
+                                                                <table id="icon-table">
+                                                                        <tr>
+                                                                                <td id="icon-cell">
+                                                                                        <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
+                                                                                </td>           
+                                                                                <td id="title-cell">
+                                                                                        Selected Routines
+                                                                                </td>
+                                                                        </tr>
+                                                                </table>        
+                                                        </div>                                                        
+							
                                                         <div dojoType="dojo.dnd.Target" class="container2" id="selectedRoutines">
 								<div><p>Drop selected routines here:</p></div>
 							</div>
                                                 </div>
-                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50">
-                                                        <h2 style="text-align:center;">Code Template:</h2>
+                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
+                                                        <div id="title-div">
+                                                                <table id="icon-table">
+                                                                        <tr>
+                                                                                <td id="icon-cell">
+                                                                                        <img src="{{ MEDIA_URL }}Images/text-x-python.png" width="32" height="32"/>
+                                                                                </td>           
+                                                                                <td id="title-cell">
+                                                                                        Code Template
+                                                                                </td>
+                                                                        </tr>
+                                                                </table>        
+                                                        </div>
+                                                        
 							<br/>
+                                              {{ generatedCodeTemplate }}
                                                 </div>
                                         </div><!-- SplitContainer -->
 				</div><!-- end btab1 -->

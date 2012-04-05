@@ -2,19 +2,36 @@
 
 
 {% block dojango_content_simpleSearch %}
-<h2 align="center"><font color="blue">Guided Search</font></h2>
+<div id="title-div">
+  <table id="icon-table">
+    <tr>
+      <td id="icon-cell">
+        <img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
+      </td>   
+      <td id="title-cell">
+        Guided Search
+      </td>
+    </tr>
+  </table>  
+</div>
+<br>
 
 
 <!-- ########### All questions answered: ###########-->
 <tr>
   <th>
-    <label for="id_question_prob">Which of the following functions do you wish to execute?
+    <label for="id_question_prob">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Which of the following functions do you wish to execute?</b>
     </label>
   </th>
-  {% for item in query_prob %} 
-  <ul>
-    <li>{{ item.1 }}</li>
-  </ul>
+{% for item in query_prob %} 
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ item.1 }}
+  </li>
+</ul>
   {% endfor %}
 </tr>
 
@@ -25,66 +42,97 @@
 {% if query_equa != 0 %} 
 <tr>
   <th>
-    <label for="id_question_equa">What form of the linear system do you want to solve?
+    <label for="id_question_equa">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> What form of the linear system do you want to solve?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_equa|safe }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_equa|safe }}
+  </li>
+</ul>
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_fact">Is your matrix factorized?
+    <label for="id_question_fact">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Is your matrix factorized?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_fact }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_fact }}
+  </li>
+</ul>
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_comp">Are there complex numbers in your matrix?
+    <label for="id_question_comp">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Are there complex numbers in your matrix?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_comp }}</li>
-  </ul>
-</tr>
-
-
-<tr>
-  <th><label for="id_question_zero">What is the type of your matrix?
-  </label>
-  </th>
-  <ul>
-    <li>{{ query_type }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_comp }}
+  </li>
+</ul>
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_stor">How is your matrix stored?
+    <label for="id_question_zero">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> What is the type of your matrix?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_stor }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_type }}
+  </li>
+</ul>
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_prec">Would you like to use single or double precision?
+    <label for="id_question_stor">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> How is your matrix stored?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_prec }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_stor }}
+  </li>
+</ul>
+</tr>
+
+
+<tr>
+  <th>
+    <label for="id_question_prec">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Would you like to use single or double precision?</b>
+    </label>
+  </th>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_prec }}
+  </li>
+</ul>
 </tr>
 
 
@@ -96,62 +144,91 @@
 
 <tr>
   <th>
-    <label for="id_question_comp">Are there complex numbers in your matrix?
+    <label for="id_question_comp">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Are there complex numbers in your matrix?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_comp }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_comp }}
+  </li>
+</ul>
+
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_zero">What is the type of your matrix?
+    <label for="id_question_zero">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> What is the type of your matrix?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_type }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_type }}
+  </li>
+</ul>
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_stor">How is your matrix stored?
+    <label for="id_question_stor">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> How is your matrix stored?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_stor }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_stor }}
+  </li>
+</ul>
 </tr>
 
 
 <tr>
   <th>
-    <label for="id_question_prec">Would you like to use single or double precision?
+    <label for="id_question_prec">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Would you like to use single or double precision?</b>
     </label>
   </th>
-  <ul>
-    <li>{{ query_prec }}</li>
-  </ul>
+<ul id="custom-ul">
+  <li id="custom-li">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_prec }}
+  </li>
+</ul>
 </tr>
 {% endif %}
 
 
 
-<TABLE align="right">
-  <TR>
-    <TD>
+<div id="button-div">
+  <table id="icon-table">
+    <tr>
+      <td style="text-align:center">
+	<img src="{{ MEDIA_URL }}Images/face-smile-2.png" width="20" height="20"/>
+      </td>
+      <td style="text-align:left; color: #0c387e;">
+	<b>End of guided search! Check out the result.</b>
+      </td>
+       
+      <td style="text-align:right">
       <form action="/index/">
-	<button type="submit" name="clear" id="clearButton"
-		title="Click to clear the search result">
-		Clear
+	    <button type="submit" name="clear" id="clearButton"
+		  title="Restart Search"> <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
 	</button>
       </form>
-    </TD>
-  </TR>
-</TABLE>
+      </td>
+    </tr>
+  </table>
+</div>
 
 {% endblock %}
 <!-- ########################################################################################################## -->

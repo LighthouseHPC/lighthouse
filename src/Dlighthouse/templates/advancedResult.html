@@ -4,9 +4,20 @@
 
 
 {% block dojango_content_advancedSearch %}
-<h2 align="center"><font color="orange">Advanced Search</font></h2>
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                <img src="{{ MEDIA_URL }}Images/advancedSearch.png" width="32" height="32"/>
+            </td>       
+           <td id="title-cell">
+                Advanced Search
+            </td>
+        </tr>
+    </table>    
+</div>
+<br>
 <!-- ########### Advanced Search: Display Checked Items ###########-->
-
 
 <TABLE id='ver-zebra'>
 
@@ -20,101 +31,125 @@
 
 <!-- Table Header -->
 <thead>
-<tr>
-<th scope="col"><b>Routine Category</b></th>
-{% for item in Question_advanced %}
-<th><b>{{ item }}</b></th>
-{% endfor %}
-</tr>
+	<tr>
+		<th scope="col">
+			<b>Routine Category</b>
+		</th>
+		{% for item in Question_advanced %}
+		<th>
+			<b>{{ item }}</b>
+		</th>
+		{% endfor %}
+	</tr>
 </thead>
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Description</b></font></td>
-{% for item in GETS %}
-{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
-<td>Solve a system of linear equations <ul>
-{% for choice in DescriptionGETS.0.field.choices %}
-  <li>
-    <input type="checkbox" name="LinearEquation_expertDescription" value="{{choice.0}}"
-      {% if choice.0 in selected_Description  %}
-         checked="checked"
-      {% endif %}/>
-    <label for="">{{choice.1|safe}}</label>
-  </li>
-{% endfor %}
-</ul><i>and</i></td>
-{% else %}
-<td>{{ item.Description }}</td>
-{% endif %}
-{% endfor %}
+	<td>
+		<b>Description</b>
+	</td>
+	{% for item in GETS %}
+	{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
+	<td>
+		Solve a system of linear equations 
+		<ul>
+		{% for choice in DescriptionGETS.0.field.choices %}
+			<li>
+				<input type="checkbox" name="LinearEquation_expertDescription" value="{{choice.0}}"
+				{% if choice.0 in selected_Description  %} checked="checked" {% endif %}/>
+				<label for="">{{choice.1|safe}}</label>
+			</li>
+	{% endfor %}
+		</ul>
+		<i>and</i>
+	</td>
+	{% else %}
+	<td>
+		{{ item.Description }}
+	</td>
+	{% endif %}
+	{% endfor %}
 </tr>
 
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Function</b></font></td>
-{% for item in FunctionGETS %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Function</b>
+	</td>
+	{% for item in FunctionGETS %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Complex Numbers</b></font></td>
-{% for item in ComplexGETS %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Complex Numbers</b>
+	</td>
+	{% for item in ComplexGETS %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Matrix Type</b></font></td>
-{% for item in MatrixTypeGETS %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Matrix Type</b>
+	</td>
+	{% for item in MatrixTypeGETS %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Storage</b></font></td>
-{% for item in StorageTypeGETS %}
-<td>{{ item }}</td>
-{% endfor %}
-</tr>
-
+	<td>
+		<b>Storage</b>
+	</td>
+	{% for item in StorageTypeGETS %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
 <tr>
-<td bgcolor="#ACC3DB"><font color="#039"><b>Precision</b></font></td>
-{% for item in PrecisionGETS %}
-<td>{{ item }}</td>
-{% endfor %}
+	<td>
+		<b>Precision</b>
+	</td>
+	{% for item in PrecisionGETS %}
+	<td>
+		{{ item }}
+	</td>
+	{% endfor %}
 </tr>
 
-</tr>
-</TABLE>
+</table>
 
-
-<TABLE align="right">
-<TR>
-<TD>
-<form action="/index/">
-	<button type="submit" name="clear" id="clearButton"
-	title="Click to clear the search result">
-	Clear
-	</button>
-</form>
-</TD>
-</TR>
-</TABLE> 
+<div id="button-div">
+    <table align="right">
+	    <tr>
+		    <td>
+		    <form action="/index/">
+		            <button type="submit" name="clear" id="clearButton"
+		            title="Restart Search"> <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+		            </button>
+		    </form>
+		    </td>
+	    </tr>
+    </table>
+</div>
 
 {% endblock %}
 <!-- ########################################################################################################## -->
-
-
-
 
 
 <!-- ########### Advanced Search Result: ###########-->
@@ -122,10 +157,19 @@
 {% block dojango_content_search_result %}
 
 {% for model, value in Results.items %}
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                <img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+            </td>       
+           <td id="title-cell">
+                {{ model|cut:"LinearEquation_"|upper }}:
+            </td>
+        </tr>
+    </table>    
+</div>	
 <TABLE id='table_main'>
-<TR>
-<TH >{{ model|cut:"LinearEquation_"|upper }}:</TH>
-</TR>
 <TR>
 	<table id='hor-zebra' width="80%">
 	<tr>
