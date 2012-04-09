@@ -58,7 +58,7 @@ haystack_whoosh_path="HAYSTACK_WHOOSH_PATH = '""$pwd""/src/Dlighthouse/index.who
 
 checkCmd "FAIL" "cd src/Dlighthouse" "Could not find the Lighthouse directiony (src/Dlighthouse)" "src/Dlighthouse"
 
-cd src/Dlighthouse && sed -i1 -e "s|HAYSTACK_WHOOSH_PATH = .*$|$haystack_whoosh_path|" settings.py || echo "FAIL: Could not set the HAYSTACK_WHOOSH_PATH in src/Dlighthouse/settings.py"
+cd src/Dlighthouse && sed -i1 -e "s|django\.db\.backends\.mysql|django\.db\.backends\.sqlite3|" -e "s|HAYSTACK_WHOOSH_PATH = .*$|$haystack_whoosh_path|"  settings.py || echo "FAIL: Could not set the HAYSTACK_WHOOSH_PATH in src/Dlighthouse/settings.py"
 
 $pythonexec manage.py runserver $port || echo  "FAIL: Could not start the Lighthouse server"
 
