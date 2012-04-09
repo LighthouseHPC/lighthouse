@@ -47,9 +47,11 @@ checkCmd() {
 
 pythonexec=python
 
-if [ -e /Applications/djangostack-1.3.1-3/python/bin/python ]; then 
+dsversion=`ls /Applications | grep djangostack | sed -e 's|djangostack-\(.*\)/|\1|'`
+
+if [ -e /Applications/$dsversion/python/bin/python ]; then 
   # Using djangostack
-  pythonexec=/Applications/djangostack-1.3.1-3/python/bin/python
+  pythonexec=/Applications/$dsversion/python/bin/python
 fi
 pwd=`pwd`
 haystack_whoosh_path="HAYSTACK_WHOOSH_PATH = '""$pwd""/src/Dlighthouse/index.whoosh'"

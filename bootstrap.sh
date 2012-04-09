@@ -1,13 +1,16 @@
-#!/bin/bash 
+#!/bin/bash
 
 pythonexec=easy_install
-
-if [ -e /Applications/djangostack-1.3.1-3/python/bin/easy_install ]; then 
+pythonexec2=python
+dsversion=`ls /Applications | grep djangostack | sed -e 's|djangostack-\(.*\)/|\1|'`
+echo "Checking for python in /Applications/$dsversion/python/bin"
+if [ -e /Applications/$dsversion/python/bin/easy_install ]; then 
   # Using djangostack
-  pythonexec=/Applications/djangostack-1.3.1-3/python/bin/easy_install
-  pythonexec2=/Applications/djangostack-1.3.1-3/python/bin/python
+  pythonexec=/Applications/$dsversion/python/bin/easy_install
+  pythonexec2=/Applications/$dsversion/python/bin/python
 fi
 
+echo "Using python $pythonexec2"
 
 echo "Installing Whoosh"
 sudo $pythonexec whoosh

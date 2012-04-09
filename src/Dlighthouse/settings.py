@@ -139,7 +139,7 @@ ROOT_URLCONF = 'Dlighthouse.urls'
 # Haystack configuration.
 HAYSTACK_SITECONF = 'Dlighthouse.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = '/disks/large/home/salin/Documents/Lighthouse/Dlighthouse/index.whoosh'
+HAYSTACK_WHOOSH_PATH = '/Users/norris/research/lighthouse/lighthouse-taxonomy/src/Dlighthouse/index.whoosh'
 HAYSTACK_INCLUDE_SPELLING = True
 
 # Haystack 2.x (see http://readthedocs.org/docs/django-haystack/en/latest/migration_from_1_to_2.html)
