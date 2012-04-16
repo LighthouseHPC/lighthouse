@@ -18,10 +18,13 @@
 	loadingEl.innerHTML += "<br />* Rich text editor - dijit.Editor";
 	dojo.require("dijit.Editor");
 
+	// scan page for widgets and instantiate them
+	dojo.require("dojo.parser");
+
 	// dnd:
 	loadingEl.innerHTML += "<br />* Drag and drop library - dojo.dnd";
+        // dojo.require("dojo.parser");
 	dojo.require("dojo.dnd.Source");
-	//dojo.require("dojo.dnd.Target");
 	dojo.require("dojo.dnd.Moveable");
 
 
@@ -59,8 +62,6 @@
 	// menu
 	dojo.require("dijit.Menu");
 
-	// scan page for widgets and instantiate them
-	dojo.require("dojo.parser");
 
 	// humm?
 	dojo.require("dojo.date.locale");
