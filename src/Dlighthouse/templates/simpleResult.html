@@ -9,7 +9,7 @@
 
 <div dojoType="dojo.dnd.Source" class="container" id="routineList">	
 {% for item in results %}
-	<div class="dojoDndItem" id="dojoDndItem">
+	<div class="dojoDndItem">
 		<h3 style="color: #669;">{{ item.thePrecision|upper }}{{ item.routineName|upper }}</h3>
 		<p>{% highlight item.info with "Purpose" %}
 			<button dojoType="dijit.form.Button" onmouseover="dijit.byId('{{ item.id }}').show()">more</button>
