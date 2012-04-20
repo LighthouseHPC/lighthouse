@@ -51,5 +51,4 @@ urlpatterns = patterns('',
     (r'^advanced-search/$', views.advancedsearch),
     (r'^advanced/form/$', views.advancedsearchform),
     (r'^advanced/result/$', views.advancedresult),
-
 )
