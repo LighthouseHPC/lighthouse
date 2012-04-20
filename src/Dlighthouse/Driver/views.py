@@ -364,6 +364,7 @@ def advancedsearchform(request):
 	request.session['MatrixType'] = []
 	request.session['StorageType'] = []
 	request.session['Precision'] = []
+	AdvancedTab = True
 
 	if form_advanced.is_valid():
 		selected = form_advanced.cleaned_data['advanced']
@@ -379,12 +380,12 @@ def advancedsearchform(request):
 			request.session['Precision'].append(form[answer.split()[1][:-4]+"Precision"])
 				
 		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 'StorageType':request.session['StorageType'], 'Precision': request.session['Precision']}
-		return render_to_response('advancedForm.html', context_instance=RequestContext(request, context))
+		return render_to_response('advancedForm.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 	else:
    		form = AdvancedForm()	
-    		context = {'form': form}
-    		return render_to_response('advancedSearch.html', context_instance=RequestContext(request, context))
+		context = {'form': form}
+		return render_to_response('advancedSearch.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 
 
@@ -441,9 +442,10 @@ def advancedresult(request):
 								for function in selected_Function:
 									request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find(function), 'Description': form.Description, 'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})						
 		
-			
+	
+	AdvancedTab = True		
 	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'], 'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'], 'PrecisionGETS': request.session['PrecisionGETS'], 'DescriptionGETS': request.session['DescriptionGETS'], 'selected_Description': selected_Description, 'Results': request.session['Results']}
-	return render_to_response('advancedResult.html', context_instance=RequestContext(request, context))
+	return render_to_response('advancedResult.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 #	else:
 #   		form = AdvancedForm()	

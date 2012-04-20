@@ -234,5 +234,5 @@ class LinearEquation_expertForm(forms.Form):
 
 ###--------------- for the script area ------------------###
 class scriptForm(forms.Form):
-      script= forms.CharField(widget=forms.Textarea)
+      script = forms.CharField(widget=forms.Textarea)
 

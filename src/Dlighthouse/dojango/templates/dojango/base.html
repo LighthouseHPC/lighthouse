@@ -34,6 +34,8 @@
 
                 <title>Lighthouse Search</title>
 
+                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.ico" />
+
 
                 {% block _dojango_dojo_styles %}
                 <style type="text/css">
@@ -140,9 +142,9 @@
 	<!-- "main" BorderContainer just contains page title and another 
 		BorderContainer -->
 	<div id="main" dojoType="dijit.layout.BorderContainer">
-		<div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:8px; 
+		<div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; 
                 border-color:#c9dcfa;">
-                        <img src="{{ MEDIA_URL }}Images/NewHeaderSmall.png"/>
+                        <img src="{{ MEDIA_URL }}Images/NewHeader.png"/>
                 </div>
 
 		<!-- "mainSplit" BorderContainer has all the real content -->
@@ -154,12 +156,13 @@
 				region="leading" splitter="true">
 
 				<!-- Simple Search-->
-				<div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">		
+				<div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">
+                                        
 					{% block dojango_content_simpleSearch %}{% endblock %}
 				</div><!-- end Simple Search -->
 
 				<!--  Advanced Search -->
-				<div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ request.session.selectedAdvancedSearchTab|default:"false" }}" style="padding:10px;">
+				<div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
 					{% block dojango_content_advancedSearch %}{% endblock %}
 				</div><!-- end Advanced Search -->
 
@@ -172,7 +175,7 @@
                                                                         <img src="{{ MEDIA_URL }}Images/keywordSearch.png" width="32" height="32"/>
                                                                 </td>           
                                                                 <td id="title-cell">
-                                                                        Key-word Search
+                                                                        Keyword Search
                                                                 </td>
                                                         </tr>
                                                 </table>        
@@ -216,53 +219,55 @@
 				<!-- second tab -->
 				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="false"
 				style="padding:10px; height:45%;">
-       <ul dojoType="dijit.Menu" id="popupMenu" targetNodeIds="tab2" contextMenuForWindow="true"
-          style="display:none;">
-  <li dojoType="dijit.MenuItem" onClick="alert('just a test!')">Scalar</li>
-  <li dojoType="dijit.MenuItem" onClick="alert('just a test!')">Vector</li>
-  <li dojoType="dijit.PopupMenuItem">
-    <span>Matrx</span>
-    <ul dojoType="dijit.Menu" id="submenu2">
-      <li dojoType="dijit.PopupMenuItem">
-        <span>general</span>
-        <ul dojoType="dijit.Menu" id="submenu4">
-          <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">full</li>
-          <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">band</li>
-          <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">packed</li>
-          <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">tridiagonal</li>
-        </ul>
-      <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">symmetric</li>
-      <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">SPD</li>
-      <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Hermitian</li>
-      <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">HPD</li>
-      <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">triangular</li>
-      </li>
-    </ul>
-  </li>
-</ul>
+                                        <ul dojoType="dijit.Menu" id="popupMenu" targetNodeIds="tab2" contextMenuForWindow="true"style="display:none;">
+                                                <li dojoType="dijit.MenuItem" onClick="alert('just a test!')">Scalar</li>
+                                                <li dojoType="dijit.MenuItem" onClick="alert('just a test!')">Vector</li>
+                                                <li dojoType="dijit.PopupMenuItem">
+                                                        <span>Matrx</span>
+                                                        <ul dojoType="dijit.Menu" id="submenu2">
+                                                                <li dojoType="dijit.PopupMenuItem">
+                                                                <span>general</span>
+                                                                <ul dojoType="dijit.Menu" id="submenu4">
+                                                                        <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 1!')">full</li>
+                                                                        <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">band</li>
+                                                                        <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">packed</li>
+                                                                        <li dojoType="dijit.MenuItem" onClick="alert('Sub-submenu 2!')">tridiagonal</li>
+                                                                </ul>
+                                                                <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">symmetric</li>
+                                                                <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">SPD</li>
+                                                                <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">Hermitian</li>
+                                                                <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">HPD</li>
+                                                                <li dojoType="dijit.MenuItem" onClick="alert('Submenu 2!')">triangular</li>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                        </ul>
 
-						<!--textarea dojoType="dijit.form.SimpleTextarea" id="scriptArea" rows="30" cols="100" 
-						align="left" title="">
-						Type your script here!
-						</textarea-->
+					<!--textarea dojoType="dijit.form.SimpleTextarea" id="scriptArea" rows="30" cols="100" 
+					align="left" title="">
+					Type your script here!
+					</textarea-->
+				        <div>
+        					<form action="/script/" method="post">
+                                                {% csrf_token %}
+                                 
+                                                {{ scriptForm.non_field_errors }}
+                                                <div class="fieldWrapper">
+                                                        {{ scriptForm.script.errors }}
+                                                        
+                                                        <!--{{ scriptForm.script }} -->
+                                                        
+                                                        <textarea id="id_script" rows="10" cols="40" name="script"></textarea>
+                                                        
+                                                </div>
+                                 
 
-						        <div>
-							<form action="/script/" method="post">
-               {% csrf_token %}
- 
-               {{ scriptForm.non_field_errors }}
-               <div class="fieldWrapper">
-                   {{ scriptForm.script.errors }}
-                   {{ scriptForm.script }}
-               </div>
- 
-
-							<button type="submit" name="Submit" id="submitButton" title="Submit Answer">
-							Submit
-							</button >
-							</form>
-						</div>
-						<div>{% block dojango_content_script %}{% endblock %}</div>
+        					<button type="submit" name="Submit" id="submitButton" title="Submit Answer">
+        					Submit
+        					</button >
+        					</form>
+					</div>
+					<div>{% block dojango_content_script %}{% endblock %}</div>
 
  
 					<!--div style="border: 1px solid #ccc">
