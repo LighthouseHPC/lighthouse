@@ -41,7 +41,7 @@
                 <style type="text/css">
                         @import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
                         @import "{{ DOJANGO.THEME_CSS_URL }}";
-			@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/resources/dnd.css");
+			@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/resources/dnd.css");
 			@import url("{{ MEDIA_URL }}dndDefault.css");
                 </style>
                 {% endblock %}
@@ -57,16 +57,14 @@
                                         'parseOnLoad':true,
                                         'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
                                         {% if not DOJANGO.IS_LOCAL %}
-                                                ,'dojoBlankHtmlUrl':
-                                                "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
-                                                ,'dojoIframeHistoryUrl':
-                                                "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+                                                ,'dojoBlankHtmlUrl': "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+                                                ,'dojoIframeHistoryUrl': "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
                                         {% endif %}
-                                        {% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
-                                                ,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}',
-                                                'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox':
-                                                '{{ DOJANGO.DOJOX_URL }}'}
-                                        {% endif %}
+					{% if DOJANGO.VERSION > '1.6' %}
+						,'paths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+					{% else %}{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+						,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+					{% endif %}{% endif %}
                                 };
                         {% endblock %}
                 </script>
@@ -300,9 +298,9 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>                                                        
-							
+							<br>
                                                         <div dojoType="dojo.dnd.Target" class="container2" id="selectedRoutines">
-								<div><p>Drop selected routines here:</p></div>
+								<div><h3>Drop selected routines here:</h3></div>
 							</div>
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
