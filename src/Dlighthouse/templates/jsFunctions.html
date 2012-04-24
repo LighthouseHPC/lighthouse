@@ -116,13 +116,126 @@
 		}
 	}
 
-
+	// Ask for confirmation when user clicks on Restart Search button
 	function show_confirm()
-                {
-                        var restart = "";
-                        restart = confirm("Are you sure you want restart search?");
-                        return restart;
-                }
+    {
+        var restart = "";
+        restart = confirm("Are you sure you want restart search?");
+        return restart;
+    }
+
+    // Check if at least one check box (out of three in the initial advanced search tab) has been selected 
+    function validateCheckbox(chk1, chk2, chk3)
+    {
+		if (chk1.checked == 0 && chk2.checked == 0 && chk3.checked == 0)
+		{
+			alert("Check at least one category.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least one check box in Function cell is selected
+	function validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7)
+    {
+		if (f1.checked == 0 && f2.checked == 0 && f3.checked == 0 && f4.checked == 0 && f5.checked == 0 && f6.checked == 0 && f7.checked == 0)
+		{
+			//alert("Check at least one in the Function cell.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least one check box in Complex Number cell is selected
+	function validateComplexNumbersCheckbox(c1, c2)
+    {
+		if (c1.checked == 0 && c2.checked == 0)
+		{
+			//alert("Check at least one in the Complex Number cell.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least one check box in Matrix Type cell is selected
+	function validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6)
+    {
+		if (m1.checked == 0 && m2.checked == 0 && m3.checked == 0 && m4.checked == 0 && m5.checked == 0 && m6.checked == 0)
+		{
+			//alert("Check at least one in the Matrix Type cell.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least one check box in Storage cell is selected
+	function validateStorageCheckbox(s1, s2, s3, s4)
+    {
+		if (s1.checked == 0 && s2.checked == 0 && s3.checked == 0 && s4.checked == 0)
+		{
+			//alert("Check at least one in the Storage cell.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least one check box in Precision cell is selected
+	function validatePrecisionCheckbox(p1, p2)
+    {
+		if (p1.checked == 0 && p2.checked == 0)
+		{
+			//alert("Check at least one in the Precision cell.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least one check box in each cell is selected (in Computational Routine Search)
+	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2)
+    {
+		f = validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7);
+		c = validateComplexNumbersCheckbox(c1, c2);
+		m = validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6);
+		s = validateStorageCheckbox(s1, s2, s3, s4);
+		p = validatePrecisionCheckbox(p1, p2);
+
+		if(!f)
+		{
+			alert("Check at least one in the Function cell.");
+			return false;
+		}
+		else if(!c)
+		{
+			alert("Check at least one in the Complex Number cell.");
+			return false;
+		}
+		else if(!m)
+		{
+			alert("Check at least one in the Matrix Type cell.");
+			return false;
+		}
+		else if(!s)
+		{
+			alert("Check at least one in the Storage cell.");
+			return false;
+		}
+		else if(!p)
+		{
+			alert("Check at least one in the Precision cell.");
+			return false;
+		}
+					
+	}
+
+
+
+
 
 
 /*

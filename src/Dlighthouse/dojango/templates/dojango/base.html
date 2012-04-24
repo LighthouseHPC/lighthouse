@@ -34,7 +34,7 @@
 
                 <title>Lighthouse Search</title>
 
-                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.ico" />
+                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />
 
 
                 {% block _dojango_dojo_styles %}
@@ -253,7 +253,7 @@
                                                 <div class="fieldWrapper">
                                                         {{ scriptForm.script.errors }}
                                                         
-                                                        <!--{{ scriptForm.script }} -->
+                                                        <!-- {{ scriptForm.script }} -->
                                                         
                                                         <textarea id="id_script" rows="10" cols="40" name="script"></textarea>
                                                         
@@ -300,7 +300,7 @@
                                                         </div>                                                        
 							<br>
                                                         <div dojoType="dojo.dnd.Target" class="container2" id="selectedRoutines">
-								<div><h3>Drop selected routines here:</h3></div>
+								<div style="font-weight:bold;">Drop selected routines here:</div>
 							</div>
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">

@@ -149,16 +149,21 @@
     <table align="right">
     <tr>
     <td>
-            <button type="submit" name="Submit" id="submitButton"
-            title="Submit Answer">
+            <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onclick="return validateComputationalCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6,
+            id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1,
+            id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3,
+            id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1,
+            id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3,
+            id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1)">
+
             <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
             </button >
     </form>
     </td>
     <td>
     <form action="/index/">
-            <button type="submit" name="clear" id="clearButton"
-            title="Restart Search"> <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+            <button type="submit" name="clear" id="clearButton" title="Restart Search" > 
+            	<img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
             </button>
     </form>
     </td>
