@@ -1,41 +1,33 @@
 <script type="text/javascript">
+	// Loading themeTester
+	//var loadingEl = dojo.byId("loaderInner");
+	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
 	
-	// for the colorpalette
-	function setColor(color) {
-		var theSpan = dojo.byId("outputSpan");
-		dojo.style(theSpan,"color",color);
-		theSpan.innerHTML = color;
-	}
-
-	// for the calendar
-	function myHandler(id,newValue) {
-		console.debug("onChange for id = " + id + ", value: " + newValue);
-	}
-
-
 	dojo.addOnLoad( function() {
 		// this is just a list of 'official' dijit themes, you can use
 		// ?theme=String for 'un-supported' themes, too. (eg: yours)
-		var availableThemes = [{
-			theme:"1",
-			author:"Sa-Lin Cheng Bernstein",
-			baseUri:"../themes/"
-		},{
-			theme:"2",
-			author:"Javed Hossain",
-			baseUri:"../themes/"
-		},{
-			theme:"3",
-			author:"Elizabeth R. Jessup",
-			baseUri:"../themes/"
-		},{
-			theme:"4",
-			author:"Boyana Norris",
-			baseUri:"../themes/"
-		}
-
+		var availableThemes = [
+			{
+				theme:"1",
+				author:"Sa-Lin Cheng Bernstein",
+				baseUri:"../themes/"
+			},
+			{
+				theme:"2",
+				author:"Javed Hossain",
+				baseUri:"../themes/"
+			},
+			{
+				theme:"3",
+				author:"Elizabeth R. Jessup",
+				baseUri:"../themes/"
+			},
+			{
+				theme:"4",
+				author:"Boyana Norris",
+				baseUri:"../themes/"
+			}
 		];
-
 		var holder = dojo.byId('themeData');
 		var tmpString='';
 		dojo.forEach(availableThemes, function(theme) {
@@ -43,13 +35,21 @@
 			theme.theme+'</'+'a>: '+theme.author+' <br>';
 		});
 		holder.innerHTML = tmpString;
-
+		
+		
+		
+		
+		// for parser time info
 		var start = new Date().getTime();
 		dojo.parser.parse(dojo.byId('container'));
 		console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
-
-
-		dojo.byId('loaderInner').innerHTML += " done.";
+		
+		
+		
+		//dojo.byId('loaderInner').innerHTML += " done.";
+		
+		
+		
 		setTimeout( function hideLoader() {
 			var loader = dojo.byId('loader');
 			dojo.fadeOut({
@@ -60,6 +60,9 @@
 				}
 			}).play();
 		}, 250);
+		
+		
+		
 		var strayGlobals = [];
 		for(var i in window) {
 			if(!window.__globalList[i]) {
@@ -116,17 +119,17 @@
 		}
 	}
 
+	
 	// Ask for confirmation when user clicks on Restart Search button
-	function show_confirm()
-    {
-        var restart = "";
-        restart = confirm("Are you sure you want restart search?");
-        return restart;
-    }
+	function show_confirm(){
+		var restart = "";
+		restart = confirm("Are you sure you want restart search?");
+		return restart;
+	}
 
-    // Check if at least one check box (out of three in the initial advanced search tab) has been selected 
-    function validateCheckbox(chk1, chk2, chk3)
-    {
+	
+	// Check if at least one check box (out of three in the initial advanced search tab) has been selected 
+	function validateCheckbox(chk1, chk2, chk3){
 		if (chk1.checked == 0 && chk2.checked == 0 && chk3.checked == 0)
 		{
 			alert("Check at least one category.");
@@ -137,8 +140,7 @@
 	}
 
 	// Check if at least one check box in Function cell is selected
-	function validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7)
-    {
+	function validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7){
 		if (f1.checked == 0 && f2.checked == 0 && f3.checked == 0 && f4.checked == 0 && f5.checked == 0 && f6.checked == 0 && f7.checked == 0)
 		{
 			//alert("Check at least one in the Function cell.");
@@ -149,8 +151,7 @@
 	}
 
 	// Check if at least one check box in Complex Number cell is selected
-	function validateComplexNumbersCheckbox(c1, c2)
-    {
+	function validateComplexNumbersCheckbox(c1, c2){
 		if (c1.checked == 0 && c2.checked == 0)
 		{
 			//alert("Check at least one in the Complex Number cell.");
@@ -161,8 +162,7 @@
 	}
 
 	// Check if at least one check box in Matrix Type cell is selected
-	function validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6)
-    {
+	function validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6){
 		if (m1.checked == 0 && m2.checked == 0 && m3.checked == 0 && m4.checked == 0 && m5.checked == 0 && m6.checked == 0)
 		{
 			//alert("Check at least one in the Matrix Type cell.");
@@ -173,8 +173,7 @@
 	}
 
 	// Check if at least one check box in Storage cell is selected
-	function validateStorageCheckbox(s1, s2, s3, s4)
-    {
+	function validateStorageCheckbox(s1, s2, s3, s4){
 		if (s1.checked == 0 && s2.checked == 0 && s3.checked == 0 && s4.checked == 0)
 		{
 			//alert("Check at least one in the Storage cell.");
@@ -185,8 +184,7 @@
 	}
 
 	// Check if at least one check box in Precision cell is selected
-	function validatePrecisionCheckbox(p1, p2)
-    {
+	function validatePrecisionCheckbox(p1, p2){
 		if (p1.checked == 0 && p2.checked == 0)
 		{
 			//alert("Check at least one in the Precision cell.");
@@ -197,8 +195,7 @@
 	}
 
 	// Check if at least one check box in each cell is selected (in Computational Routine Search)
-	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2)
-    {
+	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2){
 		f = validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7);
 		c = validateComplexNumbersCheckbox(c1, c2);
 		m = validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6);

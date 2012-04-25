@@ -34,7 +34,7 @@
 
                 <title>Lighthouse Search</title>
 
-                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />
+                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.ico" />
 
 
                 {% block _dojango_dojo_styles %}
@@ -52,9 +52,10 @@
                 <script type="text/javascript">
                         // baseUrl setting is needed, if you want to combine a local with a remote build!
                         {% block _dojango_dj_config %}
-                                var djConfig = {
-                                        'isDebug':{{ DOJANGO.DEBUG|json }},
-                                        'parseOnLoad':true,
+                                var dojoConfig = {
+					//async: true,
+                                        //'isDebug':{{ DOJANGO.DEBUG|json }},
+                                        //'parseOnLoad':true,
                                         'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
                                         {% if not DOJANGO.IS_LOCAL %}
                                                 ,'dojoBlankHtmlUrl': "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
@@ -77,7 +78,7 @@
        
                 {% block dojango_post_dj_config %}
                 {# if you want to manipulate djConfig stuff #}
-                <script>djConfig.parseOnLoad = false;</script>
+                <script>dojoConfig.parseOnLoad = false;</script>
                 {% endblock %}
        
        
@@ -132,9 +133,9 @@
 	<body class="{{ DOJANGO.THEME }}">
 	<!-- basic preloader: -->
 	<div id="loader">
-		<div id="loaderInner">
+		<!--div id="loaderInner">
 			Loading themeTester:
-		</div>
+		</div-->
 	</div>
 
 	<!-- "main" BorderContainer just contains page title and another 
@@ -253,7 +254,7 @@
                                                 <div class="fieldWrapper">
                                                         {{ scriptForm.script.errors }}
                                                         
-                                                        <!-- {{ scriptForm.script }} -->
+                                                        <!--{{ scriptForm.script }} -->
                                                         
                                                         <textarea id="id_script" rows="10" cols="40" name="script"></textarea>
                                                         
@@ -300,7 +301,7 @@
                                                         </div>                                                        
 							<br>
                                                         <div dojoType="dojo.dnd.Target" class="container2" id="selectedRoutines">
-								<div style="font-weight:bold;">Drop selected routines here:</div>
+								<div><h3>Drop selected routines here:</h3></div>
 							</div>
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
