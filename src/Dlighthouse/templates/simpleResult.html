@@ -21,8 +21,8 @@
 <div dojoType="dojo.dnd.Source" class="container" id="routineList">	
 {% for item in results %}
 	<div class="dojoDndItem">
-		<div style="background: #D7E6AC;"><h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}</h4></div>
-		<div>{% highlight item.info with "Purpose" max_length 500 %}
+		<div class="routineName" style="background: #D7E6AC;"><h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}</h4></div>
+		<div class="routineInfo">{% highlight item.info with "Purpose" max_length 500 %}
 			<button dojoType="dijit.form.Button" onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
