@@ -129,8 +129,8 @@
 
 	
 	// Check if at least one check box (out of three in the initial advanced search tab) has been selected 
-	function validateCheckbox(chk1, chk2, chk3){
-		if (chk1.checked == 0 && chk2.checked == 0 && chk3.checked == 0)
+	function validateAdvancedCategoryCheckbox(chk1, chk2, chk3){
+		if (!validate3Checkbox(chk1, chk2, chk3))
 		{
 			alert("Check at least one category.");
 			return false;
@@ -139,70 +139,159 @@
 			return true;
 	}
 
-	// Check if at least one check box in Function cell is selected
-	function validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7){
-		if (f1.checked == 0 && f2.checked == 0 && f3.checked == 0 && f4.checked == 0 && f5.checked == 0 && f6.checked == 0 && f7.checked == 0)
-		{
-			//alert("Check at least one in the Function cell.");
+	// Check if at least 1/2 check box is selected
+    function validate1Checkbox(cb1)
+    {
+		if (cb1.checked == 0)
 			return false;
-		}
 		else
 			return true;
 	}
 
-	// Check if at least one check box in Complex Number cell is selected
-	function validateComplexNumbersCheckbox(c1, c2){
-		if (c1.checked == 0 && c2.checked == 0)
-		{
-			//alert("Check at least one in the Complex Number cell.");
+    // Check if at least 1/2 check box is selected
+    function validate2Checkbox(cb1, cb2)
+    {
+		if (cb1.checked == 0 && cb2.checked == 0)
 			return false;
-		}
 		else
 			return true;
 	}
 
-	// Check if at least one check box in Matrix Type cell is selected
-	function validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6){
-		if (m1.checked == 0 && m2.checked == 0 && m3.checked == 0 && m4.checked == 0 && m5.checked == 0 && m6.checked == 0)
-		{
-			//alert("Check at least one in the Matrix Type cell.");
+    // Check if at least 1/3 check box is selected
+    function validate3Checkbox(cb1, cb2, cb3)
+    {
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0)
 			return false;
-		}
 		else
 			return true;
 	}
 
-	// Check if at least one check box in Storage cell is selected
-	function validateStorageCheckbox(s1, s2, s3, s4){
-		if (s1.checked == 0 && s2.checked == 0 && s3.checked == 0 && s4.checked == 0)
-		{
-			//alert("Check at least one in the Storage cell.");
+	// Check if at least 1/4 check box is selected
+    function validate4Checkbox(cb1, cb2, cb3, cb4)
+    {
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0)
 			return false;
-		}
 		else
 			return true;
 	}
 
-	// Check if at least one check box in Precision cell is selected
-	function validatePrecisionCheckbox(p1, p2){
-		if (p1.checked == 0 && p2.checked == 0)
-		{
-			//alert("Check at least one in the Precision cell.");
+	// Check if at least 1/5 check box is selected
+    function validate5Checkbox(cb1, cb2, cb3, cb4, cb5)
+    {
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0)
 			return false;
-		}
 		else
 			return true;
 	}
+
+	// Check if at least 1/6 check box is selected
+    function validate6Checkbox(cb1, cb2, cb3, cb4, cb5, cb6)
+    {
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/7 check box is selected
+    function validate7Checkbox(cb1, cb2, cb3, cb4, cb5, cb6, cb7)
+    {
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0 && cb7.checked == 0)
+			return false;
+		else
+			return true;
+	}
+	
 
 	// Check if at least one check box in each cell is selected (in Computational Routine Search)
-	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2){
-		f = validateFunctionCheckbox(f1, f2, f3, f4, f5, f6, f7);
-		c = validateComplexNumbersCheckbox(c1, c2);
-		m = validateMatrixTypeCheckbox(m1, m2, m3, m4, m5, m6);
-		s = validateStorageCheckbox(s1, s2, s3, s4);
-		p = validatePrecisionCheckbox(p1, p2);
+	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2)
+    {
+		f = validate7Checkbox(f1, f2, f3, f4, f5, f6, f7);
+		c = validate2Checkbox(c1, c2);
+		m = validate6Checkbox(m1, m2, m3, m4, m5, m6);
+		s = validate4Checkbox(s1, s2, s3, s4);
+		p = validate2Checkbox(p1, p2);
 
 		if(!f)
+		{
+			alert("Check at least one in the Function cell.");
+			return false;
+		}
+		else if(!c)
+		{
+			alert("Check at least one in the Complex Number cell.");
+			return false;
+		}
+		else if(!m)
+		{
+			alert("Check at least one in the Matrix Type cell.");
+			return false;
+		}
+		else if(!s)
+		{
+			alert("Check at least one in the Storage cell.");
+			return false;
+		}
+		else if(!p)
+		{
+			alert("Check at least one in the Precision cell.");
+			return false;
+		}
+					
+	}
+
+	// Check if at least one check box in each cell is selected (in Simple Driver Routine Search)
+	function validateSimpleDriverCheckbox(f1, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+    {
+		f = validate1Checkbox(f1);
+		c = validate2Checkbox(c1, c2);
+		m = validate5Checkbox(m1, m2, m3, m4, m5);
+		s = validate4Checkbox(s1, s2, s3, s4);
+		p = validate2Checkbox(p1, p2);
+
+		if(!f)
+		{
+			alert("Check at least one in the Function cell.");
+			return false;
+		}
+		else if(!c)
+		{
+			alert("Check at least one in the Complex Number cell.");
+			return false;
+		}
+		else if(!m)
+		{
+			alert("Check at least one in the Matrix Type cell.");
+			return false;
+		}
+		else if(!s)
+		{
+			alert("Check at least one in the Storage cell.");
+			return false;
+		}
+		else if(!p)
+		{
+			alert("Check at least one in the Precision cell.");
+			return false;
+		}			
+	}
+
+	// Check if at least one check box in each cell is selected (in Expert Driver Routine Search)
+	function validateExpertDriverCheckbox(d1, d2, d3, f1, f2, f3, f4, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+    {
+    	d = validate3Checkbox(d1, d2, d3);
+		f = validate4Checkbox(f1, f2, f3, f4);
+		c = validate2Checkbox(c1, c2);
+		m = validate5Checkbox(m1, m2, m3, m4, m5);
+		s = validate4Checkbox(s1, s2, s3, s4);
+		p = validate2Checkbox(p1, p2);
+
+		if(!d)
+		{
+			alert("Check at least one in the Description cell.");
+			return false;
+		}
+		else if(!f)
 		{
 			alert("Check at least one in the Function cell.");
 			return false;
