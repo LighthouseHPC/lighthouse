@@ -214,34 +214,36 @@
 
 		if(!f)
 		{
-			alert("Check at least one in the Function cell.");
+			alert("Check at least one in the Function cell in Computational Routines column.");
 			return false;
 		}
 		else if(!c)
 		{
-			alert("Check at least one in the Complex Number cell.");
+			alert("Check at least one in the Complex Number cell in Computational Routines column.");
 			return false;
 		}
 		else if(!m)
 		{
-			alert("Check at least one in the Matrix Type cell.");
+			alert("Check at least one in the Matrix Type cell in Computational Routines column.");
 			return false;
 		}
 		else if(!s)
 		{
-			alert("Check at least one in the Storage cell.");
+			alert("Check at least one in the Storage cell in Computational Routines column.");
 			return false;
 		}
 		else if(!p)
 		{
-			alert("Check at least one in the Precision cell.");
+			alert("Check at least one in the Precision cell in Computational Routines column.");
 			return false;
 		}
+		else
+			return true;
 					
 	}
 
 	// Check if at least one check box in each cell is selected (in Simple Driver Routine Search)
-	function validateSimpleDriverCheckbox(f1, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+	function validateSimpleCheckbox(f1, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
     {
 		f = validate1Checkbox(f1);
 		c = validate2Checkbox(c1, c2);
@@ -251,33 +253,35 @@
 
 		if(!f)
 		{
-			alert("Check at least one in the Function cell.");
+			alert("Check at least one in the Function cell in Simple Driver Routines column.");
 			return false;
 		}
 		else if(!c)
 		{
-			alert("Check at least one in the Complex Number cell.");
+			alert("Check at least one in the Complex Number cell in Simple Driver Routines column.");
 			return false;
 		}
 		else if(!m)
 		{
-			alert("Check at least one in the Matrix Type cell.");
+			alert("Check at least one in the Matrix Type cell in Simple Driver Routines column.");
 			return false;
 		}
 		else if(!s)
 		{
-			alert("Check at least one in the Storage cell.");
+			alert("Check at least one in the Storage cell in Simple Driver Routines column.");
 			return false;
 		}
 		else if(!p)
 		{
-			alert("Check at least one in the Precision cell.");
+			alert("Check at least one in the Precision cell in Simple Driver Routines column.");
 			return false;
-		}			
+		}
+		else
+			return true;			
 	}
 
 	// Check if at least one check box in each cell is selected (in Expert Driver Routine Search)
-	function validateExpertDriverCheckbox(d1, d2, d3, f1, f2, f3, f4, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+	function validateExpertCheckbox(d1, d2, d3, f1, f2, f3, f4, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
     {
     	d = validate3Checkbox(d1, d2, d3);
 		f = validate4Checkbox(f1, f2, f3, f4);
@@ -288,41 +292,110 @@
 
 		if(!d)
 		{
-			alert("Check at least one in the Description cell.");
+			alert("Check at least one in the Description cell in Expert Driver Routines column.");
 			return false;
 		}
 		else if(!f)
 		{
-			alert("Check at least one in the Function cell.");
+			alert("Check at least one in the Function cell in Expert Driver Routines column.");
 			return false;
 		}
 		else if(!c)
 		{
-			alert("Check at least one in the Complex Number cell.");
+			alert("Check at least one in the Complex Number cell in Expert Driver Routines column.");
 			return false;
 		}
 		else if(!m)
 		{
-			alert("Check at least one in the Matrix Type cell.");
+			alert("Check at least one in the Matrix Type cell in Expert Driver Routines column.");
 			return false;
 		}
 		else if(!s)
 		{
-			alert("Check at least one in the Storage cell.");
+			alert("Check at least one in the Storage cell in Expert Driver Routines column.");
 			return false;
 		}
 		else if(!p)
 		{
-			alert("Check at least one in the Precision cell.");
+			alert("Check at least one in the Precision cell in Expert Driver Routines column.");
 			return false;
 		}
+		else
+			return true;
 					
 	}
 
+	// Check if at least one check box in each cell is selected (in Computational Routine and Simple Driver Routine Search)
+	function validateComputationalSimpleCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2)
+    {
+		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
 
+		if(c == true)
+		{
+			s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+		}
+			
 
+		if(c && s)
+			return true;
+		else 
+			return false;
+	}
 
+	// Check if at least one check box in each cell is selected (in Computational Routine and Expert Driver Routine Search)
+	function validateComputationalExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+    {
+		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);	
 
+		if(c == true)
+		{
+			e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+		}
+			
+
+		if(c && e)
+			return true;
+		else 
+			return false;
+	}
+
+	// Check if at least one check box in each cell is selected (in Simple Driver Routine and Expert Driver Routine Search)
+	function validateSimpleExpertCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+    {
+		s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+
+		if(s == true)
+		{
+			e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+		}
+			
+
+		if(s && e)
+			return true;
+		else 
+			return false;
+	}
+
+	// Check if at least one check box in each cell is selected (in Computational Routines, Simple Driver Routine and Expert Driver Routine Search)
+	function validateComputationalSimpleExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+    {		
+		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
+
+		if(c == true)
+		{
+			s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+		}
+
+		if(s == true)
+		{
+			e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+		}
+
+		if(c && s && e)
+			return true;
+		else 
+			return false;
+	}
 
 /*
 	//dajaxice functions for "help" infomation
