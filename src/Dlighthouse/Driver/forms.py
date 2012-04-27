@@ -8,14 +8,14 @@ from django.db.models import get_model
 ### ---------------- for simple search ---------------- ###
 
 Problem_choices = (
-	('Combine LinearEquation_only solve',					'Solve a linear equation only'),
+	('Combine LinearEquation_only solve',					'Solve a system of linear equations only'),
 	('Computational LinearEquation_computational factor',			'Factor a matrix (PA = LU)'),
 	('Computational LinearEquation_computational refine',			'Refine the solution to a linear system'),
 	('Computational LinearEquation_computational error',			'Compute forward or backward error bound for the solution to a linear system'),
 	('Computational LinearEquation_computational condition', 		'Estimate the condition number of a matrix'),
 	('Computational LinearEquation_computational equilibrate',		'Equilibrate a matrix'),
 	('Computational LinearEquation_computational inverse',			'Invert a matrix using provided factors (P, L, U)'),
-	('Driver LinearEquation_expert',					'Solve a linear equation AND'),
+	('Driver LinearEquation_expert',					'Solve a system of linear equations AND'),
 	('Driver LinearEquation_expert refine',					'Refine the solution'),
 	('Driver LinearEquation_expert error',					'Compute forward or backward error bounds for the solution'),
 	('Driver LinearEquation_expert condition', 				'Estimate the condition number of the matrix'),
@@ -114,6 +114,9 @@ class AdvancedForm(forms.Form):
 				return item[1]
 
 
+
+
+###--------------- Linear Equation Computational Forms ------------------###
 Function_choices = (
 	('factor',			'factor a matrix (PA = LU)'),
 	('error',			'compute forward or backward error bounds for the solution to a linear system'),
@@ -160,7 +163,7 @@ Precision_choices = (
 
 
 
-###--------------- Linear Equation Computational Forms ------------------###
+
 class LinearEquation_computationalForm(forms.Form):
 	Description = 'Perform various computational tasks'
 	LinearEquation_computationalFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Function_choices)
