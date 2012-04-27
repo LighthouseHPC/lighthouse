@@ -213,8 +213,9 @@ ExpertDriverFunction_choices = (
 )	
 
 class LinearEquation_expertForm(forms.Form):
-	LinearEquation_expertDescription = forms.MultipleChoiceField(label='Solve a system of linear equations', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverEquation_choices)
-	LinearEquation_expertFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverFunction_choices)
+	Description = 'Solve a system of linear equations AND perform various computational routines'
+	LinearEquation_expertEquation = forms.MultipleChoiceField(label='Equations:', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverEquation_choices)
+	LinearEquation_expertFunction = forms.MultipleChoiceField(label='Tasks:', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverFunction_choices)
 	LinearEquation_expertComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)	
 	LinearEquation_expertMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)	
 	LinearEquation_expertStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)	

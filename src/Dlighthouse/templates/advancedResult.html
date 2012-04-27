@@ -53,25 +53,9 @@
 		<b>Description</b>
 	</td>
 	{% for item in GETS %}
-	{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
-	<td>
-		Solve a system of linear equations 
-		<ul>
-		{% for choice in DescriptionGETS.0.field.choices %}
-			<li>
-				<input type="checkbox" name="LinearEquation_expertDescription" value="{{choice.0}}"
-				{% if choice.0 in selected_Description  %} checked="checked" {% endif %}/>
-				<label for="">{{choice.1|safe}}</label>
-			</li>
-	{% endfor %}
-		</ul>
-		<i>and</i> perform various computational routines
-	</td>
-	{% else %}
 	<td>
 		{{ item.Description }}
 	</td>
-	{% endif %}
 	{% endfor %}
 </tr>
 
@@ -82,9 +66,26 @@
 		<b>Function</b>
 	</td>
 	{% for item in FunctionGETS %}
+	{% if item.label == 'Tasks:' %}
+	<td>Equation:
+		<ul>
+		{% for choice in EquationGETS.0.field.choices %}
+			<li>
+				<input type="checkbox" name="LinearEquation_expertEquation" value="{{choice.0}}"
+				{% if choice.0 in selected_Equation  %} checked="checked" {% endif %}/>
+				<label for="">{{choice.1|safe}}</label>
+			</li>
+		{% endfor %}
+		</ul>
+	   
+	    Task:
+		{{ item }}
+	</td>
+	{% else %}
 	<td>
 		{{ item }}
 	</td>
+	{% endif %}
 	{% endfor %}
 </tr>
 
@@ -235,7 +236,65 @@
             </td>
         </tr>
     </table>    
-</div>	
+</div>
+{% if model == 'LinearEquation_expert' %}
+<TABLE id='table_main'>
+<TR>
+	<table id='hor-zebra' width="80%">
+	<tr>
+	<th>Description</th> 
+	<th>Equation</th>
+	<th>Task</th>
+	<th>Complex Numbers</th>
+	<th>Matrix Type</th>
+	<th>Storage Type</th>
+	<th>Precision</th>  
+	<th>Routine</th>
+	</tr>
+
+	{% for list in value %}
+	{% if forloop.counter|divisibleby:2 %}		
+	<tr>
+	<td>{{ list.items.7.1 }}</td>
+	<td>{{ list.items.3.1|safe }}</td>
+	<td>{{ list.items.0.1 }}</td>
+	<td>{{ list.items.4.1 }}</td>
+	<td>{{ list.items.5.1 }}</td>
+	<td>{{ list.items.1.1 }}</td>
+	<td>{{ list.items.6.1 }}</td>
+	<td> {% if list.items.2.1 %}
+		{% for routine in list.items.2.1 %}
+		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+	    	{% endfor %}
+	     {% else %}
+		N/A
+	     {% endif %}	
+	</td> 
+	</tr>
+	{% else %}
+	<tr class='odd'>
+	<td>{{ list.items.7.1 }}</td>
+	<td>{{ list.items.3.1|safe }}</td>
+	<td>{{ list.items.0.1 }}</td>
+	<td>{{ list.items.4.1 }}</td>
+	<td>{{ list.items.5.1 }}</td>
+	<td>{{ list.items.1.1 }}</td>
+	<td>{{ list.items.6.1 }}</td>
+	<td> {% if list.items.2.1 %}
+		{% for routine in list.items.2.1 %}
+		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+	    	{% endfor %}
+	     {% else %}
+		N/A
+	     {% endif %}	
+	</td> 
+	</tr>
+	{% endif %}
+	{% endfor %}
+	</table>
+</TR> 
+</TABLE>
+{% else %}
 <TABLE id='table_main'>
 <TR>
 	<table id='hor-zebra' width="80%">
@@ -252,14 +311,14 @@
 	{% for list in value %}
 	{% if forloop.counter|divisibleby:2 %}		
 	<tr>
-	<td>{{ list.items.1.1|safe }}</td>
+	<td>{{ list.items.7.1 }}</td>
 	<td>{{ list.items.0.1 }}</td>
-	<td>{{ list.items.2.1 }}</td>
-	<td>{{ list.items.3.1 }}</td>
-	<td>{{ list.items.6.1 }}</td>
 	<td>{{ list.items.4.1 }}</td>
-	<td> {% if list.items.5.1 %}
-		{% for routine in list.items.5.1 %}
+	<td>{{ list.items.5.1 }}</td>
+	<td>{{ list.items.1.1 }}</td>
+	<td>{{ list.items.6.1 }}</td>
+	<td> {% if list.items.2.1 %}
+		{% for routine in list.items.2.1 %}
 		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 	    	{% endfor %}
 	     {% else %}
@@ -269,14 +328,14 @@
 	</tr>
 	{% else %}
 	<tr class='odd'>
-	<td>{{ list.items.1.1|safe }}</td>
+	<td>{{ list.items.7.1 }}</td>
 	<td>{{ list.items.0.1 }}</td>
-	<td>{{ list.items.2.1 }}</td>
-	<td>{{ list.items.3.1 }}</td>
-	<td>{{ list.items.6.1 }}</td>
 	<td>{{ list.items.4.1 }}</td>
-	<td> {% if list.items.5.1 %}
-		{% for routine in list.items.5.1 %}
+	<td>{{ list.items.5.1 }}</td>
+	<td>{{ list.items.1.1 }}</td>
+	<td>{{ list.items.6.1 }}</td>
+	<td> {% if list.items.2.1 %}
+		{% for routine in list.items.2.1 %}
 		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 	    	{% endfor %}
 	     {% else %}
@@ -288,7 +347,8 @@
 	{% endfor %}
 	</table>
 </TR> 
-</TABLE> 
+</TABLE>
+{% endif %}
 <br></br>
 {% endfor %}
 

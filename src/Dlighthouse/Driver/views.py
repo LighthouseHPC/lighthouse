@@ -394,7 +394,7 @@ def advancedsearchform(request):
 
 def advancedresult(request):
 #----- Display checked items -------#
-	for item in ['GETS', 'DescriptionGETS', 'FunctionGETS', 'ComplexGETS', 'MatrixTypeGETS', 'StorageTypeGETS', 'PrecisionGETS']:  
+	for item in ['GETS', 'EquationGETS', 'FunctionGETS', 'ComplexGETS', 'MatrixTypeGETS', 'StorageTypeGETS', 'PrecisionGETS']:  
 		request.session[item] = []
 
 	request.session['Results'] = {}
@@ -402,8 +402,8 @@ def advancedresult(request):
 	for model in request.session['App_Model']:
 		form_empty = str_to_class(model[1]+'Form')()
 		form = str_to_class(model[1]+'Form')(request.GET or None)
-		if model[1] == 'LinearEquation_expert': 		
-			request.session['DescriptionGETS'].append(form[model[1]+"Description"])	
+		if model[1] == 'LinearEquation_expert':
+			request.session['EquationGETS'].append(form[model[1]+"Equation"])
 		request.session['GETS'].append(form)
 		request.session['FunctionGETS'].append(form[model[1]+"Function"])
 		request.session['ComplexGETS'].append(form[model[1]+"Complex"])
@@ -420,19 +420,25 @@ def advancedresult(request):
 			selected_MatrixType = form.cleaned_data[model[1]+'MatrixType']
 			selected_StorageType = form.cleaned_data[model[1]+'StorageType']
 			selected_Precision = form.cleaned_data[model[1]+'Precision']
-			selected_Description = 0
+			selected_Equation = 0
 			if model[1] == 'LinearEquation_expert':
-				selected_Description = form.cleaned_data[model[1]+'Description']
+				selected_Equation = form.cleaned_data[model[1]+'Equation']
 				for comp in selected_Complex:
 					for precision in selected_Precision:
 						for matrix in selected_MatrixType:
 							for storage in selected_StorageType:
 								for function in selected_Function:
-									for equation in selected_Description:
+									for equation in selected_Equation:
 										if equation=='solve':
-											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find_function(function), 'Description': form_empty.find_equation(equation), 'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})
+											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
+																     'Storage type': storage, 'Function': form_empty.find_function(function),
+																     'Equation': form_empty.find_equation(equation), 'Description': form.Description,
+																     'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})
  										else: 
-											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find_function(function), 'Description': form_empty.find_equation(equation), 'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains='trans').filter(notes__icontains=function)})
+											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
+																     'Storage type': storage, 'Function': form_empty.find_function(function),
+																     'Equation': form_empty.find_equation(equation), 'Description': form.Description,
+																     'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains='trans').filter(notes__icontains=function)})
 
 			else:
 				for comp in selected_Complex:
@@ -440,11 +446,16 @@ def advancedresult(request):
 						for matrix in selected_MatrixType:
 							for storage in selected_StorageType:
 								for function in selected_Function:
-									request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix, 'Storage type': storage, 'Function': form_empty.find(function), 'Description': form.Description, 'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})						
+									request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
+														     'Storage type': storage, 'Function': form_empty.find(function),
+														     'Equation': 0, 'Description': form.Description,
+														     'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})						
 		
 	
 	AdvancedTab = True		
-	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'], 'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'], 'PrecisionGETS': request.session['PrecisionGETS'], 'DescriptionGETS': request.session['DescriptionGETS'], 'selected_Description': selected_Description, 'Results': request.session['Results']}
+	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'],
+		   'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'],
+		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results']}
 	return render_to_response('advancedResult.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 #	else:

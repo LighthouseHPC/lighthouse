@@ -52,32 +52,9 @@
 		<b>Description</b>
 	</td>
 	{% for item in Forms %}
-	{% if item.LinearEquation_expertDescription.label == 'Solve a system of linear equations' %}
-	<td>Solve a system of linear equations 
-		<ul>
-			<li>
-				<label for="id_LinearEquation_expertDescription_0">
-					<input type="checkbox" name="LinearEquation_expertDescription" value="solve" id="id_LinearEquation_expertDescription_0" /> AX = B
-				</label>
-			</li>
-			<li>
-				<label for="id_LinearEquation_expertDescription_1">
-					<input type="checkbox" name="LinearEquation_expertDescription" value="transpose" id="id_LinearEquation_expertDescription_1" /> A<sup>T</sup>X = B
-				</label>
-			</li>
-			<li>
-				<label for="id_LinearEquation_expertDescription_2">
-					<input type="checkbox" name="LinearEquation_expertDescription" value="Hermitian_trans" id="id_LinearEquation_expertDescription_2" /> A<sup>H</sup>X = B
-				</label>
-			</li>
-		</ul>
-		<i>and</i> perform various computational routines
-	</td>
-	{% else %}
 	<td>
 		{{ item.Description }}
 	</td>
-	{% endif %}
 	{% endfor %}
 </tr>
 
@@ -88,9 +65,55 @@
 		<b>Function</b>
 	</td>
 	{% for item in Function %}
+	{% if item.label == 'Tasks:' %}
+	<td>Equation:
+		<ul>
+			<li>
+				<label for="id_LinearEquation_expertEquation_0">
+					<input type="checkbox" name="LinearEquation_expertEquation" value="solve" id="id_LinearEquation_expertEquation_0" /> AX = B
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertEquation_1">
+					<input type="checkbox" name="LinearEquation_expertEquation" value="transpose" id="id_LinearEquation_expertEquation_1" /> A<sup>T</sup>X = B
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertEquation_2">
+					<input type="checkbox" name="LinearEquation_expertEquation" value="Hermitian_trans" id="id_LinearEquation_expertEquation_2" /> A<sup>H</sup>X = B
+				</label>
+			</li>
+		</ul>
+		
+	    Task:
+		<ul>
+			<li>
+				<label for="id_LinearEquation_expertFunction_0">
+					<input type="checkbox" name="LinearEquation_expertFunction" value="condition" id="id_LinearEquation_expertFunction_0" /> estimate the matrix condition number
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertFunction_1">
+					<input type="checkbox" name="LinearEquation_expertFunction" value="error" id="id_LinearEquation_expertFunction_1" /> compute error bounds for the solution
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertFunction_2">
+					<input type="checkbox" name="LinearEquation_expertFunction" value="refine" id="id_LinearEquation_expertFunction_2" /> refine the solution
+				</label>
+			</li>
+			<li>
+				<label for="id_LinearEquation_expertFunction_3">
+					<input type="checkbox" name="LinearEquation_expertFunction" value="equilibrate" id="id_LinearEquation_expertFunction_3" /> equilibrate the matrix
+				</label>
+			</li>
+		</ul>
+	</td>
+	{% else %}
 	<td>
 		{{ item }}
 	</td>
+	{% endif %}
 	{% endfor %}
 </tr>
 
