@@ -3,7 +3,7 @@
 	//var loadingEl = dojo.byId("loaderInner");
 	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
 	
-	dojo.addOnLoad( function() {
+	dojo.ready( function() {
 		// this is just a list of 'official' dijit themes, you can use
 		// ?theme=String for 'un-supported' themes, too. (eg: yours)
 		var availableThemes = [
@@ -72,6 +72,12 @@
 		if(strayGlobals.length) {
 			console.warn("Stray globals: "+strayGlobals.join(", "));
 		}
+		
+		
+		
+		
+		// create dnd Source
+		//var routineList = new Source("routineListNode", {copyOnly: true});
 	});
 
 
