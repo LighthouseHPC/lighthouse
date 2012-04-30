@@ -18,10 +18,18 @@
 </div>
 <br/>
 
-<div dojoType="dojo.dnd.Source" class="container" id="routineList">	
+<ul dojoType="dojo.dnd.Source" class="container" id="routineList">	
 {% for item in results %}
-	<div class="dojoDndItem">
-		<div class="routineName" style="background: #D7E6AC;"><h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}</h4></div>
+	<li class="dojoDndItem">
+		<div class="routineName">
+			<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+				<span class="infoHelpButton">
+					<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('{{ item.id }}').show()">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
+					</button>
+				</span>
+			</h4>
+		</div>
 		<div class="routineInfo">{% highlight item.info with "Purpose" max_length 500 %}
 			<button dojoType="dijit.form.Button" onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
@@ -48,12 +56,12 @@
 			</div>
 		</div>
 			
-	</div> 
+	</li> 
 
 {% empty %}
 {% endfor %}
 <br>
-</div>
+</ul>
 {% endif %} 
 
 

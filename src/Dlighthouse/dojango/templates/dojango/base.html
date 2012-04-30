@@ -41,7 +41,7 @@
                 <style type="text/css">
                         @import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
                         @import "{{ DOJANGO.THEME_CSS_URL }}";
-			@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/resources/dnd.css");
+			@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/resources/dnd.css");
 			@import url("{{ MEDIA_URL }}dndDefault.css");
                 </style>
                 {% endblock %}
@@ -299,9 +299,9 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>                                                        
-							<br>
-                                                        <div dojoType="dojo.dnd.Target" class="container2" id="selectedRoutines">
-								<div><h3>Drop selected routines here:</h3></div>
+                                                        <div class="selectedContainer" id="selectedRoutines">
+								<h2>Drop selected routines below:</h2>
+								<ol data-dojo-type="dojo.dnd.Source" class="container2"></ol>
 							</div>
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
