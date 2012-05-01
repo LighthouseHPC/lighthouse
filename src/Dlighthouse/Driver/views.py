@@ -13,7 +13,8 @@ from django.db.models import get_model, Q
 from itertools import chain
 from haystack.query import SearchQuerySet
 
-
+from django.core.urlresolvers import reverse
+from Codegen.templates import BTOGenerator
 
 
 
@@ -498,6 +499,29 @@ def search_result(request):
 
 
 '''
+
+
+
+###---------------- Script ------------------###
+def runScript(request):
+  if request.method == 'POST':
+    form = scriptForm(request.POST)
+    if form.is_valid():
+      request.session['userScript'] = form.cleaned_data['script']
+      #request.session['generatedCodeTemplate'] = "User input: " + request.session['userScript']
+      bto = BTOGenerator()
+      request.session['generatedCodeTemplate'] = bto.generateCode(str(request.session['userScript']))
+      result = request.session['generatedCodeTemplate']
+      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 
+        'scriptForm': scriptForm(initial={'script': request.session['userScript']}), 
+        'generatedCodeTemplate': request.session['generatedCodeTemplate']}
+      return render_to_response('index.html', context_instance=RequestContext(request, context))
+
+    else:
+      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
+      return render_to_response('index.html', context_instance=RequestContext(request, context))
+
+
 
 
 

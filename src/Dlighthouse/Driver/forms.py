@@ -238,5 +238,8 @@ class LinearEquation_expertForm(forms.Form):
 
 ###--------------- for the script area ------------------###
 class scriptForm(forms.Form):
-      script = forms.CharField(widget=forms.Textarea)
+	#script = forms.CharField(widget=forms.EditorInput(attrs={'rows':'15','cols':'60','plugins':"[]"}))
+	script = forms.CharField(widget=forms.Textarea(attrs={'dojoType':'dijit.form.SimpleTextarea','rows':'22', 'cols':'60',
+							      'styleSheets':"/dojotoolkit/dojo/resources/dojo.css"}))
+
 
