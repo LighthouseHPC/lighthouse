@@ -299,10 +299,9 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>                                                        
-                                                        <div id="selectedRoutines">
-								<h2>Drop selected routines below:</h2>
-								<ol id="selectedListNode" class="container2"></ol>
-							</div>
+						       {% block _dojango_selected_Routines %}
+						       {% include "selectedRoutines.html" %}
+						       {% endblock %}
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
                                                         <div id="title-div">
