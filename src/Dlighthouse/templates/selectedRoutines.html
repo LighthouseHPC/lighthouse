@@ -1,4 +1,50 @@
+<script type="text/javascript">
+	dojo.ready(function(){	
+		if (dojo.cookie("nameList") != null){
+			var nameList = dojo.cookie("nameList");
+			var nameArray = nameList.split(',');
+
+			for (k=0; k<nameArray.length; k++){
+				var detail = dojo.cookie(nameArray[k]);
+				dojo.create("li", {class: "dojoDndItem", value: detail, innerHTML: detail}, dojo.byId("selectedListNode"));
+				console.log(detail);
+				
+				
+/*			
+				var precision = detail.split("_")[0];
+				var routineName = detail.split("_")[1];
+				var matrixType = detail.split("_")[2];
+				var storage = detail.split("_")[3];
+				console.log(precision, routineName, matrixType, storage);
+				
+				dojo.create("li",
+					{
+						class: "dojoDndItem",
+						value: nameArray[k],
+						innerHTML: '<h4>'+nameArray[k]+
+						'<span class="infoHelpButton">'+
+						'<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId().show()">'+
+						'<img src="http://127.0.0.1:8000/media/Images/question.png" width="16" height="16"/>'+
+						'</button>'+
+						'</span>'+
+						'</h4>'
+					},
+					dojo.byId("selectedListNode")
+				)
+*/
+			}
+		}
+
+	});
+	//
+	//function createInfo(detail){
+	//	var detailArray = detail.split("_");
+	//	return detailArray;
+	//}
+
+</script>
+
 <div id="selectedRoutines">
 	<h2>Drop selected routines below:</h2>
-	<ol id="selectedListNode" class="container2"></ol>
+	<ul id="selectedListNode" class="container2"></ul>
 </div>

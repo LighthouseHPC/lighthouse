@@ -4,8 +4,16 @@
 	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
 	
 	dojo.ready( function() {
+		//delete cookie
+		if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
+			dojo.cookie("nameList", null, {expire: -1});
+			console.log("initial cookie:", dojo.cookie("nameList"));
+		}
+		
+		
 		// this is just a list of 'official' dijit themes, you can use
 		// ?theme=String for 'un-supported' themes, too. (eg: yours)
+		
 		var availableThemes = [
 			{
 				theme:"1",
@@ -76,14 +84,42 @@
 		
 	
 		
-		// create dnd Sources
-		var source = new dojo.dnd.Source("routineListNode");
-		var source = new dojo.dnd.Source("selectedListNode");
+		//create dnd Sources
+		var source1 = new dojo.dnd.Source("routineListNode");
+		var source2 = new dojo.dnd.Target("selectedListNode");
+
+		//set up cookie for selected routines
+		var nameObj = [];
+		dojo.connect( source1, "onDndDrop", 
+			function(source, nodes, copy, target){
+				console.log("cookie predrop:", dojo.cookie("nameList"));
+				var cookieToArray = [];
+				if (dojo.cookie("nameList") != null){
+					cookieToArray = dojo.cookie("nameList").split(',');
+				}
+				
+				for( i=0; i < nodes.length; i++){
+					item = this.getItem(nodes[i].id);
+					liId = nodes[i].id;
+					routineData = item.data;
+					nameObj.push(liId);
+					dojo.cookie(liId, routineData);
+					
+					// for hard-coded innerHTML in the selected routines area.
+					//detail = dojo.attr(dojo.byId(liId), "detail")
+					//dojo.cookie(liId, detail);
+				}
+				dojo.cookie("nameList", cookieToArray.concat(nameObj));
+				//console.log(dojo.attr(dojo.byId(nameObj[0]), "detail"));
+			}
+		);
+
 		
-		
+
 	});
 
-
+	
+	
 
 	// showing/hiding the table in the search result by clicking the image
 	function show_hide(tblid, show) {

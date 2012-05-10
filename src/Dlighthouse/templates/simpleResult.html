@@ -19,7 +19,8 @@
 
 <ul id="routineListNode" class="container">	
 {% for item in results %}
-	<li class="dojoDndItem">
+	<li class="dojoDndItem" id="{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
+	    detail="{{ item.thePrecision }}_{{ item.routineName|upper }}_{{ item.matrixType }}_{{ item.storageType }}">
 		<div class="routineName">
 			<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 				<span class="infoHelpButton">
