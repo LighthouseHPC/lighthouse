@@ -3,11 +3,15 @@
 		if (dojo.cookie("nameList") != null){
 			var nameList = dojo.cookie("nameList");
 			var nameArray = nameList.split(',');
+			console.log(nameArray);
+			unique = nameArray.unique();
+			console.log(unique);
 
-			for (k=0; k<nameArray.length; k++){
-				var detail = dojo.cookie(nameArray[k]);
+
+			for (k=0; k<unique.length; k++){
+				var detail = dojo.cookie(unique[k]);
 				dojo.create("li", {class: "dojoDndItem", value: detail, innerHTML: detail}, dojo.byId("selectedListNode"));
-				console.log(detail);
+				//console.log(detail);
 				
 				
 /*			
@@ -36,11 +40,25 @@
 		}
 
 	});
-	//
-	//function createInfo(detail){
-	//	var detailArray = detail.split("_");
-	//	return detailArray;
-	//}
+	
+	
+	// Eliminate duplicated elements in arrays
+	Array.prototype.unique = function () {
+		var r = new Array();
+		o:for(var i = 0; i< this.length; i++)
+		{
+			for(var j = 0; j< r.length; j++)
+			{
+				if(r[j]==this[i])
+				{
+					//alert(r[j] +' is a DUPE!');
+					continue o;
+				}
+			}
+			r[r.length] = this[i];
+		}
+		return r;
+	}
 
 </script>
 
