@@ -110,6 +110,7 @@
 					//dojo.cookie(liId, detail);
 				}
 				dojo.cookie("nameList", cookieToArray.concat(nameObj));
+				console.log("cookie after drop: ", dojo.cookie("nameList"));
 				//console.log(dojo.attr(dojo.byId(nameObj[0]), "detail"));
 			}
 		);
@@ -172,6 +173,43 @@
 		return restart;
 	}
 
+
+	
+	// Eliminate duplicated elements in arrays
+	Array.prototype.unique = function () {
+		var r = new Array();
+		o:for(var i = 0; i< this.length; i++)
+		{
+			for(var j = 0; j< r.length; j++)
+			{
+				if(r[j]==this[i])
+				{
+					//alert(r[j] +' is a DUPE!');
+					continue o;
+				}
+			}
+			r[r.length] = this[i];
+		}
+		return r;
+	}
+
+	
+	//dajax functions for selected routines
+	function selectedRoutines(){
+		var nameList = dojo.cookie("nameList");
+		var nameArray = nameList.split(',');
+		unique = nameArray.unique();
+
+		Dajaxice.Driver.createTemplate(Dajax.process, {'unique': unique});
+	} 
+	
+	
+	//clear selected routines
+	function clearAll(){
+		dojo.empty("selectedListNode");
+		dojo.cookie("nameList", null, {expire: -1});
+	}
+	
 	
 	// Check if at least one check box (out of three in the initial advanced search tab) has been selected 
 	function validateAdvancedCategoryCheckbox(chk1, chk2, chk3){
@@ -185,26 +223,26 @@
 	}
 
 	// Check if at least 1/2 check box is selected
-    function validate1Checkbox(cb1)
-    {
+	function validate1Checkbox(cb1)
+	{
 		if (cb1.checked == 0)
 			return false;
 		else
 			return true;
 	}
 
-    // Check if at least 1/2 check box is selected
-    function validate2Checkbox(cb1, cb2)
-    {
+	// Check if at least 1/2 check box is selected
+	function validate2Checkbox(cb1, cb2)
+	{
 		if (cb1.checked == 0 && cb2.checked == 0)
 			return false;
 		else
 			return true;
 	}
 
-    // Check if at least 1/3 check box is selected
-    function validate3Checkbox(cb1, cb2, cb3)
-    {
+	// Check if at least 1/3 check box is selected
+	function validate3Checkbox(cb1, cb2, cb3)
+	{
 		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0)
 			return false;
 		else
@@ -212,8 +250,8 @@
 	}
 
 	// Check if at least 1/4 check box is selected
-    function validate4Checkbox(cb1, cb2, cb3, cb4)
-    {
+	function validate4Checkbox(cb1, cb2, cb3, cb4)
+	{
 		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0)
 			return false;
 		else
@@ -221,8 +259,8 @@
 	}
 
 	// Check if at least 1/5 check box is selected
-    function validate5Checkbox(cb1, cb2, cb3, cb4, cb5)
-    {
+	function validate5Checkbox(cb1, cb2, cb3, cb4, cb5)
+	{
 		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0)
 			return false;
 		else
@@ -230,8 +268,8 @@
 	}
 
 	// Check if at least 1/6 check box is selected
-    function validate6Checkbox(cb1, cb2, cb3, cb4, cb5, cb6)
-    {
+	function validate6Checkbox(cb1, cb2, cb3, cb4, cb5, cb6)
+	{
 		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0)
 			return false;
 		else
@@ -239,8 +277,8 @@
 	}
 
 	// Check if at least 1/7 check box is selected
-    function validate7Checkbox(cb1, cb2, cb3, cb4, cb5, cb6, cb7)
-    {
+	function validate7Checkbox(cb1, cb2, cb3, cb4, cb5, cb6, cb7)
+	{
 		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0 && cb7.checked == 0)
 			return false;
 		else
@@ -250,7 +288,7 @@
 
 	// Check if at least one check box in each cell is selected (in Computational Routine Search)
 	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2)
-    {
+	{
 		f = validate7Checkbox(f1, f2, f3, f4, f5, f6, f7);
 		c = validate2Checkbox(c1, c2);
 		m = validate6Checkbox(m1, m2, m3, m4, m5, m6);
@@ -289,7 +327,7 @@
 
 	// Check if at least one check box in each cell is selected (in Simple Driver Routine Search)
 	function validateSimpleCheckbox(f1, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
-    {
+	{
 		f = validate1Checkbox(f1);
 		c = validate2Checkbox(c1, c2);
 		m = validate5Checkbox(m1, m2, m3, m4, m5);
@@ -327,7 +365,7 @@
 
 	// Check if at least one check box in each cell is selected (in Expert Driver Routine Search)
 	function validateExpertCheckbox(d1, d2, d3, f1, f2, f3, f4, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
-    {
+	{
     	d = validate3Checkbox(d1, d2, d3);
 		f = validate4Checkbox(f1, f2, f3, f4);
 		c = validate2Checkbox(c1, c2);
@@ -372,7 +410,7 @@
 
 	// Check if at least one check box in each cell is selected (in Computational Routine and Simple Driver Routine Search)
 	function validateComputationalSimpleCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2)
-    {
+	{
 		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
 
 		if(c == true)
@@ -389,7 +427,7 @@
 
 	// Check if at least one check box in each cell is selected (in Computational Routine and Expert Driver Routine Search)
 	function validateComputationalExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
-    {
+	{
 		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);	
 
 		if(c == true)
@@ -406,7 +444,7 @@
 
 	// Check if at least one check box in each cell is selected (in Simple Driver Routine and Expert Driver Routine Search)
 	function validateSimpleExpertCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
-    {
+	{
 		s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
 
 		if(s == true)
@@ -423,7 +461,7 @@
 
 	// Check if at least one check box in each cell is selected (in Computational Routines, Simple Driver Routine and Expert Driver Routine Search)
 	function validateComputationalSimpleExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
-    {		
+	{		
 		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
 
 		if(c == true)
@@ -448,5 +486,7 @@
 		alert(data.message);
 	} 
 */
+
+
 
 </script>

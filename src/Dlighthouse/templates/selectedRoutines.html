@@ -3,14 +3,21 @@
 		if (dojo.cookie("nameList") != null){
 			var nameList = dojo.cookie("nameList");
 			var nameArray = nameList.split(',');
-			console.log(nameArray);
+			//console.log(nameArray);
 			unique = nameArray.unique();
-			console.log(unique);
+			dojo.cookie("nameList", unique);
+			//console.log("unique: ", dojo.cookie("nameList"));
 
 
 			for (k=0; k<unique.length; k++){
 				var detail = dojo.cookie(unique[k]);
-				dojo.create("li", {class: "dojoDndItem", value: detail, innerHTML: detail}, dojo.byId("selectedListNode"));
+				dojo.create("li",
+					{
+						id: unique[k],
+						class: "dojoDndItem dojoDndItemAnchor",
+						innerHTML: detail
+					},
+					dojo.byId("selectedListNode"));
 				//console.log(detail);
 				
 				
@@ -40,29 +47,50 @@
 		}
 
 	});
-	
-	
-	// Eliminate duplicated elements in arrays
-	Array.prototype.unique = function () {
-		var r = new Array();
-		o:for(var i = 0; i< this.length; i++)
-		{
-			for(var j = 0; j< r.length; j++)
-			{
-				if(r[j]==this[i])
-				{
-					//alert(r[j] +' is a DUPE!');
-					continue o;
-				}
-			}
-			r[r.length] = this[i];
-		}
-		return r;
-	}
+
 
 </script>
 
 <div id="selectedRoutines">
-	<h2>Drop selected routines below:</h2>
-	<ul id="selectedListNode" class="container2"></ul>
+	<form>
+		<div id="">
+			<table align="right">
+				<tr>
+					<td>
+						<button data-dojo-type="dijit.form.Button" type="button"
+							onclick="selectedRoutines();">
+							Generate Template
+						</button >
+					</td>
+					<td>
+						<button data-dojo-type="dijit.form.Button" type="button"
+							onclick="clearAll();">
+							Clear
+						</button>
+					 </td>
+				</tr>
+			    </table>
+		</div>
+		<h2>Drop selected routines below:</h2>
+		<ul id="selectedListNode" class="container2"></ul>
+				<div id="">
+			<table align="right">
+				<tr>
+					<td>
+						<button data-dojo-type="dijit.form.Button" type="button"
+							onclick="selectedRoutines();">
+							Generate Template
+						</button >
+					</td>
+					<td>
+						<button data-dojo-type="dijit.form.Button" type="button"
+							onclick="clearAll();">
+							Clear
+						</button>
+					 </td>
+				</tr>
+			    </table>
+		</div>
+	</form>
+	
 </div>

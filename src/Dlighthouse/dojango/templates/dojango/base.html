@@ -1,7 +1,7 @@
 {% spaceless %}
         {% load dojango_base %}
         {% load dojango_filters %}
-	{#% load dajaxice_templatetags %#}
+	{% load dajaxice_templatetags %}
         {% if not DOJANGO %}
                 {# if the context processor did not pass the DOJANGO context, we set it here #}
                 {% set_dojango_context %}
@@ -47,7 +47,7 @@
                 {% endblock %}
 
 
-		{#% dajaxice_js_import %#}
+		{% dajaxice_js_import %}
 
                 <script type="text/javascript">
                         // baseUrl setting is needed, if you want to combine a local with a remote build!
@@ -316,7 +316,9 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>
-                                                        
+                                                        <div id="div-codeTemp">
+								
+							</div>
 							<br/>
                                               {{ generatedCodeTemplate }}
                                                 </div>
