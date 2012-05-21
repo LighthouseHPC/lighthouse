@@ -14,7 +14,8 @@
 </div>
 <br>
 
-<form name="advanced" action="/advanced/form/" name="frmProb" method="get">
+<form name="advanced" action="/advanced/form/" name="frmProb" method="post">
+	{% csrf_token %}
     <div id="question-div">
         <tr>
             <th>

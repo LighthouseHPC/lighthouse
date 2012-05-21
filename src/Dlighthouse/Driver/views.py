@@ -2,6 +2,9 @@ import string, types, sys
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, render
 from django.template.loader import render_to_string
+#---- for method = 'post' ---#
+from django.views.decorators.csrf import csrf_exempt
+
 
 from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert 
 from Computational.models import LinearEquation_computational
@@ -21,7 +24,7 @@ from Codegen.templates import BTOGenerator
 ###-------------------- Notes ----------------------###
 '''
 (1) "request.session" is a BIG dictionary that records the answers --> request.session = {Routines: [], 'Question_problem': [], 'Question_equation': [], 'Question_factor':[], ...}
-(2) form.cleaned_data and request.GET.getlist do the same thing --> list the chosen options.
+(2) form.cleaned_data and request.POST.getlist do the same thing --> list the chosen options.
 (3) get_model('appName', 'modelName') --> remember the ' '!
 (4) MODEL.objects.filter(**condition) --> condition MUST be a dictionary.
 (5) Model_List=[]  ---> when calling more than one models for SearchQuerySet().
@@ -57,9 +60,10 @@ def search_forms(request):
 #Question_problem answered!
 #Question_equation: What form of the linear system do you want to solve? 
 #or 
-#Question_complex: Are there complex numbers in your matrix? 
+#Question_complex: Are there complex numbers in your matrix?
+@csrf_exempt
 def search_problem(request):
-        form_Prob = ProblemForm(request.GET or None)
+        form_Prob = ProblemForm(request.POST or None)
         request.session['Question_problem'] = []
         request.session['queries'] = []
 
@@ -102,7 +106,7 @@ def search_problem(request):
 #Question_equation answered.
 #Question_factor: Is your matrix factored?
 def search_equation(request):
-	form_Equa = EquationForm(request.GET or None)
+	form_Equa = EquationForm(request.POST or None)
 	if form_Equa.is_valid():
 		if form_Equa.cleaned_data['question_equa'] == unicode('transpose'):
 			val_0 = 'transpose'
@@ -147,7 +151,7 @@ def search_equation(request):
 #Question_factor answered.
 #Question_complex: Are there complex numbers in your matrix?
 def search_factor(request):
-	form_Fact = FactorForm(request.GET or None)
+	form_Fact = FactorForm(request.POST or None)
 	if form_Fact.is_valid():
 		for val in form_Fact.fields['question_fact'].choices:
 			if val[0] == form_Fact.cleaned_data['question_fact']:
@@ -186,7 +190,7 @@ def search_factor(request):
 #Question_complex answered.
 #Question _matrixType: What is the type of your matrix? 
 def search_complex(request):
-	form_Comp = ComplexForm(request.GET or None)
+	form_Comp = ComplexForm(request.POST or None)
 	if form_Comp.is_valid():
 		if form_Comp.cleaned_data['question_comp'] == unicode('y'):
 			val_0 = 'y'
@@ -226,7 +230,7 @@ def search_complex(request):
 #Question_storageType: How is your matrix stored?
 
 def search_matrixtype(request):
-        form_Type = MatrixTypeForm(request, request.GET or None)
+        form_Type = MatrixTypeForm(request, request.POST or None)
 	if form_Type.is_valid():
  		for val in form_Type.fields['question_type'].choices:
 			if val[0] == form_Type.cleaned_data['question_type']:
@@ -251,7 +255,7 @@ def search_matrixtype(request):
 #Question_storageType answered.
 #Question_thePrecision: Would you like to use single or double precision?
 def search_storage(request):
-        form_Stor = StorageForm(request, request.GET or None)
+        form_Stor = StorageForm(request, request.POST or None)
 	if form_Stor.is_valid():
  		for val in form_Stor.fields['question_stor'].choices:
 			if val[0] == form_Stor.cleaned_data['question_stor']:
@@ -274,7 +278,7 @@ def search_storage(request):
 
 #Question_thePrecisio answered. ---> Final result.
 def search_precision(request):
-	form_Prec = PrecisionForm(request.GET or None)
+	form_Prec = PrecisionForm(request.POST or None)
 	if form_Prec.is_valid():
 		if form_Prec.cleaned_data['question_prec'] == unicode('d'):
 			val_0 = 'd'	
@@ -356,7 +360,7 @@ def whatPrecision(comp, prec):
 
 
 def advancedsearchform(request):
-	form_advanced = AdvancedForm(request.GET or None)
+	form_advanced = AdvancedForm(request.POST or None)
 	request.session['Question_advanced'] = []
 	request.session['App_Model'] = []			#---request.session['App_Model'] is a list of tuples: [(app1, model1), (app2, model2), (),...]
 	request.session['Forms'] = []
@@ -402,7 +406,7 @@ def advancedresult(request):
 
 	for model in request.session['App_Model']:
 		form_empty = str_to_class(model[1]+'Form')()
-		form = str_to_class(model[1]+'Form')(request.GET or None)
+		form = str_to_class(model[1]+'Form')(request.POST or None)
 		if model[1] == 'LinearEquation_expert':
 			request.session['EquationGETS'].append(form[model[1]+"Equation"])
 		request.session['GETS'].append(form)
@@ -480,8 +484,8 @@ def advancedresult(request):
 ###---------------- General Search ------------------###
 def search_result(request):
     error = False
-    if 'q' in request.GET:
-        Q = request.GET['q']
+    if 'q' in request.POST:
+        Q = request.POST['q']
 	q = Q.lower()
         if not q:
             error = True

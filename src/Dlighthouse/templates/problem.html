@@ -39,7 +39,8 @@
 <!-- ### Questions2: Are there complex numbers in your matrix? ###-->
 
 {% if Action == '/search/problem/complex/' %}
-<form action= {{ Action }} name="frmComp" method="get">
+<form action= {{ Action }} name="frmComp" method="post">
+  	{% csrf_token %}
     <div id="question-div">
         {{ form.as_ul }}        
     </div>
@@ -48,7 +49,8 @@
 	
 <!-- ### OR Questions2: What form of the linear system do you want to solve? ### -->
 {% else %}
-<form id=="frmEqua" action= {{ Action }} name="frmEqua" method="get">
+<form id=="frmEqua" action= {{ Action }} name="frmEqua" method="post">
+  	{% csrf_token %}
    <div id="question-div">
     <label for="id_question_equa_0">
         <ul style="padding-left: 20px; margin:0;">

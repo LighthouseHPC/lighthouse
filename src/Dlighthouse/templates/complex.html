@@ -110,7 +110,8 @@
 
 
 <!-- ### Question 3/5: What is the type of your matrix? ###-->
-<form action="/search/problem/complex/matrixtype/" name="frmType" method="get">
+<form action="/search/problem/complex/matrixtype/" name="frmType" method="post">
+  	{% csrf_token %}
   <div id="question-div">
     {{ form.as_ul }}    
   </div>

@@ -16,7 +16,8 @@
 
 
 <!-- ### Question 1 : Which of the following do you wish to compute? ###-->
-<form id="frmProb"  action="/search/problem/" name="frmProb" method="get">
+<form id="frmProb"  action="/search/problem/" name="frmProb" method="post">
+	{% csrf_token %}
 <div id="question-div">
 
 	<table style="padding:0px; margin:0px; border:0px;">

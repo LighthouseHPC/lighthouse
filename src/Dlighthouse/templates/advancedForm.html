@@ -16,8 +16,8 @@
 </div>
 <br>
 
-<form name="advanced" action="/advanced/result/" name="frmProb" method="get">
-		
+<form name="advanced" action="/advanced/result/" name="frmProb" method="post">
+	{% csrf_token %}	
 		<div style="padding-left:10px;">
 			<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>			
 			<b>Please check <i>at least</i> <u>one</u> box in each cell.</b>
