@@ -62,7 +62,7 @@ def search_forms(request):
 #or 
 #Question_complex: Are there complex numbers in your matrix?
 @csrf_exempt
-def search_problem(request):
+def guidedSearch_problem(request):
         form_Prob = ProblemForm(request.POST or None)
         request.session['Question_problem'] = []
         request.session['queries'] = []
@@ -81,11 +81,11 @@ def search_problem(request):
 
                 if appName == 'Driver' or appName == 'Combine':
                         form = EquationForm()
-                        action = '/search/problem/equation/'
+                        action = '/guided/problem_equation/'
         
                 else:
                         form = ComplexForm()
-                        action = '/search/problem/complex/'
+                        action = '/guided/problem_complex/'
                         request.session['Question_equation']=[0, 0]
                         request.session['Question_factor']=[0, 0]       
 
@@ -105,7 +105,7 @@ def search_problem(request):
 
 #Question_equation answered.
 #Question_factor: Is your matrix factored?
-def search_equation(request):
+def guidedSearch_equation(request):
 	form_Equa = EquationForm(request.POST or None)
 	if form_Equa.is_valid():
 		if form_Equa.cleaned_data['question_equa'] == unicode('transpose'):
@@ -150,7 +150,7 @@ def search_equation(request):
 
 #Question_factor answered.
 #Question_complex: Are there complex numbers in your matrix?
-def search_factor(request):
+def guidedSearch_factor(request):
 	form_Fact = FactorForm(request.POST or None)
 	if form_Fact.is_valid():
 		for val in form_Fact.fields['question_fact'].choices:
@@ -189,7 +189,7 @@ def search_factor(request):
 
 #Question_complex answered.
 #Question _matrixType: What is the type of your matrix? 
-def search_complex(request):
+def guidedSearch_complex(request):
 	form_Comp = ComplexForm(request.POST or None)
 	if form_Comp.is_valid():
 		if form_Comp.cleaned_data['question_comp'] == unicode('y'):
@@ -229,7 +229,7 @@ def search_complex(request):
 #Question_matrixtype answered. 
 #Question_storageType: How is your matrix stored?
 
-def search_matrixtype(request):
+def guidedSearch_matrixtype(request):
         form_Type = MatrixTypeForm(request, request.POST or None)
 	if form_Type.is_valid():
  		for val in form_Type.fields['question_type'].choices:
@@ -254,7 +254,7 @@ def search_matrixtype(request):
 
 #Question_storageType answered.
 #Question_thePrecision: Would you like to use single or double precision?
-def search_storage(request):
+def guidedSearch_storage(request):
         form_Stor = StorageForm(request, request.POST or None)
 	if form_Stor.is_valid():
  		for val in form_Stor.fields['question_stor'].choices:
@@ -277,7 +277,7 @@ def search_storage(request):
 
 
 #Question_thePrecisio answered. ---> Final result.
-def search_precision(request):
+def guidedSearch_precision(request):
 	form_Prec = PrecisionForm(request.POST or None)
 	if form_Prec.is_valid():
 		if form_Prec.cleaned_data['question_prec'] == unicode('d'):
@@ -318,13 +318,13 @@ def search_precision(request):
 
 
 ###---------------- Advanced Search ------------------###
-def advancedsearch(request):
-    request.session.clear()
-
-    form = AdvancedForm()	
-    context = {'form': form}
-
-    return render_to_response('advancedSearch.html', context_instance=RequestContext(request, context))
+#def advancedSearch(request):
+#    request.session.clear()
+#
+#    form = AdvancedForm()	
+#    context = {'form': form}
+#
+#    return render_to_response('advancedSearch.html', context_instance=RequestContext(request, context))
 
 
 
@@ -359,7 +359,7 @@ def whatPrecision(comp, prec):
 '''
 
 
-def advancedsearchform(request):
+def advancedForm(request):
 	form_advanced = AdvancedForm(request.POST or None)
 	request.session['Question_advanced'] = []
 	request.session['App_Model'] = []			#---request.session['App_Model'] is a list of tuples: [(app1, model1), (app2, model2), (),...]
@@ -397,7 +397,7 @@ def advancedsearchform(request):
 	
 
 
-def advancedresult(request):
+def advancedResult(request):
 #----- Display checked items -------#
 	for item in ['GETS', 'EquationGETS', 'FunctionGETS', 'ComplexGETS', 'MatrixTypeGETS', 'StorageTypeGETS', 'PrecisionGETS']:  
 		request.session[item] = []
