@@ -16,7 +16,7 @@
 
 
 <!-- ### Question 1 : Which of the following do you wish to compute? ###-->
-<form id="frmProb"  action="/guided/problem/" name="frmProb" method="post">
+<form id="frmProb"  action="/search/guided/problem/" name="frmProb" method="post">
 	{% csrf_token %}
 <div id="question-div">
 
@@ -316,7 +316,7 @@
 </form>
 			</td>
 			<td>
-				<form action="/index/">
+				<form action="/search/index/">
 					<button type="submit" name="clear" id="clearButton" title="Restart Search" onclick="return show_confirm()">
 					    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
 					</button>

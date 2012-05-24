@@ -17,7 +17,7 @@
 <br>
 <!-- ########### Advanced Search: Display Checked Items ###########-->
 
-<form name="advanced" action="/advanced/result/" name="frmProb" method="get">
+<form name="advanced" action="/search/advanced/result/" name="frmProb" method="get">
 		
 		<div style="padding-left:10px;">
 			<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>			
@@ -206,7 +206,7 @@
     </form>
     </td>
     <td>
-    <form action="/index/">
+    <form action="/search/index/">
             <button type="submit" name="clear" id="clearButton" title="Restart Search" > 
             	<img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
             </button>
@@ -364,6 +364,6 @@
 
 <!-- ########### Simple search questions: ###########-->
 {% block dojango_content_simpleSearch %}
-{% include "simpleSearch.html" %}
+{% include "search/simpleSearch.html" %}
 {% endblock %}
 

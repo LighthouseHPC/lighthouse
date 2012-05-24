@@ -81,11 +81,11 @@ def guidedSearch_problem(request):
 
                 if appName == 'Driver' or appName == 'Combine':
                         form = EquationForm()
-                        action = '/guided/problem_equation/'
+                        action = '/search/guided/problem_equation/'
         
                 else:
                         form = ComplexForm()
-                        action = '/guided/problem_complex/'
+                        action = '/search/guided/problem_complex/'
                         request.session['Question_equation']=[0, 0]
                         request.session['Question_factor']=[0, 0]       
 

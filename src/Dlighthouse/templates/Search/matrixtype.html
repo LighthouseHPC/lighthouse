@@ -140,7 +140,7 @@
 
 
 <!-- ### Question 4/6: How is your matrix stored? ###-->
-<form action="/guided/problem_complex_matrixtype_storage/" name="frmStor" method="post">
+<form action="/search/guided/problem_complex_matrixtype_storage/" name="frmStor" method="post">
   	{% csrf_token %}
   <div id="question-div">    
     {{ form.as_ul }}    
@@ -158,7 +158,7 @@
 </form>
 		</td>
 		<td>
-			<form action="/index/">
+			<form action="/search/index/">
 				<button type="submit" name="clear" id="clearButton" title="Restart Search" onclick="return show_confirm()">
 				    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
 				</button>

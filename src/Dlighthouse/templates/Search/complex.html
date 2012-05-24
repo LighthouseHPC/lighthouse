@@ -110,7 +110,7 @@
 
 
 <!-- ### Question 3/5: What is the type of your matrix? ###-->
-<form action="/guided/problem_complex_matrixtype/" name="frmType" method="post">
+<form action="/search/guided/problem_complex_matrixtype/" name="frmType" method="post">
   	{% csrf_token %}
   <div id="question-div">
     {{ form.as_ul }}    
@@ -129,7 +129,7 @@
 </form>
 		</td>
 		<td>
-			<form action="/index/">
+			<form action="/search/index/">
 				<button type="submit" name="clear" id="clearButton" title="Restart Search" onclick="return show_confirm()">
 				    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
 				</button>

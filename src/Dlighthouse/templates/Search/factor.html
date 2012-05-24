@@ -72,7 +72,7 @@
 
 
 <!-- ### Questions 4: Are there complex numbers in your matrix? ###-->
-<form id="="frmComp" action="/guided/problem_complex/" method="post">
+<form id="="frmComp" action="/search/guided/problem_complex/" method="post">
 	{% csrf_token %}  
   <div id="question-div">
     {{ form.as_ul }}
@@ -92,7 +92,7 @@
 </form>
 		</td>
 		<td>
-			<form action="/index/">
+			<form action="/search/index/">
 				<button type="submit" name="clear" id="clearButton" title="Restart Search" onclick="return show_confirm()">
 				    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
 				</button>

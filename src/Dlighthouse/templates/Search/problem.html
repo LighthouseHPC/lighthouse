@@ -38,7 +38,7 @@
 
 <!-- ### Questions2: Are there complex numbers in your matrix? ###-->
 
-{% if Action == '/guided/problem_complex/' %}
+{% if Action == '/search/guided/problem_complex/' %}
 <form action= {{ Action }} name="frmComp" method="post">
   	{% csrf_token %}
     <div id="question-div">
@@ -83,7 +83,7 @@
 </form>
 		</td>
 		<td>
-			<form action="/index/">
+			<form action="/search/index/">
 				<button type="submit" name="clear" id="clearButton" title="Restart Search" onclick="return show_confirm()">
 				    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
 				</button>
