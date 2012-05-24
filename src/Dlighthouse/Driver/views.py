@@ -51,7 +51,7 @@ def combine_Q(aList):
 def search_forms(request):
     request.session.clear()	
     context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
-    return render_to_response('index.html', context_instance=RequestContext(request, context))
+    return render_to_response('Search/index.html', context_instance=RequestContext(request, context))
 
 
 
@@ -90,12 +90,12 @@ def guidedSearch_problem(request):
                         request.session['Question_factor']=[0, 0]       
 
                 context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
-                return render_to_response('problem.html', context_instance=RequestContext(request, context))
+                return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))
                         
 
         else:
                 context = {'form': ProblemForm()}
-                return render_to_response('index.html', context_instance=RequestContext(request, context))
+                return render_to_response('Search/index.html', context_instance=RequestContext(request, context))
 
 
 
@@ -135,14 +135,14 @@ def guidedSearch_equation(request):
 		
 
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': val_1, 'form': form, 'results': request.session['Routines']}					
-		return render_to_response('equation.html', context_instance=RequestContext(request, context))
+		return render_to_response('Search/equation.html', context_instance=RequestContext(request, context))
 
  			
 	else:
         	form = EquationForm()
 		action = '/search/problem/equation/'
 		context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
-        	return render_to_response('problem.html', context_instance=RequestContext(request, context))
+        	return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))
 
 
 
@@ -174,13 +174,13 @@ def guidedSearch_factor(request):
 		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
 
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'form': form, 'results': request.session['Routines']}					
-		return render_to_response('factor.html', context_instance=RequestContext(request, context))
+		return render_to_response('Search/factor.html', context_instance=RequestContext(request, context))
 
  			
 	else:
         	form = FactorForm()
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],'form': form, 'results': request.session['Routines']}
-        	return render_to_response('equation.html', context_instance=RequestContext(request, context))
+        	return render_to_response('Search/equation.html', context_instance=RequestContext(request, context))
 
 
 
@@ -208,7 +208,7 @@ def guidedSearch_complex(request):
 		
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': val_1, 'form': form, 'results': request.session['Routines']}					
 		
-		return render_to_response('complex.html', context_instance=RequestContext(request, context))
+		return render_to_response('Search/complex.html', context_instance=RequestContext(request, context))
 
  			
 	else:
@@ -216,11 +216,11 @@ def guidedSearch_complex(request):
 		if request.session['Question_equation']==[0, 0]:
 			action = '/search/problem/complex/'
 			context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}		
-			return render_to_response('problem.html', context_instance=RequestContext(request, context))
+			return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))
 	
 		else:
 			context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1],'form': form, 'results': request.session['Routines']}
-        		return render_to_response('factor.html', context_instance=RequestContext(request, context))
+        		return render_to_response('Search/factor.html', context_instance=RequestContext(request, context))
 
 
 
@@ -238,13 +238,13 @@ def guidedSearch_matrixtype(request):
 				request.session['Question_matrixtype'] = [val[0], val[1]]
 				form = StorageForm(request)
 				context = {'query_prob': request.session['Question_problem'],  'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': val[1], 'form': form, 'results': request.session['Routines']}
-				return render_to_response('matrixtype.html', context_instance=RequestContext(request, context)) 
+				return render_to_response('Search/matrixtype.html', context_instance=RequestContext(request, context)) 
 
 	
 	else:
 		form = MatrixTypeForm(request)
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'form': form, 'results': request.session['Routines']}
-		return render_to_response('complex.html', context_instance=RequestContext(request, context))
+		return render_to_response('Search/complex.html', context_instance=RequestContext(request, context))
 
 
 
@@ -263,13 +263,13 @@ def guidedSearch_storage(request):
 				request.session['Question_storagetype'] = [val[0], val[1]]
 				form = PrecisionForm()
 				context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'query_stor': val[1], 'form': form, 'results': request.session['Routines']}
-				return render_to_response('storagetype.html', context_instance=RequestContext(request, context)) 
+				return render_to_response('Search/storagetype.html', context_instance=RequestContext(request, context)) 
 
 	
 	else:
 		form = StorageForm(request)
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'form': form, 'results': request.session['Routines']}
-		return render_to_response('matrixtype.html', context_instance=RequestContext(request, context))   
+		return render_to_response('Search/matrixtype.html', context_instance=RequestContext(request, context))   
 
 
 
@@ -299,13 +299,13 @@ def guidedSearch_precision(request):
 				request.session['Routines'] = request.session['Routines'].filter(thePrecision = 's')	
 
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1], 'query_prec': val_1, 'results': request.session['Routines']}
-		return render_to_response('precision.html', context_instance=RequestContext(request, context)) 		
+		return render_to_response('Search/precision.html', context_instance=RequestContext(request, context)) 		
 
 
 	else:
 		form = PrecisionForm()
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1], 'form': form, 'results': request.session['Routines']}
-		return render_to_response('storagetype.html', context_instance=RequestContext(request, context))
+		return render_to_response('Search/storagetype.html', context_instance=RequestContext(request, context))
 
 
 
@@ -324,7 +324,7 @@ def guidedSearch_precision(request):
 #    form = AdvancedForm()	
 #    context = {'form': form}
 #
-#    return render_to_response('advancedSearch.html', context_instance=RequestContext(request, context))
+#    return render_to_response('Search/advancedSearch.html', context_instance=RequestContext(request, context))
 
 
 
@@ -385,12 +385,12 @@ def advancedForm(request):
 			request.session['Precision'].append(form[answer.split()[1][:-4]+"Precision"])
 				
 		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 'StorageType':request.session['StorageType'], 'Precision': request.session['Precision']}
-		return render_to_response('advancedForm.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
+		return render_to_response('Search/advancedForm.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 	else:
    		form = AdvancedForm()	
 		context = {'form': form}
-		return render_to_response('advancedSearch.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
+		return render_to_response('Search/advancedSearch.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 
 
@@ -461,13 +461,13 @@ def advancedResult(request):
 	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'],
 		   'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'],
 		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results']}
-	return render_to_response('advancedResult.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
+	return render_to_response('Search/advancedResult.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 #	else:
 #   		form = AdvancedForm()	
 #    		context = {'form': form}
 
-#    		return render_to_response('advanced_search.html', context_instance=RequestContext(request, context))
+#    		return render_to_response('Search/advanced_search.html', context_instance=RequestContext(request, context))
 
 
 
@@ -496,10 +496,10 @@ def search_result(request):
             	routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
 		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
 
-		return render_to_response('search_results.html', {'results': routines, 'query': Q})
+		return render_to_response('Search/search_results.html', {'results': routines, 'query': Q})
 
    
-    return render_to_response('search_form.html', {'error': error})
+    return render_to_response('Search/search_form.html', {'error': error})
 
 
 '''
@@ -519,11 +519,11 @@ def runScript(request):
       context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 
         'scriptForm': scriptForm(initial={'script': request.session['userScript']}), 
         'generatedCodeTemplate': request.session['generatedCodeTemplate']}
-      return render_to_response('index.html', context_instance=RequestContext(request, context))
+      return render_to_response('Search/index.html', context_instance=RequestContext(request, context))
 
     else:
       context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
-      return render_to_response('index.html', context_instance=RequestContext(request, context))
+      return render_to_response('Search/index.html', context_instance=RequestContext(request, context))
 
 
 
