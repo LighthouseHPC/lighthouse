@@ -19,6 +19,9 @@ from haystack.query import SearchQuerySet
 from django.core.urlresolvers import reverse
 from Codegen.templates import BTOGenerator
 
+from django.contrib.auth.decorators import login_required
+
+
 
 
 ###-------------------- Notes ----------------------###
@@ -48,6 +51,7 @@ def combine_Q(aList):
 
 ###---------------- Home Page ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
+@login_required
 def search_forms(request):
     request.session.clear()	
     context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}

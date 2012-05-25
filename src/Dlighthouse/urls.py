@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
-from Driver.views import *
-
 from Dlighthouse import settings
+from Dlighthouse.views import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -20,7 +19,7 @@ urlpatterns = patterns('',
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
- #   (r'^$', welcome),
+    (r'^$', 'django.contrib.auth.views.login'),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
@@ -39,10 +38,9 @@ urlpatterns = patterns('',
     
     
     # Login / logout.
-    #(r'^login/$', 'django.contrib.auth.views.login'),
+    (r'^login/$', 'django.contrib.auth.views.login'),
     #(r'^logout/$', logout_page),
-    #(r'^registration/$', registration),
-    #(r'^complete/$', complete),
+    (r'^registration/$', registration),
     #
     # Web Search.
     (r'^search/', include('Driver.urls')),
