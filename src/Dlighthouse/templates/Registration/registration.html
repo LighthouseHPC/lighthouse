@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+    <body style="background-color:#eeeeee;">
+        <h1>Register</h1>
+      
+        <form action="/registration/" method="post">
+          {% csrf_token %}
+          <table>
+            {{ form.as_table }}
+              </table>
+          <p>
+            <input type="submit" value="Create the account">
+          </p>    
+        </form>
+    </body>
+</html>
