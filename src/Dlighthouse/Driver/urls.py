@@ -7,7 +7,6 @@ from Driver.views import *
 urlpatterns = patterns('',
 ### --- The following lines use Driver.views --- ###
     (r'^$', search_forms),
-    #(r'^index/$', search_forms),
     (r'^guided/problem/$', guidedSearch_problem), 
     (r'^guided/problem_equation/$', guidedSearch_equation),
     (r'^guided/problem_equation_factor/$', guidedSearch_factor),

@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
     (r'^$', 'django.contrib.auth.views.login'),
+    (r'^index/$', 'django.contrib.auth.views.login'),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
@@ -28,10 +29,10 @@ urlpatterns = patterns('',
     (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
 
     # For dojango
-    (r'^dojango/', include('dojango.urls')),
+    #(r'^dojango/', include('dojango.urls')),
 
     # For Haystack
-    (r'^search/', include('haystack.urls')),
+    #(r'^search/', include('haystack.urls')),
 
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),
@@ -39,9 +40,9 @@ urlpatterns = patterns('',
     
     # Login / logout.
     (r'^login/$', 'django.contrib.auth.views.login'),
-    #(r'^logout/$', logout_page),
+    (r'^logout/$', logout_page),
     (r'^registration/$', registration),
-    #
+    
     # Web Search.
     (r'^search/', include('Driver.urls')),
 
