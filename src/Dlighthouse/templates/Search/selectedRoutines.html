@@ -1,53 +1,61 @@
 <script type="text/javascript">
-	dojo.ready(function(){	
-		if (dojo.cookie("nameList") != null){
-			var nameList = dojo.cookie("nameList");
-			var nameArray = nameList.split(',');
-			//console.log(nameArray);
-			unique = nameArray.unique();
-			dojo.cookie("nameList", unique);
-			//console.log("unique: ", dojo.cookie("nameList"));
+//	dojo.ready(function(){	
+//		if (dojo.cookie("nameList") != null){
+//			var nameList = dojo.cookie("nameList");
+//			var nameArray = nameList.split(',');
+//			//console.log(nameArray);
+//			unique = nameArray.unique();
+//			dojo.cookie("nameList", unique);
+//			//console.log("unique: ", dojo.cookie("nameList"));
+//
+//
+//			for (k=0; k<unique.length; k++){
+//				var detail = dojo.cookie(unique[k]);
+//				dojo.create("li",
+//					{
+//						id: unique[k],
+//						class: "dojoDndItem dojoDndItemAnchor",
+//						innerHTML: detail
+//					},
+//					dojo.byId("selectedListNode"));
+//				//console.log(detail);
+//				
+//				
+///*			
+//				var precision = detail.split("_")[0];
+//				var routineName = detail.split("_")[1];
+//				var matrixType = detail.split("_")[2];
+//				var storage = detail.split("_")[3];
+//				console.log(precision, routineName, matrixType, storage);
+//				
+//				dojo.create("li",
+//					{
+//						class: "dojoDndItem",
+//						value: nameArray[k],
+//						innerHTML: '<h4>'+nameArray[k]+
+//						'<span class="infoHelpButton">'+
+//						'<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId().show()">'+
+//						'<img src="http://127.0.0.1:8000/media/Images/question.png" width="16" height="16"/>'+
+//						'</button>'+
+//						'</span>'+
+//						'</h4>'
+//					},
+//					dojo.byId("selectedListNode")
+//				)
+//*/
+//			}
+//		}
+//
+//	});
 
-
-			for (k=0; k<unique.length; k++){
-				var detail = dojo.cookie(unique[k]);
-				dojo.create("li",
-					{
-						id: unique[k],
-						class: "dojoDndItem dojoDndItemAnchor",
-						innerHTML: detail
-					},
-					dojo.byId("selectedListNode"));
-				//console.log(detail);
-				
-				
-/*			
-				var precision = detail.split("_")[0];
-				var routineName = detail.split("_")[1];
-				var matrixType = detail.split("_")[2];
-				var storage = detail.split("_")[3];
-				console.log(precision, routineName, matrixType, storage);
-				
-				dojo.create("li",
-					{
-						class: "dojoDndItem",
-						value: nameArray[k],
-						innerHTML: '<h4>'+nameArray[k]+
-						'<span class="infoHelpButton">'+
-						'<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId().show()">'+
-						'<img src="http://127.0.0.1:8000/media/Images/question.png" width="16" height="16"/>'+
-						'</button>'+
-						'</span>'+
-						'</h4>'
-					},
-					dojo.byId("selectedListNode")
-				)
-*/
-			}
-		}
-
-	});
-
+	var JSONObject = {
+			"name":"SGETRI",
+			"street":"Oslo West 16", 
+			"age":33,
+			"phone":"555 1234567"
+		};
+		
+	dojo.byId("name").innerHTML=JSONObject.name  
 
 </script>
 
@@ -71,7 +79,7 @@
 				</tr>
 			    </table>
 		</div>
-		<h2>Drop selected routines below:</h2>
+		<h2>Drop selected routines here:</h2>
 		<ul id="selectedListNode" class="container2"></ul>
 				<div id="">
 			<table align="right">
@@ -93,4 +101,11 @@
 		</div>
 	</form>
 	
+</div>
+
+
+
+
+<div>
+	<h4 id="name">{{ test }}</h4>
 </div>

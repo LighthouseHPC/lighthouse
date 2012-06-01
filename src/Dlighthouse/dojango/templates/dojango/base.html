@@ -35,7 +35,11 @@
                 <title>Lighthouse Search</title>
 
                 <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />
-		<p style="text-align:center;">Welcome, {{ user.username }}. <a href="/logout/">logout</a></p>
+		{% if user.is_authenticated %}
+			<p style="text-align:center;">Welcome, {{ user.username }}. <a href="/logout/">logout</a></p>
+		{% else %}
+			<p style="text-align:center;"><a href="/logout/">logout</a></p>
+		{% endif %}
 
                 {% block _dojango_dojo_styles %}
                 <style type="text/css">
@@ -299,9 +303,7 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>                                                        
-						       {% block _dojango_selected_Routines %}
-						       {% include "Search/selectedRoutines.html" %}
-						       {% endblock %}
+						       {% block dojango_content_selected_routines %}{% endblock %}
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
                                                         <div id="title-div">

@@ -1,14 +1,15 @@
 {% extends "dojango/base.html" %}
 
+<!-- ########### Simple search: ###########-->
 {% block dojango_content_simpleSearch %}
 {% include "Search/simpleSearch.html" %} 
 {% endblock %}
 
+
+<!-- ########### Advanced search: ###########-->
 {% block dojango_content_advancedSearch %}
 {% include "Search/advancedSearch.html" %}
 {% endblock %}
 
-<!-- ########### Simple search result: ###########-->
-{% block dojango_content_search_result %}
-{% include "Search/simpleResult.html" %}
-{% endblock %}
+
+
