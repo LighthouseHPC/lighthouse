@@ -146,11 +146,23 @@ class MatrixLexer:
     def t_NEWLINE(self,t):
         r'\n+'
         t.lineno += t.value.count('\n')
-        
+               
     # syntactical error
     def t_error(self,t):
-        self.err('MatrixParser.lexer: %s: syntactical error: "%s"' % ((t.lineno + __start_line_no - 1), t.value[0]))
-    
+        col = self.find_column(t.lexer.lexdata,t)
+        self.err("[matrixlexer] illegal character '%s' at line %s, column %s\n" % (t.value[0], t.lexer.lineno, col))
+        t.lexer.skip(1)
+
+    def find_column(self,input,token):
+        i = token.lexpos
+        while i > 0:
+            if input[i] == '\n': 
+              break
+            i -= 1
+        column = (token.lexpos - i) 
+        return column
+
+
     def err(self, s):
         self.errors.append(s)
         if self.printToStderr:
@@ -159,8 +171,8 @@ class MatrixLexer:
     def reset(self):
         self.lexer.lineno = 1
         
-    def build(self, **kwargs):
-        if kwargs.get('printToStderr'): del kwargs['printToStderr']
+    def build(self, printToStderr=False, **kwargs):
+        self.printToStderr = printToStderr
         if not kwargs.get('debug'): kwargs['debug']=self.debug
         if not kwargs.get('optimize'): kwargs['optimize']=self.optimize
         self.lexer = MatrixParser.ply.lex.lex(object=self, **kwargs)

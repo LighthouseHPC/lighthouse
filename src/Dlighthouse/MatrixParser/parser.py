@@ -144,7 +144,7 @@ def p_empty(p):
 def p_error(p):
     p.lexer.errors.append("[parser] Syntax error at token %s" % p.type)
     if p.lexer.printToStderr:
-        print >>os.stderr, "[parser] Syntax error at token", p.type
+        print >> sys.stderr, "[parser] Syntax error at token", p.type
 
 def getParser(start_line_no):
     '''Create the parser for the annotations language'''
