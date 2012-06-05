@@ -30,10 +30,12 @@ __start_line_no = 1
 #------------------------------------------------
 
 class MatrixLexer:
-    def __init__(self, debug=1, optimize=0):
+    def __init__(self, debug=1, optimize=0, printToStderr=1):
         self.currentline = ''
         self.debug = debug
         self.optimize = optimize
+        self.printToStderr = printToStderr
+        self.errors = []
         pass
         
     # reserved words
@@ -150,12 +152,15 @@ class MatrixLexer:
         self.err('MatrixParser.lexer: %s: syntactical error: "%s"' % ((t.lineno + __start_line_no - 1), t.value[0]))
     
     def err(self, s):
-        sys.stderr.write(s)
+        self.errors.append(s)
+        if self.printToStderr:
+          sys.stderr.write(s)
         
     def reset(self):
         self.lexer.lineno = 1
         
     def build(self, **kwargs):
+        if kwargs.get('printToStderr'): del kwargs['printToStderr']
         if not kwargs.get('debug'): kwargs['debug']=self.debug
         if not kwargs.get('optimize'): kwargs['optimize']=self.optimize
         self.lexer = MatrixParser.ply.lex.lex(object=self, **kwargs)

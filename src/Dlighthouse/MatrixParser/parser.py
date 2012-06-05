@@ -141,7 +141,11 @@ def p_empty(p):
     'empty : '
     p[0] = None
     
-    
+def p_error(p):
+    p.lexer.errors.append("[parser] Syntax error at token %s" % p.type)
+    if p.lexer.printToStderr:
+        print >>os.stderr, "[parser] Syntax error at token", p.type
+
 def getParser(start_line_no):
     '''Create the parser for the annotations language'''
 
@@ -155,6 +159,9 @@ def getParser(start_line_no):
 
     # return the parser
     return matrixparser
+
+def getVars(): 
+  return __matrix_language_vars
 
 # Driver (regenerates parse table)
 def setup_regen(debug = 1, outputdir='.'):
