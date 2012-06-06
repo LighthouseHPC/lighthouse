@@ -31,7 +31,7 @@
 			</h4>
 		</div>
 		<div class="routineInfo">{% highlight item.info with "Purpose" max_length 500 %}
-			<button dojoType="dijit.form.Button" onclick="dijit.byId('{{ item.id }}').show()">more</button>
+			<button onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id={{ item.id }} dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -51,7 +51,7 @@
 						</tr>
 					</table><br/>
 					<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
-					<button dojoType="dijit.form.Button" onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
+					<button onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>
 		</div>
