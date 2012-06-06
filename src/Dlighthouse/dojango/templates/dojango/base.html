@@ -34,12 +34,7 @@
 
                 <title>Lighthouse Search</title>
 
-                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />
-		{% if user.is_authenticated %}
-			<p style="text-align:center;">Welcome, {{ user.username }}. <a href="/logout/">logout</a></p>
-		{% else %}
-			<p style="text-align:center;"><a href="/logout/">logout</a></p>
-		{% endif %}
+                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />		
 
                 {% block _dojango_dojo_styles %}
                 <style type="text/css">
@@ -148,6 +143,38 @@
 		<div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; 
                 border-color:#c9dcfa;">
                         <img src="{{ MEDIA_URL }}Images/NewHeader.png"/>
+                        <div style="float:right; padding-top: 7px;">
+                        {% if user.is_authenticated %}                             
+                                <div>
+                                        <table>
+                                                <tr>
+                                                        <td>
+                                                                Welcome, {{ user.username }}.
+                                                        </td>
+                                                        <td>
+                                                                <a href="/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>
+                                                        </td>           
+                                                        <td>
+                                                                <a style="text-decoration: none; color:#000;" href="/logout/">logout</a>
+                                                        </td>
+                                                </tr>
+                                        </table>        
+                                </div> 
+                        {% else %}
+                                <div>
+                                        <table>
+                                                <tr>
+                                                        <td>
+                                                                <a href="/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>
+                                                        </td>           
+                                                        <td>
+                                                                <a style="text-decoration: none; color:#000;" href="/logout/">logout</a>
+                                                        </td>
+                                                </tr>
+                                        </table>        
+                                </div>                                
+                        {% endif %}
+                        </div>
                 </div>
 
 		<!-- "mainSplit" BorderContainer has all the real content -->
