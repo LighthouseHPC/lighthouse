@@ -20,7 +20,7 @@
 <ul id="routineListNode" class="container">	
 {% for item in results %}
 	<li class="dojoDndItem" id="{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-	    detail="{{ item.thePrecision }}_{{ item.routineName|upper }}_{{ item.matrixType }}_{{ item.storageType }}">
+	    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
 		<div class="routineName">
 			<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 				<span class="infoHelpButton">
@@ -34,7 +34,7 @@
 			<button onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
-			<div id={{ item.id }} dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+			<div id="{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div align="center">
 					<table id="table_main" width="80%" border = "1">
 						<tr>

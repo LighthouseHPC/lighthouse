@@ -1,14 +1,14 @@
 <script type="text/javascript">
-	// Loading themeTester
+	/* Loading themeTester */
 	//var loadingEl = dojo.byId("loaderInner");
 	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
 	
 	dojo.ready( function() {
-		//delete cookie
-		if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
-			dojo.cookie("nameList", null, {path: '/', expire: -1});
-			console.log("initial cookie:", dojo.cookie("nameList"));
-		}
+		/* delete cookie */
+		//if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
+		//	dojo.cookie("nameList", null, {path: '/', expire: -1});
+		//	console.log("initial cookie:", dojo.cookie("nameList"));
+		//}
 		
 		
 		// this is just a list of 'official' dijit themes, you can use
@@ -47,7 +47,7 @@
 		
 		
 		
-		// for parser time info
+		/* for parser time info */
 		var start = new Date().getTime();
 		dojo.parser.parse(dojo.byId('container'));
 		console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
@@ -84,11 +84,11 @@
 		
 	
 		
-		//create dnd Sources
+		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
 		var source2 = new dojo.dnd.Target("selectedListNode");
 
-		//set up cookie for selected routines
+		/* set up cookie for selected routines */
 		var nameObj = [];
 		dojo.connect( source1, "onDndDrop", 
 			function(source, nodes, copy, target){
@@ -101,19 +101,33 @@
 				for( i=0; i < nodes.length; i++){
 					item = this.getItem(nodes[i].id);
 					liId = nodes[i].id;
-					routineData = item.data;
-					nameObj.push(liId);
-					dojo.cookie(liId, routineData);
-					//console.log(typeof(routin));
+					//routineData = item.data;
+					//nameObj.push(liId);
+					//dojo.cookie(liId, routineData, {path: '/'});					
 					
-					// for hard-coded innerHTML in the selected routines area.
-					//detail = dojo.attr(dojo.byId(liId), "detail")
+					detail = dojo.attr(dojo.byId(liId), "detail")
+					console.log(detail);
 					//dojo.cookie(liId, detail);
+					
+					/* pass "routineData" to ajax.py for test */
+					//Dajaxice.Driver.test(Dajax.process, {'data': routineData});
+					
+					/* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
+					//dojo.xhrPost( {
+					//	url: "https://127.0.0.1:8000/search/test/",
+					//	content: {details: JSON.stringify(detail)}, 
+					//	load: function(response){
+					//		alert("ok");
+					//		},
+					//	error: function(){
+					//		alert("error");
+					//		} 
+					//});
 				}
-				dojo.cookie("nameList", cookieToArray.concat(nameObj));
-				console.log("cookie after drop: ", dojo.cookie("nameList"));
-				console.log(window.location.hostname);
-				console.log(location.href);
+				//dojo.cookie("nameList", cookieToArray.concat(nameObj), {path: '/'});
+				//console.log("cookie after drop: ", dojo.cookie("nameList"));
+				//console.log("host name:", window.location.hostname);
+				//console.log(location.href);
 				//console.log(dojo.attr(dojo.byId(nameObj[0]), "detail"));
 			}
 		);
@@ -123,10 +137,13 @@
 	});
 
 	
-	
+	/* clear cookie */
+	function clearCookie() {
+		dojo.cookie("nameList", null, {expire: -1});
+	}
 	
 
-	// showing/hiding the table in the search result by clicking the image
+	/* showing/hiding the table in the search result by clicking the image */
 	function show_hide(tblid, show) {
 		if (tbl == document.getElementById(tblid)) {
 			if (null == show) show = tbl.style.display == 'none';
@@ -135,7 +152,7 @@
 	}
 
 
-	// disable the radiobuttons in the first question when clicking a checkbox
+	/* disable the radiobuttons in the first question when clicking a checkbox */
 	function disableRadiobuttons() {
 	    length = document.frmProb.length;
 	    for (i=0; i<length; i++)
@@ -147,7 +164,7 @@
 
 
 
-	// disable the checkboxes in the first question when clicking a radiobutton
+	/* disable the checkboxes in the first question when clicking a radiobutton */
 	function disableCheckboxes() {
 	    length = document.frmProb.length;
 	    for (i=0; i<length; i++)
@@ -159,7 +176,7 @@
 
 
 	
-	// disable THE OTHER radiobutton in the "complex numbers" question --> NOT working yet!
+	/* disable THE OTHER radiobutton in the "complex numbers" question --> NOT working yet! */
 	function disableComplex(dict) {
 	   length = document.frmComp.length;
 	   for (i=0; i<length; i++)
@@ -170,7 +187,7 @@
 	}
 
 	
-	// Ask for confirmation when user clicks on Restart Search button
+	/* Ask for confirmation when user clicks on Restart Search button */
 	function show_confirm(){
 		var restart = "";
 		restart = confirm("Are you sure you want restart search?");
@@ -179,7 +196,7 @@
 
 
 	
-	// Eliminate duplicated elements in arrays
+	/* Eliminate duplicated elements in arrays */
 	Array.prototype.unique = function () {
 		var r = new Array();
 		o:for(var i = 0; i< this.length; i++)
@@ -198,7 +215,15 @@
 	}
 
 	
-	//dajax functions for selected routines
+
+
+	/* dajaxice functions for "help" infomation */
+	//function callback_linearEquationHelp(data){
+	//	alert(data.message);
+	//} 
+	
+	
+	/* dajax functions for selected routines */
 	//function generateTemp(){
 	//	var nameList = dojo.cookie("nameList");
 	//	var nameArray = nameList.split(',');
@@ -208,7 +233,7 @@
 	//} 
 	
 	
-	//clear selected routines
+	/* clear selected routines */
 	//function clearAll(){
 	//	dojo.empty("selectedListNode");
 	//	dojo.cookie("nameList", null, {expire: -1});
@@ -217,7 +242,10 @@
 	
 	
 	
-	/* ---------------------- For Advanced Search ---------------------- */
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Advanced Search ----------------------------- */
+	/*--------------------------------------------------------------------------------- */
 	
 	// Check if at least one check box (out of three in the initial advanced search tab) has been selected 
 	function validateAdvancedCategoryCheckbox(chk1, chk2, chk3){
@@ -488,12 +516,6 @@
 			return false;
 	}
 
-/*
-	//dajaxice functions for "help" infomation
-	function callback_linearEquationHelp(data){
-		alert(data.message);
-	} 
-*/
 
 
 

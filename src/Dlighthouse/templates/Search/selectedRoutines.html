@@ -1,107 +1,125 @@
-<script type="text/javascript">
-//	dojo.ready(function(){	
-//		if (dojo.cookie("nameList") != null){
-//			var nameList = dojo.cookie("nameList");
-//			var nameArray = nameList.split(',');
-//			//console.log(nameArray);
-//			unique = nameArray.unique();
-//			dojo.cookie("nameList", unique);
-//			//console.log("unique: ", dojo.cookie("nameList"));
-//
-//
-//			for (k=0; k<unique.length; k++){
-//				var detail = dojo.cookie(unique[k]);
-//				dojo.create("li",
-//					{
-//						id: unique[k],
-//						class: "dojoDndItem dojoDndItemAnchor",
-//						innerHTML: detail
-//					},
-//					dojo.byId("selectedListNode"));
-//				//console.log(detail);
-//				
-//				
-///*			
-//				var precision = detail.split("_")[0];
-//				var routineName = detail.split("_")[1];
-//				var matrixType = detail.split("_")[2];
-//				var storage = detail.split("_")[3];
-//				console.log(precision, routineName, matrixType, storage);
-//				
-//				dojo.create("li",
-//					{
-//						class: "dojoDndItem",
-//						value: nameArray[k],
-//						innerHTML: '<h4>'+nameArray[k]+
-//						'<span class="infoHelpButton">'+
-//						'<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId().show()">'+
-//						'<img src="http://127.0.0.1:8000/media/Images/question.png" width="16" height="16"/>'+
-//						'</button>'+
-//						'</span>'+
-//						'</h4>'
-//					},
-//					dojo.byId("selectedListNode")
-//				)
-//*/
-//			}
-//		}
-//
-//	});
+<!--<script type="text/javascript">
+	dojo.ready(function(){
+		/* retrieve cookie("nameList") and generate list items */
+		if (dojo.cookie("nameList") != null){
+			nameList = dojo.cookie("nameList");
+			nameArray = nameList.split(',');
+			/* create a new array in which no elements are duplicated */
+			unique = nameArray.unique();
+			dojo.cookie("nameList", unique);
+			//console.log("unique: ", dojo.cookie("nameList"));
 
-	var JSONObject = {
-			"name":"SGETRI",
-			"street":"Oslo West 16", 
-			"age":33,
-			"phone":"555 1234567"
+
+			for (k=0; k<unique.length; k++){
+				var detail = dojo.cookie(unique[k]);
+				dojo.create("li",
+					{
+						id: unique[k],
+						class: "dojoDndItem dojoDndItemAnchor",
+						innerHTML: dojo.byId(unique[k]).innerHTML
+					},
+					dojo.byId("selectedListNode"));
+				//console.log(dojo.byId(unique[k]).innerHTML);
+			}
 		};
-		
-	dojo.byId("name").innerHTML=JSONObject.name  
+	});
+	
+</script>-->
 
-</script>
+
 
 <div id="selectedRoutines">
 	<form>
 		<div id="">
-			<table align="right">
-				<tr>
-					<td>
-						<button type="button" onclick="generateTemp();">
-							Generate Template
-						</button >
-					</td>
-					<td>
-						<button type="button" onclick="clearAll();">
-							Clear
-						</button>
-					 </td>
-				</tr>
-			    </table>
+                        <table align="right">
+                                <tr>
+                                        <td>
+                                                <button type="button" onclick="generateTemp();">
+                                                        Generate Template
+                                                </button >
+                                        </td>
+                                        <td>
+                                                <button type="button" onclick="clearAll();">
+                                                        Clear
+                                                </button>
+                                         </td>
+                                </tr>
+                            </table>
+
 		</div>
 		<h2>Drop selected routines here:</h2>
+		<!--load request.session["selectedRoutines]-->
+		<ul id="sel_routineListNode" class="container2">	
+		{% for item in test %}
+			<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+				<div class="routineName">
+					<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+						<span class="">
+							<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('sel_{{ item.id }}').show()">
+								<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
+							</button>
+						</span>
+					</h4>
+				</div>
+				<div class="dijitHidden">
+					<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+						<div align="center">
+							<table id="table_main" width="80%" border = "1">
+								<tr>
+								<th>Precision</th>
+								<th>Routine Name</th>
+								<th>Matrix Type</th>
+								<th>Storage</th>
+								</tr>
+								<tr>
+								<td>{{ item.thePrecision|upper }}</td>
+								<td>{{ item.routineName|upper }}</td> 
+								<td>{{ item.matrixType }}</td> 
+								<td>{{ item.storageType }}</td>      
+								</tr>
+							</table><br/>
+							<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
+							<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+						</div>
+					</div>
+				</div>
+					
+			</li>
+		{% endfor %}
+		</ul>
+		
+		<!--Dropped-items area-->
 		<ul id="selectedListNode" class="container2"></ul>
-				<div id="">
-			<table align="right">
-				<tr>
-					<td>
-						<button type="button" onclick="generateTemp();">
-							Generate Template
-						</button >
-					</td>
-					<td>
-						<button type="button" onclick="clearAll();">
-							Clear
-						</button>
-					 </td>
-				</tr>
-			    </table>
+
+		<div id="">
+                        <table align="right">
+                                <tr>
+                                        <td>
+                                                <button type="button" onclick="generateTemp();">
+                                                        Generate Template
+                                                </button >
+                                        </td>
+                                        <td>
+                                                <button type="button" onclick="clearAll();">
+                                                        Clear
+                                                </button>
+                                         </td>
+                                </tr>
+                            </table>
+
 		</div>
 	</form>
-	
 </div>
 
-
-
-
-<div>
-	<h4 id="name">{{ test }}</h4>
-</div>
+<!--<script type="text/javascript">
+	for (k=0; k<unique.length; k++){
+		//var detail = dojo.cookie(unique[k]);
+		//dojo.create("li",
+		//	{
+		//		id: unique[k],
+		//		class: "dojoDndItem dojoDndItemAnchor",
+		//		innerHTML: dojo.byId(unique[k]).innerHTML
+		//	},
+		//	dojo.byId("selectedListNode"));
+		console.log(dojo.byId(unique[k]).innerHTML);}
+</script>-->

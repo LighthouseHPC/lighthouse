@@ -1,4 +1,5 @@
 import string, types, sys
+from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, render
 from django.template.loader import render_to_string
@@ -35,8 +36,6 @@ from django.contrib.auth.decorators import login_required
 
 
 
-
-
 ### ---------------- Define functions------------------ ###
 #Combine (and) the Q's.
 def combine_Q(aList):
@@ -51,7 +50,7 @@ def combine_Q(aList):
 
 ###---------------- Home Page ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
-@login_required
+#@login_required
 def search_forms(request):
     request.session.clear()	
     context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
@@ -70,6 +69,7 @@ def guidedSearch_problem(request):
         form_Prob = ProblemForm(request.POST or None)
         request.session['Question_problem'] = []
         request.session['queries'] = []
+        request.session['mykey'] = 'ok'
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
@@ -94,13 +94,11 @@ def guidedSearch_problem(request):
                         request.session['Question_factor']=[0, 0]       
 
                 context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
-                return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))
-                        
+                return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))        
 
         else:
                 context = {'form': ProblemForm()}
                 return render_to_response('Search/index.html', context_instance=RequestContext(request, context))
-
 
 
 
@@ -209,8 +207,11 @@ def guidedSearch_complex(request):
 			
 		request.session['Question_complex'] = [val_0, val_1] 
 		form = MatrixTypeForm(request)	
-		
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': val_1, 'form': form, 'results': request.session['Routines']}					
+		request.session['selectedRoutines'] = [{"thePrecision": "S", "routineName": "GETRI", "matrixType": "general", "storageType": "full", "id": "197", "url": "http://www.netlib.org/lapack/single/sgetri.f"},
+			{"thePrecision": "D", "routineName": "GETRI", "matrixType": "general", "storageType": "full", "id": "198", "url": "http://www.netlib.org/lapack/double/dgetri.f"}]
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'query_fact': request.session['Question_factor'][1], 'query_comp': val_1, 'form': form,
+			   'results': request.session['Routines'], 'test': request.session['selectedRoutines']}					
 		
 		return render_to_response('Search/complex.html', context_instance=RequestContext(request, context))
 
@@ -532,4 +533,13 @@ def runScript(request):
 
 
 
+def update_session(request):
+    if not request.is_ajax() or not request.method=='POST':
+        return HttpResponseNotAllowed(['POST'])
+    
+    else:
+        #request.session['mykey'] = json.loads(request.POST.get('details', '[]'))
+        #return HttpResponse(request.session['mykey'])
+        request.session['mykey'] = 'not ok'
+        return request.session['mykey']
 
