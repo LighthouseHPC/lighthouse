@@ -69,7 +69,7 @@ def guidedSearch_problem(request):
         form_Prob = ProblemForm(request.POST or None)
         request.session['Question_problem'] = []
         request.session['queries'] = []
-        request.session['mykey'] = 'ok'
+        request.session['mykey'] = []
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
@@ -211,7 +211,7 @@ def guidedSearch_complex(request):
 			{"thePrecision": "D", "routineName": "GETRI", "matrixType": "general", "storageType": "full", "id": "198", "url": "http://www.netlib.org/lapack/double/dgetri.f"}]
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
 			   'query_fact': request.session['Question_factor'][1], 'query_comp': val_1, 'form': form,
-			   'results': request.session['Routines'], 'test': request.session['selectedRoutines']}					
+			   'results': request.session['Routines'], 'test': request.session['selectedRoutines'], 'test2': request.session['mykey']}					
 		
 		return render_to_response('Search/complex.html', context_instance=RequestContext(request, context))
 
@@ -532,14 +532,20 @@ def runScript(request):
 
 
 
-
+@csrf_exempt
 def update_session(request):
-    if not request.is_ajax() or not request.method=='POST':
-        return HttpResponseNotAllowed(['POST'])
-    
+    if request.is_ajax():
+	request.session['mykey']=[
+		{"thePrecision": request.POST.get('precision'),
+		 "routineName": request.POST.get('routineName'),
+		 "matrixType": request.POST.get('matrixType'),
+		 "storageType": request.POST.get('storageType'),
+		 "id": request.POST.get('idn'),
+		 "url": request.POST.get('url')}
+		]
+        return HttpResponse(request.session['mykey'])
     else:
-        #request.session['mykey'] = json.loads(request.POST.get('details', '[]'))
-        #return HttpResponse(request.session['mykey'])
-        request.session['mykey'] = 'not ok'
-        return request.session['mykey']
+        return HttpResponse('only AJAX requests are allowed!')
+
+
 

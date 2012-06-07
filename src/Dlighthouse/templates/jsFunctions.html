@@ -92,7 +92,7 @@
 		var nameObj = [];
 		dojo.connect( source1, "onDndDrop", 
 			function(source, nodes, copy, target){
-				console.log("cookie predrop:", dojo.cookie("nameList"));
+				//console.log("cookie predrop:", dojo.cookie("nameList"));
 				var cookieToArray = [];
 				if (dojo.cookie("nameList") != null){
 					cookieToArray = dojo.cookie("nameList").split(',');
@@ -106,23 +106,36 @@
 					//dojo.cookie(liId, routineData, {path: '/'});					
 					
 					detail = dojo.attr(dojo.byId(liId), "detail")
-					console.log(detail);
+					var precision = detail.split("_")[0];
+		                        var routineName = detail.split("_")[1];
+		                        var matrixType = detail.split("_")[2];
+					var storageType = detail.split("_")[3];
+					var idn = detail.split("_")[4];
+					var url = detail.split("_")[5];	
+					//console.log(detail);
 					//dojo.cookie(liId, detail);
 					
 					/* pass "routineData" to ajax.py for test */
 					//Dajaxice.Driver.test(Dajax.process, {'data': routineData});
 					
 					/* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
-					//dojo.xhrPost( {
-					//	url: "https://127.0.0.1:8000/search/test/",
-					//	content: {details: JSON.stringify(detail)}, 
-					//	load: function(response){
-					//		alert("ok");
-					//		},
-					//	error: function(){
-					//		alert("error");
-					//		} 
-					//});
+					dojo.xhrPost( {
+						url: "/search/test/",
+						content: {
+							precision: JSON.stringify(precision),
+							routineName: JSON.stringify(routineName),
+							matrixType: JSON.stringify(matrixType),
+							storageType: JSON.stringify(storageType),
+							idn: JSON.stringify(idn),
+							url: JSON.stringify(url)
+							},
+						load: function(response){
+						    console.log("load response: ", response);
+						    },
+						error: function(){
+						    console.log("error");
+						    }
+					});
 				}
 				//dojo.cookie("nameList", cookieToArray.concat(nameObj), {path: '/'});
 				//console.log("cookie after drop: ", dojo.cookie("nameList"));
