@@ -30,26 +30,8 @@
 
 <div id="selectedRoutines">
 	<form>
-		<div id="">
-                        <table align="right">
-                                <tr>
-                                        <td>
-                                                <button type="button" onclick="generateTemp();">
-                                                        Generate Template
-                                                </button >
-                                        </td>
-                                        <td>
-                                                <button type="button" onclick="clearAll();">
-                                                        Clear
-                                                </button>
-                                         </td>
-                                </tr>
-                            </table>
-
-		</div>
-		<h2>Drop selected routines here:</h2>
 		<!--load request.session["selectedRoutines]-->
-		<ul id="sel_routineListNode" class="container2">	
+		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">	
 		{% for item in test %}
 			<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div class="routineName">
@@ -89,25 +71,25 @@
 		</ul>
 		
 		<!--Dropped-items area-->
-		<ul id="selectedListNode" class="container2"></ul>
+		<ul id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">Drop selected routines here:</ul>		
 
-		<div id="">
-                        <table align="right">
-                                <tr>
-                                        <td>
-                                                <button type="button" onclick="generateTemp();">
-                                                        Generate Template
-                                                </button >
-                                        </td>
-                                        <td>
-                                                <button type="button" onclick="clearAll();">
-                                                        Clear
-                                                </button>
-                                         </td>
-                                </tr>
-                            </table>
-
+		<div id="button-div">
+		    <table align="right">
+			<tr>
+				<td>
+					<button type="button" onclick="generateTemp();">
+                            Generate Template
+                    </button >
+				</td>
+				<td>					
+					<button type="button" onclick="clearAll();">
+                                Clear
+                    </button>
+				 </td>
+			</tr>
+		    </table>
 		</div>
+
 	</form>
 </div>
 
