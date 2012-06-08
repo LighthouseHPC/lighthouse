@@ -31,6 +31,7 @@
 <div id="selectedRoutines">
 	<form>
 		<!--load request.session["selectedRoutines]-->
+		{% if test %}
 		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">	
 		{% for item in test %}
 			<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -69,6 +70,7 @@
 			</li>
 		{% endfor %}
 		</ul>
+		{% endif %}
 		
 		<!--Dropped-items area-->
 		<ul id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">Drop selected routines here:</ul>		
