@@ -48,6 +48,29 @@ def combine_Q(aList):
 
 
 
+###---------------- Ajax post to update request.session['selectedRoutines']------------------###
+@csrf_exempt
+def update_session(request):
+    if request.is_ajax():
+	selectedRoutineList = [
+		{"thePrecision": request.POST.get('precision'),
+		 "routineName": request.POST.get('routineName'),
+		 "matrixType": request.POST.get('matrixType'),
+		 "storageType": request.POST.get('storageType'),
+		 "id": request.POST.get('idn'),
+		 "url": request.POST.get('url')}
+		]
+	if selectedRoutineList[0] not in request.session['selectedRoutines']:
+		request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
+        return HttpResponse(request.session['selectedRoutines'])
+    else:
+        return HttpResponse('only AJAX requests are allowed!')
+	
+
+
+
+
+
 ###---------------- Home Page ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
 #@login_required
@@ -69,7 +92,7 @@ def guidedSearch_problem(request):
         form_Prob = ProblemForm(request.POST or None)
         request.session['Question_problem'] = []
         request.session['queries'] = []
-        request.session['mykey'] = []
+	request.session['selectedRoutines'] = []
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
@@ -136,14 +159,16 @@ def guidedSearch_equation(request):
 		form = FactorForm()
 		
 
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': val_1, 'form': form, 'results': request.session['Routines']}					
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': val_1, 'form': form,
+			   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}					
 		return render_to_response('Search/equation.html', context_instance=RequestContext(request, context))
 
  			
 	else:
         	form = EquationForm()
 		action = '/search/problem/equation/'
-		context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
+		context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action,
+			   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
         	return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))
 
 
@@ -175,13 +200,16 @@ def guidedSearch_factor(request):
 
 		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
 
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'form': form, 'results': request.session['Routines']}					
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'query_fact': request.session['Question_factor'][1], 'form': form, 'results': request.session['Routines'],
+			   'selectedRoutines': request.session['selectedRoutines'],}					
 		return render_to_response('Search/factor.html', context_instance=RequestContext(request, context))
 
  			
 	else:
         	form = FactorForm()
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],'form': form, 'results': request.session['Routines']}
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'form': form, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
         	return render_to_response('Search/equation.html', context_instance=RequestContext(request, context))
 
 
@@ -207,11 +235,9 @@ def guidedSearch_complex(request):
 			
 		request.session['Question_complex'] = [val_0, val_1] 
 		form = MatrixTypeForm(request)	
-		request.session['selectedRoutines'] = [{"thePrecision": "S", "routineName": "GETRI", "matrixType": "general", "storageType": "full", "id": "197", "url": "http://www.netlib.org/lapack/single/sgetri.f"},
-			{"thePrecision": "D", "routineName": "GETRI", "matrixType": "general", "storageType": "full", "id": "198", "url": "http://www.netlib.org/lapack/double/dgetri.f"}]
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
 			   'query_fact': request.session['Question_factor'][1], 'query_comp': val_1, 'form': form,
-			   'results': request.session['Routines'], 'test': request.session['selectedRoutines'], 'test2': request.session['mykey']}					
+			   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}					
 		
 		return render_to_response('Search/complex.html', context_instance=RequestContext(request, context))
 
@@ -224,7 +250,9 @@ def guidedSearch_complex(request):
 			return render_to_response('Search/problem.html', context_instance=RequestContext(request, context))
 	
 		else:
-			context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1],'form': form, 'results': request.session['Routines']}
+			context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+				   'query_fact': request.session['Question_factor'][1],'form': form, 'results': request.session['Routines'],
+				   'selectedRoutines': request.session['selectedRoutines'],}
         		return render_to_response('Search/factor.html', context_instance=RequestContext(request, context))
 
 
@@ -242,13 +270,18 @@ def guidedSearch_matrixtype(request):
 				request.session['Routines'] = request.session['Routines'].filter(matrixType = val[0])
 				request.session['Question_matrixtype'] = [val[0], val[1]]
 				form = StorageForm(request)
-				context = {'query_prob': request.session['Question_problem'],  'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': val[1], 'form': form, 'results': request.session['Routines']}
+				context = {'query_prob': request.session['Question_problem'],  'query_equa': request.session['Question_equation'][1],
+					   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
+					   'query_type': val[1], 'form': form, 'results': request.session['Routines'],
+					   'selectedRoutines': request.session['selectedRoutines'],}
 				return render_to_response('Search/matrixtype.html', context_instance=RequestContext(request, context)) 
 
 	
 	else:
 		form = MatrixTypeForm(request)
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'form': form, 'results': request.session['Routines']}
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
+			   'form': form, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
 		return render_to_response('Search/complex.html', context_instance=RequestContext(request, context))
 
 
@@ -267,13 +300,19 @@ def guidedSearch_storage(request):
 				request.session['Routines'] = request.session['Routines'].filter(storageType = val[0])
 				request.session['Question_storagetype'] = [val[0], val[1]]
 				form = PrecisionForm()
-				context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'query_stor': val[1], 'form': form, 'results': request.session['Routines']}
+				context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+					   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
+					   'query_type': request.session['Question_matrixtype'][1], 'query_stor': val[1], 'form': form,
+					   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
 				return render_to_response('Search/storagetype.html', context_instance=RequestContext(request, context)) 
 
 	
 	else:
 		form = StorageForm(request)
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'form': form, 'results': request.session['Routines']}
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
+			   'query_type': request.session['Question_matrixtype'][1], 'form': form,
+			   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
 		return render_to_response('Search/matrixtype.html', context_instance=RequestContext(request, context))   
 
 
@@ -303,13 +342,19 @@ def guidedSearch_precision(request):
 			if request.session.get('Question_complex')[0] == 'n':
 				request.session['Routines'] = request.session['Routines'].filter(thePrecision = 's')	
 
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1], 'query_prec': val_1, 'results': request.session['Routines']}
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
+			   'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1],
+			   'query_prec': val_1, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
 		return render_to_response('Search/precision.html', context_instance=RequestContext(request, context)) 		
 
 
 	else:
 		form = PrecisionForm()
-		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1], 'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1], 'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1], 'form': form, 'results': request.session['Routines']}
+		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
+			   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
+			   'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1],
+			   'form': form, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],}
 		return render_to_response('Search/storagetype.html', context_instance=RequestContext(request, context))
 
 
@@ -532,20 +577,6 @@ def runScript(request):
 
 
 
-@csrf_exempt
-def update_session(request):
-    if request.is_ajax():
-	request.session['mykey']=[
-		{"thePrecision": request.POST.get('precision'),
-		 "routineName": request.POST.get('routineName'),
-		 "matrixType": request.POST.get('matrixType'),
-		 "storageType": request.POST.get('storageType'),
-		 "id": request.POST.get('idn'),
-		 "url": request.POST.get('url')}
-		]
-        return HttpResponse(request.session['mykey'])
-    else:
-        return HttpResponse('only AJAX requests are allowed!')
 
 
 

@@ -31,9 +31,9 @@
 <div id="selectedRoutines">
 	<form>
 		<!--load request.session["selectedRoutines]-->
-		{% if test %}
+		{% if selectedRoutines %}
 		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">	
-		{% for item in test %}
+		{% for item in selectedRoutines %}
 			<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div class="routineName">
 					<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}

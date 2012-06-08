@@ -105,14 +105,14 @@
 					//nameObj.push(liId);
 					//dojo.cookie(liId, routineData, {path: '/'});					
 					
-					detail = dojo.attr(dojo.byId(liId), "detail")
+					var detail = dojo.attr(dojo.byId(liId), "detail")
 					var precision = detail.split("_")[0];
 		                        var routineName = detail.split("_")[1];
 		                        var matrixType = detail.split("_")[2];
 					var storageType = detail.split("_")[3];
 					var idn = detail.split("_")[4];
 					var url = detail.split("_")[5];	
-					//console.log(detail);
+					
 					//dojo.cookie(liId, detail);
 					
 					/* pass "routineData" to ajax.py for test */
@@ -122,12 +122,12 @@
 					dojo.xhrPost( {
 						url: "/search/test/",
 						content: {
-							precision: JSON.stringify(precision),
-							routineName: JSON.stringify(routineName),
-							matrixType: JSON.stringify(matrixType),
-							storageType: JSON.stringify(storageType),
-							idn: JSON.stringify(idn),
-							url: JSON.stringify(url)
+							precision: precision,
+							routineName: routineName,
+							matrixType: matrixType,
+							storageType: storageType,
+							idn: idn,
+							url: url
 							},
 						load: function(response){
 						    console.log("load response: ", response);
