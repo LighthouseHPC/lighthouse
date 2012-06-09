@@ -3,6 +3,8 @@
 	//var loadingEl = dojo.byId("loaderInner");
 	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
 	
+	selectedRoutineNames = [];
+	
 	dojo.ready( function() {
 		/* delete cookie */
 		//if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
@@ -89,7 +91,7 @@
 		var source2 = new dojo.dnd.Target("selectedListNode");
 
 		/* set up cookie for selected routines */
-		var nameObj = [];
+		//var nameObj = [];
 		dojo.connect( source1, "onDndDrop", 
 			function(source, nodes, copy, target){
 				//console.log("cookie predrop:", dojo.cookie("nameList"));
@@ -130,7 +132,9 @@
 							url: url
 							},
 						load: function(response){
-						    console.log("load response: ", response);
+							//response is a string --> convert into an array
+							selectedRoutineNames = response.split(',');
+							console.log("load response: ", selectedRoutineNames);
 						    },
 						error: function(){
 						    console.log("error");
@@ -210,48 +214,25 @@
 
 	
 	/* Eliminate duplicated elements in arrays */
-	Array.prototype.unique = function () {
-		var r = new Array();
-		o:for(var i = 0; i< this.length; i++)
-		{
-			for(var j = 0; j< r.length; j++)
-			{
-				if(r[j]==this[i])
-				{
-					//alert(r[j] +' is a DUPE!');
-					continue o;
-				}
-			}
-			r[r.length] = this[i];
-		}
-		return r;
-	}
-
-	
-
-
-	/* dajaxice functions for "help" infomation */
-	//function callback_linearEquationHelp(data){
-	//	alert(data.message);
-	//} 
-	
-	
-	/* dajax functions for selected routines */
-	//function generateTemp(){
-	//	var nameList = dojo.cookie("nameList");
-	//	var nameArray = nameList.split(',');
-	//	unique = nameArray.unique();
-	//
-	//	Dajaxice.Driver.createTemplate(Dajax.process, {'unique': unique});
-	//} 
-	
-	
-	/* clear selected routines */
-	//function clearAll(){
-	//	dojo.empty("selectedListNode");
-	//	dojo.cookie("nameList", null, {expire: -1});
+	//Array.prototype.unique = function () {
+	//	var r = new Array();
+	//	o:for(var i = 0; i< this.length; i++)
+	//	{
+	//		for(var j = 0; j< r.length; j++)
+	//		{
+	//			if(r[j]==this[i])
+	//			{
+	//				//alert(r[j] +' is a DUPE!');
+	//				continue o;
+	//			}
+	//		}
+	//		r[r.length] = this[i];
+	//	}
+	//	return r;
 	//}
-	//
+
+	
+
 	
 	
 	

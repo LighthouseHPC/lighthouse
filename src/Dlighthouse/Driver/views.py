@@ -52,6 +52,7 @@ def combine_Q(aList):
 @csrf_exempt
 def update_session(request):
     if request.is_ajax():
+	selectedRoutineNames = []
 	selectedRoutineList = [
 		{"thePrecision": request.POST.get('precision'),
 		 "routineName": request.POST.get('routineName'),
@@ -62,7 +63,10 @@ def update_session(request):
 		]
 	if selectedRoutineList[0] not in request.session['selectedRoutines']:
 		request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
-        return HttpResponse(request.session['selectedRoutines'])
+		
+	for item in request.session['selectedRoutines']:
+		selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
+        return HttpResponse(selectedRoutineNames)
     else:
         return HttpResponse('only AJAX requests are allowed!')
 	
