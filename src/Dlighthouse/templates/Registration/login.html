@@ -44,7 +44,7 @@
         margin: 0px auto; 
         border: 2px solid #90c9e2;
         background-color: #cee7f2; 
-        padding: 12px 0px 20px 0px;
+        padding: 10px 0px 20px 0px;
         border-radius: 15px;        
       }
 
@@ -54,11 +54,24 @@
         color: #b40000;
       }
 
+      #logintitle {         
+        font: 15px Tahoma, "Trebuchet MS", Verdana, sans-serif;
+        text-align: center;
+        color: #000;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #badded;
+        width: 330px;
+        border-radius: 7px;
+        margin: 0px auto;
+      }
+
       #formdiv{
         text-align: center;      
         width:100%; 
         height:100%; 
-        margin: 0px auto;               
+        margin: 0px auto;
+        padding-top: 10px;
       }
 
       #buttondiv{
@@ -76,6 +89,9 @@
       <div id="subtitlediv">LAPACK Search Engine</div>
       </br></br>
         <div id="logindiv">
+          <div id="logintitle">
+            Member Login
+          </div>
           <div id="errordiv">
            {% if form.errors %}
            <p>The username or password you entered is incorrect.</p>
