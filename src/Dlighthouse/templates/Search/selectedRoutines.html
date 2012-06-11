@@ -1,30 +1,6 @@
-<!--<script type="text/javascript">
-	dojo.ready(function(){
-		/* retrieve cookie("nameList") and generate list items */
-		if (dojo.cookie("nameList") != null){
-			nameList = dojo.cookie("nameList");
-			nameArray = nameList.split(',');
-			/* create a new array in which no elements are duplicated */
-			unique = nameArray.unique();
-			dojo.cookie("nameList", unique);
-			//console.log("unique: ", dojo.cookie("nameList"));
-
-
-			for (k=0; k<unique.length; k++){
-				var detail = dojo.cookie(unique[k]);
-				dojo.create("li",
-					{
-						id: unique[k],
-						class: "dojoDndItem dojoDndItemAnchor",
-						innerHTML: dojo.byId(unique[k]).innerHTML
-					},
-					dojo.byId("selectedListNode"));
-				//console.log(dojo.byId(unique[k]).innerHTML);
-			}
-		};
-	});
-	
-</script>-->
+<script type="text/javascript">
+	var selectedRoutine_session = [];
+</script>
 
 
 
@@ -34,6 +10,10 @@
 		{% if selectedRoutines %}
 		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">	
 		{% for item in selectedRoutines %}
+			<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
+			<script type="text/javascript">
+				selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');
+			</script>
 			<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div class="routineName">
 					<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
@@ -79,14 +59,15 @@
 		    <table align="right">
 			<tr>
 				<td>
-					<button type="button" onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutineNames': selectedRoutineNames});">
-                            Generate Template
-                    </button >
+					<button type="button"
+						onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});">
+					Generate Template
+					</button >
 				</td>
 				<td>					
 					<button type="button" onclick="clearAll();">
-                                Clear
-                    </button>
+					Clear
+					</button>
 				 </td>
 			</tr>
 		    </table>
@@ -95,15 +76,3 @@
 	</form>
 </div>
 
-<!--<script type="text/javascript">
-	for (k=0; k<unique.length; k++){
-		//var detail = dojo.cookie(unique[k]);
-		//dojo.create("li",
-		//	{
-		//		id: unique[k],
-		//		class: "dojoDndItem dojoDndItemAnchor",
-		//		innerHTML: dojo.byId(unique[k]).innerHTML
-		//	},
-		//	dojo.byId("selectedListNode"));
-		console.log(dojo.byId(unique[k]).innerHTML);}
-</script>-->
