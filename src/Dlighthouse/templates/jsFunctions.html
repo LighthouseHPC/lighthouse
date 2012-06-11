@@ -122,7 +122,7 @@
 					
 					/* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
 					dojo.xhrPost( {
-						url: "/search/test/",
+						url: "/search/update_session/",
 						content: {
 							precision: precision,
 							routineName: routineName,
@@ -155,9 +155,9 @@
 
 	
 	/* clear cookie */
-	function clearCookie() {
-		dojo.cookie("nameList", null, {expire: -1});
-	}
+	//function clearCookie() {
+	//	dojo.cookie("nameList", null, {expire: -1});
+	//}
 	
 
 	/* showing/hiding the table in the search result by clicking the image */
@@ -212,6 +212,22 @@
 	}
 
 
+	/* Clear selected routines */
+	function selectedRoutineClear(){
+		//reset request.session['selectedRoutines'] = [] and empty the list
+		dojo.xhrPost( {
+			url: "/search/clear_session/",
+			load: function(response){
+				dojo.empty("sel_routineListNode");
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		
+		//dojo.empty("routineListNode");
+	}
 	
 	/* Eliminate duplicated elements in arrays */
 	//Array.prototype.unique = function () {

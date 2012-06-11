@@ -19,4 +19,7 @@ urlpatterns = patterns('',
     #(r'^advanced/$', advancedSearch),
     (r'^advanced/form/$', advancedForm),
     (r'^advanced/result/$', advancedResult),
+    
+    (r'^update_session/$', update_session),
+    (r'^clear_session/$', clear_session),
 )

@@ -51,31 +51,40 @@ def combine_Q(aList):
 ###---------------- Ajax post to update request.session['selectedRoutines']------------------###
 @csrf_exempt
 def update_session(request):
-    if request.is_ajax():
-	selectedRoutineNames = []
-	selectedRoutineList = [
-		{"thePrecision": request.POST.get('precision'),
-		 "routineName": request.POST.get('routineName'),
-		 "matrixType": request.POST.get('matrixType'),
-		 "storageType": request.POST.get('storageType'),
-		 "id": request.POST.get('idn'),
-		 "url": request.POST.get('url')}
-		]
-	if selectedRoutineList[0] not in request.session['selectedRoutines']:
-		request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
-		
-	for item in request.session['selectedRoutines']:
-		selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
-        return HttpResponse(selectedRoutineNames)
-    else:
-        return HttpResponse('only AJAX requests are allowed!')
+	if request.is_ajax():
+		selectedRoutineNames = []
+		selectedRoutineList = [
+			{"thePrecision": request.POST.get('precision'),
+			 "routineName": request.POST.get('routineName'),
+			 "matrixType": request.POST.get('matrixType'),
+			 "storageType": request.POST.get('storageType'),
+			 "id": request.POST.get('idn'),
+			 "url": request.POST.get('url')}
+			]
+		if selectedRoutineList[0] not in request.session['selectedRoutines']:
+			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
+			
+		for item in request.session['selectedRoutines']:
+			selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
+		return HttpResponse(selectedRoutineNames)
+	else:
+		return HttpResponse('only AJAX requests are allowed!')
 	
 
 
+###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
+@csrf_exempt
+def clear_session(request):
+	if request.is_ajax():
+		request.session['selectedRoutines'] = []
+		return HttpResponse('cleared')
+	else:
+		return HttpResponse('only AJAX requests are allowed!')		
 
 
 
-###---------------- Home Page ------------------###
+
+###---------------- Guided Search ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
 #@login_required
 def search_forms(request):
