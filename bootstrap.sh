@@ -16,7 +16,10 @@ echo "Installing Whoosh"
 sudo $pythonexec whoosh
 echo "Installing Haystack"
 sudo $pythonexec django-haystack
-
+echo "Installing Dajaxice"
+sudo $pythonexec django_dajaxice
+echo "Installing Dajax"
+sudo $pythonexec django_dajax
 
 # No longer needed for now (while using the sqlite3 db for demo purposes)
 #echo ""; echo "--------------------------------------------------------"; 
