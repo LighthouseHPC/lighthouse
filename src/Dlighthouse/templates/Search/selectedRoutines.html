@@ -6,6 +6,12 @@
 
 <div id="selectedRoutines">
 	<form>
+		<!--Dropped-items area-->
+		<ul id="selectedListNode"
+		    class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">
+			Drop selected routines here:
+		</ul>
+		
 		<!--load request.session["selectedRoutines]-->
 		{% if selectedRoutines %}
 		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">	
@@ -14,7 +20,7 @@
 			<script type="text/javascript">
 				selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');
 			</script>
-			<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+			<li class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div class="routineName">
 					<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 						<span class="">
@@ -50,10 +56,7 @@
 			</li>
 		{% endfor %}
 		</ul>
-		{% endif %}
-		
-		<!--Dropped-items area-->
-		<ul id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">Drop selected routines here:</ul>		
+		{% endif %}	
 
 		<div id="button-div">
 		    <table align="right">
@@ -64,11 +67,11 @@
 					Generate Template
 					</button >
 				</td>
-				<td>					
-					<button type="button" onclick="clearAll();">
+<!--				<td>					
+					<button type="button" onclick="selectedRoutineClear();">
 					Clear
 					</button>
-				 </td>
+				 </td>-->
 			</tr>
 		    </table>
 		</div>

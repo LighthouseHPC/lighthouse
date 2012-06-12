@@ -282,7 +282,34 @@
 	<td>{{ list.items.6.1 }}</td>
 	<td> {% if list.items.2.1 %}
 		{% for routine in list.items.2.1 %}
-		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+		    {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+		    <span class="">
+			    <button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('adv_{{ routine.id }}').show()">
+				    <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
+			    </button>
+		    </span>
+		    <div class="dijitHidden">
+			    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+				    <div align="center">
+					    <table id="table_main" width="80%" border = "1">
+						    <tr>
+						    <th>Precision</th>
+						    <th>Routine Name</th>
+						    <th>Matrix Type</th>
+						    <th>Storage</th>
+						    </tr>
+						    <tr>
+						    <td>{{ routine.thePrecision|upper }}</td>
+						    <td>{{ routine.routineName|upper }}</td> 
+						    <td>{{ routine.matrixType }}</td> 
+						    <td>{{ routine.storageType }}</td>      
+						    </tr>
+					    </table><br/>
+					    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
+					    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
+				    </div>
+			    </div>
+		    </div>
 	    	{% endfor %}
 	     {% else %}
 		N/A
@@ -336,7 +363,34 @@
 	<td>{{ list.items.6.1 }}</td>
 	<td> {% if list.items.2.1 %}
 		{% for routine in list.items.2.1 %}
-		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+		    {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+		    <span class="">
+			    <button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('adv_{{ routine.id }}').show()">
+				    <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
+			    </button>
+		    </span>
+		    <div class="dijitHidden">
+			    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+				    <div align="center">
+					    <table id="table_main" width="80%" border = "1">
+						    <tr>
+						    <th>Precision</th>
+						    <th>Routine Name</th>
+						    <th>Matrix Type</th>
+						    <th>Storage</th>
+						    </tr>
+						    <tr>
+						    <td>{{ routine.thePrecision|upper }}</td>
+						    <td>{{ routine.routineName|upper }}</td> 
+						    <td>{{ routine.matrixType }}</td> 
+						    <td>{{ routine.storageType }}</td>      
+						    </tr>
+					    </table><br/>
+					    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
+					    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
+				    </div>
+			    </div>
+		    </div>
 	    	{% endfor %}
 	     {% else %}
 		N/A
