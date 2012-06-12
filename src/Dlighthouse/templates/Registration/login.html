@@ -3,19 +3,24 @@
   <head>
     <style rel="stylesheet">
 
-      html, body {
+      html{
         height: 100%;
         margin: 0;
         overflow: hidden;
-        padding: 0;
+        padding: 0;   
 
-        background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(51,153,204,1) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(51,153,204,1))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(51,153,204,1) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(51,153,204,1) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(51,153,204,1) 100%); /* IE10+ */
-        background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(51,153,204,1) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#3399cc',GradientType=0 ); /* IE6-9 */
+        background: url(/media/Images/bg.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;   
+      }
+
+      body{
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;            
       }
 
       #titlediv {
@@ -42,8 +47,8 @@
         text-align: center;
         width:350px;         
         margin: 0px auto; 
-        border: 2px solid #90c9e2;
-        background-color: #cee7f2; 
+        border: 2px solid #ccc;
+        background-color: #eee; 
         padding: 10px 0px 20px 0px;
         border-radius: 15px;        
       }
@@ -60,7 +65,7 @@
         color: #000;
         padding-top: 5px;
         padding-bottom: 5px;
-        background-color: #badded;
+        background-color: #ddd;
         width: 330px;
         border-radius: 7px;
         margin: 0px auto;
@@ -84,7 +89,7 @@
 
     </style>
   </head>
-  <body>
+  <body>      
       <div id="titlediv">Lighthouse</div>
       <div id="subtitlediv">LAPACK Search Engine</div>
       </br></br>
