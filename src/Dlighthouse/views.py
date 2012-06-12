@@ -27,8 +27,8 @@ def registration(request):
             return HttpResponseRedirect("/")
         else:
             form = UserCreationForm()
-            return render_to_response("Registration/registration.html", {'form': form,})
+            return render_to_response("registration/registration.html", {'form': form,})
     else:
         form = UserCreationForm()
-        return render_to_response("Registration/registration.html", {'form': form,})
+        return render_to_response("registration/registration.html", {'form': form,})
     
