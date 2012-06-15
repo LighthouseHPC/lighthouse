@@ -2,14 +2,12 @@
 	var selectedRoutine_session = [];
 </script>
 
-
-
 <div id="selectedRoutines">
 	<form>
 		<!--Dropped-items area-->
 		<ul id="selectedListNode"
-		    class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px;">
-			Drop selected routines here:
+		    class="container2" style="border: 1px solid #444; background-color: #eee; padding-bottom:30px; padding-left:30px;">
+			<div style="border: 2px solid #bbb; padding: 5px; background-color: #fff">Drop selected routines here:</div>
 		</ul>
 		
 		<!--load request.session["selectedRoutines]-->
@@ -62,8 +60,7 @@
 		    <table align="right">
 			<tr>
 				<td>
-					<button type="button"
-						onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});">
+					<button type="button" onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});">
 					Generate Template
 					</button >
 				</td>

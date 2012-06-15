@@ -42,7 +42,7 @@
 		</th>
 		{% for item in Question_advanced %}
 		<th>
-			<b>{{ item }}</b>
+			<div><b>{{ item }}</b></div>
 		</th>
 		{% endfor %}
 	</tr>
@@ -224,24 +224,27 @@
 
 {% block dojango_content_search_result %}
 
-{% for model, value in Results.items %}
 <div id="title-div">
-    <table id="icon-table">
-        <tr>
-            <td id="icon-cell">
-                <img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
-            </td>       
-           <td id="title-cell">
-                {{ model|cut:"LinearEquation_"|upper }}:
-            </td>
-        </tr>
-    </table>    
+	<table style="width: 100%; border: 0px solid;">
+		<tr>
+			<td style="text-align:left; padding-left:5px; width:24px;">
+				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+			</td>		
+			<td style="text-align:left">
+				Lighthouse found the following routine(s) for you:
+			</td>
+		</tr>
+	</table>	
 </div>
-{% if model == 'LinearEquation_expert' %}
+
+<br>
+
 <TABLE id='table_main'>
-<TR>
-	<table id='hor-zebra' width="80%">
-	<tr>
+
+	<TR>
+	<table id="routineListNode">
+	<tr style="background-color: #ccc;">
+	<th>Category</th>
 	<th>Description</th> 
 	<th>Equation</th>
 	<th>Task</th>
@@ -252,164 +255,71 @@
 	<th>Routine</th>
 	</tr>
 
-	{% for list in value %}
-	{% if forloop.counter|divisibleby:2 %}		
-	<tr>
-	<td>{{ list.items.7.1 }}</td>
-	<td>{{ list.items.3.1|safe }}</td>
-	<td>{{ list.items.0.1 }}</td>
-	<td>{{ list.items.4.1 }}</td>
-	<td>{{ list.items.5.1 }}</td>
-	<td>{{ list.items.1.1 }}</td>
-	<td>{{ list.items.6.1 }}</td>
-	<td> {% if list.items.2.1 %}
-		{% for routine in list.items.2.1 %}
-		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
-	    	{% endfor %}
-	     {% else %}
-		N/A
-	     {% endif %}	
-	</td> 
-	</tr>
-	{% else %}
-	<tr class='odd'>
-	<td>{{ list.items.7.1 }}</td>
-	<td>{{ list.items.3.1|safe }}</td>
-	<td>{{ list.items.0.1 }}</td>
-	<td>{{ list.items.4.1 }}</td>
-	<td>{{ list.items.5.1 }}</td>
-	<td>{{ list.items.1.1 }}</td>
-	<td>{{ list.items.6.1 }}</td>
-	<td> {% if list.items.2.1 %}
-		{% for routine in list.items.2.1 %}
-		    {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
-		    <span class="">
-			    <button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('adv_{{ routine.id }}').show()">
-				    <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
-			    </button>
-		    </span>
-		    <div class="dijitHidden">
-			    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
-				    <div align="center">
-					    <table id="table_main" width="80%" border = "1">
-						    <tr>
-						    <th>Precision</th>
-						    <th>Routine Name</th>
-						    <th>Matrix Type</th>
-						    <th>Storage</th>
-						    </tr>
-						    <tr>
-						    <td>{{ routine.thePrecision|upper }}</td>
-						    <td>{{ routine.routineName|upper }}</td> 
-						    <td>{{ routine.matrixType }}</td> 
-						    <td>{{ routine.storageType }}</td>      
-						    </tr>
-					    </table><br/>
-					    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
-					    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
-				    </div>
-			    </div>
-		    </div>
-	    	{% endfor %}
-	     {% else %}
-		N/A
-	     {% endif %}	
-	</td> 
-	</tr>
-	{% endif %}
-	{% endfor %}
-	</table>
-</TR> 
-</TABLE>
-{% else %}
-<TABLE id='table_main'>
-<TR>
-	<table id='hor-zebra' width="80%">
-	<tr>
-	<th>Description</th> 
-	<th>Function</th>
-	<th>Complex Numbers</th>
-	<th>Matrix Type</th>
-	<th>Storage Type</th>
-	<th>Precision</th>  
-	<th>Routine</th>
-	</tr>
+	{% for model, value in Results.items %}
 
 	{% for list in value %}
-	{% if forloop.counter|divisibleby:2 %}		
-	<tr>
-	<td>{{ list.items.7.1 }}</td>
-	<td>{{ list.items.0.1 }}</td>
-	<td>{{ list.items.4.1 }}</td>
-	<td>{{ list.items.5.1 }}</td>
-	<td>{{ list.items.1.1 }}</td>
-	<td>{{ list.items.6.1 }}</td>
-	<td> {% if list.items.2.1 %}
+	<tr {% if list.items.2.1 %} class="dojoDndItem" id="{% if list.items.2.1 %}{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}{% endfor %}{% endif %}" {% endif %}>
+	<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
+	<td class="routineInfo">{{ list.items.7.1 }}</td>
+	<td class="routineInfo">{{ list.items.3.1|safe }}</td>
+	<td class="routineInfo">{{ list.items.0.1 }}</td>
+	<td class="routineInfo">{{ list.items.4.1 }}</td>
+	<td class="routineInfo">{{ list.items.5.1 }}</td>
+	<td class="routineInfo">{{ list.items.1.1 }}</td>
+	<td class="routineInfo">{{ list.items.6.1 }}</td>
+	<td >
+		{% if list.items.2.1 %}
 		{% for routine in list.items.2.1 %}
-		{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
-	    	{% endfor %}
-	     {% else %}
-		N/A
-	     {% endif %}	
-	</td> 
-	</tr>
-	{% else %}
-	<tr class='odd'>
-	<td>{{ list.items.7.1 }}</td>
-	<td>{{ list.items.0.1 }}</td>
-	<td>{{ list.items.4.1 }}</td>
-	<td>{{ list.items.5.1 }}</td>
-	<td>{{ list.items.1.1 }}</td>
-	<td>{{ list.items.6.1 }}</td>
-	<td> {% if list.items.2.1 %}
-		{% for routine in list.items.2.1 %}
-		    {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
-		    <span class="">
-			    <button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('adv_{{ routine.id }}').show()">
-				    <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
-			    </button>
-		    </span>
-		    <div class="dijitHidden">
-			    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
-				    <div align="center">
-					    <table id="table_main" width="80%" border = "1">
-						    <tr>
-						    <th>Precision</th>
-						    <th>Routine Name</th>
-						    <th>Matrix Type</th>
-						    <th>Storage</th>
-						    </tr>
-						    <tr>
-						    <td>{{ routine.thePrecision|upper }}</td>
-						    <td>{{ routine.routineName|upper }}</td> 
-						    <td>{{ routine.matrixType }}</td> 
-						    <td>{{ routine.storageType }}</td>      
-						    </tr>
-					    </table><br/>
-					    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
-					    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
-				    </div>
+		<div class="routineNameAdvanced">
+			<table>
+				<tr>
+					<td>
+					{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+					</td>
+					<td>
+					<img src="{{ MEDIA_URL }}Images/question.png" onclick="dijit.byId('adv_{{ routine.id }}').show()" width="16" height="16"/>
+					</td>
+				</tr>
+			</table>
+			
+		</div>
+	    		
+	    <div class="dijitHidden">
+		    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+			    <div align="center">
+				    <table id="table_main" width="80%" border = "1">
+					    <tr>
+					    <th>Precision</th>
+					    <th>Routine Name</th>
+					    <th>Matrix Type</th>
+					    <th>Storage</th>
+					    </tr>
+					    <tr>
+					    <td>{{ routine.thePrecision|upper }}</td>
+					    <td>{{ routine.routineName|upper }}</td> 
+					    <td>{{ routine.matrixType }}</td> 
+					    <td>{{ routine.storageType }}</td>      
+					    </tr>
+				    </table><br/>
+				    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
+				    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
 			    </div>
 		    </div>
-	    	{% endfor %}
-	     {% else %}
-		N/A
-	     {% endif %}	
+	    </div>
+    	{% endfor %}
+	    {% else %}
+			N/A
+	    {% endif %}	
 	</td> 
 	</tr>
-	{% endif %}
+	
 	{% endfor %}
-	</table>
-</TR> 
-</TABLE>
-{% endif %}
-<br></br>
+	
 {% endfor %}
-
+</table>
+</TR> 
+</TABLE>
 {% endblock %}
-
-
-
 
 {% comment %}
  There is a bug in {% cycle ... %} 
@@ -419,5 +329,8 @@
 <!-- ########### Simple search questions: ###########-->
 {% block dojango_content_simpleSearch %}
 {% include "search/simpleSearch.html" %}
+{% endblock %}
+{% block dojango_content_selected_routines %}
+{% include "search/selectedRoutines.html" %}
 {% endblock %}
 
