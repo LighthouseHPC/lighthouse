@@ -90,7 +90,7 @@
 		var source1 = new dojo.dnd.Source("routineListNode");
 		var source2 = new dojo.dnd.Target("selectedListNode");
 
-		/* set up cookie for selected routines */
+		/* update Django session for selected routines through javascript*/
 		//var nameObj = [];
 		dojo.connect( source1, "onDndDrop", 
 			function(source, nodes, copy, target){
