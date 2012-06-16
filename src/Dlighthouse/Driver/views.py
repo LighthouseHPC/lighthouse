@@ -462,10 +462,12 @@ def advancedForm(request):
 
 def advancedResult(request):
 #----- Display checked items -------#
+
 	for item in ['GETS', 'EquationGETS', 'FunctionGETS', 'ComplexGETS', 'MatrixTypeGETS', 'StorageTypeGETS', 'PrecisionGETS']:  
 		request.session[item] = []
 
 	request.session['Results'] = {}
+	request.session['selectedRoutines'] = []
 
 	for model in request.session['App_Model']:
 		form_empty = str_to_class(model[1]+'Form')()
@@ -478,7 +480,7 @@ def advancedResult(request):
 		request.session['MatrixTypeGETS'].append(form[model[1]+"MatrixType"])
 		request.session['StorageTypeGETS'].append(form[model[1]+"StorageType"])
 		request.session['PrecisionGETS'].append(form[model[1]+"Precision"])
-		request.session['Results'][model[1]] = []
+		request.session['Results'][model[1]] = []		
 
 #----- Collect the checked data -----#
 #Recored results in request.session['Routines']={modelName1:[<class>], modelName2:[<class>], ...}
@@ -513,17 +515,18 @@ def advancedResult(request):
 					for precision in selected_Precision:
 						for matrix in selected_MatrixType:
 							for storage in selected_StorageType:
-								for function in selected_Function:
+								for function in selected_Function:									
 									request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
 														     'Storage type': storage, 'Function': form_empty.find(function),
 														     'Equation': 0, 'Description': form.Description,
-														     'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})						
-		
+														     'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})											
 	
-	AdvancedTab = True		
+	AdvancedTab = True	
+	
 	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'],
 		   'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'],
-		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results']}
+		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results'], 'selectedRoutines': request.session['selectedRoutines']}	
+
 	return render_to_response('search/advancedResult.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 #	else:
