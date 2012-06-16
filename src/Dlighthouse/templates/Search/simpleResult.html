@@ -30,7 +30,7 @@
 				</span>
 			</h4>
 		</div>
-		<div class="routineInfo">{% highlight item.info with "Purpose" max_length 500 %}
+		<div class="routineInfo">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
 			<button onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
