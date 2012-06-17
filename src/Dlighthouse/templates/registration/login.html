@@ -57,6 +57,7 @@
         font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
         text-align: center;
         color: #b40000;
+        padding-top: 10px;
       }
 
       #logintitle {         
@@ -99,7 +100,7 @@
           </div>
           <div id="errordiv">
            {% if form.errors %}
-           <p>The username or password you entered is incorrect.</p>
+           <div>The username or password you entered is incorrect.</div>
            {% endif %}
           </div>
           <div id="formdiv">
