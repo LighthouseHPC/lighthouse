@@ -545,30 +545,27 @@ def advancedResult(request):
 
 
 
-'''
 
-###---------------- General Search ------------------###
-def search_result(request):
-    error = False
-    if 'q' in request.POST:
-        Q = request.POST['q']
-	q = Q.lower()
-        if not q:
-            error = True
-        else:
-            	routines = []
-		routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__istartswith=q)
-		routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__istartswith=q)
-            	routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
-		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
-
-		return render_to_response('search/search_results.html', {'results': routines, 'query': Q})
-
-   
-    return render_to_response('search/search_form.html', {'error': error})
+###---------------- Keyword Search ------------------###
+def keywordResult(request):
+	error = False
+	if 'q' in request.POST:
+		Q = request.POST['q']
+		q = Q.lower()
+		if not q:
+			error = True
+		else:
+			routines = []
+			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__istartswith=q)
+			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__istartswith=q)
+			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
+			routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
+			return render_to_response('search/keywordResult.html', {'results': Q})
 
 
-'''
+
+
+
 
 
 

@@ -20,7 +20,8 @@
 		    <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
 		    <b> Please enter a word or phrase: </b>
 		</td>
-		<form action="/search/" method="get">
+		<form action="/search/keyword/" method="post">
+			{% csrf_token %}
 		<td style="padding-left:5px; padding-right:10px;">
 			<input type="text" name="q" style="width:100%; font-size:14px;">
 		</td>

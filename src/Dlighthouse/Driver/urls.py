@@ -16,10 +16,11 @@ urlpatterns = patterns('',
     (r'^guided/problem_complex_matrixtype_storage/$', guidedSearch_storage),
     (r'^guided/problem_complex_matrixtype_storage_precision/$', guidedSearch_precision),
 
-    #(r'^advanced/$', advancedSearch),
     (r'^advanced/form/$', advancedForm),
     (r'^advanced/result/$', advancedResult),
     
     (r'^update_session/$', update_session),
     (r'^clear_session/$', clear_session),
+    
+    (r'^keyword/$', keywordResult),
 )
