@@ -1,37 +1,39 @@
 <!-- ########### Keyword search form: ###########-->
 
 <div id="title-div">
-	<table id="icon-table">
-		<tr>
-			<td id="icon-cell">
-				<img src="{{ MEDIA_URL }}Images/keywordSearch.png" width="32" height="32"/>
-			</td>           
-			<td id="title-cell">
-				Keyword Search
-			</td>
-		</tr>
-	</table>        
+        <table id="icon-table">
+                <tr>
+                        <td id="icon-cell">
+                                <img src="{{ MEDIA_URL }}Images/keywordSearch.png" width="32" height="32"/>
+                        </td>           
+                        <td id="title-cell">
+                                Keyword Search 
+                        </td>
+                </tr>
+        </table>        
 </div>
 <br>
 <div id="button-div">
-	<table id="icon-table">
-		<tr>
-		<td style="padding-left:5px; width:188px;">
-		    <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
-		    <b> Please enter a word or phrase: </b>
-		</td>
-		<form action="/search/keyword/" method="post">
-			{% csrf_token %}
-		<td style="padding-left:5px; padding-right:10px;">
-			<input type="text" name="q" style="width:100%; font-size:14px;">
-		</td>
-		<td style="text-align:right; width:20px;">
-			<button type="submit" name="Search" id="searchButton" title="Search String">
-				<img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
-			</button >                      
-		</td>
-		</form>
-		</tr>
-	</table>
-	
+        <table id="icon-table">
+                <tr>
+                <td style="padding-left:5px; width:188px;">
+                    <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+                    <b> Please enter a word or phrase: </b>
+                </td>
+                <form action="/search/keyword/" method="get">                                                                
+                <td style="padding-left:5px; padding-right:10px;">
+                        <input type="text" name="q" style="width:100%; font-size:14px;" 
+                        {% if keywords %}
+							value="{{ keywords }}"
+						{% endif %}>                        
+                </td>
+                <td style="text-align:right; width:20px;">
+                        <button type="submit" name="Search" id="searchButton" title="Search String" onclick="return checkKeyword(q)">
+                                <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+                        </button >                      
+                </td>
+                </form>
+                </tr>
+        </table>
+
 </div>

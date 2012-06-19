@@ -527,6 +527,25 @@
 	}
 
 
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Keyword Search ----------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	// Check if any keyword was provided
+	function checkKeyword(textarea){
+		t = trim(textarea.value);
+		if(t.length == 0){
+			alert("Please enter a keyword.");
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	// Trim a string
+	function trim(stringToTrim) {
+		return stringToTrim.replace(/^\s+|\s+$/g,"");
+	}
 
 
 </script>

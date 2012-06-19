@@ -2,11 +2,47 @@
 {% extends "dojango/base.html" %}
 {% block dojango_content_search_result %}
 
-{% if results %}
-	{{ results }}
+
+
+{% if keywords %}
+<div id="title-div">
+	<table style="width: 100%; border: 0px solid;">
+		<tr>
+			<td style="text-align:left; padding-left:5px; width:24px;">
+				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+			</td>		
+			<td style="text-align:left">
+				Lighthouse found the following routine(s) for you:
+			</td>
+		</tr>
+	</table>	
+</div><br>
+	{{ keywords }}
 {% endif %} 
 
 
 {% endblock %}
 
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_simpleSearch %}
+{% include "search/simpleSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_keywordSearch %}
+{% include "search/keywordSearch.html" %}
+{% endblock %}
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_advancedSearch %}
+{% include "search/advancedSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Selected Routines: ###########-->
+{% block dojango_content_selected_routines %}
+{% include "search/selectedRoutines.html" %}
+{% endblock %}
 

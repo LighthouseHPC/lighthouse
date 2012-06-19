@@ -548,20 +548,21 @@ def advancedResult(request):
 
 ###---------------- Keyword Search ------------------###
 def keywordResult(request):
-	error = False
-	if 'q' in request.POST:
-		Q = request.POST['q']
-		q = Q.lower()
-		if not q:
-			error = True
-		else:
-			routines = []
-			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__istartswith=q)
-			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__istartswith=q)
-			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
-			routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
-			return render_to_response('search/keywordResult.html', {'results': Q})
 
+	KeywordTab = True
+	keywords = ""
+	
+	if 'q' in request.GET:
+		keywords = request.GET['q']
+		keywords = keywords.lower()
+		#routines = []
+		#routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__istartswith=q)
+		#routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__istartswith=q)
+		#routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
+		#routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
+		
+	context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords }
+	return render_to_response('search/keywordResult.html', {'KeywordTab': KeywordTab}, context_instance=RequestContext(request, context))
 
 
 
