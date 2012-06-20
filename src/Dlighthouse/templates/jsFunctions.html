@@ -207,8 +207,10 @@
 	/* Ask for confirmation when user clicks on Restart Search button */
 	function show_confirm(){
 		var restart = "";
-		restart = confirm("Are you sure you want restart search?");
-		return restart;
+		restart = confirm("Are you sure you start over the search?");
+		if(restart)
+			window.location = "/search/";
+		else return false;		
 	}
 
 
@@ -246,6 +248,13 @@
 	//	}
 	//	return r;
 	//}
+
+	
+	// Functions for faster tooltips for submit and clear buttons
+	function showTooltip(id, text, color){		
+		document.getElementById(id).innerHTML=text;
+		document.getElementById(id).style.color=color;
+	}
 
 	
 
