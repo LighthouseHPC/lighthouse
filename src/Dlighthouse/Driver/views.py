@@ -87,10 +87,17 @@ def clear_session(request):
 ###---------------- Guided Search ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
 #@login_required
-def search_forms(request):
-    request.session.clear()	
-    context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
-    return render_to_response('search/index.html', context_instance=RequestContext(request, context))
+def search_forms(request):    
+	try:
+		request.session['selectedRoutines']
+	except KeyError:
+	    request.session['selectedRoutines'] = []	
+	except NameError:
+		request.session['selectedRoutines'] = []
+
+  	context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 
+  	'selectedRoutines': request.session['selectedRoutines']}
+	return render_to_response('search/index.html', context_instance=RequestContext(request, context))
 
 
 
@@ -105,7 +112,11 @@ def guidedSearch_problem(request):
         form_Prob = ProblemForm(request.POST or None)
         request.session['Question_problem'] = []
         request.session['queries'] = []
-	request.session['selectedRoutines'] = []
+	
+	try:
+	  request.session['selectedRoutines']
+	except KeyError:
+	  request.session['selectedRoutines'] = []
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
@@ -129,11 +140,11 @@ def guidedSearch_problem(request):
                         request.session['Question_equation']=[0, 0]
                         request.session['Question_factor']=[0, 0]       
 
-                context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}
+                context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines']}
                 return render_to_response('search/problem.html', context_instance=RequestContext(request, context))        
 
         else:
-                context = {'form': ProblemForm()}
+                context = {'form': ProblemForm(), 'selectedRoutines': request.session['selectedRoutines']}
                 return render_to_response('search/index.html', context_instance=RequestContext(request, context))
 
 
@@ -432,6 +443,14 @@ def advancedForm(request):
 	request.session['MatrixType'] = []
 	request.session['StorageType'] = []
 	request.session['Precision'] = []
+
+	try:
+	  request.session['selectedRoutines']
+	except KeyError:
+	  request.session['selectedRoutines'] = []	
+	except NameError:
+	  request.session['selectedRoutines'] = []	
+		
 	AdvancedTab = True
 
 	if form_advanced.is_valid():
@@ -447,12 +466,14 @@ def advancedForm(request):
 			request.session['StorageType'].append(form[answer.split()[1][:-4]+"StorageType"])
 			request.session['Precision'].append(form[answer.split()[1][:-4]+"Precision"])
 				
-		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 'StorageType':request.session['StorageType'], 'Precision': request.session['Precision']}
+		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 
+		'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 
+		'StorageType':request.session['StorageType'], 'Precision': request.session['Precision'], 'selectedRoutines': request.session['selectedRoutines']}
 		return render_to_response('search/advancedForm.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 	else:
    		form = AdvancedForm()	
-		context = {'form': form}
+		context = {'form': form, 'selectedRoutines': request.session['selectedRoutines']}
 		return render_to_response('search/advancedSearch.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
 
 
@@ -467,7 +488,6 @@ def advancedResult(request):
 		request.session[item] = []
 
 	request.session['Results'] = {}
-	request.session['selectedRoutines'] = []
 
 	for model in request.session['App_Model']:
 		form_empty = str_to_class(model[1]+'Form')()
@@ -551,6 +571,13 @@ def keywordResult(request):
 
 	KeywordTab = True
 	keywords = ""
+
+	try:
+		request.session['selectedRoutines']
+	except KeyError:
+	    request.session['selectedRoutines'] = []	
+	except NameError:
+		request.session['selectedRoutines'] = []
 	
 	if 'q' in request.GET:
 		keywords = request.GET['q']
@@ -561,7 +588,7 @@ def keywordResult(request):
 		#routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
 		#routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
 		
-	context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords }
+	context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'selectedRoutines': request.session['selectedRoutines'] }
 	return render_to_response('search/keywordResult.html', {'KeywordTab': KeywordTab}, context_instance=RequestContext(request, context))
 
 

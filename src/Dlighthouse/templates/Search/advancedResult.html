@@ -274,11 +274,11 @@
 		<div class="routineNameAdvanced">
 			<table>
 				<tr>
-					<td>
-					{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+					<td style="font-weight: bold;">
+						{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 					</td>
 					<td>
-					<img src="{{ MEDIA_URL }}Images/question.png" onclick="dijit.byId('adv_{{ routine.id }}').show()" width="16" height="16"/>
+						<img src="{{ MEDIA_URL }}Images/question.png" onclick="dijit.byId('adv_{{ routine.id }}').show()" width="16" height="16"/>
 					</td>
 				</tr>
 			</table>
