@@ -18,7 +18,7 @@
 <!-- ########### Advanced Search: Display Checked Items ###########-->
 
 <form name="advanced" action="/search/advanced/result/" name="frmProb" method="post">
-	{% csrf_token %}	
+	{% csrf_token %}		
 		<div style="padding-left:10px;">
 			<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>			
 			<b>Please check <i>at least</i> <u>one</u> box in each cell.</b>
@@ -207,7 +207,7 @@
     </td>
     <td>
     <form action="/search/">
-            <button type="submit" name="clear" id="clearButton" title="Restart Search" onclick="return show_confirm()"> 
+            <button type="submit" name="clear" id="clearButton" title="Restart Search" > 
             	<img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
             </button>
     </form>
@@ -231,7 +231,7 @@
 				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
 			</td>		
 			<td style="text-align:left">
-				Lighthouse found the following routine(s) for you:
+				Lighthouse found the {{hitCount}} routine(s) for you:
 			</td>
 		</tr>
 	</table>	
@@ -258,7 +258,8 @@
 	{% for model, value in Results.items %}
 
 	{% for list in value %}
-	<tr {% if list.items.2.1 %} class="dojoDndItem" id="{% if list.items.2.1 %}{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}{% endfor %}{% endif %}" {% endif %}>
+	{% if list.items.2.1 %} 
+	<tr class="dojoDndItem" id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}{% endfor %}">
 	<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
 	<td class="routineInfo">{{ list.items.7.1 }}</td>
 	<td class="routineInfo">{{ list.items.3.1|safe }}</td>
@@ -306,11 +307,10 @@
 			    </div>
 		    </div>
 	    </div>
-    	{% endfor %}
-	    {% else %}
-			N/A
-	    {% endif %}	
+    	{% endfor %}	    
+	    {% endif %}		  
 	</td> 
+	{% endif %}
 	</tr>
 	
 	{% endfor %}
