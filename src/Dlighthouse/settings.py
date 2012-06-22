@@ -26,7 +26,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'shark',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': 'yellow1234',                  # Not used with sqlite3.
@@ -116,6 +116,8 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'o9)d2r6#pt%l@d9^t8tvya+l1^i=pux3s$18i1m^0c^j1hx1rt'
 
+LOGIN_URL = '/login/'
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -139,25 +141,9 @@ ROOT_URLCONF = 'Dlighthouse.urls'
 # Haystack configuration.
 HAYSTACK_SITECONF = 'Dlighthouse.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = '/Users/javedhossain/lighthouse-taxonomy/src/Dlighthouse/index.whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'whoosh_index')
 HAYSTACK_INCLUDE_SPELLING = True
 
-# Haystack 2.x (see http://readthedocs.org/docs/django-haystack/en/latest/migration_from_1_to_2.html)
-#HAYSTACK_CONNECTIONS = {
-#  'default' : {
-#      'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-#      'PATH': '/Users/norris/research/lighthouse/lighthouse-taxonomy/src/Dlighthouse/index.whoosh',
-#      'STORAGE': 'file', 
-#      'INCLUDE_SPELLING': True
-#   },
-#   'autocomplete' : {
-#      'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-#      'PATH': '/Users/norris/research/lighthouse/lighthouse-taxonomy/Boyana/Dlighthouse/index.whoosh',
-#      'STORAGE': 'file', 
-#      'POST_LIMIT': 128 * 1024 * 1024,
-#      'INCLUDE_SPELLING': True
-#   }
-#}
 
 
 

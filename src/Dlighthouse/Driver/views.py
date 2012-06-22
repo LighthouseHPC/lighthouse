@@ -579,17 +579,19 @@ def keywordResult(request):
 	except NameError:
 		request.session['selectedRoutines'] = []
 	
-	if 'q' in request.GET:
+	if request.GET.get('q'):
 		keywords = request.GET['q']
 		keywords = keywords.lower()
-		#routines = []
-		#routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__istartswith=q)
-		#routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__istartswith=q)
-		#routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=q)
+		routines = []
+		routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__istartswith=keywords)
+		#routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__istartswith=keywords)
+		#routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__istartswith=keywords)
 		#routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
 		
-	context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'selectedRoutines': request.session['selectedRoutines'] }
-	return render_to_response('search/keywordResult.html', {'KeywordTab': KeywordTab}, context_instance=RequestContext(request, context))
+		context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'results': routines_le_simple, 'selectedRoutines': request.session['selectedRoutines'] }
+		return render_to_response('search/keywordResult.html', {'KeywordTab': KeywordTab}, context_instance=RequestContext(request, context))
+	else:
+		HttpResponse("Error!")
 
 
 

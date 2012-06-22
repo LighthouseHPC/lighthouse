@@ -4,7 +4,7 @@
 
 
 
-{% if keywords %}
+{% if results %}
 <div id="title-div">
 	<table style="width: 100%; border: 0px solid;">
 		<tr>
@@ -17,7 +17,12 @@
 		</tr>
 	</table>	
 </div><br>
-	{{ keywords }}
+<ul>
+{% for item in results %}
+	<li> {{ item.thePrecision }}{{ item.routineName }}</li>
+{% endfor %}
+</ul>
+	
 {% endif %} 
 
 
