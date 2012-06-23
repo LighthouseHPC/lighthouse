@@ -26,7 +26,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'shark',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': 'yellow1234',                  # Not used with sqlite3.
@@ -141,7 +141,7 @@ ROOT_URLCONF = 'Dlighthouse.urls'
 # Haystack configuration.
 HAYSTACK_SITECONF = 'Dlighthouse.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'whoosh_index')
+HAYSTACK_WHOOSH_PATH = '/Users/javedhossain/lighthouse-taxonomy/src/Dlighthouse/index.whoosh'
 HAYSTACK_INCLUDE_SPELLING = True
 
 

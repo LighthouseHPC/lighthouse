@@ -22,10 +22,7 @@
                 </td>
                 <form action="/search/keyword/" method="get">                                                                
                 <td style="padding-left:5px; padding-right:10px;">
-                        <input type="text" name="q" style="width:100%; font-size:14px;" 
-                        {% if keywords %}
-							value="{{ keywords }}"
-						{% endif %}>                        
+                        <input type="text" name="q" style="width:100%; font-size:14px;" {% if keywords %} value="{{ keywords }}" {% endif %}>                        
                 </td>
                 <td style="text-align:right; width:20px;">
                         <button type="submit" name="Search" id="searchButton" title="Search String" onclick="return checkKeyword(q)">
