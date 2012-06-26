@@ -617,9 +617,3 @@ def runScript(request):
     else:
       context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
       return render_to_response('search/index.html', context_instance=RequestContext(request, context))
-
-
-
-
-
-

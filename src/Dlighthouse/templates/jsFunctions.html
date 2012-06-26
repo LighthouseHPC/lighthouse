@@ -4,6 +4,7 @@
 	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
 	
 	selectedRoutineNames = [];
+
 	
 	dojo.ready( function() {
 		/* delete cookie */
@@ -83,12 +84,9 @@
 			console.warn("Stray globals: "+strayGlobals.join(", "));
 		}
 		
-		
-	
-		
 		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
-		var source2 = new dojo.dnd.Target("selectedListNode");
+		var source2 = new dojo.dnd.Target("selectedListNode");		
 
 		/* update Django session for selected routines through javascript*/
 		//var nameObj = [];
@@ -216,11 +214,12 @@
 
 	/* Clear selected routines */
 	function selectedRoutineClear(){
-		//reset request.session['selectedRoutines'] = [] and empty the list
+		//reset request.session['selectedRoutines'] = [] and empty the list			
 		dojo.xhrPost( {
 			url: "/search/clear_session/",
 			load: function(response){
 				dojo.empty("sel_routineListNode");
+				dojo.empty("selectedListNode");				
 				console.log(response);
 			    },
 			error: function(){
@@ -556,5 +555,24 @@
 		return stringToTrim.replace(/^\s+|\s+$/g,"");
 	}
 
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Selected Routines ----------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	function checkedStatusChanged(id, array){		
+		var index = array.indexOf(id.toLowerCase());
+		var checkbox = document.getElementById("cb_"+id);
+
+		if(checkbox.checked){
+			array.push(id.toLowerCase());			
+			//document.getElementById('sel_'+id).style.opacity = '1.0';
+			//document.getElementById('sel_'+id).style.filter = 'alpha(opacity=100)';					
+		}
+		else{			
+			array.splice(index, 1);		
+			//document.getElementById('sel_'+id).style.opacity = '0.5';
+			//document.getElementById('sel_'+id).style.filter = 'alpha(opacity=50)';		
+		}
+	}
 
 </script>

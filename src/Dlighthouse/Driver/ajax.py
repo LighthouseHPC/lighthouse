@@ -21,7 +21,7 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session):
 	dajax = Dajax()
 	#dajax.script('console.log("1", selectedRoutineNames)')
 	#dajax.script('console.log("2", selectedRoutine_session)')
-	
+
 	# if there is a dnd action, use selectedRoutine_ajax; if not, use selectedRoutine_session.
 	if selectedRoutine_ajax:
 		#delete the empty string in the selectedRoutineNames list
@@ -32,8 +32,5 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session):
 		for item in selectedRoutine_session:
 			innerHTMLText = "%s(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)" % item
 			dajax.script('dojo.create("div", {innerHTML: "%s"}, dojo.byId("div-codeTemp"));' % innerHTMLText)
-			
+				
 	return dajax.json()
-		
-
-
