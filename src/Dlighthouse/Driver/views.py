@@ -579,16 +579,36 @@ def keywordResult(request):
 	except NameError:
 		request.session['selectedRoutines'] = []
 	
-	if request.GET.get('q'):
+	if request.GET.get('q'):		
 		keywords = request.GET['q']
-		keywords = keywords.lower()
+		keywords = keywords.lower().strip()
 		routines = []
-		routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__contains=keywords)
-		routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__contains=keywords)
-		routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__contains=keywords)
-		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
+
+		# For keywords within double quotes
+		if keywords.startswith('"') and keywords.endswith('"'):
+			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__icontains=keywords)
+			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__icontains=keywords)
+			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__icontains=keywords)
+		# For keywords without double quotes 
+		else:			
+			keyword_array = keywords.split(' ')
+			formatted_keyword_array = []
+			for word in keyword_array:
+				formatted_keyword_array.append(word.strip())
+
+			queries = [Q(info__icontains=word) for word in formatted_keyword_array]
+			query = queries.pop()
+			
+			# The query is made by ANDing the keywords (doing OR produces way too many results)
+			for item in queries:
+			    query &= item
 		
-		context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'results': routines_le_simple, 'selectedRoutines': request.session['selectedRoutines'] }
+			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(query)
+			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(query)
+			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(query)
+			
+		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
+		context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'results': routines, 'selectedRoutines': request.session['selectedRoutines'] }
 		return render_to_response('search/keywordResult.html', {'KeywordTab': KeywordTab}, context_instance=RequestContext(request, context))
 	else:
 		HttpResponse("Error!")
