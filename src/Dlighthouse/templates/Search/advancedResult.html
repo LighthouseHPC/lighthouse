@@ -271,18 +271,20 @@
 	<td >
 		{% if list.items.2.1 %}
 		{% for routine in list.items.2.1 %}
-		<div class="routineNameAdvanced">
+		<div class="routineName">			
 			<table>
-				<tr>
-					<td style="font-weight: bold;">
+				<tr id="trd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+					<td class="infoHelpButton">
+						<input type="checkbox" name="" value="{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" id="cbd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutine_session, 'droppedRoutine');"/>
+					</td>
+					<td style="width: 56px; padding-left: 1px; font-weight: bold;">
 						{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 					</td>
-					<td>
-						<img src="{{ MEDIA_URL }}Images/question.png" onclick="dijit.byId('adv_{{ routine.id }}').show()" width="16" height="16"/>
-					</td>
+					<td >
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
+					</td>												
 				</tr>
-			</table>
-			
+			</table>	
 		</div>
 	    		
 	    <div class="dijitHidden">

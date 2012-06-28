@@ -107,8 +107,8 @@
 					
 					var detail = dojo.attr(dojo.byId(liId), "detail")
 					var precision = detail.split("_")[0];
-		                        var routineName = detail.split("_")[1];
-		                        var matrixType = detail.split("_")[2];
+                    var routineName = detail.split("_")[1];
+                    var matrixType = detail.split("_")[2];
 					var storageType = detail.split("_")[3];
 					var idn = detail.split("_")[4];
 					var url = detail.split("_")[5];	
@@ -212,8 +212,8 @@
 	}
 
 
-	/* Clear selected routines */
-	function selectedRoutineClear(){
+	/* Clear all routines from selected routines area */
+	function clearAllRoutines(){
 		//reset request.session['selectedRoutines'] = [] and empty the list			
 		dojo.xhrPost( {
 			url: "/search/clear_session/",
@@ -556,23 +556,65 @@
 	}
 
 	/*--------------------------------------------------------------------------------- */	
-	/* ------------------------------ For Selected Routines ----------------------------- */
+	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
 
-	function checkedStatusChanged(id, array){		
-		var index = array.indexOf(id.toLowerCase());
-		var checkbox = document.getElementById("cb_"+id);
+	function clearSelectedRoutines(selectedRoutineList){
+		/*
+		while(selectedRoutineList.length > 0){			
+			var routineName = selectedRoutineList[0];
+			//alert(selectedRoutineList.toString());
+			var tr_s;
+			var tr_d;
+			if(document.getElementById("trs_"+routineName.toUpperCase()))
+				tr_s = document.getElementById("trs_"+routineName.toUpperCase());
+			if(document.getElementById("trd_"+routineName.toUpperCase()))
+				tr_d = document.getElementById("trd_"+routineName.toUpperCase());
+			
+			if(routineExists(routineName, selectedRoutineList)){			
+				var index = selectedRoutineList.indexOf(routineName.toLowerCase());
+				selectedRoutineList.splice(index, 1);	
+			}
+			if(document.getElementById("trs_"+routineName.toUpperCase()))
+				tr_s.style.display = "none";
+			if(document.getElementById("trd_"+routineName.toUpperCase()))
+				tr_d.style.display = "none";
+		}
+		*/
+	}
 
-		if(checkbox.checked){
-			array.push(id.toLowerCase());			
-			//document.getElementById('sel_'+id).style.opacity = '1.0';
-			//document.getElementById('sel_'+id).style.filter = 'alpha(opacity=100)';					
+	function checkChanged(routineName, checkedRoutineList, mode){
+
+		//alert(dojo.cookie("nameList"));
+		var checkbox;
+		if(mode == "droppedRoutine")
+			checkbox = document.getElementById("cbd_"+routineName);
+		else if(mode == "selectedRoutine")
+			checkbox = document.getElementById("cbs_"+routineName);
+
+		if(checkbox.checked == 1){
+			checkbox.checked = 1;
+			if(!routineExists(routineName, checkedRoutineList))
+				checkedRoutineList.push(routineName.toLowerCase());
+			
 		}
-		else{			
-			array.splice(index, 1);		
-			//document.getElementById('sel_'+id).style.opacity = '0.5';
-			//document.getElementById('sel_'+id).style.filter = 'alpha(opacity=50)';		
+		else if(checkbox.checked == 0){
+			checkbox.checked = 0;
+			if(routineExists(routineName, checkedRoutineList)){
+				var index = checkedRoutineList.indexOf(routineName.toLowerCase());
+				checkedRoutineList.splice(index, 1);	
+			}
+		}		
+	}
+
+	function routineExists(routineName, array){
+		routineName = routineName.toLowerCase();
+		for(var i = 0; i < array.length; i++){
+			if(routineName == array[i]){
+				return true;
+			}
 		}
+		return false;
 	}
 
 </script>

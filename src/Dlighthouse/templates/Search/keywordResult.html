@@ -23,22 +23,28 @@
 {% if results %}
 <ul id="routineListNode" class="container">	
 	{% for item in results %}
-	<li class="dojoDndItem" id="{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
+	<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 	    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" style="list-style-type: none;">
 		<div class="routineName">
-			<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
-				<span class="infoHelpButton">
-					<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('{{ item.id }}').show()">
-						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
-					</button>
-				</span>
-			</h4>
+			<table>
+				<tr id="trd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+					<td class="infoHelpButton">
+						<input type="checkbox" name="" value="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" id="cbd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}',selectedRoutine_session, 'droppedRoutine');"/>
+					</td>
+					<td style="width: 56px; padding-left: 1px;">
+						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+					</td>
+					<td class="infoHelpButton">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
+					</td>												
+				</tr>
+			</table>			
 		</div>
-		<div class="routineInfo">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="dijit.byId('{{ item.id }}').show()">more</button>
+		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
+			<button onclick="dijit.byId('sel_{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
-			<div id="{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+			<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div align="center">
 					<table id="table_main" width="80%" border = "1">
 						<tr>
@@ -55,13 +61,16 @@
 						</tr>
 					</table><br/>
 					<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
-					<button onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
+					<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>
-		</div>			
+		</div>		
 	</li> 
-	{% endfor %}
-</ul>	
+
+{% empty %}
+{% endfor %}
+
+</ul>
 {% endif %} 
 
 {% endblock %}

@@ -14,23 +14,19 @@
 		{% for item in selectedRoutines %}
 			<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
 			<script type="text/javascript">
-				selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');
+				selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
 			</script>
 
 			<li class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="list-style-type: none;">
 				<div class="routineName">
 					<table>
-						<tr>
+						<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 							<td style="font-weight: bold; width: 70px;">
-								<input type="checkbox" name="" checked="checked" value="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkedStatusChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}',selectedRoutine_session);"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
+								<input type="checkbox" name="" checked="checked" value="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}',selectedRoutine_session, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
 							</td>
 							<td>						
-								<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()" onmouseover="showTooltip('tooltip_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', 'About this routine', '#ffcc66');" onmouseout="showTooltip('tooltip_{{ item.thePrecision|upper }}{{ item.routineName|upper }}','');"/>	
-							</td>
-							<td>						
-								<img src="{{ MEDIA_URL }}Images/remove.png" width="14" height="14" onclick="" onmouseover="showTooltip('tooltip_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', 'Remove this routine', '#cc0000');" onmouseout="showTooltip('tooltip_{{ item.thePrecision|upper }}{{ item.routineName|upper }}','');"/>	
-							</td>							
-							<td id="tooltip_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="padding-left: 7px;"></td>
+								<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
+							</td>														
 						</tr>
 					</table>											
 				</div>
@@ -55,8 +51,7 @@
 							<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
 						</div>
 					</div>
-				</div>
-					
+				</div>					
 			</li>
 		{% endfor %}
 		</ul>
@@ -66,14 +61,19 @@
 		    <table style="width:100%; margin: 0px auto;">
 				<tr style="width:100%;">
 					<td style="text-align:left;">								
-						<button type="button" onclick="selectedRoutineClear(); selectedRoutine_session.length = 0; selectedRoutineNames.length = 0;">
-							Clear
+						<button type="button" onclick="clearAllRoutines(); selectedRoutine_session.length = 0; selectedRoutineNames.length = 0;">
+							Clear all
+						</button>
+					</td>
+					<td style="text-align:left;">								
+						<button type="button" onclick="clearSelectedRoutines(selectedRoutine_session);">
+							Clear Selected
 						</button>
 					</td>
 					<td style="text-align:right;">
-						<button type="button" onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});">
+						<button type="button" onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutine_session, 'selectedRoutine_session': selectedRoutine_session});">
 							Generate Template
-						</button >
+						</button>
 					</td>				
 				</tr>
 		    </table>
