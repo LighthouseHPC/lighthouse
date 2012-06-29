@@ -26,7 +26,7 @@
 			<table>
 				<tr id="trd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 					<td class="infoHelpButton">
-						<input type="checkbox" name="" value="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" id="cbd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}',selectedRoutine_session, 'droppedRoutine');"/>
+						<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" checked="checked" value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', 'droppedRoutine');"/>
 					</td>
 					<td style="width: 56px; padding-left: 1px;">
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }}

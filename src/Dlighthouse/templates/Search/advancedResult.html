@@ -275,7 +275,7 @@
 			<table>
 				<tr id="trd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
 					<td class="infoHelpButton">
-						<input type="checkbox" name="" value="{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" id="cbd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutine_session, 'droppedRoutine');"/>
+						<input type="checkbox" name="{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cbd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', 'droppedRoutine');"/>
 					</td>
 					<td style="width: 56px; padding-left: 1px; font-weight: bold;">
 						{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}

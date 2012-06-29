@@ -59,9 +59,22 @@ def update_session(request):
 			 "matrixType": request.POST.get('matrixType'),
 			 "storageType": request.POST.get('storageType'),
 			 "id": request.POST.get('idn'),
-			 "url": request.POST.get('url')}
+			 "url": request.POST.get('url'),
+			 "checkState": request.POST.get('checkState')}
 			]
-		if selectedRoutineList[0] not in request.session['selectedRoutines']:
+		
+		itemExist = False
+		counter = 0
+		match = -1
+		for item in request.session['selectedRoutines']:
+			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:			
+				match = counter				
+			counter += 1
+			
+		if match != -1:			
+			request.session['selectedRoutines'].remove(request.session['selectedRoutines'][match])
+
+		if selectedRoutineList[0] not in request.session['selectedRoutines']:			
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 			
 		for item in request.session['selectedRoutines']:
@@ -72,11 +85,17 @@ def update_session(request):
 	
 
 
+
 ###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
 @csrf_exempt
 def clear_session(request):
 	if request.is_ajax():
-		request.session['selectedRoutines'] = []
+		SRL = [{"clear": request.POST.get('clear')}]
+		if SRL[0]['clear'] == 'all':
+			request.session['selectedRoutines'] = []
+		else:
+			request.session['selectedRoutines'] = []
+						
 		return HttpResponse('cleared')
 	else:
 		return HttpResponse('only AJAX requests are allowed!')		

@@ -12,6 +12,7 @@
 		{% if selectedRoutines %}
 		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:12px; padding-left:30px;">	
 		{% for item in selectedRoutines %}
+	
 			<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
 			<script type="text/javascript">
 				selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
@@ -22,7 +23,7 @@
 					<table>
 						<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 							<td style="font-weight: bold; width: 70px;">
-								<input type="checkbox" name="" checked="checked" value="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}',selectedRoutine_session, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
+								<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
 							</td>
 							<td>						
 								<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
@@ -61,7 +62,7 @@
 		    <table style="width:100%; margin: 0px auto;">
 				<tr style="width:100%;">
 					<td style="text-align:left;">								
-						<button type="button" onclick="clearAllRoutines(); selectedRoutine_session.length = 0; selectedRoutineNames.length = 0;">
+						<button type="button" onclick="clearAllRoutines(selectedRoutine_session);">
 							Clear all
 						</button>
 					</td>
@@ -71,7 +72,7 @@
 						</button>
 					</td>
 					<td style="text-align:right;">
-						<button type="button" onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutine_session, 'selectedRoutine_session': selectedRoutine_session});">
+						<button type="button" onclick="Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});">
 							Generate Template
 						</button>
 					</td>				

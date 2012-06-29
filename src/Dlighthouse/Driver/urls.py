@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     (r'^advanced/result/$', advancedResult),
     
     (r'^update_session/$', update_session),
-    (r'^clear_session/$', clear_session),
+    (r'^clear_session/$', clear_session),    
     
     (r'^keyword/$', keywordResult),
 )
