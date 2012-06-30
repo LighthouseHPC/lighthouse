@@ -23,10 +23,10 @@
 	<li class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 	    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" style="list-style-type: none;">
 		<div class="routineName">
-			<table>
-				<tr id="trd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+			<table id="td_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+				<tr>
 					<td class="infoHelpButton">
-						<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" checked="checked" value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', 'droppedRoutine');"/>
+						<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" checked="checked" value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbd_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines,  'droppedRoutine');"/>
 					</td>
 					<td style="width: 56px; padding-left: 1px;">
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }}

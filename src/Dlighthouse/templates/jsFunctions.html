@@ -221,7 +221,7 @@
 			content: {clear: "all"},
 			load: function(response){
 				dojo.empty("sel_routineListNode");
-				dojo.empty("selectedListNode");				
+				dojo.empty("selectedListNode");
 				console.log(response);
 			    },
 			error: function(){
@@ -561,7 +561,8 @@
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
 
-	function clearSelectedRoutines(routineList){		
+	function clearSelectedRoutines(uncheckedRoutines, selectedRoutineNames){		
+		
 		dojo.xhrPost( {
 			url: "/search/clear_session/",
 			content: {clear: "selected"},
@@ -572,6 +573,23 @@
 			    console.log("error");
 			    }
 		});
+
+		
+		var len = uncheckedRoutines.length;
+
+		//alert(document.getElementById("ts_"+routineName.toUpperCase()).parent.toString());
+
+		for(var i = 0; i < len; i++){
+			routineName = uncheckedRoutines[i];
+			ts = document.getElementById("ts_"+routineName.toUpperCase());
+			td = document.getElementById("td_"+routineName.toUpperCase());
+			if(ts)
+				ts.style.display = "none";
+
+			if(selectedRoutineNames.length > 0)
+				if(td)
+					td.style.display = "none";
+		}		
 	}
 
 	function checkAllRoutines(allRoutines){
@@ -590,13 +608,18 @@
 		}
 	}
 
-	function checkChanged(routineName, mode){
+	function checkChanged(routine, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, mode){
 
 		var checkbox;
 		if(mode == "droppedRoutine")
-			checkbox = document.getElementById("cbd_"+routineName);
+			checkbox = document.getElementById("cbd_"+routine);
 		else if(mode == "selectedRoutine")
-			checkbox = document.getElementById("cbs_"+routineName);
+			checkbox = document.getElementById("cbs_"+routine);
+
+		if(selectedRoutineNames.length > 0)
+			selectedRoutine_session = selectedRoutineNames;
+
+		//alert(selectedRoutine_session.toString());
 
 		var detail = checkbox.value;
 		var precision = detail.split("_")[0];
@@ -609,30 +632,57 @@
 
 		if(checkbox.checked == 1){
 			checked = "checked";
+			if(!routineExists(routine, selectedRoutine_session))
+            	selectedRoutine_session.push(routine.toLowerCase());
+
+            if(routineExists(routine, uncheckedRoutines)){
+                var index = uncheckedRoutines.indexOf(routine.toLowerCase());
+                uncheckedRoutines.splice(index, 1); 
+            }            
+
 		}
+
 		else if(checkbox.checked == 0){
 			checked = "unchecked";
+			if(routineExists(routine, selectedRoutine_session)){
+                var index = selectedRoutine_session.indexOf(routine.toLowerCase());
+                selectedRoutine_session.splice(index, 1); 
+            }
+
+            if(!routineExists(routine, uncheckedRoutines))
+            	uncheckedRoutines.push(routine.toLowerCase());
 		}
 
 		dojo.xhrPost( {
-				url: "/search/update_session/",
-				content: {
-					precision: precision,
-					routineName: routineName,
-					matrixType: matrixType,
-					storageType: storageType,
-					idn: idn,
-					url: url,
-					checkState: checked
-					},
-				load: function(response){
-					console.log(response);
-				    },
-				error: function(){
-				    console.log("error");
-				    }
-			});
+			url: "/search/update_session/",
+			content: {
+				precision: precision,
+				routineName: routineName,
+				matrixType: matrixType,
+				storageType: storageType,
+				idn: idn,
+				url: url,
+				checkState: checked
+				},
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
 		
 	}
+
+	function routineExists(routineName, array){
+        routineName = routineName.toLowerCase();
+        for(var i = 0; i < array.length; i++){
+            if(routineName == array[i]){
+    	        return true;
+            }
+        }
+        return false;
+	}
+
 
 </script>

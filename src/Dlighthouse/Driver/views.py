@@ -72,13 +72,18 @@ def update_session(request):
 			counter += 1
 			
 		if match != -1:			
-			request.session['selectedRoutines'].remove(request.session['selectedRoutines'][match])
+			request.session['selectedRoutines'].pop(match)
 
-		if selectedRoutineList[0] not in request.session['selectedRoutines']:			
+		#if selectedRoutineList[0] not in request.session['selectedRoutines']:			
+		if selectedRoutineList[0]['checkState'] == 'checked':
+			request.session['selectedRoutines'] = selectedRoutineList + request.session['selectedRoutines']
+		if selectedRoutineList[0]['checkState'] == 'unchecked':
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 			
 		for item in request.session['selectedRoutines']:
-			selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
+			if item['checkState'] == 'checked':
+				selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
+
 		return HttpResponse(selectedRoutineNames)
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
@@ -90,13 +95,19 @@ def update_session(request):
 @csrf_exempt
 def clear_session(request):
 	if request.is_ajax():
-		SRL = [{"clear": request.POST.get('clear')}]
-		if SRL[0]['clear'] == 'all':
+		mode = [{"clear": request.POST.get('clear')}]
+		if mode[0]['clear'] == 'all':
 			request.session['selectedRoutines'] = []
-		else:
+			return HttpResponse('cleared')
+		else:			
+			test = request.session['selectedRoutines']
 			request.session['selectedRoutines'] = []
+			for item in test:
+				if item['checkState'] == 'checked':					
+					request.session['selectedRoutines'].append(item)
+
+			return HttpResponse('cleared')
 						
-		return HttpResponse('cleared')
 	else:
 		return HttpResponse('only AJAX requests are allowed!')		
 
@@ -519,7 +530,8 @@ def advancedResult(request):
 		request.session['MatrixTypeGETS'].append(form[model[1]+"MatrixType"])
 		request.session['StorageTypeGETS'].append(form[model[1]+"StorageType"])
 		request.session['PrecisionGETS'].append(form[model[1]+"Precision"])
-		request.session['Results'][model[1]] = []		
+		request.session['Results'][model[1]] = []	
+
 
 #----- Collect the checked data -----#
 #Recored results in request.session['Routines']={modelName1:[<class>], modelName2:[<class>], ...}

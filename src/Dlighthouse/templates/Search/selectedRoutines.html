@@ -1,29 +1,42 @@
 <script type="text/javascript">
 	var selectedRoutine_session = [];
+	var uncheckedRoutines = [];
 </script>
 
 <div id="selectedRoutines">
 	<form>
 		<!--Dropped-items area-->
-		<ul id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:30px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 40px;">
+		<ul id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom: 15px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 35px;">
 		</ul>
 		
 		<!--load request.session["selectedRoutines]-->
+		
+		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:12px; padding-left:30px;">
 		{% if selectedRoutines %}
-		<ul id="sel_routineListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom:12px; padding-left:30px;">	
 		{% for item in selectedRoutines %}
 	
+			{% if item.checkState == "checked" %}
 			<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
 			<script type="text/javascript">
 				selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
 			</script>
 
+			{% endif %}
+
+			{% if item.checkState == "unchecked" %}
+			<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
+			<script type="text/javascript">
+				uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
+			</script>
+
+			{% endif %}
+
 			<li class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="list-style-type: none;">
 				<div class="routineName">
-					<table>
+					<table id="ts_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 						<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 							<td style="font-weight: bold; width: 70px;">
-								<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
+								<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
 							</td>
 							<td>						
 								<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
@@ -55,20 +68,21 @@
 				</div>					
 			</li>
 		{% endfor %}
+		{% endif %}
 		</ul>
-		{% endif %}	
+		
 
 		<div id="button-div">
 		    <table style="width:100%; margin: 0px auto;">
 				<tr style="width:100%;">
 					<td style="text-align:left;">								
-						<button type="button" onclick="clearAllRoutines(selectedRoutine_session);">
-							Clear all
+						<button type="button" onclick="clearAllRoutines(); selectedRoutineNames.length = 0; selectedRoutine_session.length = 0; uncheckedRoutines.length = 0;">
+							Clear
 						</button>
 					</td>
 					<td style="text-align:left;">								
-						<button type="button" onclick="clearSelectedRoutines(selectedRoutine_session);">
-							Clear Selected
+						<button type="button" onclick="clearSelectedRoutines(uncheckedRoutines, selectedRoutineNames); uncheckedRoutines.length = 0;">
+							Clear Unchecked
 						</button>
 					</td>
 					<td style="text-align:right;">

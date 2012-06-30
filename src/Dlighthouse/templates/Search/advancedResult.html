@@ -272,10 +272,10 @@
 		{% if list.items.2.1 %}
 		{% for routine in list.items.2.1 %}
 		<div class="routineName">			
-			<table>
-				<tr id="trd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+			<table id="td_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+				<tr>
 					<td class="infoHelpButton">
-						<input type="checkbox" name="{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cbd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', 'droppedRoutine');"/>
+						<input type="checkbox" name="{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cbd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'droppedRoutine');"/>
 					</td>
 					<td style="width: 56px; padding-left: 1px; font-weight: bold;">
 						{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
