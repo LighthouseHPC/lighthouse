@@ -20,12 +20,41 @@
                     <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
                     <b> Please enter a word or phrase: </b>
                 </td>
-                <form action="/search/keyword/" method="get">                                                                
+                <form action="/search/keyword/" method="get" id="keyword_form">                                                                
                 <td style="padding-left:5px; padding-right:10px;">
-                        <input type="text" name="q" style="width:100%; font-size:14px;" {% if keywords %} value="{{ keywords }}" {% endif %}>                        
+                    <select data-dojo-type="dijit.form.ComboBox" type="text" id="dojoCB" style="width:100%; font-size:14px;" onKeyPress="catchEnter();">
+                      {% if keywords %} 
+                        <option selected> {{ keywords }} </option> 
+                      {% else %}
+                        <option selected></option> 
+                      {% endif %}                      
+                      <option>factor a matrix</option>
+                      <option>estimate the condition number</option>
+                      <option>compute forward error bounds</option>
+                      <option>compute backward error bounds</option>
+                      <option>refine the solution</option>
+                      <option>equilibrate a matrix</option>
+                      <option>invert a matrix</option>
+                      <option>complex numbers</option>
+                      <option>general</option>
+                      <option>symmetric</option>
+                      <option>SPD</option>
+                      <option>Hermitian</option>
+                      <option>HPD</option>
+                      <option>triangular</option>
+                      <option>full</option>
+                      <option>band</option>
+                      <option>packed</option>
+                      <option>tridiagonal</option>
+                      <option>single precision</option>
+                      <option>double precision</option>
+                    </select>
+
+                    <input type="text" id="q" name="q" style="display: none;"></input>
+
                 </td>
                 <td style="text-align:right; width:20px;">
-                        <button type="submit" name="Search" id="searchButton" title="Search String" onclick="return checkKeyword(q)">
+                        <button type="submit" name="Search" id="searchButton" title="Search String" onclick="return checkKeyword()">
                                 <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
                         </button >                      
                 </td>

@@ -556,14 +556,34 @@
 	/*--------------------------------------------------------------------------------- */
 
 	// Check if any keyword was provided
-	function checkKeyword(textarea){
-		t = trim(textarea.value);
+	function checkKeyword(){
+		
+		combobox_value = document.getElementById('dojoCB').value;
+		hidden_textbox = document.getElementById('q');
+
+		t = trim(combobox_value);
+		
 		if(t.length == 0){
 			alert("Please enter a keyword.");
 			return false;
 		}
-		else
+		else{
+			hidden_textbox.value = t;
 			return true;
+		}
+			
+	}
+
+	//
+	function catchEnter() {
+		var e = window.event;
+		if (e.keyCode) code = e.keyCode;
+		else if (e.which) code = e.which;
+
+		if (code==13) {
+			if(checkKeyword())
+				document.forms["keyword_form"].submit();
+		}
 	}
 	
 	// Trim a string
