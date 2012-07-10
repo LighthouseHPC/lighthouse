@@ -1,0 +1,157 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.79 [en] (X11; U; Linux 2.4.18-w1 i686) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#59188E" alink="#FF0000">
+API for remote execution of Automatic Differentiation tools. This project
+currently consists of the following files
+<ul>
+<li>
+<a href="Base.py">Base.py</a> (BaseMessage, BaseServer and BaseClient classes)</li>
+
+<li>
+<a href="Language.py">Language.py</a> (language-specific utility functions,
+e.g., used for parsing "include" directives in C)</li>
+
+<li>
+<a href="utils.py">utils.py</a> (collection of utility functions)</li>
+
+<li>
+<a href="ADIC.py">ADIC.py</a> (ADIC-specific client and server, extensions
+of the BaseClient and BaseServer classes)</li>
+
+<li>
+<a href="adic_server.py">adic_server.py</a> (a prototype server for the
+Adic tool)</li>
+
+<li>
+<a href="adic_client.py">adic_client.py</a> (a simple client)</li>
+
+<li>
+<a href="XAIF.py">XAIF.py</a> (XAIF-specific client and server, extension
+of the BaseClient and BaseServer classes)</li>
+
+<li>
+<a href="xaif_server.py">xaif_server.py</a> (server for the xaifbooster
+tool)</li>
+
+<li>
+<a href="xaif_client.py">xaif_client.py</a> (example client)</li>
+</ul>
+The implementation uses the SocketServer library which comes with Python.
+It basically requires the server's tasks to be implemented within the handle()
+method.
+<br>The structure of the server is summarized in the following class diagram
+where each class is represented by a box containing the name of the class
+(bold letters) and important methods (black small font). Important data
+that is used by other classes is indicated by small magenta font, e.g.,
+the rfile and wfile objects which are used to read/write data from/to the
+socket. The blue circled classes can be found in the file Base.py. The
+green and red circled class(es) are located in the files XAIF.py and xaif_server.py
+respectively. The latter also contains the actual main program. More information
+about the methods can be found in the respective files. The remaining classes
+(BaseRequestHandler, StreamRequestHandler, ForkingTCPServer, TCPServer,
+ForkingMixIn and BaseServer) are part of the SocketServer library. Note
+that the BaseServer classes in the files Base.py and SocketServer.py have
+different purposes (sorry - I have discovered this coincidence just today.
+It means nothing!).
+<br>&nbsp;
+<br><img SRC="xaif.jpg" height=1123 width=923>
+<p>The XAIF_Client, located in XAIF.py, simply extends the BaseClient by
+one method called submit1 (which is used in file xaif_client.py).
+<p>The ADIC-specific versions look quite similar, except for the slightly
+different structure of ADIC.py: here the ADIC_Server and the ADIC_Client
+both inherit from a common superclass ADIC . Furthermore, the server overwrites
+the check_options, send1, and recv1 methods. The client also overwrites
+check_options. See file ADIC.py for details. The class diagram can be found
+<a href="adic.jpg">here</a>.
+<br>&nbsp;
+<p>Notes on the Message class (see file: <a href="Base.py">Base.py</a>)
+<br>-----------------------------------
+<br>A message has two main sections: the Header section, and&nbsp; the
+Files (data)&nbsp; section. The header consists of a sequence of text lines,
+and each line is associated to a specific header field. The header of a
+request sent from a client to a server has the following items:
+<ul>
+<li>
+userid: user name</li>
+
+<li>
+options: command-line options for the AD tool (should be verified by the
+server before execution, see ADIC for example)</li>
+
+<li>
+numfiles: an integer indicating the total number of files in the data section</li>
+</ul>
+The header of the returning message to the client has only one field: numfiles
+(i.e., the number of files to be send).
+<p>In general, the protocol for sending/receiving one file is: &lt;filename>
+&lt;blank> &lt;size of file content (number of bytes) > &lt;newline> followed
+by exactly the number of bytes specified.
+<p>The following methods are available in the BaseMessage class:
+<br>send_header1(header_item): send one line
+<br>recv_header1(): receive one header line
+<br>send_header([list_of_header_items]): send multiple header lines
+<br>send(list_of_files): send all files named in the list
+<br>send1(filename, data): send name and content of one file
+<br>recv(n): receive complete data section where n=#files, and save them
+to disk
+<br>recv1(): receive name and content of one file
+<br>read1(filename): read file from disk
+<br>write1(filename,data): write file to disk
+<p>There is also a simple verification protocol that requires a receipt
+("ok") after every header_item or file.&nbsp; The methods send_receipt(),
+recv_receipt(), and send_error() are used for this.
+<p>Notes on the BaseServer class (see file: <a href="Base.py">Base.py</a>)
+<br>-------------------------------------
+<br>A server typically performs the following operations to serve a client's
+request:
+<br>1. receive header (userid,options,numfiles)
+<br>2. check user id
+<br>3. check options
+<br>4. create working directory
+<br>5. receive source files
+<br>6. execute AD tool in working directory
+<br>7. send results (new source files, log files, etc.) to client
+<br>8. remove working directory
+<br>&nbsp;
+<p>Notes on the Driver (see file: <a href="adic_server.py">adic_server.py</a>
+or <a href="xaif_server.py">xaif_server.py</a>)
+<br>--------------------------
+<br>On start the server forks a child process regularly sending CPU load
+information to the scheduler. When the server gets a termination signal,&nbsp;
+it informs the scheduler and also kills the child process.
+<br>The actual server implementation is based on the SocketServer library
+which provides a general framework for request-based servers.We use a forking
+TCP server where every request is served by a new child process. See description
+of the SocketServer module for details. The handle() method, a member of
+the RequestHandler class, defines the server actions to be performed by
+a child process (e.g., steps 1.-8.).
+<br>The server can handle multiple requests at a time. The SocketServer
+module cares about creating and terminating child processes.
+<p>Note that the files adic_server.py and xaif_server.py are quite similar
+where the main difference is in the handle() method: the adic version uses
+the do_all(exe) method provided by the BaseServer class where xaif_server.py
+uses a sequence of statements in order to comply with the special requirements
+for xaifbooster (local directory must contain xsd file). In fact, all these
+statements could also be implemented in a new do_all(exe) method overwriting
+the one from the BaseServer class. This way, the drivers will be nearly
+identical.
+<br>&nbsp;
+<p>How to write a new server for tool "XY":
+<br>--------------------------------------------------
+<br>Write XY_Server and XY_Client classes inheriting from BaseServer and
+BaseClient resp. (see files XAIF.py and ADIC.py for examples). Tool-specific
+data like legal_options or legal_longoptions should be provided here. You
+may also overwrite e.g., the do_all(exe) method, or, like in case of the
+ADIC_Server, the send1(filename,data) and recv1() methods. See ADIC.py
+for a description. ADIC _Server also overwrites the original check_options(options)
+method. ADIC_Client introduces a new check_options(args) method which additionally
+reads the "SOURCE_FILES" section of the ADIC-init script (if provided),
+and adds the&nbsp; source files to the list of filenames. This is simply
+for the convenience of the user, and not really necessary, in contrast
+to the check_options the server's side.
+</body>
+</html>
