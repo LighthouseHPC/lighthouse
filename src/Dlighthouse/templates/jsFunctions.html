@@ -557,18 +557,16 @@
 
 	// Check if any keyword was provided
 	function checkKeyword(){
-		
-		combobox_value = document.getElementById('dojoCB').value;
-		hidden_textbox = document.getElementById('q');
+				
+		t = document.getElementById("keyword").value;
 
-		t = trim(combobox_value);
+		//alert(t);
 		
 		if(t.length == 0){
 			alert("Please enter a keyword.");
 			return false;
 		}
 		else{
-			hidden_textbox.value = t;
 			return true;
 		}
 			
@@ -589,6 +587,177 @@
 	// Trim a string
 	function trim(stringToTrim) {
 		return stringToTrim.replace(/^\s+|\s+$/g,"");
+	}
+
+	var code;
+	var tmp = -1;
+	var t = null;
+	var s = null;
+	var kwtbArrValue = new Array();
+	var kwtbArrText = new Array();
+
+	document.onkeydown=function(e)
+	{
+	 if(!e) var e = window.event;
+	 code=e.keyCode
+	 tmp2 = document.forms['kw_form'].elements['sel'].length;
+	 if(code==40)
+	 {
+	  	if(tmp < tmp2){
+		  	tmp=tmp+1;
+			//document.forms['kw_form'].elements['sel'].focus();
+			document.forms['kw_form'].elements['sel'].options[tmp].selected=true;
+			product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
+			document.forms['kw_form'].elements['kwtb'].value=product;  
+			//document.forms['kw_form'].elements['kwtb'].focus();
+		}
+	 }
+	 if(code==38)
+	 {
+	  	if(tmp > -1){	
+			tmp=tmp-1; 
+			//document.forms['kw_form'].elements['sel'].focus();
+			document.forms['kw_form'].elements['sel'].options[tmp].selected=true;
+			product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
+			document.forms['kw_form'].elements['kwtb'].value=product;  
+			//document.forms['kw_form'].elements['kwtb'].focus();
+		}
+	 }	 
+	 if(code==13)
+	 {	  
+	  document.all['show'].style.display='none';	  
+	 }
+	 if(code==8)
+	 {
+	  tmp=-1;
+	 }
+
+
+	}
+
+	function init()
+	{
+	        //create a global reference to the text field
+	        t = document.getElementById("keyword");
+	        //create a global reference to the select menu
+	        s = document.getElementById("sel");
+	        //Make a copy of the data to loop through
+	        //and to restore the list if needed
+	        for(var i = 0;i < s.options.length;i++)
+	        {
+	                kwtbArrValue[i] = s.options[i].value;
+	                kwtbArrText[i] = s.options[i].text;
+	        }
+	}
+
+	function findIt(val,txt,menu,tfield)
+	{
+	 if(code==40||code==38||code==13)
+	 {
+
+	 }
+	 else
+	 {
+
+ 	if(tfield.value.length == 0){
+		//alert("0");	
+	  	document.all['show'].style.display='none';
+	  	return;
+ 	}
+	  
+
+
+	 if(tfield.value.length==1)
+	 {
+	  document.all['show'].style.display='inline';
+	  var tmp = document.forms['kw_form'].elements['sel'].length;
+	  for(a=tmp;a>=0;a--)
+	  {
+	   document.forms['kw_form'].elements['sel'].options[a] = null;
+	  }
+	  obj = document.forms['kw_form'].elements['sel'];
+
+	  obj[0] = new Option('factor a matrix','s0000');
+	  obj[1] = new Option('estimate the condition number','s0001');
+	  obj[2] = new Option('compute forward error bounds','s0002');
+	  obj[3] = new Option('compute backward error bounds','s0003');
+	  obj[4] = new Option('refine the solution','s0004');
+	  obj[5] = new Option('equilibrate a matrix','s0005');
+	  obj[6] = new Option('invert a matrix','s0006');
+	  obj[7] = new Option('complex numbers','s0007');
+	  obj[8] = new Option('general','s0008');
+	  obj[9] = new Option('symmetric','s0009');
+	  obj[10] = new Option('SPD','s0010');
+	  obj[11] = new Option('Hermitian','s0011');
+	  obj[12] = new Option('HPD','s0012');
+	  obj[13] = new Option('triangular','s0013');
+	  obj[14] = new Option('full','s0014');
+	  obj[15] = new Option('band','s0015');
+	  obj[16] = new Option('packed','s0016');
+	  obj[17] = new Option('tridiagonal','s0017');
+	  obj[18] = new Option('single precision','s0018');
+	  obj[19] = new Option('double precision','s0019');
+
+
+	  init();
+	 }
+
+
+
+
+	        if(tfield.value.length > 0)
+	        {
+	        menu.options.length = 0;
+	        var reg = new RegExp("^" + tfield.value,"i");
+	        var op = document.createElement("option");
+	        var tmp = null;
+	                for(var i = 0;i < val.length;i++)
+	                {
+	                        if(reg.test(txt[i]))
+	                        {
+	                                var tt = document.createTextNode(txt[i]);
+	                                tmp = op.cloneNode(false);
+	                                tmp.setAttribute("value",val[i]);
+	                                tmp.appendChild(tt);
+	                                menu.appendChild(tmp);
+	                        }
+	                }
+	        }
+	        else
+	        {
+	                restore(val,txt,menu,tfield);
+	        }
+	   document.all['show'].style.display='inline';
+	   
+	   if(document.forms['kw_form'].elements['sel'].options.length!=0)
+	   {
+	   //document.forms['test'].elements['sel'].focus();
+	   document.forms['kw_form'].elements['sel'].options[0].selected=true; 
+	   //document.forms['kw_form'].elements['kwtextfield'].focus();
+	   }
+	   else
+	   {
+	   document.all['show'].style.display='none';
+	   }  
+	}
+	}
+
+	function restore(val,txt,menu,tfield)
+	{
+	        if(tfield.value.length < 2 && menu.options.length != val.length)
+	        {
+	        menu.options.length = 0;
+	        var op = document.createElement("option");
+	        var tmp = null;
+	                for(var i = 0;i < val.length;i++)
+	                {
+	                        var tt = document.createTextNode(txt[i]);
+	                        tmp = op.cloneNode(false);
+	                        tmp.setAttribute("value",val[i]);
+	                        tmp.appendChild(tt);
+	                        menu.appendChild(tmp);
+	                }
+	        }
 	}
 
 	/*--------------------------------------------------------------------------------- */	

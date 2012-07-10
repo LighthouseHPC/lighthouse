@@ -610,8 +610,8 @@ def keywordResult(request):
 	except NameError:
 		request.session['selectedRoutines'] = []
 	
-	if request.GET.get('q'):		
-		keywords = request.GET['q']
+	if request.GET.get('kwtb'):		
+		keywords = request.GET['kwtb']
 		keywords = keywords.lower().strip()
 		routines = []
 

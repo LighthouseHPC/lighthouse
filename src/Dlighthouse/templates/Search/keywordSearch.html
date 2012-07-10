@@ -13,53 +13,38 @@
         </table>        
 </div>
 <br>
-<div id="button-div">
-        <table id="icon-table">
+<div id="button-div" >
+        <table id="icon-table" style="margin-left: 10px; padding-top: 0px;">
                 <tr>
-                <td style="padding-left:5px; width:188px;">
+                  <td style="padding-top:5px; padding-bottom:5px;">
                     <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
                     <b> Please enter a word or phrase: </b>
-                </td>
-                <form action="/search/keyword/" method="get" id="keyword_form">                                                                
-                <td style="padding-left:5px; padding-right:10px;">
-                    <select data-dojo-type="dijit.form.ComboBox" type="text" id="dojoCB" style="width:100%; font-size:14px;" onKeyPress="catchEnter();">
-                      {% if keywords %} 
-                        <option selected> {{ keywords }} </option> 
-                      {% else %}
-                        <option selected></option> 
-                      {% endif %}                      
-                      <option>factor a matrix</option>
-                      <option>estimate the condition number</option>
-                      <option>compute forward error bounds</option>
-                      <option>compute backward error bounds</option>
-                      <option>refine the solution</option>
-                      <option>equilibrate a matrix</option>
-                      <option>invert a matrix</option>
-                      <option>complex numbers</option>
-                      <option>general</option>
-                      <option>symmetric</option>
-                      <option>SPD</option>
-                      <option>Hermitian</option>
-                      <option>HPD</option>
-                      <option>triangular</option>
-                      <option>full</option>
-                      <option>band</option>
-                      <option>packed</option>
-                      <option>tridiagonal</option>
-                      <option>single precision</option>
-                      <option>double precision</option>
-                    </select>
-
-                    <input type="text" id="q" name="q" style="display: none;"></input>
-
-                </td>
-                <td style="text-align:right; width:20px;">
-                        <button type="submit" name="Search" id="searchButton" title="Search String" onclick="return checkKeyword()">
-                                <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
-                        </button >                      
-                </td>
-                </form>
+                  </td>
                 </tr>
+                
+                <tr>
+                
+                <form action="/search/keyword/" method="get" name="kw_form" id="keyword_form">                                                                                
+                <td>
+                  <input type="text" name="kwtb" size="50" id="keyword" onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)" autocomplete="off" style="border:solid 1px black; font-family: Tahoma; font-size: 15px;">
+                </td>
+
+                <td style="text-align:left; padding-left: 10px; width: 100%;">
+                  <button type="submit" name="Search" id="searchButton" title="Search String" style="width: 60px;" onclick="return checkKeyword();">
+                    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+                  </button >                      
+                </td>
+                
+                </tr>
+                <tr>
+                  <td>
+                    <div id="show" style="display:none;">
+                      <select name="sel" id="sel" size="5" style="width: 300px;"></select>
+                    </div>
+                  </td>
+                </tr>              
+
+                </form>
         </table>
 
 </div>
