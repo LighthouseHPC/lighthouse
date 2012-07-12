@@ -1,0 +1,1226 @@
+<head>
+<title>lapack/double</title>
+<meta name="waisindex" value="nse">
+</head>
+<h1>lapack/double</h1>
+<p>
+Click <A HREF="http://www.netlib.org/master_counts2.html#lapack/double">here</A> to see the number of accesses to this library.
+<p><hr>
+<pre>
+# --------------------------------------------------------
+# Available SIMPLE and DIVIDE AND CONQUER DRIVER routines:
+# --------------------------------------------------------
+<ol>
+<li>file <a href="dgesv.f">dgesv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgesv.f">dgesv.f plus dependencies</a>
+prec double
+for  Solves a general system of linear equations AX=B.
+gams d2a1
+
+</li><li>file <a href="dsgesv.f">dsgesv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsgesv.f">dsgesv.f plus dependencies</a>
+prec double / single
+for  Solves a general system of linear equations AX=B using iterativement refinement.
+
+</li><li>file <a href="dgbsv.f">dgbsv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbsv.f">dgbsv.f plus dependencies</a>
+prec double
+for  Solves a general banded system of linear equations AX=B.
+gams d2a2
+
+</li><li>file <a href="dgtsv.f">dgtsv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgtsv.f">dgtsv.f plus dependencies</a>
+prec double
+for  Solves a general tridiagonal system of linear equations AX=B.
+gams d2a2a
+
+</li><li>file <a href="dposv.f">dposv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dposv.f">dposv.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite system of linear
+,    equations AX=B.
+gams d2b1b
+
+</li><li>file <a href="dppsv.f">dppsv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dppsv.f">dppsv.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite system of linear
+,    equations AX=B, where A is held in packed storage.
+gams d2b1b
+
+</li><li>file <a href="dpbsv.f">dpbsv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbsv.f">dpbsv.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite banded system
+,    of linear equations AX=B.
+gams d2b2
+
+</li><li>file <a href="dptsv.f">dptsv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dptsv.f">dptsv.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite tridiagonal system
+,    of linear equations AX=B.
+gams d2b2a
+
+</li><li>file <a href="dsysv.f">dsysv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsysv.f">dsysv.f plus dependencies</a>
+prec double
+for  Solves a real symmetric indefinite system of linear equations AX=B.
+gams d2b1a
+
+</li><li>file <a href="dspsv.f">dspsv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspsv.f">dspsv.f plus dependencies</a>
+prec double
+for  Solves a real symmetric indefinite system of linear equations AX=B,
+,    where A is held in packed storage.
+gams d2b1a
+
+</li><li>file <a href="dgels.f">dgels.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgels.f">dgels.f plus dependencies</a>
+prec double
+for  Computes the least squares solution to an over-determined system
+,    of linear equations, A X=B or A**H X=B,  or the minimum norm
+,    solution of an under-determined system, where A is a general
+,    rectangular matrix of full rank,  using a QR or LQ factorization
+,    of A.
+gams d9a1
+
+</li><li>file <a href="dgelsd.f">dgelsd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgelsd.f">dgelsd.f plus dependencies</a>
+prec double
+for  Computes the least squares solution to an over-determined system
+,    of linear equations, A X=B or A**H X=B,  or the minimum norm
+,    solution of an under-determined system, using a divide and conquer
+,    method, where A is a general rectangular matrix of full rank,
+,    using a QR or LQ factorization of A.
+gams d9a1
+
+</li><li>file <a href="dgglse.f">dgglse.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgglse.f">dgglse.f plus dependencies</a>
+prec double
+for  Solves the LSE (Constrained Linear Least Squares Problem) using
+,    the GRQ (Generalized RQ) factorization
+gams d9b1
+
+</li><li>file <a href="dggglm.f">dggglm.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggglm.f">dggglm.f plus dependencies</a>
+prec double
+for  Solves the GLM (Generalized Linear Regression Model) using
+,    the GQR (Generalized QR) factorization
+
+</li><li>file <a href="dsyev.f">dsyev.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsyev.f">dsyev.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric matrix.
+gams d4a1
+
+</li><li>file <a href="dsyevd.f">dsyevd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsyevd.f">dsyevd.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric matrix.  If eigenvectors are desired, it uses a divide
+,    and conquer algorithm.
+gams d4a1
+
+</li><li>file <a href="dspev.f">dspev.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspev.f">dspev.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric matrix in packed storage.
+gams d4a1
+
+</li><li>file <a href="dspevd.f">dspevd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspevd.f">dspevd.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric matrix in packed storage.  If eigenvectors are desired,
+,    it uses a divide and conquer algorithm.
+gams d4a1
+
+</li><li>file <a href="dsbev.f">dsbev.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbev.f">dsbev.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric band matrix.
+gams d4a1, d4a6
+
+</li><li>file <a href="dsbevd.f">dsbevd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbevd.f">dsbevd.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric band matrix.  If eigenvectors are desired, it uses a
+,    divide and conquer algorithm.
+gams d4a1, d4a6
+
+</li><li>file <a href="dstev.f">dstev.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstev.f">dstev.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric tridiagonal matrix.
+gams d4a1, d4a5
+
+</li><li>file <a href="dstevd.f">dstevd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstevd.f">dstevd.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues, and optionally, eigenvectors of a real
+,    symmetric tridiagonal matrix.  If eigenvectors are desired, it uses
+,    a divide and conquer algorithm.
+gams d4a1, d4a5
+
+</li><li>file <a href="dgees.f">dgees.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgees.f">dgees.f plus dependencies</a>
+prec double
+for  Computes the eigenvalues and Schur factorization of a general
+,    matrix, and orders the factorization so that selected eigenvalues
+,    are at the top left of the Schur form.
+gams d4a2
+
+</li><li>file <a href="dgeev.f">dgeev.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeev.f">dgeev.f plus dependencies</a>
+prec double
+for  Computes the eigenvalues and left and right eigenvectors of
+,    a general matrix.
+gams d4a2
+
+</li><li>file <a href="dgesvd.f">dgesvd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgesvd.f">dgesvd.f plus dependencies</a>
+prec double
+for  Computes the singular value decomposition (SVD) of a general
+,    rectangular matrix.
+gams d6
+
+</li><li>file <a href="dgesdd.f">dgesdd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgesdd.f">dgesdd.f plus dependencies</a>
+prec double
+for  Computes the singular value decomposition (SVD) of a general
+,    rectangular matrix using divide-and-conquer.
+gams d6
+
+</li><li>file <a href="dsygv.f">dsygv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsygv.f">dsygv.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and the eigenvectors of  a generalized
+,    symmetric-definite generalized eigenproblem,
+,    Ax= lambda Bx,  ABx= lambda x,  or BAx= lambda x.
+gams d4b1
+
+</li><li>file <a href="dsygvd.f">dsygvd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsygvd.f">dsygvd.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and the eigenvectors of  a generalized
+,    symmetric-definite generalized eigenproblem,
+,    Ax= lambda Bx,  ABx= lambda x,  or BAx= lambda x.
+,    If eigenvectors are desired, it uses a divide and conquer algorithm.
+gams d4b1
+
+</li><li>file <a href="dspgv.f">dspgv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspgv.f">dspgv.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and eigenvectors of  a generalized
+,    symmetric-definite generalized eigenproblem,  Ax= lambda
+,    Bx,  ABx= lambda x,  or BAx= lambda x, where A and B are in packed
+,    storage.
+gams d4b1
+
+</li><li>file <a href="dspgvd.f">dspgvd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspgvd.f">dspgvd.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and eigenvectors of  a generalized
+,    symmetric-definite generalized eigenproblem,  Ax= lambda
+,    Bx,  ABx= lambda x,  or BAx= lambda x, where A and B are in packed
+,    storage.
+,    If eigenvectors are desired, it uses a divide and conquer algorithm.
+gams d4b1
+
+</li><li>file <a href="dsbgv.f">dsbgv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbgv.f">dsbgv.f plus dependencies</a>
+prec double
+for  Computes all the eigenvalues, and optionally, the eigenvectors
+,    of a real generalized symmetric-definite banded eigenproblem, of
+,    the form A*x=(lambda)*B*x.  A and B are assumed to be symmetric
+,    and banded, and B is also positive definite.
+
+</li><li>file <a href="dsbgvd.f">dsbgvd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbgvd.f">dsbgvd.f plus dependencies</a>
+prec double
+for  Computes all the eigenvalues, and optionally, the eigenvectors
+,    of a real generalized symmetric-definite banded eigenproblem, of
+,    the form A*x=(lambda)*B*x.  A and B are assumed to be symmetric
+,    and banded, and B is also positive definite.
+,    If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+</li><li>file <a href="dgegs.f">dgegs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgegs.f">dgegs.f plus dependencies</a>
+prec double
+for  Computes the generalized eigenvalues, Schur form, and left and/or
+,    right Schur vectors for a pair of nonsymmetric matrices
+
+</li><li>file <a href="dgges.f">dgges.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgges.f">dgges.f plus dependencies</a>
+prec double
+for  Computes the generalized eigenvalues, Schur form, and left and/or
+,    right Schur vectors for a pair of nonsymmetric matrices
+
+</li><li>file <a href="dgegv.f">dgegv.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgegv.f">dgegv.f plus dependencies</a>
+prec double
+for  Computes the generalized eigenvalues, and left and/or right
+,    generalized eigenvectors for a pair of nonsymmetric matrices
+
+</li><li>file <a href="dggev.f">dggev.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggev.f">dggev.f plus dependencies</a>
+prec double
+for  Computes the generalized eigenvalues, and left and/or right
+,    generalized eigenvectors for a pair of nonsymmetric matrices
+
+</li><li>file <a href="dggsvd.f">dggsvd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggsvd.f">dggsvd.f plus dependencies</a>
+prec double
+for  Computes the Generalized Singular Value Decomposition
+
+# -----------------------------------------
+# Available EXPERT and RRR DRIVER routines:
+# -----------------------------------------
+
+</li><li>file <a href="dgesvx.f">dgesvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgesvx.f">dgesvx.f plus dependencies</a>
+prec double
+for  Solves a general system of linear equations AX=B, A**T X=B
+,    or A**H X=B, and provides an estimate of the condition number
+,    and error bounds on the solution.
+gams d2a1
+
+</li><li>file <a href="dgbsvx.f">dgbsvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbsvx.f">dgbsvx.f plus dependencies</a>
+prec double
+for  Solves a general banded system of linear equations AX=B,
+,    A**T X=B or A**H X=B, and provides an estimate of the condition
+,    number and error bounds on the solution.
+gams d2a2
+
+</li><li>file <a href="dgtsvx.f">dgtsvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgtsvx.f">dgtsvx.f plus dependencies</a>
+prec double
+for  Solves a general tridiagonal system of linear equations AX=B,
+,    A**T X=B or A**H X=B, and provides an estimate of the condition
+,    number  and error bounds on the solution.
+gams d2a2a
+
+</li><li>file <a href="dposvx.f">dposvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dposvx.f">dposvx.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite system of linear
+,    equations AX=B, and provides an estimate of the condition number
+,    and error bounds on the solution.
+gams d2b1b
+
+</li><li>file <a href="dppsvx.f">dppsvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dppsvx.f">dppsvx.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite system of linear
+,    equations AX=B, where A is held in packed storage, and provides
+,    an estimate of the condition number and error bounds on the
+,    solution.
+gams d2b1b
+
+</li><li>file <a href="dpbsvx.f">dpbsvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbsvx.f">dpbsvx.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite banded system
+,    of linear equations AX=B, and provides an estimate of the condition
+,    number and error bounds on the solution.
+gams d2b2
+
+</li><li>file <a href="dptsvx.f">dptsvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dptsvx.f">dptsvx.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite tridiagonal
+,    system of linear equations AX=B, and provides an estimate of
+,    the condition number and error bounds on the solution.
+gams d2b2a
+
+</li><li>file <a href="dsysvx.f">dsysvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsysvx.f">dsysvx.f plus dependencies</a>
+prec double
+for  Solves a real symmetric
+,    indefinite system  of linear equations AX=B, and provides an
+,    estimate of the condition number and error bounds on the solution.
+gams d2b1a
+
+</li><li>file <a href="dspsvx.f">dspsvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspsvx.f">dspsvx.f plus dependencies</a>
+prec double
+for  Solves a real symmetric
+,    indefinite system of linear equations AX=B, where A is held
+,    in packed storage, and provides an estimate of the condition
+,    number and error bounds on the solution.
+gams d2b1a
+
+</li><li>file <a href="dgelsx.f">dgelsx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgelsx.f">dgelsx.f plus dependencies</a>
+prec double
+for  Computes the minimum norm least squares solution to an over-
+,    or under-determined system of linear equations A X=B, using a
+,    complete orthogonal factorization of A.
+gams d9a1
+
+</li><li>file <a href="dgelsy.f">dgelsy.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgelsy.f">dgelsy.f plus dependencies</a>
+prec double
+for  Computes the minimum norm least squares solution to an over-
+,    or under-determined system of linear equations A X=B, using a
+,    complete orthogonal factorization of A.
+gams d9a1
+
+</li><li>file <a href="dgelss.f">dgelss.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgelss.f">dgelss.f plus dependencies</a>
+prec double
+for  Computes the minimum norm least squares solution to an over-
+,    or under-determined system of linear equations A X=B,  using
+,    the singular value decomposition of A.
+gams d9a1
+
+</li><li>file <a href="dsyevx.f">dsyevx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsyevx.f">dsyevx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues and eigenvectors of a symmetric matrix.
+gams d4a1
+
+</li><li>file <a href="dsyevr.f">dsyevr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsyevr.f">dsyevr.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues, and optionally, eigenvectors of a real
+,    symmetric matrix.  Eigenvalues are computed by the dqds
+,    algorithm, and eigenvectors are computed from various "good" LDL^T
+,    representations (also known as Relatively Robust Representations).
+gams d4a1, d4a5
+
+</li><li>file <a href="dsygvx.f">dsygvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsygvx.f">dsygvx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues, and optionally, the eigenvectors of
+,    a generalized symmetric-definite generalized eigenproblem,
+,    Ax= lambda Bx,  ABx= lambda x,  or BAx= lambda x.
+gams d4b1
+
+</li><li>file <a href="dspevx.f">dspevx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspevx.f">dspevx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues and eigenvectors of a
+,    symmetric matrix in packed storage.
+gams d4a1
+
+</li><li>file <a href="dspgvx.f">dspgvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspgvx.f">dspgvx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues, and optionally, eigenvectors of
+,    a generalized symmetric-definite generalized eigenproblem,  Ax= lambda
+,    Bx,  ABx= lambda x,  or BAx= lambda x, where A and B are in packed
+,    storage.
+gams d4b1
+
+</li><li>file <a href="dsbevx.f">dsbevx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbevx.f">dsbevx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues and eigenvectors of a
+,    symmetric band matrix.
+gams d4a1, d4a6
+
+</li><li>file <a href="dsbgvx.f">dsbgvx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbgvx.f">dsbgvx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues, and optionally, the eigenvectors
+,    of a real generalized symmetric-definite banded eigenproblem, of
+,    the form A*x=(lambda)*B*x.  A and B are assumed to be symmetric
+,    and banded, and B is also positive definite.
+
+</li><li>file <a href="dstevx.f">dstevx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstevx.f">dstevx.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues and eigenvectors of a real
+,    symmetric tridiagonal matrix.
+gams d4a1, d4a5
+
+</li><li>file <a href="dstevr.f">dstevr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstevr.f">dstevr.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues, and optionally, eigenvectors of a real
+,    symmetric tridiagonal matrix.  Eigenvalues are computed by the dqds
+,    algorithm, and eigenvectors are computed from various "good" LDL^T
+,    representations (also known as Relatively Robust Representations).
+gams d4a1, d4a5
+
+</li><li>file <a href="dgeesx.f">dgeesx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeesx.f">dgeesx.f plus dependencies</a>
+prec double
+for  Computes the eigenvalues and Schur factorization of a general
+,    matrix, orders the factorization so that selected eigenvalues
+,    are at the top left of the Schur form, and computes reciprocal
+,    condition numbers for the average of the selected eigenvalues,
+,    and for the associated right invariant subspace.
+gams d4a2
+
+</li><li>file <a href="dggesx.f">dggesx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggesx.f">dggesx.f plus dependencies</a>
+prec double
+for  Computes the generalized eigenvalues, the real Schur form, and,
+,    optionally, the left and/or right matrices of Schur vectors.
+
+</li><li>file <a href="dgeevx.f">dgeevx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeevx.f">dgeevx.f plus dependencies</a>
+prec double
+for  Computes the eigenvalues and left and right eigenvectors of
+,    a general matrix,  with preliminary balancing of the matrix,
+,    and computes reciprocal condition numbers for the eigenvalues
+,    and right eigenvectors.
+gams d4a2
+
+</li><li>file <a href="dggevx.f">dggevx.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggevx.f">dggevx.f plus dependencies</a>
+prec double
+for  Computes the generalized eigenvalues, and optionally, the left
+,    and/or right generalized eigenvectors.
+
+# ---------------------------------
+# Available COMPUTATIONAL routines:
+# ---------------------------------
+
+</li><li>file <a href="dbdsdc.f">dbdsdc.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dbdsdc.f">dbdsdc.f plus dependencies</a>
+prec double
+for  Computes the singular value decomposition (SVD) of a real bidiagonal
+,    matrix, using a divide and conquer method.
+gams d6
+
+</li><li>file <a href="dbdsqr.f">dbdsqr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dbdsqr.f">dbdsqr.f plus dependencies</a>
+prec double
+for  Computes the singular value decomposition (SVD) of a real bidiagonal
+,    matrix, using the bidiagonal QR algorithm.
+gams d6
+
+</li><li>file <a href="ddisna.f">ddisna.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/ddisna.f">ddisna.f plus dependencies</a>
+prec double
+for  Computes the reciprocal condition numbers for the eigenvectors of a
+,    real symmetric or complex Hermitian matrix or for the left or right
+,    singular vectors of a general matrix.
+
+</li><li>file <a href="dgbbrd.f">dgbbrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbbrd.f">dgbbrd.f plus dependencies</a>
+prec double
+,    Reduces a general band matrix to real upper bidiagonal form
+,    by an orthogonal transformation.
+
+</li><li>file <a href="dgbcon.f">dgbcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbcon.f">dgbcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a general
+,    band matrix, in either the 1-norm or the infinity-norm, using
+,    the LU factorization computed by DGBTRF.
+gams d2a2
+
+</li><li>file <a href="dgbequ.f">dgbequ.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbequ.f">dgbequ.f plus dependencies</a>
+prec double
+for  Computes row and column scalings to equilibrate a general band
+,    matrix and reduce its condition number.
+gams d2a2
+
+</li><li>file <a href="dgbrfs.f">dgbrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbrfs.f">dgbrfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a general banded system of
+,    linear equations AX=B, A**T X=B or A**H X=B, and provides forward
+,    and backward error bounds for the solution.
+gams d2a2
+
+</li><li>file <a href="dgbtrf.f">dgbtrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbtrf.f">dgbtrf.f plus dependencies</a>
+prec double
+for  Computes an LU factorization of a general band matrix, using
+,    partial pivoting with row interchanges.
+gams d2a2
+
+</li><li>file <a href="dgbtrs.f">dgbtrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgbtrs.f">dgbtrs.f plus dependencies</a>
+prec double
+for  Solves a general banded system of linear equations AX=B,
+,    A**T X=B or A**H X=B, using the LU factorization computed
+,    by DGBTRF.
+gams d2a2
+
+</li><li>file <a href="dgebak.f">dgebak.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgebak.f">dgebak.f plus dependencies</a>
+prec double
+for  Transforms eigenvectors of a balanced matrix to those of the
+,    original matrix supplied to DGEBAL.
+gams d4c4
+
+</li><li>file <a href="dgebal.f">dgebal.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgebal.f">dgebal.f plus dependencies</a>
+prec double
+for  Balances a general matrix in order to improve the accuracy
+,    of computed eigenvalues.
+gams d4c1a
+
+</li><li>file <a href="dgebrd.f">dgebrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgebrd.f">dgebrd.f plus dependencies</a>
+prec double
+for  Reduces a general rectangular matrix to real bidiagonal form
+,    by an orthogonal transformation.
+gams d6
+
+</li><li>file <a href="dgecon.f">dgecon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgecon.f">dgecon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a general
+,    matrix, in either the 1-norm or the infinity-norm, using the
+,    LU factorization computed by DGETRF.
+gams d2a1
+
+</li><li>file <a href="dgeequ.f">dgeequ.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeequ.f">dgeequ.f plus dependencies</a>
+prec double
+for  Computes row and column scalings to equilibrate a general
+,    rectangular matrix and reduce its condition number.
+gams d2a1
+
+</li><li>file <a href="dgehrd.f">dgehrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgehrd.f">dgehrd.f plus dependencies</a>
+prec double
+for  Reduces a general matrix to upper Hessenberg form by an
+,    orthogonal similarity transformation.
+gams d4c1b2
+
+</li><li>file <a href="dgelqf.f">dgelqf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgelqf.f">dgelqf.f plus dependencies</a>
+prec double
+for  Computes an LQ factorization of a general rectangular matrix.
+gams d5
+
+</li><li>file <a href="dgeqlf.f">dgeqlf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeqlf.f">dgeqlf.f plus dependencies</a>
+prec double
+for  Computes a QL factorization of a general rectangular matrix.
+gams d5
+
+</li><li>file <a href="dgeqp3.f">dgeqp3.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeqp3.f">dgeqp3.f plus dependencies</a>
+prec double
+for  Computes a QR factorization with column pivoting of a general
+,    rectangular matrix using Level 3 BLAS.
+gams d5
+
+</li><li>file <a href="dgeqpf.f">dgeqpf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeqpf.f">dgeqpf.f plus dependencies</a>
+prec double
+for  Computes a QR factorization with column pivoting of a general
+,    rectangular matrix.
+gams d5
+
+</li><li>file <a href="dgeqrf.f">dgeqrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgeqrf.f">dgeqrf.f plus dependencies</a>
+prec double
+for  Computes a QR factorization of a general rectangular matrix.
+gams d5
+
+</li><li>file <a href="dgerfs.f">dgerfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgerfs.f">dgerfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a general system of linear
+,    equations AX=B, A**T X=B or A**H X=B, and provides forward and
+,    backward error bounds for the solution.
+gams d2a1
+
+</li><li>file <a href="dgerqf.f">dgerqf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgerqf.f">dgerqf.f plus dependencies</a>
+prec double
+for  Computes an RQ factorization of a general rectangular matrix.
+gams d5
+
+</li><li>file <a href="dgetrf.f">dgetrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgetrf.f">dgetrf.f plus dependencies</a>
+prec double
+for  Computes an LU factorization of a general matrix, using partial
+,    pivoting with row interchanges.
+gams d2a1
+
+</li><li>file <a href="dgetri.f">dgetri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgetri.f">dgetri.f plus dependencies</a>
+prec double
+for  Computes the inverse of a general matrix, using the LU factorization
+,    computed by DGETRF.
+gams d2a1
+
+</li><li>file <a href="dgetrs.f">dgetrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgetrs.f">dgetrs.f plus dependencies</a>
+prec double
+for  Solves a general system of linear equations AX=B, A**T X=B
+,    or A**H X=B, using the LU factorization computed by DGETRF.
+gams d2a1
+
+</li><li>file <a href="dggbak.f">dggbak.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggbak.f">dggbak.f plus dependencies</a>
+prec double
+For  Forms the right or left eigenvectors of the generalized eigenvalue
+,    problem by backward transformation on the computed eigenvectors of
+,    the balanced pair of matrices output by DGGBAL.
+
+</li><li>file <a href="dggbal.f">dggbal.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggbal.f">dggbal.f plus dependencies</a>
+prec double
+For  Balances a pair of general real matrices for the generalized
+,    eigenvalue problem A x = lambda B x.
+
+</li><li>file <a href="dgghrd.f">dgghrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgghrd.f">dgghrd.f plus dependencies</a>
+prec double
+for  Reduces a pair of real matrices to generalized upper
+,    Hessenberg form using orthogonal transformations 
+
+</li><li>file <a href="dggqrf.f">dggqrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggqrf.f">dggqrf.f plus dependencies</a>
+prec double
+for  Computes a generalized QR factorization of a pair of matrices. 
+
+</li><li>file <a href="dggrqf.f">dggrqf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggrqf.f">dggrqf.f plus dependencies</a>
+prec double
+for  Computes a generalized RQ factorization of a pair of matrices.
+
+</li><li>file <a href="dggsvp.f">dggsvp.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dggsvp.f">dggsvp.f plus dependencies</a>
+prec double
+for  Computes orthogonal matrices as a preprocessing step
+,    for computing the generalized singular value decomposition
+
+</li><li>file <a href="dgtcon.f">dgtcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgtcon.f">dgtcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a general
+,    tridiagonal matrix, in either the 1-norm or the infinity-norm,
+,    using the LU factorization computed by DGTTRF.
+gams d2a2a
+
+</li><li>file <a href="dgtrfs.f">dgtrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgtrfs.f">dgtrfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a general tridiagonal system
+,    of linear equations AX=B, A**T X=B or A**H X=B, and provides
+,    forward and backward error bounds for the solution.
+gams d2a2a
+
+</li><li>file <a href="dgttrf.f">dgttrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgttrf.f">dgttrf.f plus dependencies</a>
+prec double
+for  Computes an LU factorization of a general tridiagonal matrix,
+,    using partial pivoting with row interchanges.
+gams d2a2a
+
+</li><li>file <a href="dgttrs.f">dgttrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dgttrs.f">dgttrs.f plus dependencies</a>
+prec double
+for  Solves a general tridiagonal system of linear equations AX=B,
+,    A**T X=B or A**H X=B, using the LU factorization computed by
+,    DGTTRF.
+gams d2a2a
+
+</li><li>file <a href="dhgeqz.f">dhgeqz.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dhgeqz.f">dhgeqz.f plus dependencies</a>
+prec double
+for  Implements a single-/double-shift version of the QZ method for
+,    finding the generalized eigenvalues of the equation 
+,    det(A - w(i) B) = 0
+
+</li><li>file <a href="dhsein.f">dhsein.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dhsein.f">dhsein.f plus dependencies</a>
+prec double
+for  Computes specified right and/or left eigenvectors of an upper
+,    Hessenberg matrix by inverse iteration.
+gams d4c3
+
+</li><li>file <a href="dhseqr.f">dhseqr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dhseqr.f">dhseqr.f plus dependencies</a>
+prec double
+for  Computes the eigenvalues and Schur factorization of an upper
+,    Hessenberg matrix, using the multishift QR algorithm.
+gams d4c2b
+
+</li><li>file <a href="dopgtr.f">dopgtr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dopgtr.f">dopgtr.f plus dependencies</a>
+prec double
+for  Generates the orthogonal transformation matrix from
+,    a reduction to tridiagonal form determined by DSPTRD.
+gams d4c1b1
+
+</li><li>file <a href="dopmtr.f">dopmtr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dopmtr.f">dopmtr.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal
+,    transformation matrix from a reduction to tridiagonal form
+,    determined by DSPTRD.
+gams d4c4
+
+</li><li>file <a href="dorcsd.f">dorcsd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorcsd.f">dorcsd.f plus dependencies</a>
+prec double
+for  Compute the CS decomposition of a block-partitioned
+,    orthogonal/unitary matrix.
+
+</li><li>file <a href="dorgbr.f">dorgbr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorgbr.f">dorgbr.f plus dependencies</a>
+prec double
+for  Generates the orthogonal transformation matrices from
+,    a reduction to bidiagonal form determined by DGEBRD.
+gams d6
+
+</li><li>file <a href="dorghr.f">dorghr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorghr.f">dorghr.f plus dependencies</a>
+prec double
+for  Generates the orthogonal transformation matrix from
+,    a reduction to Hessenberg form determined by DGEHRD.
+gams d4c1b2
+
+</li><li>file <a href="dorglq.f">dorglq.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorglq.f">dorglq.f plus dependencies</a>
+prec double
+for  Generates all or part of the orthogonal matrix Q from
+,    an LQ factorization determined by DGELQF.
+gams d5
+
+</li><li>file <a href="dorgql.f">dorgql.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorgql.f">dorgql.f plus dependencies</a>
+prec double
+for  Generates all or part of the orthogonal matrix Q from
+,    a QL factorization determined by DGEQLF.
+gams d5
+
+</li><li>file <a href="dorgqr.f">dorgqr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorgqr.f">dorgqr.f plus dependencies</a>
+prec double
+for  Generates all or part of the orthogonal matrix Q from
+,    a QR factorization determined by DGEQRF.
+gams d5
+
+</li><li>file <a href="dorgrq.f">dorgrq.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorgrq.f">dorgrq.f plus dependencies</a>
+prec double
+for  Generates all or part of the orthogonal matrix Q from
+,    an RQ factorization determined by DGERQF.
+gams d5
+
+</li><li>file <a href="dorgtr.f">dorgtr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dorgtr.f">dorgtr.f plus dependencies</a>
+prec double
+for  Generates the orthogonal transformation matrix from
+,    a reduction to tridiagonal form determined by DSYTRD.
+gams d4c1b1
+
+</li><li>file <a href="dormbr.f">dormbr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormbr.f">dormbr.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by one of the orthogonal
+,    transformation  matrices from a reduction to bidiagonal form
+,    determined by DGEBRD.
+gams d6
+
+</li><li>file <a href="dormhr.f">dormhr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormhr.f">dormhr.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal transformation
+,    matrix from a reduction to Hessenberg form determined by DGEHRD.
+gams d4c4
+
+</li><li>file <a href="dormlq.f">dormlq.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormlq.f">dormlq.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal matrix
+,    from an LQ factorization determined by DGELQF.
+gams d5
+
+</li><li>file <a href="dormql.f">dormql.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormql.f">dormql.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal matrix
+,    from a QL factorization determined by DGEQLF.
+gams d5
+
+</li><li>file <a href="dormqr.f">dormqr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormqr.f">dormqr.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal matrix
+,    from a QR factorization determined by DGEQRF.
+gams d5
+
+</li><li>file <a href="dormr3.f">dormr3.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormr3.f">dormr3.f plus dependencies</a>
+prec double
+for  Multiples a general matrix by the orthogonal matrix
+,    from an RZ factorization determined by DTZRZF.
+
+</li><li>file <a href="dormrq.f">dormrq.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormrq.f">dormrq.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal matrix
+,    from an RQ factorization determined by DGERQF.
+gams d5
+
+</li><li>file <a href="dormrz.f">dormrz.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormrz.f">dormrz.f plus dependencies</a>
+prec double
+for  Multiples a general matrix by the orthogonal matrix
+,    from an RZ factorization determined by DTZRZF.
+
+</li><li>file <a href="dormtr.f">dormtr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dormtr.f">dormtr.f plus dependencies</a>
+prec double
+for  Multiplies a general matrix by the orthogonal
+,    transformation matrix from a reduction to tridiagonal form
+,    determined by DSYTRD.
+gams d4c4
+
+</li><li>file <a href="dpbcon.f">dpbcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbcon.f">dpbcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a
+,    symmetric positive definite band matrix, using the
+,    Cholesky factorization computed by DPBTRF.
+gams d2b2
+
+</li><li>file <a href="dpbequ.f">dpbequ.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbequ.f">dpbequ.f plus dependencies</a>
+prec double
+for  Computes row and column scalings to equilibrate a symmetric
+,    positive definite band matrix and reduce its condition number.
+gams d2b2
+
+</li><li>file <a href="dpbrfs.f">dpbrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbrfs.f">dpbrfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a symmetric positive
+,    definite banded system of linear equations AX=B, and provides
+,    forward and backward error bounds for the solution.
+gams d2b2
+
+</li><li>file <a href="dpbstf.f">dpbstf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbstf.f">dpbstf.f plus dependencies</a>
+prec double
+for  Computes a split Cholesky factorization of a real symmetric positive
+,    definite band matrix.
+
+</li><li>file <a href="dpbtrf.f">dpbtrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbtrf.f">dpbtrf.f plus dependencies</a>
+prec double
+for  Computes the Cholesky factorization of a symmetric
+,    positive definite band matrix.
+gams d2b2
+
+</li><li>file <a href="dpbtrs.f">dpbtrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpbtrs.f">dpbtrs.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite banded system
+,    of linear equations AX=B, using the Cholesky factorization
+,    computed by DPBTRF.
+gams d2b2
+
+</li><li>file <a href="dpocon.f">dpocon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpocon.f">dpocon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a
+,    symmetric positive definite matrix, using the
+,    Cholesky factorization computed by DPOTRF.
+gams d2b1b
+
+</li><li>file <a href="dpoequ.f">dpoequ.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpoequ.f">dpoequ.f plus dependencies</a>
+prec double
+for  Computes row and column scalings to equilibrate a symmetric
+,    positive definite matrix and reduce its condition number.
+gams d2b1b
+
+</li><li>file <a href="dporfs.f">dporfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dporfs.f">dporfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a symmetric positive
+,    definite system of linear equations AX=B, and provides forward
+,    and backward error bounds for the solution.
+gams d2b1b
+
+</li><li>file <a href="dpotrf.f">dpotrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpotrf.f">dpotrf.f plus dependencies</a>
+prec double
+for  Computes the Cholesky factorization of a symmetric
+,    positive definite matrix.
+gams d2b1b
+
+</li><li>file <a href="dpotri.f">dpotri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpotri.f">dpotri.f plus dependencies</a>
+prec double
+for  Computes the inverse of a symmetric positive definite
+,    matrix, using the Cholesky factorization computed by DPOTRF.
+gams d2b1b
+
+</li><li>file <a href="dpotrs.f">dpotrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpotrs.f">dpotrs.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite system of linear
+,    equations AX=B, using the Cholesky factorization computed by
+,    DPOTRF.
+gams d2b1b
+
+</li><li>file <a href="dppcon.f">dppcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dppcon.f">dppcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a
+,    symmetric positive definite matrix in packed storage,
+,    using the Cholesky factorization computed by DPPTRF.
+gams d2b1b
+
+</li><li>file <a href="dppequ.f">dppequ.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dppequ.f">dppequ.f plus dependencies</a>
+prec double
+for  Computes row and column scalings to equilibrate a symmetric
+,    positive definite matrix in packed storage and reduce its condition
+,    number.
+gams d2b1b
+
+</li><li>file <a href="dpprfs.f">dpprfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpprfs.f">dpprfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a symmetric positive
+,    definite system of linear equations AX=B, where A is held in
+,    packed storage, and provides forward and backward error bounds
+,    for the solution.
+gams d2b1b
+
+</li><li>file <a href="dpptrf.f">dpptrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpptrf.f">dpptrf.f plus dependencies</a>
+prec double
+for  Computes the Cholesky factorization of a symmetric
+,    positive definite matrix in packed storage.
+gams d2b1b
+
+</li><li>file <a href="dpptri.f">dpptri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpptri.f">dpptri.f plus dependencies</a>
+prec double
+for  Computes the inverse of a symmetric positive definite
+,    matrix in packed storage, using the Cholesky factorization computed
+,    by DPPTRF.
+gams d2b1b
+
+</li><li>file <a href="dpptrs.f">dpptrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpptrs.f">dpptrs.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite system of linear
+,    equations AX=B, where A is held in packed storage, using the
+,    Cholesky factorization computed by DPPTRF.
+gams d2b1b
+
+</li><li>file <a href="dptcon.f">dptcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dptcon.f">dptcon.f plus dependencies</a>
+prec double
+for  Computes the reciprocal of the condition number of a
+,    symmetric positive definite tridiagonal matrix,
+,    using the LDL**H factorization computed by DPTTRF.
+gams d2b2a
+
+</li><li>file <a href="dpteqr.f">dpteqr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpteqr.f">dpteqr.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and eigenvectors of a real symmetric
+,    positive definite tridiagonal matrix, by computing the SVD of
+,    its bidiagonal Cholesky factor.
+gams d4c2a
+
+</li><li>file <a href="dptrfs.f">dptrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dptrfs.f">dptrfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a symmetric positive
+,    definite tridiagonal system of linear equations AX=B, and provides
+,    forward and backward error bounds for the solution.
+gams d2b2a
+
+</li><li>file <a href="dpttrf.f">dpttrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpttrf.f">dpttrf.f plus dependencies</a>
+prec double
+for  Computes the LDL**H factorization of a symmetric
+,    positive definite tridiagonal matrix.
+gams d2b2a
+
+</li><li>file <a href="dpttrs.f">dpttrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dpttrs.f">dpttrs.f plus dependencies</a>
+prec double
+for  Solves a symmetric positive definite tridiagonal
+,    system of linear equations, using the LDL**H factorization
+,    computed by DPTTRF.
+gams d2b2a
+
+</li><li>file <a href="dsbgst.f">dsbgst.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbgst.f">dsbgst.f plus dependencies</a>
+prec double
+for  Reduces a real symmetric-definite banded generalized eigenproblem
+,    A x = lambda B x to standard form, where B has been factorized by
+,    DPBSTF (Crawford's algorithm).
+
+</li><li>file <a href="dsbtrd.f">dsbtrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsbtrd.f">dsbtrd.f plus dependencies</a>
+prec double
+for  Reduces a symmetric band matrix to real symmetric
+,    tridiagonal form by an orthogonal similarity transformation.
+gams d4c1b1
+
+</li><li>file <a href="dspcon.f">dspcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspcon.f">dspcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a
+,    real symmetric indefinite
+,    matrix in packed storage, using the factorization computed
+,    by DSPTRF.
+gams d2b1a
+
+</li><li>file <a href="dspgst.f">dspgst.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dspgst.f">dspgst.f plus dependencies</a>
+prec double
+for  Reduces a symmetric-definite generalized eigenproblem
+,    Ax= lambda Bx,  ABx= lambda x,  or BAx= lambda x, to standard
+,    form,  where A and B are held in packed storage, and B has been
+,    factorized by DPPTRF.
+gams d4c1c
+
+</li><li>file <a href="dsprfs.f">dsprfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsprfs.f">dsprfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a real
+,    symmetric indefinite system of linear equations
+,    AX=B, where A is held in packed storage, and provides forward
+,    and backward error bounds for the solution.
+gams d2b1a
+
+</li><li>file <a href="dsptrd.f">dsptrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsptrd.f">dsptrd.f plus dependencies</a>
+prec double
+for  Reduces a symmetric matrix in packed storage to real
+,    symmetric tridiagonal form by an orthogonal similarity
+,    transformation.
+gams d4c1b1
+
+</li><li>file <a href="dsptrf.f">dsptrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsptrf.f">dsptrf.f plus dependencies</a>
+prec double
+for  Computes the factorization of a real
+,    symmetric-indefinite matrix in packed storage,
+,    using the diagonal pivoting method.
+gams d2b1a
+
+</li><li>file <a href="dsptri.f">dsptri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsptri.f">dsptri.f plus dependencies</a>
+prec double
+for  Computes the inverse of a real symmetric
+,    indefinite matrix in packed storage, using the factorization
+,    computed by DSPTRF.
+gams d2b1a
+
+</li><li>file <a href="dsptrs.f">dsptrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsptrs.f">dsptrs.f plus dependencies</a>
+prec double
+for  Solves a real symmetric
+,    indefinite system of linear equations AX=B, where A is held
+,    in packed storage, using the factorization computed
+,    by DSPTRF.
+gams d2b1a
+
+</li><li>file <a href="dstebz.f">dstebz.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstebz.f">dstebz.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues of a real symmetric tridiagonal
+,    matrix by bisection.
+gams d4c2a
+
+</li><li>file <a href="dstedc.f">dstedc.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstedc.f">dstedc.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and, optionally, eigenvectors of a
+,    symmetric tridiagonal matrix using the divide and conquer algorithm.
+
+</li><li>file <a href="dstegr.f">dstegr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstegr.f">dstegr.f plus dependencies</a>
+prec double
+for  Computes selected eigenvalues and, optionally, eigenvectors of a
+,    symmetric tridiagonal matrix.  The eigenvalues are computed by the
+,    dqds algorithm, while eigenvectors are computed from various "good"
+,    LDL^T representations (also known as Relatively Robust Representations.)
+
+</li><li>file <a href="dstein.f">dstein.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dstein.f">dstein.f plus dependencies</a>
+prec double
+for  Computes selected eigenvectors of a real symmetric tridiagonal
+,    matrix by inverse iteration.
+gams d4c3
+
+</li><li>file <a href="dsteqr.f">dsteqr.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsteqr.f">dsteqr.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues and eigenvectors of a real symmetric
+,    tridiagonal matrix, using the implicit QL or QR algorithm.
+gams d4a1, d4a5, d4c2a
+
+</li><li>file <a href="dsterf.f">dsterf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsterf.f">dsterf.f plus dependencies</a>
+prec double
+for  Computes all eigenvalues of a real symmetric tridiagonal matrix,
+,    using a root-free variant of the QL or QR algorithm.
+gams d4c2a
+
+</li><li>file <a href="dsycon.f">dsycon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsycon.f">dsycon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a
+,    real symmetric indefinite matrix,
+,    using the factorization computed by DSYTRF.
+gams d2b1a
+
+</li><li>file <a href="dsygst.f">dsygst.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsygst.f">dsygst.f plus dependencies</a>
+prec double
+for  Reduces a symmetric-definite generalized eigenproblem
+,    Ax= lambda Bx,  ABx= lambda x,  or BAx= lambda x, to standard
+,    form, where B has been factorized by DPOTRF.
+gams d4c1c
+
+</li><li>file <a href="dsyrfs.f">dsyrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsyrfs.f">dsyrfs.f plus dependencies</a>
+prec double
+for  Improves the computed solution to a real
+,    symmetric indefinite system of linear equations
+,    AX=B, and provides forward and backward error bounds for the
+,    solution.
+gams d2b1a
+
+</li><li>file <a href="dsytrd.f">dsytrd.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsytrd.f">dsytrd.f plus dependencies</a>
+prec double
+for  Reduces a symmetric matrix to real symmetric tridiagonal
+,    form by an orthogonal similarity transformation.
+gams d4c1b1
+
+</li><li>file <a href="dsytrf.f">dsytrf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsytrf.f">dsytrf.f plus dependencies</a>
+prec double
+for  Computes the factorization of a real symmetric-indefinite matrix,
+,    using the diagonal pivoting method.
+gams d2b1a
+
+</li><li>file <a href="dsytri.f">dsytri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsytri.f">dsytri.f plus dependencies</a>
+prec double
+for  Computes the inverse of a real symmetric indefinite matrix,
+,    using the factorization computed by DSYTRF.
+gams d2b1a
+
+</li><li>file <a href="dsytri2.f">dsytri2.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsytri2.f">dsytri2.f plus dependencies</a>
+prec double
+for  Computes the inverse of a real symmetric indefinite matrix,
+,    using the factorization computed by DSYTRF using Level BLAS 3.
+gams d2b1a
+
+</li><li>file <a href="dsytrs.f">dsytrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsytrs.f">dsytrs.f plus dependencies</a>
+prec double
+for  Solves a real symmetric indefinite system of linear equations AX=B,
+,    using the factorization computed by DSPTRF.
+gams d2b1a
+
+</li><li>file <a href="dsytrs2.f">dsytrs2.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dsytrs2.f">dsytrs2.f plus dependencies</a>
+prec double
+for  Solves a real symmetric indefinite system of linear equations AX=B,
+,    using the factorization computed by DSPTRF using Level BLAS 3.
+gams d2b1a
+
+</li><li>file <a href="dtbcon.f">dtbcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtbcon.f">dtbcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a triangular
+,    band matrix, in either the 1-norm or the infinity-norm.
+gams d2a2, d2a3
+
+</li><li>file <a href="dtbrfs.f">dtbrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtbrfs.f">dtbrfs.f plus dependencies</a>
+prec double
+for  Provides forward and backward error bounds for the solution
+,    of a triangular banded system of linear equations AX=B,
+,    A**T X=B or A**H X=B.
+gams d2a2, d2a3
+
+</li><li>file <a href="dtbtrs.f">dtbtrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtbtrs.f">dtbtrs.f plus dependencies</a>
+prec double
+for  Solves a triangular banded system of linear equations AX=B,
+,    A**T X=B or A**H X=B.
+gams d2a2, d2a3
+
+</li><li>file <a href="dtgevc.f">dtgevc.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtgevc.f">dtgevc.f plus dependencies</a>
+prec double
+for  Computes some or all of the right and/or left generalized eigenvectors
+,    of a pair of upper triangular matrices.
+gams d4b2
+
+</li><li>file <a href="dtgexc.f">dtgexc.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtgexc.f">dtgexc.f plus dependencies</a>
+prec double
+for  Reorders the generalized real Schur decomposition of a real
+,    matrix pair (A,B) using an orthogonal equivalence transformation
+,    so that the diagonal block of (A,B) with row index IFST is moved
+,    to row ILST.
+
+</li><li>file <a href="dtgsen.f">dtgsen.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtgsen.f">dtgsen.f plus dependencies</a>
+prec double
+for  Reorders the generalized real Schur decomposition of a real
+,    matrix pair (A, B) so that a selected cluster of eigenvalues
+,    appears in the leading diagonal blocks of the upper quasi-triangular
+,    matrix A and the upper triangular B.
+
+</li><li>file <a href="dtgsja.f">dtgsja.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtgsja.f">dtgsja.f plus dependencies</a>
+prec double
+for  Computes the generalized singular value decomposition of two real
+,    upper triangular (or trapezoidal) matrices as output by DGGSVP.
+gams d6
+
+</li><li>file <a href="dtgsna.f">dtgsna.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtgsna.f">dtgsna.f plus dependencies</a>
+prec double
+for  Estimates reciprocal condition numbers for specified
+,    eigenvalues and/or eigenvectors of a matrix pair (A, B) in
+,    generalized real Schur canonical form, as returned by DGGES.
+
+</li><li>file <a href="dtgsyl.f">dtgsyl.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtgsyl.f">dtgsyl.f plus dependencies</a>
+prec double
+for  Solves the generalized Sylvester equation.
+
+</li><li>file <a href="dtpcon.f">dtpcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtpcon.f">dtpcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a triangular
+,    matrix in packed storage, in either the 1-norm or the infinity-norm.
+gams d2a3
+
+</li><li>file <a href="dtprfs.f">dtprfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtprfs.f">dtprfs.f plus dependencies</a>
+prec double
+for  Provides forward and backward error bounds for the solution
+,    of a triangular system of linear equations AX=B, A**T X=B or
+,    A**H X=B, where A is held in packed storage.
+gams d2a3
+
+</li><li>file <a href="dtptri.f">dtptri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtptri.f">dtptri.f plus dependencies</a>
+prec double
+for   Computes the inverse of a triangular matrix in packed storage.
+gams d2a3
+
+</li><li>file <a href="dtptrs.f">dtptrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtptrs.f">dtptrs.f plus dependencies</a>
+prec double
+for  Solves a triangular system of linear equations AX=B,
+,    A**T X=B or A**H X=B, where A is held in packed storage.
+gams d2a3
+
+</li><li>file <a href="dtrcon.f">dtrcon.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrcon.f">dtrcon.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal of the condition number of a triangular
+,    matrix, in either the 1-norm or the infinity-norm.
+gams d2a3
+
+</li><li>file <a href="dtrevc.f">dtrevc.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrevc.f">dtrevc.f plus dependencies</a>
+prec double
+for  Computes some or all of the right and/or left eigenvectors of
+,    an upper quasi-triangular matrix.
+gams d4c3
+
+</li><li>file <a href="dtrexc.f">dtrexc.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrexc.f">dtrexc.f plus dependencies</a>
+prec double
+for  Reorders the Schur factorization of a matrix by an orthogonal
+,    similarity transformation.
+gams d4c
+
+</li><li>file <a href="dtrrfs.f">dtrrfs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrrfs.f">dtrrfs.f plus dependencies</a>
+prec double
+for  Provides forward and backward error bounds for the solution
+,    of a triangular system of linear equations A X=B, A**T X=B or
+,    A**H X=B.
+gams d2a3
+
+</li><li>file <a href="dtrsen.f">dtrsen.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrsen.f">dtrsen.f plus dependencies</a>
+prec double
+for  Reorders the Schur factorization of a matrix in order to find
+,    an orthonormal basis of a right invariant subspace corresponding
+,    to selected eigenvalues, and returns reciprocal condition numbers
+,    (sensitivities) of the average of the cluster of eigenvalues
+,    and of the invariant subspace.
+gams d4c
+
+</li><li>file <a href="dtrsna.f">dtrsna.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrsna.f">dtrsna.f plus dependencies</a>
+prec double
+for  Estimates the reciprocal condition numbers (sensitivities)
+,    of selected eigenvalues and eigenvectors of an upper
+,    quasi-triangular matrix.
+gams d4c
+
+</li><li>file <a href="dtrsyl.f">dtrsyl.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrsyl.f">dtrsyl.f plus dependencies</a>
+prec double
+for  Solves the Sylvester matrix equation A X +/- X B=C where A
+,    and B are upper quasi-triangular, and may be transposed.
+gams d8
+
+</li><li>file <a href="dtrtri.f">dtrtri.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrtri.f">dtrtri.f plus dependencies</a>
+prec double
+for  Computes the inverse of a triangular matrix.
+gams d2a3
+
+</li><li>file <a href="dtrtrs.f">dtrtrs.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtrtrs.f">dtrtrs.f plus dependencies</a>
+prec double
+for  Solves a triangular system of linear equations AX=B,
+,    A**T X=B or A**H X=B.
+gams d2a3
+
+</li><li>file <a href="dtzrqf.f">dtzrqf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtzrqf.f">dtzrqf.f plus dependencies</a>
+prec double
+for  Computes an RQ factorization of an upper trapezoidal matrix.
+gams d5
+
+</li><li>file <a href="dtzrzf.f">dtzrzf.f</a>  <a href="/cgi-bin/netlibfiles.pl?filename=/lapack/double/dtzrzf.f">dtzrzf.f plus dependencies</a>
+prec double
+for  Computes an RZ factorization of an upper trapezoidal matrix
+,    (blocked version of DTZRQF). </li>
+</ol>
+</pre>
+</body>
+</html>
