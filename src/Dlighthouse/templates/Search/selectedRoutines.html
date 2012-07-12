@@ -3,8 +3,8 @@
 	var uncheckedRoutines = [];
 </script>
 
-<div id="selectedRoutines">
-	<form>
+<div id="selectedRoutines" name="selectedRoutines">
+	<form name="droppedRoutines">
 		<!--Dropped-items area-->
 		<div style="padding: 10px;">
 			<div id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom: 15px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 35px;">
@@ -34,7 +34,7 @@
 						<table id="ts_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 							<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 								<td style="font-weight: bold; width: 70px;">
-									<input type="checkbox" name="{{ item.thePrecision|upper }}{{ item.routineName|upper }}" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
+									<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
 								</td>
 								<td>						
 									<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
@@ -78,7 +78,7 @@
 		    <table style="width:100%; margin: 0px auto;">
 				<tr style="width:100%;">					
 					<td style="text-align:left;">								
-						<select id="selectMenu" onChange="selectMenuChanged();">
+						<select id="selectMenu" onChange="selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);">
 					     <option value="1">Select</option>
 					     <option value="2">All</option>
 					     <option value="3">None</option>					     

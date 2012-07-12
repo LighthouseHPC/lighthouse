@@ -54,12 +54,8 @@
 		var start = new Date().getTime();
 		dojo.parser.parse(dojo.byId('container'));
 		console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
-		
-		
-		
+					
 		//dojo.byId('loaderInner').innerHTML += " done.";
-		
-		
 		
 		setTimeout( function hideLoader() {
 			var loader = dojo.byId('loader');
@@ -753,11 +749,11 @@ function restore(val,txt,menu,tfield)
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
 
-	function clearSelectedRoutines(uncheckedRoutines, selectedRoutineNames){		
+	function clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames){		
 		
 		dojo.xhrPost( {
 			url: "/search/clear_session/",
-			content: {clear: "selected"},
+			content: {clear: "unchecked"},
 			load: function(response){
 				console.log(response);
 			    },
@@ -775,28 +771,35 @@ function restore(val,txt,menu,tfield)
 			routineName = uncheckedRoutines[i];
 			ts = document.getElementById("ts_"+routineName.toUpperCase());
 			td = document.getElementById("td_"+routineName.toUpperCase());
-			if(ts)
-				ts.style.display = "none";
+			if(ts){
+				ts.style.display = "none";	
+			}
 
-			if(selectedRoutineNames.length > 0)
-				if(td)
-					td.style.display = "none";
+			if(selectedRoutineNames.length > 0){
+				if(td){
+					td.style.display = "none";					
+				}
+			}				
 		}		
 	}
 
-	function checkAllRoutines(allRoutines){
-		var checkbox;
-		var routineName;
-		var len = allRoutines.length;
+	function checkAll(field, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+		for (i = 0; i < field.length; i++){
+			field[i].checked = true;
+			if(field[i].id.indexOf("cbs") != -1)
+				checkChanged(field[i].id.replace(/cbs_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');
+			if(field[i].id.indexOf("cbd") != -1)
+				checkChanged(field[i].id.replace(/cbd_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'droppedRoutine');
+		}			
+	}
 
-		for(var i = 0; i < len; i++){
-			routineName = allRoutines[i];
-			checkbox_s = document.getElementById("cbs_"+routineName.toUpperCase());
-			checkbox_d = document.getElementById("cbd_"+routineName.toUpperCase());
-			if(checkbox_s)
-				checkbox_s.checked = 1;
-			if(checkbox_d)
-				checkbox_d.checked = 1;
+	function uncheckAll(field){
+		for (i = 0; i < field.length; i++){
+			field[i].checked = false;
+			if(field[i].id.indexOf("cbs") != -1)
+				checkChanged(field[i].id.replace(/cbs_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');
+			if(field[i].id.indexOf("cbd") != -1)
+				checkChanged(field[i].id.replace(/cbd_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'droppedRoutine');
 		}
 	}
 
@@ -831,7 +834,6 @@ function restore(val,txt,menu,tfield)
                 var index = uncheckedRoutines.indexOf(routine.toLowerCase());
                 uncheckedRoutines.splice(index, 1); 
             }            
-
 		}
 
 		else if(checkbox.checked == 0){
@@ -881,11 +883,11 @@ function restore(val,txt,menu,tfield)
 		var selected = menu.options[menu.selectedIndex].text;
 		menu.options[0].selected = true;
 		if(selected == "Unchecked"){
-			clearSelectedRoutines(uncheckedRoutines, selectedRoutineNames); 
+			clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
 			uncheckedRoutines.length = 0;
 		}			
 		else if(selected == "Checked")
-			alert("Clearing checked");
+			alert("Not implemented yet");
 		else if(selected == "All"){
 			clearAllRoutines(); 
 			selectedRoutineNames.length = 0; 
@@ -894,14 +896,14 @@ function restore(val,txt,menu,tfield)
 		}			
 	}
 
-	function selectMenuChanged(){
+	function selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
 		var menu = document.getElementById('selectMenu');
 		var selected = menu.options[menu.selectedIndex].text;
 		menu.options[0].selected = true;
 		if(selected == "All")
-			alert("All selected");
+			checkAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
 		else if(selected == "None")
-			alert("None selected");		
+			uncheckAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
 	}
 
 	function generateMenuChanged(){
