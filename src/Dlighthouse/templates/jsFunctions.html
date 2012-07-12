@@ -556,23 +556,17 @@
 	/*--------------------------------------------------------------------------------- */
 
 	// Check if any keyword was provided
-	function checkKeyword(){
-				
-		t = document.getElementById("keyword").value;
-
-		//alert(t);
-		
+	function checkKeyword(){				
+		t = document.getElementById("keyword").value;	
 		if(t.length == 0){
 			alert("Please enter a keyword.");
 			return false;
 		}
-		else{
-			return true;
-		}
-			
+		else
+			return true;		
 	}
 
-	//
+	// Not used, might need later
 	function catchEnter() {
 		var e = window.event;
 		if (e.keyCode) code = e.keyCode;
@@ -589,6 +583,7 @@
 		return stringToTrim.replace(/^\s+|\s+$/g,"");
 	}
 
+	// Keyword autocompletion functions
 	var code;
 	var tmp = -1;
 	var t = null;
@@ -671,69 +666,69 @@
     		if(tfield.value.length == 0){
 			document.getElementById("show").style.display='none';
 			return;
-	}
-
-	if(tfield.value.length==1)
-	{
-		document.getElementById("show").style.display='inline';
-		var tmp = document.forms['kw_form'].elements['sel'].length;
-		for(a=tmp;a>=0;a--)
-		{
-			document.forms['kw_form'].elements['sel'].options[a] = null;
 		}
-		obj = document.forms['kw_form'].elements['sel'];
 
-		obj[0] = new Option('factor a matrix','s0000');
-		obj[1] = new Option('estimate the condition number','s0001');
-		obj[2] = new Option('compute forward error bounds','s0002');
-		obj[3] = new Option('compute backward error bounds','s0003');
-		obj[4] = new Option('refine the solution','s0004');
-		obj[5] = new Option('equilibrate a matrix','s0005');
-		obj[6] = new Option('invert a matrix','s0006');
-		obj[7] = new Option('complex numbers','s0007');
-		obj[8] = new Option('general','s0008');
-		obj[9] = new Option('symmetric','s0009');
-		obj[10] = new Option('SPD','s0010');
-		obj[11] = new Option('Hermitian','s0011');
-		obj[12] = new Option('HPD','s0012');
-		obj[13] = new Option('triangular','s0013');
-		obj[14] = new Option('full','s0014');
-		obj[15] = new Option('band','s0015');
-		obj[16] = new Option('packed','s0016');
-		obj[17] = new Option('tridiagonal','s0017');
-		obj[18] = new Option('single precision','s0018');
-		obj[19] = new Option('double precision','s0019');
-
-
-		init();
-	}
-
-	if(tfield.value.length > 0)
-	{
-		menu.options.length = 0;
-		var reg = new RegExp("^" + tfield.value,"i");
-		var op = document.createElement("option");
-		var tmp = null;
-		for(var i = 0;i < val.length;i++)
+		if(tfield.value.length==1)
 		{
-			if(reg.test(txt[i]))
+			document.getElementById("show").style.display='inline';
+			var tmp = document.forms['kw_form'].elements['sel'].length;
+			for(a=tmp;a>=0;a--)
 			{
-				var tt = document.createTextNode(txt[i]);
-				tmp = op.cloneNode(false);
-				tmp.setAttribute("value",val[i]);
-				tmp.appendChild(tt);
-				menu.appendChild(tmp);
+				document.forms['kw_form'].elements['sel'].options[a] = null;
+			}
+			obj = document.forms['kw_form'].elements['sel'];
+
+			obj[0] = new Option('factor a matrix','s0000');
+			obj[1] = new Option('estimate the condition number','s0001');
+			obj[2] = new Option('compute forward error bounds','s0002');
+			obj[3] = new Option('compute backward error bounds','s0003');
+			obj[4] = new Option('refine the solution','s0004');
+			obj[5] = new Option('equilibrate a matrix','s0005');
+			obj[6] = new Option('invert a matrix','s0006');
+			obj[7] = new Option('complex numbers','s0007');
+			obj[8] = new Option('general','s0008');
+			obj[9] = new Option('symmetric','s0009');
+			obj[10] = new Option('SPD','s0010');
+			obj[11] = new Option('Hermitian','s0011');
+			obj[12] = new Option('HPD','s0012');
+			obj[13] = new Option('triangular','s0013');
+			obj[14] = new Option('full','s0014');
+			obj[15] = new Option('band','s0015');
+			obj[16] = new Option('packed','s0016');
+			obj[17] = new Option('tridiagonal','s0017');
+			obj[18] = new Option('single precision','s0018');
+			obj[19] = new Option('double precision','s0019');
+
+
+			init();
+		}
+
+		if(tfield.value.length > 0)
+		{
+			menu.options.length = 0;
+			var reg = new RegExp("^" + tfield.value,"i");
+			var op = document.createElement("option");
+			var tmp = null;
+			for(var i = 0;i < val.length;i++)
+			{
+				if(reg.test(txt[i]))
+				{
+					var tt = document.createTextNode(txt[i]);
+					tmp = op.cloneNode(false);
+					tmp.setAttribute("value",val[i]);
+					tmp.appendChild(tt);
+					menu.appendChild(tmp);
+				}
 			}
 		}
-	}
-	else
-	{
-		restore(val,txt,menu,tfield);
-	}
+		else
+		{
+			restore(val,txt,menu,tfield);
+		}
 
-	document.getElementById("show").style.display='inline';
+		document.getElementById("show").style.display='inline';
 
-	}
+		}
 	}
 
 function restore(val,txt,menu,tfield)
@@ -879,6 +874,44 @@ function restore(val,txt,menu,tfield)
             }
         }
         return false;
+	}
+
+	function clearMenuChanged(){
+		var menu = document.getElementById('clearMenu');
+		var selected = menu.options[menu.selectedIndex].text;
+		menu.options[0].selected = true;
+		if(selected == "Unchecked"){
+			clearSelectedRoutines(uncheckedRoutines, selectedRoutineNames); 
+			uncheckedRoutines.length = 0;
+		}			
+		else if(selected == "Checked")
+			alert("Clearing checked");
+		else if(selected == "All"){
+			clearAllRoutines(); 
+			selectedRoutineNames.length = 0; 
+			selectedRoutine_session.length = 0; 
+			uncheckedRoutines.length = 0;
+		}			
+	}
+
+	function selectMenuChanged(){
+		var menu = document.getElementById('selectMenu');
+		var selected = menu.options[menu.selectedIndex].text;
+		menu.options[0].selected = true;
+		if(selected == "All")
+			alert("All selected");
+		else if(selected == "None")
+			alert("None selected");		
+	}
+
+	function generateMenuChanged(){
+		var menu = document.getElementById('generateMenu');
+		var selected = menu.options[menu.selectedIndex].text;
+		menu.options[0].selected = true;
+		if(selected == "C")
+			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});
+		else if(selected == "FORTRAN")
+			alert("FORTRAN template generated");
 	}
 
 
