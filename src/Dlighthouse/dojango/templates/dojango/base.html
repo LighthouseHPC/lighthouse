@@ -312,12 +312,22 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>
-                                                        <div id="div-codeTemp" style="padding: 10px; background-color:#eee; margin: 10px;">
+                                                        <div id="div-codeTemp" style="padding: 10px; background-color:#eee; margin: 10px; border: 1px solid #000;">
 								
-							</div>
-							<br/>
-                                              {{ generatedCodeTemplate }}
+							                            </div>
+                                                        {{ generatedCodeTemplate }}
+                                                        <div id="button-div">
+                                                            <table style="width:100%; margin: 0px auto;">
+                                                                <tr style="width:100%;">
+                                                                    <td style="text-align:right;">
+                                                                        <button type="button"id="clearTemplate" title="Clear Template" onmouseover="" onmouseout="" onclick="clearTemplateArea();">Clear
+                                                                        </button>  
+                                                                    </td>               
+                                                                </tr>
+                                                            </table>
+                                                        </div>
                                                 </div>
+                                                
                                         </div><!-- SplitContainer -->
 				</div><!-- end btab1 -->
 
