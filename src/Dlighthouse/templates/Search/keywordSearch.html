@@ -22,24 +22,23 @@
                   </td>
                 </tr>
                 
-                <tr>
-                
-                <form action="/search/keyword/" method="get" name="kw_form" id="keyword_form">                                                                                
-                <td>
-                  <input type="text" name="kwtb" size="50" id="keyword" onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)" autocomplete="off" style="border:solid 1px black; font-family: Tahoma; font-size: 15px;">
-                </td>
+                <tr>                
+                  <form action="/search/keyword/" method="get" name="kw_form" id="keyword_form">                                                                                
+                  <td>
+                    <input type="text" name="kwtb" size="50" id="keyword" onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)" autocomplete="off" style="border:solid 1px black; font-family: Tahoma; font-size: 15px;">
+                  </td>
 
-                <td style="text-align:left; padding-left: 10px; width: 100%;">
-                  <button type="submit" name="Search" id="searchButton" title="Search String" style="width: 60px;" onclick="return checkKeyword();">
-                    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
-                  </button >                      
-                </td>
+                  <td style="text-align:left; padding-left: 10px; width: 100%;">
+                    <button type="submit" name="Search" id="searchButton" title="Search String" style="width: 60px;" onclick="return checkKeyword();">
+                      <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+                    </button >                      
+                  </td>
                 
                 </tr>
                 <tr>
-                  <td>
-                    <div id="show" style="display:none;">
-                      <select name="sel" id="sel" size="5" style="width: 300px;"></select>
+                  <td style="padding-bottom: 5px;">
+                    <div id="show" style="display:none; vertical-align:top; overflow:hidden; border:solid grey 1px;">
+                      <select name="sel" id="sel" style="width: 300px; padding:5px; margin:-2px -20px -2px -2px;" onclick="setKeywordValue();"></select>
                     </div>
                   </td>
                 </tr>              
