@@ -300,7 +300,7 @@
                                                                         </tr>
                                                                 </table>        
                                                         </div>                                                        
-						       {% block dojango_content_selected_routines %}{% endblock %}
+						                        {% block dojango_content_selected_routines %}{% endblock %}
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
                                                         <div id="title-div">
@@ -319,16 +319,7 @@
 								
 							                            </div>
                                                         {{ generatedCodeTemplate }}
-                                                        <div id="button-div">
-                                                            <table style="width:100%; margin: 0px auto;">
-                                                                <tr style="width:100%;">
-                                                                    <td style="text-align:right;">
-                                                                        <button type="button"id="clearTemplate" title="Clear Template" onmouseover="" onmouseout="" onclick="clearTemplateArea();">Clear
-                                                                        </button>  
-                                                                    </td>               
-                                                                </tr>
-                                                            </table>
-                                                        </div>
+                                                        {% block dojango_content_code_template %}{% endblock %}
                                                 </div>
                                                 
                                         </div><!-- SplitContainer -->

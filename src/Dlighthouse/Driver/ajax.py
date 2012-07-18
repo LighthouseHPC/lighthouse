@@ -1,6 +1,8 @@
 from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajax.core import Dajax
+from dajaxice.core import dajaxice_functions
+import os
 
 
 
@@ -17,20 +19,48 @@ from dajax.core import Dajax
 
 
 @dajaxice_register
-def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session):
+def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_language):
 	dajax = Dajax()
 	#dajax.script('console.log("1", selectedRoutineNames)')
 	#dajax.script('console.log("2", selectedRoutine_session)')
 
+	# if file already exists, open in append mode, if not open in write mode
+	if prog_language == "C":
+		fileName = 'generatedTemplate.c'
+	elif prog_language == "FORTRAN":
+		fileName = 'generatedTemplate.f'
+	
+	if os.path.isfile(fileName):
+	   	f = open(fileName, 'a')
+	else:
+		f = open(fileName, 'w')
+
 	# if there is a dnd action, use selectedRoutine_ajax; if not, use selectedRoutine_session.
+
 	if selectedRoutine_ajax:
 		#delete the empty string in the selectedRoutineNames list
 		for item in filter(None, selectedRoutine_ajax):
 			innerHTMLText = "%s(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)" % item
 			dajax.script('dojo.create("div", {innerHTML: "%s"}, dojo.byId("div-codeTemp"));' % innerHTMLText)
+			f.write(innerHTMLText+"\n");
 	else:
 		for item in selectedRoutine_session:
 			innerHTMLText = "%s(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)" % item
 			dajax.script('dojo.create("div", {innerHTML: "%s"}, dojo.byId("div-codeTemp"));' % innerHTMLText)
-				
+			f.write(innerHTMLText+"\n");
+
+	f.close()
+	os.remove(fileName)
+
+	return dajax.json()
+
+@dajaxice_register
+def removeTemplateFile(request):
+	dajax = Dajax()
+	
+	if os.path.isfile('generatedTemplate.c'):
+		os.remove('generatedTemplate.c')
+	elif os.path.isfile('generatedTemplate.f'):
+		os.remove('generatedTemplate.f')
+
 	return dajax.json()

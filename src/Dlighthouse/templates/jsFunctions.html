@@ -924,9 +924,9 @@
 		var selected = menu.options[menu.selectedIndex].text;
 		menu.options[0].selected = true;
 		if(selected == "C")
-			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session});
+			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
 		else if(selected == "FORTRAN")
-			alert("FORTRAN template generated");
+			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
 	}
 
 	/*--------------------------------------------------------------------------------- */	
@@ -934,8 +934,9 @@
 	/*--------------------------------------------------------------------------------- */
 
 	function clearTemplateArea(){
+		Dajaxice.Driver.removeTemplateFile(Dajax.process);
 		var template = document.getElementById('div-codeTemp');
-		template.innerHTML = "";
+		template.innerHTML = "";	
 	}
 
 
