@@ -25,10 +25,11 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 	#dajax.script('console.log("2", selectedRoutine_session)')
 
 	# if file already exists, open in append mode, if not open in write mode
+	
 	if prog_language == "C":
-		fileName = 'generatedTemplate.c'
+		fileName =  request.session.session_key +'.c'
 	elif prog_language == "FORTRAN":
-		fileName = 'generatedTemplate.f'
+		fileName =  request.session.session_key +'.f'
 	
 	if os.path.isfile(fileName):
 	   	f = open(fileName, 'a')
@@ -50,17 +51,19 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 			f.write(innerHTMLText+"\n");
 
 	f.close()
-	os.remove(fileName)
+	#os.remove(fileName)
 
 	return dajax.json()
 
 @dajaxice_register
 def removeTemplateFile(request):
 	dajax = Dajax()
+
+	fileName = request.session.session_key;
 	
-	if os.path.isfile('generatedTemplate.c'):
-		os.remove('generatedTemplate.c')
-	elif os.path.isfile('generatedTemplate.f'):
-		os.remove('generatedTemplate.f')
+	if os.path.isfile(fileName + '.c'):
+		os.remove(fileName + '.c')
+	elif os.path.isfile(fileName + '.f'):
+		os.remove(fileName + '.f')
 
 	return dajax.json()

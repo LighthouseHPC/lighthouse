@@ -316,7 +316,7 @@
                                                                 </table>        
                                                         </div>
                                                         <div id="div-codeTemp" style="padding: 10px; background-color:#eee; margin: 10px; border: 1px solid #000;">
-								
+                                                            {% if codeTemplate %} {{ codeTemplate }} {% endif %}
 							                            </div>
                                                         {{ generatedCodeTemplate }}
                                                         {% block dojango_content_code_template %}{% endblock %}
