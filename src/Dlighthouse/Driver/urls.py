@@ -23,5 +23,5 @@ urlpatterns = patterns('',
     (r'^clear_session/$', clear_session),    
     
     (r'^keyword/$', keywordResult),
-    #(r'^download/$', downloadTemplate),
+    (r'^download/$', downloadTemplate),
 )

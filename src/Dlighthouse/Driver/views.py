@@ -697,13 +697,21 @@ def getCodeTempate(session_key):
 
 	return template
 
-# def downloadTemplate(request):
+def downloadTemplate(request):
 
-# 	fileName_c = request.session.session_key + '.c'
-# 	filename = request.session.session_key + '.c'
+	fileName_c = request.session.session_key + '.c'
+	fileName_f = request.session.session_key + '.f'
 
-# 	wrapper = FileWrapper(file(filename))
-# 	response = HttpResponse(wrapper, content_type='text/plain')
-# 	response['Content-Length'] = os.path.getsize(filename)
+	# assuming the user in not generating templates in both C and FORTRAN
 
-# 	return response
+	if os.path.isfile(fileName_c):
+	   	filename = fileName_c
+	elif os.path.isfile(fileName_f):
+	   	filename = fileName_f
+
+	wrapper = FileWrapper(open(filename))
+	response = HttpResponse(wrapper, content_type='text/plain')
+	response['Content-Disposition'] = 'attachment; filename=%s' % filename
+	return response
+
+	return response
