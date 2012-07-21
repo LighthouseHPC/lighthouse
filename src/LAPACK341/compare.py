@@ -103,7 +103,7 @@ for item in trashed:
 
 
 print "------------ Make sure linear solvers routines are complete in the old version ------------"
-###------------ compare routines_old_linearSolve.txt (125) and le_only.csv (104)
+###------------ compare routines_old_linearSolve.txt (133) and le_only.csv (134)
 # open le_only.csv and put the routines in x
 x = []
 f_le_solve_only = open('../../Dlighthouse/Combine/le_only.csv')
@@ -144,24 +144,24 @@ for item in missingRoutines2:
 
 
 
-print "------------ Compare old_list and routines_341_linearSolve.txt for linear solvers ------------"
-###------------ find 'Linear Solve' routines that are NOT in old_list and
+###------------ Compare le_only.csv and routines_341_linearSolve.txt for linear solvers ------------
+###------------ find 'Linear Solve' routines that are in routines_341_linearSolve.txt but NOT in le_only.csv and
 ###------------ write them into routines/routines_341_linearSolve_new.txt
 routines_solve_341 = []
-routines_solve_new = []
-f_linearSolve = open('routines/routines_341_linearSolve.txt')
-f_linearSolve_new = open('routines/routines_341_linearSolve_new.txt', 'w')
-for line in f_linearSolve:
-    item = line.split(";")[-1].split("/")[-1].split(".f")[0]+'.f'
-    routines_solve_341.append(item)
-    if item not in old_list:
-        routines_solve_new.append(item)
-        f_linearSolve_new.write(item+'\n')
+routines_solve_diff = []
+f_linearSolve_341 = open('routines/routines_341_linearSolve.txt')
+f_linearSolve_diff = open('routines/routines_341_linearSolve_new.txt', 'w')
+for line in f_linearSolve_341:
+    routineName= line.split(";")[-1].split("/")[-1].split(".f")[0]+'.f'
+    routines_solve_341.append(routineName)
+    if routineName not in x:
+        routines_solve_diff.append(routineName)
+        f_linearSolve_diff.write(routineName+'\n')
     else:
         pass
 
-f_linearSolve.close()
-f_linearSolve_new.close()
+f_linearSolve_341.close()
+f_linearSolve_diff.close()
 
 
 
