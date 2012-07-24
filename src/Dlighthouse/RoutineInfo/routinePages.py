@@ -13,6 +13,7 @@ for idn, precision, routine, url in reader:
     URL = str("http://www.netlib.org/lapack/"+url)
     page = urllib.urlopen(URL)
     
+    ###  save chopped info in the RoutineTxt directory.   
     copy_page= open('RoutineTxt/'+file_name(precision, routine, idn), "w")
     
     flag = 1
