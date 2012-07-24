@@ -25,16 +25,17 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 	#dajax.script('console.log("2", selectedRoutine_session)')
 
 	# if file already exists, open in append mode, if not open in write mode
-	
-	if prog_language == "C":
-		fileName =  request.session.session_key +'.c'
-	elif prog_language == "FORTRAN":
-		fileName =  request.session.session_key +'.f'
-	
-	if os.path.isfile(fileName):
-	   	f = open(fileName, 'a')
-	else:
-		f = open(fileName, 'w')
+
+	if selectedRoutine_ajax or selectedRoutine_session:
+		if prog_language == "C":
+			fileName =  './generatedCodeTemplate/' + request.session.session_key + '.c'
+		elif prog_language == "FORTRAN":
+			fileName =  './generatedCodeTemplate/' + request.session.session_key + '.f'
+		
+		if os.path.isfile(fileName):
+		   	f = open(fileName, 'a')
+		else:
+			f = open(fileName, 'w')
 
 	# if there is a dnd action, use selectedRoutine_ajax; if not, use selectedRoutine_session.
 
@@ -50,8 +51,8 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 			dajax.script('dojo.create("div", {innerHTML: "%s"}, dojo.byId("div-codeTemp"));' % innerHTMLText)
 			f.write(innerHTMLText+"\n");
 
-	f.close()
-	#os.remove(fileName)
+	if selectedRoutine_ajax or selectedRoutine_session:
+		f.close()	
 
 	return dajax.json()
 
@@ -59,7 +60,7 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 def removeTemplateFile(request):
 	dajax = Dajax()
 
-	fileName = request.session.session_key;
+	fileName = './generatedCodeTemplate/' + request.session.session_key;
 	
 	if os.path.isfile(fileName + '.c'):
 		os.remove(fileName + '.c')

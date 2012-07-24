@@ -683,8 +683,8 @@ def runScript(request):
 # return the content of the code template file, if exists
 def getCodeTempate(session_key):
 
-	fileName_c = session_key + '.c'
-	fileName_f = session_key + '.f'
+	fileName_c = './generatedCodeTemplate/' + session_key + '.c'
+	fileName_f = './generatedCodeTemplate/' + session_key + '.f'
 
 	template = ""
 	
@@ -699,14 +699,14 @@ def getCodeTempate(session_key):
 
 def downloadTemplate(request):
 
-	fileName_c = request.session.session_key + '.c'
-	fileName_f = request.session.session_key + '.f'
+	fileName_c = './generatedCodeTemplate/' + request.session.session_key + '.c'
+	fileName_f = './generatedCodeTemplate/' + request.session.session_key + '.f'
 
 	# assuming the user in not generating templates in both C and FORTRAN
 
 	if os.path.isfile(fileName_c):
 	   	filename = fileName_c
-	elif os.path.isfile(fileName_f):
+	if os.path.isfile(fileName_f):
 	   	filename = fileName_f
 
 	wrapper = FileWrapper(open(filename))

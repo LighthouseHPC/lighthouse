@@ -939,5 +939,13 @@
 		template.innerHTML = "";	
 	}
 
+	function checkCodeTemplate(){		
+		var template = document.getElementById('div-codeTemp');
+		var content = trim(template.innerHTML);
+		
+		if(content.length > 0)			
+			window.location = '/search/download/';
+	}
+
 
 </script>
