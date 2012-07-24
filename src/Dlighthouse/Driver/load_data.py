@@ -11,7 +11,7 @@ nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighth
 
 nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Driver/le_expert.csv' INTO TABLE Driver_linearequation_expert")
 
-nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Driver/le_all.csv' INTO TABLE Driver_linearequation_driver")
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Driver/le_driver_all.csv' INTO TABLE Driver_linearequation_driver")
 
 
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Driver/lls.csv' INTO TABLE Driver_linearleastsquare")
