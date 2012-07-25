@@ -103,12 +103,18 @@ for item in trashed:
 
 
 print "------------ Make sure linear solvers routines are complete in the old version ------------"
-###------------ compare routines_old_linearSolve.txt (133) and le_only.csv (134)
-# open le_only.csv and put the routines in x
+###------------ compare routines_old_linearSolve.txt (139) to le_driver_all.csv (82) + le_solve.csv (58)
+# open e_driver_all.csv (82) + le_solve.csv (58) and put the routines in x
 x = []
-f_le_solve_only = open('../../Dlighthouse/Combine/le_only.csv')
-for line in f_le_solve_only:
-    routine_file = line.split("/")[5].split(".f")[0]+'.f'
+f_le_Driver_all = open('../../Dlighthouse/Driver/le_driver_all.csv')
+f_le_Computational_solve = open('../../Dlighthouse/Computational/le_solve.csv')
+for line in f_le_Driver_all:
+    routine_file = line.split(",")[1]+line.split(",")[2]+".f"
+    x.append(routine_file)
+    #print routine_file
+
+for line in f_le_Computational_solve:
+    routine_file = line.split(",")[1]+line.split(",")[2]+".f"
     x.append(routine_file)
     #print routine_file
 
@@ -119,15 +125,15 @@ for routine in f_le_solve_old:
     y.append(routine[:-1])
     #print routine[:-1]
 
-# find the routines that are in both routines_old_linearSolve.txt and le_only.csv
+# find the routines that are in both routines_old_linearSolve.txt and le_driver_all.csv (82) + le_solve.csv (58)
 #le_old_both = set(x) & set (y)
-#print "The following %s routines are in both routines_old_linearSolve.txt and le_only.csv: "% len(le_old_both)
+#print "The following %s routines are in both routines_old_linearSolve.txt and lle_driver_all.csv (82) + le_solve.csv (58): "% len(le_old_both)
 #for item in le_old_both:
 #    print item
 
 # find the routines that are in routines_old_linearSolve.txt but NOT in le_only.csv
 missingRoutines = list(set(y) - set(x))
-print "%s routines from routines_old_linearSolve.txt are NOT in le_only.csv:" % len(missingRoutines)
+print "%s routines from routines_old_linearSolve.txt are NOT in le_driver_all.csv + le_solve.csv:" % len(missingRoutines)
 for item in missingRoutines:
     print item
 print "================================================"
@@ -135,17 +141,15 @@ print "================================================"
 
 # find the routines that are NOT in routines_old_linearSolve.txt but in le_only.csv
 missingRoutines2 = list(set(x) - set(y))
-print "%s routines from le_only.csv are NOT in routines_old_linearSolve.txt:" % len(missingRoutines2)
+print "%s routines from le_driver_all.csv + le_solve.csv are NOT in routines_old_linearSolve.txt:" % len(missingRoutines2)
 for item in missingRoutines2:
     print item
 
 
 
 
-
-
-###------------ Compare le_only.csv and routines_341_linearSolve.txt for linear solvers ------------
-###------------ find 'Linear Solve' routines that are in routines_341_linearSolve.txt but NOT in le_only.csv and
+###------------ Compare e_driver_all.csv (82) + le_solve.csv (58) to routines_341_linearSolve.txt (198) for linear solvers ------------
+###------------ find 'Linear Solve' routines that are in routines_341_linearSolve.txt but NOT in e_driver_all.csv (82) + le_solve.csv (58) and
 ###------------ write them into routines/routines_341_linearSolve_new.txt
 routines_solve_341 = []
 routines_solve_diff = []
@@ -164,29 +168,5 @@ f_linearSolve_341.close()
 f_linearSolve_diff.close()
 
 
-
-
-####------------ fild the le routines that are neither in the old version (104) nor brand new (47)
-## find all the linear solve routines in le_only.csv and put them in x
-#x = []
-#f_le_solve_only = open('../../Dlighthouse/Combine/le_only.csv')
-#for line in f_le_solve_only:
-#    routine_file = line.split("/")[5].split(".f")[0]+'.f'
-#    x.append(routine_file)
-#
-####------------compare routines_solve_old to x, shoule be 125-104 = 21
-#le_old_diff = list(set(routines_solve_old) - set(x))
-#for item in le_old_diff:
-#    print item
-#
-#
-#y = list(set(routines_solve_341) - set(routines_solve_new))
-#
-#i=0
-#for item in list(set(y) - set(x)):
-#    i = i+1
-##    print i, item
-#
-#print "================================================"
 
 
