@@ -1,45 +1,8 @@
 import os, urllib, shutil, csv
-
-###------------ make a list of routine url's for the old version
-def Old_List_URL():
-    old_list_url = []
-    f_single = open("web/single_old.html")
-    f_double = open("web/double_old.html")
-    f_complex = open("web/complex_old.html")
-    f_complex16 = open("web/complex16_old.html")
-
-    for line in f_single:
-        if "href=" in line:
-            old_list_url.append("http://www.netlib.org/lapack/single/"+line.split('\"')[1])
-        else:
-            pass
-       
-    for line in f_double:
-        if "href=" in line:
-            old_list_url.append("http://www.netlib.org/lapack/double/"+line.split('\"')[1])
-        else:
-            pass
-    
-    for line in f_complex:
-        if "href=" in line:
-            old_list_url.append("http://www.netlib.org/lapack/complex/"+line.split('\"')[1])
-        else:
-            pass
-    
-    for line in f_complex16:
-        if "href=" in line:
-            old_list_url.append("http://www.netlib.org/lapack/complex16/"+line.split('\"')[1])
-        else:
-            pass
-    
-    f_single.close()
-    f_double.close()
-    f_complex.close()
-    f_complex16.close()
-    return old_list_url
+from summary import *
 
 
-
+print "------------- Find the routines that solve a system of linear equations in the old version --------------"
 
 old_list_url = Old_List_URL()
 
