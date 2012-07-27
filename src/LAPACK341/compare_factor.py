@@ -65,3 +65,12 @@ f_factor_diff.close()
 print "New 'factor' routines: %s." % len(routines_factor_diff)
 
 
+###------------ find 'factor' routines that are NOT in factor_341.txt but are in le_factor.csv and
+print "Routines that are in le_factor.csv but not in factor_341.txt:"
+for routineName in x:
+    if routineName not in routines_factor_341:
+        print routineName
+    else:
+        pass
+
+
