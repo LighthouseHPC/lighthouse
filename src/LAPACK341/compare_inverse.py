@@ -2,9 +2,9 @@ import os, urllib, shutil, csv
 
 
 
-print "------------ Make sure linear solvers routines are complete in the old version ------------"
-###------------ compare inverse_old.txt (36) to le_invert.csv (32)
-# open le_invert.csv (32) and put the routines in x
+print "------------ Make sure 'inverse' routines are complete in the old version ------------"
+###------------ compare inverse_old.txt to le_invert.csv
+# open le_invert.csv and put the routines in x
 x = []
 f_le_Computational_inverse = open('../../Dlighthouse/Computational/le_invert.csv')
 for line in f_le_Computational_inverse:
@@ -25,7 +25,7 @@ for routine in f_le_solve_old:
 #for item in le_old_both:
 #    print item
 
-# find the routines that are in linearSolve_old.txt but NOT in le_driver_all.csv + le_solve.csv
+# find the routines that are in inverse_old.txt but NOT in le_invert.csv
 missingRoutines = list(set(y) - set(x))
 print "%s routines from inverse_old.txt are NOT in le_invert.csv:" % len(missingRoutines)
 for item in missingRoutines:
@@ -43,9 +43,9 @@ for item in missingRoutines2:
 print "------------ Compare to the v3.4.1 ------------"
 
 
-###------------ Compare le_invert.csv (32) to inverse_341.txt (56) for linear solvers ------------
-###------------ find 'inverse' routines that are in inverse_341.txt but NOT in le_invert.csv (32) and
-###------------ write them into routines/linearSolve_diff.txt
+###------------ Compare le_invert.csv to inverse_341.txt for linear solvers ------------
+###------------ find 'inverse' routines that are in inverse_341.txt but NOT in le_invert.csv and
+###------------ write them into routines/inverse_diff.txt
 routines_inverse_341 = []
 routines_inverse_diff = []
 f_inverse_341 = open('routines/inverse_341.txt')

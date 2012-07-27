@@ -2,7 +2,7 @@ import os, urllib, shutil, csv
 
 
 
-print "------------ Make sure linear solvers routines are complete in the old version ------------"
+print "------------ Make sure 'factor' routines are complete in the old version ------------"
 ###------------ compare factor_old.txt to le_invert.csv
 # open le_factor.csv and put the routines in x
 x = []
