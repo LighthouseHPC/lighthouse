@@ -1,13 +1,17 @@
-import os, urllib, shutil, csv
+import urllib, shutil, csv
+import os
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.sys.path.insert(0,parentdir)
+
 
 
 ###------------ make a list of the routines from the old version
 def Old_List():
     old_list = []
-    f_single = open("web/single_old.html")
-    f_double = open("web/double_old.html")
-    f_complex = open("web/complex_old.html")
-    f_complex16 = open("web/complex16_old.html")
+    f_single = open(parentdir+"/web/single_old.html")
+    f_double = open(parentdir+"/web/double_old.html")
+    f_complex = open(parentdir+"/web/complex_old.html")
+    f_complex16 = open(parentdir+"/web/complex16_old.html")
 
     for line in f_single:
         if "href=" in line:
@@ -63,10 +67,10 @@ print "================================================"
 ###------------ make a list of routine url's for the old version
 def Old_List_URL():
     old_list_url = []
-    f_single = open("web/single_old.html")
-    f_double = open("web/double_old.html")
-    f_complex = open("web/complex_old.html")
-    f_complex16 = open("web/complex16_old.html")
+    f_single = open(parentdir+"/web/single_old.html")
+    f_double = open(parentdir+"/web/double_old.html")
+    f_complex = open(parentdir+"/web/complex_old.html")
+    f_complex16 = open(parentdir+"/web/complex16_old.html")
 
     for line in f_single:
         if "href=" in line:
@@ -106,7 +110,7 @@ def Old_List_URL():
 ###------------ make a list of the routines from the new (3.4.1) version
 def New_List():    
     new_list = []
-    f_341 = open("web/routines_341.html")
+    f_341 = open(parentdir+"/web/routines_341.html")
     for line in f_341:
         if "href" in line:
             new_list.append(line.split('\"')[1])
