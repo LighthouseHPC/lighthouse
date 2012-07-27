@@ -3,72 +3,98 @@
 	var uncheckedRoutines = [];
 </script>
 
+<div id="title-div">
+    <table id="icon-table">
+            <tr>
+                    <td id="icon-cell">
+                            <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
+                    </td>           
+                    <td id="title-cell">
+                            Selected Routines
+                    </td>
+            </tr>
+    </table>        
+</div>
+
 <div id="selectedRoutines" name="selectedRoutines">
 	<form name="droppedRoutines">
 		<!--Dropped-items area-->
 		<div style="padding: 10px;">
-			<div id="selectedListNode" class="container2" style="border: 1px solid #444; background: #eee; padding-bottom: 15px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 35px;">
+			<div id="selectedListNode" class="container2" style="background: #eee; padding-bottom: 15px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 35px; border: 2px solid #ccc; border-radius: 5px;">
 
 				<div id="sel_routineListNode" class="container2" style="background: #eee; padding: 0px;">
-			{% if selectedRoutines %}
-			{% for item in selectedRoutines %}
+				{% if selectedRoutines %}
+					{% for item in selectedRoutines %}
 		
-				{% if item.checkState == "checked" %}
-				<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
-				<script type="text/javascript">
-					selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
-				</script>
+						{% if item.checkState == "checked" %}
+							<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
+							<script type="text/javascript">
+								selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
+							</script>
 
-				{% endif %}
+						{% endif %}
 
-				{% if item.checkState == "unchecked" %}
-				<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
-				<script type="text/javascript">
-					uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
-				</script>
+						{% if item.checkState == "unchecked" %}
+							<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
+							<script type="text/javascript">
+								uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
+							</script>
 
-				{% endif %}
+						{% endif %}
 
-				<div class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="list-style-type: none;">
-					<div class="routineName">
-						<table id="ts_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
-							<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
-								<td style="font-weight: bold; width: 70px;">
-									<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
-								</td>
-								<td>						
-									<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
-								</td>														
-							</tr>
-						</table>											
-					</div>
-					<div class="dijitHidden">
-						<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
-							<div align="center">
-								<table id="table_main" width="80%" border = "1">
-									<tr>
-									<th>Precision</th>
-									<th>Routine Name</th>
-									<th>Matrix Type</th>
-									<th>Storage</th>
+						<div class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="list-style-type: none;">
+							<div class="routineName">
+								<table id="ts_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+									<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+										<td style="font-weight: bold; width: 70px;">
+											<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cbs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');"/> {{ item.thePrecision|upper }}{{ item.routineName|upper }}
+										</td>										
+										<td>						
+											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
+										</td>
+										<!--
+										<td>
+											&nbsp;
+										</td>
+										<td>
+											<input type="text" name="order" size="2" id="rank" onKeyUp="" autocomplete="off" value="{{ item.serial }}" readonly="readonly" onfocus="this.blur();">
+										</td>
+										<td>
+											<button type="button" id="up" title="Move up" onclick="return checkCodeTemplate();">^</button>
+										</td>
+										<td>
+											<button type="button" id="up" title="Move up" onclick="return checkCodeTemplate();">v</button>
+										</td>
+										!-->										
 									</tr>
-									<tr>
-									<td>{{ item.thePrecision|upper }}</td>
-									<td>{{ item.routineName|upper }}</td> 
-									<td>{{ item.matrixType }}</td> 
-									<td>{{ item.storageType }}</td>      
-									</tr>
-								</table><br/>
-								<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
-								<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+								</table>											
 							</div>
+							<div class="dijitHidden">
+								<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+									<div align="center">
+										<table id="table_main" width="80%" border = "1">
+											<tr>
+											<th>Precision</th>
+											<th>Routine Name</th>
+											<th>Matrix Type</th>
+											<th>Storage</th>
+											</tr>
+											<tr>
+											<td>{{ item.thePrecision|upper }}</td>
+											<td>{{ item.routineName|upper }}</td> 
+											<td>{{ item.matrixType }}</td> 
+											<td>{{ item.storageType }}</td>      
+											</tr>
+										</table><br/>
+										<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
+										<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+									</div>
+								</div>
+							</div>					
 						</div>
-					</div>					
+					{% endfor %}
+				{% endif %}
 				</div>
-			{% endfor %}
-			{% endif %}
-			</div>
-
 			</div>
 		</div>
 		

@@ -82,7 +82,7 @@
 		
 		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
-		var source2 = new dojo.dnd.Target("selectedListNode");		
+		var source2 = new dojo.dnd.Source("selectedListNode");		
 
 		/* update Django session for selected routines through javascript*/
 		//var nameObj = [];
@@ -124,6 +124,7 @@
 							storageType: storageType,
 							idn: idn,
 							url: url,
+							serial: 1,
 							checkState: "checked"
 							},
 						load: function(response){

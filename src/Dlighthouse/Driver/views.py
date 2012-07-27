@@ -62,25 +62,26 @@ def update_session(request):
 			 "storageType": request.POST.get('storageType'),
 			 "id": request.POST.get('idn'),
 			 "url": request.POST.get('url'),
+			 "serial": request.POST.get('serial'),
 			 "checkState": request.POST.get('checkState')}
 			]
 		
-		itemExist = False
 		counter = 0
 		match = -1
 		for item in request.session['selectedRoutines']:
-			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:			
-				match = counter				
+			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:
+				match = counter
+				if selectedRoutineList[0]['checkState'] == 'checked':
+					request.session['selectedRoutines'][counter]['checkState'] = 'checked'
+				if selectedRoutineList[0]['checkState'] == 'unchecked':
+					request.session['selectedRoutines'][counter]['checkState'] = 'unchecked'							
 			counter += 1
-			
-		if match != -1:			
-			request.session['selectedRoutines'].pop(match)
 
-		#if selectedRoutineList[0] not in request.session['selectedRoutines']:			
-		if selectedRoutineList[0]['checkState'] == 'checked':
-			request.session['selectedRoutines'] = selectedRoutineList + request.session['selectedRoutines']
-		if selectedRoutineList[0]['checkState'] == 'unchecked':
+		if match == -1:
+			selectedRoutineList[0]['serial'] = len(request.session['selectedRoutines']) + 1
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
+
+		request.session.modified = True
 			
 		for item in request.session['selectedRoutines']:
 			if item['checkState'] == 'checked':

@@ -288,37 +288,11 @@
                                                 sizerWidth="5" activeSizing="true"
                                                 style="border: 0px solid #bfbfbf; float: left; width: 100%; height: 100%;">
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
-                                                        <div id="title-div">
-                                                                <table id="icon-table">
-                                                                        <tr>
-                                                                                <td id="icon-cell">
-                                                                                        <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
-                                                                                </td>           
-                                                                                <td id="title-cell">
-                                                                                        Selected Routines
-                                                                                </td>
-                                                                        </tr>
-                                                                </table>        
-                                                        </div>                                                        
-						                        {% block dojango_content_selected_routines %}{% endblock %}
+                                                                                                                
+						                                {% block dojango_content_selected_routines %}{% endblock %}
                                                 </div>
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
-                                                        <div id="title-div">
-                                                                <table id="icon-table">
-                                                                        <tr>
-                                                                                <td id="icon-cell">
-                                                                                        <img src="{{ MEDIA_URL }}Images/text-x-python.png" width="32" height="32"/>
-                                                                                </td>           
-                                                                                <td id="title-cell">
-                                                                                        Code Template
-                                                                                </td>
-                                                                        </tr>
-                                                                </table>        
-                                                        </div>
-                                                        <div id="div-codeTemp" style="padding: 10px; background-color:#eee; margin: 10px; border: 1px solid #000;">
-                                                            {% if codeTemplate %} {{ codeTemplate }} {% endif %}
-							                            </div>
-                                                        {{ generatedCodeTemplate }}
+                                                        
                                                         {% block dojango_content_code_template %}{% endblock %}
                                                 </div>
                                                 
