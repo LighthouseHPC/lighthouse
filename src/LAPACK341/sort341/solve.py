@@ -44,27 +44,22 @@ for line in f:
             solve_aux.append(routineName)
             wr_aux.writerow([m, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
             #print category
-        else:
-            if routineName.startswith("s"):
+        elif category[0:4] == "real":
                 i += 1
                 solve_single.append(routineName)
                 wr_single.writerow([i, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
-            elif routineName.startswith("d"):
-                j += 1
-                solve_double.append(routineName)
-                wr_double.writerow([j, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
-            elif routineName.startswith("c"):
-                k += 1
-                solve_complex.append(routineName)
-                wr_complex.writerow([k, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])                   
-            elif routineName.startswith("z"):
-                l += 1
-                solve_complex16.append(routineName)
-                wr_complex16.writerow([l, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
-            else:
-                print routineName, "   ", category
-    else:
-        pass
+        elif category[0:6] == "double":
+            j += 1
+            solve_double.append(routineName)
+            wr_double.writerow([j, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
+        elif category[0:9] == "complex16":
+            l += 1
+            solve_complex16.append(routineName)
+            wr_complex16.writerow([l, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
+        else:
+            k += 1
+            solve_complex.append(routineName)
+            wr_complex.writerow([k, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])  
 
 f.close()
 
