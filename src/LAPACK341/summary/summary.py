@@ -37,6 +37,17 @@ def Old_List():
         else:
             pass
     
+    
+    ###------------ check for duplicate elements in old_list
+    dups = [x for x in old_list if old_list.count(x) > 1]
+    print "Duplicate elements in the old version:"
+    for item in dups:
+        print item
+    print "================================================"
+
+    old_list = list(set(old_list))
+    print "Old verion: %s routines." % len(old_list)
+    
     f_single.close()
     f_double.close()
     f_complex.close()
@@ -46,18 +57,7 @@ def Old_List():
 
 
 old_list = Old_List()
-print "Old verion: %s routines." % len(old_list)
 
-
-
-
-
-###------------ check for duplicate elements in old_list
-dups = [x for x in old_list if old_list.count(x) > 1]
-print "Duplicate elements in the old version:"
-for item in dups:
-    print item
-print "================================================"
 
 
 
