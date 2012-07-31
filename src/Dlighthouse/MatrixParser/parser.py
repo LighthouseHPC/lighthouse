@@ -21,6 +21,9 @@ __matrix_language_vars = {}
 __matrix_language_scalar_name_re = re.compile(r'[a-n]\w*')
 __matrix_language_typeinference = True
 
+# List of parser errors.
+errors = []
+
 # input
 def p_prog_1(p):
     'prog : ID IN param_list INOUT param_list OUT param_list LBRACE stmt_list RBRACE'
@@ -142,9 +145,8 @@ def p_empty(p):
     p[0] = None
     
 def p_error(p):
-    p.lexer.errors.append("[parser] Syntax error at token %s" % p.type)
-    if p.lexer.printToStderr:
-        print >> sys.stderr, "[parser] Syntax error at token", p.type
+    global errors
+    errors.append("Syntax error at %s on line number %d." % (p.value, p.lineno))
 
 def getParser(start_line_no):
     '''Create the parser for the annotations language'''

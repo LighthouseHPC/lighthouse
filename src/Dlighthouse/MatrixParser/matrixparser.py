@@ -22,6 +22,7 @@ class MParser:
                    lextab=os.path.join("MatrixParser.lextab"))
     self.errorlog = []
     self.debug = debug
+    self.lex.errors = MatrixParser.parser.errors
     
   def processString(self, input=''):
     if input == '' or input.isspace(): 
