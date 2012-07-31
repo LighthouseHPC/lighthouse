@@ -20,10 +20,13 @@
 	<form name="droppedRoutines">
 		<!--Dropped-items area-->
 		<div style="padding: 10px;">
-			<div id="selectedListNode" class="container2" style="background: #eee; padding-bottom: 15px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 35px; border: 2px solid #ccc; border-radius: 5px;">
+			<div id="selectedListNode" class="container2" style="background: #eee; padding-bottom: 15px; padding-left:30px; background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top; padding-top: 35px; border: 2px solid #ccc; border-radius: 5px; overflow: hidden;">
 
-				<div id="sel_routineListNode" class="container2" style="background: #eee; padding: 0px;">
-				{% if selectedRoutines %}
+			<table style="width: 100%; position: relative; left: -2px; top: 2px;">
+				<tr style="width: 100%;">
+				<td style="width: 50%;">
+				<div id="sel_routineListNode" class="container2" style="padding: 0px;">
+				{% if selectedRoutines %}			
 					{% for item in selectedRoutines %}
 		
 						{% if item.checkState == "checked" %}
@@ -42,7 +45,7 @@
 
 						{% endif %}
 
-						<div class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="list-style-type: none;">
+						<div class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 							<div class="routineName">
 								<table id="ts_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 									<tr id="trs_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -51,21 +54,7 @@
 										</td>										
 										<td>						
 											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
-										</td>
-										<!--
-										<td>
-											&nbsp;
-										</td>
-										<td>
-											<input type="text" name="order" size="2" id="rank" onKeyUp="" autocomplete="off" value="{{ item.serial }}" readonly="readonly" onfocus="this.blur();">
-										</td>
-										<td>
-											<button type="button" id="up" title="Move up" onclick="return checkCodeTemplate();">^</button>
-										</td>
-										<td>
-											<button type="button" id="up" title="Move up" onclick="return checkCodeTemplate();">v</button>
-										</td>
-										!-->										
+										</td>										
 									</tr>
 								</table>											
 							</div>
@@ -95,22 +84,45 @@
 					{% endfor %}
 				{% endif %}
 				</div>
+				</td>
+				<td style="width: 50%; vertical-align: top;">	
+				<div id="reorder-pane" style="background-color: #fff; border: 1px solid #999; visibility: hidden; font-weight: bold; width: 120px; position: absolute;  top: 0px; right: 10px;">
+
+				</div>
+				</td>				
+			</table>
+			
 			</div>
-		</div>
+			<div id="reorder-div" style="margin-top: 5px;">
+				<table style="text-align: center; width: 100%;">
+					<tr style="text-align: center; width: 100%;">
+						<td id="cancel-button" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; background: #ccc; cursor:pointer; visibility: hidden; width: 50px;" onClick="">
+							Cancel
+						</td>
+						<td id="reorder-button" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; background: #ccc; cursor:pointer;" onClick="reorder();">
+							Reorder
+						</td>
+						<td id="help-button" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; background: #ccc; cursor:pointer; visibility: hidden; width: 50px;" onClick="">
+							Help
+						</td>
+					</tr>
+				</table>				
+			</div>
+		</div>			
 		
 		<!--load request.session["selectedRoutines]-->
 
 		<div id="button-div">
 		    <table style="width:100%; margin: 0px auto;">
-				<tr style="width:100%;">					
-					<td style="text-align:left;">								
+				<tr style="width:100%;">				
+					<td style="text-align:left;">
 						<select id="selectMenu" onChange="selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);">
 					     <option value="1">Select</option>
 					     <option value="2">All</option>
 					     <option value="3">None</option>					     
 					 	</select>
-					</td>
-					<td style="text-align:left;">								
+					</td>					
+					<td style="text-align:left;">
 						<select id="clearMenu" onChange="clearMenuChanged();">
 					     <option value="1" selected="selected">Clear</option>
 					     <option value="2">Unchecked</option>

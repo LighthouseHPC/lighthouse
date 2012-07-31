@@ -78,7 +78,7 @@ def update_session(request):
 			counter += 1
 
 		if match == -1:
-			selectedRoutineList[0]['serial'] = len(request.session['selectedRoutines']) + 1
+			#selectedRoutineList[0]['serial'] = getSerial(request, selectedRoutineList[0]['thePrecision'], selectedRoutineList[0]['routineName'])
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
 		request.session.modified = True
@@ -92,7 +92,22 @@ def update_session(request):
 		return HttpResponse('only AJAX requests are allowed!')
 	
 
+def getSerial(request, precision, routineName):
 
+	i = 0
+	for item in request.session['selectedRoutines']:	
+		i += 1
+		if item['thePrecision'] == precision and item['routineName'] == routineName:
+			return request.session['selectedRoutines'][i]['serial']
+
+	serial = 1;
+	i = 0
+	for item in request.session['selectedRoutines']:	
+		i += 1
+		if request.session['selectedRoutines'][i]['checkState'] == 'checked':
+			serial += 1
+
+	return serial
 
 ###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
 @csrf_exempt

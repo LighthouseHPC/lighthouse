@@ -82,7 +82,7 @@
 		
 		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
-		var source2 = new dojo.dnd.Source("selectedListNode");		
+		var source2 = new dojo.dnd.Target("selectedListNode");		
 
 		/* update Django session for selected routines through javascript*/
 		//var nameObj = [];
@@ -124,7 +124,6 @@
 							storageType: storageType,
 							idn: idn,
 							url: url,
-							serial: 1,
 							checkState: "checked"
 							},
 						load: function(response){
@@ -825,10 +824,14 @@
 		else if(mode == "selectedRoutine")
 			checkbox = document.getElementById("cbs_"+routine);
 
-		if(selectedRoutineNames.length > 0)
-			selectedRoutine_session = selectedRoutineNames;
+		var serial = -1;
 
-		//alert(selectedRoutine_session.toString());
+		if(selectedRoutineNames.length > 0){
+			selectedRoutine_session = selectedRoutineNames;
+			serial = selectedRoutine_session.length;
+		}
+		else
+			serial = selectedRoutine_session.length + 1;
 
 		var detail = checkbox.value;
 		var precision = detail.split("_")[0];
@@ -836,11 +839,18 @@
         var matrixType = detail.split("_")[2];
 		var storageType = detail.split("_")[3];
 		var idn = detail.split("_")[4];
-		var url = detail.split("_")[5];
+		var url = detail.split("_")[5];		
 		var checked;
+
+		var formatted_name = (precision + routineName).toUpperCase();
+
+		var rdiv = document.getElementById('reorder-pane');
 
 		if(checkbox.checked == 1){
 			checked = "checked";
+			if(rdiv.innerHTML.indexOf("Check") != -1)
+				rdiv.innerHTML = "";
+			rdiv.innerHTML = rdiv.innerHTML + '<div style="padding: 1px;"><table><tr><td>'+serial+'. '+formatted_name+'</td></tr></table></div>';
 			if(!routineExists(routine, selectedRoutine_session))
             	selectedRoutine_session.push(routine.toLowerCase());
 
@@ -928,6 +938,32 @@
 			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
 		else if(selected == "FORTRAN")
 			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+	}
+
+	function reorder(){
+		
+		var rbut = document.getElementById('reorder-button');
+		var rdiv = document.getElementById('reorder-pane');
+		var rcan = document.getElementById('cancel-button');
+		var rhel = document.getElementById('help-button');
+
+		var action = trim(rbut.innerHTML);
+		if( action == "Reorder"){
+			uncheckAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
+			rbut.innerHTML = "Done";
+			rdiv.innerHTML = '<div style="padding-left: 1px;"><table><tr><td>'+'Check routines from left in order.'+'</td></tr></table></div>';
+			rdiv.style.visibility = "visible";
+			rcan.style.visibility = "visible";
+			rhel.style.visibility = "visible";
+		}
+		if( action == "Done"){
+			rbut.innerHTML = "Reorder";
+			rdiv.innerHTML = "";
+			rdiv.style.visibility = "hidden";
+			rcan.style.visibility = "hidden";
+			rhel.style.visibility = "hidden";
+		}
+
 	}
 
 	/*--------------------------------------------------------------------------------- */	
