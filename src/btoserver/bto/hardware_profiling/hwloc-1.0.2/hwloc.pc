@@ -1,0 +1,12 @@
+prefix=/home/david/work/current/development/src/Dlighthouse/btoserver/bto/hardware_profiling/hwloc-1.0.2
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: hwloc
+Description: Hardware locality detection and management library
+Version: 1.0.2
+Requires.private: 
+Cflags: -I${includedir}
+Libs: -L${libdir} -lhwloc
+Libs.private: -libverbs  
