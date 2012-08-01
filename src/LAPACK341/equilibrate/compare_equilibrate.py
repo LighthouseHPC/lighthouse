@@ -5,7 +5,7 @@ import os
 #os.sys.path.insert(0,parentdir) 
 
 
-print "------------ Make sure 'error Bound' routines are complete in the old version ------------"
+print "------------ Make sure 'equilibrate' routines are complete in the old version ------------"
 ###------------ compare equilibrate_old.txt to le_error_bounds.csv
 # open le_error_bounds.csv and put the routines in x
 x = []

@@ -1,40 +1,60 @@
-import os, urllib, shutil, csv
+import urllib, shutil, csv
 from time import time
-from summary import * 
+import os
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.sys.path.insert(0,parentdir) 
+import summary.summary
 
-print "------------- Find 'invert' routines in v3.4.1 --------------"
+def findRoutines(fileName):
+    for ln in fileName:
+        url = ln.split(";")[3]
+        routineName = url.split("/")[-1]
+        #print routineName
+        #print url
+        f = urllib.urlopen(url)
+        flag = 1
+        for line in f:
+            line = line[3:]
+            #print line
+            if line.startswith("Arguments"):
+                break
+            else:
+                if line.startswith("\par Purpose:"):
+                    flag = 0
+                if line.startswith("Arguments"):
+                    flag = 1
+                if not flag:
+                    index1 = line.find("inverse of a")
+                    if index1 > -1:
+                        routines_inverse_341.append(routineName)
+                        f_inverse_341.write(routineName)
+                    else:
+                        pass
 
+    fileName.close()
 
-###----------- get new_list
-
-new_list = New_List()
-#print len(new_list)
+print "------------- Find 'inverse' routines in v3.4.1 --------------"
 
 
 ###------------ find routines that compute the inverse of a matrix in the new version
 ###------------ and write them into routines/inverse_341.txt
-wr = csv.writer(open('routines/inverse_341.txt', 'w'), delimiter=';')
-
-routines_inverse = []
-i=0
+## find the routines that HAVE the keywords:
+f_computational_341_single = open(parentdir+'/sort341/routines/computational_341_single.txt')
+f_computational_341_double = open(parentdir+'/sort341/routines/computational_341_double.txt')
+f_computational_341_complex = open(parentdir+'/sort341/routines/computational_341_complex.txt')
+f_computational_341_complex16 = open(parentdir+'/sort341/routines/computational_341_complex16.txt')
+f_inverse_341 = open('./routines/inverse_341.txt', 'w')
+routines_inverse_341 = []
 start = time()
-for routineName in new_list:
-    if 'rfs.f' in routineName:
-        pass
-    else:
-        f = urllib.urlopen("http://www.netlib.org/lapack/lapack_routine/"+routineName)
-        text = f.read()
-        index1 = text.find("inverse of a")
-        if index1 > -1:
-            i = i+1
-            routines_inverse.append(routineName)
-            wr.writerow([i, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
-        else:
-            pass
-    f.close()
 
 
+findRoutines(f_computational_341_single)
+findRoutines(f_computational_341_double)
+findRoutines(f_computational_341_complex)
+findRoutines(f_computational_341_complex16)
+
+    
 elapsed = (time() - start)
-print "There are %s routines that compute the 'inverse of a matrix' in v3.4.1." % len(routines_inverse),  elapsed
+print "There are %s routines in the 341 version that provides inverse." % len(routines_inverse_341), elapsed
 
 
