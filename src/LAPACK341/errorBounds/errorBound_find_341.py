@@ -5,7 +5,6 @@ parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0,parentdir) 
 import summary.summary
 
-
 def findRoutines(fileName):
     for ln in fileName:
         url = ln.split(";")[3]
@@ -28,8 +27,8 @@ def findRoutines(fileName):
                     index1 = line.find("error bounds")
                     if index1 > -1:
                         if "svx" not in routineName:
-                            routines_errorBound_old.append(routineName)
-                            f_errorBound_old.write(routineName)
+                            routines_errorBound_341.append(routineName)
+                            f_errorBound_341.write(routineName)
                         else:
                             print "should be driver_expert: ", routineName
                     else:
@@ -37,33 +36,28 @@ def findRoutines(fileName):
 
     fileName.close()
 
-print "------------- Find 'error bounds' routines in the old version --------------"
+print "------------- Find 'error bound' routines in v3.4.1 --------------"
 
 
-###------------find 'error bounds" routines in the old version
-###------------ and write them into routines/errorBound_old.txt
+###------------ find routines that compute the errorBound of a matrix in the new version
+###------------ and write them into routines/errorBound_341.txt
 ## find the routines that HAVE the keywords:
-f_computational_old_single = open(parentdir+'/sortOld/routines/computational_old_single.txt')
-f_computational_old_double = open(parentdir+'/sortOld/routines/computational_old_double.txt')
-f_computational_old_complex = open(parentdir+'/sortOld/routines/computational_old_complex.txt')
-f_computational_old_complex16 = open(parentdir+'/sortOld/routines/computational_old_complex16.txt')
-f_errorBound_old = open('./routines/errorBound_old.txt', 'w')
-routines_errorBound_old = []
+f_computational_341_single = open(parentdir+'/sort341/routines/computational_341_single.txt')
+f_computational_341_double = open(parentdir+'/sort341/routines/computational_341_double.txt')
+f_computational_341_complex = open(parentdir+'/sort341/routines/computational_341_complex.txt')
+f_computational_341_complex16 = open(parentdir+'/sort341/routines/computational_341_complex16.txt')
+f_errorBound_341 = open('./routines/errorBound_341.txt', 'w')
+routines_errorBound_341 = []
 start = time()
 
 
-findRoutines(f_computational_old_single)
-findRoutines(f_computational_old_double)
-findRoutines(f_computational_old_complex)
-findRoutines(f_computational_old_complex16)
+findRoutines(f_computational_341_single)
+findRoutines(f_computational_341_double)
+findRoutines(f_computational_341_complex)
+findRoutines(f_computational_341_complex16)
 
     
 elapsed = (time() - start)
-print "There are %s routines in the old version that provides error bounds." % len(routines_errorBound_old), elapsed
-
-
-
-
-
+print "There are %s routines in the 341 version that provides error bounds." % len(routines_errorBound_341), elapsed
 
 

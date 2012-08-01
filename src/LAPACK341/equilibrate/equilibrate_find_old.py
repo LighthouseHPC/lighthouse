@@ -25,30 +25,27 @@ def findRoutines(fileName):
                 if line.startswith("Arguments"):
                     flag = 1
                 if not flag:
-                    index1 = line.find("error bounds")
+                    index1 = line.find("equilibrate")
                     if index1 > -1:
-                        if "svx" not in routineName:
-                            routines_errorBound_old.append(routineName)
-                            f_errorBound_old.write(routineName)
-                        else:
-                            print "should be driver_expert: ", routineName
+                        routines_equilibrate_old.append(routineName)
+                        f_equilibrate_old.write(routineName)
                     else:
                         pass
 
     fileName.close()
 
-print "------------- Find 'error bounds' routines in the old version --------------"
+print "------------- Find 'equilibrate' routines in the old version --------------"
 
 
-###------------find 'error bounds" routines in the old version
-###------------ and write them into routines/errorBound_old.txt
+###------------find 'equilibrate" routines in the old version
+###------------ and write them into routines/equilibrate_old.txt
 ## find the routines that HAVE the keywords:
 f_computational_old_single = open(parentdir+'/sortOld/routines/computational_old_single.txt')
 f_computational_old_double = open(parentdir+'/sortOld/routines/computational_old_double.txt')
 f_computational_old_complex = open(parentdir+'/sortOld/routines/computational_old_complex.txt')
 f_computational_old_complex16 = open(parentdir+'/sortOld/routines/computational_old_complex16.txt')
-f_errorBound_old = open('./routines/errorBound_old.txt', 'w')
-routines_errorBound_old = []
+f_equilibrate_old = open('./routines/equilibrate_old.txt', 'w')
+routines_equilibrate_old = []
 start = time()
 
 
@@ -59,7 +56,7 @@ findRoutines(f_computational_old_complex16)
 
     
 elapsed = (time() - start)
-print "There are %s routines in the old version that provides error bounds." % len(routines_errorBound_old), elapsed
+print "There are %s routines in the old version that provides equilibrate." % len(routines_equilibrate_old), elapsed
 
 
 
