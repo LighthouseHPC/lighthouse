@@ -1,71 +1,89 @@
-import os, urllib, shutil, csv
+import urllib, shutil, csv
 from time import time
-from summary import * 
+import os
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.sys.path.insert(0,parentdir) 
+import summary.summary
 
-print "------------- Find the routines that factors a matrix in v3.4.1 --------------"
-
-
-###----------- get new_list
-
-new_list = New_List()
-#print len(new_list)
-
-
-###------------ find routines that compute the factorization of a matrix in the new version
-###------------ and write them into routines/factor_341.txt
-wr1 = csv.writer(open('routines/factor_M_by_N_341.txt', 'w'), delimiter=';')
-routines_factor_MN = []
-wr2 = csv.writer(open('routines/factor_N_by_M_341.txt', 'w'), delimiter=';')
-routines_factor_NM = []
-wr3 = csv.writer(open('routines/factor_341.txt', 'w'), delimiter=';')
-routines_factor = []
-i=0
-j=0
-k=0
-start = time()
-for routineName in new_list:
-    f = urllib.urlopen("http://www.netlib.org/lapack/lapack_routine/"+routineName)
-    text = f.read()
-    text = text.split("\n")
-    flag = 1
-    for line in text:
-        if "================================" in line:
-            break
+def findRoutines(fileName):
+    i = len(routines_factor_MN)
+    j = len(routines_factor_NM)
+    k = len(routines_factor)
+    for ln in fileName:
+        url = ln.split(";")[3]
+        routineName = url.split("/")[-1]
+        #print url
+        f = urllib.urlopen(url)
+        if 'trf.f' in routineName:
+            routines_factor.append(routineName)
+            wr3.write(routineName)
         else:
-            line = line[3:]
-            if line.startswith("\par Purpose:"):
-                flag = 0
-            if line.startswith("Arguments:"):
-                flag = 1
-            if not flag:
-                index1 = line.find("factorization of a")
-                if index1 == -1:
-                    pass
+            flag = 1
+            for line in f:
+                line = line[3:]
+                #print line
+                if line.startswith("Arguments"):
+                    break
                 else:
-                    index2 = line.find("computes")
-                    if index2 == -1:
-                        pass
-                    else:
-                        index3 = line.find("M-by-N matrix")
-                        if index3 > -1:
-                            i += 1
-                            routines_factor_MN.append(routineName)
-                            wr1.writerow([i, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
-                        else:            
-                            index4 = line.find("N-by-M matrix")
-                            if index4 > -1:
-                                j += 1
-                                routines_factor_NM.append(routineName)
-                                wr2.writerow([j, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
+                    if line.startswith("\par Purpose:"):
+                        flag = 0
+                    if line.startswith("Arguments"):
+                        flag = 1
+                    if not flag:
+                        index1 = line.find("factorization of a")
+                        if index1 == -1:
+                            pass
+                        else:
+                            index2 = line.find("computes")
+                            if index2 == -1:
+                                pass
                             else:
-                                k += 1
-                                routines_factor.append(routineName)
-                                wr3.writerow([k, routineName[0], routineName[1:-2], "http://www.netlib.org/lapack/lapack_routine/"+routineName])
-            else:
-                pass
-f.close()
+                                index3 = line.find("M-by-N matrix")
+                                if index3 > -1:
+                                    i += 1
+                                    routines_factor_MN.append(routineName)
+                                    wr1.write(routineName)
+                                else:            
+                                    index4 = line.find("N-by-M matrix")
+                                    if index4 > -1:
+                                        j += 1
+                                        routines_factor_NM.append(routineName)
+                                        wr2.write(routineName)
+                                    else:
+                                        if "stf" not in routineName:
+                                            k += 1
+                                            routines_factor.append(routineName)
+                                            wr3.write(routineName)
+                                        else:
+                                            print "split Cholesky factorization: ", routineName
+    fileName.close()
 
-elapsed = time() - start
-print "There are %s routines that compute the factorization of a matrix in v3.4.1." % len(routines_factor), elapsed 
+print "------------- Find 'factor' routines in v3.4.1 --------------"
+
+
+###------------ find routines that compute the factor of a matrix in the new version
+###------------ and write them into routines/factor_341.txt
+## find the routines that HAVE the keywords:
+f_computational_341_single = open(parentdir+'/sort341/routines/computational_341_single.txt')
+f_computational_341_double = open(parentdir+'/sort341/routines/computational_341_double.txt')
+f_computational_341_complex = open(parentdir+'/sort341/routines/computational_341_complex.txt')
+f_computational_341_complex16 = open(parentdir+'/sort341/routines/computational_341_complex16.txt')
+wr1 = open('routines/factor_M_by_N_341.txt', 'w')
+routines_factor_MN = []
+wr2 = open('routines/factor_N_by_M_341.txt', 'w')
+routines_factor_NM = []
+wr3 = open('routines/factor_341.txt', 'w')
+routines_factor = []
+start = time()
+
+
+findRoutines(f_computational_341_single)
+findRoutines(f_computational_341_double)
+findRoutines(f_computational_341_complex)
+findRoutines(f_computational_341_complex16)
+
+    
+elapsed = (time() - start)
+print "There are %s routines in the 341 version that provides factor." % len(routines_factor), elapsed
 
 

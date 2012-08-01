@@ -1,23 +1,30 @@
-import os, urllib, shutil, csv
-
+import urllib, shutil, csv
+import os
+#parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#lighthousedir = os.path.dirname(os.path.dirname(parentdir))
+#os.sys.path.insert(0,parentdir) 
 
 
 print "------------ Make sure 'factor' routines are complete in the old version ------------"
-###------------ compare factor_old.txt to le_invert.csv
+###------------ compare factor_old.txt to le_factor.csv
 # open le_factor.csv and put the routines in x
 x = []
-f_le_Computational_factor = open('../../Dlighthouse/Computational/le_factor.csv')
+f_le_Computational_factor = open('../../../Dlighthouse/Computational/le_factor.csv')
 for line in f_le_Computational_factor:
     routine_file = line.split(",")[1]+line.split(",")[2]+".f"
     x.append(routine_file)
     #print routine_file
 
+#print "x = ", x
+
 # open factor_old.txt and put the routines in y
 y = []
-f_le_factor_old = open('routines/factor_old.txt')
-for routine in f_le_factor_old:
-    y.append(routine[:-1])
-    #print routine[:-1]
+f_le_solve_old = open('./routines/factor_old.txt')
+for routine in f_le_solve_old:
+    y.append(routine[:-2])
+    #print routine
+    
+#print "y = ", y
 
 # find the routines that are in both factor_old.txt and le_factor.csv
 #le_old_both = set(x) & set (y)
@@ -43,13 +50,13 @@ for item in missingRoutines2:
 print "------------ Compare to the v3.4.1 ------------"
 
 
-###------------ Compare le_factor.csv to factor_341.txt for factorization ------------
+###------------ Compare le_factor.csv to factor_341.txt for linear solvers ------------
 ###------------ find 'factor' routines that are in factor_341.txt but NOT in le_factor.csv and
 ###------------ write them into routines/factor_diff.txt
 routines_factor_341 = []
 routines_factor_diff = []
-f_factor_341 = open('routines/factor_341.txt')
-f_factor_diff = open('routines/factor_diff.txt', 'w')
+f_factor_341 = open('./routines/factor_341.txt')
+f_factor_diff = open('./routines/factor_diff.txt', 'w')
 for line in f_factor_341:
     routineName= line.split(";")[-1].split("/")[-1].split(".f")[0]+'.f'
     routines_factor_341.append(routineName)
@@ -63,14 +70,5 @@ f_factor_341.close()
 f_factor_diff.close()
 
 print "New 'factor' routines: %s." % len(routines_factor_diff)
-
-
-###------------ find 'factor' routines that are NOT in factor_341.txt but are in le_factor.csv and
-print "Routines that are in le_factor.csv but not in factor_341.txt:"
-for routineName in x:
-    if routineName not in routines_factor_341:
-        print routineName
-    else:
-        pass
 
 

@@ -39,7 +39,7 @@ def findRoutines(fileName):
 
     fileName.close()
 
-print "------------- Find 'error bound' routines in v3.4.1 --------------"
+print "------------- Find 'equilibrate' routines in v3.4.1 --------------"
 
 
 ###------------ find routines that compute the equilibrate of a matrix in the new version
