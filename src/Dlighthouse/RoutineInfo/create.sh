@@ -18,3 +18,4 @@ echo "Running 'routineList.py' to create routine_info.csv for the database..."
 python routineList.py
 
 echo "routine_info.csv is created!"
+echo "now you can run load_data.py."
