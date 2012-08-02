@@ -100,7 +100,7 @@ class LinearEquation_expert(models.Model):
 
 
 
-
+"""
 class LinearLeastSquare(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
@@ -114,7 +114,7 @@ class LinearLeastSquare(models.Model):
 		return self.matrixType
 		return self.storageType
 
-"""
+
 class SymmetricEigenvalue(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
@@ -141,7 +141,7 @@ class nonSymmetricEigenvalue(models.Model):
 	def __unicode__(self):
 		return self.matrixType
 		return self.storageType
-"""
+
 
 
 class Eigensolver(models.Model):
@@ -157,5 +157,5 @@ class Eigensolver(models.Model):
 		return self.matrixType
 		return self.storageType
 
-
+"""
 

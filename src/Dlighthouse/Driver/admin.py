@@ -1,9 +1,9 @@
 from Driver.models import RoutineInfo
 from Driver.models import LinearEquation_simple, LinearEquation_expert, LinearEquation_driver
-from Driver.models import LinearLeastSquare
+#from Driver.models import LinearLeastSquare
 #from Driver.models import SymmetricEigenvalue
 #from Driver.models import nonSymmetricEigenvalue
-from Driver.models import Eigensolver
+#from Driver.models import Eigensolver
 from django.contrib import admin
 from django import forms
 
@@ -111,8 +111,8 @@ admin.site.register(RoutineInfo, RoutineInfoAdmin)
 admin.site.register(LinearEquation_simple, LinearEquation_simpleAdmin)
 admin.site.register(LinearEquation_expert, LinearEquation_expertAdmin)
 admin.site.register(LinearEquation_driver, LinearEquation_driverAdmin)
-admin.site.register(LinearLeastSquare, LinearLeastSquareAdmin)
+#admin.site.register(LinearLeastSquare, LinearLeastSquareAdmin)
 #admin.site.register(SymmetricEigenvalue, SymmetricEigenvalueAdmin)
 #admin.site.register(nonSymmetricEigenvalue, nonSymmetricEigenvalueAdmin)
-admin.site.register(Eigensolver, EigensolverAdmin)
+#admin.site.register(Eigensolver, EigensolverAdmin)
 
