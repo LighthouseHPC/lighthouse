@@ -6,8 +6,8 @@ import os
 
 
 print "------------ Make sure 'equilibrate' routines are complete in the old version ------------"
-###------------ compare equilibrate_old.txt to le_error_bounds.csv
-# open le_error_bounds.csv and put the routines in x
+###------------ compare equilibrate_old.txt to le_equilibrate.csv
+# open le_equilibrate.csv and put the routines in x
 x = []
 f_le_Computational_equilibrate = open('../../../Dlighthouse/Computational/le_equilibrate.csv')
 for line in f_le_Computational_equilibrate:
@@ -26,23 +26,23 @@ for routine in f_le_solve_old:
     
 #print "y = ", y
 
-# find the routines that are in both equilibrate_old.txt and le_error_bounds.csv
+# find the routines that are in both equilibrate_old.txt and le_equilibrate.csv
 #le_old_both = set(x) & set (y)
-#print "The following %s routines are in both equilibrate_old.txt and le_error_bounds.csv: "% len(le_old_both)
+#print "The following %s routines are in both equilibrate_old.txt and le_equilibrate.csv: "% len(le_old_both)
 #for item in le_old_both:
 #    print item
 
-# find the routines that are in equilibrate_old.txt but NOT in le_error_bounds.csv
+# find the routines that are in equilibrate_old.txt but NOT in le_equilibrate.csv
 missingRoutines = list(set(y) - set(x))
-print "%s routines from equilibrate_old.txt are NOT in le_error_bounds.csv:" % len(missingRoutines)
+print "%s routines from equilibrate_old.txt are NOT in le_equilibrate.csv:" % len(missingRoutines)
 for item in missingRoutines:
     print item
 print "================================================"
 
 
-# find the routines that are NOT in equilibrate_old.txt but in le_error_bounds.csv
+# find the routines that are NOT in equilibrate_old.txt but in le_equilibrate.csv
 missingRoutines2 = list(set(x) - set(y))
-print "%s routines from le_error_bounds.csv are NOT in equilibrate_old.txt:" % len(missingRoutines2)
+print "%s routines from le_equilibrate.csv are NOT in equilibrate_old.txt:" % len(missingRoutines2)
 for item in missingRoutines2:
     print item
 
@@ -50,8 +50,8 @@ for item in missingRoutines2:
 print "------------ Compare to the v3.4.1 ------------"
 
 
-###------------ Compare le_error_bounds.csv to equilibrate_341.txt for linear solvers ------------
-###------------ find 'equilibrate' routines that are in equilibrate_341.txt but NOT in le_error_bounds.csv and
+###------------ Compare le_equilibrate.csv to equilibrate_341.txt for linear solvers ------------
+###------------ find 'equilibrate' routines that are in equilibrate_341.txt but NOT in le_equilibrate.csv and
 ###------------ write them into routines/equilibrate_diff.txt
 routines_equilibrate_341 = []
 routines_equilibrate_diff = []
