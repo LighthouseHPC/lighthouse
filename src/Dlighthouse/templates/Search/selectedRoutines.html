@@ -5,14 +5,14 @@
 
 <div id="title-div">
     <table id="icon-table">
-            <tr>
-                    <td id="icon-cell">
-                            <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
-                    </td>           
-                    <td id="title-cell">
-                            Selected Routines
-                    </td>
-            </tr>
+        <tr>
+            <td id="icon-cell">
+                <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
+            </td>           
+            <td id="title-cell">
+                    Selected Routines
+            </td>
+        </tr>
     </table>        
 </div>
 
@@ -37,12 +37,10 @@
 
 						{% endif %}
 
-						{% if item.checkState == "unchecked" %}
-							<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
+						{% if item.checkState == "unchecked" %}							
 							<script type="text/javascript">
 								uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
 							</script>
-
 						{% endif %}
 
 						<div class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -85,29 +83,8 @@
 				{% endif %}
 				</div>
 				</td>
-				<td style="width: 50%; vertical-align: top;">	
-				<div id="reorder-pane" style="background-color: #fff; border: 1px solid #999; visibility: hidden; font-weight: bold; width: 120px; position: absolute;  top: 0px; right: 10px;">
-
-				</div>
-				</td>				
-			</table>
-			
-			</div>
-			<div id="reorder-div" style="margin-top: 5px;">
-				<table style="text-align: center; width: 100%;">
-					<tr style="text-align: center; width: 100%;">
-						<td id="cancel-button" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; background: #ccc; cursor:pointer; visibility: hidden; width: 50px;" onClick="">
-							Cancel
-						</td>
-						<td id="reorder-button" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; background: #ccc; cursor:pointer;" onClick="reorder();">
-							Reorder
-						</td>
-						<td id="help-button" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; background: #ccc; cursor:pointer; visibility: hidden; width: 50px;" onClick="">
-							Help
-						</td>
-					</tr>
-				</table>				
-			</div>
+			</table>			
+			</div>			
 		</div>			
 		
 		<!--load request.session["selectedRoutines]-->

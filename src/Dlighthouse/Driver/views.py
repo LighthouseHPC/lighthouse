@@ -503,8 +503,6 @@ def advancedForm(request):
 	except NameError:
 	  request.session['selectedRoutines'] = []	
 		
-	AdvancedTab = True
-
 	if form_advanced.is_valid():
 		selected = form_advanced.cleaned_data['advanced']
 		for answer in selected:
@@ -521,12 +519,12 @@ def advancedForm(request):
 		context = {'Question_advanced': request.session['Question_advanced'], 'Forms': request.session['Forms'], 
 		'Function': request.session['Function'], 'Complex': request.session['Complex'], 'MatrixType':request.session['MatrixType'], 
 		'StorageType':request.session['StorageType'], 'Precision': request.session['Precision'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
-		return render_to_response('search/advancedForm.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
+		return render_to_response('search/advancedForm.html', {'AdvancedTab': True}, context_instance=RequestContext(request, context))
 
 	else:
    		form = AdvancedForm()	
 		context = {'form': form, 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
-		return render_to_response('search/advancedSearch.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
+		return render_to_response('search/advancedSearch.html', {'AdvancedTab': True}, context_instance=RequestContext(request, context))
 
 
 
@@ -593,14 +591,12 @@ def advancedResult(request):
 														     'Storage type': storage, 'Function': form_empty.find(function),
 														     'Equation': 0, 'Description': form.Description,
 														     'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})											
-	
-	AdvancedTab = True	
-	
+		
 	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'],
 		   'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'],
 		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}	
 
-	return render_to_response('search/advancedResult.html', {'AdvancedTab': AdvancedTab}, context_instance=RequestContext(request, context))
+	return render_to_response('search/advancedResult.html', {'AdvancedTab': True}, context_instance=RequestContext(request, context))
 
 #	else:
 #   		form = AdvancedForm()	
@@ -623,7 +619,6 @@ def advancedResult(request):
 
 def keywordResult(request):
 
-	KeywordTab = True
 	keywords = ""
 
 	try:
@@ -663,7 +658,7 @@ def keywordResult(request):
 			
 		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
 		context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'results': routines, 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key) }
-		return render_to_response('search/keywordResult.html', {'KeywordTab': KeywordTab}, context_instance=RequestContext(request, context))
+		return render_to_response('search/keywordResult.html', {'KeywordTab': True}, context_instance=RequestContext(request, context))
 	else:
 		HttpResponse("Error!")
 
@@ -678,20 +673,17 @@ def keywordResult(request):
 def runScript(request):
   if request.method == 'POST':
     form = scriptForm(request.POST)
-    if form.is_valid():
+    if form.is_valid():    
       request.session['userScript'] = form.cleaned_data['script']
       #request.session['generatedCodeTemplate'] = "User input: " + request.session['userScript']
       bto = BTOGenerator()
       request.session['generatedCodeTemplate'] = bto.generateCode(str(request.session['userScript']))
-      result = request.session['generatedCodeTemplate']
-      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 
-        'scriptForm': scriptForm(initial={'script': request.session['userScript']}), 
-        'generatedCodeTemplate': request.session['generatedCodeTemplate']}
-      return render_to_response('search/index.html', context_instance=RequestContext(request, context))
+      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptcode': request.session['userScript'], 'scriptForm': scriptForm(initial={'script': request.session['userScript']}), 'generatedCodeTemplate': request.session['generatedCodeTemplate'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}        
+      return render_to_response('search/index.html', {'ScriptTab': True}, context_instance=RequestContext(request, context))
 
     else:
-      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm()}
-      return render_to_response('search/index.html', context_instance=RequestContext(request, context))
+      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
+      return render_to_response('search/index.html', {'ScriptTab': True}, context_instance=RequestContext(request, context))
 
 
 ###---------------- Code Template ------------------###
