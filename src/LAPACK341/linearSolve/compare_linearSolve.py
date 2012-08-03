@@ -5,8 +5,8 @@ print "------------ Make sure linear solvers routines are complete in the old ve
 ###------------ compare linearSolve_old.txt (139) to le_driver_all.csv (82) + le_solve.csv (58)
 # open e_driver_all.csv (82) + le_solve.csv (58) and put the routines in x
 x = []
-f_le_Driver_all = open('../../Dlighthouse/Driver/le_driver_all.csv')
-f_le_Computational_solve = open('../../Dlighthouse/Computational/le_solve.csv')
+f_le_Driver_all = open('../../../Dlighthouse/Driver/le_driver_all.csv')
+f_le_Computational_solve = open('../../../Dlighthouse/Computational/le_solve.csv')
 for line in f_le_Driver_all:
     routine_file = line.split(",")[1]+line.split(",")[2]+".f"
     x.append(routine_file)
@@ -66,9 +66,4 @@ for line in f_linearSolve_341:
 f_linearSolve_341.close()
 f_linearSolve_diff.close()
 
-print "New 'linear solve' routines: %s." % len(routines_solve_diff)
-i = 0
-for item in routines_solve_diff:
-    i += 1
-    print i, "  ", item 
 
