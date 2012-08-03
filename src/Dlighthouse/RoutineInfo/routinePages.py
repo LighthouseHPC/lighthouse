@@ -10,7 +10,7 @@ def file_name(precision, name, i):
 reader = csv.reader(open("url.csv"))
 
 for idn, precision, routine, url in reader:
-    URL = str("http://www.netlib.org/lapack/"+url)
+    URL = str("http://www.netlib.org/lapack/lapack_routine"+url)
     page = urllib.urlopen(URL)
     
     ###  save chopped info in the RoutineTxt directory.   
@@ -18,26 +18,25 @@ for idn, precision, routine, url in reader:
     
     flag = 1
     while True:
-        content = page.readline()[1:]
-
+        content = page.readline()[3:]
         if "===============================================" in content:
             print idn, "--> find match!"
             break
 
-        if "Further Details" in content:
+        if "\par Further Details:" in content:
             print idn, "--> find match!"
             break
-
         else:
-            if "SUBROUTINE" in content:
+            if "\par Purpose:" in content:
                 flag = 0
-            if "Purpose" in content:
-		flag = 1
-	    if flag and not "Purpose" in content:
-		if "=======" in content:
-		    content = ''
-		copy_page.write(content)
-            
+            if "===============================================" in content:
+                flag = 1
+            if not flag and not "\par Purpose:" in content:
+                if "=======" in content:
+                    content = ''
+                if content.find("verbatim") > -1:
+                    content = ''
+                copy_page.write(content)
     page.close()
     copy_page.close()
 

@@ -1,37 +1,40 @@
-
-  ZPTCON computes the reciprocal of the condition number (in the
-  1-norm) of a complex Hermitian positive definite tridiagonal matrix
-  using the factorization A = L*D*L**H or A = U**H*D*U computed by
-  ZPTTRF.
-
-  Norm(inv(A)) is computed by a direct method, and the reciprocal of
-  the condition number is computed as
-                   RCOND = 1 / (ANORM * norm(inv(A))).
-
-  Arguments
-
-  N       (input) INTEGER
-          The order of the matrix A.  N >= 0.
-
-  D       (input) DOUBLE PRECISION array, dimension (N)
-          The n diagonal elements of the diagonal matrix D from the
-          factorization of A, as computed by ZPTTRF.
-
-  E       (input) COMPLEX*16 array, dimension (N-1)
-          The (n-1) off-diagonal elements of the unit bidiagonal factor
-          U or L from the factorization of A, as computed by ZPTTRF.
-
-  ANORM   (input) DOUBLE PRECISION
-          The 1-norm of the original matrix A.
-
-  RCOND   (output) DOUBLE PRECISION
-          The reciprocal of the condition number of the matrix A,
-          computed as RCOND = 1/(ANORM * AINVNM), where AINVNM is the
-          1-norm of inv(A) computed in this routine.
-
-  RWORK   (workspace) DOUBLE PRECISION array, dimension (N)
-
-  INFO    (output) INTEGER
-          = 0:  successful exit
-          < 0:  if INFO = -i, the i-th argument had an illegal value
-
+ZPTCON computes the reciprocal of the condition number (in the
+1-norm) of a complex Hermitian positive definite tridiagonal matrix
+using the factorization A = L*D*L**H or A = U**H*D*U computed by
+ZPTTRF.
+Norm(inv(A)) is computed by a direct method, and the reciprocal of
+the condition number is computed as
+                 RCOND = 1 / (ANORM * norm(inv(A))).
+Arguments:
+\param[in] N
+         N is INTEGER
+         The order of the matrix A.  N >= 0.
+\param[in] D
+         D is DOUBLE PRECISION array, dimension (N)
+         The n diagonal elements of the diagonal matrix D from the
+         factorization of A, as computed by ZPTTRF.
+\param[in] E
+         E is COMPLEX*16 array, dimension (N-1)
+         The (n-1) off-diagonal elements of the unit bidiagonal factor
+         U or L from the factorization of A, as computed by ZPTTRF.
+\param[in] ANORM
+         ANORM is DOUBLE PRECISION
+         The 1-norm of the original matrix A.
+\param[out] RCOND
+         RCOND is DOUBLE PRECISION
+         The reciprocal of the condition number of the matrix A,
+         computed as RCOND = 1/(ANORM * AINVNM), where AINVNM is the
+         1-norm of inv(A) computed in this routine.
+\param[out] RWORK
+         RWORK is DOUBLE PRECISION array, dimension (N)
+\param[out] INFO
+         INFO is INTEGER
+         = 0:  successful exit
+         < 0:  if INFO = -i, the i-th argument had an illegal value
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date November 2011
+\ingroup complex16OTHERcomputational
