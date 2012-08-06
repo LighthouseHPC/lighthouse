@@ -12,7 +12,7 @@ def findRoutines(fileName):
         #print routineName
         #print url
         f = urllib.urlopen(url)
-        if "sna" in routineName or "equ" in routineName or "svx" in routineName or "sen" in routineName:
+        if "sna" in routineName or "equ" in routineName or "svx" in routineName or "sen" in routineName or "grw.f" in routineName:
             pass
         elif "con.f" in routineName:        
             routines_condNumber_341.append(routineName)
