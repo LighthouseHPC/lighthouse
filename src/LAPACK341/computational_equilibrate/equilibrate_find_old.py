@@ -12,25 +12,28 @@ def findRoutines(fileName):
         routineName = url.split("/")[-1]
         #print routineName
         #print url
-        f = urllib.urlopen(url)
-        flag = 1
-        for line in f:
-            line = line[3:]
-            #print line
-            if line.startswith("Arguments"):
-                break
-            else:
-                if line.startswith("\par Purpose:"):
-                    flag = 0
+        if 'cond.f' in routineName or 'grw.f' in routineName:
+            pass
+        else:
+            f = urllib.urlopen(url)
+            flag = 1
+            for line in f:
+                line = line[3:]
+                #print line
                 if line.startswith("Arguments"):
-                    flag = 1
-                if not flag:
-                    index1 = line.find("equilibrate")
-                    if index1 > -1:
-                        routines_equilibrate_old.append(routineName)
-                        f_equilibrate_old.write(routineName)
-                    else:
-                        pass
+                    break
+                else:
+                    if line.startswith("\par Purpose:"):
+                        flag = 0
+                    if line.startswith("Arguments"):
+                        flag = 1
+                    if not flag:
+                        index1 = line.find("equilibrate")
+                        if index1 > -1:
+                            routines_equilibrate_old.append(routineName)
+                            f_equilibrate_old.write(routineName)
+                        else:
+                            pass
 
     fileName.close()
 

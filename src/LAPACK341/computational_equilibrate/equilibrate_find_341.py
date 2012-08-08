@@ -11,31 +11,34 @@ def findRoutines(fileName):
         routineName = url.split("/")[-1]
         #print routineName
         #print url
-        f = urllib.urlopen(url)
-        flag = 1
-        for line in f:
-            line = line[3:]
-            #print line
-            if line.startswith("Arguments"):
-                break
-            else:
-                if line.startswith("\par Purpose:"):
-                    flag = 0
+        if 'cond.f' in routineName or 'grw.f' in routineName:
+            pass
+        else:
+            f = urllib.urlopen(url)
+            flag = 1
+            for line in f:
+                line = line[3:]
+                #print line
                 if line.startswith("Arguments"):
-                    flag = 1
-                if not flag:
-                    index1 = line.find("equilibrate")
-                    if index1 > -1:
-                        if "svx" not in routineName and "rfsx" not in routineName:
-                            routines_equilibrate_341.append(routineName)
-                            f_equilibrate_341.write(routineName)
+                    break
+                else:
+                    if line.startswith("\par Purpose:"):
+                        flag = 0
+                    if line.startswith("Arguments"):
+                        flag = 1
+                    if not flag:
+                        index1 = line.find("equilibrate")
+                        if index1 > -1:
+                            if "svx" not in routineName and "rfsx" not in routineName:
+                                routines_equilibrate_341.append(routineName)
+                                f_equilibrate_341.write(routineName)
+                            else:
+                                if "svx" in routineName:
+                                    print "should be driver_expert: ", routineName
+                                if "rfsx" in routineName:
+                                    print "should be computational error bound: ", routineName
                         else:
-                            if "svx" in routineName:
-                                print "should be driver_expert: ", routineName
-                            if "rfsx" in routineName:
-                                print "should be computational error bound: ", routineName
-                    else:
-                        pass
+                            pass
 
     fileName.close()
 
