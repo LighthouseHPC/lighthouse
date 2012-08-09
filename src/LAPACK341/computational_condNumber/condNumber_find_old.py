@@ -34,7 +34,6 @@ def findRoutines(fileName):
                         index1 = line.find("condition number")
                         if index1 > -1:
                             routines_condNumber_old.append(routineName)
-                            f_condNumber_old.write(routineName)
                         else:
                             pass
 
@@ -60,6 +59,12 @@ findRoutines(f_computational_old_double)
 findRoutines(f_computational_old_complex)
 findRoutines(f_computational_old_complex16)
 
+
+## eliminate duplicates
+routines_condNumber_old = list(set(routines_condNumber_old))
+for routineName in routines_condNumber_old:
+    f_condNumber_old.write(routineName)
+    
     
 elapsed = (time() - start)
 print "There are %s routines in the old version that provides condition number." % len(routines_condNumber_old), elapsed
