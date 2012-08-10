@@ -18,8 +18,8 @@ class LhRequestHandler(StreamRequestHandler, BTORequestHandler):
 class LhServer(ForkingTCPServer, BTO_Server):
     
     def __init__(self, server_address, RequestHandlerClass,
-                 u=[],r='1', btodir='../bto', btoblas='./bin/btoblas'):
-        BTO_Server.__init__(self, u,r,btodir, btoblas)
+                 btodir, u,r, btoblas='./bin/btoblas'):
+        BTO_Server.__init__(self, btodir, u,r,btoblas)
         ForkingTCPServer.__init__(self,server_address, RequestHandlerClass)
         
     def finish_request(self, request, client_address):
@@ -33,8 +33,9 @@ class LhServer(ForkingTCPServer, BTO_Server):
 
 HOST = 'localhost'
 PORT = 9999
-USER = 'dljohnso'
+USER = ['dljohnso']
 req_id = strftime('%H-%M-%S',gmtime())
+BTOdir = '/home/david/work/current/current/lighthouse-taxonomy/src/BTOServer/bto'
 
-svr = LhServer((HOST, PORT), LhRequestHandler,[USER],req_id)
+svr = LhServer((HOST, PORT), LhRequestHandler,BTOdir, USER ,req_id)
 svr.serve_forever()
