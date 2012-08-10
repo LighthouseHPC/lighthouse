@@ -271,17 +271,22 @@
 	<td >
 		{% if list.items.2.1 %}
 		{% for routine in list.items.2.1 %}
+		<div id="sel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
+	    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" style="list-style-type: none;"> 
 		<div class="routineName">			
-			<table id="td_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+			<table id="tb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 				<tr>
 					<td class="hiddenStuff">
-						<input type="checkbox" name="routines" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cbd_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'droppedRoutine');"/>
+						<input type="checkbox" name="routines" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 					</td>
-					<td style="width: 56px; padding-left: 1px; font-weight: bold;">
+					<td style="width: 56px; font-weight: bold;">
 						{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 					</td>
 					<td >
 						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
+					</td>
+					<td  class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
 					</td>
 				</tr>
 			</table>	
@@ -309,6 +314,7 @@
 			    </div>
 		    </div>
 	    </div>
+	</div>
     	{% endfor %}	    
 	    {% endif %}		  
 	</td> 

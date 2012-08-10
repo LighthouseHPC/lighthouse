@@ -107,9 +107,16 @@
                     var matrixType = detail.split("_")[2];
 					var storageType = detail.split("_")[3];
 					var idn = detail.split("_")[4];
-					var url = detail.split("_")[5];					
+					var url = detail.split("_")[5];
+
+					//if(routineExists(precision+routineName,allRoutines_session)){
+					//	alert("Routine already selected!");
+					//}
+
+					allRoutines_session.push(precision+routineName);
 					
 					//dojo.cookie(liId, detail);
+					//alert(precision+routineName);
 					
 					/* pass "routineData" to ajax.py for test */
 					//Dajaxice.Driver.test(Dajax.process, {'data': routineData});
@@ -123,18 +130,22 @@
 							matrixType: matrixType,
 							storageType: storageType,
 							idn: idn,
-							url: url,
+							url: url,							
 							checkState: "checked"
 							},
 						load: function(response){
-							//response is a string --> convert into an array
-							selectedRoutineNames = response.split(',');
+							//response is a string --> convert into an array							
+							selectedRoutineNames = response.split(',');							
 							console.log("load response: ", selectedRoutineNames);
+							//alert("Test");
 						    },
 						error: function(){
 						    console.log("error");
 						    }
 					});
+
+					//var el = document.getElementById("sel_"+(precision+routineName).toUpperCase());
+					//el.setAttribute('name','crap');
 				}
 				//dojo.cookie("nameList", cookieToArray.concat(nameObj), {path: '/'});
 				//console.log("cookie after drop: ", dojo.cookie("nameList"));
@@ -269,10 +280,13 @@
 
 	
 
-	
-	
-	
-	
+
+
+
+
+
+
+
 	/*--------------------------------------------------------------------------------- */	
 	/* ------------------------------ For Advanced Search ----------------------------- */
 	/*--------------------------------------------------------------------------------- */
@@ -782,56 +796,34 @@
 
 		for(var i = 0; i < len; i++){
 			routineName = uncheckedRoutines[i];
-			ts = document.getElementById("ts_"+routineName.toUpperCase());
-			td = document.getElementById("td_"+routineName.toUpperCase());
-			if(ts){
-				ts.style.display = "none";	
-			}
-
-			if(selectedRoutineNames.length > 0){
-				if(td){
-					td.style.display = "none";					
-				}
-			}				
+			tb = document.getElementById("tb_"+routineName.toUpperCase());		
+			tb.style.display = "none";
 		}		
 	}
 
 	function checkAll(field, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
 		for (i = 0; i < field.length; i++){
 			field[i].checked = true;
-			if(field[i].id.indexOf("cbs") != -1)
-				checkChanged(field[i].id.replace(/cbs_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');
-			if(field[i].id.indexOf("cbd") != -1)
-				checkChanged(field[i].id.replace(/cbd_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'droppedRoutine');
+			if(field[i].id.indexOf("cb") != -1)
+				checkChanged(field[i].id.replace(/cb_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);			
 		}			
 	}
 
 	function uncheckAll(field){
 		for (i = 0; i < field.length; i++){
 			field[i].checked = false;
-			if(field[i].id.indexOf("cbs") != -1)
-				checkChanged(field[i].id.replace(/cbs_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'selectedRoutine');
-			if(field[i].id.indexOf("cbd") != -1)
-				checkChanged(field[i].id.replace(/cbd_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, 'droppedRoutine');
+			if(field[i].id.indexOf("cb") != -1)
+				checkChanged(field[i].id.replace(/cb_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);			
 		}
 	}
 
-	function checkChanged(routine, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines, mode){
+	function checkChanged(routine, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
 
-		var checkbox;
-		if(mode == "droppedRoutine")
-			checkbox = document.getElementById("cbd_"+routine);
-		else if(mode == "selectedRoutine")
-			checkbox = document.getElementById("cbs_"+routine);
-
-		var serial = -1;
+		var checkbox = document.getElementById("cb_"+routine);
 
 		if(selectedRoutineNames.length > 0){
 			selectedRoutine_session = selectedRoutineNames;
-			serial = selectedRoutine_session.length;
-		}
-		else
-			serial = selectedRoutine_session.length + 1;
+		}		
 
 		var detail = checkbox.value;
 		var precision = detail.split("_")[0];
@@ -839,29 +831,25 @@
         var matrixType = detail.split("_")[2];
 		var storageType = detail.split("_")[3];
 		var idn = detail.split("_")[4];
-		var url = detail.split("_")[5];		
+		var url = detail.split("_")[5];
 		var checked;
-
-		var formatted_name = (precision + routineName).toUpperCase();
-
-		var rdiv = document.getElementById('reorder-pane');
 
 		if(checkbox.checked == 1){
 			checked = "checked";
-			if(rdiv.innerHTML.indexOf("Check") != -1)
-				rdiv.innerHTML = "";
-			rdiv.innerHTML = rdiv.innerHTML + '<div style="padding: 1px;"><table><tr><td>'+serial+'. '+formatted_name+'</td></tr></table></div>';
+			
+			checkbox.setAttribute('checked','checked');
 			if(!routineExists(routine, selectedRoutine_session))
             	selectedRoutine_session.push(routine.toLowerCase());
 
             if(routineExists(routine, uncheckedRoutines)){
                 var index = uncheckedRoutines.indexOf(routine.toLowerCase());
-                uncheckedRoutines.splice(index, 1); 
+                uncheckedRoutines.splice(index, 1);                 
             }            
 		}
 
 		else if(checkbox.checked == 0){
 			checked = "unchecked";
+			checkbox.removeAttribute('checked',0);
 			if(routineExists(routine, selectedRoutine_session)){
                 var index = selectedRoutine_session.indexOf(routine.toLowerCase());
                 selectedRoutine_session.splice(index, 1); 
@@ -917,6 +905,7 @@
 			selectedRoutineNames.length = 0; 
 			selectedRoutine_session.length = 0; 
 			uncheckedRoutines.length = 0;
+			allRoutines_session.length = 0;
 		}			
 	}
 
@@ -940,30 +929,186 @@
 			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
 	}
 
-	function reorder(){
+	function hoverEffect(ele){
+		var x = document.getElementById("ts_"+ele);
+		var col = x.style.background;
+		//alert(col);
+		if(col == "rgb(200, 200, 200)")
+			x.style.background = "";
+		else
+			x.style.background = "rgb(200, 200, 200)";
+	}
+
+	function moveup(id, routines){
 		
-		var rbut = document.getElementById('reorder-button');
-		var rdiv = document.getElementById('reorder-pane');
-		var rcan = document.getElementById('cancel-button');
-		var rhel = document.getElementById('help-button');
+		if(id == "") return routines;
 
-		var action = trim(rbut.innerHTML);
-		if( action == "Reorder"){
-			uncheckAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
-			rbut.innerHTML = "Done";
-			rdiv.innerHTML = '<div style="padding-left: 1px;"><table><tr><td>'+'Check routines from left in order.'+'</td></tr></table></div>';
-			rdiv.style.visibility = "visible";
-			rcan.style.visibility = "visible";
-			rhel.style.visibility = "visible";
+		//alert(routines.join());
+		var thisRoutine = document.getElementById("sel_"+id.toUpperCase());
+		var prev_routine = "";
+		var prev_routine_index = -1;
+		var this_routine_index = -1;
+
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;
+				if(i > 0){
+					prev_routine = routines[i-1];
+					prev_routine_index = i-1;
+				}				
+			}
+		}		
+		
+		if(prev_routine != ""){
+			var prevRoutine = document.getElementById("sel_"+prev_routine.toUpperCase());
+
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = prevRoutine.innerHTML;
+			prevRoutine.innerHTML = temp;
+
+			temp = thisRoutine.id;
+			thisRoutine.id = prevRoutine.id;
+			prevRoutine.id = temp;
+
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[prev_routine_index];
+			routines[prev_routine_index] = temp;
 		}
-		if( action == "Done"){
-			rbut.innerHTML = "Reorder";
-			rdiv.innerHTML = "";
-			rdiv.style.visibility = "hidden";
-			rcan.style.visibility = "hidden";
-			rhel.style.visibility = "hidden";
+		
+		return routines;
+	}
+
+	function movedown(id, routines){
+
+		if(id == "") return routines;
+
+		var thisRoutine = document.getElementById("sel_"+id);
+		var next_routine = "";
+		var this_routine_index = -1;
+		var next_routine_index = -1;
+
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;				
+				if(i < (routines.length - 1)){
+					next_routine = routines[i+1];
+					next_routine_index = i+1;
+				}
+			}
+		}		
+		
+		if(next_routine != ""){
+			var nextRoutine = document.getElementById("sel_"+next_routine.toUpperCase());
+
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = nextRoutine.innerHTML;
+			nextRoutine.innerHTML = temp;
+
+			temp = thisRoutine.id;
+			thisRoutine.id = nextRoutine.id;
+			nextRoutine.id = temp;
+
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[next_routine_index];
+			routines[next_routine_index] = temp;
+		}		
+
+		return routines;
+	}
+
+	function selectRoutine(selectedRoutine, id){
+
+		if(selectedRoutine != ''){
+			if(selectedRoutine != id){
+				if(document.getElementById("tb_"+selectedRoutine))
+					document.getElementById("tb_"+selectedRoutine).style.background = "";				
+			}
 		}
 
+		var elem = document.getElementById("tb_"+id);
+		
+		if(elem.style.background == "rgb(170, 170, 170)"){
+			elem.style.background = "";
+			document.getElementById("movebuttons").style.display = "none";
+			return "";
+		}
+		else{
+			elem.style.background = "rgb(170, 170, 170)";
+			document.getElementById("movebuttons").style.display = "block";
+			return id;
+		}
+	}
+
+	function closeOrderingPanel(id, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+		if(id != ''){
+			if(document.getElementById("tb_"+id))
+				document.getElementById("tb_"+id).style.background = "";				
+		}
+		document.getElementById("movebuttons").style.display = "none";
+
+		if(selectedRoutineNames.length > 0)
+			selectedRoutine_session = selectedRoutineNames;
+
+		selectedRoutine_session.length = 0;
+		var j = 0;
+		for(var i = 0; i < allRoutines_session.length; i++){
+			if(!routineExists(allRoutines_session[i],uncheckedRoutines)){
+				selectedRoutine_session[j] = allRoutines_session[i];	
+				j++;
+			}
+		}
+
+		dojo.xhrPost( {
+			url: "/search/clear_session/",
+			content: {clear: "all"},
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+
+		for(var i = 0; i < allRoutines_session.length; i++){
+			routineName = allRoutines_session[i];
+			
+			tb = document.getElementById("tb_"+routineName.toUpperCase());
+
+			var checkbox = document.getElementById("cb_"+routineName.toUpperCase());			
+
+			var detail = checkbox.value;
+			var precision = detail.split("_")[0];
+	        var routineName = detail.split("_")[1];
+	        var matrixType = detail.split("_")[2];
+			var storageType = detail.split("_")[3];
+			var idn = detail.split("_")[4];
+			var url = detail.split("_")[5];
+			var checked = "checked";
+
+			if(checkbox.checked == 0)
+				checked = "unchecked";
+
+			dojo.xhrPost( {
+			url: "/search/update_session/",
+			content: {
+				precision: precision,
+				routineName: routineName,
+				matrixType: matrixType,
+				storageType: storageType,
+				idn: idn,
+				url: url,
+				checkState: checked
+				},
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+			});
+		}
+
+		return selectedRoutine_session;
 	}
 
 	/*--------------------------------------------------------------------------------- */	
@@ -983,6 +1128,5 @@
 		if(content.length > 0)			
 			window.location = '/search/download/';
 	}
-
 
 </script>

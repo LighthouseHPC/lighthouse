@@ -46,10 +46,6 @@ def combine_Q(aList):
 		query &= value
 	return query	
 
-
-
-
-
 ###---------------- Ajax post to update request.session['selectedRoutines']------------------###
 @csrf_exempt
 def update_session(request):
@@ -62,7 +58,7 @@ def update_session(request):
 			 "storageType": request.POST.get('storageType'),
 			 "id": request.POST.get('idn'),
 			 "url": request.POST.get('url'),
-			 "serial": request.POST.get('serial'),
+			 "serialNo": 0,
 			 "checkState": request.POST.get('checkState')}
 			]
 		
@@ -78,7 +74,7 @@ def update_session(request):
 			counter += 1
 
 		if match == -1:
-			#selectedRoutineList[0]['serial'] = getSerial(request, selectedRoutineList[0]['thePrecision'], selectedRoutineList[0]['routineName'])
+			selectedRoutineList[0]['serialNo'] = getSerialNo(request, selectedRoutineList[0]['thePrecision'], selectedRoutineList[0]['routineName'])
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
 		request.session.modified = True
@@ -92,22 +88,41 @@ def update_session(request):
 		return HttpResponse('only AJAX requests are allowed!')
 	
 
-def getSerial(request, precision, routineName):
+def getSerialNo(request, precision, routineName):
 
 	i = 0
 	for item in request.session['selectedRoutines']:	
 		i += 1
 		if item['thePrecision'] == precision and item['routineName'] == routineName:
-			return request.session['selectedRoutines'][i]['serial']
+			return request.session['selectedRoutines'][i]['serialNo']
 
-	serial = 1;
+	serialNo = len(request.session['selectedRoutines']) + 1		
+	return serialNo
+
+def filterSelectedRoutines(request):
+
+	request.session['notSelectedRoutines'] = request.session['Routines']
+
+	for item in request.session['selectedRoutines']:
+		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
+	
+	request.session.modified = True
+
+def filterSelectedRoutines2(request, routines):
+
+	indices = []
 	i = 0
-	for item in request.session['selectedRoutines']:	
+	for item1 in routines:		
+		for item2 in request.session['selectedRoutines']:
+			if item2['thePrecision'] == item1.thePrecision and item2['routineName'] == item1.routineName:
+				indices.append(i)
 		i += 1
-		if request.session['selectedRoutines'][i]['checkState'] == 'checked':
-			serial += 1
 
-	return serial
+	indices.reverse()
+	for item in indices:
+		routines.pop(item)
+	
+	return routines
 
 ###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
 @csrf_exempt
@@ -151,10 +166,6 @@ def search_forms(request):
   	'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
 	return render_to_response('search/index.html', context_instance=RequestContext(request, context))
 
-
-
-
-
 #Question_problem answered!
 #Question_equation: What form of the linear system do you want to solve? 
 #or 
@@ -180,7 +191,8 @@ def guidedSearch_problem(request):
                 for item in selected:
                         request.session['queries'].append(Q(notes__icontains=item.split()[2]))
 
-                request.session['Routines'] = get_model(appName,modelName).objects.filter(combine_Q(request.session['queries']))        
+                request.session['Routines'] = get_model(appName,modelName).objects.filter(combine_Q(request.session['queries']))
+                filterSelectedRoutines(request)
 
                 if appName == 'Driver' or appName == 'Combine':
                         form = EquationForm()
@@ -192,14 +204,12 @@ def guidedSearch_problem(request):
                         request.session['Question_equation']=[0, 0]
                         request.session['Question_factor']=[0, 0]       
 
-                context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
+                context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
                 return render_to_response('search/problem.html', context_instance=RequestContext(request, context))        
 
         else:
                 context = {'form': ProblemForm(), 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
                 return render_to_response('search/index.html', context_instance=RequestContext(request, context))
-
-
 
 
 
@@ -214,7 +224,6 @@ def guidedSearch_equation(request):
 			val_1 = 'A<sup>T</sup>X = B'
 			complex_initial_value = 'n'
 			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='trans').filter(Q(thePrecision='s')|Q(thePrecision='d'))
-
 
 		elif form_Equa.cleaned_data['question_equa'] == unicode('Hermitian_trans'):
 			val_0 = 'Hermitian_trans'
@@ -233,10 +242,10 @@ def guidedSearch_equation(request):
 		request.session['Question_equation'] = [val_0, val_1] 
 		request.session['Complex_initial'] = complex_initial_value
 		form = FactorForm()
-		
+		filterSelectedRoutines(request)
 
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': val_1, 'form': form,
-			   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}					
+			   'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}					
 		return render_to_response('search/equation.html', context_instance=RequestContext(request, context))
 
  			
@@ -275,9 +284,10 @@ def guidedSearch_factor(request):
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
 
 		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
+		filterSelectedRoutines(request)
 
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
-			   'query_fact': request.session['Question_factor'][1], 'form': form, 'results': request.session['Routines'],
+			   'query_fact': request.session['Question_factor'][1], 'form': form, 'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'],
 			   'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}					
 		return render_to_response('search/factor.html', context_instance=RequestContext(request, context))
 
@@ -302,18 +312,17 @@ def guidedSearch_complex(request):
 			val_0 = 'y'
 			val_1 = 'yes'
 			request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['c', 'z']})
-
-			
 		else:
 			val_0 = 'n'
 			val_1 = 'no'
 			request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['s', 'd']})
 			
 		request.session['Question_complex'] = [val_0, val_1] 
-		form = MatrixTypeForm(request)	
+		form = MatrixTypeForm(request)
+		filterSelectedRoutines(request)	
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
 			   'query_fact': request.session['Question_factor'][1], 'query_comp': val_1, 'form': form,
-			   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'],'codeTemplate': getCodeTempate(request.session.session_key) }					
+			   'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'], 'selectedRoutines': request.session['selectedRoutines'],'codeTemplate': getCodeTempate(request.session.session_key) }					
 		
 		return render_to_response('search/complex.html', context_instance=RequestContext(request, context))
 
@@ -324,7 +333,6 @@ def guidedSearch_complex(request):
 			action = '/search/problem/complex/'
 			context = {'query_prob': request.session['Question_problem'], 'form': form, 'Action': action, 'results': request.session['Routines']}		
 			return render_to_response('search/problem.html', context_instance=RequestContext(request, context))
-	
 		else:
 			context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
 				   'query_fact': request.session['Question_factor'][1],'form': form, 'results': request.session['Routines'],
@@ -346,9 +354,10 @@ def guidedSearch_matrixtype(request):
 				request.session['Routines'] = request.session['Routines'].filter(matrixType = val[0])
 				request.session['Question_matrixtype'] = [val[0], val[1]]
 				form = StorageForm(request)
+				filterSelectedRoutines(request)
 				context = {'query_prob': request.session['Question_problem'],  'query_equa': request.session['Question_equation'][1],
 					   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
-					   'query_type': val[1], 'form': form, 'results': request.session['Routines'],
+					   'query_type': val[1], 'form': form, 'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'],
 					   'selectedRoutines': request.session['selectedRoutines'],'codeTemplate': getCodeTempate(request.session.session_key) }
 				return render_to_response('search/matrixtype.html', context_instance=RequestContext(request, context)) 
 
@@ -376,10 +385,11 @@ def guidedSearch_storage(request):
 				request.session['Routines'] = request.session['Routines'].filter(storageType = val[0])
 				request.session['Question_storagetype'] = [val[0], val[1]]
 				form = PrecisionForm()
+				filterSelectedRoutines(request)
 				context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
 					   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
 					   'query_type': request.session['Question_matrixtype'][1], 'query_stor': val[1], 'form': form,
-					   'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
+					   'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
 				return render_to_response('search/storagetype.html', context_instance=RequestContext(request, context)) 
 
 	
@@ -418,10 +428,11 @@ def guidedSearch_precision(request):
 			if request.session.get('Question_complex')[0] == 'n':
 				request.session['Routines'] = request.session['Routines'].filter(thePrecision = 's')	
 
+		filterSelectedRoutines(request)
 		context = {'query_prob': request.session['Question_problem'], 'query_equa': request.session['Question_equation'][1],
 			   'query_fact': request.session['Question_factor'][1], 'query_comp': request.session['Question_complex'][1],
 			   'query_type': request.session['Question_matrixtype'][1], 'query_stor': request.session['Question_storagetype'][1],
-			   'query_prec': val_1, 'results': request.session['Routines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
+			   'query_prec': val_1, 'results': request.session['Routines'], 'notSelectedRoutines': request.session['notSelectedRoutines'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
 		return render_to_response('search/precision.html', context_instance=RequestContext(request, context)) 		
 
 
@@ -570,7 +581,7 @@ def advancedResult(request):
 							for storage in selected_StorageType:
 								for function in selected_Function:
 									for equation in selected_Equation:
-										if equation=='solve':
+										if equation == 'solve':
 											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
 																     'Storage type': storage, 'Function': form_empty.find_function(function),
 																     'Equation': form_empty.find_equation(equation), 'Description': form.Description,
@@ -657,7 +668,8 @@ def keywordResult(request):
 			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(query)
 			
 		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
-		context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'results': routines, 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key) }
+		notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_simple, routines_le_expert, routines_le_computational)))
+		context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'keywords': keywords, 'results': routines, 'notSelectedRoutines': notSelectedRoutines, 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key) }
 		return render_to_response('search/keywordResult.html', {'KeywordTab': True}, context_instance=RequestContext(request, context))
 	else:
 		HttpResponse("Error!")
