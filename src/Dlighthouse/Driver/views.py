@@ -549,6 +549,7 @@ def advancedResult(request):
 		request.session[item] = []
 
 	request.session['Results'] = {}
+	routines = []
 
 	for model in request.session['App_Model']:
 		form_empty = str_to_class(model[1]+'Form')()
@@ -561,7 +562,7 @@ def advancedResult(request):
 		request.session['MatrixTypeGETS'].append(form[model[1]+"MatrixType"])
 		request.session['StorageTypeGETS'].append(form[model[1]+"StorageType"])
 		request.session['PrecisionGETS'].append(form[model[1]+"Precision"])
-		request.session['Results'][model[1]] = []	
+		request.session['Results'][model[1]] = []
 
 
 #----- Collect the checked data -----#
@@ -582,30 +583,72 @@ def advancedResult(request):
 								for function in selected_Function:
 									for equation in selected_Equation:
 										if equation == 'solve':
-											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
-																     'Storage type': storage, 'Function': form_empty.find_function(function),
-																     'Equation': form_empty.find_equation(equation), 'Description': form.Description,
-																     'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})
+											routine = LinearEquation_expert.objects.filter(
+												thePrecision=whatPrecision(comp, precision),
+												matrixType=matrix,
+												storageType=storage,
+												notes__icontains=function
+											)
+											request.session['Results'][model[1]].append({
+												'Complex number': comp, 
+												'Precision': precision, 
+												'Matrix type': matrix,
+												'Storage type': storage, 
+												'Function': form_empty.find_function(function),
+											    'Equation': form_empty.find_equation(equation), 
+											    'Description': form.Description,
+												'Routine': routine
+											})
+											routines.append(list(routine))
+
  										else: 
-											request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
-																     'Storage type': storage, 'Function': form_empty.find_function(function),
-																     'Equation': form_empty.find_equation(equation), 'Description': form.Description,
-																     'Routine': LinearEquation_expert.objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains='trans').filter(notes__icontains=function)})
+ 											routine = LinearEquation_expert.objects.filter(
+ 												thePrecision=whatPrecision(comp, precision), 
+ 												matrixType=matrix, storageType=storage, 
+ 												notes__icontains='trans').filter(notes__icontains=function
+ 											)
+											request.session['Results'][model[1]].append({
+												'Complex number': comp, 
+												'Precision': precision, 
+												'Matrix type': matrix,
+											    'Storage type': storage, 
+											    'Function': form_empty.find_function(function),
+												'Equation': form_empty.find_equation(equation), 
+												'Description': form.Description,
+										     	'Routine': routine
+										    })
+											routines.append(list(routine))
 
 			else:
 				for comp in selected_Complex:
 					for precision in selected_Precision:
 						for matrix in selected_MatrixType:
 							for storage in selected_StorageType:
-								for function in selected_Function:									
-									request.session['Results'][model[1]].append({'Complex number': comp, 'Precision': precision, 'Matrix type': matrix,
-														     'Storage type': storage, 'Function': form_empty.find(function),
-														     'Equation': 0, 'Description': form.Description,
-														     'Routine': get_model(*model).objects.filter(thePrecision=whatPrecision(comp, precision), matrixType=matrix, storageType=storage, notes__icontains=function)})											
+								for function in selected_Function:
+									routine = get_model(*model).objects.filter(
+										thePrecision=whatPrecision(comp, precision), 
+										matrixType=matrix, 
+										storageType=storage, 
+										notes__icontains=function
+									)
+
+									request.session['Results'][model[1]].append({
+										'Complex number': comp, 
+										'Precision': precision, 
+										'Matrix type': matrix,
+									    'Storage type': storage, 
+									    'Function': form_empty.find(function),
+								     	'Equation': 0, 
+								     	'Description': form.Description,
+										'Routine': routine
+									})
+									routines.append(list(routine))
 		
+	alreadySelectedRoutines = filterSelectedRoutines3(request, routines)
+	#L = []
 	context = {'Question_advanced': request.session['Question_advanced'], 'GETS': request.session['GETS'], 'FunctionGETS': request.session['FunctionGETS'],
 		   'ComplexGETS': request.session['ComplexGETS'], 'MatrixTypeGETS':request.session['MatrixTypeGETS'], 'StorageTypeGETS':request.session['StorageTypeGETS'],
-		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}	
+		   'PrecisionGETS': request.session['PrecisionGETS'], 'EquationGETS': request.session['EquationGETS'], 'selected_Equation': selected_Equation, 'Results': request.session['Results'], 'alreadySelectedRoutines': alreadySelectedRoutines, 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}	
 
 	return render_to_response('search/advancedResult.html', {'AdvancedTab': True}, context_instance=RequestContext(request, context))
 
@@ -616,15 +659,17 @@ def advancedResult(request):
 #    		return render_to_response('search/advanced_search.html', context_instance=RequestContext(request, context))
 
 
+def filterSelectedRoutines3(request, routines):
 
+	alreadySelectedRoutines = []
 
+	for item1 in request.session['selectedRoutines']:
+		for lst in routines:
+			for item2 in lst:
+				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
+					alreadySelectedRoutines.append(item2)
 
-
-
-
-
-
-
+	return alreadySelectedRoutines
 
 ###---------------- Keyword Search ------------------###
 

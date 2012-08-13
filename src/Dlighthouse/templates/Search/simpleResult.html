@@ -26,10 +26,7 @@
 	<div class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
 		<div class="routineName">
 			<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-				<tr>
-					<!--
-					<td id="sn_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" class="hiddenStuff" style="font-weight: bold;"></td>
-					-->
+				<tr>					
 					<td class="hiddenStuff">
 						<input type="checkbox" name="routines" checked="checked" value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 					</td>

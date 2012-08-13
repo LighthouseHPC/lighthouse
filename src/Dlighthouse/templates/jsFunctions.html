@@ -920,9 +920,16 @@
 	}
 
 	function generateMenuChanged(){
+
 		var menu = document.getElementById('generateMenu');
 		var selected = menu.options[menu.selectedIndex].text;
 		menu.options[0].selected = true;
+
+		if(document.getElementById("movebuttons").style.display == "block"){
+			alert("Click 'Done' if you are done reordering the routines.");
+			return;
+		}
+
 		if(selected == "C")
 			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
 		else if(selected == "FORTRAN")
