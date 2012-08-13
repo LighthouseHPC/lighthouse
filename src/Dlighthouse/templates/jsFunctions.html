@@ -1136,4 +1136,17 @@
 			window.location = '/search/download/';
 	}
 
+	function loadCodeTemplate(){
+		dojo.xhrPost( {
+			url: "/search/load_template/",
+			load: function(response){
+				document.getElementById('codeFrame').innerHTML = response.replace(/\n/g,'<br>');
+				console.log("load response: ", response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+	}
+
 </script>

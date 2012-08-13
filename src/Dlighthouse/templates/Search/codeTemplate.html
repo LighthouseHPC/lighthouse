@@ -14,6 +14,15 @@
     {% if codeTemplate %} {{ codeTemplate }} {% endif %}
 </div>
 
+<div class="dijitHidden">
+    <div id="codeTemp" dojoType="dijit.Dialog" title="Code Template">
+        <div align="center">
+            <div id="codeFrame" align="left" style="background: #eee; width: 640px; height: 400px; font-family: Courier;"></div><br/>
+            <button onClick="dijit.byId('codeTemp').hide()">Close</button>
+        </div>
+    </div>
+</div>  
+
 <div id="button-div">
     <table style="width:100%; margin: 0px auto;">
         <tr style="width:100%;">
@@ -22,11 +31,11 @@
                 </button>
             </td>
             <td style="text-align:right;">
-                <button type="button" id="clearTemplate" title="Clear Template" style="width: 55px;" onmouseover="" onmouseout="" onclick="alert('Coming soon');">Show
+                <button type="button" id="showTemplate" title="Show Template" style="width: 55px;" onmouseover="" onmouseout="" onclick="loadCodeTemplate(); dijit.byId('codeTemp').show();">Show
                 </button>
             </td>
             <td style="text-align:right; width: 80px;">
-                <button type="button" id="clearTemplate" title="Clear Template" style="width: 75px;" onmouseover="" onmouseout="" onclick="return checkCodeTemplate();">Download
+                <button type="button" id="downloadTemplate" title="Download Template" style="width: 75px;" onmouseover="" onmouseout="" onclick="return checkCodeTemplate();">Download
                 </button>
             </td>
         </tr>

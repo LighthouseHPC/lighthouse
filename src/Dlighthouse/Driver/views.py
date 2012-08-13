@@ -58,7 +58,6 @@ def update_session(request):
 			 "storageType": request.POST.get('storageType'),
 			 "id": request.POST.get('idn'),
 			 "url": request.POST.get('url'),
-			 "serialNo": 0,
 			 "checkState": request.POST.get('checkState')}
 			]
 		
@@ -74,7 +73,7 @@ def update_session(request):
 			counter += 1
 
 		if match == -1:
-			selectedRoutineList[0]['serialNo'] = getSerialNo(request, selectedRoutineList[0]['thePrecision'], selectedRoutineList[0]['routineName'])
+			#selectedRoutineList[0]['serialNo'] = getSerialNo(request, selectedRoutineList[0]['thePrecision'], selectedRoutineList[0]['routineName'])
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
 		request.session.modified = True
@@ -779,4 +778,7 @@ def downloadTemplate(request):
 	response['Content-Disposition'] = 'attachment; filename=%s' % filename
 	return response
 
-	return response
+@csrf_exempt
+def load_template(request):
+	template = getCodeTempate(request.session.session_key);
+	return HttpResponse(template)
