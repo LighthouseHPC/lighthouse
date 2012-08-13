@@ -1149,4 +1149,31 @@
 		});
 	}
 
+	/*--------------------------------------------------------------------------------- */	
+	/* --------------------------------- For Script Area ------------------------------ */
+	/*--------------------------------------------------------------------------------- */
+
+	function runScript(){
+		var scriptCode = document.getElementById('script_input').value;
+		dojo.xhrPost( {
+			url: "/search/script/",
+			content: { 
+				scriptCode: scriptCode,
+			},
+			load: function(response){
+				document.getElementById('script_output').value = response;
+				console.log("load response: ", response);
+			},
+			error: function(){
+			    console.log("error");
+			}
+		});
+	}
+
+	function clearScript(){
+		document.getElementById('script_input').value = "";
+		document.getElementById('script_output').value = "";
+	}
+
+
 </script>

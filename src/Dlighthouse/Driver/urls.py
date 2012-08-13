@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     
     (r'^update_session/$', update_session),
     (r'^clear_session/$', clear_session),    
-    (r'^load_template/$', load_template),    
+    (r'^load_template/$', load_template),
     
     (r'^keyword/$', keywordResult),
     (r'^download/$', downloadTemplate),

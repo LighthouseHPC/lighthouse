@@ -722,24 +722,16 @@ def keywordResult(request):
 
 
 
-
-
 ###---------------- Script ------------------###
 
+@csrf_exempt
 def runScript(request):
-  if request.method == 'POST':
-    form = scriptForm(request.POST)
-    if form.is_valid():    
-      request.session['userScript'] = form.cleaned_data['script']
-      #request.session['generatedCodeTemplate'] = "User input: " + request.session['userScript']
-      bto = BTOGenerator()
-      request.session['generatedCodeTemplate'] = bto.generateCode(str(request.session['userScript']))
-      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptcode': request.session['userScript'], 'scriptForm': scriptForm(initial={'script': request.session['userScript']}), 'generatedCodeTemplate': request.session['generatedCodeTemplate'], 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}        
-      return render_to_response('search/index.html', {'ScriptTab': True}, context_instance=RequestContext(request, context))
+	code = request.POST.get('scriptCode')
+	bto = BTOGenerator()
+	output = bto.generateCode(str(code))
+	return HttpResponse(output)
 
-    else:
-      context = {'form': ProblemForm(), 'formAdvanced': AdvancedForm(), 'scriptForm': scriptForm(), 'selectedRoutines': request.session['selectedRoutines'], 'codeTemplate': getCodeTempate(request.session.session_key)}
-      return render_to_response('search/index.html', {'ScriptTab': True}, context_instance=RequestContext(request, context))
+
 
 
 ###---------------- Code Template ------------------###
