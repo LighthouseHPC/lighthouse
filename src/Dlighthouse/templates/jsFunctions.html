@@ -1158,7 +1158,7 @@
 		dojo.xhrPost( {
 			url: "/search/script/",
 			content: { 
-				scriptCode: scriptCode,
+				scriptCode: scriptCode.trim(),
 			},
 			load: function(response){
 				document.getElementById('script_output').value = response;
@@ -1171,6 +1171,20 @@
 	}
 
 	function clearScript(){
+
+		dojo.xhrPost( {
+			url: "/search/script/",
+			content: { 
+				scriptCode: "",
+			},
+			load: function(response){				
+				console.log("load response: ", response);
+			},
+			error: function(){
+			    console.log("error");
+			}
+		});
+
 		document.getElementById('script_input').value = "";
 		document.getElementById('script_output').value = "";
 	}
