@@ -6,7 +6,7 @@ def file_name(precision, name, i):
     return str(precision+name+"_"+i+".txt") 
 
 ### url.csv stores precision, routine name, and url.
-### open url.csv
+### open url.csv (must be windows comma separated format)
 reader = csv.reader(open("url.csv"))
 
 for idn, precision, routine, url in reader:
