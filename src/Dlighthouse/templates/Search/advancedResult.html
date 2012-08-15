@@ -280,7 +280,7 @@
 										<td class="hiddenStuff">
 											<input type="checkbox" name="routines" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 										</td>
-										<td style="width: 56px; font-weight: bold;">
+										<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
 											{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 										</td>
 										<td >

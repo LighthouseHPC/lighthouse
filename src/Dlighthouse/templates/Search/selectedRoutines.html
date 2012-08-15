@@ -59,14 +59,14 @@
 										<td>
 											<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %} value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 										</td>
-										<td style="width: 56px; font-weight: bold;">
+										<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
 											{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 										</td>										
 										<td>						
-											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
+											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
 										</td>
 										<td>						
-											<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+											<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
 										</td>
 										<!--
 										<td>						
