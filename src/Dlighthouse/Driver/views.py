@@ -226,8 +226,8 @@ def guidedSearch_problem(request):
                 	'results': request.session['Routines'], 
                 	'notSelectedRoutines': request.session['notSelectedRoutines'], 
                 	'selectedRoutines': request.session['selectedRoutines'],
-                	'scriptCode': request.session['userScript'], 
-  					'scriptOutput': request.session['scriptOutput'],
+                	'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
@@ -240,7 +240,7 @@ def guidedSearch_problem(request):
                 	'form': ProblemForm(), 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'], 
-  					'scriptOutput': request.session['scriptOutput'],
+  			'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
@@ -272,7 +272,7 @@ def guidedSearch_equation(request):
 			val_0 = 'original'
 			val_1 = 'AX = B'
 			complex_initial_value = 'None'
-			if 'Solve a linear equation only' in request.session['Question_problem'][0]:
+			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
 				request.session['Routines'] = get_model('Combine', 'LinearEquation_only').objects.filter(Q(notes__icontains='simple')|Q(notes__icontains='computational'))
 				
 
@@ -283,7 +283,8 @@ def guidedSearch_equation(request):
 
 		context = {
 			'query_prob': request.session['Question_problem'], 
-			'query_equa': val_1, 'form': form,
+			'query_equa': val_1,
+			'form': form,
 			'results': request.session['Routines'], 
 			'notSelectedRoutines': request.session['notSelectedRoutines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
@@ -330,17 +331,21 @@ def guidedSearch_factor(request):
 				
 		if form_Fact.cleaned_data['question_fact'] == unicode('y'):
 			request.session['FACT'] = 'Y'
-			if 'Solve a linear equation only' in request.session['Question_problem'][0]:
+			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='computational')
+				test = 'Hello1'
 			else:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
+				test = 'Hello2'
 
 		else:
 			request.session['FACT'] = 'N'
-			if 'Solve a linear equation only' in request.session['Question_problem'][0] and request.session['Question_equation'][0] == 'original':
-				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple driver;') 
+			if 'Solve a system of linear equations only' in request.session['Question_problem'][0] and request.session['Question_equation'][0] == 'original':
+				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple')
+				test = 'Hello3'
 			else:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
+				test = 'Hello4'
 
 		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
 		filterSelectedRoutines(request)
@@ -355,7 +360,8 @@ def guidedSearch_factor(request):
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'], 
   			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key)
+			'codeTemplate': getCodeTempate(request.session.session_key),
+			'test': test
 		}					
 		return render_to_response(
 			'search/factor.html', 
