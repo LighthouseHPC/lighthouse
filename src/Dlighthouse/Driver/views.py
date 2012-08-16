@@ -310,10 +310,10 @@ def guidedSearch_equation(request):
   			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
-    	return render_to_response(
-    		'search/problem.html', 
-    		context_instance=RequestContext(request, context)
-    	)
+		return render_to_response(
+			'search/problem.html', 
+			context_instance=RequestContext(request, context)
+		)
 
 
 
@@ -338,7 +338,7 @@ def guidedSearch_factor(request):
 		else:
 			request.session['FACT'] = 'N'
 			if 'Solve a linear equation only' in request.session['Question_problem'][0] and request.session['Question_equation'][0] == 'original':
-				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple') 
+				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple driver;') 
 			else:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
 
@@ -375,10 +375,10 @@ def guidedSearch_factor(request):
   			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
-        return render_to_response(
-        	'search/equation.html', 
-        	context_instance=RequestContext(request, context)
-        )
+		return render_to_response(
+			'search/equation.html', 
+			context_instance=RequestContext(request, context)
+		)
 
 
 
