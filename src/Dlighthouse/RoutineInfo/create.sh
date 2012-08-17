@@ -8,14 +8,14 @@ PATH=/Applications/djangostack-1.3.1-4/mysql/bin:/Applications/djangostack-1.3.1
 
 export PATH
 
-echo "Running 'routinePages.py' to generate the .txt files..."
-python routinePages.py
+echo "Running routinePages.py to generate the .txt files..."
+python docGene/routinePages.py
 
 echo ".txt files are created!"
 
 echo "Running 'routineList.py' to create routine_info.csv for the database..."
 
-python routineList.py
+python docGene/routineList.py
 
-echo "routine_info.csv is created!"
+echo "routine_info.csv is created in docGene/!"
 echo "now you can run load_data.py."
