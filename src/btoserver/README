@@ -1,0 +1,11 @@
+Here are some notes about the BTO interface for further development:
+
+1. To use the BTO interface you have to start bto_server.py in this directory either locally or on a remote computer separately from starting Lighthouse. 
+2. For further development of the BTO server, modify bto_server.py or BTO.py in this directory.
+3. I was able to compile the latest version of BTO but unable to upload it to the Google repository (I kept getting a Bad Gateway error when doing hg push).You’ll have to get the latest version of bto from lambda and put it in the BTOServer directory for bto_server.py to work. In other words, copy the bto directory from bto-trunk to this directory and then run bto/install.sh.
+4. BTO syntax has changed so the Matrix Parser needs to be updated.
+5. BTO takes about 5 minutes for a moderate size input.
+6. bto creates a large number of *.dot files in src/BTOServer/bto for each run and I was unable to find a way to suppress the output.
+7. The file templates.py in src/Dlighthouse/Codegen is the client code for BTO however it uses BTO.py and Base.py in src/Dlighthouse/BTOClient. These two files should be the same as those in src/BTOServer. So if you make changes in one location then be sure to update the other. Or find a way to only reference one copy.
+
+
