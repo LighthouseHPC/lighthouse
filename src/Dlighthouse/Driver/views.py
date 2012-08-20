@@ -333,19 +333,15 @@ def guidedSearch_factor(request):
 			request.session['FACT'] = 'Y'
 			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='computational')
-				test = 'Hello1'
 			else:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
-				test = 'Hello2'
 
 		else:
 			request.session['FACT'] = 'N'
 			if 'Solve a system of linear equations only' in request.session['Question_problem'][0] and request.session['Question_equation'][0] == 'original':
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple')
-				test = 'Hello3'
 			else:
 				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
-				test = 'Hello4'
 
 		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
 		filterSelectedRoutines(request)
