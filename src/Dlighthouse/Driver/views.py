@@ -357,7 +357,6 @@ def guidedSearch_factor(request):
 			'scriptCode': request.session['userScript'], 
   			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key),
-			'test': test
 		}					
 		return render_to_response(
 			'search/factor.html', 
