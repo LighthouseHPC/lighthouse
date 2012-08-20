@@ -11,7 +11,7 @@ cursor = myDB.cursor()
 ##### (2) MySQL storage engine must be set = MyISAM (old), not InnoDB (default) #####
 ##### -------------------------------------------------------------------------#####
 
-nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '~/Documents/Lighthouse/Dlighthouse/Combine/le_only.csv' INTO \
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_solve_all.csv' INTO \
                                      TABLE Combine_linearequation_only FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 
 
