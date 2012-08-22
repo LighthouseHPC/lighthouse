@@ -16,12 +16,12 @@ def findRoutines(fileName):
         for line in f:
             line = line[3:]
             #print line
-            if line.startswith("Arguments"):
+            if line.startswith("Authors:"):
                 break
             else:
                 if line.startswith("\par Purpose:"):
                     flag = 0
-                if line.startswith("Arguments"):
+                if line.startswith("Authors:"):
                     flag = 1
                 if not flag:
                     index1 = line.find("refinement")
