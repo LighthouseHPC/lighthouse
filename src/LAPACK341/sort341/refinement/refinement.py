@@ -3,7 +3,8 @@ from time import time
 import os
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0,parentdir) 
-import summary.summary
+
+print parentdir
 
 def findRoutines(fileName):
     for ln in fileName:
@@ -39,15 +40,15 @@ print "------------- Find 'refinement' routines in v3.4.1 --------------"
 ###------------ find routines that compute the refinement of a matrix in the new version
 ###------------ and write them into routines/refinement_341.txt
 ## find the routines that HAVE the keywords:
-f_solve_341_single = open(parentdir+'/sort341/routines/solve_341_single.txt')
-f_solve_341_double = open(parentdir+'/sort341/routines/solve_341_double.txt')
-f_solve_341_complex = open(parentdir+'/sort341/routines/solve_341_complex.txt')
-f_solve_341_complex16 = open(parentdir+'/sort341/routines/solve_341_complex16.txt')
+f_solve_341_single = open(parentdir+'/routines/solve_341_single.txt')
+f_solve_341_double = open(parentdir+'/routines/solve_341_double.txt')
+f_solve_341_complex = open(parentdir+'/routines/solve_341_complex.txt')
+f_solve_341_complex16 = open(parentdir+'/routines/solve_341_complex16.txt')
 
-f_computational_341_single = open(parentdir+'/sort341/routines/computational_341_single.txt')
-f_computational_341_double = open(parentdir+'/sort341/routines/computational_341_double.txt')
-f_computational_341_complex = open(parentdir+'/sort341/routines/computational_341_complex.txt')
-f_computational_341_complex16 = open(parentdir+'/sort341/routines/computational_341_complex16.txt')
+f_computational_341_single = open(parentdir+'/routines/computational_341_single.txt')
+f_computational_341_double = open(parentdir+'/routines/computational_341_double.txt')
+f_computational_341_complex = open(parentdir+'/routines/computational_341_complex.txt')
+f_computational_341_complex16 = open(parentdir+'/routines/computational_341_complex16.txt')
 
 f_refinement_341 = open('./routines/refinement_341.txt', 'w')
 f_not_refinement_341 = open('./routines/not_refinement_341.txt', 'w')
