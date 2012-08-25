@@ -13,18 +13,21 @@ for line in f_database:
     
 f_factor_341 = open('./routines/factor_341.txt')
 factor341Routines = []
+factor341Routines_trf = []
+keys = []
 for line in f_factor_341:
     line = line.rstrip('\r\n')
-    last3 = line.split('.')[0][-3:]
-    #print last3
+    routine = line.split('.')[0]
+    factor341Routines.append(routine)
+    last3 = routine[-3:]
+    keys.append(last3)
     if last3 == 'trf':
-        factor341Routines.append(line.split('.')[0])
+        factor341Routines_trf.append(routine)
     else:
         pass
     
 
-missingRoutines = list(set(factor341Routines) - set(databaseRoutines))
-
+missingRoutines = list(set(factor341Routines_trf) - set(databaseRoutines))
 
 f_missing = open('./routines/missingRoutines.txt', 'w')
 
@@ -34,5 +37,22 @@ for routine in missingRoutines:
 
 print "%s computational_factor routines may need to be updated in the database." % len(missingRoutines)
 
+
+### sort the routines in ./routines/factor_341.txt
+f_factor_341_sort = open('./routines/factor_341_sort.txt', 'w')
+keys = set(keys)
+print keys
+
+for element in keys:
+    i = 0
+    for routine in factor341Routines:
+        if element == routine[-3:]:
+            i += 1
+            f_factor_341_sort.write(routine+'\n')
+        
+    f_factor_341_sort.write('-------------------------%s\r\n\n' % i)
+
+
+f_factor_341_sort.close()
 f_factor_341.close()
 f_missing.close()
