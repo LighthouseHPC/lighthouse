@@ -16,7 +16,6 @@ def findRoutines(fileName):
             pass
         elif "con.f" in routineName:        
             routines_condNumber_341.append(routineName)
-            f_condNumber_341.write(routineName)
         else:
             flag = 1
             for line in f:
@@ -61,7 +60,9 @@ findRoutines(f_computational_341_complex16)
 
 
 ## eliminate duplicates
-routines_condNumber_341 = list(set(routines_condNumber_341))
+routines_condNumber_341 = set(routines_condNumber_341)
+
+## write condNumber_341.txt
 for routineName in routines_condNumber_341:
     f_condNumber_341.write(routineName)
     
