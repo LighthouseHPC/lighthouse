@@ -244,27 +244,47 @@
 244,d,tptri,triangular,packed,http://www.netlib.org/lapack/double/dtptri.f,computes the inverse of a matrix,306
 245,c,tptri,triangular,packed,http://www.netlib.org/lapack/complex/ctptri.f,computes the inverse of a matrix,307
 246,z,tptri,triangular,packed,http://www.netlib.org/lapack/complex16/ztptri.f,computes the inverse of a matrix,308
-247,s,sytri2,symmetric,full,http://www.netlib.org/lapack/single/ssytri2.f,computes the inverse of a matrix,337
-248,d,sytri2,symmetric,full,http://www.netlib.org/lapack/double/dsytri2.f,computes the inverse of a matrix,338
-249,c,sytri2,symmetric,full,http://www.netlib.org/lapack/complex/csytri2.f,computes the inverse of a matrix,339
-250,z,sytri2,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2.f,computes the inverse of a matrix,340
-251,s,geequ,general,full,http://www.netlib.org/lapack/single/sgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,309
-252,d,geequ,general,full,http://www.netlib.org/lapack/double/dgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,310
-253,c,geequ,general,full,http://www.netlib.org/lapack/complex/cgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,311
-254,z,geequ,general,full,http://www.netlib.org/lapack/complex16/zgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,312
-255,s,gbequ,general,band,http://www.netlib.org/lapack/single/sgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,313
-256,d,gbequ,general,band,http://www.netlib.org/lapack/double/dgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,314
-257,c,gbequ,general,band,http://www.netlib.org/lapack/complex/cgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,315
-258,z,gbequ,general,band,http://www.netlib.org/lapack/complex16/zgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,316
-259,s,poequ,SPD,full,http://www.netlib.org/lapack/single/spoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),317
-260,d,poequ,SPD,full,http://www.netlib.org/lapack/double/dpoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),318
-261,c,poequ,HPD,full,http://www.netlib.org/lapack/complex/cpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),319
-262,z,poequ,HPD,full,http://www.netlib.org/lapack/complex16/zpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),320
-263,s,pbequ,SPD,band,http://www.netlib.org/lapack/single/spbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),321
-264,d,pbequ,SPD,band,http://www.netlib.org/lapack/double/dpbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),322
-265,c,pbequ,HPD,band,http://www.netlib.org/lapack/complex/cpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),323
-266,z,pbequ,HPD,band,http://www.netlib.org/lapack/complex16/zpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),324
-267,s,ppequ,SPD,packed,http://www.netlib.org/lapack/single/sppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),325
-268,d,ppequ,SPD,packed,http://www.netlib.org/lapack/double/dppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),326
-269,c,ppequ,HPD,packed,http://www.netlib.org/lapack/complex/cppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),327
-270,z,ppequ,HPD,packed,http://www.netlib.org/lapack/complex16/zppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),328
+247,s,pftri,SPD,full,http://www.netlib.org/lapack/single/spftri.f,computes the inverse using the Cholesky factorization; computed by SPFTRF,369
+248,d,pftri,SPD,full,http://www.netlib.org/lapack/double/dpftri.f,computes the inverse using the Cholesky factorization; computed by DPFTRF,370
+249,c,pftri,HPD,full,http://www.netlib.org/lapack/complex/cpftri.f,computes the inverse using the Cholesky factorization; computed by CPFTRF,371
+250,z,pftri,HPD,full,http://www.netlib.org/lapack/complex16/zpftri.f,computes the inverse using the Cholesky factorization; computed by ZPFTRF,372
+251,s,tftri,triangular,full,http://www.netlib.org/lapack/single/stftri.f,computes the inverse of a matrix; stored in RFP format ,373
+252,d,tftri,triangular,full,http://www.netlib.org/lapack/double/dtftri.f,computes the inverse of a matrix; stored in RFP format ,374
+253,c,tftri,triangular,full,http://www.netlib.org/lapack/complex/ctftri.f,computes the inverse of a matrix; stored in RFP format ,375
+254,z,tftri,triangular,full,http://www.netlib.org/lapack/complex16/ztftri.f,computes the inverse of a matrix; stored in RFP format ,376
+255,s,sytri2,symmetric,full,http://www.netlib.org/lapack/single/ssytri2.f,computes the inverse of a matrix; computed by SSYTRF; sets the LEADING DIMENSION of the workspace,377
+256,d,sytri2,symmetric,full,http://www.netlib.org/lapack/double/dsytri2.f,computes the inverse of a matrix; computed by DSYTRF; sets the LEADING DIMENSION of the workspace,378
+257,c,sytri2,symmetric,full,http://www.netlib.org/lapack/complex/csytri2.f,computes the inverse of a matrix; computed by CSYTRF; sets the LEADING DIMENSION of the workspace,379
+258,z,sytri2,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2.f,computes the inverse of a matrix; computed by ZSYTRF; sets the LEADING DIMENSION of the workspace,380
+259,c,hetri2,Hermitian,full,http://www.netlib.org/lapack/complex/chetri2.f,computes the inverse of a matrix; computed by CHETRF; sets the LEADING DIMENSION of the workspace,381
+260,z,hetri2,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri2.f,computes the inverse of a matrix; computed by ZHETRF; sets the LEADING DIMENSION of the workspace,382
+261,s,sytri2x,symmetric,full,http://www.netlib.org/lapack/single/ssytri2x.f,computes the inverse of a matrix; computed by SSYTRF,383
+262,d,sytri2x,symmetric,full,http://www.netlib.org/lapack/double/dsytri2x.f,computes the inverse of a matrix; computed by DSYTRF,384
+263,c,sytri2x,symmetric,full,http://www.netlib.org/lapack/complex/csytri2x.f,computes the inverse of a matrix; computed by CSYTRF,385
+264,z,sytri2x,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2x.f,computes the inverse of a matrix; computed by ZSYTRF,386
+265,c,hetri2x,Hermitian,full,http://www.netlib.org/lapack/complex/chetri2x.f,computes the inverse of a matrix; computed by CHETRF,387
+266,z,hetri2x,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri2x.f,computes the inverse of a matrix; computed by ZHETRF,388
+267,s,trti2,triangular,full,http://www.netlib.org/lapack/single/strti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,389
+268,d,trti2,triangular,full,http://www.netlib.org/lapack/double/dtrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,390
+269,c,trti2,triangular,full,http://www.netlib.org/lapack/complex/ctrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,391
+270,z,trti2,triangular,full,http://www.netlib.org/lapack/complex16/ztrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,392
+271,s,geequ,general,full,http://www.netlib.org/lapack/single/sgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,309
+272,d,geequ,general,full,http://www.netlib.org/lapack/double/dgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,310
+273,c,geequ,general,full,http://www.netlib.org/lapack/complex/cgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,311
+274,z,geequ,general,full,http://www.netlib.org/lapack/complex16/zgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,312
+275,s,gbequ,general,band,http://www.netlib.org/lapack/single/sgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,313
+276,d,gbequ,general,band,http://www.netlib.org/lapack/double/dgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,314
+277,c,gbequ,general,band,http://www.netlib.org/lapack/complex/cgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,315
+278,z,gbequ,general,band,http://www.netlib.org/lapack/complex16/zgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,316
+279,s,poequ,SPD,full,http://www.netlib.org/lapack/single/spoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),317
+280,d,poequ,SPD,full,http://www.netlib.org/lapack/double/dpoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),318
+281,c,poequ,HPD,full,http://www.netlib.org/lapack/complex/cpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),319
+282,z,poequ,HPD,full,http://www.netlib.org/lapack/complex16/zpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),320
+283,s,pbequ,SPD,band,http://www.netlib.org/lapack/single/spbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),321
+284,d,pbequ,SPD,band,http://www.netlib.org/lapack/double/dpbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),322
+285,c,pbequ,HPD,band,http://www.netlib.org/lapack/complex/cpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),323
+286,z,pbequ,HPD,band,http://www.netlib.org/lapack/complex16/zpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),324
+287,s,ppequ,SPD,packed,http://www.netlib.org/lapack/single/sppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),325
+288,d,ppequ,SPD,packed,http://www.netlib.org/lapack/double/dppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),326
+289,c,ppequ,HPD,packed,http://www.netlib.org/lapack/complex/cppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),327
+290,z,ppequ,HPD,packed,http://www.netlib.org/lapack/complex16/zppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),328

@@ -17,24 +17,24 @@ nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_computational_a
 
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_factor.csv' INTO \
 #                                     TABLE Computational_linearequation_factor FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
-#
-#
+
+
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_solve.csv' INTO \
 #                                     TABLE Computational_linearequation_solve FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
-#
-#
+
+
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_condition_number.csv' INTO \
 #                                     TABLE Computational_linearequation_condition_number FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
-#
-#
+
+
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_error_bounds.csv' INTO \
 #                                     TABLE Computational_linearequation_error_bound FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 #
 #
-#nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_invert.csv' INTO \
-#                                     TABLE Computational_linearequation_invert FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
-#
-#
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_invert.csv' INTO \
+                                     TABLE Computational_linearequation_invert FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
+
+
 #nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_equilibrate.csv' INTO \
 #                                     TABLE Computational_linearequation_equilibrate FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 
