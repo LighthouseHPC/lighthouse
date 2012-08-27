@@ -9,7 +9,7 @@ print "------------ Make sure 'error Bound' routines are complete in the old ver
 ###------------ compare errorBound_old.txt to le_error_bounds.csv
 # open le_error_bounds.csv and put the routines in x
 x = []
-f_le_Computational_errorBound = open('../../../Dlighthouse/Computational/le_error_bounds.csv')
+f_le_Computational_errorBound = open('../../../Dlighthouse/Computational/dataBase/le_error_bounds.csv')
 for line in f_le_Computational_errorBound:
     routine_file = line.split(",")[1]+line.split(",")[2]+".f"
     x.append(routine_file)

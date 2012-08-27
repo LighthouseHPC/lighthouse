@@ -31,7 +31,6 @@ def findRoutines(fileName):
                         if index1 > -1:
                             if "svx" not in routineName:
                                 routines_errorBound_341.append(routineName)
-                                f_errorBound_341.write(routineName)
                             else:
                                 print "should be driver_expert: ", routineName
                         else:
@@ -59,7 +58,15 @@ findRoutines(f_computational_341_double)
 findRoutines(f_computational_341_complex)
 findRoutines(f_computational_341_complex16)
 
-    
+
+## remove duplicates
+routines_errorBound_341 = set(routines_errorBound_341)
+
+## write to the file ./routines/errorBound_341.txt.
+for routineName in routines_errorBound_341:
+    f_errorBound_341.write(routineName)
+
+
 elapsed = (time() - start)
 print "There are %s routines in the 341 version that provides error bounds." % len(routines_errorBound_341), elapsed
 
