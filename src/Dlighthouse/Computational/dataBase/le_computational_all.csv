@@ -108,183 +108,247 @@
 108,z,sytrs2,symmetric,full,http://www.netlib.org/lapack/complex16/zsytrs2.f,computational; solve A*X = B using A = U*D*U**T or A = L*D*L**T; computed by ZSYTRF and converted by ZSYCONV,340
 109,c,hetrs2,Hermitian,full,http://www.netlib.org/lapack/complex/chetrs2.f,computational; solve A*X = B using A = U*D*U**H or A = L*D*L**H; computed by CHETRF and converted by CSYCONV,341
 110,z,hetrs2,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetrs2.f,computational; solve A*X = B using A = U*D*U**H or A = L*D*L**H; computed by ZHETRF and converted by ZSYCONV,342
-111,s,gecon,general,full,http://www.netlib.org/lapack/single/sgecon.f,estimates the reciprocal of the condition number of a general real matrix,173
-112,d,gecon,general,full,http://www.netlib.org/lapack/double/dgecon.f,estimates the reciprocal of the condition number of a general real matrix,174
-113,c,gecon,general,full,http://www.netlib.org/lapack/complex/cgecon.f,estimates the reciprocal of the condition number of a general complex matrix,175
-114,z,gecon,general,full,http://www.netlib.org/lapack/complex16/zgecon.f,estimates the reciprocal of the condition number of a general complex matrix,176
-115,s,gbcon,general,band,http://www.netlib.org/lapack/single/sgbcon.f,estimates the reciprocal of the condition number of a real general band matrix,177
-116,d,gbcon,general,band,http://www.netlib.org/lapack/double/dgbcon.f,estimates the reciprocal of the condition number of a real general band matrix,178
-117,c,gbcon,general,band,http://www.netlib.org/lapack/complex/cgbcon.f,estimates the reciprocal of the condition number of a complex general band matrix,179
-118,z,gbcon,general,band,http://www.netlib.org/lapack/complex16/zgbcon.f,estimates the reciprocal of the condition number of a complex general band matrix,180
-119,s,gtcon,general,tridiagonal,http://www.netlib.org/lapack/single/sgtcon.f,estimates the reciprocal of the condition number of a real tridiagonal matrix A using LU ,181
-120,d,gtcon,general,tridiagonal,http://www.netlib.org/lapack/double/dgtcon.f,estimates the reciprocal of the condition number of a real tridiagonal matrix A using LU ,182
-121,c,gtcon,general,tridiagonal,http://www.netlib.org/lapack/complex/cgtcon.f,estimates the reciprocal of the condition number of a complex tridiagonal matrix A using LU,183
-122,z,gtcon,general,tridiagonal,http://www.netlib.org/lapack/complex16/zgtcon.f,estimates the reciprocal of the condition number of a complex tridiagonal matrix A using LU ,184
-123,s,pocon,SPD,full,http://www.netlib.org/lapack/single/spocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite matrix using Cholesky,185
-124,d,pocon,SPD,full,http://www.netlib.org/lapack/double/dpocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite matrix using Cholesky,186
-125,c,pocon,HPD,full,http://www.netlib.org/lapack/complex/cpocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite matrix using Cholesky,187
-126,z,pocon,HPD,full,http://www.netlib.org/lapack/complex16/zpocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite matrix using Cholesky,188
-127,s,ppcon,SPD,packed,http://www.netlib.org/lapack/single/sppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite packed matrix using Cholesky,189
-128,d,ppcon,SPD,packed,http://www.netlib.org/lapack/double/dppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite packed matrix using Cholesky ,190
-129,c,ppcon,HPD,packed,http://www.netlib.org/lapack/complex/cppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite packed matrix using Cholesky,191
-130,z,ppcon,HPD,packed,http://www.netlib.org/lapack/complex16/zppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite packed matrix using Cholesky ,192
-131,s,pbcon,SPD,band,http://www.netlib.org/lapack/single/spbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite banded matrix using Cholesky,193
-132,d,pbcon,SPD,band,http://www.netlib.org/lapack/double/dpbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite banded matrix using Cholesky,194
-133,c,pbcon,HPD,band,http://www.netlib.org/lapack/complex/cpbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite banded matrix using Cholesky,195
-134,z,pbcon,HPD,band,http://www.netlib.org/lapack/complex16/zpbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite banded matrix using Cholesky ,196
-135,s,ptcon,SPD,tridiagonal,http://www.netlib.org/lapack/single/sptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite tridiagonal matrix using Cholesky,197
-136,d,ptcon,SPD,tridiagonal,http://www.netlib.org/lapack/double/dptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite tridiagonal matrix using Cholesky,198
-137,c,ptcon,HPD,tridiagonal,http://www.netlib.org/lapack/complex/cptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite tridiagonal matrix using Cholesky,199
-138,z,ptcon,HPD,tridiagonal,http://www.netlib.org/lapack/complex16/zptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite tridiagonal matrix using Cholesky,200
-139,c,hecon,Hermitian,full,http://www.netlib.org/lapack/complex/checon.f,estimates the reciprocal of the condition number of a complex Hermitian matrix A using A = U*D*U**H or A = L*D*L**H,201
-140,z,hecon,Hermitian,full,http://www.netlib.org/lapack/complex16/zhecon.f,estimates the reciprocal of the condition number of a complex Hermitian matrix A using A = U*D*U**H or A = L*D*L**H,202
-141,s,sycon,symmetric,full,http://www.netlib.org/lapack/single/ssycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric matrix A using A = U*D*U**T or A = L*D*L**T,203
-142,d,sycon,symmetric,full,http://www.netlib.org/lapack/double/dsycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric matrix A using A = U*D*U**T or A = L*D*L**T,204
-143,c,sycon,symmetric,full,http://www.netlib.org/lapack/complex/csycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric matrix A using A = U*D*U**T or A = L*D*L**T,205
-144,z,sycon,symmetric,full,http://www.netlib.org/lapack/complex16/zsycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric matrix A using A = U*D*U**T or A = L*D*L**T,206
-145,s,spcon,symmetric,packed,http://www.netlib.org/lapack/single/sspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T ,207
-146,d,spcon,symmetric,packed,http://www.netlib.org/lapack/double/dspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T ,208
-147,c,spcon,symmetric,packed,http://www.netlib.org/lapack/complex/cspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T,209
-148,z,spcon,symmetric,packed,http://www.netlib.org/lapack/complex16/zspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T,210
-149,c,hpcon,Hermitian,packed,http://www.netlib.org/lapack/complex/chpcon.f,estimates the reciprocal of the condition number of a complex Hermitian packed matrix A using A = U*D*U**H or A = L*D*L**H,211
-150,z,hpcon,Hermitian,packed,http://www.netlib.org/lapack/complex16/zhpcon.f,estimates the reciprocal of the condition number of a complex Hermitian packed matrix A using A = U*D*U**H or A = L*D*L**H,212
-151,s,trcon,triangular,full,http://www.netlib.org/lapack/single/strcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm,213
-152,d,trcon,triangular,full,http://www.netlib.org/lapack/double/dtrcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm,214
-153,c,trcon,triangular,full,http://www.netlib.org/lapack/complex/ctrcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm.,215
-154,z,trcon,triangular,full,http://www.netlib.org/lapack/complex16/ztrcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm.,216
-155,s,tbcon,triangular,band,http://www.netlib.org/lapack/single/stbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,217
-156,d,tbcon,triangular,band,http://www.netlib.org/lapack/double/dtbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,218
-157,c,tbcon,triangular,band,http://www.netlib.org/lapack/complex/ctbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,219
-158,z,tbcon,triangular,band,http://www.netlib.org/lapack/complex16/ztbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,220
-159,s,tpcon,triangular,packed,http://www.netlib.org/lapack/single/stpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,221
-160,d,tpcon,triangular,packed,http://www.netlib.org/lapack/double/dtpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,222
-161,c,tpcon,triangular,packed,http://www.netlib.org/lapack/complex/ctpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,223
-162,z,tpcon,triangular,packed,http://www.netlib.org/lapack/complex16/ztpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,224
-163,s,gerfs,general,full,http://www.netlib.org/lapack/single/sgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,225
-164,d,gerfs,general,full,http://www.netlib.org/lapack/double/dgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,226
-165,c,gerfs,general,full,http://www.netlib.org/lapack/complex/cgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,227
-166,z,gerfs,general,full,http://www.netlib.org/lapack/complex16/zgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,228
-167,s,gbrfs,general,band,http://www.netlib.org/lapack/single/sgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,229
-168,d,gbrfs,general,band,http://www.netlib.org/lapack/double/dgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,230
-169,c,gbrfs,general,band,http://www.netlib.org/lapack/complex/cgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,231
-170,z,gbrfs,general,band,http://www.netlib.org/lapack/complex16/zgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,232
-171,s,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/single/sgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,233
-172,d,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/double/dgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,234
-173,c,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/complex/cgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,235
-174,z,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/complex16/zgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,236
-175,c,herfs,Hermitian,full,http://www.netlib.org/lapack/complex/cherfs.f,refine solution to Ax=b; error bounds; backward error estimates,237
-176,z,herfs,Hermitian,full,http://www.netlib.org/lapack/complex16/zherfs.f,refine solution to Ax=b; error bounds; backward error estimates,238
-177,c,hprfs,Hermitian,packed,http://www.netlib.org/lapack/complex/chprfs.f,refine solution to Ax=b; error bounds; backward error estimates,239
-178,z,hprfs,Hermitian,packed,http://www.netlib.org/lapack/complex16/zhprfs.f,refine solution to Ax=b; error bounds; backward error estimates,240
-179,s,porfs,SPD,full,http://www.netlib.org/lapack/single/sporfs.f,refine solution to Ax=b; error bounds; backward error estimates,241
-180,d,porfs,SPD,full,http://www.netlib.org/lapack/double/dporfs.f,refine solution to Ax=b; error bounds; backward error estimates,242
-181,c,porfs,HPD,full,http://www.netlib.org/lapack/complex/cporfs.f,refine solution to Ax=b; error bounds; backward error estimates,243
-182,z,porfs,HPD,full,http://www.netlib.org/lapack/complex16/zporfs.f,refine solution to Ax=b; error bounds; backward error estimates,244
-183,s,pbrfs,SPD,band,http://www.netlib.org/lapack/single/spbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,245
-184,d,pbrfs,SPD,band,http://www.netlib.org/lapack/double/dpbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,246
-185,c,pbrfs,HPD,band,http://www.netlib.org/lapack/complex/cpbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,247
-186,z,pbrfs,HPD,band,http://www.netlib.org/lapack/complex16/zpbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,248
-187,s,pprfs,SPD,packed,http://www.netlib.org/lapack/single/spprfs.f,refine solution to Ax=b; error bounds; backward error estimates,249
-188,d,pprfs,SPD,packed,http://www.netlib.org/lapack/double/dpprfs.f,refine solution to Ax=b; error bounds; backward error estimates,250
-189,c,pprfs,HPD,packed,http://www.netlib.org/lapack/complex/cpprfs.f,refine solution to Ax=b; error bounds; backward error estimates,251
-190,z,pprfs,HPD,packed,http://www.netlib.org/lapack/complex16/zpprfs.f,refine solution to Ax=b; error bounds; backward error estimates,252
-191,s,ptrfs,SPD,tridiagonal,http://www.netlib.org/lapack/single/sptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,253
-192,d,ptrfs,SPD,tridiagonal,http://www.netlib.org/lapack/double/dptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,254
-193,c,ptrfs,HPD,tridiagonal,http://www.netlib.org/lapack/complex/cptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,255
-194,z,ptrfs,HPD,tridiagonal,http://www.netlib.org/lapack/complex16/zptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,256
-195,s,syrfs,symmetric,full,http://www.netlib.org/lapack/single/ssyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,257
-196,d,syrfs,symmetric,full,http://www.netlib.org/lapack/double/dsyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,258
-197,c,syrfs,symmetric,full,http://www.netlib.org/lapack/complex/csyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,259
-198,z,syrfs,symmetric,full,http://www.netlib.org/lapack/complex16/zsyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,260
-199,s,sprfs,symmetric,packed,http://www.netlib.org/lapack/single/ssprfs.f,refine solution to Ax=b; error bounds; backward error estimates,261
-200,d,sprfs,symmetric,packed,http://www.netlib.org/lapack/double/dsprfs.f,refine solution to Ax=b; error bounds; backward error estimates,262
-201,c,sprfs,symmetric,packed,http://www.netlib.org/lapack/complex/csprfs.f,refine solution to Ax=b; error bounds; backward error estimates,263
-202,z,sprfs,symmetric,packed,http://www.netlib.org/lapack/complex16/zsprfs.f,refine solution to Ax=b; error bounds; backward error estimates,264
-203,s,trrfs,triangular,full,http://www.netlib.org/lapack/single/strrfs.f,refine solution to Ax=b; error bounds; backward error estimates,265
-204,d,trrfs,triangular,full,http://www.netlib.org/lapack/double/dtrrfs.f,refine solution to Ax=b; error bounds; backward error estimates,266
-205,c,trrfs,triangular,full,http://www.netlib.org/lapack/complex/ctrrfs.f,refine solution to Ax=b; error bounds; backward error estimates,267
-206,z,trrfs,triangular,full,http://www.netlib.org/lapack/complex16/ztrrfs.f,refine solution to Ax=b; error bounds; backward error estimates,268
-207,s,tbrfs,triangular,band,http://www.netlib.org/lapack/single/stbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,269
-208,d,tbrfs,triangular,band,http://www.netlib.org/lapack/double/dtbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,270
-209,c,tbrfs,triangular,band,http://www.netlib.org/lapack/complex/ctbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,271
-210,z,tbrfs,triangular,band,http://www.netlib.org/lapack/complex16/ztbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,272
-211,s,tprfs,triangular,packed,http://www.netlib.org/lapack/single/stprfs.f,refine solution to Ax=b; error bounds; backward error estimates,273
-212,d,tprfs,triangular,packed,http://www.netlib.org/lapack/double/dtprfs.f,refine solution to Ax=b; error bounds; backward error estimates,274
-213,c,tprfs,triangular,packed,http://www.netlib.org/lapack/complex/ctprfs.f,refine solution to Ax=b; error bounds; backward error estimates,275
-214,z,tprfs,triangular,packed,http://www.netlib.org/lapack/complex16/ztprfs.f,refine solution to Ax=b; error bounds; backward error estimates,276
-215,s,getri,general,full,http://www.netlib.org/lapack/single/sgetri.f,computes the inverse of a matrix,277
-216,d,getri,general,full,http://www.netlib.org/lapack/double/dgetri.f,computes the inverse of a matrix,278
-217,c,getri,general,full,http://www.netlib.org/lapack/complex/cgetri.f,computes the inverse of a matrix,279
-218,z,getri,general,full,http://www.netlib.org/lapack/complex16/zgetri.f,computes the inverse of a matrix,280
-219,c,hetri,Hermitian,full,http://www.netlib.org/lapack/complex/chetri.f,computes the inverse of a matrix,281
-220,z,hetri,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri.f,computes the inverse of a matrix,282
-221,c,hptri,Hermitian,packed,http://www.netlib.org/lapack/complex/chptri.f,computes the inverse of a matrix,283
-222,z,hptri,Hermitian,packed,http://www.netlib.org/lapack/complex16/zhptri.f,computes the inverse of a matrix,284
-223,s,potri,SPD,full,http://www.netlib.org/lapack/single/spotri.f,computes the inverse of a matrix,285
-224,d,potri,SPD,full,http://www.netlib.org/lapack/double/dpotri.f,computes the inverse of a matrix,286
-225,c,potri,HPD,full,http://www.netlib.org/lapack/complex/cpotri.f,computes the inverse of a matrix,287
-226,z,potri,HPD,full,http://www.netlib.org/lapack/complex16/zpotri.f,computes the inverse of a matrix,288
-227,s,pptri,SPD,packed,http://www.netlib.org/lapack/single/spptri.f,computes the inverse of a matrix,289
-228,d,pptri,SPD,packed,http://www.netlib.org/lapack/double/dpptri.f,computes the inverse of a matrix,290
-229,c,pptri,HPD,packed,http://www.netlib.org/lapack/complex/cpptri.f,computes the inverse of a matrix,291
-230,z,pptri,HPD,packed,http://www.netlib.org/lapack/complex16/zpptri.f,computes the inverse of a matrix,292
-231,s,sytri,symmetric,full,http://www.netlib.org/lapack/single/ssytri.f,computes the inverse of a matrix,293
-232,d,sytri,symmetric,full,http://www.netlib.org/lapack/double/dsytri.f,computes the inverse of a matrix,294
-233,c,sytri,symmetric,full,http://www.netlib.org/lapack/complex/csytri.f,computes the inverse of a matrix,295
-234,z,sytri,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri.f,computes the inverse of a matrix,296
-235,s,sptri,symmetric,packed,http://www.netlib.org/lapack/single/ssptri.f,computes the inverse of a matrix,297
-236,d,sptri,symmetric,packed,http://www.netlib.org/lapack/double/dsptri.f,computes the inverse of a matrix,298
-237,c,sptri,symmetric,packed,http://www.netlib.org/lapack/complex/csptri.f,computes the inverse of a matrix,299
-238,z,sptri,symmetric,packed,http://www.netlib.org/lapack/complex16/zsptri.f,computes the inverse of a matrix,300
-239,s,trtri,triangular,full,http://www.netlib.org/lapack/single/strtri.f,computes the inverse of a matrix,301
-240,d,trtri,triangular,full,http://www.netlib.org/lapack/double/dtrtri.f,computes the inverse of a matrix,302
-241,c,trtri,triangular,full,http://www.netlib.org/lapack/complex/ctrtri.f,computes the inverse of a matrix,303
-242,z,trtri,triangular,full,http://www.netlib.org/lapack/complex16/ztrtri.f,computes the inverse of a matrix,304
-243,s,tptri,triangular,packed,http://www.netlib.org/lapack/single/stptri.f,computes the inverse of a matrix,305
-244,d,tptri,triangular,packed,http://www.netlib.org/lapack/double/dtptri.f,computes the inverse of a matrix,306
-245,c,tptri,triangular,packed,http://www.netlib.org/lapack/complex/ctptri.f,computes the inverse of a matrix,307
-246,z,tptri,triangular,packed,http://www.netlib.org/lapack/complex16/ztptri.f,computes the inverse of a matrix,308
-247,s,pftri,SPD,full,http://www.netlib.org/lapack/single/spftri.f,computes the inverse using the Cholesky factorization; computed by SPFTRF,369
-248,d,pftri,SPD,full,http://www.netlib.org/lapack/double/dpftri.f,computes the inverse using the Cholesky factorization; computed by DPFTRF,370
-249,c,pftri,HPD,full,http://www.netlib.org/lapack/complex/cpftri.f,computes the inverse using the Cholesky factorization; computed by CPFTRF,371
-250,z,pftri,HPD,full,http://www.netlib.org/lapack/complex16/zpftri.f,computes the inverse using the Cholesky factorization; computed by ZPFTRF,372
-251,s,tftri,triangular,full,http://www.netlib.org/lapack/single/stftri.f,computes the inverse of a matrix; stored in RFP format ,373
-252,d,tftri,triangular,full,http://www.netlib.org/lapack/double/dtftri.f,computes the inverse of a matrix; stored in RFP format ,374
-253,c,tftri,triangular,full,http://www.netlib.org/lapack/complex/ctftri.f,computes the inverse of a matrix; stored in RFP format ,375
-254,z,tftri,triangular,full,http://www.netlib.org/lapack/complex16/ztftri.f,computes the inverse of a matrix; stored in RFP format ,376
-255,s,sytri2,symmetric,full,http://www.netlib.org/lapack/single/ssytri2.f,computes the inverse of a matrix; computed by SSYTRF; sets the LEADING DIMENSION of the workspace,377
-256,d,sytri2,symmetric,full,http://www.netlib.org/lapack/double/dsytri2.f,computes the inverse of a matrix; computed by DSYTRF; sets the LEADING DIMENSION of the workspace,378
-257,c,sytri2,symmetric,full,http://www.netlib.org/lapack/complex/csytri2.f,computes the inverse of a matrix; computed by CSYTRF; sets the LEADING DIMENSION of the workspace,379
-258,z,sytri2,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2.f,computes the inverse of a matrix; computed by ZSYTRF; sets the LEADING DIMENSION of the workspace,380
-259,c,hetri2,Hermitian,full,http://www.netlib.org/lapack/complex/chetri2.f,computes the inverse of a matrix; computed by CHETRF; sets the LEADING DIMENSION of the workspace,381
-260,z,hetri2,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri2.f,computes the inverse of a matrix; computed by ZHETRF; sets the LEADING DIMENSION of the workspace,382
-261,s,sytri2x,symmetric,full,http://www.netlib.org/lapack/single/ssytri2x.f,computes the inverse of a matrix; computed by SSYTRF,383
-262,d,sytri2x,symmetric,full,http://www.netlib.org/lapack/double/dsytri2x.f,computes the inverse of a matrix; computed by DSYTRF,384
-263,c,sytri2x,symmetric,full,http://www.netlib.org/lapack/complex/csytri2x.f,computes the inverse of a matrix; computed by CSYTRF,385
-264,z,sytri2x,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2x.f,computes the inverse of a matrix; computed by ZSYTRF,386
-265,c,hetri2x,Hermitian,full,http://www.netlib.org/lapack/complex/chetri2x.f,computes the inverse of a matrix; computed by CHETRF,387
-266,z,hetri2x,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri2x.f,computes the inverse of a matrix; computed by ZHETRF,388
-267,s,trti2,triangular,full,http://www.netlib.org/lapack/single/strti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,389
-268,d,trti2,triangular,full,http://www.netlib.org/lapack/double/dtrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,390
-269,c,trti2,triangular,full,http://www.netlib.org/lapack/complex/ctrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,391
-270,z,trti2,triangular,full,http://www.netlib.org/lapack/complex16/ztrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,392
-271,s,geequ,general,full,http://www.netlib.org/lapack/single/sgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,309
-272,d,geequ,general,full,http://www.netlib.org/lapack/double/dgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,310
-273,c,geequ,general,full,http://www.netlib.org/lapack/complex/cgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,311
-274,z,geequ,general,full,http://www.netlib.org/lapack/complex16/zgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,312
-275,s,gbequ,general,band,http://www.netlib.org/lapack/single/sgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,313
-276,d,gbequ,general,band,http://www.netlib.org/lapack/double/dgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,314
-277,c,gbequ,general,band,http://www.netlib.org/lapack/complex/cgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,315
-278,z,gbequ,general,band,http://www.netlib.org/lapack/complex16/zgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,316
-279,s,poequ,SPD,full,http://www.netlib.org/lapack/single/spoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),317
-280,d,poequ,SPD,full,http://www.netlib.org/lapack/double/dpoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),318
-281,c,poequ,HPD,full,http://www.netlib.org/lapack/complex/cpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),319
-282,z,poequ,HPD,full,http://www.netlib.org/lapack/complex16/zpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),320
-283,s,pbequ,SPD,band,http://www.netlib.org/lapack/single/spbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),321
-284,d,pbequ,SPD,band,http://www.netlib.org/lapack/double/dpbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),322
-285,c,pbequ,HPD,band,http://www.netlib.org/lapack/complex/cpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),323
-286,z,pbequ,HPD,band,http://www.netlib.org/lapack/complex16/zpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),324
-287,s,ppequ,SPD,packed,http://www.netlib.org/lapack/single/sppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),325
-288,d,ppequ,SPD,packed,http://www.netlib.org/lapack/double/dppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),326
-289,c,ppequ,HPD,packed,http://www.netlib.org/lapack/complex/cppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),327
-290,z,ppequ,HPD,packed,http://www.netlib.org/lapack/complex16/zppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),328
+111,s,gecon,general,full,http://www.netlib.org/lapack/lapack_routine/sgecon.f,estimates the reciprocal of the condition number of a general real matrix,173
+112,d,gecon,general,full,http://www.netlib.org/lapack/lapack_routine/dgecon.f,estimates the reciprocal of the condition number of a general real matrix,174
+113,c,gecon,general,full,http://www.netlib.org/lapack/lapack_routine/cgecon.f,estimates the reciprocal of the condition number of a general complex matrix,175
+114,z,gecon,general,full,http://www.netlib.org/lapack/lapack_routine/zgecon.f,estimates the reciprocal of the condition number of a general complex matrix,176
+115,s,gbcon,general,band,http://www.netlib.org/lapack/lapack_routine/sgbcon.f,estimates the reciprocal of the condition number of a real general band matrix,177
+116,d,gbcon,general,band,http://www.netlib.org/lapack/lapack_routine/dgbcon.f,estimates the reciprocal of the condition number of a real general band matrix,178
+117,c,gbcon,general,band,http://www.netlib.org/lapack/lapack_routine/cgbcon.f,estimates the reciprocal of the condition number of a complex general band matrix,179
+118,z,gbcon,general,band,http://www.netlib.org/lapack/lapack_routine/zgbcon.f,estimates the reciprocal of the condition number of a complex general band matrix,180
+119,s,gtcon,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/sgtcon.f,estimates the reciprocal of the condition number of a real tridiagonal matrix A using LU ,181
+120,d,gtcon,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/dgtcon.f,estimates the reciprocal of the condition number of a real tridiagonal matrix A using LU ,182
+121,c,gtcon,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/cgtcon.f,estimates the reciprocal of the condition number of a complex tridiagonal matrix A using LU,183
+122,z,gtcon,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/zgtcon.f,estimates the reciprocal of the condition number of a complex tridiagonal matrix A using LU ,184
+123,s,pocon,SPD,full,http://www.netlib.org/lapack/lapack_routine/spocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite matrix using Cholesky,185
+124,d,pocon,SPD,full,http://www.netlib.org/lapack/lapack_routine/dpocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite matrix using Cholesky,186
+125,c,pocon,HPD,full,http://www.netlib.org/lapack/lapack_routine/cpocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite matrix using Cholesky,187
+126,z,pocon,HPD,full,http://www.netlib.org/lapack/lapack_routine/zpocon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite matrix using Cholesky,188
+127,s,ppcon,SPD,packed,http://www.netlib.org/lapack/lapack_routine/sppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite packed matrix using Cholesky,189
+128,d,ppcon,SPD,packed,http://www.netlib.org/lapack/lapack_routine/dppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite packed matrix using Cholesky ,190
+129,c,ppcon,HPD,packed,http://www.netlib.org/lapack/lapack_routine/cppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite packed matrix using Cholesky,191
+130,z,ppcon,HPD,packed,http://www.netlib.org/lapack/lapack_routine/zppcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite packed matrix using Cholesky ,192
+131,s,pbcon,SPD,band,http://www.netlib.org/lapack/lapack_routine/spbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite banded matrix using Cholesky,193
+132,d,pbcon,SPD,band,http://www.netlib.org/lapack/lapack_routine/dpbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite banded matrix using Cholesky,194
+133,c,pbcon,HPD,band,http://www.netlib.org/lapack/lapack_routine/cpbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite banded matrix using Cholesky,195
+134,z,pbcon,HPD,band,http://www.netlib.org/lapack/lapack_routine/zpbcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite banded matrix using Cholesky ,196
+135,s,ptcon,SPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/sptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite tridiagonal matrix using Cholesky,197
+136,d,ptcon,SPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/dptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric positive definite tridiagonal matrix using Cholesky,198
+137,c,ptcon,HPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/cptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite tridiagonal matrix using Cholesky,199
+138,z,ptcon,HPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/zptcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex Hermitian positive definite tridiagonal matrix using Cholesky,200
+139,c,hecon,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/checon.f,estimates the reciprocal of the condition number of a complex Hermitian matrix A using A = U*D*U**H or A = L*D*L**H,201
+140,z,hecon,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/zhecon.f,estimates the reciprocal of the condition number of a complex Hermitian matrix A using A = U*D*U**H or A = L*D*L**H,202
+141,s,sycon,symmetric,full,http://www.netlib.org/lapack/lapack_routine/ssycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric matrix A using A = U*D*U**T or A = L*D*L**T,203
+142,d,sycon,symmetric,full,http://www.netlib.org/lapack/lapack_routine/dsycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric matrix A using A = U*D*U**T or A = L*D*L**T,204
+143,c,sycon,symmetric,full,http://www.netlib.org/lapack/lapack_routine/csycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric matrix A using A = U*D*U**T or A = L*D*L**T,205
+144,z,sycon,symmetric,full,http://www.netlib.org/lapack/lapack_routine/zsycon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric matrix A using A = U*D*U**T or A = L*D*L**T,206
+145,s,spcon,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/sspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T ,207
+146,d,spcon,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/dspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a real symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T ,208
+147,c,spcon,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/cspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T,209
+148,z,spcon,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/zspcon.f,estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric packed matrix A using A = U*D*U**T or A = L*D*L**T,210
+149,c,hpcon,Hermitian,packed,http://www.netlib.org/lapack/lapack_routine/chpcon.f,estimates the reciprocal of the condition number of a complex Hermitian packed matrix A using A = U*D*U**H or A = L*D*L**H,211
+150,z,hpcon,Hermitian,packed,http://www.netlib.org/lapack/lapack_routine/zhpcon.f,estimates the reciprocal of the condition number of a complex Hermitian packed matrix A using A = U*D*U**H or A = L*D*L**H,212
+151,s,trcon,triangular,full,http://www.netlib.org/lapack/lapack_routine/strcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm,213
+152,d,trcon,triangular,full,http://www.netlib.org/lapack/lapack_routine/dtrcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm,214
+153,c,trcon,triangular,full,http://www.netlib.org/lapack/lapack_routine/ctrcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm.,215
+154,z,trcon,triangular,full,http://www.netlib.org/lapack/lapack_routine/ztrcon.f,estimates the reciprocal of the condition number of a triangular matrix A; in either the 1-norm or the infinity-norm.,216
+155,s,tbcon,triangular,band,http://www.netlib.org/lapack/lapack_routine/stbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,217
+156,d,tbcon,triangular,band,http://www.netlib.org/lapack/lapack_routine/dtbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,218
+157,c,tbcon,triangular,band,http://www.netlib.org/lapack/lapack_routine/ctbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,219
+158,z,tbcon,triangular,band,http://www.netlib.org/lapack/lapack_routine/ztbcon.f,estimates the reciprocal of the condition number of a triangular band matrix A; in either the 1-norm or the infinity-norm,220
+159,s,tpcon,triangular,packed,http://www.netlib.org/lapack/lapack_routine/stpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,221
+160,d,tpcon,triangular,packed,http://www.netlib.org/lapack/lapack_routine/dtpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,222
+161,c,tpcon,triangular,packed,http://www.netlib.org/lapack/lapack_routine/ctpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,223
+162,z,tpcon,triangular,packed,http://www.netlib.org/lapack/lapack_routine/ztpcon.f,estimates the reciprocal of the condition number of a triangular packed matrix A; in either the 1-norm or the infinity-norm,224
+163,c,la_gercond_c,general,full,http://www.netlib.org/lapack/lapack_routine/cla_gercond_c.f,computes the infinity norm condition number; C is a double precision vector,429
+164,z,la_gercond_c,general,full,http://www.netlib.org/lapack/lapack_routine/zla_gercond_c.f,computes the infinity norm condition number; C is a double precision vector,430
+165,c,la_gbrcond_c,general,band,http://www.netlib.org/lapack/lapack_routine/cla_gbrcond_c.f,computes the infinity norm condition number; C is a double precision vector,431
+166,z,la_gbrcond_c,general,band,http://www.netlib.org/lapack/lapack_routine/zla_gbrcond_c.f,computes the infinity norm condition number; C is a double precision vector,432
+167,c,la_porcond_c,HPD,full,http://www.netlib.org/lapack/lapack_routine/cla_porcond_c.f,computes the infinity norm condition number; C is a double precision vector,433
+168,z,la_porcond_c,HPD,full,http://www.netlib.org/lapack/lapack_routine/zla_porcond_c.f,computes the infinity norm condition number; C is a double precision vector,434
+169,c,la_syrcond_c,symmetric,full,http://www.netlib.org/lapack/lapack_routine/cla_syrcond_c.f,computes the infinity norm condition number; C is a double precision vector,435
+170,z,la_syrcond_c,symmetric,full,http://www.netlib.org/lapack/lapack_routine/zla_syrcond_c.f,computes the infinity norm condition number; C is a double precision vector,436
+171,c,la_hercond_c,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/cla_hercond_c.f,computes the infinity norm condition number; C is a double precision vector,437
+172,z,la_hercond_c,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/zla_hercond_c.f,computes the infinity norm condition number; C is a double precision vector,438
+173,c,la_gercond_x,general,full,http://www.netlib.org/lapack/lapack_routine/cla_gercond_x.f,computes the infinity norm condition number; X is a complex vector,439
+174,z,la_gercond_x,general,full,http://www.netlib.org/lapack/lapack_routine/zla_gercond_x.f,computes the infinity norm condition number; X is a complex vector,440
+175,c,la_gbrcond_x,general,band,http://www.netlib.org/lapack/lapack_routine/cla_gbrcond_x.f,computes the infinity norm condition number; X is a complex vector,441
+176,z,la_gbrcond_x,general,band,http://www.netlib.org/lapack/lapack_routine/zla_gbrcond_x.f,computes the infinity norm condition number; X is a complex vector,442
+177,c,la_porcond_x,HPD,full,http://www.netlib.org/lapack/lapack_routine/cla_porcond_x.f,computes the infinity norm condition number; X is a complex vector,443
+178,z,la_porcond_x,HPD,full,http://www.netlib.org/lapack/lapack_routine/zla_porcond_x.f,computes the infinity norm condition number; X is a complex vector,444
+179,c,la_syrcond_x,symmetric,full,http://www.netlib.org/lapack/lapack_routine/cla_syrcond_x.f,computes the infinity norm condition number; X is a complex vector,445
+180,z,la_syrcond_x,symmetric,full,http://www.netlib.org/lapack/lapack_routine/zla_syrcond_x.f,computes the infinity norm condition number; X is a complex vector,446
+181,c,la_hercond_x,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/cla_hercond_x.f,computes the infinity norm condition number; X is a complex vector,447
+182,z,la_hercond_x,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/zla_hercond_x.f,computes the infinity norm condition number; X is a complex vector,448
+183,s,la_gercond,general,full,http://www.netlib.org/lapack/lapack_routine/sla_gercond.f,estimates the Skeel condition number,449
+184,d,la_gercond,general,full,http://www.netlib.org/lapack/lapack_routine/dla_gercond.f,estimates the Skeel condition number,450
+185,s,la_gbrcond,general,band,http://www.netlib.org/lapack/lapack_routine/sla_gbrcond.f,estimates the Skeel condition number,451
+186,d,la_gbrcond,general,band,http://www.netlib.org/lapack/lapack_routine/dla_gbrcond.f,estimates the Skeel condition number,452
+187,s,la_porcond,HPD,full,http://www.netlib.org/lapack/lapack_routine/sla_porcond.f,estimates the Skeel condition number,453
+188,d,la_porcond,HPD,full,http://www.netlib.org/lapack/lapack_routine/dla_porcond.f,estimates the Skeel condition number,454
+189,s,la_syrcond,symmetric,full,http://www.netlib.org/lapack/lapack_routine/sla_syrcond.f,estimates the Skeel condition number,455
+190,d,la_syrcond,symmetric,full,http://www.netlib.org/lapack/lapack_routine/dla_syrcond.f,estimates the Skeel condition number,456
+191,s,gerfs,general,full,http://www.netlib.org/lapack/lapack_routine/sgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,225
+192,d,gerfs,general,full,http://www.netlib.org/lapack/lapack_routine/dgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,226
+193,c,gerfs,general,full,http://www.netlib.org/lapack/lapack_routine/cgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,227
+194,z,gerfs,general,full,http://www.netlib.org/lapack/lapack_routine/zgerfs.f,refine solution to Ax=b; error bounds; backward error estimates,228
+195,s,gbrfs,general,band,http://www.netlib.org/lapack/lapack_routine/sgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,229
+196,d,gbrfs,general,band,http://www.netlib.org/lapack/lapack_routine/dgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,230
+197,c,gbrfs,general,band,http://www.netlib.org/lapack/lapack_routine/cgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,231
+198,z,gbrfs,general,band,http://www.netlib.org/lapack/lapack_routine/zgbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,232
+199,s,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/sgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,233
+200,d,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/dgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,234
+201,c,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/cgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,235
+202,z,gtrfs,general,tridiagonal,http://www.netlib.org/lapack/lapack_routine/zgtrfs.f,refine solution to Ax=b; error bounds; backward error estimates,236
+203,c,herfs,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/cherfs.f,refine solution to Ax=b; error bounds; backward error estimates,237
+204,z,herfs,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/zherfs.f,refine solution to Ax=b; error bounds; backward error estimates,238
+205,c,hprfs,Hermitian,packed,http://www.netlib.org/lapack/lapack_routine/chprfs.f,refine solution to Ax=b; error bounds; backward error estimates,239
+206,z,hprfs,Hermitian,packed,http://www.netlib.org/lapack/lapack_routine/zhprfs.f,refine solution to Ax=b; error bounds; backward error estimates,240
+207,s,porfs,SPD,full,http://www.netlib.org/lapack/lapack_routine/sporfs.f,refine solution to Ax=b; error bounds; backward error estimates,241
+208,d,porfs,SPD,full,http://www.netlib.org/lapack/lapack_routine/dporfs.f,refine solution to Ax=b; error bounds; backward error estimates,242
+209,c,porfs,HPD,full,http://www.netlib.org/lapack/lapack_routine/cporfs.f,refine solution to Ax=b; error bounds; backward error estimates,243
+210,z,porfs,HPD,full,http://www.netlib.org/lapack/lapack_routine/zporfs.f,refine solution to Ax=b; error bounds; backward error estimates,244
+211,s,pbrfs,SPD,band,http://www.netlib.org/lapack/lapack_routine/spbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,245
+212,d,pbrfs,SPD,band,http://www.netlib.org/lapack/lapack_routine/dpbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,246
+213,c,pbrfs,HPD,band,http://www.netlib.org/lapack/lapack_routine/cpbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,247
+214,z,pbrfs,HPD,band,http://www.netlib.org/lapack/lapack_routine/zpbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,248
+215,s,pprfs,SPD,packed,http://www.netlib.org/lapack/lapack_routine/spprfs.f,refine solution to Ax=b; error bounds; backward error estimates,249
+216,d,pprfs,SPD,packed,http://www.netlib.org/lapack/lapack_routine/dpprfs.f,refine solution to Ax=b; error bounds; backward error estimates,250
+217,c,pprfs,HPD,packed,http://www.netlib.org/lapack/lapack_routine/cpprfs.f,refine solution to Ax=b; error bounds; backward error estimates,251
+218,z,pprfs,HPD,packed,http://www.netlib.org/lapack/lapack_routine/zpprfs.f,refine solution to Ax=b; error bounds; backward error estimates,252
+219,s,ptrfs,SPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/sptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,253
+220,d,ptrfs,SPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/dptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,254
+221,c,ptrfs,HPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/cptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,255
+222,z,ptrfs,HPD,tridiagonal,http://www.netlib.org/lapack/lapack_routine/zptrfs.f,refine solution to Ax=b; error bounds; backward error estimates,256
+223,s,syrfs,symmetric,full,http://www.netlib.org/lapack/lapack_routine/ssyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,257
+224,d,syrfs,symmetric,full,http://www.netlib.org/lapack/lapack_routine/dsyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,258
+225,c,syrfs,symmetric,full,http://www.netlib.org/lapack/lapack_routine/csyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,259
+226,z,syrfs,symmetric,full,http://www.netlib.org/lapack/lapack_routine/zsyrfs.f,refine solution to Ax=b; error bounds; backward error estimates,260
+227,s,sprfs,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/ssprfs.f,refine solution to Ax=b; error bounds; backward error estimates,261
+228,d,sprfs,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/dsprfs.f,refine solution to Ax=b; error bounds; backward error estimates,262
+229,c,sprfs,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/csprfs.f,refine solution to Ax=b; error bounds; backward error estimates,263
+230,z,sprfs,symmetric,packed,http://www.netlib.org/lapack/lapack_routine/zsprfs.f,refine solution to Ax=b; error bounds; backward error estimates,264
+231,s,trrfs,triangular,full,http://www.netlib.org/lapack/lapack_routine/strrfs.f,refine solution to Ax=b; error bounds; backward error estimates,265
+232,d,trrfs,triangular,full,http://www.netlib.org/lapack/lapack_routine/dtrrfs.f,refine solution to Ax=b; error bounds; backward error estimates,266
+233,c,trrfs,triangular,full,http://www.netlib.org/lapack/lapack_routine/ctrrfs.f,refine solution to Ax=b; error bounds; backward error estimates,267
+234,z,trrfs,triangular,full,http://www.netlib.org/lapack/lapack_routine/ztrrfs.f,refine solution to Ax=b; error bounds; backward error estimates,268
+235,s,tbrfs,triangular,band,http://www.netlib.org/lapack/lapack_routine/stbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,269
+236,d,tbrfs,triangular,band,http://www.netlib.org/lapack/lapack_routine/dtbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,270
+237,c,tbrfs,triangular,band,http://www.netlib.org/lapack/lapack_routine/ctbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,271
+238,z,tbrfs,triangular,band,http://www.netlib.org/lapack/lapack_routine/ztbrfs.f,refine solution to Ax=b; error bounds; backward error estimates,272
+239,s,tprfs,triangular,packed,http://www.netlib.org/lapack/lapack_routine/stprfs.f,refine solution to Ax=b; error bounds; backward error estimates,273
+240,d,tprfs,triangular,packed,http://www.netlib.org/lapack/lapack_routine/dtprfs.f,refine solution to Ax=b; error bounds; backward error estimates,274
+241,c,tprfs,triangular,packed,http://www.netlib.org/lapack/lapack_routine/ctprfs.f,refine solution to Ax=b; error bounds; backward error estimates,275
+242,z,tprfs,triangular,packed,http://www.netlib.org/lapack/lapack_routine/ztprfs.f,refine solution to Ax=b; error bounds; backward error estimates,276
+243,s,gerfsx,general,full,http://www.netlib.org/lapack/lapack_routine/sgerfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,411
+244,d,gerfsx,general,full,http://www.netlib.org/lapack/lapack_routine/dgerfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,412
+245,c,gerfsx,general,full,http://www.netlib.org/lapack/lapack_routine/cgerfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,413
+246,z,gerfsx,general,full,http://www.netlib.org/lapack/lapack_routine/zgerfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,414
+247,s,gbrfsx,general,band,http://www.netlib.org/lapack/lapack_routine/sgbrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,415
+248,d,gbrfsx,general,band,http://www.netlib.org/lapack/lapack_routine/dgbrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,416
+249,c,gbrfsx,general,band,http://www.netlib.org/lapack/lapack_routine/cgbrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,417
+250,z,gbrfsx,general,band,http://www.netlib.org/lapack/lapack_routine/zgbrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,418
+251,s,porfsx,SPD,full,http://www.netlib.org/lapack/lapack_routine/sporfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,419
+252,d,porfsx,SPD,full,http://www.netlib.org/lapack/lapack_routine/dporfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,420
+253,c,porfsx,HPD,full,http://www.netlib.org/lapack/lapack_routine/cporfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,421
+254,z,porfsx,HPD,full,http://www.netlib.org/lapack/lapack_routine/zporfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,422
+255,s,syrfsx,symmetric,full,http://www.netlib.org/lapack/lapack_routine/ssyrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,423
+256,d,syrfsx,symmetric,full,http://www.netlib.org/lapack/lapack_routine/dsyrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,424
+257,c,syrfsx,symmetric,full,http://www.netlib.org/lapack/lapack_routine/csyrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,425
+258,z,syrfsx,symmetric,full,http://www.netlib.org/lapack/lapack_routine/zsyrfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,426
+259,c,herfsx,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/cherfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,427
+260,z,herfsx,Hermitian,full,http://www.netlib.org/lapack/lapack_routine/zherfsx.f,refine solution to Ax=b; error bounds; backward error estimates; EQUED,428
+261,s,getri,general,full,http://www.netlib.org/lapack/single/sgetri.f,computes the inverse of a matrix,277
+262,d,getri,general,full,http://www.netlib.org/lapack/double/dgetri.f,computes the inverse of a matrix,278
+263,c,getri,general,full,http://www.netlib.org/lapack/complex/cgetri.f,computes the inverse of a matrix,279
+264,z,getri,general,full,http://www.netlib.org/lapack/complex16/zgetri.f,computes the inverse of a matrix,280
+265,c,hetri,Hermitian,full,http://www.netlib.org/lapack/complex/chetri.f,computes the inverse of a matrix,281
+266,z,hetri,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri.f,computes the inverse of a matrix,282
+267,c,hptri,Hermitian,packed,http://www.netlib.org/lapack/complex/chptri.f,computes the inverse of a matrix,283
+268,z,hptri,Hermitian,packed,http://www.netlib.org/lapack/complex16/zhptri.f,computes the inverse of a matrix,284
+269,s,potri,SPD,full,http://www.netlib.org/lapack/single/spotri.f,computes the inverse of a matrix,285
+270,d,potri,SPD,full,http://www.netlib.org/lapack/double/dpotri.f,computes the inverse of a matrix,286
+271,c,potri,HPD,full,http://www.netlib.org/lapack/complex/cpotri.f,computes the inverse of a matrix,287
+272,z,potri,HPD,full,http://www.netlib.org/lapack/complex16/zpotri.f,computes the inverse of a matrix,288
+273,s,pptri,SPD,packed,http://www.netlib.org/lapack/single/spptri.f,computes the inverse of a matrix,289
+274,d,pptri,SPD,packed,http://www.netlib.org/lapack/double/dpptri.f,computes the inverse of a matrix,290
+275,c,pptri,HPD,packed,http://www.netlib.org/lapack/complex/cpptri.f,computes the inverse of a matrix,291
+276,z,pptri,HPD,packed,http://www.netlib.org/lapack/complex16/zpptri.f,computes the inverse of a matrix,292
+277,s,sytri,symmetric,full,http://www.netlib.org/lapack/single/ssytri.f,computes the inverse of a matrix,293
+278,d,sytri,symmetric,full,http://www.netlib.org/lapack/double/dsytri.f,computes the inverse of a matrix,294
+279,c,sytri,symmetric,full,http://www.netlib.org/lapack/complex/csytri.f,computes the inverse of a matrix,295
+280,z,sytri,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri.f,computes the inverse of a matrix,296
+281,s,sptri,symmetric,packed,http://www.netlib.org/lapack/single/ssptri.f,computes the inverse of a matrix,297
+282,d,sptri,symmetric,packed,http://www.netlib.org/lapack/double/dsptri.f,computes the inverse of a matrix,298
+283,c,sptri,symmetric,packed,http://www.netlib.org/lapack/complex/csptri.f,computes the inverse of a matrix,299
+284,z,sptri,symmetric,packed,http://www.netlib.org/lapack/complex16/zsptri.f,computes the inverse of a matrix,300
+285,s,trtri,triangular,full,http://www.netlib.org/lapack/single/strtri.f,computes the inverse of a matrix,301
+286,d,trtri,triangular,full,http://www.netlib.org/lapack/double/dtrtri.f,computes the inverse of a matrix,302
+287,c,trtri,triangular,full,http://www.netlib.org/lapack/complex/ctrtri.f,computes the inverse of a matrix,303
+288,z,trtri,triangular,full,http://www.netlib.org/lapack/complex16/ztrtri.f,computes the inverse of a matrix,304
+289,s,tptri,triangular,packed,http://www.netlib.org/lapack/single/stptri.f,computes the inverse of a matrix,305
+290,d,tptri,triangular,packed,http://www.netlib.org/lapack/double/dtptri.f,computes the inverse of a matrix,306
+291,c,tptri,triangular,packed,http://www.netlib.org/lapack/complex/ctptri.f,computes the inverse of a matrix,307
+292,z,tptri,triangular,packed,http://www.netlib.org/lapack/complex16/ztptri.f,computes the inverse of a matrix,308
+293,s,pftri,SPD,full,http://www.netlib.org/lapack/single/spftri.f,computes the inverse using the Cholesky factorization; computed by SPFTRF,369
+294,d,pftri,SPD,full,http://www.netlib.org/lapack/double/dpftri.f,computes the inverse using the Cholesky factorization; computed by DPFTRF,370
+295,c,pftri,HPD,full,http://www.netlib.org/lapack/complex/cpftri.f,computes the inverse using the Cholesky factorization; computed by CPFTRF,371
+296,z,pftri,HPD,full,http://www.netlib.org/lapack/complex16/zpftri.f,computes the inverse using the Cholesky factorization; computed by ZPFTRF,372
+297,s,tftri,triangular,full,http://www.netlib.org/lapack/single/stftri.f,computes the inverse of a matrix; stored in RFP format ,373
+298,d,tftri,triangular,full,http://www.netlib.org/lapack/double/dtftri.f,computes the inverse of a matrix; stored in RFP format ,374
+299,c,tftri,triangular,full,http://www.netlib.org/lapack/complex/ctftri.f,computes the inverse of a matrix; stored in RFP format ,375
+300,z,tftri,triangular,full,http://www.netlib.org/lapack/complex16/ztftri.f,computes the inverse of a matrix; stored in RFP format ,376
+301,s,sytri2,symmetric,full,http://www.netlib.org/lapack/single/ssytri2.f,computes the inverse of a matrix; computed by SSYTRF; sets the LEADING DIMENSION of the workspace,377
+302,d,sytri2,symmetric,full,http://www.netlib.org/lapack/double/dsytri2.f,computes the inverse of a matrix; computed by DSYTRF; sets the LEADING DIMENSION of the workspace,378
+303,c,sytri2,symmetric,full,http://www.netlib.org/lapack/complex/csytri2.f,computes the inverse of a matrix; computed by CSYTRF; sets the LEADING DIMENSION of the workspace,379
+304,z,sytri2,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2.f,computes the inverse of a matrix; computed by ZSYTRF; sets the LEADING DIMENSION of the workspace,380
+305,c,hetri2,Hermitian,full,http://www.netlib.org/lapack/complex/chetri2.f,computes the inverse of a matrix; computed by CHETRF; sets the LEADING DIMENSION of the workspace,381
+306,z,hetri2,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri2.f,computes the inverse of a matrix; computed by ZHETRF; sets the LEADING DIMENSION of the workspace,382
+307,s,sytri2x,symmetric,full,http://www.netlib.org/lapack/single/ssytri2x.f,computes the inverse of a matrix; computed by SSYTRF,383
+308,d,sytri2x,symmetric,full,http://www.netlib.org/lapack/double/dsytri2x.f,computes the inverse of a matrix; computed by DSYTRF,384
+309,c,sytri2x,symmetric,full,http://www.netlib.org/lapack/complex/csytri2x.f,computes the inverse of a matrix; computed by CSYTRF,385
+310,z,sytri2x,symmetric,full,http://www.netlib.org/lapack/complex16/zsytri2x.f,computes the inverse of a matrix; computed by ZSYTRF,386
+311,c,hetri2x,Hermitian,full,http://www.netlib.org/lapack/complex/chetri2x.f,computes the inverse of a matrix; computed by CHETRF,387
+312,z,hetri2x,Hermitian,full,http://www.netlib.org/lapack/complex16/zhetri2x.f,computes the inverse of a matrix; computed by ZHETRF,388
+313,s,trti2,triangular,full,http://www.netlib.org/lapack/single/strti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,389
+314,d,trti2,triangular,full,http://www.netlib.org/lapack/double/dtrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,390
+315,c,trti2,triangular,full,http://www.netlib.org/lapack/complex/ctrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,391
+316,z,trti2,triangular,full,http://www.netlib.org/lapack/complex16/ztrti2.f,computes the inverse of a matrix; upper or lower triangular matrix; Level 2 BLA,392
+317,s,geequ,general,full,http://www.netlib.org/lapack/single/sgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,309
+318,d,geequ,general,full,http://www.netlib.org/lapack/double/dgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,310
+319,c,geequ,general,full,http://www.netlib.org/lapack/complex/cgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,311
+320,z,geequ,general,full,http://www.netlib.org/lapack/complex16/zgeequ.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn,312
+321,s,gbequ,general,band,http://www.netlib.org/lapack/single/sgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,313
+322,d,gbequ,general,band,http://www.netlib.org/lapack/double/dgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,314
+323,c,gbequ,general,band,http://www.netlib.org/lapack/complex/cgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,315
+324,z,gbequ,general,band,http://www.netlib.org/lapack/complex16/zgbequ.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn,316
+325,s,poequ,SPD,full,http://www.netlib.org/lapack/single/spoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),317
+326,d,poequ,SPD,full,http://www.netlib.org/lapack/double/dpoequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A and reduce its cn (with respect to the two-norm),318
+327,c,poequ,HPD,full,http://www.netlib.org/lapack/complex/cpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),319
+328,z,poequ,HPD,full,http://www.netlib.org/lapack/complex16/zpoequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A and reduce its cn (with respect to the two-norm),320
+329,s,pbequ,SPD,band,http://www.netlib.org/lapack/single/spbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),321
+330,d,pbequ,SPD,band,http://www.netlib.org/lapack/double/dpbequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite band matrix A and reduce its cn (with respect to the two-norm),322
+331,c,pbequ,HPD,band,http://www.netlib.org/lapack/complex/cpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),323
+332,z,pbequ,HPD,band,http://www.netlib.org/lapack/complex16/zpbequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite band matrix A and reduce its cn (with respect to the two-norm),324
+333,s,ppequ,SPD,packed,http://www.netlib.org/lapack/single/sppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),325
+334,d,ppequ,SPD,packed,http://www.netlib.org/lapack/double/dppequ.f,computes row and column scalings intended to equilibrate a symmetric positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),326
+335,c,ppequ,HPD,packed,http://www.netlib.org/lapack/complex/cppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),327
+336,z,ppequ,HPD,packed,http://www.netlib.org/lapack/complex16/zppequ.f,computes row and column scalings intended to equilibrate a Hermitian positive definite matrix A in packed storage and reduce its cn (with respect to the two-norm),328
+337,s,geequb,general,full,http://www.netlib.org/lapack/single/sgeequb.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn; restricting the scaling factors to a power of the radix,393
+338,d,geequb,general,full,http://www.netlib.org/lapack/double/dgeequb.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn; restricting the scaling factors to a power of the radix,394
+339,c,geequb,general,full,http://www.netlib.org/lapack/complex/cgeequb.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn; restricting the scaling factors to a power of the radix,395
+340,z,geequb,general,full,http://www.netlib.org/lapack/complex16/zgeequb.f,computes row and column scalings intended to equilibrate an M-by-N matrix A and reduce its cn; restricting the scaling factors to a power of the radix,396
+341,s,gbequb,general,band,http://www.netlib.org/lapack/single/sgbequb.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn; restricting the scaling factors to a power of the radix,397
+342,d,gbequb,general,band,http://www.netlib.org/lapack/double/dgbequb.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn; restricting the scaling factors to a power of the radix,398
+343,c,gbequb,general,band,http://www.netlib.org/lapack/complex/cgbequb.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn; restricting the scaling factors to a power of the radix,399
+344,z,gbequb,general,band,http://www.netlib.org/lapack/complex16/zgbequb.f,computes row and column scalings intended to equilibrate an M-by-N band matrix A and reduce its cn; restricting the scaling factors to a power of the radix,400
+345,s,syequb,symmetric,full,http://www.netlib.org/lapack/single/ssyequb.f,computes row and column scalings intended to equilibrate a symmetric matrix A and reduce its cn; S contains the scale factors,401
+346,d,syequb,symmetric,full,http://www.netlib.org/lapack/double/dsyequb.f,computes row and column scalings intended to equilibrate a symmetric matrix A and reduce its cn; S contains the scale factors,402
+347,c,syequb,symmetric,full,http://www.netlib.org/lapack/complex/csyequb.f,computes row and column scalings intended to equilibrate a symmetric matrix A and reduce its cn; S contains the scale factors,403
+348,z,syequb,symmetric,full,http://www.netlib.org/lapack/complex16/zsyequb.f,computes row and column scalings intended to equilibrate a symmetric matrix A and reduce its cn; S contains the scale factors,404
+349,s,poequb,SPD,full,http://www.netlib.org/lapack/single/spoequb.f,computes row and column scalings intended to equilibrate an SPD matrix A and reduce its cn; S contains the scale factors,405
+350,d,poequb,SPD,full,http://www.netlib.org/lapack/double/dpoequb.f,computes row and column scalings intended to equilibrate an SPD matrix A and reduce its cn; S contains the scale factors,406
+351,c,poequb,HPD,full,http://www.netlib.org/lapack/complex/cpoequb.f,computes row and column scalings intended to equilibrate an HPD matrix A and reduce its cn; S contains the scale factors,407
+352,z,poequb,HPD,full,http://www.netlib.org/lapack/complex16/zpoequb.f,computes row and column scalings intended to equilibrate an HPD matrix A and reduce its cn; S contains the scale factors,408
+353,c,heequb,Hermitian,full,http://www.netlib.org/lapack/complex/cheequb.f,computes row and column scalings intended to equilibrate a Hermitian matrix A and reduce its cn; S contains the scale factors,409
+354,z,heequb,Hermitian,full,http://www.netlib.org/lapack/complex16/zheequb.f,computes row and column scalings intended to equilibrate a Hermitian matrix A and reduce its cn; S contains the scale factors,410
