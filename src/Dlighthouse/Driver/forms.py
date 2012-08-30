@@ -9,12 +9,12 @@ from django.db.models import get_model
 
 Problem_choices = (
 	('Combine LinearEquation_only solve',					'Solve a system of linear equations only'),
-	('Computational LinearEquation_computational factor',			'Factor a matrix (PA = LU)'),
-	('Computational LinearEquation_computational refine',			'Refine the solution to a linear system'),
-	('Computational LinearEquation_computational error',			'Compute forward or backward error bound for the solution to a linear system'),
-	('Computational LinearEquation_computational condition', 		'Estimate the condition number of a matrix'),
-	('Computational LinearEquation_computational equilibrate',		'Equilibrate a matrix'),
-	('Computational LinearEquation_computational inverse',			'Invert a matrix using provided factors (P, L, U)'),
+	('Computational LinearEquation_factor factorization',				'Factor a matrix (PA = LU)'),
+	('Computational LinearEquation_error_bound refine',			'Refine the solution to a linear system'),
+	('Computational LinearEquation_error_bound error',			'Compute forward or backward error bound for the solution to a linear system'),
+	('Computational LinearEquation_condition_number condition', 		'Estimate the condition number of a matrix'),
+	('Computational LinearEquation_equilibrate equilibrate',		'Equilibrate a matrix'),
+	('Computational LinearEquation_invert inverse',				'Invert a matrix using provided factors (P, L, U)'),
 	('Driver LinearEquation_expert',					'Solve a system of linear equations AND'),
 	('Driver LinearEquation_expert refine',					'Refine the solution'),
 	('Driver LinearEquation_expert error',					'Compute forward or backward error bounds for the solution'),
