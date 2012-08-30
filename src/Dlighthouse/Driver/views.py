@@ -3,17 +3,18 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, render
 from django.template.loader import render_to_string
+
 #---- for method = 'post' ---#
 from django.views.decorators.csrf import csrf_exempt
 
-
-from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert 
-from Computational.models import LinearEquation_computational
-from Combine.models import LinearEquation_only
 from Driver.forms import ProblemForm, EquationForm, FactorForm, PrecisionForm, ComplexForm, MatrixTypeForm, StorageForm, AdvancedForm, LinearEquation_computationalForm, LinearEquation_simpleForm, LinearEquation_expertForm, scriptForm
 
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import get_model, Q
+from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert
+from Computational.models import LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate
+from Combine.models import LinearEquation_only
+
+from django.contrib.contenttypes.models import ContentType
 from itertools import chain
 from haystack.query import SearchQuerySet
 
