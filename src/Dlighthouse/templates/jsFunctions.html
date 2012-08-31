@@ -265,8 +265,7 @@
 	}
 
 
-	// Check radio buttons in guided search
-
+	// Check radio buttons in guided search, if none is selected return false, else return true
 	function checkRadios(){
 		var radios = document.getElementsByTagName('input');
 		var checked = false;
@@ -277,15 +276,6 @@
 		}
 		return checked;
 	}
-
-	
-
-
-
-
-
-
-
 
 	/*--------------------------------------------------------------------------------- */	
 	/* ------------------------------ For Advanced Search ----------------------------- */
@@ -588,7 +578,7 @@
 		}
 	}
 	
-	// Trim a string
+	// Trim the leading and trailing white spaces from a string
 	function trim(stringToTrim) {
 		return stringToTrim.replace(/^\s+|\s+$/g,"");
 	}
@@ -776,8 +766,10 @@
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
 
+	// Hide the unchecked routines from the Selected Routine area and remove them from session
 	function clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames){		
 		
+		// Remove unchecked routines from the session
 		dojo.xhrPost( {
 			url: "/search/clear_session/",
 			content: {clear: "unchecked"},
@@ -792,8 +784,7 @@
 		
 		var len = uncheckedRoutines.length;
 
-		//alert(document.getElementById("ts_"+routineName.toUpperCase()).parent.toString());
-
+		// Hide the unchecked routines
 		for(var i = 0; i < len; i++){
 			routineName = uncheckedRoutines[i];
 			tb = document.getElementById("tb_"+routineName.toUpperCase());		
@@ -801,6 +792,7 @@
 		}		
 	}
 
+	// Checks all routines
 	function checkAll(field, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
 		for (i = 0; i < field.length; i++){
 			field[i].checked = true;
@@ -809,6 +801,7 @@
 		}			
 	}
 
+	// Unchecks all routines
 	function uncheckAll(field){
 		for (i = 0; i < field.length; i++){
 			field[i].checked = false;
@@ -817,10 +810,12 @@
 		}
 	}
 
+	// Called when a checkbox is checked or unchecked
 	function checkChanged(routine, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
 
 		var checkbox = document.getElementById("cb_"+routine);
 
+		// If any routine was dropped than use the array "selectedRoutineNames" instead of "selectedRoutine_session"
 		if(selectedRoutineNames.length > 0){
 			selectedRoutine_session = selectedRoutineNames;
 		}		
@@ -834,31 +829,40 @@
 		var url = detail.split("_")[5];
 		var checked;
 
+		// If routine was checked
 		if(checkbox.checked == 1){
 			checked = "checked";
 			
 			checkbox.setAttribute('checked','checked');
+
+			// Add routine name to "selectedRoutine_session"
 			if(!routineExists(routine, selectedRoutine_session))
             	selectedRoutine_session.push(routine.toLowerCase());
 
+            // Remove routine name from "uncheckedRoutines"
             if(routineExists(routine, uncheckedRoutines)){
                 var index = uncheckedRoutines.indexOf(routine.toLowerCase());
                 uncheckedRoutines.splice(index, 1);                 
             }            
 		}
 
+		// If routine was unchecked
 		else if(checkbox.checked == 0){
 			checked = "unchecked";
 			checkbox.removeAttribute('checked',0);
+
+			// Remove routine name from "selectedRoutine_session"
 			if(routineExists(routine, selectedRoutine_session)){
                 var index = selectedRoutine_session.indexOf(routine.toLowerCase());
                 selectedRoutine_session.splice(index, 1); 
             }
 
+            // Add routine name to "uncheckedRoutines"
             if(!routineExists(routine, uncheckedRoutines))
             	uncheckedRoutines.push(routine.toLowerCase());
 		}
 
+		// Update session
 		dojo.xhrPost( {
 			url: "/search/update_session/",
 			content: {
@@ -880,6 +884,7 @@
 		
 	}
 
+	// Returns true if "routineName" exists in "array"
 	function routineExists(routineName, array){
         routineName = routineName.toLowerCase();
         for(var i = 0; i < array.length; i++){
@@ -890,6 +895,7 @@
         return false;
 	}
 
+	// Called when user selects an option from the "Clear" menu (combobox)
 	function clearMenuChanged(){
 		var menu = document.getElementById('clearMenu');
 		var selected = menu.options[menu.selectedIndex].text;
@@ -909,6 +915,7 @@
 		}			
 	}
 
+	// Called when user selects an option from the "Select" menu (combobox)
 	function selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
 		var menu = document.getElementById('selectMenu');
 		var selected = menu.options[menu.selectedIndex].text;
@@ -919,12 +926,14 @@
 			uncheckAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
 	}
 
+	// Called when user selects an option from the "Generate Template" menu (combobox)
 	function generateMenuChanged(){
 
 		var menu = document.getElementById('generateMenu');
 		var selected = menu.options[menu.selectedIndex].text;
 		menu.options[0].selected = true;
 
+		// If user reordered the routines but did not click 'Done', show this dialogue
 		if(document.getElementById("movebuttons").style.display == "block"){
 			alert("Click 'Done' if you are done reordering the routines.");
 			return;
@@ -936,26 +945,28 @@
 			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
 	}
 
+	// Unused function
 	function hoverEffect(ele){
 		var x = document.getElementById("ts_"+ele);
 		var col = x.style.background;
-		//alert(col);
 		if(col == "rgb(200, 200, 200)")
 			x.style.background = "";
 		else
 			x.style.background = "rgb(200, 200, 200)";
 	}
 
+	// Swaps the selected routine with the routine right above it (if there's any)
 	function moveup(id, routines){
 		
 		if(id == "") return routines;
 
-		//alert(routines.join());
+		// Get the html element for the selected routine
 		var thisRoutine = document.getElementById("sel_"+id.toUpperCase());
 		var prev_routine = "";
 		var prev_routine_index = -1;
 		var this_routine_index = -1;
 
+		// Find the index of this routine in the "routines" array, also save the index of the previous routine
 		for(var i = 0; i < routines.length; i++){
 			if(routines[i] == id.toLowerCase()){
 				this_routine_index = i;
@@ -966,17 +977,22 @@
 			}
 		}		
 		
-		if(prev_routine != ""){
+		if(prev_routine != ""){ // If there is a routine above the selected routine
+
+			// Get the html element of the previous routine
 			var prevRoutine = document.getElementById("sel_"+prev_routine.toUpperCase());
 
+			// Swap the html contents of the routines
 			var temp = thisRoutine.innerHTML;	
 			thisRoutine.innerHTML = prevRoutine.innerHTML;
 			prevRoutine.innerHTML = temp;
 
+			// Swap their ids
 			temp = thisRoutine.id;
 			thisRoutine.id = prevRoutine.id;
 			prevRoutine.id = temp;
 
+			// Swap the routines in the "routines" array
 			temp = routines[this_routine_index];
 			routines[this_routine_index] = routines[prev_routine_index];
 			routines[prev_routine_index] = temp;
@@ -985,15 +1001,18 @@
 		return routines;
 	}
 
+	// Swaps the selected routine with the routine right below it (if there's any)
 	function movedown(id, routines){
 
 		if(id == "") return routines;
 
+		// Get the html element for the selected routine
 		var thisRoutine = document.getElementById("sel_"+id);
 		var next_routine = "";
 		var this_routine_index = -1;
 		var next_routine_index = -1;
 
+		// Find the index of this routine in the "routines" array, also save the index of the next routine
 		for(var i = 0; i < routines.length; i++){
 			if(routines[i] == id.toLowerCase()){
 				this_routine_index = i;				
@@ -1004,17 +1023,23 @@
 			}
 		}		
 		
+		// If there is a routine below the selected routine
 		if(next_routine != ""){
+
+			// Get the html element of the next routine
 			var nextRoutine = document.getElementById("sel_"+next_routine.toUpperCase());
 
+			// Swap the routines
 			var temp = thisRoutine.innerHTML;	
 			thisRoutine.innerHTML = nextRoutine.innerHTML;
 			nextRoutine.innerHTML = temp;
 
+			// Swap their ids
 			temp = thisRoutine.id;
 			thisRoutine.id = nextRoutine.id;
 			nextRoutine.id = temp;
 
+			// Swap the routines in the "routines" array
 			temp = routines[this_routine_index];
 			routines[this_routine_index] = routines[next_routine_index];
 			routines[next_routine_index] = temp;
@@ -1023,10 +1048,11 @@
 		return routines;
 	}
 
+	// Called when user clicks on the name of the routine in the selected routines area
 	function selectRoutine(selectedRoutine, id){
 
-		if(selectedRoutine != ''){
-			if(selectedRoutine != id){
+		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
+			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
 				if(document.getElementById("tb_"+selectedRoutine))
 					document.getElementById("tb_"+selectedRoutine).style.background = "";				
 			}
@@ -1034,25 +1060,31 @@
 
 		var elem = document.getElementById("tb_"+id);
 		
+		// If the routine background was grey (i.e. it was selected)
 		if(elem.style.background == "rgb(170, 170, 170)"){
-			elem.style.background = "";
-			document.getElementById("movebuttons").style.display = "none";
+			elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
+			document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
 			return "";
 		}
-		else{
-			elem.style.background = "rgb(170, 170, 170)";
-			document.getElementById("movebuttons").style.display = "block";
+		else{ // Routine was not selected
+			elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
+			document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
 			return id;
 		}
 	}
 
+	// Hide the panel routine ordering 
 	function closeOrderingPanel(id, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+
+		// If any routine was selected, unselect that first
 		if(id != ''){
 			if(document.getElementById("tb_"+id))
 				document.getElementById("tb_"+id).style.background = "";				
 		}
+		// hide the reordering button panel
 		document.getElementById("movebuttons").style.display = "none";
 
+		// If any routine was dropped than use the array "selectedRoutineNames" instead of "selectedRoutine_session" 
 		if(selectedRoutineNames.length > 0)
 			selectedRoutine_session = selectedRoutineNames;
 
@@ -1065,6 +1097,7 @@
 			}
 		}
 
+		// Clear the session
 		dojo.xhrPost( {
 			url: "/search/clear_session/",
 			content: {clear: "all"},
@@ -1076,6 +1109,7 @@
 			    }
 		});
 
+		// Add back the routines to the session in the updated order
 		for(var i = 0; i < allRoutines_session.length; i++){
 			routineName = allRoutines_session[i];
 			
@@ -1115,6 +1149,7 @@
 			});
 		}
 
+		// return the reordered array of routines
 		return selectedRoutine_session;
 	}
 
@@ -1122,12 +1157,14 @@
 	/* ----------------------------- For Code Template Area --------------------------- */
 	/*--------------------------------------------------------------------------------- */
 
+	// Clear code template area and remove template file from server
 	function clearTemplateArea(){
 		Dajaxice.Driver.removeTemplateFile(Dajax.process);
 		var template = document.getElementById('div-codeTemp');
 		template.innerHTML = "";	
 	}
 
+	// Check if there's any code template, allow download if template is not empty
 	function checkCodeTemplate(){		
 		var template = document.getElementById('div-codeTemp');
 		var content = trim(template.innerHTML);
@@ -1136,10 +1173,12 @@
 			window.location = '/search/download/';
 	}
 
+	// Loads code template for display, called when user clicks the "Show" button
 	function loadCodeTemplate(){
 		dojo.xhrPost( {
 			url: "/search/load_template/",
 			load: function(response){
+				// Set the content of the 'codeFrame' div
 				document.getElementById('codeFrame').innerHTML = response.replace(/\n/g,'<br>');
 				console.log("load response: ", response);
 			    },
@@ -1153,13 +1192,19 @@
 	/* --------------------------------- For Script Area ------------------------------ */
 	/*--------------------------------------------------------------------------------- */
 
+	// Called when user submits some script
 	function runScript(){
-		var scriptCode = document.getElementById('script_input').value;
+		// Get the input script
+		var scriptCode = document.getElementById('script_input').value.trim();
+
+		// Create an AJAX request
 		dojo.xhrPost( {
 			url: "/search/script/",
+			// Send the input script
 			content: { 
-				scriptCode: scriptCode.trim(),
+				scriptCode: scriptCode,
 			},
+			// Load and show the response in the output panel
 			load: function(response){
 				document.getElementById('script_output').value = response;
 				console.log("load response: ", response);
@@ -1170,10 +1215,13 @@
 		});
 	}
 
+	// Called when user clicks the "Clear" button
 	function clearScript(){
 
+		// Create an AJAX request
 		dojo.xhrPost( {
 			url: "/search/script/",
+			// Send an empty string as input script
 			content: { 
 				scriptCode: "",
 			},
@@ -1185,6 +1233,7 @@
 			}
 		});
 
+		// Replace the contents of input and output panel with empty strings
 		document.getElementById('script_input').value = "";
 		document.getElementById('script_output').value = "";
 	}
