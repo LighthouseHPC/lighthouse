@@ -601,13 +601,16 @@
 
 		if(document.forms['kw_form'].elements['sel'].length == 0) tmp = -1;
 		
+		// it's a letter (a-z, A-Z)
 		if(code >= 48 && code <= 90){
+			// Save the keyword as the original input
 			org_input = document.getElementById("keyword").value + String.fromCharCode(code).toLowerCase();
 			
+			// If shift key is pressed, don't lowercase it
 			if(window.event.shiftKey)
 				org_input = document.getElementById("keyword").value + String.fromCharCode(code);			
 		}
-
+		// down arrow key is pressed
 		if(code==40){					
 			tmp = tmp + 1;
 			if(tmp > tmp2) tmp = tmp2;			
@@ -615,6 +618,7 @@
 			product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
 			document.forms['kw_form'].elements['kwtb'].value = product;			
 		}
+		// up arrow key is pressed
 		if(code==38){
 			if(tmp == 0){
 				document.forms['kw_form'].elements['sel'].options[0].selected = false;				
@@ -622,7 +626,7 @@
 				tmp = -1;
 				//document.getElementById("keyword").value = "";				
 			}
-				
+
 			if(tmp >= 1){
 				tmp = tmp - 1;
 				document.forms['kw_form'].elements['sel'].options[tmp].selected = true;
@@ -630,7 +634,7 @@
 				document.forms['kw_form'].elements['kwtb'].value = product;				
 			}			
 		}
-
+		// enter is pressed
 		if(code==13){			
 			document.getElementById("show").style.display='none';
 		}	
@@ -680,8 +684,9 @@
 				{
 					document.forms['kw_form'].elements['sel'].options[a] = null;
 				}
-				obj = document.forms['kw_form'].elements['sel'];
 
+				// List of keywords
+				obj = document.forms['kw_form'].elements['sel'];				
 				obj[0] = new Option('factor a matrix','0');
 				obj[1] = new Option('estimate the condition number','1');
 				obj[2] = new Option('compute forward error bounds','2');
@@ -780,7 +785,6 @@
 			    console.log("error");
 			    }
 		});
-
 		
 		var len = uncheckedRoutines.length;
 
@@ -1088,10 +1092,13 @@
 		if(selectedRoutineNames.length > 0)
 			selectedRoutine_session = selectedRoutineNames;
 
-		selectedRoutine_session.length = 0;
+		// Delete all the routines form "selectedRoutine_session"
+		selectedRoutine_session.length = 0;		
+		
+		// Add the reordered routines back to "selectedRoutine_session"
 		var j = 0;
 		for(var i = 0; i < allRoutines_session.length; i++){
-			if(!routineExists(allRoutines_session[i],uncheckedRoutines)){
+			if(!routineExists(allRoutines_session[i],uncheckedRoutines)){ // Add it only if it's checked
 				selectedRoutine_session[j] = allRoutines_session[i];	
 				j++;
 			}
@@ -1111,12 +1118,12 @@
 
 		// Add back the routines to the session in the updated order
 		for(var i = 0; i < allRoutines_session.length; i++){
+			
 			routineName = allRoutines_session[i];
 			
-			tb = document.getElementById("tb_"+routineName.toUpperCase());
-
 			var checkbox = document.getElementById("cb_"+routineName.toUpperCase());			
 
+			// Extract details
 			var detail = checkbox.value;
 			var precision = detail.split("_")[0];
 	        var routineName = detail.split("_")[1];
@@ -1129,6 +1136,7 @@
 			if(checkbox.checked == 0)
 				checked = "unchecked";
 
+			// Update session
 			dojo.xhrPost( {
 			url: "/search/update_session/",
 			content: {

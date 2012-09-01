@@ -52,55 +52,51 @@ def combine_Q(aList):
 def update_session(request):
 	if request.is_ajax():
 		selectedRoutineNames = []
-		selectedRoutineList = [
-			{"thePrecision": request.POST.get('precision'),
+		selectedRoutineList = [{
+			 "thePrecision": request.POST.get('precision'),
 			 "routineName": request.POST.get('routineName'),
 			 "matrixType": request.POST.get('matrixType'),
 			 "storageType": request.POST.get('storageType'),
 			 "id": request.POST.get('idn'),
 			 "url": request.POST.get('url'),
-			 "checkState": request.POST.get('checkState')}
-			]
+			 "checkState": request.POST.get('checkState')
+		}]
 		
+		# Check if the routine already exists in request.session['selectedRoutines'], if it does save it's index
 		counter = 0
 		match = -1
 		for item in request.session['selectedRoutines']:
 			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:
-				match = counter
+				match = counter # Save the index
 				if selectedRoutineList[0]['checkState'] == 'checked':
 					request.session['selectedRoutines'][counter]['checkState'] = 'checked'
 				if selectedRoutineList[0]['checkState'] == 'unchecked':
 					request.session['selectedRoutines'][counter]['checkState'] = 'unchecked'							
 			counter += 1
 
-		if match == -1:
-			#selectedRoutineList[0]['serialNo'] = getSerialNo(request, selectedRoutineList[0]['thePrecision'], selectedRoutineList[0]['routineName'])
+		if match == -1: # The routine does not exist in request.session['selectedRoutines'], so add it
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
+		# Session was modified
 		request.session.modified = True
-			
+		
+		# Create a list of all checked routines	
 		for item in request.session['selectedRoutines']:
 			if item['checkState'] == 'checked':
 				selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
 
+		# Return the list
 		return HttpResponse(selectedRoutineNames)
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
-	
 
-def getSerialNo(request, precision, routineName):
 
-	i = 0
-	for item in request.session['selectedRoutines']:	
-		i += 1
-		if item['thePrecision'] == precision and item['routineName'] == routineName:
-			return request.session['selectedRoutines'][i]['serialNo']
 
-	serialNo = len(request.session['selectedRoutines']) + 1		
-	return serialNo
+# From the list of routines returned after each step of the Guided Search (i.e. request.session['Routines']), 
+# this function creates a new list of routines that excludes the routines 
+# that are in the request.session['selectedRoutines'] list
 
-def filterSelectedRoutines(request):
-
+def filterSelectedRoutines(request):	
 	request.session['notSelectedRoutines'] = request.session['Routines']
 
 	for item in request.session['selectedRoutines']:
@@ -108,36 +104,63 @@ def filterSelectedRoutines(request):
 	
 	request.session.modified = True
 
+
+# From the list of routines returned by a Keyword Search this function removes 
+# the routines that are in the request.session['selectedRoutines'] list
+
 def filterSelectedRoutines2(request, routines):
 
 	indices = []
 	i = 0
 	for item1 in routines:		
 		for item2 in request.session['selectedRoutines']:
+			# Save the indices of the routines that match
 			if item2['thePrecision'] == item1.thePrecision and item2['routineName'] == item1.routineName:
 				indices.append(i)
 		i += 1
 
+	# Reverse the list, so the routine with highest index gets popped first 
+	# (popping the lowest index first messes up the list)
 	indices.reverse()
+
 	for item in indices:
 		routines.pop(item)
 	
 	return routines
+
+# From the list of routines returned by an Advanced Search this function  
+# creates a new list of routines (in the same format as the search result)
+# that contains only the routines that are in request.session['selectedRoutines'] list
+
+def filterSelectedRoutines3(request, routines):
+
+	alreadySelectedRoutines = []
+
+	for item1 in request.session['selectedRoutines']:
+		for lst in routines:
+			for item2 in lst:
+				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
+					alreadySelectedRoutines.append(item2)
+
+	return alreadySelectedRoutines
 
 ###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
 @csrf_exempt
 def clear_session(request):
 	if request.is_ajax():
 		mode = [{"clear": request.POST.get('clear')}]
+		# Clear all routines
 		if mode[0]['clear'] == 'all':
 			request.session['selectedRoutines'] = []
 			return HttpResponse('cleared')
+		# Clear unchecked routines
 		elif mode[0]['clear'] == 'unchecked':
 			test = request.session['selectedRoutines']
 			request.session['selectedRoutines'] = []
 			for item in test:
 				if item['checkState'] == 'checked':					
 					request.session['selectedRoutines'].append(item)
+		# Clear checked routines			
 		elif mode[0]['clear'] == 'checked':
 			test = request.session['selectedRoutines']
 			request.session['selectedRoutines'] = []
@@ -228,7 +251,7 @@ def guidedSearch_problem(request):
                 	'notSelectedRoutines': request.session['notSelectedRoutines'], 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'],
+					'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
@@ -241,7 +264,7 @@ def guidedSearch_problem(request):
                 	'form': ProblemForm(), 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+  					'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
@@ -894,18 +917,6 @@ def advancedResult(request):
 #    		return render_to_response('search/advanced_search.html', context_instance=RequestContext(request, context))
 
 
-def filterSelectedRoutines3(request, routines):
-
-	alreadySelectedRoutines = []
-
-	for item1 in request.session['selectedRoutines']:
-		for lst in routines:
-			for item2 in lst:
-				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
-					alreadySelectedRoutines.append(item2)
-
-	return alreadySelectedRoutines
-
 ###---------------- Keyword Search ------------------###
 
 def keywordResult(request):
@@ -931,6 +942,7 @@ def keywordResult(request):
 			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__icontains=keywords)
 			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__icontains=keywords)
 			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__icontains=keywords)
+		
 		# For keywords without double quotes 
 		else:			
 			keyword_array = keywords.split(' ')
