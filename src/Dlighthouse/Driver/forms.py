@@ -9,7 +9,7 @@ from django.db.models import get_model
 
 Problem_choices = (
 	('Combine LinearEquation_only solve',					'Solve a system of linear equations only'),
-	('Computational LinearEquation_factor factorization',				'Factor a matrix (PA = LU)'),
+	('Computational LinearEquation_factor factorization',			'Factor a matrix'),
 	('Computational LinearEquation_error_bound refine',			'Refine the solution to a linear system'),
 	('Computational LinearEquation_error_bound error',			'Compute forward or backward error bound for the solution to a linear system'),
 	('Computational LinearEquation_condition_number condition', 		'Estimate the condition number of a matrix'),
