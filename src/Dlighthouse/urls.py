@@ -7,7 +7,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 # To enable dajaxice
-from dajaxice.core import dajaxice_autodiscover
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
 
 
@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     #  dajaxice URLS
-    (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     # For dojango
     #(r'^dojango/', include('dojango.urls')),

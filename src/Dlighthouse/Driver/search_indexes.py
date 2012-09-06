@@ -1,6 +1,6 @@
 import datetime
-from haystack.indexes import *
-from haystack import site
+from haystack import indexes
+
 from Driver.models import LinearEquation_simple, LinearEquation_expert
 #from Driver.models import LinearLeastSquare
 #from Driver.models import Eigensolver
@@ -9,87 +9,89 @@ from Driver.models import LinearEquation_simple, LinearEquation_expert
 
 
 
-class LinearEquation_simpleIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
+class LinearEquation_simpleIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True) 
+    thePrecision = indexes.CharField(model_attr='thePrecision')
+    routineName = indexes.CharField(model_attr='routineName')
+    matrixType = indexes.CharField(model_attr='matrixType')
+    storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
+    notes = indexes.CharField(model_attr='notes')
+    info = indexes.CharField(model_attr='info')
+
+    def get_model(self):
+        return LinearEquation_simple
+    
+    def index_queryset(self):
+        return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())
 
 
 
+class LinearEquation_expertIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True) 
+    thePrecision = indexes.CharField(model_attr='thePrecision')
+    routineName = indexes.CharField(model_attr='routineName')
+    matrixType = indexes.CharField(model_attr='matrixType')
+    storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
+    notes = indexes.CharField(model_attr='notes')
+    info = indexes.CharField(model_attr='info')
 
-class LinearEquation_expertIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
-
-
+    def get_model(self):
+        return LinearEquation_expert
+    
+    def index_queryset(self):
+        return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())
 
 
 
 '''
-class LinearLeastSquareIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
+class LinearLeastSquareIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True) 
+    thePrecision = indexes.CharField(model_attr='thePrecision')
+    routineName = indexes.CharField(model_attr='routineName')
+    matrixType = indexes.CharField(model_attr='matrixType')
+    storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
+    notes = indexes.CharField(model_attr='notes')
+    info = indexes.CharField(model_attr='info')
 
 
 
-class SymmetricEigenvalueIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
+class SymmetricEigenvalueIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True) 
+    thePrecision = indexes.CharField(model_attr='thePrecision')
+    routineName = indexes.CharField(model_attr='routineName')
+    matrixType = indexes.CharField(model_attr='matrixType')
+    storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
+    notes = indexes.CharField(model_attr='notes')
+    info = indexes.CharField(model_attr='info')
 
 
 
-class nonSymmetricEigenvalueIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
+class nonSymmetricEigenvalueIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True) 
+    thePrecision = indexes.CharField(model_attr='thePrecision')
+    routineName = indexes.CharField(model_attr='routineName')
+    matrixType = indexes.CharField(model_attr='matrixType')
+    storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
+    notes = indexes.CharField(model_attr='notes')
+    info = indexes.CharField(model_attr='info')
 
 
 
-class EigensolverIndex(SearchIndex):
-    text = CharField(document=True, use_template=True) 
-    thePrecision = CharField(model_attr='thePrecision')
-    routineName = CharField(model_attr='routineName')
-    matrixType = CharField(model_attr='matrixType')
-    storageType = CharField(model_attr='storageType')
-    url = CharField(model_attr='url')
-    notes = CharField(model_attr='notes')
-    info = CharField(model_attr='info')
+class EigensolverIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True) 
+    thePrecision = indexes.CharField(model_attr='thePrecision')
+    routineName = indexes.CharField(model_attr='routineName')
+    matrixType = indexes.CharField(model_attr='matrixType')
+    storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
+    notes = indexes.CharField(model_attr='notes')
+    info = indexes.CharField(model_attr='info')
 '''
-
-site.register(LinearEquation_simple, LinearEquation_simpleIndex)
-site.register(LinearEquation_expert, LinearEquation_expertIndex)
-#site.register(LinearLeastSquare, LinearLeastSquareIndex)
-#site.register(SymmetricEigenvalue, SymmetricEigenvalueIndex)
-#site.register(nonSymmetricEigenvalue, nonSymmetricEigenvalueIndex)
-#site.register(Eigensolver, EigensolverIndex)
 
 
 
