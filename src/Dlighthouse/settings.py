@@ -136,6 +136,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'dojango.middleware.DojoCollector',
+    #'django_pdb.middleware.PdbMiddleware',
 )
 
 ROOT_URLCONF = 'Dlighthouse.urls'
@@ -173,6 +174,8 @@ INSTALLED_APPS = (
     'dajaxice',
     'dajax',
     
+    #For django-pdb
+    #'django_pdb',
 )
 
 
