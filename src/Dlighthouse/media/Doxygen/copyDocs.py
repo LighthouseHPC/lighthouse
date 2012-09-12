@@ -1,12 +1,4 @@
 import csv, urllib
-import glob
-import MySQLdb
-import os
-parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.sys.path.insert(0,parentdir)
-
-
-
 
 beginId = raw_input("Enter the start id number: ")
 endId =  raw_input("Enter the end id number: ")
@@ -24,7 +16,7 @@ def file_name(precision, name, i):
 
 ### open url.csv (must be "windows comma separated" format)
 ### url.csv stores precision, routine name, and url.
-reader = csv.reader(open(parentdir+"/docGenerate/url.csv"))
+reader = csv.reader(open("url.csv"))
 
 
 
@@ -33,7 +25,7 @@ for idn, precision, routine, url in reader:
     if int(idn) in range(int(beginId), int(endId)+1):
         URL = str("http://www.netlib.org/lapack/lapack_routine"+url)
         page = urllib.urlopen(URL)
-        copy_page= open(parentdir+'/docGenerate/Doxygen/fortran/'+file_name(precision, routine, idn), "w")
+        copy_page= open('fortran/'+file_name(precision, routine, idn), "w")
         
         print idn, "  ", precision, routine      
         content = page.read()
