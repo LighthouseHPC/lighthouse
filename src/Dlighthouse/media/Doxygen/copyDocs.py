@@ -20,7 +20,7 @@ reader = csv.reader(open("url.csv"))
 
 
 
-###  save documentation files in the 'Doxygen' directory.  
+###  save documentation (fortran) files in the 'fortran' directory.  
 for idn, precision, routine, url in reader:    
     if int(idn) in range(int(beginId), int(endId)+1):
         URL = str("http://www.netlib.org/lapack/lapack_routine"+url)
