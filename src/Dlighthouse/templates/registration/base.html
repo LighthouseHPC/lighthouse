@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <style rel="stylesheet">
+
+      html{
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;  
+
+        background: url(/media/Images/bg.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;  
+      }
+
+      body{
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;            
+      }
+
+      #titlediv {
+        text-align: center;        
+        background-color: #246b8f;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin: 0px auto;        
+        font: 35px Tahoma, "Trebuchet MS", Verdana, sans-serif;
+        color: #fff;
+      }
+
+      #subtitlediv {
+        text-align: center;        
+        background-color: #3399cc;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        margin: 0px auto;
+        font: 25px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+      }
+
+      #logindiv {        
+        font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+        text-align: center;
+        width:350px;        
+        margin: 0px auto;
+        border: 2px solid #ccc;
+        background-color: #eee;
+        padding: 10px 0px 20px 0px;
+        border-radius: 15px;        
+      }
+
+      #errordiv {        
+        font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+        text-align: center;
+        color: #b40000;
+        padding-top: 10px;
+      }
+
+      #logintitle {        
+        font: 15px Tahoma, "Trebuchet MS", Verdana, sans-serif;
+        text-align: center;
+        color: #000;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #ddd;
+        width: 330px;
+        border-radius: 7px;
+        margin: 0px auto;
+      }
+
+      #formdiv{
+        text-align: center;      
+        width:100%;
+        height:100%;
+        margin: 0px auto;
+        padding-top: 10px;
+      }
+
+      #buttondiv{
+        text-align: center;      
+        width:100%;
+        height:100%;
+        margin: 0px auto;
+        padding-top: 10px;
+      }
+    </style>
+    <title>{% block title %}Tagging Exploration{% endblock %}</title>
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>

@@ -155,6 +155,7 @@ HAYSTACK_CONNECTIONS = {
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.humanize',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     #'django.contrib.sites',
@@ -176,6 +177,9 @@ INSTALLED_APPS = (
     
     #For django-pdb
     #'django_pdb',
+    
+    #for django-registration
+    'registration',
 )
 
 
@@ -228,5 +232,19 @@ DAJAXICE_DEBUG = True
 DAJAXICE_JS_DOCSTRINGS = True
 #DAJAXICE_NOTIFY_EXCEPTIONS = True
 
+
+
+#django-registration
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+#EMAIL_HOST_PASSWORD = "
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'lighthouse@mcs.anl.gov'
+
+
+
 import logging
 #logging.basicConfig(level=logging.DEBUG)
+
+

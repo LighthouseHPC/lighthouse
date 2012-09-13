@@ -24,6 +24,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+    
+    # django-registration
+    (r'^accounts/', include('registration.backends.default.urls')),
 
     #  dajaxice URLS
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
