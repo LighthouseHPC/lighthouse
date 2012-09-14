@@ -3,27 +3,24 @@
 {% block title %}Registration registration{% endblock %}
 
 {% block content %}
-    <div id="titlediv">Lighthouse</div>
-        <div id="subtitlediv">LAPACK Search Engine</div>
-        </br></br>
-        <div id="logindiv">
-            <div id="formtitle">
-                Registration Form
-            </div>
-            <form action="." method="post">
-            <div id="formdiv">
-                {% csrf_token %}
-                <table>
-                    {{ form }}
-                </table>
-            </div>
-            <div id="buttondiv">
-                <input type="submit" value="Create account" />
-                <input type="hidden" name="next" value="{{ next }}" />
-            </form>
-                </br></br>
-                Already a member? <a href="{% url auth_login %}">Log in!</a>
-            </div>
+    </br></br>
+    <div id="logindiv">
+        <div id="formtitle">
+            Registration Form
         </div>
-    </div>    
+        <form action="." method="post">
+        <div id="formdiv">
+            {% csrf_token %}
+            <table>
+                {{ form }}
+            </table>
+        </div>
+        <div id="buttondiv">
+            <input type="submit" value="Create account" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+            </br></br>
+            Already a member? <a href="{% url auth_login %}">Log in!</a>
+        </div>
+    </div>  
 {% endblock %}

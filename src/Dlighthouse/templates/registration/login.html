@@ -3,42 +3,40 @@
 {% block title %}Lighthouse login{% endblock %}
 
 {% block content %}
-  <div id="titlediv">Lighthouse</div>
-  <div id="subtitlediv">LAPACK Search Engine</div>
   </br></br>
-    <div id="logindiv">
-      <div id="logintitle">
-        Member Login
-      </div>
-      <div id="errordiv">
-       {% if form.errors %}
-       <div>Please correct the errors below:</div>
-       {% endif %}
-      </div>
-      <div id="formdiv">
-         <form method="post" action="?next={{ next|default:"/" }}">
-             {% csrf_token %}
-             <table align="center">
-                  <tr>
-                      <td><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</td>
-                      <td>{{ form.username }}</td>
-                  </tr>
-                  <tr>
-                      <td><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-                      <td>{{ form.password }}</td>
-                  </tr>
-              </table>
-              <div id="buttondiv">
-              {% if next %}
-                  <input type="hidden" name="next" value="{{ next }}" />
-              {% else %}
-                  <input type="hidden" name="next" value="/search/" />
-              {% endif %}
-                  <input type="submit" value="Login" style="width:70px;"/>
-                </br></br>
-                  Not a member? <a href="/accounts/register/">Sign up now!</a>
-              </div>
-         </form>
-      </div>
-  </div>    
+  <div id="logindiv">
+    <div id="formtitle">
+      Member Login
+    </div>
+    <div id="errordiv">
+     {% if form.errors %}
+     <div>Please correct the errors below:</div>
+     {% endif %}
+    </div>
+    <div id="formdiv">
+       <form method="post" action="?next={{ next|default:"/" }}">
+           {% csrf_token %}
+           <table>
+                <tr>
+                    <td><label for="id_username"><b>Username:</b></label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</td>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_password"><b>Password:</b></label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
+                    <td>{{ form.password }}</td>
+                </tr>
+            </table>
+            <div id="buttondiv">
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            {% else %}
+                <input type="hidden" name="next" value="/search/" />
+            {% endif %}
+                <input type="submit" value="Login" style="width:70px;"/>
+              </br></br>
+                Not a member? <a href="/accounts/register/">Sign up now!</a>
+            </div>
+       </form>
+    </div>
+  </div>
 {% endblock %}
