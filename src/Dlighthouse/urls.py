@@ -40,12 +40,6 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),
     
-    
-    # Login / logout.
-    (r'^login/$', 'django.contrib.auth.views.login'),
-    (r'^logout/$', logout_page),
-    (r'^registration/$', registration),
-    
     # Web Search.
     (r'^search/', include('Driver.urls')),
 
