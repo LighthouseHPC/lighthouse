@@ -19,9 +19,9 @@ def file_name(precision, name, i):
     return str(precision+name+"_"+i+".txt") 
 
 
-### open media/docGenerate/url.csv (must be windows comma separated format)
+### open url.csv (must be windows comma separated format)
 ### url.csv stores precision, routine name, and url.
-reader = csv.reader(open(dirDlighthouse+"/media/docGenerate/url.csv"))
+reader = csv.reader(open(dirDlighthouse+"/media/Doxygen/url.csv"))
 
 
 
@@ -31,33 +31,31 @@ for idn, precision, routine, url in reader:
     
     ### make the highlight docs for the routines with idn = beginId to idn = endId
     if int(idn) in range(int(beginId), int(endId)+1):
-        ### open the .html files from /media/docGenerate/Doxygen/docs/html/
-        ### Note: Doxygen generated html file names have the "double underscores" problem
-        if "_" in routine:
-            page = open(dirDlighthouse+"/media/docGenerate/Doxygen/docs/html/"+precision+routine.replace("_", "__")+"_8f.html")
-            
-        else:
-            page = open(dirDlighthouse+"/media/docGenerate/Doxygen/docs/html/"+precision+routine+"_8f.html")
+        URL = str("http://www.netlib.org/lapack/lapack_routine"+url)
+        page = urllib.urlopen(URL)
         
         ###  save chopped info in the RoutineTxt directory.   
-        copy_page= open('RoutineTxt/'+file_name(precision, routine, idn), "w")
+        copy_page= open(dirDlighthouse+'/routineInfo/RoutineTxt/'+file_name(precision, routine, idn), "w")
         
         flag = 1
         while True:
-            content = page.readline()
-            if "Parameters" in content:
-                print idn, precision+routine, "--> find match!"
+            content = page.readline()[3:]
+            if "===============================================" in content:
+                print idn, "--> find match!"
                 break
-            
+            if "\par Further Details:" in content:
+                print idn, "--> find match!"
+                break
             else:
-                if "Purpose:" in content:
+                if "\par Purpose:" in content:
                     flag = 0
-                if "Parameters" in content:
+                if "===============================================" in content:
                     flag = 1
                 if not flag and not "\par Purpose:" in content:
-                    content = content.replace("\n","")
-                    content = content.replace("</pre> </dd></dl>","")
-                    content = content.replace("   ", "")
+                    if "=======" in content:
+                        content = ''
+                    if content.find("verbatim") > -1:
+                        content = ''
                     copy_page.write(content)
         page.close()
         copy_page.close()
