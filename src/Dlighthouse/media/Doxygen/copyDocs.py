@@ -25,7 +25,7 @@ for idn, precision, routine, url in reader:
     if int(idn) in range(int(beginId), int(endId)+1):
         URL = str("http://www.netlib.org/lapack/lapack_routine"+url)
         page = urllib.urlopen(URL)
-        copy_page= open('fortran/'+file_name(precision, routine, idn), "w")
+        copy_page= open('lapack/'+file_name(precision, routine, idn), "w")
         
         print idn, "  ", precision, routine      
         content = page.read()
