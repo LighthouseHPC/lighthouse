@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
+from django.contrib.auth.models import User
+from django import forms
 
 from registration import signals
 from registration.forms import RegistrationForm
@@ -16,6 +18,8 @@ class EmailRegistrationForm(RegistrationForm):
         cleaned_data = super(EmailRegistrationForm,self).clean()
         if 'email' in self.cleaned_data:
             cleaned_data['username'] = self.cleaned_data['username'] = self.cleaned_data['email']
+        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+            raise forms.ValidationError("This email address is already in use. Please supply a different email address.")
         return cleaned_data
 
 
