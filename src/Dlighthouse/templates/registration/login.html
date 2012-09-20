@@ -10,7 +10,7 @@
     </div>
     <div id="errordiv">
      {% if form.errors %}
-     <div>Please correct the errors below:</div>
+     <div><h4 style="color:red; text-align:center;">Please check your E-mail/Password and try again!</h4></div>
      {% endif %}
     </div>
     <div id="formdiv">
@@ -18,11 +18,11 @@
            {% csrf_token %}
            <table>
                 <tr>
-                    <td><label for="id_username"><b>Username:</b></label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</td>
+                    <th><label for="id_username">E-mail:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</th>
                     <td>{{ form.username }}</td>
                 </tr>
                 <tr>
-                    <td><label for="id_password"><b>Password:</b></label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
+                    <th><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</th>
                     <td>{{ form.password }}</td>
                 </tr>
             </table>
