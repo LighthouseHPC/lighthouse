@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from Dlighthouse import settings
-from Dlighthouse.views import *
+#from Dlighthouse.views import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -19,14 +19,12 @@ urlpatterns = patterns('',
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
+    # Go to the login page
     (r'^$', 'django.contrib.auth.views.login'),
     (r'^index/$', 'django.contrib.auth.views.login'),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    
-    # django-registration
-    (r'^accounts/', include('registration.backends.default.urls')),
 
     #  dajaxice URLS
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
@@ -40,7 +38,10 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),
     
-    # Web Search.
+    # Link Driver/urls.py for guided, advanced, and keyword Searches.
     (r'^search/', include('Driver.urls')),
+    
+    # Link registration/backends/default/urls/py for account registration and login/logout.
+    (r'^accounts/', include('emailRegistration.urls')),
 
 )
