@@ -235,11 +235,21 @@ DAJAXICE_JS_DOCSTRINGS = True
 
 
 #django-registration
+##for settig up TEST email
+##note: run 'python -m smtpd -n -c DebuggingServer localhost:1025' first
+#ACCOUNT_ACTIVATION_DAYS = 7
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 1025
+#EMAIL_USE_TLS = False
+#DEFAULT_FROM_EMAIL = 'lighthouse@mcs.anl.gov'
+
+##for email setup
 ACCOUNT_ACTIVATION_DAYS = 7
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-#EMAIL_HOST_PASSWORD = "
-EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '@mcs.anl.gov'
+EMAIL_HOST_PASSWORD = 'emails_password'
 DEFAULT_FROM_EMAIL = 'lighthouse@mcs.anl.gov'
 
 
