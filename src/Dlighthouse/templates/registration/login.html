@@ -23,7 +23,9 @@
                 </tr>
                 <tr>
                     <th><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</th>
-                    <td>{{ form.password }}</td>
+                    <td>{{ form.password }}</br>
+                        <a href="{% url auth_password_reset %}" style="text-decoration: none">Forget your password?</a>
+                    </td>
                 </tr>
             </table>
             <div id="buttondiv">
@@ -33,8 +35,8 @@
                 <input type="hidden" name="next" value="/search/" />
             {% endif %}
                 <input type="submit" value="Login" style="width:70px;"/>
-              </br></br>
-                Not a member? <a href="{% url registration_register %}">Sign up now!</a>
+                </br></br>
+                <a href="{% url registration_register %}" style="text-decoration: none">Not a member?  Sign up now!</a>
             </div>
        </form>
     </div>
