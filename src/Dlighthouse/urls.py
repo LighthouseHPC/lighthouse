@@ -9,6 +9,7 @@ admin.autodiscover()
 ### To enable dajaxice
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = patterns('',
@@ -20,7 +21,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     ###  dajaxice URLS
-    #url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     ### For dojango
     #(r'^dojango/', include('dojango.urls')),
@@ -53,3 +54,6 @@ urlpatterns = patterns('',
     (r'^accounts/', include('emailRegistration.urls'))
 
 )
+
+urlpatterns += staticfiles_urlpatterns()
+
