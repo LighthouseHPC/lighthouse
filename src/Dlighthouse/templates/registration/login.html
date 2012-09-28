@@ -10,7 +10,7 @@
     </div>
     <div id="errordiv">
      {% if form.errors %}
-     <div><h4 style="color:red; text-align:center;">Please check your E-mail/Password and try again!</h4></div>
+     <div><h4 style="color:red; text-align:center;">Invalid E-mail/Password!</h4></div>
      {% endif %}
     </div>
     <div id="formdiv">
@@ -18,11 +18,11 @@
            {% csrf_token %}
            <table>
                 <tr>
-                    <th><label for="id_username">E-mail:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</th>
+                    <th><label for="id_username">E-mail:</label><!--{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}--></th>
                     <td>{{ form.username }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</th>
+                    <th><label for="id_password">Password:</label><!--{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}--></th>
                     <td>{{ form.password }}</br>
                         <a href="{% url auth_password_reset %}" style="text-decoration: none">Forget your password?</a>
                     </td>
@@ -34,11 +34,22 @@
             {% else %}
                 <input type="hidden" name="next" value="/search/" />
             {% endif %}
-                <input type="submit" value="Login" style="width:70px;"/>
-                </br></br>
+                <table align="center">
+                  <tr>
+                    <td>
+                      <input type="submit" value="Login" style="width:70px;"/>
+                      </form>
+                    </td>
+                    <td>
+                      <form>
+                        <input type="submit" value="Clear fields" />
+                      </form>              
+                    </td>
+                  </tr>
+                </table>
+                </br>
                 <a href="{% url registration_register %}" style="text-decoration: none">Not a member?  Sign up now!</a>
             </div>
-       </form>
     </div>
   </div>
 {% endblock %}
