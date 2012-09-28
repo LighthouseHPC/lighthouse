@@ -17,10 +17,21 @@
             </table>
         </div>
         <div id="buttondiv">
-            <input type="submit" value="Create account" />
-            <input type="hidden" name="next" value="{{ next }}" />
-        </form>
-            </br></br>
+            <table align="center">
+                <tr>
+                    <td>
+                        <input type="submit" value="Create account" />
+                        <input type="hidden" name="next" value="{{ next }}" />
+                        </form>
+                    </td>
+                    <td>
+                        <form>
+                           <input type="submit" value="Reset form" />
+                       </form>                       
+                    </td>
+                </tr>
+            </table>
+            </br>
             <a href="{% url auth_login %}" style="text-decoration: none">Already a member? Log in!</a>
         </div>
     </div>  
