@@ -93,7 +93,7 @@
 											<td>{{ item.storageType }}</td>      
 											</tr>
 										</table><br/>
-										<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
+										<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br> 
 										<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
 									</div>
 								</div>

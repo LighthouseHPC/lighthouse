@@ -310,7 +310,7 @@
 										    <td>{{ routine.storageType }}</td>      
 										    </tr>
 									    </table><br/>
-									    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
+									    <iframe src="{{ MEDIA_URL }}{{ routine.url }}" width="750px" height="400px"></iframe><br/></br> 
 									    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
 								    </div>
 							    </div>
@@ -371,7 +371,7 @@
 									    <td>{{ routine.storageType }}</td>      
 									    </tr>
 								    </table><br/>
-								    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
+								    <iframe src="{{ MEDIA_URL }}{{ routine.url }}" width="750px" height="400px"></iframe><br/></br> 
 								    <button onClick="dijit.byId('nadv_{{ routine.id }}').hide()">Close</button>
 							    </div>
 						    </div>
