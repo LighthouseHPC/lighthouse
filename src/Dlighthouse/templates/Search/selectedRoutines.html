@@ -33,7 +33,7 @@
 					<div id="sel_routineListNode" class="container2" style="padding: 0px;">
 					{% if selectedRoutines %}			
 						{% for item in selectedRoutines %}
-						
+<script>console.log('{{item.url}}')</script>
 							<script type="text/javascript">
 									allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
 							</script>
@@ -52,7 +52,7 @@
 								</script>
 							{% endif %}
 	
-							<div class="sel_dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+							<div class="sel_dojoDndItem" id="sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 								<div class="routineName">
 									<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 										<tr id="tr_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="cursor: pointer;">
@@ -71,7 +71,7 @@
 											</td>										
 											<td>						
 												<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
-												     onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
+												     onclick="dijit.byId('sel_ajax_{{ item.id }}').show()"/>	
 											</td>
 											<td>						
 												<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" title="Select and move"
@@ -87,7 +87,7 @@
 									</table>											
 								</div>
 								<div class="dijitHidden">
-									<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+									<div id="sel_ajax_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 										<div align="center">
 											<table id="table_main" width="80%" border = "1">
 												<tr>
@@ -103,8 +103,8 @@
 												<td>{{ item.storageType }}</td>      
 												</tr>
 											</table><br/>
-											<iframe src="{{ MEDIA_URL }}{{ item.url }}_8f.html" width="750px" height="400px"></iframe><br/></br>
-											<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+											<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
+											<button onClick="dijit.byId('sel_ajax_{{ item.id }}').hide()">Close</button>
 										</div>
 									</div>
 								</div>					

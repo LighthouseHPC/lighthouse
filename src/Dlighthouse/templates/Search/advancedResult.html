@@ -260,7 +260,9 @@
 		{% if list.items.2.1 %}
 			{% for routine in list.items.2.1 %}
 				{% if routine not in alreadySelectedRoutines %}
-				<tr class="dojoDndItem" id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}{% endfor %}">
+				<tr class="dojoDndItem"
+				    id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
+				    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}{% endfor %}">
 				<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
 				<td class="routineInfo">{{ list.items.7.1 }}</td>
 				<td class="routineInfo">{{ list.items.3.1|safe }}</td>
@@ -273,21 +275,28 @@
 					{% if list.items.2.1 %}
 						{% for routine in list.items.2.1 %}
 						<div id="sel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-						    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" style="list-style-type: none;"> 
+						    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}"
+						    style="list-style-type: none;"> 
 							<div class="routineName">			
 								<table id="tb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 									<tr>
 										<td class="hiddenStuff">
-											<input type="checkbox" name="routines" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+											<input type="checkbox" name="routines" checked="checked"
+											       value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}"
+											       id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
+											       onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 										</td>
-										<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
+										<td style="width: 56px; font-weight: bold;" title="Select and move"
+										    onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
 											{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 										</td>
 										<td >
-											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
+											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"
+											     onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
 										</td>
 										<td  class="hiddenStuff">
-											<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
+											<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16"
+											     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
 										</td>
 									</tr>
 								</table>	
@@ -321,7 +330,10 @@
 				</td> 
 				</tr>
 				{% else %}
-				<tr class="notDndItem" style="cursor: pointer; background: #ddd;" onclick="alert('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }} is already selected.');" id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}{% endfor %}">
+				<tr class="notDndItem" style="cursor: pointer; background: #ddd;"
+				    onclick="alert('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }} is already selected.');"
+				    id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
+				    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}{% endfor %}">
 				<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
 				<td class="routineInfo">{{ list.items.7.1 }}</td>
 				<td class="routineInfo">{{ list.items.3.1|safe }}</td>
@@ -334,12 +346,16 @@
 				{% if list.items.2.1 %}
 					{% for routine in list.items.2.1 %}
 					<div id="nsel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-					    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" style="list-style-type: none;"> 
+					    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}"
+					     style="list-style-type: none;"> 
 						<div class="routineName">			
 							<table id="ntb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 								<tr>
 									<td class="hiddenStuff">
-										<input type="checkbox" name="routines" checked="checked" value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}" id="ncb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+										<input type="checkbox" name="routines" checked="checked"
+										       value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}"
+										       id="ncb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
+										       onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 									</td>
 									<td style="width: 56px; font-weight: bold;">
 										{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
@@ -348,7 +364,8 @@
 										<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
 									</td>
 									<td  class="hiddenStuff">
-										<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
+										<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16"
+										     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
 									</td>
 								</tr>
 							</table>	
