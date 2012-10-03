@@ -7,13 +7,13 @@ Created on Aug 26, 2011
 
 
 import sys,os,re
-import MatrixParser.ply.lex
-import MatrixParser.ply.yacc
-import MatrixParser.lexer
+import ply.lex
+import ply.yacc
+import lexer
 
 
 # Get the token map
-tokens    = MatrixParser.lexer.MatrixLexer.tokens
+tokens    = lexer.MatrixLexer.tokens
 baseTypes = {}
 
 

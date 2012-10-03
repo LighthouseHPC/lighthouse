@@ -6,8 +6,8 @@ Created on Mar 8, 2012
 '''
 
 import os,sys
-from MatrixParser.lexer import *
-from MatrixParser.parser import *
+from lexer import *
+from parser import *
 
 class MParser:
   ''' 

@@ -22,7 +22,7 @@ out
 '''
 
 import sys
-import MatrixParser.ply.lex
+import ply.lex
 #------------------------------------------------
 
 __start_line_no = 1
