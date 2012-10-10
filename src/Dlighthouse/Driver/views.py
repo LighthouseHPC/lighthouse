@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from Driver.forms import ProblemForm, EquationForm, FactorForm, PrecisionForm, ComplexForm, MatrixTypeForm, StorageForm, AdvancedForm, LinearEquation_computationalForm, LinearEquation_simpleForm, LinearEquation_expertForm, scriptForm
 
 from django.db.models import get_model, Q
-from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert
+from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert, LinearEquation_driver
 from Computational.models import LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate
 from Combine.models import LinearEquation_only
 
@@ -19,7 +19,7 @@ from itertools import chain
 from haystack.query import SearchQuerySet
 
 from django.core.urlresolvers import reverse
-from Codegen.templates import BTOGenerator
+from codeGen.templates import BTOGenerator
 
 from django.contrib.auth.decorators import login_required
 
@@ -231,6 +231,7 @@ def guidedSearch_problem(request):
                         request.session['queries'].append(Q(notes__icontains=item.split()[2]))
 
                 request.session['Routines'] = get_model(appName,modelName).objects.filter(combine_Q(request.session['queries']))
+		#request.session['Routines'] = LinearEquation_driver.objects.all()
                 filterSelectedRoutines(request)
 
                 if appName == 'Driver' or appName == 'Combine':
@@ -251,9 +252,14 @@ def guidedSearch_problem(request):
                 	'notSelectedRoutines': request.session['notSelectedRoutines'], 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
-					'scriptOutput': request.session['scriptOutput'],
+			'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
+		
+		#for item in request.session['selectedRoutines']:
+		#	print item
+		
+		#import pdb; pdb.set_trace()
                 return render_to_response(
                 	'search/problem.html', 
                 	context_instance=RequestContext(request, context)
@@ -264,7 +270,7 @@ def guidedSearch_problem(request):
                 	'form': ProblemForm(), 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'], 
-  					'scriptOutput': request.session['scriptOutput'],
+  			'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
