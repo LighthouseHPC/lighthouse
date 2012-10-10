@@ -156,8 +156,8 @@ def getParser(start_line_no):
     __start_line_no = start_line_no
 
     # create the lexer and parser
-    matrixlexer = MatrixParser.ply.lex.lex(debug=0, optimize=1)
-    matrixparser = MatrixParser.ply.yacc.yacc(method='LALR', debug=1, optimize=0)
+    matrixlexer = ply.lex.lex(debug=0, optimize=1)
+    matrixparser = ply.yacc.yacc(method='LALR', debug=1, optimize=0)
 
     # return the parser
     return matrixparser
@@ -174,7 +174,7 @@ def setup_regen(debug = 1, outputdir='.'):
     try: os.remove(parsetabfile)
     except: pass
 
-    parser = MatrixParser.ply.yacc.yacc(debug=debug, optimize=1, tabmodule='MatrixParser.parsetab', write_tables=1, outputdir=os.path.abspath(outputdir))
+    parser = ply.yacc.yacc(debug=debug, optimize=1, tabmodule='MatrixParser.parsetab', write_tables=1, outputdir=os.path.abspath(outputdir))
 
     return parser
 
@@ -182,7 +182,7 @@ def setup_regen(debug = 1, outputdir='.'):
 def setup(debug = 0, outputdir='.', typeinference=True):
     global parser, __matrix_language_typeinference
 
-    parser = MatrixParser.ply.yacc.yacc(debug = debug, optimize=1, write_tables=0)
+    parser = ply.yacc.yacc(debug = debug, optimize=1, write_tables=0)
     __matrix_language_typeinference = typeinference
     return parser
     

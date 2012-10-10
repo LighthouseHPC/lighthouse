@@ -15,14 +15,14 @@ class MParser:
   '''
   
   def __init__(self, debug=0, outputdir='.', printToStderr=True):
-    import MatrixParser.parser as matrixparser
+    import parser as matrixparser
     self.parser = matrixparser.setup(debug=debug, outputdir=outputdir)
     self.lex = MatrixLexer()
     self.lex.build(printToStderr=printToStderr, optimize=1, 
                    lextab=os.path.join("MatrixParser.lextab"))
     self.errorlog = []
     self.debug = debug
-    self.lex.errors = MatrixParser.parser.errors
+    self.lex.errors = matrixparser.errors
     
   def processString(self, input=''):
     if input == '' or input.isspace(): 

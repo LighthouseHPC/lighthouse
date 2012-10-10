@@ -2,7 +2,7 @@
 
 # Parse a BTO file
 
-from MatrixParser.matrixparser import MParser
+from matrixparser import MParser
 import sys
 
 mparser = MParser(debug=0,printToStderr=False)

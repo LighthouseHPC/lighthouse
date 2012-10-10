@@ -175,7 +175,7 @@ class MatrixLexer:
         self.printToStderr = printToStderr
         if not kwargs.get('debug'): kwargs['debug']=self.debug
         if not kwargs.get('optimize'): kwargs['optimize']=self.optimize
-        self.lexer = MatrixParser.ply.lex.lex(object=self, **kwargs)
+        self.lexer = ply.lex.lex(object=self, **kwargs)
         
     def test(self, data):
         self.lexer.input(data)
