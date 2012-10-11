@@ -189,7 +189,7 @@ class BaseServer(BaseMessage):
 #            self.send_error(userid+" unknown user")
 # currently it's only written to the server's log:
             print (userid+" unknown user")
-            raise
+            raise BaseException
         else:
             return userid
 ###########################################################################
