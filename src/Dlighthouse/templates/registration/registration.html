@@ -105,19 +105,19 @@
           <div id="formtitle">
             Registration Form
           </div>
-          <div id="formdiv">
-              <form action="/registration/" method="post">
-                {% csrf_token %}
-                <table>
-                  {{ form.as_table }}
-                </table>
+          <div id="formdiv" style="border: 1px solid #000;">
+            <form action="/registration/" method="post">
+              {% csrf_token %}
+              <table>
+                {{ form.as_table }}
+              </table>
               </div>
-          <div id="buttondiv">
-            <input type="submit" value="Create account">
-            </br></br>
-            <a href="/index/"> Already a member? Click here to login!</a>
-          </div>
-              </form>
+              <div id="buttondiv">
+                <input type="submit" value="Create account">
+                </br></br>
+                <a href="/index/"> Already a member? Click here to login!</a>
+              </div>
+            </form>
           </div>
       </div>    
   </body>

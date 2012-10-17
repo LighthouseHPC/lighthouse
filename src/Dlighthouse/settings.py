@@ -25,17 +25,17 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'shark',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'yellow1234',                  # Not used with sqlite3.
-        'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {
-                "init_command": "SET storage_engine=MyISAM",
-                } 
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+       'NAME': 'shark',                      # Or path to database file if using sqlite3.
+       'USER': 'root',                      # Not used with sqlite3.
+       'PASSWORD': 'ecsygigh',              # Not used with sqlite3.
+       'HOST': '127.0.0.1',                  # Set to empty string for localhost. Not used with sqlite3.
+       'PORT': '3306',                       # Set to empty string for default. Not used with sqlite3.
+       'OPTIONS': {
+               "init_command": "SET storage_engine=MyISAM",
+               }
+   }
 }
 
 # Local time zone for this installation. Choices can be found here:

@@ -4,15 +4,14 @@
 
 {% block content %}
     </br></br>
-    <div id="logindiv">
+    <div id="maindiv">
         <div id="formtitle">
             Registration Form
         </div>
         <form action="." method="post">
-        <p style="color:blue">Password must contain at least 6 characters. </p>
         <div id="formdiv">
             {% csrf_token %}
-            <table>
+            <table style="margin: 0px auto; width: 300px;">
                 {{ form }}
             </table>
         </div>
