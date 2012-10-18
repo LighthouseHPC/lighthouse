@@ -1,10 +1,7 @@
 from SocketServer import ForkingTCPServer, StreamRequestHandler
 from time import gmtime, strftime
 import os
-parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.sys.path.insert(0,parentdir)
-#print parentdir			#/homes/salin/Lighthouse
-from Dlighthouse.codeGen.BTOClient.BTO import BTO_Server, BTORequestHandler
+from BTOClient.BTO import BTO_Server, BTORequestHandler
 
 
 class LhRequestHandler(StreamRequestHandler, BTORequestHandler):
