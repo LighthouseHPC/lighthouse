@@ -1,6 +1,9 @@
 import os, glob
-from MatrixParser.matrixparser import MParser
-from BTOClient.BTO import BTO_Client
+parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.sys.path.insert(0,parentdir)
+print parentdir			#/homes/salin/Lighthouse
+from BTOServer.MatrixParser.matrixparser import MParser
+from BTOServer.BTOClient.BTO import BTO_Client
 from subprocess import call
 from utils import remove_workdir
 
@@ -13,12 +16,14 @@ class BTOGenerator(object):
 
   def generateCode(self, userInput=''):
       defaultDir = os.getcwd()
+      #print defaultDir              #defaultDir: /Users/salin/Documents/Lighthouse/Dlighthouse
       try:
           os.chdir('/tmp')
           if 'lighthouse_temp' in glob.glob('*'):
               os.system('rm -r lighthouse_temp')
           os.mkdir('lighthouse_temp')
           os.chdir('lighthouse_temp')
+          #print "current work dir:", os.getcwd()          #current work dir: /private/tmp/lighthouse_temp
       except:
           os.chdir(defaultDir)
           return 'An error has occurred creating the temporary directory.'
@@ -26,7 +31,9 @@ class BTOGenerator(object):
       try:    
           filename = userInput.partition('\n')[0]
           filename = filename[:-1]+'.m'
+          #print "filename:", filename
           f = open(filename, 'w')
+          #print os.path.abspath(f.name)           #/private/tmp/lighthouse_temp/hell.m
           f.write(userInput)
           f.close()
       except:
@@ -69,7 +76,7 @@ class BTOGenerator(object):
       client = BTO_Client()
       host = 'localhost'
       port = 9999
-      user = 'dljohnso'
+      user = 'salin'
       options = '-e'
       try:
           client.submit_request(host, port, user, options, filename)
