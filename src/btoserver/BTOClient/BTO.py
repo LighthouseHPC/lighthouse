@@ -26,44 +26,57 @@ class BTORequestHandler(BaseServer):
         self.bto_blas = btoblas
         
     def bto_handle(self):
-        os.chdir('/tmp')        
+        os.chdir('/tmp')
+        ###---- created /tmp/userid+"_"+self.req_id and set it to be workdir
+        baseworkdir = self.users[0]+'_'+ self.req_id
+        #print baseworkdir                  #salin_17-47-53
+	os.mkdir(baseworkdir)
         try:
             userid  = self.check_user(self.recv_header1())
             options = self.check_options(self.recv_header1())
-            nfiles  = int(self.recv_header1())
-            baseworkdir = userid+"_"+self.req_id
-            os.mkdir(baseworkdir)
+	    nfiles  = int(self.recv_header1())
+        except:
+            with open(baseworkdir+'/errors.x', 'w') as f:
+                f.write('An error occurred while the BTO server was receiving the input file: invalid userid or options.')
+            self.send_header1(1)
+            self.send_files([baseworkdir+'/errors.x'])
+            return None
+	else:
             os.chdir(baseworkdir)
             workdir = os.getcwd()
+            #print workdir			#/tmp/salin_17-47-53
             files = self.recv_files(nfiles)
             filename = files[0]
-        except:
-            with open('errors.x', 'w') as f:
-                f.write('An error occurred while the BTO server was receiving the input file.')
-            self.send_header1(1)
-            self.send_files(['errors.x'])
-            if baseworkdir in os.getcwd():
-                remove_workdir(baseworkdir)
-            else:
-                os.system('rm errors.x')
-            return None
-        
-        try:
+
+	    ###---- change dir to bto/ in order to run ./bin/btiblas
             os.chdir(self.bto_dir)
-            call([self.bto_blas, workdir + '/' +filename])
-            os.chdir(workdir)
-            cfiles = glob.glob('*.c')
-            if(len(cfiles) == 1): 
-                self.send_header1(1)
-                self.send_files(cfiles)
-            else:
-                with open('errors.x', 'w') as f:
-                    f.write('The BTO server was unable to compile and generate an output file')
-                self.send_header1(1)
-                self.send_files(['errors.x'])
-        except:
-            self.send_error('BTO server has had an error')
-        remove_workdir(baseworkdir)
+            #print "Current folder is:", os.getcwd()			#/homes/salin/Lighthouse/BTOServer/bto
+	    #print ".m file location:", workdir + '/' +filename 	#/tmp/salin_17-59-44/DGEM.m
+            try:
+            	call([self.bto_blas, workdir + '/' +filename])
+            except:
+            	self.send_error('Failed to execute ./bin/btoblas %s'%workdir+ '/' +filename)
+	    else:
+            	os.chdir(workdir)
+            	cfiles = glob.glob('*.c')
+            	if(len(cfiles) == 1): 
+                	self.send_header1(1)
+                	self.send_files(cfiles)
+            	else:
+                	with open('errors.x', 'w') as f:
+                    		f.write('The BTO server was unable to compile and generate an output file')
+                	self.send_header1(1)
+                	self.send_files(['errors.x'])
+
+	finally:
+	    ###---- delete /tmp/userid+"_"+self.req_id/ folder
+            import shutil
+            shutil.rmtree(workdir)
+	    if os.path.exists(workdir) == False:
+		print "%s is removed successfully!"%workdir
+	    else:
+		print "%s is not yet removed."%workdir
+
 
     
 class BTO_Client(BaseClient):
