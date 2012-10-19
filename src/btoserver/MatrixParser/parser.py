@@ -58,21 +58,49 @@ def p_param(p):
     __matrix_language_vars[p[1]] = p[3]
 
 def p_type(p):
-    '''type : orientation MATRIX
-            | orientation VECTOR
+    '''type : MATRIX LPAREN attrib_list RPAREN
+            | VECTOR LPAREN attrib_list RPAREN
             | SCALAR
     '''
     if len(p) > 2:
-        p[0] = (p[2],p[1])
+        p[0] = (p[1],p[3])
     else:
         p[0] = (p[1],None)
 
-def p_orientation(p):
-    '''orientation : ROW
-                | COLUMN
+def p_attrib_list(p):
+    '''attrib_list : attrib
+                | attrib_list COMMA attrib
                 | empty
                 '''
-    p[0] = p[1]
+    if len(p) > 2:
+        p[0] = p[1] + [p[2]]
+    else:
+        if not p[1]: p[0] = []
+        else: p[0] = [p[1]]
+
+
+def p_attrib(p):
+    '''attrib : ROW
+                | ORIENTATION EQUALS ROW
+                | COLUMN
+                | ORIENTATION EQUALS COLUMN
+                | GENERAL
+                | FORMAT EQUALS GENERAL
+                | TRIANGULAR
+                | FORMAT EQUALS TRIANGULAR
+                | UPPER
+                | UPLO EQUALS UPPER
+                | LOWER
+                | UPLO EQUALS LOWER
+                | UNIT
+                | DIAG EQUALS UNIT
+                | NONUNIT
+                | DIAG EQUALS NONUNIT
+                '''
+    if len(p) > 3:
+        p[0] = (p[1],p[3])
+    else:
+        p[0] = (None,p[1])
 
 
 def p_stmt_list(p):
@@ -191,7 +219,6 @@ if __name__ == '__main__':
         option, for example:
             parser.py somefile.m --regen
     '''
-    
    
     if sys.argv[-1] == '--regen':
         # Forse regeneration of the parse tables
@@ -200,7 +227,9 @@ if __name__ == '__main__':
     else:
         setup()
     
-    matrixlexer = MatrixParser.lexer.MatrixLexer(debug=1, optimize=0)
+    #matrixlexer = MatrixParser.lexer.MatrixLexer(debug=1, optimize=0)
+    import lexer
+    matrixlexer = lexer.MatrixLexer(debug=0, optimize=1)
     matrixlexer.build()
 
     for i in range(1, len(sys.argv)):

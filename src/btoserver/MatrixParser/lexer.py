@@ -43,8 +43,10 @@ class MatrixLexer:
     #           'OUT', 'ROW', 'SCALAR', 'VECTOR']
     
     # The ones that are actually currently in use
-    reserved = ['COLUMN', 'FOR', 'IN', 'INOUT', 'MATRIX', 
-                'OUT', 'ROW', 'SCALAR', 'VECTOR']
+    reserved = ['COLUMN', 'FOR', 'IN', 'INOUT', 'MATRIX', 'FORMAT',
+                'OUT', 'ROW', 'SCALAR', 'VECTOR', 'ORIENTATION',
+                'GENERAL', 'TRIANGULAR', 'UPLO', 'UPPER', 'LOWER',
+                'DIAG', 'UNIT', 'NONUNIT']
     
     tokens = reserved + [
     
