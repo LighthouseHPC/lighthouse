@@ -38,10 +38,16 @@
         </tr>
         <tr> 
             <td>                                        
-                <textarea id="script_input" name="script" style="font-family: Courier; font-size: 14px; width: 100%; height: 100%; background-color: #000; color: #fff;">{{ scriptCode }}</textarea>
+                <textarea id="script_input" name="script" rows="15" cols="40"
+                          style="font-family: Courier; font-size: 14px; width: 100%; height: 100%; background-color: #000; color: #fff;">
+                    {{ scriptCode }}
+                </textarea>
             </td>
             <td>
-                <textarea id="script_output" readonly="true" name="outputCode" style="font-family: Courier; font-size: 14px; background-color: #eee; width: 100%; height: 100%;">{{ scriptOutput }}</textarea>
+                <textarea id="script_output" readonly="true" name="outputCode" rows="15" cols="50"
+                          style="font-family: Courier; font-size: 14px; background-color: #eee; width: 100%; height: 100%;">
+                    {{ scriptOutput }}
+                </textarea>
                 </div>
             </td>
         </tr>

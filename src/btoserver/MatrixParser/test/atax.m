@@ -1,8 +1,8 @@
 ATAX
 in
-  A : matrix(orientation=row), x : vector(orientation=column)
+  A : row matrix, x : vector
 out
-  y : vector(orientation=column)
+  y : vector
 {
   y = A' * (A * x)
 }

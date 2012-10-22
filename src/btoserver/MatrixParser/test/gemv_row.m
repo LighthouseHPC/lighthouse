@@ -1,8 +1,8 @@
 gemv
 in
-  A : matrix(row), x : vector(column)
+  A : row matrix, x : vector
 out
-  z : vector(column)
+  z : vector
 {
   z = A * x
 }

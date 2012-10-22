@@ -1,8 +1,8 @@
 DGEMV
 in
-  A : matrix(column), x : vector(column), w : vector(column)
+  A : column matrix, x : vector, w : vector
 inout
-  y : vector(column), z : vector(column)
+  y : vector, z : vector
 {
   y = (A*x) + y
   z = (A*w) + z

@@ -1,6 +1,6 @@
 DOT2
 in
-	x : vector(column), y : vector(column), z : vector(column)
+	x : vector, y : vector, z : vector
 out
 	alpha : scalar, beta : scalar
 {

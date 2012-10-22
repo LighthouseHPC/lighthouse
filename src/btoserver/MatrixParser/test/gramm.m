@@ -1,8 +1,8 @@
 mgs
 in
-  q : vector(column)
+  q : vector
 inout 
- v : vector(column)
+ v : vector
 {
   r = q' * v
   v = v - r*q

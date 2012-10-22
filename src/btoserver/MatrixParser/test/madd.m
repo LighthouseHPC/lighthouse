@@ -1,8 +1,8 @@
 madd
 in
-  A : matrix(column), B : matrix(column)
+  A : matrix, B : matrix
 out
-  C : matrix(column)
+  C : matrix
 {
   C = A + B
 }

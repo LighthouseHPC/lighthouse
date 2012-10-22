@@ -177,7 +177,7 @@ def remove_workdir(wd):
         os.chdir("../")
         os.rmdir(wd)
     else:
-        print "current directory is not",wd
+        print "current directory is NOT",wd
 
 ###########################################################################
 # name   : r_listdir

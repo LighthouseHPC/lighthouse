@@ -1,8 +1,8 @@
 DDOT
 in
-  x : vector(row), y : vector(column)
+  x : row vector, y : vector
 out
   a : scalar
 {
-  a = x * y
+  a =  x * y
 }

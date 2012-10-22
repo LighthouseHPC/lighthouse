@@ -1,11 +1,11 @@
 WAXPBY
 in
   a : scalar,
-  x : vector(column),
+  x : vector,
   b : scalar,
-  y : vector(column)
+  y : vector
 out
-  w : vector(column)
+  w : vector
 {
   w = a * x + b * y
 }

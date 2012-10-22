@@ -1,9 +1,8 @@
 CGPRECOND
 in
-A : matrix(column), B : matrix(column)
+A : matrix, B : matrix
 inout
-p : vector(column), z : vector(column), beta : scalar, r : vector(column), 
-x : vector(column)
+p : vector, z : vector, beta : scalar, r : vector, x : vector
 {
 p = z + beta * p
 w = A * p
