@@ -210,21 +210,21 @@
 
 
 <div id="button-div">
-  <table style="width:100%; margin: 0px auto;">
-    <tr style="width:100%;">
-      <td style="text-align:left">
-	      <img src="{{ MEDIA_URL }}Images/face-smile-2.png" width="20" height="20"/>
+  <table id="icon-table">
+    <tr>
+      <td style="text-align:center">
+	<img src="{{ MEDIA_URL }}Images/face-smile-2.png" width="20" height="20"/>
       </td>
       <td style="text-align:left; color: #0c387e;">
-	      <b>End of guided search! Check out the result.</b>
+	<b>End of guided search! Check out the result.</b>
       </td>
-      <td style="text-align:right; width: 75px;">
-        <div id="tooltip"></div>
-      </td>       
+       
       <td style="text-align:right">
-        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
-              <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
-        </button>      
+      <form action="/search/">
+	    <button type="submit" name="clear" id="clearButton"
+		  title="Restart Search"> <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+	</button>
+      </form>
       </td>
     </tr>
   </table>
@@ -259,15 +259,3 @@
 {% include "search/selectedRoutines.html" %}
 {% endblock %}
 
-
-<!-- ########### Code Template: ###########-->
-{% block dojango_content_code_template %}
-{% include "search/codeTemplate.html" %}
-{% endblock %}
-
-
-
-<!-- ########### Script Area: ###########-->
-{% block dojango_content_script %}
-{% include "search/script.html" %}
-{% endblock %}

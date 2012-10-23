@@ -17,8 +17,8 @@
 <br>
 <!-- ########### Advanced Search: Display Checked Items ###########-->
 
-<form name="advanced" action="/search/advanced/result/" name="frmProb" method="post">
-	{% csrf_token %}		
+<form name="advanced" action="/search/advanced/result/" name="frmProb" method="get">
+		
 		<div style="padding-left:10px;">
 			<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>			
 			<b>Please check <i>at least</i> <u>one</u> box in each cell.</b>
@@ -141,18 +141,10 @@
 </table>
 
 <div id="button-div">
-      <table style="width:100%; margin: 0px auto;">
-    <tr style="width:100%;">
-      <td style="text-align:left;">       
-        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
-            <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
-        </button>       
-      </td>     
-      <td style="text-align:center;">
-        <div id="tooltip2"></div>
-      </td>
-      <td style="text-align:right;">
-        <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip2', 'Submit', '#009900');" onmouseout="showTooltip('tooltip2','');" onclick=
+    <table align="right">
+    <tr>
+    <td>
+            <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onclick=
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' not in Question_advanced %}            
@@ -175,7 +167,7 @@
             {% if 'Computational Routines' not in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateExpertCheckbox(id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"                 
+           				"return validateExpertCheckbox(id_LinearEquation_expertDescription_0, id_LinearEquation_expertDescription_1, id_LinearEquation_expertDescription_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"                 
             		{% endif %}
 			    {% endif %}
             {% endif %}
@@ -189,32 +181,40 @@
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateComputationalExpertCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2,, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
+           				"return validateComputationalExpertCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_expertDescription_0, id_LinearEquation_expertDescription_1, id_LinearEquation_expertDescription_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' not in Question_advanced %}
             	{% if 'Simple Driver Routines' in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateSimpleExpertCheckbox(id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1, id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
+           				"return validateSimpleExpertCheckbox(id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1, id_LinearEquation_expertDescription_0, id_LinearEquation_expertDescription_1, id_LinearEquation_expertDescription_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateComputationalSimpleExpertCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1, id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
+           				"return validateComputationalSimpleExpertCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1, id_LinearEquation_expertDescription_0, id_LinearEquation_expertDescription_1, id_LinearEquation_expertDescription_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
             >
+
             <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
-        </button >
-      </td>
+            </button >
+    </form>
+    </td>
+    <td>
+    <form action="/search/">
+            <button type="submit" name="clear" id="clearButton" title="Restart Search" > 
+            	<img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+            </button>
+    </form>
+    </td>
     </tr>
-      </table>
-  </div>
-</form>
+    </table>
+</div>
 
 {% endblock %}
 <!-- ########################################################################################################## -->
@@ -255,153 +255,66 @@
 	<th id="table_main_header">Routine</th>
 	</tr>
 
-{% for model, value in Results.items %}
+	{% for model, value in Results.items %}
+
 	{% for list in value %}
+	<tr {% if list.items.2.1 %} class="dojoDndItem" id="{% if list.items.2.1 %}{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}{% endfor %}{% endif %}" {% endif %}>
+	<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
+	<td class="routineInfo">{{ list.items.7.1 }}</td>
+	<td class="routineInfo">{{ list.items.3.1|safe }}</td>
+	<td class="routineInfo">{{ list.items.0.1 }}</td>
+	<td class="routineInfo">{{ list.items.4.1 }}</td>
+	<td class="routineInfo">{{ list.items.5.1 }}</td>
+	<td class="routineInfo">{{ list.items.1.1 }}</td>
+	<td class="routineInfo">{{ list.items.6.1 }}</td>
+	<td >
 		{% if list.items.2.1 %}
-			{% for routine in list.items.2.1 %}
-				{% if routine not in alreadySelectedRoutines %}
-				<tr class="dojoDndItem"
-				    id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-				    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}{% endfor %}">
-				<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
-				<td class="routineInfo">{{ list.items.7.1 }}</td>
-				<td class="routineInfo">{{ list.items.3.1|safe }}</td>
-				<td class="routineInfo">{{ list.items.0.1 }}</td>
-				<td class="routineInfo">{{ list.items.4.1 }}</td>
-				<td class="routineInfo">{{ list.items.5.1 }}</td>
-				<td class="routineInfo">{{ list.items.1.1 }}</td>
-				<td class="routineInfo">{{ list.items.6.1 }}</td>
-				<td >
-					{% if list.items.2.1 %}
-						{% for routine in list.items.2.1 %}
-						<div id="sel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-						    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}"
-						    style="list-style-type: none;"> 
-							<div class="routineName">			
-								<table id="tb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-									<tr>
-										<td class="hiddenStuff">
-											<input type="checkbox" name="routines" checked="checked"
-											       value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}"
-											       id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-											       onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
-										</td>
-										<td style="width: 56px; font-weight: bold;" title="Select and move"
-										    onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
-											{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
-										</td>
-										<td >
-											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"
-											     onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
-										</td>
-										<td  class="hiddenStuff">
-											<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16"
-											     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
-										</td>
-									</tr>
-								</table>	
-							</div>
-						    		
-						    <div class="dijitHidden">
-							    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
-								    <div align="center">
-									    <table id="table_main" width="80%" border = "1">
-										    <tr>
-										    <th>Precision</th>
-										    <th>Routine Name</th>
-										    <th>Matrix Type</th>
-										    <th>Storage</th>
-										    </tr>
-										    <tr>
-										    <td>{{ routine.thePrecision|upper }}</td>
-										    <td>{{ routine.routineName|upper }}</td> 
-										    <td>{{ routine.matrixType }}</td> 
-										    <td>{{ routine.storageType }}</td>      
-										    </tr>
-									    </table><br/>
-									    <iframe src="{{ MEDIA_URL }}{{ routine.url }}" width="750px" height="400px"></iframe><br/></br> 
-									    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
-								    </div>
-							    </div>
-						    </div>
-						</div>
-					    {% endfor %}	    
-					{% endif %}		  
-				</td> 
+		{% for routine in list.items.2.1 %}
+		<div class="routineNameAdvanced">
+			<table>
+				<tr>
+					<td>
+					{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
+					</td>
+					<td>
+					<img src="{{ MEDIA_URL }}Images/question.png" onclick="dijit.byId('adv_{{ routine.id }}').show()" width="16" height="16"/>
+					</td>
 				</tr>
-				{% else %}
-				<tr class="notDndItem" style="cursor: pointer; background: #ddd;"
-				    onclick="alert('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }} is already selected.');"
-				    id="{% for routine in list.items.2.1 %}{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-				    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}{% endfor %}">
-				<td class="routineInfo">{{ model|cut:"LinearEquation_"|capfirst }}</td>
-				<td class="routineInfo">{{ list.items.7.1 }}</td>
-				<td class="routineInfo">{{ list.items.3.1|safe }}</td>
-				<td class="routineInfo">{{ list.items.0.1 }}</td>
-				<td class="routineInfo">{{ list.items.4.1 }}</td>
-				<td class="routineInfo">{{ list.items.5.1 }}</td>
-				<td class="routineInfo">{{ list.items.1.1 }}</td>
-				<td class="routineInfo">{{ list.items.6.1 }}</td>
-				<td >
-				{% if list.items.2.1 %}
-					{% for routine in list.items.2.1 %}
-					<div id="nsel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-					    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}"
-					     style="list-style-type: none;"> 
-						<div class="routineName">			
-							<table id="ntb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-								<tr>
-									<td class="hiddenStuff">
-										<input type="checkbox" name="routines" checked="checked"
-										       value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}"
-										       id="ncb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
-										       onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
-									</td>
-									<td style="width: 56px; font-weight: bold;">
-										{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
-									</td>
-									<td >
-										<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('adv_{{ routine.id }}').show()"/>	
-									</td>
-									<td  class="hiddenStuff">
-										<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16"
-										     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}');"/>
-									</td>
-								</tr>
-							</table>	
-						</div>
-					    		
-					    <div class="dijitHidden">
-						    <div id="nadv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
-							    <div align="center">
-								    <table id="table_main" width="80%" border = "1">
-									    <tr>
-									    <th>Precision</th>
-									    <th>Routine Name</th>
-									    <th>Matrix Type</th>
-									    <th>Storage</th>
-									    </tr>
-									    <tr>
-									    <td>{{ routine.thePrecision|upper }}</td>
-									    <td>{{ routine.routineName|upper }}</td> 
-									    <td>{{ routine.matrixType }}</td> 
-									    <td>{{ routine.storageType }}</td>      
-									    </tr>
-								    </table><br/>
-								    <iframe src="{{ MEDIA_URL }}{{ routine.url }}" width="750px" height="400px"></iframe><br/></br> 
-								    <button onClick="dijit.byId('nadv_{{ routine.id }}').hide()">Close</button>
-							    </div>
-						    </div>
-					    </div>
-					</div>
-					{% endfor %}	    
-				{% endif %}		  
-				</td> 
-				</tr>
-				{% endif %}		  
-			{% endfor %}
-		{% endif %}		  
+			</table>
+			
+		</div>
+	    		
+	    <div class="dijitHidden">
+		    <div id="adv_{{ routine.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ routine.thePrecision|upper }}{{ routine.routineName|upper }}">
+			    <div align="center">
+				    <table id="table_main" width="80%" border = "1">
+					    <tr>
+					    <th>Precision</th>
+					    <th>Routine Name</th>
+					    <th>Matrix Type</th>
+					    <th>Storage</th>
+					    </tr>
+					    <tr>
+					    <td>{{ routine.thePrecision|upper }}</td>
+					    <td>{{ routine.routineName|upper }}</td> 
+					    <td>{{ routine.matrixType }}</td> 
+					    <td>{{ routine.storageType }}</td>      
+					    </tr>
+				    </table><br/>
+				    <iframe src="{{ routine.url }}" width="640px" height="400px"></iframe><br/></br> 
+				    <button onClick="dijit.byId('adv_{{ routine.id }}').hide()">Close</button>
+			    </div>
+		    </div>
+	    </div>
+    	{% endfor %}
+	    {% else %}
+			N/A
+	    {% endif %}	
+	</td> 
+	</tr>
+	
 	{% endfor %}
+	
 {% endfor %}
 </table>
 </TR> 
@@ -430,13 +343,3 @@
 {% include "search/selectedRoutines.html" %}
 {% endblock %}
 
-<!-- ########### Code Template: ###########-->
-{% block dojango_content_code_template %}
-{% include "search/codeTemplate.html" %}
-{% endblock %}
-
-
-<!-- ########### Script Area: ###########-->
-{% block dojango_content_script %}
-{% include "search/script.html" %}
-{% endblock %}

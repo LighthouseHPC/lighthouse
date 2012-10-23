@@ -69,7 +69,7 @@ class BTOGenerator(object):
       client = BTO_Client()
       host = 'localhost'
       port = 9999
-      user = 'dljohnso'
+      user = 'salin'
       options = '-e'
       try:
           client.submit_request(host, port, user, options, filename)

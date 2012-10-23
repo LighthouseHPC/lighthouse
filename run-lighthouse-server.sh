@@ -60,7 +60,7 @@ checkCmd "FAIL" "cd src/Dlighthouse" "Could not find the Lighthouse directiony (
 
 cd src/Dlighthouse && sed -i1 -e "s|django\.db\.backends\.mysql|django\.db\.backends\.sqlite3|" -e "s|HAYSTACK_WHOOSH_PATH = .*$|$haystack_whoosh_path|"  settings.py || echo "FAIL: Could not set the HAYSTACK_WHOOSH_PATH in src/Dlighthouse/settings.py"
 
-$pythonexec manage.py runserver 127.0.0.1:$port || echo  "FAIL: Could not start the Lighthouse server"
+$pythonexec manage.py runserver lighthouse2.mcs.anl.gov:$port || echo  "FAIL: Could not start the Lighthouse server"
 
 cd $pwd
 

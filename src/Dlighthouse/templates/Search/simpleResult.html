@@ -17,40 +17,24 @@
 	</table>	
 </div>
 
-<div id="routineListNode" class="container">
-
+<ul id="routineListNode" class="container">	
 {% for item in results %}
-	
-	{% if item in notSelectedRoutines %}
-
-	<div class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-	     detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
+	<li class="dojoDndItem" id="{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
+	    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
 		<div class="routineName">
-			<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-				<tr>					
-					<td class="hiddenStuff">
-						<input type="checkbox" name="routines" checked="checked"
-						       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-						       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-						       onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
-					</td>
-					<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
-						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
-					</td>
-					<td class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
-					</td>
-					<td  class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
-					</td>
-				</tr>
-			</table>			
+			<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+				<span class="infoHelpButton">
+					<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('{{ item.id }}').show()">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
+					</button>
+				</span>
+			</h4>
 		</div>
-		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="dijit.byId('sel_{{ item.id }}').show()">more</button>
+		<div class="routineInfo">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
+			<button onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
-			<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+			<div id="{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 				<div align="center">
 					<table id="table_main" width="80%" border = "1">
 						<tr>
@@ -66,77 +50,18 @@
 						<td>{{ item.storageType }}</td>      
 						</tr>
 					</table><br/>
-					<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
-					<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+					<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
+					<button onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>
-		</div>		
-	</div> 
-	
-	{% else %} 
-
-	<div class="notDndItem" id="nsel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-	     detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-	     style="list-style-type: none;">
-		<div class="routineName">
-			<table id="ntb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-				<tr>
-					<!--
-					<td id="sn_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" class="hiddenStuff" style="font-weight: bold;"></td>
-					-->
-					<td class="hiddenStuff">
-						<input type="checkbox" name="routines" checked="checked"
-						       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-						       id="ncb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-						       onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
-					</td>
-					<td style="width: 56px; font-weight: bold;">
-						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
-					</td>
-					<td style="color: #555; font-weight: bold;">
-						(Already selected)
-					</td>
-					<td class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
-					</td>
-					<td  class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
-					</td>
-				</tr>
-			</table>			
 		</div>
-		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="dijit.byId('nsel_{{ item.id }}').show()">more</button>
-		</div>
-		<div class="dijitHidden">
-			<div id="nsel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
-				<div align="center">
-					<table id="table_main" width="80%" border = "1">
-						<tr>
-						<th>Precision</th>
-						<th>Routine Name</th>
-						<th>Matrix Type</th>
-						<th>Storage</th>
-						</tr>
-						<tr>
-						<td>{{ item.thePrecision|upper }}</td>
-						<td>{{ item.routineName|upper }}</td> 
-						<td>{{ item.matrixType }}</td> 
-						<td>{{ item.storageType }}</td>      
-						</tr>
-					</table><br/>
-					<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
-					<button onClick="dijit.byId('nsel_{{ item.id }}').hide()">Close</button>
-				</div>
-			</div>
-		</div>		
-	</div> 
+			
+	</li> 
 
-	{% endif %} 
-
+{% empty %}
 {% endfor %}
-
-</div>
+<br>
+</ul>
 {% endif %} 
 
 

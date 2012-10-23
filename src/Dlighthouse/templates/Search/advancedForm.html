@@ -168,19 +168,11 @@
 
 </table>
 
-  <div id="button-div">
-      <table style="width:100%; margin: 0px auto;">
-    <tr style="width:100%;">
-      <td style="text-align:left;">       
-        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
-            <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
-        </button>       
-      </td>     
-      <td style="text-align:center;">
-        <div id="tooltip2"></div>
-      </td>
-      <td style="text-align:right;">
-        <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip2', 'Submit', '#009900');" onmouseout="showTooltip('tooltip2','');" onclick=
+<div id="button-div">
+    <table align="right">
+    <tr>
+    <td>
+            <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onclick=
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' not in Question_advanced %}            
@@ -236,14 +228,21 @@
 			    {% endif %}
             {% endif %}
             >
-            <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
-        </button >
-      </td>
-    </tr>
-      </table>
-  </div>
-</form>
 
+            <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+            </button >
+    </form>
+    </td>
+    <td>
+    <form action="/search/">
+            <button type="submit" name="clear" id="clearButton" title="Restart Search" > 
+            	<img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+            </button>
+    </form>
+    </td>
+    </tr>
+    </table>
+</div>
 {% endblock %}
 <!-- ########################################################################################################## -->
 
@@ -259,17 +258,3 @@
 {% include "search/keywordSearch.html" %}
 {% endblock %}
 
-<!-- ########### Selected Routines: ###########-->
-{% block dojango_content_selected_routines %}
-{% include "search/selectedRoutines.html" %}
-{% endblock %}
-
-<!-- ########### Code Template: ###########-->
-{% block dojango_content_code_template %}
-{% include "search/codeTemplate.html" %}
-{% endblock %}
-
-<!-- ########### Script Area: ###########-->
-{% block dojango_content_script %}
-{% include "search/script.html" %}
-{% endblock %}
