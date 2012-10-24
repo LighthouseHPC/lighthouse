@@ -36,7 +36,7 @@ HOST = 'localhost'
 PORT = 9999
 USER = ['salin']
 req_id = strftime('%H-%M-%S',gmtime())
-BTOdir = '/homes/norris/lighthouse-taxonomy/src/BTOServer/bto'
+BTOdir = '/homes/salin/Lighthouse/BTOServer/bto'
 
 svr = LhServer((HOST, PORT), LhRequestHandler,BTOdir, USER ,req_id)
 svr.serve_forever()
