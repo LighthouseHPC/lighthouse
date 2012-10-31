@@ -56,6 +56,8 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 
 	return dajax.json()
 
+
+
 @dajaxice_register
 def removeTemplateFile(request):
 	dajax = Dajax()
@@ -68,3 +70,33 @@ def removeTemplateFile(request):
 		os.remove(fileName + '.f')
 
 	return dajax.json()
+
+
+
+@dajaxice_register
+def equation(request, equation):
+    dajax = Dajax()
+    equation = str(equation)
+    i = 1
+    for item in equation:
+        if item.isalpha() == True:
+	       dajax.append('#parameter%s'%i, 'innerHTML', "%s:"%item)
+	       i += 1
+
+
+    return dajax.json()
+
+
+
+@dajaxice_register
+def updatecombo(request, option):
+    dajax = Dajax()
+    options = [['Madrid', 'Barcelona', 'Vitoria', 'Burgos'],
+               ['Paris', 'Evreux', 'Le Havre', 'Reims'],
+               ['London', 'Birmingham', 'Bristol', 'Cardiff']]
+    out = []
+    for option in options[int(option)]:
+        out.append("<option value='#'>%s</option>" % option)
+
+    dajax.assign('#combo2', 'innerHTML', ''.join(out))
+    return dajax.json()

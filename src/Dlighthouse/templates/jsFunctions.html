@@ -1136,8 +1136,8 @@ else {
 			// Extract details
 			var detail = checkbox.value;
 			var precision = detail.split("_")[0];
-	        var routineName = detail.split("_")[1];
-	        var matrixType = detail.split("_")[2];
+			var routineName = detail.split("_")[1];
+			var matrixType = detail.split("_")[2];
 			var storageType = detail.split("_")[3];
 			var idn = detail.split("_")[4];
 			var url = detail.split("_")[5];
@@ -1210,6 +1210,14 @@ else {
 	/* --------------------------------- For Script Area ------------------------------ */
 	/*--------------------------------------------------------------------------------- */
 
+	// Submit Equation
+	function submitEquation(){
+		var f = document.getElementById("scriptEquation_form");
+		var equation = f.scriptEquation.value
+		Dajaxice.Driver.equation(Dajax.process,{'equation':equation})
+	}
+	
+	
 	// Called when user submits some script
 	function runScript(){
 		// Get the input script
