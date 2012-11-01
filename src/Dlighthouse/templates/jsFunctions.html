@@ -175,15 +175,15 @@
 	}
 
 	
-function HideFrame() {
-  var fr = document.getElementById ("frDocViewer");
-if(fr.style.display=="none") {
-   fr.style.display="block";
-}
-else {
-   fr.style.display="none";
-  }
- }
+	function HideFrame() {
+		var fr = document.getElementById ("frDocViewer");
+		if(fr.style.display=="none") {
+		   fr.style.display="block";
+		}
+		else {
+		   fr.style.display="none";
+		}
+	}
 
 	/* disable the radiobuttons in the first question when clicking a checkbox */
 	function disableRadiobuttons() {
@@ -226,7 +226,8 @@ else {
 		restart = confirm("Are you sure you start over the search?");
 		if(restart)
 			window.location = "/search/";
-		else return false;		
+		else
+			return false;		
 	}
 
 
@@ -1211,10 +1212,45 @@ else {
 	/*--------------------------------------------------------------------------------- */
 
 	// Submit Equation
-	function submitEquation(){
-		var f = document.getElementById("scriptEquation_form");
-		var equation = f.scriptEquation.value
-		Dajaxice.Driver.equation(Dajax.process,{'equation':equation})
+	var regexLetter = /[a-zA-z]/;
+	var arrParameters = new Array();
+	function submitEquation(equation){
+		//Dajaxice.Driver.equation(Dajax.process,{'equation':equation});
+		for (var i=0; i<equation.length; i++){
+			if (regexLetter.test(equation[i])){
+				arrParameters.push(equation[i]);				
+			}
+		}
+		displayParameters();
+	}
+	
+	
+	function displayParameters(){
+		dojo.empty('parameterTable');
+		dojo.forEach(arrParameters, displayCallback);
+	}
+	
+	
+	function displayCallback(element, index){
+		var row = dojo.create('tr', {id: " "}, 'parameterTable');
+		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
+		var cell1 = dojo.create('td', {innerHTML: "<select size='1'>"+
+					"<option value='0'>Select...</option>"+
+					"<option value='0'>in</option>"+
+					"<option value='1'>out</option>"+
+					"<option value='2'>inout</option></select>"}, row);
+		var cell2 = dojo.create('td', {innerHTML:
+					"<select onchange="+"\""+"Dajaxice.Driver.updatecombo(Dajax.process, {'option':this.value, 'index':"+index+"})"+"\""+"size='1'>"+
+					"<option value='0'>Select...</option>"+
+					"<option value='0'>scalor</option>"+
+					"<option value='1'>vector</option>"+
+					"<option value='2'>matrix</option></select>"}, row);
+		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
+		
+		var select3 = dojo.create('select', {id: "combo"+index}, cell3)
+		
+
+
 	}
 	
 	
