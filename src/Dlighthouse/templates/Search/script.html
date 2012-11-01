@@ -42,18 +42,36 @@
                           style="vertical-align:text-top;font-family: Courier; font-size: 14px; width: 100%; height: 100%; background-color: #000; color: #fff;">
                     {{ scriptCode }}
                 </textarea>-->
-                <table>
+                <table cellspacing="20">
+                    <tr>
+                        <td>
+                            <label for="kernalName">Kernel Name:</label>
+                        </td>
+                        <td>
+                            <input type="text" required="true" name="kernalName" id="kernalName" placeholder="Name your kernal" 
+                                    missingMessage="Ooops!  You forgot to name your kernal!" />                            
+                        </td>
+                    </tr>  
                     <tr>
                         <td>
                             <label for="scriptEquation">Equation:</label>
+                        </td>
+                        <td>
                             <input type="text" required="true" name="scriptEquation" id="scriptEquation" placeholder="Enter your equation" 
-                                    missingMessage="Ooops!  You forgot your equation!" />
-                            <input type="button" value="Submit Equation" onclick="submitEquation(dojo.byId('scriptEquation').value)"; />
+                                    missingMessage="Ooops!  You forgot your equation!" />                            
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <table id="parameterTable" cellspacing="20">    
+                        <td align="left">
+                            <input type="button" value="Clear"; />
+                        </td>
+                        <td align="right">
+                            <input type="button" value="Submit" onclick="submitEquation(dojo.byId('scriptEquation').value)"; />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table id="parameterTable" cellspacing="10">    
                             </table>
                         </td>
                     </tr>
