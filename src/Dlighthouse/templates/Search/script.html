@@ -37,12 +37,12 @@
             </td>
         </tr>
         <tr> 
-            <td valign="top">                                        
+            <td valign="top" bgcolor="#FAF8CC";>                                        
 <!--                <textarea id="script_input" name="script" rows="15" cols="40"
                           style="vertical-align:text-top;font-family: Courier; font-size: 14px; width: 100%; height: 100%; background-color: #000; color: #fff;">
                     {{ scriptCode }}
                 </textarea>-->
-                <table cellspacing="20">
+                <table cellspacing="20" >
                     <tr>
                         <td>
                             <label for="kernalName">Kernel Name:</label>
@@ -63,10 +63,10 @@
                     </tr>
                     <tr>
                         <td align="left">
-                            <input type="button" value="Clear"; />
+                                <input type="button" value="Clear" onclick="clearKernalEquation()"; />
                         </td>
                         <td align="right">
-                            <input type="button" value="Submit" onclick="submitEquation(dojo.byId('scriptEquation').value)"; />
+                            <input type="button" value="Submit" onclick="submitEquation()"; />
                         </td>
                     </tr>
                     <tr>
@@ -79,23 +79,25 @@
             </td>
             <td>
                 <textarea id="script_output" readonly="true" name="outputCode" rows="15" cols="50"
-                          style="vertical-align:text-top;font-family: Courier; font-size: 14px; background-color: #eee; width: 100%; height: 100%;">
+                          style="border: 0; vertical-align:text-top;font-family: Courier; font-size: 14px; background-color: #eee; width: 100%; height: 100%;">
                     {{ scriptOutput }}
                 </textarea>
                 </div>
             </td>
         </tr>
     </table>
+    <!-- for butoons -->
     <div id="button-div" style="padding: 2px; margin-top: 10px;">
         <table style="width:100%; margin: 0px auto;">
             <tr style="width:100%;">
                 <td style="text-align:left;">
-                    <button type="button" name="Submit" id="codeSubmitButton" title="Submit Code" onclick="runScript();">
-                       Submit
+                    <button type="button" name="Submit" id="codeSubmitButton" onclick="runScript();">
+                       Create input file
                     </button>
                 </td>
                 <td style="text-align:right;">
-                    <button type="button" id="clearCode" title="Clear Code" style="width: 55px;" onclick="clearScript();">Clear
+                    <button type="button" id="clearCode" title="Clear Code" onclick="outputDownload();">
+                        Download output file
                     </button>
                 </td>                                       
             </tr>
@@ -103,3 +105,144 @@
                         
     </div>
 </div>
+
+
+
+<!--<div dojoType="dijit.form.Form" id="myFormThree" jsId="myFormThree" encType="multipart/form-data"
+action="" method="">
+    <script type="dojo/method" event="validate">
+        return dojo.query('INPUT[name=order]', 'myFormThree').filter(function(n) {
+            return n.checked
+        }).length > 0 && dijit.form.Form.prototype.validate.apply(this, arguments);
+    </script>
+    <script type="dojo/method" event="onSubmit">
+        var f = dojo.byId("myFormThree");
+        var s = "";
+        for (var i = 0; i < f.elements.length; i++) {
+            var elem = f.elements[i];
+            if (elem.name == "button") {
+                continue;
+            }
+            if (elem.type == "radio" && !elem.checked) {
+                continue;
+            }
+            s += elem.name + ": " + elem.value + "\n";
+        }
+        alert("Unvalidated data that would be submitted:\n" + s);
+        return false;
+    </script>
+    <table style="border: 1px solid #9f9f9f;" cellspacing="10">
+        <tr>
+            <td>
+                <label for="name">
+                    Name:
+            </td>
+            <td>
+                <input type="text" name="name" required="true" dojoType="dijit.form.ValidationTextBox"
+                />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="dob">
+                    Order
+            </td>
+            <td>
+                <input type="radio" name="order" value="Food">
+                Food
+                <input type="radio" name="order" value="Drinks">
+                Drinks
+            </td>
+        </tr>
+    </table>
+    <button dojoType="dijit.form.Button" onClick="alert('Form is ' + (myFormThree.validate()?'':'not ') + 'valid');return false">
+        Validate form
+    </button>
+    <button dojoType="dijit.form.Button" type="submit" name="submitButtonThree"
+    value="Submit">
+        Submit
+    </button>
+    <button dojoType="dijit.form.Button" type="reset">
+        Reset
+    </button>
+</div>
+
+
+<h1>Demo: DojoX Validation with Dijit Forms</h1>
+		<p style="font-size: x-small;">
+			* denotes required fields.  Page will simply reload on a successful form submission.
+		</p>
+		<form dojoType="dijit.form.Form" method="post">
+		<script type="dojo/method" event="onSubmit">
+			if(this.validate()) {
+				return confirm('Form is valid, press OK to submit');
+			} else {
+				alert('Form contains invalid data.  Please correct first');
+				return false;
+			}
+			return true;
+		</script>
+		<table cellpadding="0" cellspacing="2">
+			<tr>
+				<td valign="top"><strong>First Name*: </strong></td>
+				<td><input type="text" required="true" name="firstName" id="firstName" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Ooops!  You forgot your first name!" /></td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Website*:  </strong></td>
+				<td><input type="text" required="true" name="website" id="website"  
+					dojoType="dijit.form.ValidationTextBox" validator="dojox.validate.isUrl" /></td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Email*:  </strong></td>
+				<td><input type="text" required="true" name="email" id="email" dojoType="dijit.form.ValidationTextBox" 
+					validator="dojox.validate.isEmailAddress" /></td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Date of Birth*:  </strong></td>
+				<td><input type="text" required="true" name="bday" id="bday" dojoType="dijit.form.DateTextBox" value="7/5/1983" /></td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Favorite Color: </strong></td>
+				<td>
+					<select name="color" id="color" dojoType="dijit.form.FilteringSelect">
+						<option value="">Select a Color</option>
+						<option value="Red">Red</option>
+						<option value="Green">Green</option>
+						<option value="Blue">Blue</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Favorite Toolkits: </strong></td>
+				<td>
+				<select name="toolkits" id="toolkits" dojoType="dojox.form.CheckedMultiSelect" multiple="multiple" style="width:200px;">
+					<option value="Dojo" selected="selected">Dojo Toolkit</option>
+					<option value="Moo" selected="selected">MooTools</option>
+					<option value="Prototype">Prototype</option>
+					<option value="YUI">YUI</option>
+					<option value="jQuery" disabled>jQuery</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Send Emails? </strong></td>
+				<td><input type="checkbox" id="checkbox" checked="checked" dojoType="dijit.form.CheckBox" /></td>
+			</tr>
+			<tr>
+				<td valign="top"><strong>Email Format: </strong></td>
+				<td>
+				<input type="radio" id="radio1" name="format" checked="checked" dojoType="dijit.form.RadioButton" /> 
+				<label for="radio1">HTML</label>
+				&nbsp;&nbsp;&nbsp;
+				<input type="radio" id="radio2" name="format" dojoType="dijit.form.RadioButton" />
+				<label for="radio2">Text</label>
+				</td>
+			</tr>
+		</table>-->
+		
+		<!-- submit buttons -->
+<!--		<input type="submit" value="Submit Form" label="Submit Form" id="submitButton" dojoType="dijit.form.Button" />
+		<input type="submit" value="Submit Form" id="busyButton" dojoType="dojox.form.BusyButton" 
+			label="Submit Form (Busy Button)" busyLabel="Submitting Form..." timeout="2000" />
+		</form>-->
