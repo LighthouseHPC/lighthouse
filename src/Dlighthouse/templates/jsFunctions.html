@@ -1245,14 +1245,13 @@
 	function displayCallback(element, index){
 		var row = dojo.create('tr', {id: "tr_"+index}, 'parameterTable');
 		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
-		var cell1 = dojo.create('td', {innerHTML: "<select size='1'>"+
+		var cell1 = dojo.create('td', {innerHTML: "<select id='select1' size='1'>"+
 					"<option value='0'>Section...</option>"+
 					"<option value='0'>in</option>"+
 					"<option value='1'>out</option>"+
 					"<option value='2'>inout</option></select>"}, row);
 		var cell2 = dojo.create('td', {innerHTML:
-					//"<select onchange="+"\""+"Dajaxice.Driver.updatecombo(Dajax.process, {'option':this.value, 'index':"+index+"})"+"\""+"size='1'>"+
-					"<select onchange="+"\""+"updatecombo(this.value," +index+")"+"\""+"size='1'>"+
+					"<select id='select2' onchange="+"\""+"updatecombo(this.value," +index+")"+"\""+"size='1'>"+
 					"<option value='0'>Parameter type...</option>"+
 					"<option value='0'>scalor</option>"+
 					"<option value='1'>vector</option>"+
@@ -1276,7 +1275,7 @@
 			for (var i=0; i<options[parseInt(option)].length; i++){
 				selections = selections+ "<option value='#'>"+options[parseInt(option)][i]+"</option>";
 			}
-			dojo.byId("cell3"+index).innerHTML = "<select>"+selections+"<select>";
+			dojo.byId("cell3"+index).innerHTML = "<select id='select3'>"+selections+"<select>";
 		}
 	}
 	
@@ -1284,25 +1283,29 @@
 	
 	// Called when user submits some script
 	function runScript(){
-		// Get the input script
-		var scriptCode = document.getElementById('script_input').value.trim();
+		for (var i=1; i<=3; i++){
+			console.log(dojo.byId("select"+i).options[dojo.byId("select"+i).selectedIndex].text);
+		}
 
-		// Create an AJAX request
-		dojo.xhrPost( {
-			url: "/search/script/",
-			// Send the input script
-			content: { 
-				scriptCode: scriptCode,
-			},
-			// Load and show the response in the output panel
-			load: function(response){
-				document.getElementById('script_output').value = response;
-				console.log("load response: ", response);
-			},
-			error: function(){
-			    console.log("error");
-			}
-		});
+		//// Get the input script
+		//var scriptCode = document.getElementById('script_input').value.trim();
+		//
+		//// Create an AJAX request
+		//dojo.xhrPost( {
+		//	url: "/search/script/",
+		//	// Send the input script
+		//	content: { 
+		//		scriptCode: scriptCode,
+		//	},
+		//	// Load and show the response in the output panel
+		//	load: function(response){
+		//		document.getElementById('script_output').value = response;
+		//		console.log("load response: ", response);
+		//	},
+		//	error: function(){
+		//	    console.log("error");
+		//	}
+		//});
 	}
 
 	// Called when user clicks the "Clear" button
