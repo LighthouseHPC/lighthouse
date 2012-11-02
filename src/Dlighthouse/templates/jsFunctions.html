@@ -618,8 +618,8 @@
 			org_input = document.getElementById("keyword").value + String.fromCharCode(code).toLowerCase();
 			
 			// If shift key is pressed, don't lowercase it
-			if(window.event.shiftKey)
-				org_input = document.getElementById("keyword").value + String.fromCharCode(code);			
+			//if(window.event.shiftKey)
+			//	org_input = document.getElementById("keyword").value + String.fromCharCode(code);			
 		}
 		// down arrow key is pressed
 		if(code==40){					
@@ -1211,47 +1211,75 @@
 	/* --------------------------------- For Script Area ------------------------------ */
 	/*--------------------------------------------------------------------------------- */
 
-	// Submit Equation
+	// Submit Equation & kernal name fields
+	function clearKernalEquation(){
+		dojo.empty('parameterTable');
+		dojo.byId("scriptEquation").value = '';
+		dojo.byId("kernalName").value = '';
+	}
+	
+	
+	// Submit Equation & kernal name
 	var regexLetter = /[a-zA-z]/;
-	var arrParameters = new Array();
-	function submitEquation(equation){
-		//Dajaxice.Driver.equation(Dajax.process,{'equation':equation});
+	function submitEquation(){
+		var arrParameters = new Array();
+		var equation = dojo.byId("scriptEquation").value;
+		var kernal = dojo.byId("kernalName").value;
+		//console.log(kernal);
+		
 		for (var i=0; i<equation.length; i++){
 			if (regexLetter.test(equation[i])){
 				arrParameters.push(equation[i]);				
 			}
 		}
-		displayParameters();
+		displayParameters(arrParameters);
 	}
 	
 	
-	function displayParameters(){
+	function displayParameters(arrParameters){
 		dojo.empty('parameterTable');
 		dojo.forEach(arrParameters, displayCallback);
 	}
 	
 	
 	function displayCallback(element, index){
-		var row = dojo.create('tr', {id: " "}, 'parameterTable');
+		var row = dojo.create('tr', {id: "tr_"+index}, 'parameterTable');
 		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
 		var cell1 = dojo.create('td', {innerHTML: "<select size='1'>"+
-					"<option value='0'>Select...</option>"+
+					"<option value='0'>Section...</option>"+
 					"<option value='0'>in</option>"+
 					"<option value='1'>out</option>"+
 					"<option value='2'>inout</option></select>"}, row);
 		var cell2 = dojo.create('td', {innerHTML:
-					"<select onchange="+"\""+"Dajaxice.Driver.updatecombo(Dajax.process, {'option':this.value, 'index':"+index+"})"+"\""+"size='1'>"+
-					"<option value='0'>Select...</option>"+
+					//"<select onchange="+"\""+"Dajaxice.Driver.updatecombo(Dajax.process, {'option':this.value, 'index':"+index+"})"+"\""+"size='1'>"+
+					"<select onchange="+"\""+"updatecombo(this.value," +index+")"+"\""+"size='1'>"+
+					"<option value='0'>Parameter type...</option>"+
 					"<option value='0'>scalor</option>"+
 					"<option value='1'>vector</option>"+
 					"<option value='2'>matrix</option></select>"}, row);
 		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
 		
-		var select3 = dojo.create('select', {id: "combo"+index}, cell3)
-		
-
-
+		//var select3 = dojo.create('select', {id: "combo"+index}, cell3)
 	}
+	
+	
+	function updatecombo(option, index){
+		var selections ="";
+		//console.log(typeof(parseInt(option))+', '+index);
+		var options = [[],
+				['column', 'row'],
+				['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
+		if (parseInt(option) == 0){
+			dojo.empty("cell3"+index);
+		}
+		else {
+			for (var i=0; i<options[parseInt(option)].length; i++){
+				selections = selections+ "<option value='#'>"+options[parseInt(option)][i]+"</option>";
+			}
+			dojo.byId("cell3"+index).innerHTML = "<select>"+selections+"<select>";
+		}
+	}
+	
 	
 	
 	// Called when user submits some script

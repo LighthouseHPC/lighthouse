@@ -73,28 +73,3 @@ def removeTemplateFile(request):
 
 
 
-#@dajaxice_register
-#def equation(request, equation):
-#    dajax = Dajax()
-#    equation = str(equation)
-#    i = 1
-#    for item in equation:
-#        if item.isalpha() == True:
-#	       dajax.append('#parameter%s'%i, 'innerHTML', "%s:"%item)
-#	       i += 1
-#    return dajax.json()
-
-
-
-@dajaxice_register
-def updatecombo(request, option, index):
-    dajax = Dajax()
-    options = [[],
-               ['column', 'row'],
-               ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']]
-    out = []
-    for option in options[int(option)]:
-        out.append("<option value='#'>%s</option>" % option)
-
-    dajax.assign('#combo%s'%index, 'innerHTML', ''.join(out))
-    return dajax.json()
