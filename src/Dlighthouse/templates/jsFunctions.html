@@ -1253,7 +1253,9 @@
 					"<option value='1'>out</option>"+
 					"<option value='2'>inout</option></select>"}, row);
 		var cell2 = dojo.create('td', {innerHTML:
-					"<select id='select2"+element+"\'"+ "onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+"\""+"size='1'>"+
+					"<select id='select2"+element+"\'"+
+					"onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+
+					"\""+"size='1'>"+
 					"<option value='0'>Parameter type...</option>"+
 					"<option value='0'>scalor</option>"+
 					"<option value='1'>vector</option>"+
@@ -1264,9 +1266,10 @@
 	}
 	
 	
-	function updatecombo(option, element, index){
+	function updatecombo(option, select2Id, index){
+		// element is the paramater.
+		var element = select2Id.substr(7) ;
 		var selections ="";
-		//console.log(typeof(parseInt(option))+', '+index);
 		var options = [[],
 				['column', 'row'],
 				['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
@@ -1275,9 +1278,9 @@
 		}
 		else {
 			for (var i=0; i<options[parseInt(option)].length; i++){
-				selections = selections+ "<option value='#'>"+options[parseInt(option)][i]+"</option>";
+				selections = selections+ "<option value="+i+">"+options[parseInt(option)][i]+"</option>";
 			}
-			dojo.byId("cell3"+index).innerHTML = "<select id='select3"+element+"\'>"+selections+"</select>";
+			dojo.byId("cell3"+index).innerHTML = "<select id='select3"+element+"\'"+"\">"+selections+"</select>";
 		}
 	}
 	
@@ -1285,7 +1288,6 @@
 	
 	// Called when user submits some script
 	function runScript(){
-		console.log(dojo.byId('select3A').options[dojo.byId('select3A'+arrParameters[i]).selectedIndex].text);
 		for (var i=0; i<arrParameters.length; i++){
 			for (var j=1; j<=3; j++){
 				var selectId = 'select'+j+arrParameters[i];
