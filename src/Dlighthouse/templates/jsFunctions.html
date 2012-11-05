@@ -1258,7 +1258,7 @@
 					"<option value='0'>scalor</option>"+
 					"<option value='1'>vector</option>"+
 					"<option value='2'>matrix</option></select>"}, row);
-		var cell3 = dojo.create('td', {id: "cell3"+index}, row);
+		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
 		
 		//var select3 = dojo.create('select', {id: "combo"+index}, cell3)
 	}
@@ -1275,18 +1275,17 @@
 		}
 		else {
 			for (var i=0; i<options[parseInt(option)].length; i++){
-				selections = selections+ "<option value="+i+">"+options[parseInt(option)][i]+"</option>";
+				selections = selections+ "<option value='#'>"+options[parseInt(option)][i]+"</option>";
 			}
-			dojo.create('select', {id: "select3"+element, innerHTML: selections}, "cell3"+index);
+			dojo.byId("cell3"+index).innerHTML = "<select id='select3"+element+"\'>"+selections+"</select>";
 		}
-		console.log(dojo.byId('select3'+element).innerHTML);
 	}
 	
 	
 	
 	// Called when user submits some script
 	function runScript(){
-		console.log(dojo.byId('select3A').options[dojo.byId('select3A').selectedIndex].text);
+		console.log(dojo.byId('select3A').options[dojo.byId('select3A'+arrParameters[i]).selectedIndex].text);
 		for (var i=0; i<arrParameters.length; i++){
 			for (var j=1; j<=3; j++){
 				var selectId = 'select'+j+arrParameters[i];
