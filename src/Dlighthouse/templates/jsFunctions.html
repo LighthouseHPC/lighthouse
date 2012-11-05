@@ -1221,8 +1221,9 @@
 	
 	// Submit Equation & kernal name
 	var regexLetter = /[a-zA-z]/;
+	var arrParameters = new Array();
 	function submitEquation(){
-		var arrParameters = new Array();
+		arrParameters = [];
 		var equation = dojo.byId("scriptEquation").value;
 		var kernal = dojo.byId("kernalName").value;
 		//console.log(kernal);
@@ -1232,11 +1233,12 @@
 				arrParameters.push(equation[i]);				
 			}
 		}
-		displayParameters(arrParameters);
+		displayParameters();
+		//console.log(arrParameters);
 	}
 	
 	
-	function displayParameters(arrParameters){
+	function displayParameters(){
 		dojo.empty('parameterTable');
 		dojo.forEach(arrParameters, displayCallback);
 	}
@@ -1245,24 +1247,24 @@
 	function displayCallback(element, index){
 		var row = dojo.create('tr', {id: "tr_"+index}, 'parameterTable');
 		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
-		var cell1 = dojo.create('td', {innerHTML: "<select id='select1' size='1'>"+
+		var cell1 = dojo.create('td', {innerHTML: "<select id='select1"+element +"\'"+"size='1'>"+
 					"<option value='0'>Section...</option>"+
 					"<option value='0'>in</option>"+
 					"<option value='1'>out</option>"+
 					"<option value='2'>inout</option></select>"}, row);
 		var cell2 = dojo.create('td', {innerHTML:
-					"<select id='select2' onchange="+"\""+"updatecombo(this.value," +index+")"+"\""+"size='1'>"+
+					"<select id='select2"+element+"\'"+ "onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+"\""+"size='1'>"+
 					"<option value='0'>Parameter type...</option>"+
 					"<option value='0'>scalor</option>"+
 					"<option value='1'>vector</option>"+
 					"<option value='2'>matrix</option></select>"}, row);
-		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
+		var cell3 = dojo.create('td', {id: "cell3"+index}, row);
 		
 		//var select3 = dojo.create('select', {id: "combo"+index}, cell3)
 	}
 	
 	
-	function updatecombo(option, index){
+	function updatecombo(option, element, index){
 		var selections ="";
 		//console.log(typeof(parseInt(option))+', '+index);
 		var options = [[],
@@ -1273,18 +1275,24 @@
 		}
 		else {
 			for (var i=0; i<options[parseInt(option)].length; i++){
-				selections = selections+ "<option value='#'>"+options[parseInt(option)][i]+"</option>";
+				selections = selections+ "<option value="+i+">"+options[parseInt(option)][i]+"</option>";
 			}
-			dojo.byId("cell3"+index).innerHTML = "<select id='select3'>"+selections+"<select>";
+			dojo.create('select', {id: "select3"+element, innerHTML: selections}, "cell3"+index);
 		}
+		console.log(dojo.byId('select3'+element).innerHTML);
 	}
 	
 	
 	
 	// Called when user submits some script
 	function runScript(){
-		for (var i=1; i<=3; i++){
-			console.log(dojo.byId("select"+i).options[dojo.byId("select"+i).selectedIndex].text);
+		console.log(dojo.byId('select3A').options[dojo.byId('select3A').selectedIndex].text);
+		for (var i=0; i<arrParameters.length; i++){
+			for (var j=1; j<=3; j++){
+				var selectId = 'select'+j+arrParameters[i];
+				if (dojo.byId(selectId) != null)
+					console.log(dojo.byId(selectId).options[dojo.byId(selectId).selectedIndex].text);
+			}
 		}
 
 		//// Get the input script
