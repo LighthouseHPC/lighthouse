@@ -74,11 +74,23 @@ def removeTemplateFile(request):
 
 
 @dajaxice_register
-def make_mfile(request, kernal, paramProperty):
+def make_mfile(request, kernal, arrParameters, paramProperty):
+	mfileDic = {}
 	dajax = Dajax()
+	kernalName = kernal[0]
+	equation = kernal[1]
+	f=open('./Driver/%s.m'%kernalName, 'w')
+	f.write('%s\n'%kernalName)
+	f.write('{\n')
+	f.write('%s\n'%equation)
+	f.write('}')
+	f.close()
+	
+	f_read = f=open('./Driver/%s.m'%kernalName, 'r')
+	text = f_read.read()
 		
 	for item in paramProperty:
 		print item
-	dajax.assign("#script_output", 'innerHTML', kernal)
-	
+	dajax.assign("#script_output", 'innerHTML', text)
+	f_read.close()
 	return dajax.json()
