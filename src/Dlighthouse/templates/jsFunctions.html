@@ -1222,11 +1222,14 @@
 	// Submit Equation & kernal name
 	var regexLetter = /[a-zA-z]/;
 	var arrParameters = new Array();
+	var kernal = [];
 	function submitEquation(){
 		arrParameters = [];
+		kernal = [];
 		var equation = dojo.byId("scriptEquation").value;
-		var kernal = dojo.byId("kernalName").value;
-		//console.log(kernal);
+		var kernalName = dojo.byId("kernalName").value;
+		kernal.push(kernalName);
+		kernal.push(equation);
 		
 		for (var i=0; i<equation.length; i++){
 			if (regexLetter.test(equation[i])){
@@ -1288,14 +1291,17 @@
 	
 	// Called when user submits some script
 	function runScript(){
+		var paramProperty = [];
 		for (var i=0; i<arrParameters.length; i++){
 			for (var j=1; j<=3; j++){
 				var selectId = 'select'+j+arrParameters[i];
 				if (dojo.byId(selectId) != null)
-					console.log(dojo.byId(selectId).options[dojo.byId(selectId).selectedIndex].text);
+					paramProperty.push(arrParameters[i]+"_"+dojo.byId(selectId).options[dojo.byId(selectId).selectedIndex].text);
 			}
 		}
-
+		console.log(paramProperty);
+		Dajaxice.Driver.make_mfile(Dajax.process,{'kernal': kernal, 'paramProperty': paramProperty})
+		
 		//// Get the input script
 		//var scriptCode = document.getElementById('script_input').value.trim();
 		//
@@ -1317,6 +1323,8 @@
 		//});
 	}
 
+	
+	
 	// Called when user clicks the "Clear" button
 	function clearScript(){
 

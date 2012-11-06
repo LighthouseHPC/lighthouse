@@ -73,3 +73,12 @@ def removeTemplateFile(request):
 
 
 
+@dajaxice_register
+def make_mfile(request, kernal, paramProperty):
+	dajax = Dajax()
+		
+	for item in paramProperty:
+		print item
+	dajax.assign("#script_output", 'innerHTML', kernal)
+	
+	return dajax.json()
