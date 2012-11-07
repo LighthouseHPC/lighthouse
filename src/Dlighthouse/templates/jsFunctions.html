@@ -1333,25 +1333,24 @@
 	
 	// Called when user clicks the "Clear" button
 	function clearScript(){
-
-		// Create an AJAX request
-		dojo.xhrPost( {
-			url: "/search/script/",
-			// Send an empty string as input script
-			content: { 
-				scriptCode: "",
-			},
-			load: function(response){				
-				console.log("load response: ", response);
-			},
-			error: function(){
-			    console.log("error");
-			}
-		});
+		//// Create an AJAX request
+		//dojo.xhrPost( {
+		//	url: "/search/script/",
+		//	// Send an empty string as input script
+		//	content: { 
+		//		scriptCode: "",
+		//	},
+		//	load: function(response){				
+		//		console.log("load response: ", response);
+		//	},
+		//	error: function(){
+		//	    console.log("error");
+		//	}
+		//});
 
 		// Replace the contents of input and output panel with empty strings
-		document.getElementById('script_input').value = "";
-		document.getElementById('script_output').value = "";
+		clearKernalEquation();
+		dojo.byId('script_output').value = "";
 	}
 
 

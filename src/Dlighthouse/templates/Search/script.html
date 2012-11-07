@@ -80,7 +80,6 @@
             <td>
                 <textarea id="script_output" readonly="true" name="outputCode" rows="15" cols="50"
                           style="border: 0; vertical-align:text-top;font-family: Courier; font-size: 14px; background-color: #eee; width: 100%; height: 100%;">
-                    {{ scriptOutput }}
                 </textarea>
                 </div>
             </td>
@@ -96,10 +95,12 @@
                     </button>
                 </td>
                 <td style="text-align:right;">
-                    <button type="button" id="clearCode" title="Clear Code" onclick="outputDownload();">
+                    <button type="button" id="clearCode" title="Clear Code" onclick="clearScript();">Clear all
+                    </button>
+                    <button type="button" id="downloadCode" title="Download Code" onclick="outputDownload();">
                         Download output file
                     </button>
-                </td>                                       
+                </td>
             </tr>
         </table>
                         
