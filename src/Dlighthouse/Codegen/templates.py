@@ -88,4 +88,3 @@ class BTOGenerator(object):
       remove_workdir('lighthouse_temp')
       os.chdir(defaultDir)
       return Output
-'''
