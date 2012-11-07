@@ -1,7 +1,7 @@
 import os, glob
 parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.sys.path.insert(0,parentdir)
-print parentdir			#/homes/salin/Lighthouse
+#print parentdir			#/homes/salin/Lighthouse
 from BTOServer.MatrixParser.matrixparser import MParser
 from BTOServer.BTOClient.BTO import BTO_Client
 from subprocess import call
