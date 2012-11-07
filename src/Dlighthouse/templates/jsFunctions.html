@@ -1221,7 +1221,9 @@
 	
 	// Submit Equation & kernal name
 	var regexLetter = /[a-zA-z]/;
+	//arrParameters stores the parameters
 	var arrParameters = new Array();
+	// kernal stores the kernal name and the equation
 	var kernal = [];
 	function submitEquation(){
 		arrParameters = [];
@@ -1275,7 +1277,7 @@
 		var selections ="";
 		var options = [[],
 				['column', 'row'],
-				['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
+				['column', 'row', 'general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
 		if (parseInt(option) == 0){
 			dojo.empty("cell3"+index);
 		}
@@ -1291,16 +1293,20 @@
 	
 	// Called when user submits some script
 	function runScript(){
-		var paramProperty = [];
+		var paramProperty = {'kernalName': kernal[0], 'equation': kernal[1]};
 		for (var i=0; i<arrParameters.length; i++){
-			for (var j=1; j<=3; j++){
-				var selectId = 'select'+j+arrParameters[i];
-				if (dojo.byId(selectId) != null)
-					paramProperty.push(arrParameters[i]+"_"+dojo.byId(selectId).options[dojo.byId(selectId).selectedIndex].text);
-			}
+			var selectId_1 = 'select1'+arrParameters[i];
+			var selectId_2 = 'select2'+arrParameters[i];
+			var selectId_3 = 'select3'+arrParameters[i];
+			if (dojo.byId(selectId_3) != null)
+				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
+								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text+'\('+dojo.byId(selectId_3).options[dojo.byId(selectId_3).selectedIndex].text+'\)'];
+			else
+				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
+								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
 		}
 		console.log(paramProperty);
-		Dajaxice.Driver.make_mfile(Dajax.process,{'kernal': kernal, 'paramProperty': paramProperty})
+		//Dajaxice.Driver.make_mfile(Dajax.process,{'kernal': kernal, 'arrParameters': arrParameters, 'paramProperty': paramProperty})
 		
 		//// Get the input script
 		//var scriptCode = document.getElementById('script_input').value.trim();
