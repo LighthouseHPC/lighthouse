@@ -74,23 +74,51 @@ def removeTemplateFile(request):
 
 
 @dajaxice_register
-def make_mfile(request, kernal, arrParameters, paramProperty):
-	mfileDic = {}
+def make_mfile(request, paramProperty):
 	dajax = Dajax()
-	kernalName = kernal[0]
-	equation = kernal[1]
-	f=open('./Driver/%s.m'%kernalName, 'w')
-	f.write('%s\n'%kernalName)
+	inArray = []
+	outArray = []
+	inoutArray = []
+	f=open('./Driver/%s.m'%paramProperty['kernalName'], 'w')
+	f.write('%s\n'%paramProperty['kernalName'])
+	for item in paramProperty:
+		if paramProperty[item][0] == 'in':
+			inArray.append(item+': '+paramProperty[item][1])
+		if paramProperty[item][0] == 'out':
+			outArray.append(item+': '+paramProperty[item][1])
+		if paramProperty[item][0] == 'inout':
+			inoutArray.append(item+': '+paramProperty[item][1])
+			
+			
+	if inArray:
+		f.write('in\n')
+		f.write('   ')
+		for item in inArray:
+			f.write('%s, '% (item))
+		f.write('\n')
+		
+	if outArray:
+		f.write('out\n')
+		f.write('   ')
+		for item in outArray:
+			f.write('%s, '% (item))
+		f.write('\n')
+		
+	if inoutArray:
+		f.write('out\n')
+		f.write('   ')
+		for item in inoutArray:
+			f.write('%s, '% (item))
+		f.write('\n')
+		
 	f.write('{\n')
-	f.write('%s\n'%equation)
+	f.write('   %s\n'%paramProperty['equation'])
 	f.write('}')
 	f.close()
 	
-	f_read = f=open('./Driver/%s.m'%kernalName, 'r')
+	f_read = f=open('./Driver/%s.m'%paramProperty['kernalName'], 'r')
 	text = f_read.read()
-		
-	for item in paramProperty:
-		print item
+	
 	dajax.assign("#script_output", 'innerHTML', text)
 	f_read.close()
 	return dajax.json()
