@@ -1,45 +1,30 @@
 import os, glob
 parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.sys.path.insert(0,parentdir)
-#print parentdir			#/homes/salin/Lighthouse
+print parentdir			#/homes/salin/Lighthouse
 from BTOServer.MatrixParser.matrixparser import MParser
 from BTOServer.BTOClient.BTO import BTO_Client
 from subprocess import call
 from utils import remove_workdir
 
 class BTOGenerator(object):
-  ''' 
-  BTO Code generator
-  '''
   def __init__(self):
     pass
 
-  def generateCode(self, userInput=''):
-      defaultDir = os.getcwd()
-      #print defaultDir              #defaultDir: /Users/salin/Documents/Lighthouse/Dlighthouse
-      try:
-          os.chdir('/tmp')
-          if 'lighthouse_temp' in glob.glob('*'):
-              os.system('rm -r lighthouse_temp')
-          os.mkdir('lighthouse_temp')
-          os.chdir('lighthouse_temp')
-          #print "current work dir:", os.getcwd()          #current work dir: /private/tmp/lighthouse_temp
-      except:
-          os.chdir(defaultDir)
-          return 'An error has occurred creating the temporary directory.'
-          
-      try:    
-          filename = userInput.partition('\n')[0]
-          filename = filename[:-1]+'.m'
-          #print "filename:", filename
-          f = open(filename, 'w')
-          #print os.path.abspath(f.name)           #/private/tmp/lighthouse_temp/hell.m
-          f.write(userInput)
-          f.close()
-      except:
-          remove_workdir('lighthouse_temp')
-          os.chdir(defaultDir)
-          return 'An error has occurred creating the BTO input file.'
+  def generateTmpDir(self):
+    defaultDir = os.getcwd()
+    print defaultDir              #defaultDir: /Users/salin/Documents/Lighthouse/Dlighthouse
+    try:
+        os.chdir('/tmp')
+        if 'lighthouse_temp' in glob.glob('*'):
+            os.system('rm -r lighthouse_temp')
+        os.mkdir('lighthouse_temp')
+        os.chdir('lighthouse_temp')
+        print "current work dir:", os.getcwd()          #current work dir: /private/tmp/lighthouse_temp
+    except:
+        os.chdir(defaultDir)
+        return 'An error has occurred creating the temporary directory.'
+
           
 #      Parser code needs to be updated since BTO syntax has changed.
 #      mparser = MParser(debug=0,printToStderr=False)
@@ -72,7 +57,8 @@ class BTOGenerator(object):
 #          
 #      else:
 #          return 'Syntax Errors\n', '\n'.join(mparser.lex.errors)
-      
+
+  def submitToBTO(self, filename):      
       client = BTO_Client()
       host = 'localhost'
       port = 9999
@@ -102,3 +88,4 @@ class BTOGenerator(object):
       remove_workdir('lighthouse_temp')
       os.chdir(defaultDir)
       return Output
+'''

@@ -3,6 +3,7 @@ from dajaxice.decorators import dajaxice_register
 from dajax.core import Dajax
 from dajaxice.core import dajaxice_functions
 import os
+from codeGen.templates import BTOGenerator
 
 
 
@@ -76,10 +77,17 @@ def removeTemplateFile(request):
 @dajaxice_register
 def make_mfile(request, paramProperty):
 	dajax = Dajax()
+	bto = BTOGenerator()
+	
+	### create /private/tmp/lighthouse_temp and go there
+	bto.generateTmpDir()
+	
+	### create and write .m file in the current work dir: /private/tmp/lighthouse_temp
 	inArray = []
 	outArray = []
 	inoutArray = []
-	f=open('./Driver/%s.m'%paramProperty['kernalName'], 'w')
+	### filename = [kernalName].m
+	f=open('%s.m'%paramProperty['kernalName'], 'w')
 	f.write('%s\n'%paramProperty['kernalName'])
 	for item in paramProperty:
 		if paramProperty[item][0] == 'in':
@@ -115,9 +123,8 @@ def make_mfile(request, paramProperty):
 	f.write('}')
 	f.close()
 	
-	f_read = f=open('./Driver/%s.m'%paramProperty['kernalName'], 'r')
-	text = f_read.read()
+	output = bto.submitToBTO('%s.m'%paramProperty['kernalName'])
 	
-	dajax.assign("#script_output", 'innerHTML', text)
-	f_read.close()
+	dajax.assign("#script_output", 'innerHTML', output)
+
 	return dajax.json()
