@@ -1300,13 +1300,13 @@
 			var selectId_3 = 'select3'+arrParameters[i];
 			if (dojo.byId(selectId_3) != null)
 				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
-								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text+'\('+dojo.byId(selectId_3).options[dojo.byId(selectId_3).selectedIndex].text+'\)'];
+								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text+'\(orientation='+dojo.byId(selectId_3).options[dojo.byId(selectId_3).selectedIndex].text+'\)'];
 			else
 				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
 								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
 		}
-		console.log(paramProperty);
-		//Dajaxice.Driver.make_mfile(Dajax.process,{'kernal': kernal, 'arrParameters': arrParameters, 'paramProperty': paramProperty})
+		//console.log(paramProperty);
+		Dajaxice.Driver.make_mfile(Dajax.process,{'paramProperty': paramProperty})
 		
 		//// Get the input script
 		//var scriptCode = document.getElementById('script_input').value.trim();

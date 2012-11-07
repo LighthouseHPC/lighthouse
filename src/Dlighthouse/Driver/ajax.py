@@ -83,12 +83,11 @@ def make_mfile(request, paramProperty):
 	f.write('%s\n'%paramProperty['kernalName'])
 	for item in paramProperty:
 		if paramProperty[item][0] == 'in':
-			inArray.append(item+': '+paramProperty[item][1])
+			inArray.append(str(item+': '+paramProperty[item][1]))
 		if paramProperty[item][0] == 'out':
-			outArray.append(item+': '+paramProperty[item][1])
+			outArray.append(str(item+': '+paramProperty[item][1]))
 		if paramProperty[item][0] == 'inout':
-			inoutArray.append(item+': '+paramProperty[item][1])
-			
+			inoutArray.append(str(item+': '+paramProperty[item][1]))
 			
 	if inArray:
 		f.write('in\n')
