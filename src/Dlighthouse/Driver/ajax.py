@@ -99,24 +99,24 @@ def make_mfile(request, paramProperty):
 			
 	if inArray:
 		f.write('in\n')
-		f.write('   ')
-		for item in inArray:
+		f.write('  ')
+		for item in inArray[:-1]:
 			f.write('%s, '% (item))
-		f.write('\n')
+		f.write('%s \n'%inArray[-1])
 		
 	if outArray:
 		f.write('out\n')
-		f.write('   ')
-		for item in outArray:
+		f.write('  ')
+		for item in outArray[:-1]:
 			f.write('%s, '% (item))
-		f.write('\n')
+		f.write('%s \n'%outArray[-1])
 		
 	if inoutArray:
 		f.write('out\n')
-		f.write('   ')
-		for item in inoutArray:
+		f.write('  ')
+		for item in inoutArray[:-1]:
 			f.write('%s, '% (item))
-		f.write('\n')
+		f.write('%s \n'%inoutArray[-1])
 		
 	f.write('{\n')
 	f.write('   %s\n'%paramProperty['equation'])
