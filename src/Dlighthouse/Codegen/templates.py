@@ -1,7 +1,7 @@
 import os, glob
 parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.sys.path.insert(0,parentdir)
-print parentdir			#/homes/salin/Lighthouse
+#print parentdir			#/homes/salin/Lighthouse
 from BTOServer.MatrixParser.matrixparser import MParser
 from BTOServer.BTOClient.BTO import BTO_Client
 from subprocess import call
@@ -13,14 +13,14 @@ class BTOGenerator(object):
 
   def generateTmpDir(self):
     defaultDir = os.getcwd()
-    print defaultDir              #defaultDir: /Users/salin/Documents/Lighthouse/Dlighthouse
+    #print defaultDir              #defaultDir: /Users/salin/Documents/Lighthouse/Dlighthouse
     try:
         os.chdir('/tmp')
         if 'lighthouse_temp' in glob.glob('*'):
             os.system('rm -r lighthouse_temp')
         os.mkdir('lighthouse_temp')
         os.chdir('lighthouse_temp')
-        print "current work dir:", os.getcwd()          #current work dir: /private/tmp/lighthouse_temp
+        #print "current work dir:", os.getcwd()          #current work dir: /tmp/lighthouse_temp
     except:
         os.chdir(defaultDir)
         return 'An error has occurred creating the temporary directory.'
@@ -58,12 +58,13 @@ class BTOGenerator(object):
 #      else:
 #          return 'Syntax Errors\n', '\n'.join(mparser.lex.errors)
 
-  def submitToBTO(self, filename):      
+  def submitToBTO(self, filename):
       client = BTO_Client()
       host = 'localhost'
       port = 9999
       user = 'salin'
       options = '-e'
+      filename = str(filename)
       try:
           client.submit_request(host, port, user, options, filename)
       except:

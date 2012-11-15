@@ -112,7 +112,7 @@ def make_mfile(request, paramProperty):
 		f.write('%s \n'%outArray[-1])
 		
 	if inoutArray:
-		f.write('out\n')
+		f.write('inout\n')
 		f.write('  ')
 		for item in inoutArray[:-1]:
 			f.write('%s, '% (item))

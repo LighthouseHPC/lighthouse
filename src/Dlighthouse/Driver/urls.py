@@ -25,5 +25,5 @@ urlpatterns = patterns('',
     
     (r'^keyword/$', keywordResult),
     (r'^download/$', downloadTemplate),
-    (r'^script/$', runScript),
+    #(r'^script/$', runScript),
 )
