@@ -1238,8 +1238,14 @@
 				arrParameters.push(equation[i]);				
 			}
 		}
+		
+		
+		// remove duplicate (letter) parameters from 'equation'
+		arrParameters = arrParameters.filter(function(elem, pos) {
+			return arrParameters.indexOf(elem) == pos;
+		})
+		
 		displayParameters();
-		//console.log(arrParameters);
 	}
 	
 	
