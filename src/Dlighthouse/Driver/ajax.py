@@ -124,7 +124,16 @@ def make_mfile(request, paramProperty):
 	f.close()
 	
 	output = bto.submitToBTO('%s.m'%paramProperty['kernalName'])
+	print "hello!"
+	#outputFile = filename[:-2]+'.c'
+        #print "current dir: ", os.getcwd()
+	#if outputFile in glob.glob('*'):
+	#	print "Yes!"
+	#else:
+	#	print "No!"
 	
+	#f_out = open(outputFile,"r")
 	dajax.assign("#script_output", 'innerHTML', output)
+#	f_out.close()
 
 	return dajax.json()
