@@ -1220,11 +1220,13 @@
 	
 	
 	// Submit Equation & kernal name
+	var specialWords = ['alpha', 'beta']
 	var regexLetter = /[a-zA-z]/;
-	//arrParameters stores the parameters
+	// arrParameters stores the parameters
 	var arrParameters = new Array();
 	// kernal stores the kernal name and the equation
 	var kernal = [];
+	
 	function submitEquation(){
 		arrParameters = [];
 		kernal = [];
@@ -1233,12 +1235,20 @@
 		kernal.push(kernalName);
 		kernal.push(equation);
 		
+		// find special words in equation and remove them from equation
+		for (var i=0; i<specialWords.length; i++){
+			if (equation.search(specialWords[i]) != -1){
+				arrParameters.push(specialWords[i]);
+				equation = equation.replace(specialWords[i], "");
+			}
+		}
+		
+		// seperate the letters in equation and store them in arrParameters 
 		for (var i=0; i<equation.length; i++){
 			if (regexLetter.test(equation[i])){
 				arrParameters.push(equation[i]);				
 			}
 		}
-		
 		
 		// remove duplicate (letter) parameters from 'equation'
 		arrParameters = arrParameters.filter(function(elem, pos) {
