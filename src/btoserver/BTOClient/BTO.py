@@ -70,7 +70,7 @@ class BTORequestHandler(BaseServer):
                     		f.write('The BTO server was unable to compile and generate an output file')
                 	self.send_header1(1)
                 	self.send_files([baseworkdir+'errors.x'])
-'''
+
 	finally:
 	    ###---- delete the /tmp/userid+"_"+self.req_id/ folder
             shutil.rmtree(workdir)
@@ -78,7 +78,7 @@ class BTORequestHandler(BaseServer):
 		print "%s is removed successfully!" %workdir
 	    else:
 		print "%s is not yet removed." %workdir
-'''
+
 
     
 class BTO_Client(BaseClient):
