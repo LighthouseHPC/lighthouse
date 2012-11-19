@@ -11,7 +11,7 @@ from Driver.forms import ProblemForm, EquationForm, FactorForm, PrecisionForm, C
 
 from django.db.models import get_model, Q
 from Driver.models import RoutineInfo, LinearEquation_simple, LinearEquation_expert, LinearEquation_driver
-from Computational.models import LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate
+from Computational.models import LinearEquation_factor, LinearEquation_solve, LinearEquation_condition_number, LinearEquation_error_bound, LinearEquation_invert, LinearEquation_equilibrate, LinearEquation_computational
 from Combine.models import LinearEquation_only
 
 from django.contrib.contenttypes.models import ContentType
@@ -923,6 +923,10 @@ def advancedResult(request):
 #    		return render_to_response('search/advanced_search.html', context_instance=RequestContext(request, context))
 
 
+
+
+
+
 ###---------------- Keyword Search ------------------###
 
 def keywordResult(request):
@@ -945,8 +949,7 @@ def keywordResult(request):
 
 		# For keywords within double quotes
 		if keywords.startswith('"') and keywords.endswith('"'):
-			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(info__icontains=keywords)
-			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(info__icontains=keywords)
+			routines_le_driver = SearchQuerySet().models(LinearEquation_driver).filter(info__icontains=keywords)
 			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__icontains=keywords)
 		
 		# For keywords without double quotes 
@@ -963,12 +966,11 @@ def keywordResult(request):
 			for item in queries:
 			    query &= item
 		
-			routines_le_simple = SearchQuerySet().models(LinearEquation_simple).filter(query)
-			routines_le_expert = SearchQuerySet().models(LinearEquation_expert).filter(query)
+			routines_le_driver = SearchQuerySet().models(LinearEquation_driver).filter(query)
 			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(query)
 			
-		routines = list(chain(routines_le_simple, routines_le_expert, routines_le_computational))
-		notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_simple, routines_le_expert, routines_le_computational)))
+		routines = list(chain(routines_le_driver, routines_le_computational))
+		notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_driver, routines_le_computational)))
 		context = {
 			'form': ProblemForm(), 
 			'formAdvanced': AdvancedForm(), 
