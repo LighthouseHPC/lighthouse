@@ -1211,17 +1211,19 @@
 	/* --------------------------------- For Script Area ------------------------------ */
 	/*--------------------------------------------------------------------------------- */
 
-	// Submit Equation & kernal name fields
+	// Clear Equation & kernal name fields
 	function clearKernalEquation(){
 		dojo.empty('parameterTable');
 		dojo.byId("scriptEquation").value = '';
 		dojo.byId("kernalName").value = '';
 	}
 	
-	
-	// Submit Equation & kernal name
-	var specialWords = ['alpha', 'beta']
-	var regexLetter = /[a-zA-z]/;
+	// Submit Equation & kernal name fields	
+	var specialWords = ['alpha', 'beta'];
+	var optionScalar = ['alpha', 'beta'];
+	var optionVector = ['q', 'v', 'w', 'x', 'y', 'z'];
+	var optionMatrix = ['A', 'B'];
+	var regexLetter = /[a-zA-Z]/;
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
 	// kernal stores the kernal name and the equation
@@ -1270,20 +1272,39 @@
 		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
 		var cell1 = dojo.create('td', {innerHTML: "<select id='select1"+element +"\'"+"size='1'>"+
 					"<option value='0'>Section...</option>"+
-					"<option value='0'>in</option>"+
-					"<option value='1'>out</option>"+
-					"<option value='2'>inout</option></select>"}, row);
+					"<option id='op10_"+element+"\'"+"value='0'>in</option>"+
+					"<option id='op11_"+element+"\'"+"value='1'>out</option>"+
+					"<option id='op12_"+element+"\'"+"value='2'>inout</option></select>"}, row);
+		
+		// set up the preselected value for cell1
+		if (optionScalar.indexOf(element) != -1){
+			dojo.attr("op10_"+element, "selected", "selected");	
+		}		
+		
 		var cell2 = dojo.create('td', {innerHTML:
 					"<select id='select2"+element+"\'"+
-					"onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+
-					"\""+"size='1'>"+
+					"onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+"\""+
+					"size='1'>"+
 					"<option value='0'>Parameter type...</option>"+
-					"<option value='0'>scalar</option>"+
-					"<option value='1'>vector</option>"+
-					"<option value='2'>matrix</option></select>"}, row);
+					"<option id='op20_"+element+"\'"+"value='0'>scalar</option>"+
+					"<option id='op21_"+element+"\'"+"value='1'>vector</option>"+
+					"<option id='op22_"+element+"\'"+"value='2'>matrix</option></select>"}, row);
+		
 		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
 		
-		//var select3 = dojo.create('select', {id: "combo"+index}, cell3)
+		// set up the preselected value for cell2
+		if (optionScalar.indexOf(element) != -1){
+			dojo.attr("op20_"+element, "selected", "selected");
+		}
+		if (optionVector.indexOf(element) != -1){
+			dojo.attr("op21_"+element, "selected", "selected");
+			updatecombo('1', "select2"+element, index)
+		}
+		if (optionMatrix.indexOf(element) != -1){
+			dojo.attr("op22_"+element, "selected", "selected");
+			updatecombo('2', "select2"+element, index)
+		}
+		
 	}
 	
 	
