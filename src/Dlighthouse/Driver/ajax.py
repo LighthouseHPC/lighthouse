@@ -77,6 +77,11 @@ def removeTemplateFile(request):
 @dajaxice_register
 def make_mfile(request, paramProperty):
 	dajax = Dajax()
+
+	### set defaultDir = /homes/salin/Lighthouse/Dlighthouse/
+	defaultDir = os.getcwd()
+
+	### call codeGen.templates.BTOGenerator
 	bto = BTOGenerator()
 	
 	### create /private/tmp/lighthouse_temp and go there
@@ -123,17 +128,15 @@ def make_mfile(request, paramProperty):
 	f.write('}')
 	f.close()
 	
-	output = bto.submitToBTO('%s.m'%paramProperty['kernalName'])
-	print "hello!"
-	#outputFile = filename[:-2]+'.c'
-        #print "current dir: ", os.getcwd()
-	#if outputFile in glob.glob('*'):
-	#	print "Yes!"
-	#else:
-	#	print "No!"
-	
-	#f_out = open(outputFile,"r")
+	try:
+		output = bto.submitToBTO('%s.m'%paramProperty['kernalName'])
+
+	except Exception, e:
+		print 'submitToBTO Exception caught:', str(e)
+		print 'bto.submitToBTO(','%s.m'%paramProperty['kernalName'],')'
+
 	dajax.assign("#script_output", 'innerHTML', output)
-#	f_out.close()
+
+	os.chdir(defaultDir)
 
 	return dajax.json()

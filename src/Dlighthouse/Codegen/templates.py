@@ -65,6 +65,7 @@ class BTOGenerator(object):
       user = 'salin'
       options = '-e'
       filename = str(filename)
+
       try:
           client.submit_request(host, port, user, options, filename)
       except:
@@ -85,7 +86,6 @@ class BTOGenerator(object):
       with open(outputFile, 'r') as f:
           for line in f:
               Output = Output + line
-
+     
       remove_workdir('lighthouse_temp')
-      os.chdir(defaultDir)
       return Output
