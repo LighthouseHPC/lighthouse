@@ -1215,46 +1215,88 @@
 	/* --------------------------------- For Script Area ------------------------------ */
 	/*--------------------------------------------------------------------------------- */
 
-	// Clear Equation & kernal name fields
+	//*--- Clear Equation & kernal name fields---*
 	function clearKernalEquation(){
 		dojo.empty('parameterTable');
 		dojo.byId("scriptEquation").value = '';
 		dojo.byId("kernalName").value = '';
 	}
 	
-	// Submit Equation & kernal name fields	
+	//*--- for Submit Equation & kernal name fields---*
 	var specialWords = ['alpha', 'beta'];
-	var optionScalar = ['alpha', 'beta'];
-	var optionVector = ['q', 'v', 'w', 'x', 'y', 'z'];
+		
+	// arrays for in, out, inout
+	var optionIn = new Array();
+	var optionOut = new Array();
+	var optionInOut = new Array();
+	
+	// arrays for scalar, vector, matrix
+	var optionScalar = ['alpha', 'beta', 'a', 'b'];
+	var optionVector = ['q', , 'u', 'v', 'w', 'x', 'y', 'z'];
 	var optionMatrix = ['A', 'B'];
-	var regexLetter = /[a-zA-Z]/;
+
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
+	
 	// kernal stores the kernal name and the equation
 	var kernal = [];
 	
 	function submitEquation(){
 		arrParameters = [];
 		kernal = [];
+		optionIn = [];
+		optionOut = [];
+		optionInOut = [];
 		var equation = dojo.byId("scriptEquation").value;
 		var kernalName = dojo.byId("kernalName").value;
 		kernal.push(kernalName);
 		kernal.push(equation);
 		
 		// find special words in equation and remove them from equation
+		var arrParameters1 = [];
 		for (var i=0; i<specialWords.length; i++){
 			if (equation.search(specialWords[i]) != -1){
-				arrParameters.push(specialWords[i]);
+				arrParameters1.push(specialWords[i]);
 				equation = equation.replace(specialWords[i], "");
 			}
 		}
 		
-		// seperate the letters in equation and store them in arrParameters 
+		// seperate the letters in equation and store them in arrParameters
+		var regexLetter = /[a-zA-Z]/;
+		var arrParameters2 = []
 		for (var i=0; i<equation.length; i++){
 			if (regexLetter.test(equation[i])){
-				arrParameters.push(equation[i]);				
+				arrParameters2.push(equation[i]);				
+			}
+			if (equation[i] == "="){
+				arrParameters2.push(equation[i]);
 			}
 		}
+			
+		// combine arrParameters1 and arrParameters2, putting special scalars in the end of arrParameters
+		arrParameters = arrParameters2.concat(arrParameters1);
+			
+		// set up optionIn and optionOut
+		for (var i=0; i<arrParameters.length; i++){
+			if (i<arrParameters.indexOf('=')){
+				optionOut.push(arrParameters[i]);
+			}
+			if (i>arrParameters.indexOf('=')){
+				optionIn.push(arrParameters[i]);
+			}
+		}
+		
+		// set up optionInOut
+		optionIn.filter(function(element) {
+			if(optionOut.indexOf(element) != -1){
+			    optionInOut.push(element);
+			    optionIn.splice(optionIn.indexOf(element), 1);
+			    optionOut.splice(optionOut.indexOf(element), 1);
+			}
+		});
+		
+		// remove "=" from arrParameters
+		arrParameters.splice(arrParameters.indexOf("="), 1);
 		
 		// remove duplicate (letter) parameters from 'equation'
 		arrParameters = arrParameters.filter(function(elem, pos) {
@@ -1281,9 +1323,16 @@
 					"<option id='op12_"+element+"\'"+"value='2'>inout</option></select>"}, row);
 		
 		// set up the preselected value for cell1
-		if (optionScalar.indexOf(element) != -1){
+		if (optionIn.indexOf(element) != -1){
 			dojo.attr("op10_"+element, "selected", "selected");	
-		}		
+		}
+		if (optionOut.indexOf(element) != -1){
+			dojo.attr("op11_"+element, "selected", "selected");	
+		}
+		if (optionInOut.indexOf(element) != -1){
+			dojo.attr("op12_"+element, "selected", "selected");	
+		}
+		
 		
 		var cell2 = dojo.create('td', {innerHTML:
 					"<select id='select2"+element+"\'"+
