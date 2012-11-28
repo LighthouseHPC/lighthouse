@@ -1284,19 +1284,24 @@
 			indices_pair[i][1] = indices[2*i+1];	
 		}
 		
-		console.log(indices_pair);
+		
 		
 		// seperate the letters in equation
 		var regexLetter = /[a-zA-Z]/;
 		for (var i=0; i<equation.length; i++){
-			for (var j=0; j<indices_pair; j++){
-				console.log(indices_pair[j][0]);
-				if ( indices_pair[j][0]<i<indices_pair[j][1])
-					pass
+			console.log(i);
+			for (var j=0; j<indices_pair.length; j++){
+				if ( indices_pair[j][0]<=i<=indices_pair[j][1]){
+					console.log("***"+indices_pair[j][0]);
+					console.log("***"+indices_pair[j][1]);
+					console.log("-----NOT GOOD------");
+					
+				}
 				else {
-					if (regexLetter.test(equation[i]) || equation[i] == "="){
-						equation = equation.replace(equation[i], "$"+equation[i]+"$");			
-					}
+					//if (regexLetter.test(equation[i]) || equation[i] == "="){
+					//	equation = equation.replace(equation[i], "$"+equation[i]+"$");			
+					//}
+					console.log("good");
 				}
 			}
 
