@@ -72,7 +72,7 @@
 		
 		var strayGlobals = [];
 		for(var i in window) {
-			if(!window.__globalList[i]) {
+			if(!window.$$globalList[i]) {
 				strayGlobals.push(i);
 			}
 		}
@@ -1231,9 +1231,9 @@
 	var optionInOut = new Array();
 	
 	// arrays for scalar, vector, matrix
-	var optionScalar = ['alpha', 'beta', 'a', 'b'];
-	var optionVector = ['q', , 'u', 'v', 'w', 'x', 'y', 'z'];
-	var optionMatrix = ['A', 'B'];
+	var optionScalar = ["alpha", "beta", "a", "b"];
+	var optionVector = ["q", , "u", "v", "w", "x", "y", "z"];
+	var optionMatrix = ["A", "B", ];
 
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
@@ -1253,57 +1253,88 @@
 		kernal.push(equation);
 		
 		// find special words in equation and remove them from equation
-		var arrParameters1 = [];
 		for (var i=0; i<specialWords.length; i++){
 			if (equation.search(specialWords[i]) != -1){
-				arrParameters1.push(specialWords[i]);
-				equation = equation.replace(specialWords[i], "");
+				equation = equation.replace(specialWords[i], "$"+specialWords[i]+"$");
 			}
 		}
 		
-		// seperate the letters in equation and store them in arrParameters
-		var regexLetter = /[a-zA-Z]/;
-		var arrParameters2 = []
+		// find 'transpose'
+		var transposeArr = equation.match(/.'/g);
+		for (var i=0; i<transposeArr.length; i++){
+			equation = equation.replace(transposeArr[i], "$"+transposeArr[i]+"$");
+		}
+		console.log(equation);	
+		
+		
+		// find the positions of all the '$'
+		var indices = [];
 		for (var i=0; i<equation.length; i++){
-			if (regexLetter.test(equation[i])){
-				arrParameters2.push(equation[i]);				
-			}
-			if (equation[i] == "="){
-				arrParameters2.push(equation[i]);
+			if (equation[i] == "$"){
+				indices.push(i);
 			}
 		}
-			
-		// combine arrParameters1 and arrParameters2, putting special scalars in the end of arrParameters
-		arrParameters = arrParameters2.concat(arrParameters1);
-			
-		// set up optionIn and optionOut
-		for (var i=0; i<arrParameters.length; i++){
-			if (i<arrParameters.indexOf('=')){
-				optionOut.push(arrParameters[i]);
-			}
-			if (i>arrParameters.indexOf('=')){
-				optionIn.push(arrParameters[i]);
-			}
+
+
+		var indices_pair = new Array(3);
+		
+		for (var i=0; i<indices.length/2; i++){
+			indices_pair[i] = new Array(2);
+			indices_pair[i][0] = indices[2*i];
+			indices_pair[i][1] = indices[2*i+1];	
 		}
 		
-		// set up optionInOut
-		optionIn.filter(function(element) {
-			if(optionOut.indexOf(element) != -1){
-			    optionInOut.push(element);
-			    optionIn.splice(optionIn.indexOf(element), 1);
-			    optionOut.splice(optionOut.indexOf(element), 1);
+		console.log(indices_pair);
+		
+		// seperate the letters in equation
+		var regexLetter = /[a-zA-Z]/;
+		for (var i=0; i<equation.length; i++){
+			for (var j=0; j<indices_pair; j++){
+				console.log(indices_pair[j][0]);
+				if ( indices_pair[j][0]<i<indices_pair[j][1])
+					pass
+				else {
+					if (regexLetter.test(equation[i]) || equation[i] == "="){
+						equation = equation.replace(equation[i], "$"+equation[i]+"$");			
+					}
+				}
 			}
-		});
+
+		}
+		console.log(equation);
 		
-		// remove "=" from arrParameters
-		arrParameters.splice(arrParameters.indexOf("="), 1);
-		
-		// remove duplicate (letter) parameters from 'equation'
-		arrParameters = arrParameters.filter(function(elem, pos) {
-			return arrParameters.indexOf(elem) == pos;
-		})
-		
-		displayParameters();
+		//// combine arrParameters_special and arrParameters_letter, putting special scalars in the end of arrParameters
+		//arrParameters = []
+		//console.log(arrParameters);
+		//	
+		//// set up optionIn and optionOut
+		//for (var i=0; i<arrParameters.length; i++){
+		//	if (i<arrParameters.indexOf('=')){
+		//		optionOut.push(arrParameters[i]);
+		//	}
+		//	if (i>arrParameters.indexOf('=')){
+		//		optionIn.push(arrParameters[i]);
+		//	}
+		//}
+		//
+		//// set up optionInOut
+		//optionIn.filter(function(element) {
+		//	if(optionOut.indexOf(element) != -1){
+		//	    optionInOut.push(element);
+		//	    optionIn.splice(optionIn.indexOf(element), 1);
+		//	    optionOut.splice(optionOut.indexOf(element), 1);
+		//	}
+		//});
+		//
+		//// remove "=" from arrParameters
+		//arrParameters.splice(arrParameters.indexOf("="), 1);
+		//
+		//// remove duplicate (letter) parameters from 'equation'
+		//arrParameters = arrParameters.filter(function(elem, pos) {
+		//	return arrParameters.indexOf(elem) == pos;
+		//})
+		//
+		//displayParameters();
 	}
 	
 	
