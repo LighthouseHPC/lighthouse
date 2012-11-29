@@ -1236,6 +1236,14 @@
 		}
 	}
 	
+	
+	//*--- Remove duplicates in an array ---*
+	function removeElem(elem, pos, array) {
+                        return array.indexOf(elem) == pos;
+	}
+	
+	
+	
 	//*--- for Submit Equation & kernal name fields---*
 	var specialWords = ['alpha', 'beta'];
 		
@@ -1284,6 +1292,7 @@
 			}
 		}
 		
+		
 		// find the index of '='
 		positionEqual = indexEqual(equation);
 		
@@ -1304,62 +1313,56 @@
 			equation = equation.replace(transposeArr[i], "");
 		}
 		
-		console.log(equation);
+		
+		// find the index of '='
+		positionEqual = indexEqual(equation);
+		
+		// seperate the letters in equation
+		var regexLetter = /[a-zA-Z]/;
+                for (var i=0; i<equation.length; i++){
+                        if (regexLetter.test(equation[i]) && i<positionEqual){
+                                optionOut.push(equation[i]);                              
+                        }
+                        if (regexLetter.test(equation[i]) && i>positionEqual){
+                                optionIn.push(equation[i]);                              
+                        }	
+                }
+		
+		
+		//remove duplicates in OptionIn and OptionOut
+		optionIn = optionIn.filter(removeElem);		
+		optionOut = optionOut.filter(removeElem);
+	
+		
+		// set up optionInOut
+		optionIn.filter(function(element) {
+			if(optionOut.indexOf(element) != -1){
+			    optionInOut.push(element);
+			    optionIn.splice(optionIn.indexOf(element), 1);
+			    optionOut.splice(optionOut.indexOf(element), 1);
+			}
+		});
 		console.log(optionIn);
 		console.log(optionOut);
+		console.log(optionInOut);
 		
 		
-		//// seperate the letters in equation
-		//var regexLetter = /[a-zA-Z]/;
-		//for (var i=0; i<indices_letter.length; i++){
-		//	if (regexLetter.test(equation[indices_letter[i]]) || equation[indices_letter[i]] == "="){
-		//		equation = equation.replace(equation[indices_letter[i]], "$"+equation[indices_letter[i]]+"$");			
-		//	}
-		//}
-		//console.log(equation);
+		// create arrParameters
+		arrParameters = optionIn.concat(optionOut, optionInOut);
+
 		
-		//// combine arrParameters_special and arrParameters_letter, putting special scalars in the end of arrParameters
-		//arrParameters = []
-		//console.log(arrParameters);
-		//	
-		//// set up optionIn and optionOut
-		//for (var i=0; i<arrParameters.length; i++){
-		//	if (i<arrParameters.indexOf('=')){
-		//		optionOut.push(arrParameters[i]);
-		//	}
-		//	if (i>arrParameters.indexOf('=')){
-		//		optionIn.push(arrParameters[i]);
-		//	}
-		//}
-		//
-		//// set up optionInOut
-		//optionIn.filter(function(element) {
-		//	if(optionOut.indexOf(element) != -1){
-		//	    optionInOut.push(element);
-		//	    optionIn.splice(optionIn.indexOf(element), 1);
-		//	    optionOut.splice(optionOut.indexOf(element), 1);
-		//	}
-		//});
-		//
-		//// remove "=" from arrParameters
-		//arrParameters.splice(arrParameters.indexOf("="), 1);
-		//
-		//// remove duplicate (letter) parameters from 'equation'
-		//arrParameters = arrParameters.filter(function(elem, pos) {
-		//	return arrParameters.indexOf(elem) == pos;
-		//})
-		//
-		//displayParameters();
-	}
-	
-	
-	function displayParameters(){
+		// remove duplicate (letter) parameters from 'equation'
+                arrParameters = arrParameters.filter(removeElem);
+
+		
+		// create drop-down lists
 		dojo.empty('parameterTable');
 		dojo.forEach(arrParameters, displayCallback);
 	}
 	
 	
 	function displayCallback(element, index){
+		console.log(element +index);
 		var row = dojo.create('tr', {id: "tr_"+index}, 'parameterTable');
 		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
 		var cell1 = dojo.create('td', {innerHTML: "<select id='select1"+element +"\'"+"size='1'>"+
