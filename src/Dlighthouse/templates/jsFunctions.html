@@ -1426,9 +1426,9 @@
 	function runScript(){
 		var paramProperty = {'kernalName': kernal[0], 'equation': kernal[1]};
 		for (var i=0; i<arrParameters.length; i++){
-			var selectId_1 = 'select1'+arrParameters[i];
-			var selectId_2 = 'select2'+arrParameters[i];
-			var selectId_3 = 'select3'+arrParameters[i];
+			var selectId_1 = 'select1_'+i;
+			var selectId_2 = 'select2_'+i;
+			var selectId_3 = 'select3_'+i;
 			if (dojo.byId(selectId_3) != null)
 				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
 								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text+'\(orientation='+dojo.byId(selectId_3).options[dojo.byId(selectId_3).selectedIndex].text+'\)'];
