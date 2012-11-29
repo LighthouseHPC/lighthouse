@@ -1222,6 +1222,10 @@
 		dojo.byId("kernalName").value = '';
 	}
 	
+	Array.prototype.diff = function(a) {
+		return this.filter(function(i) {return !(a.indexOf(i) > -1);});
+	};
+	
 	//*--- for Submit Equation & kernal name fields---*
 	var specialWords = ['alpha', 'beta'];
 		
@@ -1268,43 +1272,41 @@
 		
 		
 		// find the positions of all the '$'
-		var indices = [];
+		var indices$ = [];
 		for (var i=0; i<equation.length; i++){
 			if (equation[i] == "$"){
-				indices.push(i);
+				indices$.push(i);
 			}
 		}
-
-
-		var indices_pair = new Array(3);
 		
-		for (var i=0; i<indices.length/2; i++){
-			indices_pair[i] = new Array(2);
-			indices_pair[i][0] = indices[2*i];
-			indices_pair[i][1] = indices[2*i+1];	
+		
+		// find the positions of all the special words
+		var indices = [];
+		for (var i=0; i<indices$.length; i=i+2){
+			for (var j=indices$[i]; j<=indices$[i+1]; j++){
+				indices.push(j);
+			}
 		}
 		
+		
+		// make an array of all the indices of 'equation'
+		var indices_all = [];
+		for (var i=0; i<equation.length; i++){
+			indices_all.push(i);
+		}
+		
+		
+		// find the indices of the letters that are not of special words
+		indices_letter = indices_all.diff(indices);
+		console.log(indices_letter);
 		
 		
 		// seperate the letters in equation
 		var regexLetter = /[a-zA-Z]/;
-		for (var i=0; i<equation.length; i++){
-			console.log(i);
-			for (var j=0; j<indices_pair.length; j++){
-				if ( indices_pair[j][0]<=i<=indices_pair[j][1]){
-					console.log("***"+indices_pair[j][0]);
-					console.log("***"+indices_pair[j][1]);
-					console.log("-----NOT GOOD------");
-					
-				}
-				else {
-					//if (regexLetter.test(equation[i]) || equation[i] == "="){
-					//	equation = equation.replace(equation[i], "$"+equation[i]+"$");			
-					//}
-					console.log("good");
-				}
+		for (var i=0; i<indices_letter.length; i++){
+			if (regexLetter.test(equation[indices_letter[i]]) || equation[indices_letter[i]] == "="){
+				equation = equation.replace(equation[indices_letter[i]], "$"+equation[indices_letter[i]]+"$");			
 			}
-
 		}
 		console.log(equation);
 		
