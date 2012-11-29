@@ -1254,8 +1254,8 @@
 	
 	// arrays for scalar, vector, matrix
 	var optionScalar = ["alpha", "beta", "a", "b"];
-	var optionVector = ["q", , "u", "v", "w", "x", "y", "z"];
-	var optionMatrix = ["A", "B", ];
+	var optionVector = ["q", , "u", "v", "w", "x", "y", "z", "q'", , "u'", "v'", "w'", "x'", "y'", "z'"];
+	var optionMatrix = ["A", "B", "A'", "B'"];
 
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
@@ -1342,18 +1342,11 @@
 			    optionOut.splice(optionOut.indexOf(element), 1);
 			}
 		});
-		console.log(optionIn);
-		console.log(optionOut);
-		console.log(optionInOut);
 		
 		
 		// create arrParameters
 		arrParameters = optionIn.concat(optionOut, optionInOut);
-
-		
-		// remove duplicate (letter) parameters from 'equation'
-                arrParameters = arrParameters.filter(removeElem);
-
+		console.log(arrParameters);
 		
 		// create drop-down lists
 		dojo.empty('parameterTable');
@@ -1362,49 +1355,48 @@
 	
 	
 	function displayCallback(element, index){
-		console.log(element +index);
 		var row = dojo.create('tr', {id: "tr_"+index}, 'parameterTable');
 		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
-		var cell1 = dojo.create('td', {innerHTML: "<select id='select1"+element +"\'"+"size='1'>"+
+		var cell1 = dojo.create('td', {innerHTML: "<select id='select1_"+index +"\'"+"size='1'>"+
 					"<option value='0'>Section...</option>"+
-					"<option id='op10_"+element+"\'"+"value='0'>in</option>"+
-					"<option id='op11_"+element+"\'"+"value='1'>out</option>"+
-					"<option id='op12_"+element+"\'"+"value='2'>inout</option></select>"}, row);
+					"<option id='op10_"+index+"\'"+"value='0'>in</option>"+
+					"<option id='op11_"+index+"\'"+"value='1'>out</option>"+
+					"<option id='op12_"+index+"\'"+"value='2'>inout</option></select>"}, row);
 		
 		// set up the preselected value for cell1
 		if (optionIn.indexOf(element) != -1){
-			dojo.attr("op10_"+element, "selected", "selected");	
+			dojo.attr("op10_"+index, "selected", "selected");	
 		}
 		if (optionOut.indexOf(element) != -1){
-			dojo.attr("op11_"+element, "selected", "selected");	
+			dojo.attr("op11_"+index, "selected", "selected");	
 		}
 		if (optionInOut.indexOf(element) != -1){
-			dojo.attr("op12_"+element, "selected", "selected");	
+			dojo.attr("op12_"+index, "selected", "selected");	
 		}
 		
 		
 		var cell2 = dojo.create('td', {innerHTML:
-					"<select id='select2"+element+"\'"+
+					"<select id='select2_"+index+"\'"+
 					"onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+"\""+
 					"size='1'>"+
 					"<option value='0'>Parameter type...</option>"+
-					"<option id='op20_"+element+"\'"+"value='0'>scalar</option>"+
-					"<option id='op21_"+element+"\'"+"value='1'>vector</option>"+
-					"<option id='op22_"+element+"\'"+"value='2'>matrix</option></select>"}, row);
+					"<option id='op20_"+index+"\'"+"value='0'>scalar</option>"+
+					"<option id='op21_"+index+"\'"+"value='1'>vector</option>"+
+					"<option id='op22_"+index+"\'"+"value='2'>matrix</option></select>"}, row);
 		
 		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
 		
 		// set up the preselected value for cell2
 		if (optionScalar.indexOf(element) != -1){
-			dojo.attr("op20_"+element, "selected", "selected");
+			dojo.attr("op20_"+index, "selected", "selected");
 		}
 		if (optionVector.indexOf(element) != -1){
-			dojo.attr("op21_"+element, "selected", "selected");
-			updatecombo('1', "select2"+element, index)
+			dojo.attr("op21_"+index, "selected", "selected");
+			updatecombo('1', "select2"+index, index)
 		}
 		if (optionMatrix.indexOf(element) != -1){
-			dojo.attr("op22_"+element, "selected", "selected");
-			updatecombo('2', "select2"+element, index)
+			dojo.attr("op22_"+index, "selected", "selected");
+			updatecombo('2', "select2"+index, index)
 		}
 		
 	}
@@ -1424,7 +1416,7 @@
 			for (var i=0; i<options[parseInt(option)].length; i++){
 				selections = selections+ "<option value="+i+">"+options[parseInt(option)][i]+"</option>";
 			}
-			dojo.byId("cell3"+index).innerHTML = "<select id='select3"+element+"\'"+"\">"+selections+"</select>";
+			dojo.byId("cell3"+index).innerHTML = "<select id='select3_"+index+"\'"+"\">"+selections+"</select>";
 		}
 	}
 	
