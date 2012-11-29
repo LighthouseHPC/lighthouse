@@ -1222,9 +1222,19 @@
 		dojo.byId("kernalName").value = '';
 	}
 	
-	Array.prototype.diff = function(a) {
-		return this.filter(function(i) {return !(a.indexOf(i) > -1);});
-	};
+	
+	
+	//*--- Find the index (position) of the '=' sign ---*
+	function indexEqual(a){
+		for (var i=0; i<a.length; i++){
+			if (a[i] == '='){
+				return i;
+			}
+			else {
+				continue;
+			}
+		}
+	}
 	
 	//*--- for Submit Equation & kernal name fields---*
 	var specialWords = ['alpha', 'beta'];
@@ -1246,6 +1256,7 @@
 	var kernal = [];
 	
 	function submitEquation(){
+		positionEqual = 0;
 		arrParameters = [];
 		kernal = [];
 		optionIn = [];
@@ -1256,59 +1267,56 @@
 		kernal.push(kernalName);
 		kernal.push(equation);
 		
+		// find the index of '='
+		positionEqual = indexEqual(equation);
+		
+		
 		// find special words in equation and remove them from equation
 		for (var i=0; i<specialWords.length; i++){
 			if (equation.search(specialWords[i]) != -1){
-				equation = equation.replace(specialWords[i], "$"+specialWords[i]+"$");
+				if (equation.indexOf(specialWords[i][0]) < positionEqual){
+					optionOut.push(specialWords[i]);
+				}
+				else {
+					optionIn.push(specialWords[i]);
+				}
+			equation = equation.replace(specialWords[i], "");
 			}
 		}
+		
+		// find the index of '='
+		positionEqual = indexEqual(equation);
 		
 		// find 'transpose'
-		var transposeArr = equation.match(/.'/g);
+		patt = /.'/g
+		var transposeArr = [];
+		while ( (result = patt.exec(equation)) ) {
+			transposeArr.push(result);
+		}		
+
 		for (var i=0; i<transposeArr.length; i++){
-			equation = equation.replace(transposeArr[i], "$"+transposeArr[i]+"$");
-		}
-		console.log(equation);	
-		
-		
-		// find the positions of all the '$'
-		var indices$ = [];
-		for (var i=0; i<equation.length; i++){
-			if (equation[i] == "$"){
-				indices$.push(i);
+			if (transposeArr[i].index < positionEqual){
+				optionOut.push(transposeArr[i][0]);
 			}
-		}
-		
-		
-		// find the positions of all the special words
-		var indices = [];
-		for (var i=0; i<indices$.length; i=i+2){
-			for (var j=indices$[i]; j<=indices$[i+1]; j++){
-				indices.push(j);
+			else {
+				optionIn.push(transposeArr[i][0]);
 			}
+			equation = equation.replace(transposeArr[i], "");
 		}
 		
-		
-		// make an array of all the indices of 'equation'
-		var indices_all = [];
-		for (var i=0; i<equation.length; i++){
-			indices_all.push(i);
-		}
-		
-		
-		// find the indices of the letters that are not of special words
-		indices_letter = indices_all.diff(indices);
-		console.log(indices_letter);
-		
-		
-		// seperate the letters in equation
-		var regexLetter = /[a-zA-Z]/;
-		for (var i=0; i<indices_letter.length; i++){
-			if (regexLetter.test(equation[indices_letter[i]]) || equation[indices_letter[i]] == "="){
-				equation = equation.replace(equation[indices_letter[i]], "$"+equation[indices_letter[i]]+"$");			
-			}
-		}
 		console.log(equation);
+		console.log(optionIn);
+		console.log(optionOut);
+		
+		
+		//// seperate the letters in equation
+		//var regexLetter = /[a-zA-Z]/;
+		//for (var i=0; i<indices_letter.length; i++){
+		//	if (regexLetter.test(equation[indices_letter[i]]) || equation[indices_letter[i]] == "="){
+		//		equation = equation.replace(equation[indices_letter[i]], "$"+equation[indices_letter[i]]+"$");			
+		//	}
+		//}
+		//console.log(equation);
 		
 		//// combine arrParameters_special and arrParameters_letter, putting special scalars in the end of arrParameters
 		//arrParameters = []
