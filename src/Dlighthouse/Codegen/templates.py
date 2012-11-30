@@ -1,4 +1,4 @@
-import os, glob, fnmatch
+import os, glob
 parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.sys.path.insert(0,parentdir)
 #print parentdir			#/homes/salin/Lighthouse
@@ -72,16 +72,15 @@ class BTOGenerator(object):
           remove_workdir('lighthouse_temp')
           os.getenv("HOME")
           return 'An error has occurred receiving the output file.'
-        
-      for file in os.listdir('.'):
-        if fnmatch.fnmatch(file, "errors.x"):
+          
+      if 'errors.x' in glob.glob('*'):
           outputFile = 'errors.x'
-        elif fnmatch.fnmatch(file, "%s*.c"%filename[:-2]):
-          outputFile = file
-        else:
-            remove_workdir('lighthouse_temp')
-            os.getenv("HOME")
-            return 'Unable to locate correct output file'
+      elif filename[:-2]+'.c' in glob.glob('*'):
+          outputFile = filename[:-2]+'.c'
+      else:
+          remove_workdir('lighthouse_temp')
+          os.getenv("HOME")
+          return 'Unable to locate correct output file'
           
       Output = ''
       with open(outputFile, 'r') as f:
