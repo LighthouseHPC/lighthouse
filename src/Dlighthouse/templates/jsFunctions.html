@@ -1254,8 +1254,8 @@
 	
 	// arrays for scalar, vector, matrix
 	var optionScalar = ["alpha", "beta", "a", "b"];
-	var optionVector = ["q", , "u", "v", "w", "x", "y", "z", "q'", , "u'", "v'", "w'", "x'", "y'", "z'"];
-	var optionMatrix = ["A", "B", "A'", "B'"];
+	var optionVector = ["q", , "u", "v", "w", "x", "y", "z"];
+	var optionMatrix = ["A", "B"];
 
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
@@ -1296,26 +1296,26 @@
 		// find the index of '='
 		positionEqual = indexEqual(equation);
 		
-		// find 'transpose'
-		patt = /.'/g
-		var transposeArr = [];
-		while ( (result = patt.exec(equation)) ) {
-			transposeArr.push(result);
-		}		
-
-		for (var i=0; i<transposeArr.length; i++){
-			if (transposeArr[i].index < positionEqual){
-				optionOut.push(transposeArr[i][0]);
-			}
-			else {
-				optionIn.push(transposeArr[i][0]);
-			}
-			equation = equation.replace(transposeArr[i], "");
-		}
-		
-		
-		// find the index of '='
-		positionEqual = indexEqual(equation);
+		//// find 'transpose'
+		//patt = /.'/g
+		//var transposeArr = [];
+		//while ( (result = patt.exec(equation)) ) {
+		//	transposeArr.push(result);
+		//}		
+		//
+		//for (var i=0; i<transposeArr.length; i++){
+		//	if (transposeArr[i].index < positionEqual){
+		//		optionOut.push(transposeArr[i][0]);
+		//	}
+		//	else {
+		//		optionIn.push(transposeArr[i][0]);
+		//	}
+		//	equation = equation.replace(transposeArr[i], "");
+		//}
+		//
+		//
+		//// find the index of '='
+		//positionEqual = indexEqual(equation);
 		
 		// seperate the letters in equation
 		var regexLetter = /[a-zA-Z]/;
