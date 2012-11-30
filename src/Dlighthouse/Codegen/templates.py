@@ -70,7 +70,7 @@ class BTOGenerator(object):
           client.submit_request(host, port, user, options, filename)
       except:
           remove_workdir('lighthouse_temp')
-          os.chdir(defaultDir)
+          os.getenv("HOME")
           return 'An error has occurred receiving the output file.'
           
       if 'errors.x' in glob.glob('*'):
@@ -79,7 +79,7 @@ class BTOGenerator(object):
           outputFile = filename[:-2]+'.c'
       else:
           remove_workdir('lighthouse_temp')
-          os.chdir(defaultDir)
+          os.getenv("HOME")
           return 'Unable to locate correct output file'
           
       Output = ''
