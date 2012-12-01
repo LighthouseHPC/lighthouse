@@ -134,8 +134,13 @@ def make_mfile(request, paramProperty):
 	except Exception, e:
 		print 'submitToBTO Exception caught:', str(e)
 		print 'bto.submitToBTO(','%s.m'%paramProperty['kernalName'],')'
-
-	dajax.assign("#script_output", 'innerHTML', output)
+		
+	try: 
+		dajax.assign("#script_output", 'innerHTML', output)
+	
+	except Exception, e:
+		print 'cannot display output because of: '
+	
 
 	os.chdir(defaultDir)
 
