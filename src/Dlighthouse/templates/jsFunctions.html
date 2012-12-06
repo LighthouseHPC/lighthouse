@@ -1264,7 +1264,8 @@
 	var kernal = [];
 	
 	function submitEquation(){
-		positionEqual = 0;
+		equationList = [];
+		positionEqualArray = [];
 		arrParameters = [];
 		kernal = [];
 		optionIn = [];
@@ -1275,26 +1276,43 @@
 		kernal.push(kernalName);
 		kernal.push(equation);
 		
-		// find the index of '='
-		positionEqual = indexEqual(equation);
+		
+		// separate equations
+		equationList = equation.split("\n");
+		
+		
+		// find the index of '=' in EACH equation
+		for (var i=0; i<equationList.length; i++){
+			positionEqualArray.push(indexEqual(equationList[i]));
+		}
+		
 		
 		
 		// find special words in equation and remove them from equation
 		for (var i=0; i<specialWords.length; i++){
-			if (equation.search(specialWords[i]) != -1){
-				if (equation.indexOf(specialWords[i][0]) < positionEqual){
-					optionOut.push(specialWords[i]);
+			for (var j=0; j<equationList.length; j++){
+				if (equationList[j].search(specialWords[i]) != -1){
+					if (equationList[j].indexOf(specialWords[i][0]) < positionEqualArray[j]){
+						optionOut.push(specialWords[i]);
+					}
+					else {
+						optionIn.push(specialWords[i]);
+					}
+				equationList[j] = equationList[j].replace(specialWords[i], "");
 				}
-				else {
-					optionIn.push(specialWords[i]);
-				}
-			equation = equation.replace(specialWords[i], "");
 			}
 		}
 		
 		
-		// find the index of '='
-		positionEqual = indexEqual(equation);
+		// find the index of '=' in EACH equation
+		positionEqualArray = [];
+		for (var i=0; i<equationList.length; i++){
+			positionEqualArray.push(indexEqual(equationList[i]));
+		}
+		
+		
+		
+		
 		
 		//// find 'transpose'
 		//patt = /.'/g
@@ -1317,16 +1335,22 @@
 		//// find the index of '='
 		//positionEqual = indexEqual(equation);
 		
+		
+		
+		
+		
 		// seperate the letters in equation
 		var regexLetter = /[a-zA-Z]/;
-                for (var i=0; i<equation.length; i++){
-                        if (regexLetter.test(equation[i]) && i<positionEqual){
-                                optionOut.push(equation[i]);                              
-                        }
-                        if (regexLetter.test(equation[i]) && i>positionEqual){
-                                optionIn.push(equation[i]);                              
-                        }	
-                }
+		for (var k=0; k<equationList.length; k++){		
+			for (var i=0; i<equationList[k].length; i++){
+				if (regexLetter.test(equationList[k][i]) && i<positionEqualArray[k]){
+					optionOut.push(equationList[k][i]);                              
+				}
+				if (regexLetter.test(equationList[k][i]) && i>positionEqualArray[k]){
+					optionIn.push(equationList[k][i]);                              
+				}	
+			}
+		}
 		
 		
 		//remove duplicates in OptionIn and OptionOut
@@ -1346,7 +1370,7 @@
 		
 		// create arrParameters
 		arrParameters = optionIn.concat(optionOut, optionInOut);
-		console.log(arrParameters);
+		
 		
 		// create drop-down lists
 		dojo.empty('parameterTable');
