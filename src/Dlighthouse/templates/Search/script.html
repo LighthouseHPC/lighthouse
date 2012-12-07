@@ -17,20 +17,18 @@
                             <label for="kernalName"><strong>Kernel Name:</strong></label>
                         </td>
                         <td>
-                            <input type="text" required="true" name="kernalName" id="kernalName" placeholder="Name your kernal" 
+                            <input id="kernalName" type="text" required="true" name="kernalName" placeholder="Name your kernal" 
                                     missingMessage="Ooops!  You forgot to name your kernal!" />                            
                         </td>
                     </tr>  
                     <tr>
                         <td>
                             <label for="scriptEquation"><strong>Equation(s):</strong>
-                                <p style="font-size: x-small">
-                                    *One equation per line.
-                                </p>
                             </label>
                         </td>
                         <td>
-                            <TEXTAREA id="scriptEquation" name="scriptEquation" cols=20 rows=5></TEXTAREA>
+                            <TEXTAREA id="scriptEquation" required="true" name="scriptEquation"
+                                      cols=30 rows=5 placeholder="One equation per line"></TEXTAREA>
 <!--                            <input type="text" required="true" name="scriptEquation" id="scriptEquation" placeholder="Enter your equation" 
                                     missingMessage="Ooops!  You forgot your equation!" /> -->                           
                         </td>
