@@ -100,36 +100,30 @@
                                 font-size:16px;
                         }
             -->
-
-
-
-                {% block dojango_header_extra %}
 			
-		<!-- for dajx prototype -->
+		<!-- for dajax prototype -->
 		{% include "dajaxDojo.html" %}
-	
-		
 		
 		{% include "style.html" %}
+		
                 <script type="text/javascript">
                         window.__globalList = {
                                 dojo: true,
                                 dijit: true,
                                 dojox: true,
-                                djConfig: true
+                                dojoConfig: true
                         };
                         for(var i in window) {
                                 window.__globalList[i] = true;
                         }
                 </script>
-                {% endblock %}
         </head>
 {% endspaceless %}
 
 
 
 {% block dojango_body %}
-	<body class="{{ DOJANGO.THEME }}" onLoad="init();">
+	<body class="{{ DOJANGO.THEME }}"">
 	<!-- basic preloader: -->
 	<div id="loader">
 		<div id="loaderInner">
@@ -185,8 +179,7 @@
 				region="leading" splitter="true">
 
 				<!-- Simple Search-->
-				<div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">
-                                        
+				<div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
 					{% block dojango_content_simpleSearch %}{% endblock %}
 				</div><!-- end Simple Search -->
 
@@ -257,15 +250,15 @@
 
 
 
-	{% block _dojango_dojo_require %}
+<!--	{% block _dojango_dojo_require %}{% endblock %}-->
 	{% include "dojoRequires.html" %}
-	{% endblock %}
 
 
 
-	{% block _dojango_js_functions %}
+
+<!--	{% block _dojango_js_functions %}{% endblock %}-->
 	{% include "jsFunctions.html" %}
-	{% endblock %}
+
 
 
 
