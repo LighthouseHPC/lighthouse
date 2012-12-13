@@ -1,7 +1,7 @@
 {% spaceless %}
         {% load dojango_base %}
         {% load dojango_filters %}
-	{% load dajaxice_templatetags %}
+        {% load dajaxice_templatetags %}
         {% if not DOJANGO %}
                 {# if the context processor did not pass the DOJANGO context, we set it here #}
                 {% set_dojango_context %}
@@ -34,25 +34,25 @@
 
                 <title>Lighthouse Search</title>
 
-                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />		
+                <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png" />          
 
                 {% block _dojango_dojo_styles %}
                 <style type="text/css">
                         @import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
                         @import "{{ DOJANGO.THEME_CSS_URL }}";
-			@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/resources/dnd.css");
-			@import url("{{ MEDIA_URL }}dndDefault.css");
+                        @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/resources/dnd.css");
+                        @import url("{{ MEDIA_URL }}dndDefault.css");
                 </style>
                 {% endblock %}
 
 
-		{% dajaxice_js_import %}
+                {% dajaxice_js_import %}
 
                 <script type="text/javascript">
                         // baseUrl setting is needed, if you want to combine a local with a remote build!
                         {% block _dojango_dj_config %}
                                 var dojoConfig = {
-					//async: true,
+                                        //async: true,
                                         //'isDebug':{{ DOJANGO.DEBUG|json }},
                                         //'parseOnLoad':true,
                                         'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
@@ -60,11 +60,11 @@
                                                 ,'dojoBlankHtmlUrl': "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
                                                 ,'dojoIframeHistoryUrl': "{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
                                         {% endif %}
-					{% if DOJANGO.VERSION > '1.6' %}
-						,'paths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
-					{% else %}{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
-						,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
-					{% endif %}{% endif %}
+                                        {% if DOJANGO.VERSION > '1.6' %}
+                                                ,'paths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+                                        {% else %}{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+                                                ,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+                                        {% endif %}{% endif %}
                                 };
                         {% endblock %}
                 </script>
@@ -91,7 +91,7 @@
                 </script>
                 {% endif %}
 
-      
+     
  
             <!--
                         #leftAccordion {
@@ -100,72 +100,66 @@
                                 font-size:16px;
                         }
             -->
-
-
-
-                {% block dojango_header_extra %}
-			
-		<!-- for dajx prototype -->
-		{% include "dajaxDojo.html" %}
-	
-		
-		
-		{% include "style.html" %}
+                       
+                <!-- for dajax prototype -->
+                {% include "dajaxDojo.html" %}
+               
+                {% include "style.html" %}
+               
                 <script type="text/javascript">
                         window.__globalList = {
                                 dojo: true,
                                 dijit: true,
                                 dojox: true,
-                                djConfig: true
+                                dojoConfig: true
                         };
                         for(var i in window) {
                                 window.__globalList[i] = true;
                         }
                 </script>
-                {% endblock %}
         </head>
 {% endspaceless %}
 
 
 
 {% block dojango_body %}
-	<body class="{{ DOJANGO.THEME }}" onLoad="init();">
-	<!-- basic preloader: -->
-	<div id="loader">
-		<div id="loaderInner">
-			<img src="{{ MEDIA_URL }}Images/loadingSquare.gif"/>
+        <body class="{{ DOJANGO.THEME }}"">
+        <!-- basic preloader: -->
+        <div id="loader">
+                <div id="loaderInner">
+                        <img src="{{ MEDIA_URL }}Images/loadingSquare.gif"/>
             <br>
             <br>
              Loading..
-		</div>
-	</div>
+                </div>
+        </div>
 
-	<!-- "main" BorderContainer just contains page title and another 
-		BorderContainer -->
-	<div id="main" dojoType="dijit.layout.BorderContainer">
-		<div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; 
+        <!-- "main" BorderContainer just contains page title and another
+                BorderContainer -->
+        <div id="main" dojoType="dijit.layout.BorderContainer">
+                <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px;
                 border-color:#c9dcfa;">
             <img src="{{ MEDIA_URL }}Images/NewHeader.png"/>
             <div style="float:right; padding-top: 7px;">
-            {% if user.is_authenticated %}                             
+            {% if user.is_authenticated %}                            
                 <div style="text-align:right; color:#808080;">
                     <table>
                         <tr>
                                 Welcome, {{ user.username }}.
-			</tr>
-			<tr>
-			    <!--<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>-->         
-				<td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;<a style="text-decoration: none;" href="/accounts/logout/">Logout</a></td>
+                        </tr>
+                        <tr>
+                            <!--<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>-->        
+                                <td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;<a style="text-decoration: none;" href="/accounts/logout/">Logout</a></td>
                         </tr>
                     </table>        
-                </div> 
+                </div>
         {% else %}
                 <div>
                     <table>
                         <tr>
                             <td>
                                 <a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>
-                            </td>           
+                            </td>          
                             <td>
                                 <a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
                             </td>
@@ -176,108 +170,87 @@
             </div>
         </div>
 
-		<!-- "mainSplit" BorderContainer has all the real content -->
-		<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" 
-			design="sidebar" region="center" id="mainSplit">
+                <!-- "mainSplit" BorderContainer has all the real content -->
+                <div dojoType="dijit.layout.BorderContainer" liveSplitters="false"
+                        design="sidebar" region="center" id="mainSplit">
 
-			<div dojoType="dijit.layout.TabContainer" duration="200"
-				minSize="100" style="width: 550px;" id="leftTab" 
-				region="leading" splitter="true">
+                        <div dojoType="dijit.layout.TabContainer" duration="200"
+                                minSize="100" style="width: 550px;" id="leftTab"
+                                region="leading" splitter="true">
+                                <!-- Simple Search-->
+                                <div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                        {% block dojango_content_simpleSearch %}{% endblock %}
+                                </div><!-- end Simple Search -->
 
-				<!-- Simple Search-->
-				<div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">
-                                        
-					{% block dojango_content_simpleSearch %}{% endblock %}
-				</div><!-- end Simple Search -->
+                                <!--  Advanced Search -->
+                                <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
+                                        {% block dojango_content_advancedSearch %}{% endblock %}
+                                </div><!-- end Advanced Search -->
 
-				<!--  Advanced Search -->
-				<div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
-					{% block dojango_content_advancedSearch %}{% endblock %}
-				</div><!-- end Advanced Search -->
-
-				<!--  General Search -->
-                <div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
-                        {% block dojango_content_keywordSearch %}{% endblock %}
-				</div><!-- end Keyword Search -->
-
-			</div><!-- end TabsContainer -->
+                                <!--  General Search -->
+                                <div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
+                                        {% block dojango_content_keywordSearch %}{% endblock %}
+                                </div><!-- end Keyword Search -->
+                        </div><!-- end TabsContainer -->
 
 
-			<!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
-			<div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
+                        <!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
+                        <div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
+                                <!-- first upper tab ==> Search Result -->
+                                <div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result" selected="false" style="padding:10px; display:none;">
+                                        {% block dojango_content_search_result %}{% endblock %}        
+                                </div><!-- end:first upper tab -->
 
-				<!-- first upper tab -->
-				<div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result" selected="false"
-				style="padding:10px; display:none;">
-					{% block dojango_content_search_result %}{% endblock %}		
-				</div><!-- end:first upper tab -->
-
-				<!-- second tab -->
-				<div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="{{ ScriptTab|default:"false" }}" 
-				style="padding:10px; height:45%;">
-					{% block dojango_content_script %}{% endblock %}
-					<!--div style="border: 1px solid #ccc">
-						<textarea dojoType="dijit.Editor" id="scriptArea" rows="30" cols="100" title="" plugins="['cut','copy','paste','|','bold','italic','underline', 'subscript','superscript']" styleSheets="/dojotoolkit/dojo/resources/dojo.css">
-						</textarea>
-					</div-->
-				</div><!-- end second tab -->
-			</div><!-- end of region="center" TabContainer -->
+                                <!-- second tab ==> script area -->
+                                <div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="{{ ScriptTab|default:"false" }}" style="padding:10px; height:45%;">
+                                        {% block dojango_content_script %}{% endblock %}
+                                </div><!-- end second tab -->
+                        </div><!-- end of region="center" TabContainer -->
 
 
-			<!-- bottom right tabs -->
-			<div dojoType="dijit.layout.TabContainer" id="bottomTabs" 
-			tabPosition="top" selectedChild="btab1"
-			region="bottom" splitter="true" style="height:55%">
-				<!-- btab 1 -->
-				<div id="btab1" dojoType="dijit.layout.ContentPane" title="Work Area" style="padding:0px;">
+                        <!-- bottom right tabs -->
+                        <div dojoType="dijit.layout.TabContainer" id="bottomTabs"
+                        tabPosition="top" selectedChild="btab1"
+                        region="bottom" splitter="true" style="height:55%">
+                                <!-- btab 1 ==> work area -->
+                                <div id="btab1" dojoType="dijit.layout.ContentPane" title="Work Area" style="padding:0px;">
                                         <div dojoType="dijit.layout.SplitContainer" orientation="horizontal"
                                                 sizerWidth="5" activeSizing="true"
                                                 style="border: 0px solid #bfbfbf; float: left; width: 100%; height: 100%;">
+                                                <!-- for selected routines -->
+                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">                                                        
+                                                        {% block dojango_content_selected_routines %}{% endblock %}
+                                                </div><!-- end selected routines -->
+                                               
+                                                <!-- for code template -->
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
-                                                                                                                
-						                                {% block dojango_content_selected_routines %}{% endblock %}
-                                                </div>
-                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
-                                                        
                                                         {% block dojango_content_code_template %}{% endblock %}
-                                                </div>
-                                                
+                                                </div><!-- end code templae -->        
                                         </div><!-- SplitContainer -->
-				</div><!-- end btab1 -->
+                                </div><!-- end btab1 -->
 
-				<!-- btab2 -->
-				<div id="btab2" dojoType="dijit.layout.ContentPane" title="Authors" style="padding:20px;">
-					<span  id="themeData"></span>
-				</div><!-- end btab2 -->
-			</div><!-- end Bottom TabContainer -->
-                        
-		</div> <!-- end of "mainSplit" BorderContainer -->
-	</div><!-- end of "main" BorderContainer -->
-
-
+                                <!-- btab2 ==> authors -->
+                                <div id="btab2" dojoType="dijit.layout.ContentPane" title="Authors" style="padding:20px;">
+                                        <span  id="themeData"></span>
+                                </div><!-- end btab2 -->
+                        </div><!-- end Bottom TabContainer -->
+                       
+                </div> <!-- end of "mainSplit" BorderContainer -->
+        </div><!-- end of "main" BorderContainer -->
 
 
-	{% block _dojango_dojo_require %}
-	{% include "dojoRequires.html" %}
-	{% endblock %}
+        {% include "dojoRequires.html" %}
 
+        {% include "jsFunctions.html" %}
 
-
-	{% block _dojango_js_functions %}
-	{% include "jsFunctions.html" %}
-	{% endblock %}
-
-
-
-
-    	{% block dojango_require %}
-        	<script type="text/javascript">
-        		{% for require in DOJANGO.COLLECTOR %}
-        			{% spaceless %}
-        				dojo.require("{{ require }}");
-        			{% endspaceless %}
-        		{% endfor %}		
-        	</script>
+        {% block dojango_require %}
+                <script type="text/javascript">
+                        {% for require in DOJANGO.COLLECTOR %}
+                                {% spaceless %}
+                                        dojo.require("{{ require }}");
+                                {% endspaceless %}
+                        {% endfor %}            
+                </script>
         {% endblock %}
     </body>
 {% endblock %}
