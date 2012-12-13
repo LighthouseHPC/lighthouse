@@ -25,17 +25,17 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-       'NAME': 'shark',                      # Or path to database file if using sqlite3.
-       'USER': 'root',                      # Not used with sqlite3.
-       'PASSWORD': 'yellow1234',              # Not used with sqlite3.
-       'HOST': '127.0.0.1',                  # Set to empty string for localhost. Not used with sqlite3.
-       'PORT': '3306',                       # Set to empty string for default. Not used with sqlite3.
-       'OPTIONS': {
-               "init_command": "SET storage_engine=MyISAM",
-               }
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'shark',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'yellow1234',                  # Not used with sqlite3.
+        'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+        'OPTIONS': {
+                "init_command": "SET storage_engine=MyISAM",
+                } 
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -185,7 +185,7 @@ INSTALLED_APPS = (
 
 
 
-DOJANGO_DOJO_THEME = "soria"
+DOJANGO_DOJO_THEME = "claro"
 
 
 # A sample logging configuration. The only tangible logging
@@ -240,7 +240,7 @@ DAJAXICE_JS_DOCSTRINGS = True
 #note: run 'python -m smtpd -n -c DebuggingServer localhost:1025' first
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 25
+EMAIL_PORT = 1025
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'lighthouse@mcs.anl.gov'
 
