@@ -72,7 +72,7 @@
 		
 		var strayGlobals = [];
 		for(var i in window) {
-			if(!window.$$globalList[i]) {
+			if(!window.__globalList[i]) {
 				strayGlobals.push(i);
 			}
 		}
@@ -1508,5 +1508,10 @@
 		dojo.byId('script_output').value = "";
 	}
 
-
+	// Download the best C file
+	function outputDownload(){		
+		var content = dojo.byId('script_output').value;
+		if(content.length > 0)			
+			window.location = '/search/downloadCFile/';
+	}
 </script>
