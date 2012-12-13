@@ -240,7 +240,7 @@ DAJAXICE_JS_DOCSTRINGS = True
 #note: run 'python -m smtpd -n -c DebuggingServer localhost:1025' first
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_PORT = 25
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'lighthouse@mcs.anl.gov'
 
