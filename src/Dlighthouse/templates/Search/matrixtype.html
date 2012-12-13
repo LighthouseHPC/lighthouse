@@ -1,0 +1,200 @@
+{% extends "dojango/base.html" %}
+
+
+{% block dojango_content_simpleSearch %}
+<div id="title-div">
+  <table id="icon-table">
+    <tr>
+      <td id="icon-cell">
+        <img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
+      </td>   
+      <td id="title-cell">
+        Guided Search
+      </td>
+    </tr>
+  </table>  
+</div>
+<br>
+
+
+<!-- ### Question 1 answered. ###-->
+<tr>
+  <th>
+    <label for="id_question_prob">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Which of the following functions do you wish to execute?</b>
+    </label>
+  </th>
+{% for item in query_prob %} 
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ item.1 }}
+  </li>
+</ul>
+  {% endfor %}
+</tr>
+
+
+
+<!-- ### Questions 2, 3, 4, and 5 answered. ###-->
+{% if query_equa != 0 %} 
+<tr>
+  <th>
+    <label for="id_question_equa">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> What form of the linear system do you want to solve?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_equa|safe }}
+  </li>
+</ul>
+</tr>
+
+<tr>
+  <th>
+    <label for="id_question_fact">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Is your matrix factorized?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_fact }}
+  </li>
+</ul>
+</tr>
+
+
+<tr>
+  <th>
+    <label for="id_question_comp">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Are there complex numbers in your matrix?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_comp }}
+  </li>
+</ul>
+</tr>
+
+
+<tr>
+  <th>
+    <label for="id_question_zero">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> What is the type of your matrix?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_type }}
+  </li>
+</ul>
+</tr>
+
+
+
+<!-- ### OR Questions 2 & 3 answered. ###-->
+{% else %}
+<tr>
+  <th>
+    <label for="id_question_comp">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Are there complex numbers in your matrix?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_comp }}
+  </li>
+</ul>
+</tr>
+
+<tr>
+  <th>
+    <label for="id_question_zero">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> What is the type of your matrix?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_type }}
+  </li>
+</ul>
+</tr>
+{% endif %}
+
+
+
+
+<!-- ### Question 4/6: How is your matrix stored? ###-->
+<form action="/search/guided/problem_complex_matrixtype_storage/" name="frmStor" method="post">
+  	{% csrf_token %}
+  <div id="question-div">    
+    {{ form.as_ul }}    
+  </div>
+<br>
+  
+  
+  <div id="button-div">
+      <table style="width:100%; margin: 0px auto;">
+    <tr style="width:100%;">
+      <td style="text-align:left;">       
+        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
+            <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+        </button>       
+      </td>     
+      <td style="text-align:center;">
+        <div id="tooltip"></div>
+      </td>
+      <td style="text-align:right;">
+        <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
+            <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+        </button >
+      </td>
+    </tr>
+      </table>
+  </div>
+</form>
+
+{% endblock %}
+<!-- ########################################################################################################## -->
+
+
+
+
+<!-- ########### Simple search result: ###########-->
+{% block dojango_content_search_result %}
+{% include "search/simpleResult.html" %}
+{% endblock %}
+
+<!-- ########### Advanced search questions: ###########-->
+
+{% block dojango_content_advancedSearch %}
+{% include "search/advancedSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_keywordSearch %}
+{% include "search/keywordSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Selected routines: ###########-->
+{% block dojango_content_selected_routines %}
+{% include "search/selectedRoutines.html" %}
+{% endblock %}
+

@@ -11,13 +11,14 @@
         <tr>
             <td valign="top" bgcolor="#FAF8CC";>                                        
                 <table cellspacing="20" >
-                <form name="scriptform" action="" method="POST">
+                <form dojoType="dijit.form.Form" id="scriptForm" name="scriptform" action="" method="POST">
                     <tr>
                         <td>
                             <label for="kernalName"><strong>Kernel Name:</strong></label>
                         </td>
                         <td>
-                            <input id="kernalName" type="text" required="true" name="kernalName" placeholder="Name your kernal" 
+                            <input id="kernalName" type="text" required="true" dojoType="dijit.form.ValidationTextBox"
+                                   name="kernalName" placeholder="Name your kernal" 
                                     missingMessage="Ooops!  You forgot to name your kernal!" />                            
                         </td>
                     </tr>  
@@ -70,7 +71,7 @@
                 <td style="text-align:right;">
                     <button type="button" id="clearCode" title="Clear Code" onclick="clearScript();">Clear all
                     </button>
-                    <button type="button" id="downloadCode" title="Download Code" onclick="outputDownload();">
+                    <button type="button" id="downloadCode" title="Download Code" onclick="return outputDownload();">
                         Download output file
                     </button>
                 </td>

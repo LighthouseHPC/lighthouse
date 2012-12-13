@@ -202,7 +202,7 @@
 
                                 <!-- second tab ==> script area -->
                                 <div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="{{ ScriptTab|default:"false" }}" style="padding:10px; height:45%;">
-                                        {% block dojango_content_script %}{% endblock %}
+                                        {% block dojango_content_script %}{% include "search/script.html" %}{% endblock %}
                                 </div><!-- end second tab -->
                         </div><!-- end of region="center" TabContainer -->
 
@@ -223,7 +223,7 @@
                                                
                                                 <!-- for code template -->
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
-                                                        {% block dojango_content_code_template %}{% endblock %}
+                                                        {% block dojango_content_code_template %}{% include "search/codeTemplate.html" %}{% endblock %}
                                                 </div><!-- end code templae -->        
                                         </div><!-- SplitContainer -->
                                 </div><!-- end btab1 -->
