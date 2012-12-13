@@ -123,52 +123,51 @@
 
 
 {% block dojango_body %}
-        <body class="{{ DOJANGO.THEME }}"">
+<body class="{{ DOJANGO.THEME }}"">
         <!-- basic preloader: -->
         <div id="loader">
                 <div id="loaderInner">
                         <img src="{{ MEDIA_URL }}Images/loadingSquare.gif"/>
-            <br>
-            <br>
-             Loading..
+			<br><br>
+			Loading..
                 </div>
         </div>
 
-        <!-- "main" BorderContainer just contains page title and another
-                BorderContainer -->
+        <!-- "main" BorderContainer just contains page title and another BorderContainer -->
         <div id="main" dojoType="dijit.layout.BorderContainer">
-                <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px;
-                border-color:#c9dcfa;">
-            <img src="{{ MEDIA_URL }}Images/NewHeader.png"/>
-            <div style="float:right; padding-top: 7px;">
-            {% if user.is_authenticated %}                            
-                <div style="text-align:right; color:#808080;">
-                    <table>
-                        <tr>
-                                Welcome, {{ user.username }}.
-                        </tr>
-                        <tr>
-                            <!--<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>-->        
-                                <td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;<a style="text-decoration: none;" href="/accounts/logout/">Logout</a></td>
-                        </tr>
-                    </table>        
-                </div>
-        {% else %}
-                <div>
-                    <table>
-                        <tr>
-                            <td>
-                                <a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>
-                            </td>          
-                            <td>
-                                <a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
-                            </td>
-                        </tr>
-                    </table>        
-                </div>                                
-            {% endif %}
-            </div>
-        </div>
+                <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">
+			<img src="{{ MEDIA_URL }}Images/NewHeader.png"/>
+			<div style="float:right; padding-top: 7px;">
+				{% if user.is_authenticated %}                            
+					<div style="text-align:right; color:#808080;">
+						<table>
+						    <tr>
+							    Welcome, {{ user.username }}.
+						    </tr>
+						    <tr>
+							<!--<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>-->        
+							    <td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;
+								    <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
+							    </td>
+						    </tr>
+						</table>        
+					</div>
+				{% else %}
+					<div>
+					    <table>
+						<tr>
+						    <td>
+							<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>
+						    </td>          
+						    <td>
+							<a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
+						    </td>
+						</tr>
+					    </table>        
+					</div>                                
+				{% endif %}
+			</div>
+		 </div>
 
                 <!-- "mainSplit" BorderContainer has all the real content -->
                 <div dojoType="dijit.layout.BorderContainer" liveSplitters="false"
@@ -252,7 +251,7 @@
                         {% endfor %}            
                 </script>
         {% endblock %}
-    </body>
+</body>
 {% endblock %}
 
 </html>
