@@ -14,12 +14,12 @@
                 <form dojoType="dijit.form.Form" id="scriptForm" name="scriptform" action="" method="POST">
                     <tr>
                         <td>
-                            <label for="kernalName"><strong>Kernel Name:</strong></label>
+                            <label for="kernelName"><strong>Kernel Name:</strong></label>
                         </td>
                         <td>
-                            <input id="kernalName" type="text" required="true" dojoType="dijit.form.ValidationTextBox"
-                                   name="kernalName" placeholder="Name your kernal" 
-                                    missingMessage="Ooops!  You forgot to name your kernal!" />                            
+                            <input id="kernelName" dojoType="dijit.form.ValidationTextBox"
+                                   type="text" required="true" name="kernelName" 
+                                   missingMessage="Oops! You forgot to name your kernel!" />                            
                         </td>
                     </tr>  
                     <tr>
@@ -36,10 +36,14 @@
                     </tr>
                     <tr>
                         <td align="left">
-                                <input type="button" value="Clear" onclick="clearKernalEquation()"; />
+                            <button type="reset" onclick="clearKernalEquation()";>
+                                Reset
+                            </button>
                         </td>
                         <td align="right">
-                            <input type="button" value="Submit" onclick="submitEquation()"; />
+                            <button type="submit" name="submitButton" onclick="submitEquation()";>
+                                Submit
+                            </button>
                         </td>
                     </tr>
                 </form>

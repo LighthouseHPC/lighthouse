@@ -1215,11 +1215,11 @@
 	/* --------------------------------- For Script Area ------------------------------ */
 	/*--------------------------------------------------------------------------------- */
 
-	//*--- Clear Equation & kernal name fields---*
+	//*--- Clear Equation & kernel name fields---*
 	function clearKernalEquation(){
 		dojo.empty('parameterTable');
 		dojo.byId("scriptEquation").value = '';
-		dojo.byId("kernalName").value = '';
+		dojo.byId("kernelName").value = '';
 	}
 	
 	
@@ -1244,7 +1244,7 @@
 	
 	
 	
-	//*--- for Submit Equation & kernal name fields---*
+	//*--- for Submit Equation & kernel name fields---*
 	var specialWords = ['alpha', 'beta'];
 		
 	// arrays for in, out, inout
@@ -1260,21 +1260,21 @@
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
 	
-	// kernal stores the kernal name and the equation
-	var kernal = [];
+	// kernel stores the kernel name and the equation
+	var kernel = [];
 	
 	function submitEquation(){
 		equationList = [];
 		positionEqualArray = [];
 		arrParameters = [];
-		kernal = [];
+		kernel = [];
 		optionIn = [];
 		optionOut = [];
 		optionInOut = [];
 		var equation = dojo.byId("scriptEquation").value;
-		var kernalName = dojo.byId("kernalName").value;
-		kernal.push(kernalName);
-		kernal.push(equation);
+		var kernelName = dojo.byId("kernelName").value;
+		kernel.push(kernelName);
+		kernel.push(equation);
 		
 		
 		// separate equations
@@ -1448,7 +1448,7 @@
 	
 	// Called when user submits some script
 	function runScript(){
-		var paramProperty = {'kernalName': kernal[0], 'equation': kernal[1]};
+		var paramProperty = {'kernelName': kernel[0], 'equation': kernel[1]};
 		for (var i=0; i<arrParameters.length; i++){
 			var selectId_1 = 'select1_'+i;
 			var selectId_2 = 'select2_'+i;
