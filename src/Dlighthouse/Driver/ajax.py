@@ -91,9 +91,9 @@ def make_mfile(request, paramProperty):
 	inArray = []
 	outArray = []
 	inoutArray = []
-	### filename = [kernalName].m
-	f=open('%s.m'%paramProperty['kernalName'], 'w')
-	f.write('%s\n'%paramProperty['kernalName'])
+	### filename = [kernelName].m
+	f=open('%s.m'%paramProperty['kernelName'], 'w')
+	f.write('%s\n'%paramProperty['kernelName'])
 	for item in paramProperty:
 		if paramProperty[item][0] == 'in':
 			inArray.append(str(item+': '+paramProperty[item][1]))
@@ -129,11 +129,11 @@ def make_mfile(request, paramProperty):
 	f.close()
 	
 	try:
-		output = bto.submitToBTO('%s.m'%paramProperty['kernalName'])
+		output = bto.submitToBTO('%s.m'%paramProperty['kernelName'])
 
 	except Exception, e:
 		print 'submitToBTO Exception caught:', str(e)
-		print 'bto.submitToBTO(','%s.m'%paramProperty['kernalName'],')'
+		print 'bto.submitToBTO(','%s.m'%paramProperty['kernelName'],')'
 		
 	try: 
 		dajax.assign("#script_output", 'innerHTML', output)

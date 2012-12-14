@@ -1216,7 +1216,7 @@
 	/*--------------------------------------------------------------------------------- */
 
 	//*--- Clear Equation & kernel name fields---*
-	function clearKernalEquation(){
+	function clearKernelEquation(){
 		dojo.empty('parameterTable');
 		dojo.byId("scriptEquation").value = '';
 		dojo.byId("kernelName").value = '';
@@ -1504,7 +1504,7 @@
 		//});
 
 		// Replace the contents of input and output panel with empty strings
-		clearKernalEquation();
+		clearKernelEquation();
 		dojo.byId('script_output').value = "";
 	}
 
