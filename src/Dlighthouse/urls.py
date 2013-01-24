@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from Dlighthouse import settings
-#from Dlighthouse.views import *
+
 
 ### Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -44,8 +44,11 @@ urlpatterns = patterns('',
     (r'^$', 'django.contrib.auth.views.login'),
     (r'^index/$', 'django.contrib.auth.views.login'),
     
-    ### Link Driver/urls.py for guided, advanced, and keyword Searches:
-    (r'^search/', include('Driver.urls')),
+    ### Link lapack/urls.py for guided, advanced, and keyword Searches:
+    (r'^search/', include('lapack.urls')),
+
+    ### Link blog/urls.py for blog:
+    (r'^blog/', include('blog.urls')),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
