@@ -1,0 +1,52 @@
+{% extends "blog/bbase.html" %}
+
+
+{% block content %}
+    <h3 class="title" style="font-family:arial;">{{ post.title }}<hr></h3>
+    <ul>
+        <div class="time" style="font-family:verdana;color:grey;font-size:12px;">{{ post.created }}</div>
+        <div class="body">{{ post.body|linebreaks }}</div>
+
+    
+    <!-- Comments  -->
+    {% if comments %}
+        <h4>Comments</h4>
+    {% endif %}
+    
+
+    <form action="/blog/delete_comment/{{ post.pk }}/" method="POST">{% csrf_token %}
+    {% for comment in comments %}
+        <table id="hor-zebra">
+            <tr class="odd">
+                <td id="{{ comment.created }}">
+                    <div class="time" style="font-family:verdana;color:grey;font-size:10px;">{{ comment.created }} by {{ comment.author }}</div>
+                    <div class="body">{{ comment.body|linebreaks }}</div>
+                    {% if user.is_staff %}
+                        <input type="checkbox" name="delete" value="{{ comment.pk }}">
+                        <a href="/blog/delete_comment/{{ post.pk }}/{{ comment.id }}/">delete</a>       
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        <br>
+    {% endfor %}
+    {% if user.is_staff and comments %}
+        <p><input type="submit" value="Delete all selected"></p>
+        <br/>
+    {% endif %}
+    </form>
+
+    
+
+    <div id="respond">
+        <h4>Leave a comment</h4>
+        <form action="/blog/add_comment/{{ post.id }}/" method="POST">{% csrf_token %}
+            <p>Your name:</p>
+            <p>{{ form.author }}</p>
+            <p>Your message: </p>
+            <p>{{ form.body|linebreaks }}</p>
+            <p><input type="submit" value="Submit"></p>
+        </form>
+    </div>
+    </ul>
+{% endblock %}

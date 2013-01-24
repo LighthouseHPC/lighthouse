@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB">
+<head>
+	<title>{% block title %}My Django Blog{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/static/mystyle.css" media="screen" />
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js"></script>
+        <script>
+            function blogbutcheck_onclick(){
+                if (dojo.byId("id_q").value == ""){
+                    alert("Search filed is empty!");
+                }
+            };
+        </script>
+</head>
+<body>
+	<div id="header">
+		{% block nav-global %}
+		<h1>My Django Blog</h1>
+		{% if user.is_staff %}
+		<ul>
+                    <li><a href="{% url admin:index %}">Admin</a></li>
+                    <li><a href="{% url admin:blog_post_add %}">Add post</a></li>
+		</ul>
+                {% endif %}
+                <div id="layoutdims">
+                    <form method="get" action="/blog/search/">
+                    <table>
+                        <tr>
+                            <th><label for="id_q">Search:</label></th>
+                            <td colspan="2"><input type="text" name="q" id="id_q" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="id_models_0">Search In:</label></th>
+                            <td><label for="id_models_1"><input type="checkbox" name="models" value="blog.post" id="id_models_1" /> Posts</label></td>
+                            <td><label for="id_models_0"><input type="checkbox" name="models" value="blog.comment" id="id_models_0" /> Comments</label></td>
+                        </tr>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td><input type="submit" value="Search" onclick="blogbutcheck_onclick()"></td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+		{% endblock %}
+	</div>
+<div class="colmask rightmenu">
+	<div class="colleft">
+		<div class="col1">
+			<!-- Column 1 start -->
+			{% block content %}{% endblock %}
+			<!-- Column 1 end -->
+		</div>
+		<div class="col2">
+			<!-- Column 2 start -->
+			{% block sidebar %}
+                            <table>
+                                <tr><th>Blog Archive</th></tr>   
+                                {% for month in months %}
+                                    <tr>
+                                        <td>
+                                            <a style="text-decoration: none" href="{% url blogindex %}month/{{ month.0 }}/{{ month.1 }}/">
+                                                {{ month.2 }} {{ month.0 }}</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% endblock %}
+			<!-- Column 2 end -->
+		</div>
+	</div>
+</div>
+<div id="footer">
+        {% if user.is_staff %}
+            <p>{{ user }}</p>
+        {% else %}
+            <p>Lighthouse</p>
+        {% endif %}
+</div>
+
+</body>
+</html>
