@@ -43,130 +43,7 @@ def combine_Q(aList):
 	for value in aList:
 		query &= value
 	return query	
-
-###---------------- Ajax post to update request.session['selectedRoutines']------------------###
-@csrf_exempt
-def update_session(request):
-	if request.is_ajax():
-		selectedRoutineNames = []
-		selectedRoutineList = [{
-			 "thePrecision": request.POST.get('precision'),
-			 "routineName": request.POST.get('routineName'),
-			 "matrixType": request.POST.get('matrixType'),
-			 "storageType": request.POST.get('storageType'),
-			 "id": request.POST.get('idn'),
-			 "url": request.POST.get('url'),
-			 "checkState": request.POST.get('checkState')
-		}]
-		
-		# Check if the routine already exists in request.session['selectedRoutines'], if it does save it's index
-		counter = 0
-		match = -1
-		for item in request.session['selectedRoutines']:
-			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:
-				match = counter # Save the index
-				if selectedRoutineList[0]['checkState'] == 'checked':
-					request.session['selectedRoutines'][counter]['checkState'] = 'checked'
-				if selectedRoutineList[0]['checkState'] == 'unchecked':
-					request.session['selectedRoutines'][counter]['checkState'] = 'unchecked'							
-			counter += 1
-
-		if match == -1: # The routine does not exist in request.session['selectedRoutines'], so add it
-			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
-
-		# Session was modified
-		request.session.modified = True
-		
-		# Create a list of all checked routines	
-		for item in request.session['selectedRoutines']:
-			if item['checkState'] == 'checked':
-				selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
-
-		# Return the list
-		return HttpResponse(selectedRoutineNames)
-	else:
-		return HttpResponse('only AJAX requests are allowed!')
-
-
-
-# From the list of routines returned after each step of the Guided Search (i.e. request.session['Routines']), 
-# this function creates a new list of routines that excludes the routines 
-# that are in the request.session['selectedRoutines'] list
-
-def filterSelectedRoutines(request):	
-	request.session['notSelectedRoutines'] = request.session['Routines']
-
-	for item in request.session['selectedRoutines']:
-		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
 	
-	request.session.modified = True
-
-
-# From the list of routines returned by a Keyword Search this function removes 
-# the routines that are in the request.session['selectedRoutines'] list
-
-def filterSelectedRoutines2(request, routines):
-
-	indices = []
-	i = 0
-	for item1 in routines:		
-		for item2 in request.session['selectedRoutines']:
-			# Save the indices of the routines that match
-			if item2['thePrecision'] == item1.thePrecision and item2['routineName'] == item1.routineName:
-				indices.append(i)
-		i += 1
-
-	# Reverse the list, so the routine with highest index gets popped first 
-	# (popping the lowest index first messes up the list)
-	indices.reverse()
-
-	for item in indices:
-		routines.pop(item)
-	
-	return routines
-
-# From the list of routines returned by an Advanced Search this function  
-# creates a new list of routines (in the same format as the search result)
-# that contains only the routines that are in request.session['selectedRoutines'] list
-
-def filterSelectedRoutines3(request, routines):
-
-	alreadySelectedRoutines = []
-
-	for item1 in request.session['selectedRoutines']:
-		for lst in routines:
-			for item2 in lst:
-				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
-					alreadySelectedRoutines.append(item2)
-
-	return alreadySelectedRoutines
-
-###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
-@csrf_exempt
-def clear_session(request):
-	if request.is_ajax():
-		mode = [{"clear": request.POST.get('clear')}]
-		# Clear all routines
-		if mode[0]['clear'] == 'all':
-			request.session['selectedRoutines'] = []
-			return HttpResponse('cleared')
-		# Clear unchecked routines
-		elif mode[0]['clear'] == 'unchecked':
-			test = request.session['selectedRoutines']
-			request.session['selectedRoutines'] = []
-			for item in test:
-				if item['checkState'] == 'checked':					
-					request.session['selectedRoutines'].append(item)
-		# Clear checked routines			
-		elif mode[0]['clear'] == 'checked':
-			test = request.session['selectedRoutines']
-			request.session['selectedRoutines'] = []
-			for item in test:
-				if item['checkState'] == 'unchecked':					
-					request.session['selectedRoutines'].append(item)
-			return HttpResponse('cleared')				
-	else:
-		return HttpResponse('only AJAX requests are allowed!')		
 
 
 
@@ -191,7 +68,7 @@ def search_forms(request):
   		'selectedRoutines': request.session['selectedRoutines'], 
   		'codeTemplate': getCodeTempate(request.session.session_key), 
   		'scriptCode': request.session['userScript'], 
-  		'scriptOutput': request.session['scriptOutput']
+  		'scriptOutput': request.session['scriptOutput'],
   	}
 	return render_to_response(
 		'search/index.html', 
@@ -219,19 +96,20 @@ def guidedSearch_problem(request):
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
+		print selected
                 for answer in selected:
                         request.session['Question_problem'].append((answer, ProblemForm().find(answer))) 
 
-                appName = selected[0].split()[0]
+                cataName = selected[0].split()[0]
                 modelName = selected[0].split()[1]
                 for item in selected:
                         request.session['queries'].append(Q(notes__icontains=item.split()[2]))
 
-                request.session['Routines'] = get_model(appName,modelName).objects.filter(combine_Q(request.session['queries']))
+                request.session['Routines'] = get_model('lapack',modelName).objects.filter(combine_Q(request.session['queries']))
 		#request.session['Routines'] = LinearEquation_driver.objects.all()
                 filterSelectedRoutines(request)
 
-                if appName == 'Driver' or appName == 'Combine':
+                if cataName == 'Driver' or cataName == 'Combine':
                         form = EquationForm()
                         action = '/search/guided/problem_equation/'
         
@@ -1055,3 +933,132 @@ def downloadTemplate(request):
 def load_template(request):
 	template = getCodeTempate(request.session.session_key);
 	return HttpResponse(template)
+
+
+
+
+
+
+###---------------- Ajax post to update request.session['selectedRoutines']------------------###
+@csrf_exempt
+def update_session(request):
+	if request.is_ajax():
+		selectedRoutineNames = []
+		selectedRoutineList = [{
+			 "thePrecision": request.POST.get('precision'),
+			 "routineName": request.POST.get('routineName'),
+			 "matrixType": request.POST.get('matrixType'),
+			 "storageType": request.POST.get('storageType'),
+			 "id": request.POST.get('idn'),
+			 "url": request.POST.get('url'),
+			 "checkState": request.POST.get('checkState')
+		}]
+		
+		# Check if the routine already exists in request.session['selectedRoutines'], if it does save it's index
+		counter = 0
+		match = -1
+		for item in request.session['selectedRoutines']:
+			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:
+				match = counter # Save the index
+				if selectedRoutineList[0]['checkState'] == 'checked':
+					request.session['selectedRoutines'][counter]['checkState'] = 'checked'
+				if selectedRoutineList[0]['checkState'] == 'unchecked':
+					request.session['selectedRoutines'][counter]['checkState'] = 'unchecked'							
+			counter += 1
+
+		if match == -1: # The routine does not exist in request.session['selectedRoutines'], so add it
+			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
+
+		# Session was modified
+		request.session.modified = True
+		
+		# Create a list of all checked routines	
+		for item in request.session['selectedRoutines']:
+			if item['checkState'] == 'checked':
+				selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
+
+		# Return the list
+		return HttpResponse(selectedRoutineNames)
+	else:
+		return HttpResponse('only AJAX requests are allowed!')
+
+
+
+# From the list of routines returned after each step of the Guided Search (i.e. request.session['Routines']), 
+# this function creates a new list of routines that excludes the routines 
+# that are in the request.session['selectedRoutines'] list
+
+def filterSelectedRoutines(request):	
+	request.session['notSelectedRoutines'] = request.session['Routines']
+
+	for item in request.session['selectedRoutines']:
+		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
+	
+	request.session.modified = True
+
+
+# From the list of routines returned by a Keyword Search this function removes 
+# the routines that are in the request.session['selectedRoutines'] list
+
+def filterSelectedRoutines2(request, routines):
+
+	indices = []
+	i = 0
+	for item1 in routines:		
+		for item2 in request.session['selectedRoutines']:
+			# Save the indices of the routines that match
+			if item2['thePrecision'] == item1.thePrecision and item2['routineName'] == item1.routineName:
+				indices.append(i)
+		i += 1
+
+	# Reverse the list, so the routine with highest index gets popped first 
+	# (popping the lowest index first messes up the list)
+	indices.reverse()
+
+	for item in indices:
+		routines.pop(item)
+	
+	return routines
+
+# From the list of routines returned by an Advanced Search this function  
+# creates a new list of routines (in the same format as the search result)
+# that contains only the routines that are in request.session['selectedRoutines'] list
+
+def filterSelectedRoutines3(request, routines):
+
+	alreadySelectedRoutines = []
+
+	for item1 in request.session['selectedRoutines']:
+		for lst in routines:
+			for item2 in lst:
+				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
+					alreadySelectedRoutines.append(item2)
+
+	return alreadySelectedRoutines
+
+###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
+@csrf_exempt
+def clear_session(request):
+	if request.is_ajax():
+		mode = [{"clear": request.POST.get('clear')}]
+		# Clear all routines
+		if mode[0]['clear'] == 'all':
+			request.session['selectedRoutines'] = []
+			return HttpResponse('cleared')
+		# Clear unchecked routines
+		elif mode[0]['clear'] == 'unchecked':
+			test = request.session['selectedRoutines']
+			request.session['selectedRoutines'] = []
+			for item in test:
+				if item['checkState'] == 'checked':					
+					request.session['selectedRoutines'].append(item)
+		# Clear checked routines			
+		elif mode[0]['clear'] == 'checked':
+			test = request.session['selectedRoutines']
+			request.session['selectedRoutines'] = []
+			for item in test:
+				if item['checkState'] == 'unchecked':					
+					request.session['selectedRoutines'].append(item)
+			return HttpResponse('cleared')				
+	else:
+		return HttpResponse('only AJAX requests are allowed!')	
