@@ -1,0 +1,108 @@
+<!-- ########### Simple search result: ###########-->
+
+{% load highlight %}
+
+
+{% if results %}
+<div id="title-div">
+	<table style="width: 100%; border: 0px solid;">
+		<tr>
+			<td style="text-align:left; padding-left:5px; width:24px;">
+				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+			</td>		
+			<td style="text-align:left">
+				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
+			</td>
+		</tr>
+	</table>	
+</div>
+<br>
+<form method="post">
+	{% csrf_token %}
+	<div id="">
+		<table align="right">
+			<tr>
+				<td>
+					<button data-dojo-type="dijit.form.Button" type="button"
+						onclick="Dajaxice.Driver.selectedRoutines(Dajax.process);">
+						Select Checked Routines
+					</button >
+				</td>
+				<td>
+					<button data-dojo-type="dijit.form.Button" type="button"
+						onclick="clear();">
+						Clear
+					</button>
+				 </td>
+			</tr>
+		    </table>
+	</div>
+	<br>
+	<ol id="routineListNode" class="container">	
+	{% for item in results %}
+		<li>
+			<div class="routineName">
+				<h4><input type="checkbox" id="cbox+{{ item.id }}" data-dojo-type="dijit.form.CheckBox" name="routineCheckbox">
+					<label for="cbox+{{ item.id }}">{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+					<span class="infoHelpButton">
+						<button dojoType="dijit.form.Button" baseClass="acmeButton" onclick="dijit.byId('{{ item.id }}').show()">
+							<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/>
+						</button>
+					</span>
+					</label>
+				</h4>
+			</div>
+			<div class="routineInfo">{% highlight item.info with "Purpose" max_length 500 %}
+				<button dojoType="dijit.form.Button" onclick="dijit.byId('{{ item.id }}').show()">more</button>
+			</div>
+			<div class="dijitHidden">
+				<div id={{ item.id }} dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+					<div align="center">
+						<table id="table_main" width="80%" border = "1">
+							<tr>
+							<th>Precision</th>
+							<th>Routine Name</th>
+							<th>Matrix Type</th>
+							<th>Storage</th>
+							</tr>
+							<tr>
+							<td>{{ item.thePrecision|upper }}</td>
+							<td>{{ item.routineName|upper }}</td> 
+							<td>{{ item.matrixType }}</td> 
+							<td>{{ item.storageType }}</td>      
+							</tr>
+						</table><br/>
+						<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
+						<button dojoType="dijit.form.Button" onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
+					</div>
+				</div>
+			</div>
+				
+		</li> 
+	
+	{% empty %}
+	{% endfor %}
+	<br>
+	</ol>
+		<div id="">
+		<table align="right">
+			<tr>
+				<td>
+					<button data-dojo-type="dijit.form.Button" type="button"
+						onclick="selectedRoutines();">
+						Select Checked Routines
+					</button >
+				</td>
+				<td>
+					<button data-dojo-type="dijit.form.Button" type="button"
+						onclick="clear();">
+						Clear
+					</button>
+				 </td>
+			</tr>
+		    </table>
+	</div>
+</form>
+{% endif %} 
+
+

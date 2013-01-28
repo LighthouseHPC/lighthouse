@@ -29,9 +29,9 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 
 	if selectedRoutine_ajax or selectedRoutine_session:
 		if prog_language == "C":
-			fileName =  './generatedCodeTemplate/' + request.session.session_key + '.c'
+			fileName =  './lapack/generatedCodeTemplate/' + request.session.session_key + '.c'
 		elif prog_language == "FORTRAN":
-			fileName =  './generatedCodeTemplate/' + request.session.session_key + '.f'
+			fileName =  './lapack/generatedCodeTemplate/' + request.session.session_key + '.f'
 		
 		if os.path.isfile(fileName):
 		   	f = open(fileName, 'a')
@@ -63,7 +63,7 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 def removeTemplateFile(request):
 	dajax = Dajax()
 
-	fileName = './generatedCodeTemplate/' + request.session.session_key;
+	fileName = './lapack/generatedCodeTemplate/' + request.session.session_key;
 	
 	if os.path.isfile(fileName + '.c'):
 		os.remove(fileName + '.c')

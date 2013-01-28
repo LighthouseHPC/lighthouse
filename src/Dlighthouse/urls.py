@@ -34,10 +34,10 @@ urlpatterns = patterns('',
     ### Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 
-    ### Use the files in the media/ directory:
+    ### Use the files in the media directory:
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
-    ### Use the files in the templates/ dirctory
+    ### Use the files in the templates dirctory
     (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),
     
     ### Go to the login page
@@ -45,7 +45,7 @@ urlpatterns = patterns('',
     (r'^index/$', 'django.contrib.auth.views.login'),
     
     ### Link lapack/urls.py for guided, advanced, and keyword Searches:
-    (r'^search/', include('lapack.urls')),
+    (r'^lapack/', include('lapack.urls')),
 
     ### Link blog/urls.py for blog:
     (r'^blog/', include('blog.urls')),

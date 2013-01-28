@@ -16,7 +16,7 @@
 
 
 <!-- ### Question 1 : Which of the following do you wish to compute? ###-->
-<form id="frmProb"  action="/search/guided/problem/" name="frmProb" method="post">
+<form id="frmProb"  action="/lapack/guided/problem/" name="frmProb" method="post">
 	{% csrf_token %}
 <div id="question-div">
 
@@ -80,7 +80,7 @@
 			</label>
 		</td>	
 		<td>
-			<div dojoType="dijit.form.DropDownButton" class="tooltipLink" >
+			<div dojoType="dijit.form.DropDownButton" class="tooltipLink">
 				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
 				<div dojoType="dijit.TooltipDialog" id="helpFactor" title="Matrix Factorization">
 					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
@@ -110,7 +110,7 @@
 			</label>
 		</td>
 		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink" >
+			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
 				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
 				<div dojoType="dijit.TooltipDialog" id="helpConditionNumber" title="Condition Number">
 					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
@@ -142,7 +142,7 @@
 			</label>
 		</td>
 		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink" >
+			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
 				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
 				<div dojoType="dijit.TooltipDialog" id="helpErrorBound" title="Error Bound">
 					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
@@ -174,7 +174,7 @@
 			</label>
 		</td>
 		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink" >
+			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
 				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
 				<div dojoType="dijit.TooltipDialog" id="helpRefine" title="Refine">
 					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
@@ -206,7 +206,7 @@
 			</label>
 		</td>
 		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink" >
+			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
 				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
 				<div dojoType="dijit.TooltipDialog" id="helpEquilibration" title="Equilibration">
 					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
@@ -238,7 +238,7 @@
 			</label>
 		</td>
 		<td>
-			<div dojoType="dijit.form.DropDownButton" class="tooltipLink" >
+			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
 				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
 				<div dojoType="dijit.TooltipDialog" id="helpInverse" title="Matrix Inverse">
 					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 

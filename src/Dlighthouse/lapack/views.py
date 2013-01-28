@@ -71,7 +71,7 @@ def search_forms(request):
   		'scriptOutput': request.session['scriptOutput'],
   	}
 	return render_to_response(
-		'search/index.html', 
+		'lapack/index.html', 
 		context_instance=RequestContext(request, context)
 	)
 
@@ -111,11 +111,11 @@ def guidedSearch_problem(request):
 
                 if cataName == 'Driver' or cataName == 'Combine':
                         form = EquationForm()
-                        action = '/search/guided/problem_equation/'
+                        action = '/lapack/guided/problem_equation/'
         
                 else:
                         form = ComplexForm()
-                        action = '/search/guided/problem_complex/'
+                        action = '/lapack/guided/problem_complex/'
                         request.session['Question_equation']=[0, 0]
                         request.session['Question_factor']=[0, 0]       
 
@@ -136,7 +136,7 @@ def guidedSearch_problem(request):
 		
 		#import pdb; pdb.set_trace()
                 return render_to_response(
-                	'search/problem.html', 
+                	'lapack/problem.html', 
                 	context_instance=RequestContext(request, context)
                 )        
 
@@ -149,7 +149,7 @@ def guidedSearch_problem(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
-                	'search/index.html', 
+                	'lapack/index.html', 
                 	context_instance=RequestContext(request, context)
                 )
 
@@ -198,14 +198,14 @@ def guidedSearch_equation(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}					
 		return render_to_response(
-			'search/equation.html', 
+			'lapack/equation.html', 
 			context_instance=RequestContext(request, context)
 		)
 
  			
 	else:
 		form = EquationForm()
-		action = '/search/problem/equation/'
+		action = '/lapack/problem/equation/'
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'form': form, 
@@ -217,7 +217,7 @@ def guidedSearch_equation(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'search/problem.html', 
+			'lapack/problem.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -264,7 +264,7 @@ def guidedSearch_factor(request):
 			'codeTemplate': getCodeTempate(request.session.session_key),
 		}					
 		return render_to_response(
-			'search/factor.html', 
+			'lapack/factor.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -282,7 +282,7 @@ def guidedSearch_factor(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'search/equation.html', 
+			'lapack/equation.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -323,7 +323,7 @@ def guidedSearch_complex(request):
 		}
 		
 		return render_to_response(
-			'search/complex.html', 
+			'lapack/complex.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -331,7 +331,7 @@ def guidedSearch_complex(request):
 	else:
 		form = ComplexForm()
 		if request.session['Question_equation']==[0, 0]:
-			action = '/search/problem/complex/'
+			action = '/lapack/problem/complex/'
 			context = {
 				'query_prob': request.session['Question_problem'], 
 				'form': form, 
@@ -339,7 +339,7 @@ def guidedSearch_complex(request):
 				'results': request.session['Routines']
 			}		
 			return render_to_response(
-				'search/problem.html', 
+				'lapack/problem.html', 
 				context_instance=RequestContext(request, context)
 			)
 		else:
@@ -355,7 +355,7 @@ def guidedSearch_complex(request):
 				'codeTemplate': getCodeTempate(request.session.session_key)
 			}
         	return render_to_response(
-        		'search/factor.html', 
+        		'lapack/factor.html', 
         		context_instance=RequestContext(request, context)
         	)
 
@@ -390,7 +390,7 @@ def guidedSearch_matrixtype(request):
 					'codeTemplate': getCodeTempate(request.session.session_key) 
 				}
 				return render_to_response(
-					'search/matrixtype.html', 
+					'lapack/matrixtype.html', 
 					context_instance=RequestContext(request, context)
 				) 
 
@@ -409,7 +409,7 @@ def guidedSearch_matrixtype(request):
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
-			'search/complex.html', 
+			'lapack/complex.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -446,7 +446,7 @@ def guidedSearch_storage(request):
 					'codeTemplate': getCodeTempate(request.session.session_key)
 				}
 				return render_to_response(
-					'search/storagetype.html', 
+					'lapack/storagetype.html', 
 					context_instance=RequestContext(request, context)
 				)
 
@@ -466,7 +466,7 @@ def guidedSearch_storage(request):
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
-			'search/matrixtype.html', 
+			'lapack/matrixtype.html', 
 			context_instance=RequestContext(request, context)
 		)   
 
@@ -514,7 +514,7 @@ def guidedSearch_precision(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'search/precision.html', 
+			'lapack/precision.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -535,7 +535,7 @@ def guidedSearch_precision(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'search/storagetype.html', 
+			'lapack/storagetype.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -556,7 +556,7 @@ def guidedSearch_precision(request):
 #    form = AdvancedForm()	
 #    context = {'form': form}
 #
-#    return render_to_response('search/advancedSearch.html', context_instance=RequestContext(request, context))
+#    return render_to_response('lapack/advancedSearch.html', context_instance=RequestContext(request, context))
 
 
 
@@ -638,7 +638,7 @@ def advancedForm(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'search/advancedForm.html', 
+			'lapack/advancedForm.html', 
 			{'AdvancedTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -653,7 +653,7 @@ def advancedForm(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'search/advancedSearch.html', 
+			'lapack/advancedSearch.html', 
 			{'AdvancedTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -786,7 +786,7 @@ def advancedResult(request):
 	}	
 
 	return render_to_response(
-		'search/advancedResult.html', 
+		'lapack/advancedResult.html', 
 		{'AdvancedTab': True}, 
 		context_instance=RequestContext(request, context)
 	)
@@ -795,7 +795,7 @@ def advancedResult(request):
 #   		form = AdvancedForm()	
 #    		context = {'form': form}
 
-#    		return render_to_response('search/advanced_search.html', context_instance=RequestContext(request, context))
+#    		return render_to_response('lapack/advanced_search.html', context_instance=RequestContext(request, context))
 
 
 
@@ -859,7 +859,7 @@ def keywordResult(request):
 			'codeTemplate': getCodeTempate(request.session.session_key) 
 		}
 		return render_to_response(
-			'search/keywordResult.html', 
+			'lapack/keywordResult.html', 
 			{'KeywordTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -898,8 +898,8 @@ def runScript(request):
 # return the content of the code template file, if exists
 def getCodeTempate(session_key):
 
-	fileName_c = './generatedCodeTemplate/' + session_key + '.c'
-	fileName_f = './generatedCodeTemplate/' + session_key + '.f'
+	fileName_c = './lapack/generatedCodeTemplate/' + session_key + '.c'
+	fileName_f = './lapack/generatedCodeTemplate/' + session_key + '.f'
 
 	template = ""
 	
@@ -914,8 +914,8 @@ def getCodeTempate(session_key):
 
 def downloadTemplate(request):
 
-	fileName_c = './generatedCodeTemplate/' + request.session.session_key + '.c'
-	fileName_f = './generatedCodeTemplate/' + request.session.session_key + '.f'
+	fileName_c = './lapack/generatedCodeTemplate/' + request.session.session_key + '.c'
+	fileName_f = './lapack/generatedCodeTemplate/' + request.session.session_key + '.f'
 
 	# assuming the user in not generating templates in both C and FORTRAN
 

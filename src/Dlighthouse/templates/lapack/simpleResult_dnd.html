@@ -1,8 +1,9 @@
-<!-- ########### Keyword search result: ###########-->
-{% extends "dojango/base.html" %}
-{% load highlight %}
-{% block dojango_content_search_result %}
+<!-- ########### Simple search result: ###########-->
 
+{% load highlight %}
+
+
+{% if results %}
 <div id="title-div">
 	<table style="width: 100%; border: 0px solid;">
 		<tr>
@@ -10,22 +11,16 @@
 				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
 			</td>		
 			<td style="text-align:left">
-				{% if results %}
-					Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
-				{% else %}
-					Your search - '{{ keywords }}' - did not match any routine.
-				{% endif %} 
-
+				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
 			</td>
 		</tr>
 	</table>	
 </div>
 
-{% if results %}
 <ul id="routineListNode" class="container">	
-	{% for item in results %}
+{% for item in results %}
 	<li class="dojoDndItem" id="{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-	    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" style="list-style-type: none;">
+	    detail="{{ item.thePrecision }}_{{ item.routineName|upper }}_{{ item.matrixType }}_{{ item.storageType }}">
 		<div class="routineName">
 			<h4>{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 				<span class="infoHelpButton">
@@ -35,8 +30,8 @@
 				</span>
 			</h4>
 		</div>
-		<div class="routineInfo">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="dijit.byId('{{ item.id }}').show()">more</button>
+		<div class="routineInfo">{% highlight item.info with "Purpose" max_length 500 %}
+			<button dojoType="dijit.form.Button" onclick="dijit.byId('{{ item.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -56,36 +51,17 @@
 						</tr>
 					</table><br/>
 					<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
-					<button onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
+					<button dojoType="dijit.form.Button" onClick="dijit.byId('{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>
-		</div>			
+		</div>
+			
 	</li> 
-	{% endfor %}
-</ul>	
+
+{% empty %}
+{% endfor %}
+<br>
+</ul>
 {% endif %} 
 
-{% endblock %}
-
-<!-- ########### Simple search questions: ###########-->
-{% block dojango_content_simpleSearch %}
-{% include "search/simpleSearch.html" %}
-{% endblock %}
-
-
-<!-- ########### Keyword search: ###########-->
-{% block dojango_content_keywordSearch %}
-{% include "search/keywordSearch.html" %}
-{% endblock %}
-
-<!-- ########### Keyword search: ###########-->
-{% block dojango_content_advancedSearch %}
-{% include "search/advancedSearch.html" %}
-{% endblock %}
-
-
-<!-- ########### Selected Routines: ###########-->
-{% block dojango_content_selected_routines %}
-{% include "search/selectedRoutines.html" %}
-{% endblock %}
 

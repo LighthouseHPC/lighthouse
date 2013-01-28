@@ -37,8 +37,8 @@
 
 
 
-<!-- ### Questions 2, 3, 4, 5, and 6 answered. ###--> 
-{% if query_equa %} 
+<!-- ### Questions 2, 3, 4, and 5 answered. ###-->
+{% if query_equa != 0 %} 
 <tr>
   <th>
     <label for="id_question_equa">
@@ -56,6 +56,22 @@
 
 <tr>
   <th>
+    <label for="id_question_fact">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> Is your matrix factorized?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_fact }}
+  </li>
+</ul>
+</tr>
+
+
+<tr>
+  <th>
     <label for="id_question_comp">
       <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
       <b> Are there complex numbers in your matrix?</b>
@@ -68,6 +84,7 @@
   </li>
 </ul>
 </tr>
+
 
 <tr>
   <th>
@@ -84,29 +101,11 @@
 </ul>
 </tr>
 
-<tr>
-  <th>
-    <label for="id_question_stor">
-      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
-      <b> How is your matrix stored?</b>
-    </label>
-  </th>
-<ul style="margin-left: 0; padding-left: 20px;">
-  <li style="list-style-type: none; padding-left:-10px;">
-    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
-    {{ query_stor }}
-  </li>
-</ul>
-</tr>
 
 
-
-
-<!-- ### OR Questions 2, 3, & 4 answered. ###-->
+<!-- ### OR Questions 2 & 3 answered. ###-->
 {% else %}
-
 <tr>
-  <th>
   <th>
     <label for="id_question_comp">
       <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
@@ -132,21 +131,6 @@
   <li style="list-style-type: none; padding-left:-10px;">
     <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
     {{ query_type }}
-  </li>
-</ul>
-</tr>
-
-<tr>
-  <th>
-    <label for="id_question_stor">
-      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
-      <b> How is your matrix stored?</b>
-    </label>
-  </th>
-<ul style="margin-left: 0; padding-left: 20px;">
-  <li style="list-style-type: none; padding-left:-10px;">
-    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
-    {{ query_stor }}
   </li>
 </ul>
 </tr>
@@ -154,11 +138,12 @@
 
 
 
-<!-- ### Last question -- Question 5/7: Would you like to use single or double precision? ###-->
-<form action="/search/guided/problem_complex_matrixtype_storage_precision/" name="frmComp" method="post">
+
+<!-- ### Question 4/6: How is your matrix stored? ###-->
+<form action="/lapack/guided/problem_complex_matrixtype_storage/" name="frmStor" method="post">
   	{% csrf_token %}
-  <div id="question-div">
-    {{ form.as_ul }}
+  <div id="question-div">    
+    {{ form.as_ul }}    
   </div>
 <br>
   
@@ -192,34 +177,34 @@
 
 <!-- ########### Simple search result: ###########-->
 {% block dojango_content_search_result %}
-{% include "search/simpleResult.html" %}
+{% include "lapack/simpleResult.html" %}
 {% endblock %}
 
 <!-- ########### Advanced search questions: ###########-->
 
 {% block dojango_content_advancedSearch %}
-{% include "search/advancedSearch.html" %}
+{% include "lapack/advancedSearch.html" %}
 {% endblock %}
 
 
 <!-- ########### Keyword search: ###########-->
 {% block dojango_content_keywordSearch %}
-{% include "search/keywordSearch.html" %}
+{% include "lapack/keywordSearch.html" %}
 {% endblock %}
 
 
 <!-- ########### Selected routines: ###########-->
 {% block dojango_content_selected_routines %}
-{% include "search/selectedRoutines.html" %}
+{% include "lapack/selectedRoutines.html" %}
 {% endblock %}
 
 
 <!-- ########### Code Template: ###########-->
 {% block dojango_content_code_template %}
-{% include "search/codeTemplate.html" %}
+{% include "lapack/codeTemplate.html" %}
 {% endblock %}
 
 <!-- ########### Script Area: ###########-->
 {% block dojango_content_script %}
-{% include "search/script.html" %}
+{% include "lapack/script.html" %}
 {% endblock %}
