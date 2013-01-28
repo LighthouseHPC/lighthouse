@@ -144,9 +144,9 @@ def guidedSearch_problem(request):
                 context = {
                 	'form': ProblemForm(), 
                 	'selectedRoutines': request.session['selectedRoutines'],
-                	'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
-                	'codeTemplate': getCodeTempate(request.session.session_key)
+                	'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
+			'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
                 	'search/index.html', 
@@ -193,8 +193,8 @@ def guidedSearch_equation(request):
 			'results': request.session['Routines'], 
 			'notSelectedRoutines': request.session['notSelectedRoutines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'], 
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'], 
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}					
 		return render_to_response(
@@ -212,8 +212,8 @@ def guidedSearch_equation(request):
 			'Action': action,
 			'results': request.session['Routines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
@@ -259,8 +259,8 @@ def guidedSearch_factor(request):
 			'results': request.session['Routines'], 
 			'notSelectedRoutines': request.session['notSelectedRoutines'],
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key),
 		}					
 		return render_to_response(
@@ -277,8 +277,8 @@ def guidedSearch_factor(request):
 			'form': form, 
 			'results': request.session['Routines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
@@ -317,8 +317,8 @@ def guidedSearch_complex(request):
 			'results': request.session['Routines'], 
 			'notSelectedRoutines': request.session['notSelectedRoutines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key) 
 		}
 		
@@ -350,8 +350,8 @@ def guidedSearch_complex(request):
 				'form': form, 
 				'results': request.session['Routines'],
 				'selectedRoutines': request.session['selectedRoutines'],
-				'scriptCode': request.session['userScript'], 
-  				'scriptOutput': request.session['scriptOutput'],
+				'scriptCode': request.session['userScript'],
+				'scriptOutput': request.session['scriptOutput'],
 				'codeTemplate': getCodeTempate(request.session.session_key)
 			}
         	return render_to_response(
@@ -385,8 +385,8 @@ def guidedSearch_matrixtype(request):
 					'results': request.session['Routines'], 
 					'notSelectedRoutines': request.session['notSelectedRoutines'],
 					'selectedRoutines': request.session['selectedRoutines'],
-					'scriptCode': request.session['userScript'], 
-  					'scriptOutput': request.session['scriptOutput'],
+					'scriptCode': request.session['userScript'],
+					'scriptOutput': request.session['scriptOutput'],
 					'codeTemplate': getCodeTempate(request.session.session_key) 
 				}
 				return render_to_response(
@@ -404,8 +404,8 @@ def guidedSearch_matrixtype(request):
 			'query_comp': request.session['Question_complex'][1],
 			'form': form, 
 			'results': request.session['Routines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
@@ -441,8 +441,8 @@ def guidedSearch_storage(request):
 					'results': request.session['Routines'], 
 					'notSelectedRoutines': request.session['notSelectedRoutines'], 
 					'selectedRoutines': request.session['selectedRoutines'],
-					'scriptCode': request.session['userScript'], 
-  					'scriptOutput': request.session['scriptOutput'],
+					'scriptCode': request.session['userScript'],
+					'scriptOutput': request.session['scriptOutput'],
 					'codeTemplate': getCodeTempate(request.session.session_key)
 				}
 				return render_to_response(
@@ -461,8 +461,8 @@ def guidedSearch_storage(request):
 			'query_type': request.session['Question_matrixtype'][1], 
 			'form': form,
 			'results': request.session['Routines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
@@ -509,8 +509,8 @@ def guidedSearch_precision(request):
 			'results': request.session['Routines'], 
 			'notSelectedRoutines': request.session['notSelectedRoutines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'], 
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'], 
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
@@ -524,14 +524,14 @@ def guidedSearch_precision(request):
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
-		    'query_fact': request.session['Question_factor'][1], 
-		    'query_comp': request.session['Question_complex'][1],
+			'query_fact': request.session['Question_factor'][1], 
+			'query_comp': request.session['Question_complex'][1],
 			'query_type': request.session['Question_matrixtype'][1], 
 			'query_stor': request.session['Question_storagetype'][1],
 			'form': form, 'results': request.session['Routines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'], 
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'], 
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
@@ -633,8 +633,8 @@ def advancedForm(request):
 			'StorageType':request.session['StorageType'], 
 			'Precision': request.session['Precision'], 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
@@ -648,8 +648,8 @@ def advancedForm(request):
 		context = {
 			'form': form, 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'],
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'],
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
@@ -716,8 +716,8 @@ def advancedResult(request):
 												'Matrix type': matrix,
 												'Storage type': storage, 
 												'Function': form_empty.find_function(function),
-											    'Equation': form_empty.find_equation(equation), 
-											    'Description': form.Description,
+												'Equation': form_empty.find_equation(equation), 
+												'Description': form.Description,
 												'Routine': routine
 											})
 											routines.append(list(routine))
@@ -732,11 +732,11 @@ def advancedResult(request):
 												'Complex number': comp, 
 												'Precision': precision, 
 												'Matrix type': matrix,
-											    'Storage type': storage, 
-											    'Function': form_empty.find_function(function),
+												'Storage type': storage, 
+												'Function': form_empty.find_function(function),
 												'Equation': form_empty.find_equation(equation), 
 												'Description': form.Description,
-										     	'Routine': routine
+												'Routine': routine
 										    })
 											routines.append(list(routine))
 
@@ -746,7 +746,7 @@ def advancedResult(request):
 						for matrix in selected_MatrixType:
 							for storage in selected_StorageType:
 								for function in selected_Function:
-									routine = get_model(*model).objects.filter(
+									routine = get_model('lapack', model[1]).objects.filter(
 										thePrecision=whatPrecision(comp, precision), 
 										matrixType=matrix, 
 										storageType=storage, 
@@ -757,10 +757,10 @@ def advancedResult(request):
 										'Complex number': comp, 
 										'Precision': precision, 
 										'Matrix type': matrix,
-									    'Storage type': storage, 
-									    'Function': form_empty.find(function),
-								     	'Equation': 0, 
-								     	'Description': form.Description,
+										'Storage type': storage, 
+										'Function': form_empty.find(function),
+										'Equation': 0, 
+										'Description': form.Description,
 										'Routine': routine
 									})
 									routines.append(list(routine))
@@ -780,8 +780,8 @@ def advancedResult(request):
 		'Results': request.session['Results'], 
 		'alreadySelectedRoutines': alreadySelectedRoutines, 
 		'selectedRoutines': request.session['selectedRoutines'],
-		'scriptCode': request.session['userScript'], 
-  		'scriptOutput': request.session['scriptOutput'], 
+		'scriptCode': request.session['userScript'],
+		'scriptOutput': request.session['scriptOutput'], 
 		'codeTemplate': getCodeTempate(request.session.session_key)
 	}	
 
@@ -854,8 +854,8 @@ def keywordResult(request):
 			'results': routines, 
 			'notSelectedRoutines': notSelectedRoutines, 
 			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'], 
-  			'scriptOutput': request.session['scriptOutput'], 
+			'scriptCode': request.session['userScript'],
+			'scriptOutput': request.session['scriptOutput'], 
 			'codeTemplate': getCodeTempate(request.session.session_key) 
 		}
 		return render_to_response(
