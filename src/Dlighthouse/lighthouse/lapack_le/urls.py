@@ -2,9 +2,8 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 
-urlpatterns = patterns('lapack.views',
-### --- The following lines use lapack.views --- ###
-    url(r'^$', "search_forms", name="lapack"),
+urlpatterns = patterns('lighthouse.views.lapack_le',
+    url(r'^$', "search_forms", name="lapack_le"),
     url(r'^guided/problem/$', "guidedSearch_problem"), 
     url(r'^guided/problem_equation/$', "guidedSearch_equation"),
     url(r'^guided/problem_equation_factor/$', "guidedSearch_factor"),
