@@ -8,18 +8,18 @@ from django.db.models import get_model
 ### ---------------- for simple search ---------------- ###
 
 Problem_choices = (
-	('Combine LinearEquation_only solve',					'Solve a system of linear equations only'),
-	('Computational LinearEquation_factor factorization',			'Factor a matrix'),
-	('Computational LinearEquation_error_bound refine',			'Refine the solution to a linear system'),
-	('Computational LinearEquation_error_bound error',			'Compute forward or backward error bound for the solution to a linear system'),
-	('Computational LinearEquation_condition_number condition', 		'Estimate the condition number of a matrix'),
-	('Computational LinearEquation_equilibrate equilibrate',		'Equilibrate a matrix'),
-	('Computational LinearEquation_invert inverse',				'Invert a matrix using provided factors (P, L, U)'),
-	('Driver LinearEquation_expert',					'Solve a system of linear equations AND'),
-	('Driver LinearEquation_expert refine',					'Refine the solution'),
-	('Driver LinearEquation_expert error',					'Compute forward or backward error bounds for the solution'),
-	('Driver LinearEquation_expert condition', 				'Estimate the condition number of the matrix'),
-	('Driver LinearEquation_expert equilibrate',				'Equilibrate a matrix'),
+	('Combine lapack_le_only solve',					'Solve a system of linear equations only'),
+	('Computational lapack_le_factor factorization',			'Factor a matrix'),
+	('Computational lapack_le_error_bound refine',				'Refine the solution to a linear system'),
+	('Computational lapack_le_error_bound error',				'Compute forward or backward error bound for the solution to a linear system'),
+	('Computational lapack_le_condition_number condition', 			'Estimate the condition number of a matrix'),
+	('Computational lapack_le_equilibrate equilibrate',			'Equilibrate a matrix'),
+	('Computational lapack_le_invert inverse',				'Invert a matrix using provided factors (P, L, U)'),
+	('Driver lapack_le_expert',						'Solve a system of linear equations AND'),
+	('Driver lapack_le_expert refine',					'Refine the solution'),
+	('Driver lapack_le_expert error',					'Compute forward or backward error bounds for the solution'),
+	('Driver lapack_le_expert condition', 					'Estimate the condition number of the matrix'),
+	('Driver lapack_le_expert equilibrate',					'Equilibrate a matrix'),
 )
 
 
@@ -99,9 +99,9 @@ class PrecisionForm(forms.Form):
 
 ### ---------------- for advanced search ---------------- ###
 Advanced_choices = (
-	('Computational LinearEquation_computationalForm', 'Computational Routines'),
-	('Driver LinearEquation_simpleForm', 'Simple Driver Routines'),
-	('Driver LinearEquation_expertForm', 'Expert Driver Routines'),
+	('Computational lapack_le_computationalForm', 'Computational Routines'),
+	('Driver lapack_le_simpleForm', 'Simple Driver Routines'),
+	('Driver lapack_le_expertForm', 'Expert Driver Routines'),
 )
 
 class AdvancedForm(forms.Form):
