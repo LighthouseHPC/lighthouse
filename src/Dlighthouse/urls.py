@@ -44,7 +44,7 @@ urlpatterns = patterns('',
     (r'^$', 'django.contrib.auth.views.login'),
     (r'^index/$', 'django.contrib.auth.views.login'),
     
-    ### Link lapack/urls.py for guided, advanced, and keyword Searches:
+    ### Link lighthouse/lapack_le/urls.py for guided, advanced, and keyword Searches:
     (r'^lapack_le/', include('lighthouse.lapack_le.urls')),
 
     ### Link blog/urls.py for blog:

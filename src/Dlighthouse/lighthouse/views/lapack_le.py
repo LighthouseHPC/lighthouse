@@ -69,7 +69,7 @@ def search_forms(request):
   		'scriptOutput': request.session['scriptOutput'],
   	}
 	return render_to_response(
-		'lapack/index.html', 
+		'lighthouse/lapack_le/index.html', 
 		context_instance=RequestContext(request, context)
 	)
 
@@ -103,17 +103,17 @@ def guidedSearch_problem(request):
                 for item in selected:
                         request.session['queries'].append(Q(notes__icontains=item.split()[2]))
 
-                request.session['Routines'] = get_model('lapack',modelName).objects.filter(combine_Q(request.session['queries']))
-		#request.session['Routines'] = LinearEquation_driver.objects.all()
+                request.session['Routines'] = get_model('lighthouse',modelName).objects.filter(combine_Q(request.session['queries']))
+
                 filterSelectedRoutines(request)
 
                 if cataName == 'Driver' or cataName == 'Combine':
                         form = EquationForm()
-                        action = '/lapack/guided/problem_equation/'
+                        action = '/lapack_le/guided/problem_equation/'
         
                 else:
                         form = ComplexForm()
-                        action = '/lapack/guided/problem_complex/'
+                        action = '/lapack_le/guided/problem_complex/'
                         request.session['Question_equation']=[0, 0]
                         request.session['Question_factor']=[0, 0]       
 
@@ -134,7 +134,7 @@ def guidedSearch_problem(request):
 		
 		#import pdb; pdb.set_trace()
                 return render_to_response(
-                	'lapack/problem.html', 
+                	'lighthouse/lapack_le/problem.html', 
                 	context_instance=RequestContext(request, context)
                 )        
 
@@ -147,7 +147,7 @@ def guidedSearch_problem(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
-                	'lapack/index.html', 
+                	'lighthouse/lapack_le/index.html', 
                 	context_instance=RequestContext(request, context)
                 )
 
@@ -176,7 +176,7 @@ def guidedSearch_equation(request):
 			val_1 = 'AX = B'
 			complex_initial_value = 'None'
 			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
-				request.session['Routines'] = get_model('Combine', 'LinearEquation_only').objects.filter(Q(notes__icontains='simple')|Q(notes__icontains='computational'))
+				request.session['Routines'] = get_model('lighthouse', 'lapack_le_only').objects.filter(Q(notes__icontains='simple')|Q(notes__icontains='computational'))
 				
 
 		request.session['Question_equation'] = [val_0, val_1] 
@@ -196,14 +196,14 @@ def guidedSearch_equation(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}					
 		return render_to_response(
-			'lapack/equation.html', 
+			'lighthouse/lapack_le/equation.html', 
 			context_instance=RequestContext(request, context)
 		)
 
  			
 	else:
 		form = EquationForm()
-		action = '/lapack/problem/equation/'
+		action = '/lighthouse/lapack_le/problem/equation/'
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'form': form, 
@@ -215,7 +215,7 @@ def guidedSearch_equation(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'lapack/problem.html', 
+			'lighthouse/lapack_le/problem.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -262,7 +262,7 @@ def guidedSearch_factor(request):
 			'codeTemplate': getCodeTempate(request.session.session_key),
 		}					
 		return render_to_response(
-			'lapack/factor.html', 
+			'lighthouse/lapack_le/factor.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -280,7 +280,7 @@ def guidedSearch_factor(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'lapack/equation.html', 
+			'lighthouse/lapack_le/equation.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -321,7 +321,7 @@ def guidedSearch_complex(request):
 		}
 		
 		return render_to_response(
-			'lapack/complex.html', 
+			'lighthouse/lapack_le/complex.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -329,7 +329,7 @@ def guidedSearch_complex(request):
 	else:
 		form = ComplexForm()
 		if request.session['Question_equation']==[0, 0]:
-			action = '/lapack/problem/complex/'
+			action = '/lighthouse/lapack_le/problem/complex/'
 			context = {
 				'query_prob': request.session['Question_problem'], 
 				'form': form, 
@@ -337,7 +337,7 @@ def guidedSearch_complex(request):
 				'results': request.session['Routines']
 			}		
 			return render_to_response(
-				'lapack/problem.html', 
+				'lighthouse/lapack_le/problem.html', 
 				context_instance=RequestContext(request, context)
 			)
 		else:
@@ -353,7 +353,7 @@ def guidedSearch_complex(request):
 				'codeTemplate': getCodeTempate(request.session.session_key)
 			}
         	return render_to_response(
-        		'lapack/factor.html', 
+        		'lighthouse/lapack_le/factor.html', 
         		context_instance=RequestContext(request, context)
         	)
 
@@ -388,7 +388,7 @@ def guidedSearch_matrixtype(request):
 					'codeTemplate': getCodeTempate(request.session.session_key) 
 				}
 				return render_to_response(
-					'lapack/matrixtype.html', 
+					'lighthouse/lapack_le/matrixtype.html', 
 					context_instance=RequestContext(request, context)
 				) 
 
@@ -407,7 +407,7 @@ def guidedSearch_matrixtype(request):
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
-			'lapack/complex.html', 
+			'lighthouse/lapack_le/complex.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -444,7 +444,7 @@ def guidedSearch_storage(request):
 					'codeTemplate': getCodeTempate(request.session.session_key)
 				}
 				return render_to_response(
-					'lapack/storagetype.html', 
+					'lighthouse/lapack_le/storagetype.html', 
 					context_instance=RequestContext(request, context)
 				)
 
@@ -464,7 +464,7 @@ def guidedSearch_storage(request):
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
-			'lapack/matrixtype.html', 
+			'lighthouse/lapack_le/matrixtype.html', 
 			context_instance=RequestContext(request, context)
 		)   
 
@@ -512,7 +512,7 @@ def guidedSearch_precision(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'lapack/precision.html', 
+			'lighthouse/lapack_le/precision.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -533,7 +533,7 @@ def guidedSearch_precision(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'lapack/storagetype.html', 
+			'lighthouse/lapack_le/storagetype.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -554,7 +554,7 @@ def guidedSearch_precision(request):
 #    form = AdvancedForm()	
 #    context = {'form': form}
 #
-#    return render_to_response('lapack/advancedSearch.html', context_instance=RequestContext(request, context))
+#    return render_to_response('lighthouse/lapack_le/advancedSearch.html', context_instance=RequestContext(request, context))
 
 
 
@@ -636,7 +636,7 @@ def advancedForm(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'lapack/advancedForm.html', 
+			'lighthouse/lapack_le/advancedForm.html', 
 			{'AdvancedTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -651,7 +651,7 @@ def advancedForm(request):
 			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
-			'lapack/advancedSearch.html', 
+			'lighthouse/lapack_le/advancedSearch.html', 
 			{'AdvancedTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -784,7 +784,7 @@ def advancedResult(request):
 	}	
 
 	return render_to_response(
-		'lapack/advancedResult.html', 
+		'lighthouse/lapack_le/advancedResult.html', 
 		{'AdvancedTab': True}, 
 		context_instance=RequestContext(request, context)
 	)
@@ -793,7 +793,7 @@ def advancedResult(request):
 #   		form = AdvancedForm()	
 #    		context = {'form': form}
 
-#    		return render_to_response('lapack/advanced_search.html', context_instance=RequestContext(request, context))
+#    		return render_to_response('lighthouse/lapack_le/advanced_search.html', context_instance=RequestContext(request, context))
 
 
 
@@ -857,7 +857,7 @@ def keywordResult(request):
 			'codeTemplate': getCodeTempate(request.session.session_key) 
 		}
 		return render_to_response(
-			'lapack/keywordResult.html', 
+			'lighthouse/lapack_le/keywordResult.html', 
 			{'KeywordTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -896,8 +896,8 @@ def runScript(request):
 # return the content of the code template file, if exists
 def getCodeTempate(session_key):
 
-	fileName_c = './lapack/generatedCodeTemplate/' + session_key + '.c'
-	fileName_f = './lapack/generatedCodeTemplate/' + session_key + '.f'
+	fileName_c = './lighthouse/lapack_le/generatedCodeTemplate/' + session_key + '.c'
+	fileName_f = './lighthouse/lapack_le/generatedCodeTemplate/' + session_key + '.f'
 
 	template = ""
 	
@@ -912,8 +912,8 @@ def getCodeTempate(session_key):
 
 def downloadTemplate(request):
 
-	fileName_c = './lapack/generatedCodeTemplate/' + request.session.session_key + '.c'
-	fileName_f = './lapack/generatedCodeTemplate/' + request.session.session_key + '.f'
+	fileName_c = './lighthouse/lapack_le/generatedCodeTemplate/' + request.session.session_key + '.c'
+	fileName_f = './lighthouse/lapack_le/generatedCodeTemplate/' + request.session.session_key + '.f'
 
 	# assuming the user in not generating templates in both C and FORTRAN
 

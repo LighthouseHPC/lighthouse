@@ -4,9 +4,9 @@ from django.conf import settings
 
 urlpatterns = patterns('lighthouse.views.lapack_le',
     url(r'^$', "search_forms", name="lapack_le"),
-    url(r'^guided/problem/$', "guidedSearch_problem"), 
+    url(r'^guided/problem/$', "guidedSearch_problem", name="lapack_le_problem"), 
     url(r'^guided/problem_equation/$', "guidedSearch_equation"),
-    url(r'^guided/problem_equation_factor/$', "guidedSearch_factor"),
+    url(r'^guided/problem_equation_factor/$', "guidedSearch_factor", name="lapack_le_factor"),
     url(r'^guided/problem_equation_factor_complex$', "guidedSearch_complex"),
     url(r'^guided/problem_complex/$', "guidedSearch_complex"),
     url(r'^guided/problem_complex_matrixtype/$', "guidedSearch_matrixtype"),   

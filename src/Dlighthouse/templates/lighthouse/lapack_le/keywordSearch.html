@@ -1,0 +1,49 @@
+<!-- ########### Keyword search form: ###########-->
+
+<div id="title-div">
+        <table id="icon-table">
+                <tr>
+                        <td id="icon-cell">
+                                <img src="{{ MEDIA_URL }}Images/keywordSearch.png" width="32" height="32"/>
+                        </td>           
+                        <td id="title-cell">
+                                Keyword Search 
+                        </td>
+                </tr>
+        </table>        
+</div>
+<br>
+<div id="button-div" >
+        <table id="icon-table" style="margin-left: 10px; padding-top: 0px;">
+                <tr>
+                  <td style="padding-top:5px; padding-bottom:5px;">
+                    <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+                    <b> Please enter a word or phrase: </b>
+                  </td>
+                </tr>
+                
+                <tr>                
+                  <form action="/lapack/keyword/" method="get" name="kw_form" id="keyword_form">                                                                                
+                  <td>
+                    <input type="text" name="kwtb" size="50" id="keyword" onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)" autocomplete="off" style="border:solid 1px black; font-family: Tahoma; font-size: 15px;">
+                  </td>
+
+                  <td style="text-align:left; padding-left: 10px; width: 100%;">
+                    <button type="submit" name="Search" id="searchButton" title="Search String" style="width: 60px;" onclick="return checkKeyword();">
+                      <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+                    </button >                      
+                  </td>
+                
+                </tr>
+                <tr>
+                  <td style="padding-bottom: 5px;">
+                    <div id="show" style="display:none; vertical-align:top; overflow:hidden; border:solid grey 1px;">
+                      <select name="sel" id="sel" style="width: 300px; padding:5px; margin:-2px -20px -2px -2px;" onclick="setKeywordValue();"></select>
+                    </div>
+                  </td>
+                </tr>              
+
+                </form>
+        </table>
+
+</div>
