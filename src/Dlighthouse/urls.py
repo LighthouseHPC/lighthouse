@@ -45,10 +45,10 @@ urlpatterns = patterns('',
     (r'^index/$', 'django.contrib.auth.views.login'),
     
     ### Link lapack/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack/', include('lapack.urls')),
+    #(r'^lapack/', include('lapack.urls')),
 
     ### Link blog/urls.py for blog:
-    (r'^blog/', include('blog.urls')),
+    #(r'^blog/', include('blog.urls')),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
