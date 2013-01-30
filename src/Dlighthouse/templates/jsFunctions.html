@@ -119,11 +119,11 @@
 					//alert(precision+routineName);
 					
 					/* pass "routineData" to ajax.py for test */
-					//Dajaxice.Driver.test(Dajax.process, {'data': routineData});
+					//Dajaxice.lapack.test(Dajax.process, {'data': routineData});
 					
 					/* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
 					dojo.xhrPost( {
-						url: "/search/update_session/",
+						url: "/lapack_le/update_session/",
 						content: {
 							precision: precision,
 							routineName: routineName,
@@ -225,7 +225,7 @@
 		var restart = "";
 		restart = confirm("Are you sure you start over the search?");
 		if(restart)
-			window.location = "/search/";
+			window.location = "/lapack_le/";
 		else
 			return false;		
 	}
@@ -235,7 +235,7 @@
 	function clearAllRoutines(){
 		//reset request.session['selectedRoutines'] = [] and empty the list			
 		dojo.xhrPost( {
-			url: "/search/clear_session/",
+			url: "/lapack_le/clear_session/",
 			content: {clear: "all"},
 			load: function(response){
 				dojo.empty("sel_routineListNode");
@@ -791,7 +791,7 @@
 		
 		// Remove unchecked routines from the session
 		dojo.xhrPost( {
-			url: "/search/clear_session/",
+			url: "/lapack_le/clear_session/",
 			content: {clear: "unchecked"},
 			load: function(response){
 				console.log(response);
@@ -883,7 +883,7 @@
 
 		// Update session
 		dojo.xhrPost( {
-			url: "/search/update_session/",
+			url: "/lapack_le/update_session/",
 			content: {
 				precision: precision,
 				routineName: routineName,
@@ -959,9 +959,9 @@
 		}
 
 		if(selected == "C")
-			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
+			Dajaxice.lapack.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
 		else if(selected == "FORTRAN")
-			Dajaxice.Driver.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+			Dajaxice.lapack.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
 	}
 
 	// Unused function
@@ -1121,7 +1121,7 @@
 
 		// Clear the session
 		dojo.xhrPost( {
-			url: "/search/clear_session/",
+			url: "/lapack_le/clear_session/",
 			content: {clear: "all"},
 			load: function(response){
 				console.log(response);
@@ -1153,7 +1153,7 @@
 
 			// Update session
 			dojo.xhrPost( {
-			url: "/search/update_session/",
+			url: "/lapack_le/update_session/",
 			content: {
 				precision: precision,
 				routineName: routineName,
@@ -1182,7 +1182,7 @@
 
 	// Clear code template area and remove template file from server
 	function clearTemplateArea(){
-		Dajaxice.Driver.removeTemplateFile(Dajax.process);
+		Dajaxice.lapack.removeTemplateFile(Dajax.process);
 		var template = document.getElementById('div-codeTemp');
 		template.innerHTML = "";	
 	}
@@ -1193,13 +1193,13 @@
 		var content = trim(template.innerHTML);
 		
 		if(content.length > 0)			
-			window.location = '/search/download/';
+			window.location = '/lapack_le/download/';
 	}
 
 	// Loads code template for display, called when user clicks the "Show" button
 	function loadCodeTemplate(){
 		dojo.xhrPost( {
-			url: "/search/load_template/",
+			url: "/lapack_le/load_template/",
 			load: function(response){
 				// Set the content of the 'codeFrame' div
 				document.getElementById('codeFrame').innerHTML = response.replace(/\n/g,'<br>');
@@ -1461,14 +1461,14 @@
 								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
 		}
 		//console.log(paramProperty);
-		Dajaxice.Driver.make_mfile(Dajax.process,{'paramProperty': paramProperty})
+		Dajaxice.lapack.make_mfile(Dajax.process,{'paramProperty': paramProperty})
 		
 		//// Get the input script
 		//var scriptCode = document.getElementById('script_input').value.trim();
 		//
 		//// Create an AJAX request
 		//dojo.xhrPost( {
-		//	url: "/search/script/",
+		//	url: "/lapack_le/script/",
 		//	// Send the input script
 		//	content: { 
 		//		scriptCode: scriptCode,
@@ -1490,7 +1490,7 @@
 	function clearScript(){
 		//// Create an AJAX request
 		//dojo.xhrPost( {
-		//	url: "/search/script/",
+		//	url: "/lapack_le/script/",
 		//	// Send an empty string as input script
 		//	content: { 
 		//		scriptCode: "",
@@ -1512,6 +1512,6 @@
 	function outputDownload(){		
 		var content = dojo.byId('script_output').value;
 		if(content.length > 0)			
-			window.location = '/search/downloadCFile/';
+			window.location = '/lapack_le/downloadCFile/';
 	}
 </script>
