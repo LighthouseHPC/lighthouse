@@ -959,9 +959,9 @@
 		}
 
 		if(selected == "C")
-			Dajaxice.lapack.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
+			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
 		else if(selected == "FORTRAN")
-			Dajaxice.lapack.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
 	}
 
 	// Unused function
@@ -1182,7 +1182,7 @@
 
 	// Clear code template area and remove template file from server
 	function clearTemplateArea(){
-		Dajaxice.lapack.removeTemplateFile(Dajax.process);
+		Dajaxice.lighthouse.lapack_le.removeTemplateFile(Dajax.process);
 		var template = document.getElementById('div-codeTemp');
 		template.innerHTML = "";	
 	}
@@ -1461,7 +1461,7 @@
 								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
 		}
 		//console.log(paramProperty);
-		Dajaxice.lapack.make_mfile(Dajax.process,{'paramProperty': paramProperty})
+		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
 		
 		//// Get the input script
 		//var scriptCode = document.getElementById('script_input').value.trim();
