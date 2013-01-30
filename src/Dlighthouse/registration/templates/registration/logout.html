@@ -1,0 +1,18 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Logged out{% endblock %}
+
+{% block content %}
+	</br></br>
+	<div id="maindiv">
+        <div id="formtitle">
+            You've been logged out!
+        </div>        
+        <div id="formdiv">
+        	<p>
+            Thank you for using Lighthouse LAPACK Search Engine. <br>
+            You can <a href="{% url auth_login %}">log in</a> again.
+        	</p>
+        </div>        
+    </div>    
+{% endblock %}

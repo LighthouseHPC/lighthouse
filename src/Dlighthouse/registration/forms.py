@@ -67,7 +67,7 @@ class RegistrationForm(forms.Form):
                 raise forms.ValidationError(_("The two password fields didn't match."))
             
             if len(self.cleaned_data['password1']) < 6:
-                raise forms.ValidationError(_('Password too short'))
+                raise forms.ValidationError(_('Password too short.'))
         return self.cleaned_data
 
 

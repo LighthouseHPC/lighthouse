@@ -1,0 +1,55 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Lighthouse login{% endblock %}
+
+{% block content %}
+  </br></br>
+  <div id="maindiv">
+    <div id="formtitle">
+      Member Login
+    </div>
+    {% if form.errors %}
+    <div style="color:red; font-weight: bold; text-align:center; padding-top: 10px;">     
+      Invalid e-mail/password!
+    </div>
+    {% endif %}
+    <div id="formdiv">
+       <form method="post" action="?next={{ next|default:"/" }}">
+           {% csrf_token %}
+           <table style="margin: 0px auto; width: 275px;">
+                <tr>
+                    <th><label for="id_username">E-mail:</label><!--{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}--></th>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_password">Password:</label><!--{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}--></th>
+                    <td>{{ form.password }}</br>
+                        <a href="{% url auth_password_reset %}" style="text-decoration: none; color: #444;">Forgot your password?</a>
+                    </td>
+                </tr>
+            </table>
+            <div id="buttondiv">
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            {% else %}
+                <input type="hidden" name="next" value="{% url lapack_le %}" />
+            {% endif %}
+                <table align="center">
+                  <tr>
+                    <td>
+                      <input type="submit" value="Login" style="width:70px;"/>
+                      </form>
+                    </td>
+                    <td>
+                      <form>
+                        <input type="submit" value="Clear fields" />
+                      </form>              
+                    </td>
+                  </tr>
+                </table>
+                </br>
+                <a href="{% url registration_register %}" style="text-decoration: none">Not a member?  Sign up now!</a>
+            </div>
+    </div>
+  </div>
+{% endblock %}

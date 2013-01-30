@@ -1,0 +1,17 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Activation complete{% endblock %}
+
+{% block content %}
+	</br></br>
+	<div id="maindiv">
+        <div id="formtitle">
+            Congratulations!
+        </div>        
+        <div id="formdiv">
+        	<p> Your registration is now complete.</br>
+        		<a href="{% url auth_login %}">Log in</a> to start Lighthouse LAPACK Search Engine. 
+        	</p>
+        </div>        
+    </div>    
+{% endblock %}
