@@ -8,18 +8,19 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
 from haystack.views import SearchView 
-from haystack.forms import ModelSearchForm
 from haystack.query import SearchQuerySet
+from haystack.forms import ModelSearchForm, SearchForm
 
 from calendar import month_name
 import time
 
 from blog.models import *
+from blog.forms import CustomSearchForm
 
 
 
 
-    
+""" modify Haystack SearchView """
 class MyHaystackSearchView(SearchView):
 
     def __call__(self, request, some_var):
@@ -29,6 +30,7 @@ class MyHaystackSearchView(SearchView):
     def extra_context(self):
         return {
             "months": mkmonth_lst(),
+            "searchForm": CustomSearchForm()
         }
 
 
@@ -36,10 +38,13 @@ class MyHaystackSearchView(SearchView):
 
 def MySearchView(request):
     if request.method == 'GET': # If the form has been submitted...
-        form = ModelSearchForm(request.GET) # A form bound to the GET data
+        form = CustomSearchForm(request.GET) # A form bound to the GET data
         if form.is_valid(): # All validation rules pass
+            print request.GET.getlist('models')
             search_view = MyHaystackSearchView(template = "blog/blog_search.html")
             return search_view(request, "hello")
+
+            
 
 
     
@@ -62,7 +67,7 @@ def main(request):
     except (InvalidPage, EmptyPage):
         posts = paginator.page(paginator.num_pages)
 
-    d = {"posts": posts, "user": request.user, "months": mkmonth_lst(), "searchForm": ModelSearchForm()}
+    d = {"posts": posts, "user": request.user, "months": mkmonth_lst(), "searchForm": CustomSearchForm()}
     return render_to_response("blog/list.html", d)
 
 
@@ -72,7 +77,7 @@ def post(request, pk):
     """post below gets the title of the post. note: Post.objects.get()"""
     post = Post.objects.get(pk=int(pk))
     comments = Comment.objects.filter(title=post)
-    d = {"post":post, "user":request.user, "months": mkmonth_lst(), "comments": comments, "form": CommentForm(), "searchForm": ModelSearchForm()}
+    d = {"post":post, "user":request.user, "months": mkmonth_lst(), "comments": comments, "form": CommentForm(), "searchForm": SearchForm()}
     d.update(csrf(request))
     return render_to_response("blog/post.html", d)
 

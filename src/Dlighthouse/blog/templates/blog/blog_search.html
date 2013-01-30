@@ -1,0 +1,48 @@
+{% extends 'blog/bbase.html' %}
+{% load highlight %}
+
+
+{% block content %}
+    {% if query %}
+        <h3>{{ page.object_list|length }} of {{ page.paginator.count }} results for "<i>{{ request.GET.q }}</i>"
+            on page {{ page.number }} of {{ page.paginator.num_pages }}:</h3>
+        <ul>
+        {% for result in page.object_list %}
+            {% ifequal result.model_name 'post' %}
+                <li><p><a href="/blog/{{ result.object.id }}">{{ result.object.title }},</a>
+                    &nbsp;
+                    <span style="font-family:verdana;color:grey;font-size:10px;">{{ result.object.created|date }}</span></p>
+                </li>
+            {% else %}
+                <li><p><a href="/blog/{{ result.object.title_id }}#{{ result.object.created }}">{{ result.object.title }},</a>
+                    &nbsp;
+                    <span style="font-family:verdana;color:grey;font-size:10px;">{{ result.object.created|date }} by {{ result.object.author }}</span></p>
+                </li>
+
+            {% endifequal %}
+            
+            <!-- Note: result.comments and result.object.comment_set.all do the same thing -->
+<!--            <p> {{ result.comments }} </p>
+            
+            <ul>
+                {%for item in result.object.comment_set.all %}
+                    <li>{{ item.comment_body }}</li>
+                {% endfor %}
+            </ul>-->
+            
+            {% empty %}
+                <p>No results found.</p>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    {% if page.has_previous or page.has_next %}
+        <div>
+            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+            |
+            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}
