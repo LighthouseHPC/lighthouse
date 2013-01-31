@@ -44,11 +44,11 @@ urlpatterns = patterns('',
     (r'^$', 'django.contrib.auth.views.login'),
     (r'^index/$', 'django.contrib.auth.views.login'),
     
-    ### Link lighthouse/lapack_le/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack_le/', include('lighthouse.lapack_le.urls')),
+    ### Link lighthouse/library/lapack_le/urls.py for guided, advanced, and keyword Searches:
+    (r'^lapack_le/', include('lighthouse.library.lapack_le.urls')),
 
     ### Link blog/urls.py for blog:
-    #(r'^blog/', include('blog.urls')),
+    (r'^blog/', include('blog.urls')),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
