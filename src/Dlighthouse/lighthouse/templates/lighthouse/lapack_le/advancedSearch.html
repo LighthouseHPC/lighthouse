@@ -14,7 +14,7 @@
 </div>
 <br>
 
-<form name="advanced" action="/lapack/advanced/form/" name="frmProb" method="post">
+<form name="advanced" action="/lapack_le/advanced/form/" name="frmProb" method="post">
 	{% csrf_token %}
     <div id="question-div">
         <tr>
@@ -28,21 +28,21 @@
                 <ul>
                     <li>
                         <label for="id_advanced_0">
-                            <input type="checkbox" name="advanced" value="Computational LinearEquation_computationalForm" 
+                            <input type="checkbox" name="advanced" value="Computational lapack_le_computationalForm" 
                             id="id_advanced_0" /> 
                             Computational Routines
                         </label>
                     </li>
                     <li>
                         <label for="id_advanced_1">
-                            <input type="checkbox" name="advanced" value="Driver LinearEquation_simpleForm" 
+                            <input type="checkbox" name="advanced" value="Driver lapack_le_simpleForm" 
                             id="id_advanced_1" /> 
                             Simple Driver Routines
                         </label>
                     </li>
                     <li>
                         <label for="id_advanced_2">
-                            <input type="checkbox" name="advanced" value="Driver LinearEquation_expertForm" 
+                            <input type="checkbox" name="advanced" value="Driver lapack_le_expertForm" 
                             id="id_advanced_2" /> 
                             Expert Driver Routines
                         </label>

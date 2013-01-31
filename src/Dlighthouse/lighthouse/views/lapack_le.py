@@ -94,7 +94,6 @@ def guidedSearch_problem(request):
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
-		print selected
                 for answer in selected:
                         request.session['Question_problem'].append((answer, ProblemForm().find(answer))) 
 
@@ -548,15 +547,6 @@ def guidedSearch_precision(request):
 
 
 ###---------------- Advanced Search ------------------###
-#def advancedSearch(request):
-#    request.session.clear()
-#
-#    form = AdvancedForm()	
-#    context = {'form': form}
-#
-#    return render_to_response('lighthouse/lapack_le/advancedSearch.html', context_instance=RequestContext(request, context))
-
-
 
 #Turen a string into a class
 def str_to_class(str):
@@ -581,7 +571,7 @@ def whatPrecision(comp, prec):
 
 ###---Notes---###
 '''
-(1) form = LinearEquation_simpleForm() --> form.fields --> {'MatrixType': <django.forms.fields.MultipleChoiceField object at 0x2028590>, 'StorageType': <django.forms.fields.MultipleChoiceField object at 0x2028610>,...}
+(1) form = lapack_le_simpleForm() --> form.fields --> {'MatrixType': <django.forms.fields.MultipleChoiceField object at 0x2028590>, 'StorageType': <django.forms.fields.MultipleChoiceField object at 0x2028610>,...}
 (2) form.fields.items() --> [('MatrixType', <django.forms.fields.MultipleChoiceField object at 0x2762690>),('StorageType', <django.forms.fields.MultipleChoiceField object at 0x2762710>),('Precision', <django.forms.fields.MultipleChoiceField object at 0x2762790>), ...]
 (3) to pass a certain field to the template --> form = xxxForm() --> form['fieldName'].
 (4) can't pass arguments in the django template --> variables (field names) need to be handled in views.
@@ -673,7 +663,7 @@ def advancedResult(request):
 	for model in request.session['App_Model']:
 		form_empty = str_to_class(model[1]+'Form')()
 		form = str_to_class(model[1]+'Form')(request.POST or None)
-		if model[1] == 'LinearEquation_expert':
+		if model[1] == 'lapack_le_expert':
 			request.session['EquationGETS'].append(form[model[1]+"Equation"])
 		request.session['GETS'].append(form)
 		request.session['FunctionGETS'].append(form[model[1]+"Function"])
@@ -693,7 +683,7 @@ def advancedResult(request):
 			selected_StorageType = form.cleaned_data[model[1]+'StorageType']
 			selected_Precision = form.cleaned_data[model[1]+'Precision']
 			selected_Equation = 0
-			if model[1] == 'LinearEquation_expert':
+			if model[1] == 'lapack_le_expert':
 				selected_Equation = form.cleaned_data[model[1]+'Equation']
 				for comp in selected_Complex:
 					for precision in selected_Precision:
@@ -702,7 +692,7 @@ def advancedResult(request):
 								for function in selected_Function:
 									for equation in selected_Equation:
 										if equation == 'solve':
-											routine = LinearEquation_expert.objects.filter(
+											routine = lapack_le_expert.objects.filter(
 												thePrecision=whatPrecision(comp, precision),
 												matrixType=matrix,
 												storageType=storage,
@@ -721,7 +711,7 @@ def advancedResult(request):
 											routines.append(list(routine))
 
  										else: 
- 											routine = LinearEquation_expert.objects.filter(
+ 											routine = lapack_le_expert.objects.filter(
  												thePrecision=whatPrecision(comp, precision), 
  												matrixType=matrix, storageType=storage, 
  												notes__icontains='trans').filter(notes__icontains=function
@@ -744,7 +734,7 @@ def advancedResult(request):
 						for matrix in selected_MatrixType:
 							for storage in selected_StorageType:
 								for function in selected_Function:
-									routine = get_model('lapack', model[1]).objects.filter(
+									routine = get_model('lighthouse', model[1]).objects.filter(
 										thePrecision=whatPrecision(comp, precision), 
 										matrixType=matrix, 
 										storageType=storage, 
@@ -822,8 +812,8 @@ def keywordResult(request):
 
 		# For keywords within double quotes
 		if keywords.startswith('"') and keywords.endswith('"'):
-			routines_le_driver = SearchQuerySet().models(LinearEquation_driver).filter(info__icontains=keywords)
-			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(info__icontains=keywords)
+			routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(info__icontains=keywords)
+			routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(info__icontains=keywords)
 		
 		# For keywords without double quotes 
 		else:			
@@ -839,8 +829,8 @@ def keywordResult(request):
 			for item in queries:
 			    query &= item
 		
-			routines_le_driver = SearchQuerySet().models(LinearEquation_driver).filter(query)
-			routines_le_computational = SearchQuerySet().models(LinearEquation_computational).filter(query)
+			routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(query)
+			routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(query)
 			
 		routines = list(chain(routines_le_driver, routines_le_computational))
 		notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_driver, routines_le_computational)))

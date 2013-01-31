@@ -164,13 +164,13 @@ Precision_choices = (
 
 
 
-class LinearEquation_computationalForm(forms.Form):
+class lapack_le_computationalForm(forms.Form):
 	Description = 'Perform various computational tasks'
-	LinearEquation_computationalFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Function_choices)
-	LinearEquation_computationalComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
-	LinearEquation_computationalMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixTypeComputational_choices)
-	LinearEquation_computationalStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
-	LinearEquation_computationalPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+	lapack_le_computationalFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Function_choices)
+	lapack_le_computationalComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
+	lapack_le_computationalMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixTypeComputational_choices)
+	lapack_le_computationalStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
+	lapack_le_computationalPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
 
 	@staticmethod
 	def find(answer):
@@ -182,13 +182,13 @@ class LinearEquation_computationalForm(forms.Form):
 
 
 ###--------------- Linear Equation Simple Driver Forms ------------------###
-class LinearEquation_simpleForm(forms.Form):
+class lapack_le_simpleForm(forms.Form):
 	Description = 'Solve a system of linear equations'
-	LinearEquation_simpleFunction = forms.MultipleChoiceField(choices=([('solve','AX=B')]), widget=forms.CheckboxSelectMultiple(), initial=['solve'])
-	LinearEquation_simpleComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
-	LinearEquation_simpleMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)
-	LinearEquation_simpleStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
-	LinearEquation_simplePrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+	lapack_le_simpleFunction = forms.MultipleChoiceField(choices=([('solve','AX=B')]), widget=forms.CheckboxSelectMultiple(), initial=['solve'])
+	lapack_le_simpleComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
+	lapack_le_simpleMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)
+	lapack_le_simpleStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
+	lapack_le_simplePrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
 
 	@staticmethod
 	def find(answer):
@@ -212,14 +212,14 @@ ExpertDriverFunction_choices = (
 	('equilibrate',					'equilibrate the matrix'),
 )	
 
-class LinearEquation_expertForm(forms.Form):
+class lapack_le_expertForm(forms.Form):
 	Description = 'Solve a system of linear equations AND perform various computational routines'
-	LinearEquation_expertEquation = forms.MultipleChoiceField(label='Equations:', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverEquation_choices)
-	LinearEquation_expertFunction = forms.MultipleChoiceField(label='Tasks:', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverFunction_choices)
-	LinearEquation_expertComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)	
-	LinearEquation_expertMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)	
-	LinearEquation_expertStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)	
-	LinearEquation_expertPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
+	lapack_le_expertEquation = forms.MultipleChoiceField(label='Equations:', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverEquation_choices)
+	lapack_le_expertFunction = forms.MultipleChoiceField(label='Tasks:', widget=forms.CheckboxSelectMultiple(), choices=ExpertDriverFunction_choices)
+	lapack_le_expertComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)	
+	lapack_le_expertMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixType_choices)	
+	lapack_le_expertStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)	
+	lapack_le_expertPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
 
 	@staticmethod
 	def find_equation(answer):

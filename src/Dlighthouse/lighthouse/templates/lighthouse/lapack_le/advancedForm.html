@@ -16,7 +16,7 @@
 </div>
 <br>
 
-<form name="advanced" action="/lapack/advanced/result/" name="frmProb" method="post">
+<form name="advanced" action="/lapack_le/advanced/result/" name="frmProb" method="post">
 	{% csrf_token %}	
 		<div style="padding-left:10px;">
 			<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>			
@@ -69,18 +69,18 @@
 	<td>Equation:
 		<ul>
 			<li>
-				<label for="id_LinearEquation_expertEquation_0">
-					<input type="checkbox" name="LinearEquation_expertEquation" value="solve" id="id_LinearEquation_expertEquation_0" /> AX = B
+				<label for="id_lapack_le_expertEquation_0">
+					<input type="checkbox" name="lapack_le_expertEquation" value="solve" id="id_lapack_le_expertEquation_0" /> AX = B
 				</label>
 			</li>
 			<li>
-				<label for="id_LinearEquation_expertEquation_1">
-					<input type="checkbox" name="LinearEquation_expertEquation" value="transpose" id="id_LinearEquation_expertEquation_1" /> A<sup>T</sup>X = B
+				<label for="id_lapack_le_expertEquation_1">
+					<input type="checkbox" name="lapack_le_expertEquation" value="transpose" id="id_lapack_le_expertEquation_1" /> A<sup>T</sup>X = B
 				</label>
 			</li>
 			<li>
-				<label for="id_LinearEquation_expertEquation_2">
-					<input type="checkbox" name="LinearEquation_expertEquation" value="Hermitian_trans" id="id_LinearEquation_expertEquation_2" /> A<sup>H</sup>X = B
+				<label for="id_lapack_le_expertEquation_2">
+					<input type="checkbox" name="lapack_le_expertEquation" value="Hermitian_trans" id="id_lapack_le_expertEquation_2" /> A<sup>H</sup>X = B
 				</label>
 			</li>
 		</ul>
@@ -88,23 +88,23 @@
 	    Task:
 		<ul>
 			<li>
-				<label for="id_LinearEquation_expertFunction_0">
-					<input type="checkbox" name="LinearEquation_expertFunction" value="condition" id="id_LinearEquation_expertFunction_0" /> estimate the matrix condition number
+				<label for="id_lapack_le_expertFunction_0">
+					<input type="checkbox" name="lapack_le_expertFunction" value="condition" id="id_lapack_le_expertFunction_0" /> estimate the matrix condition number
 				</label>
 			</li>
 			<li>
-				<label for="id_LinearEquation_expertFunction_1">
-					<input type="checkbox" name="LinearEquation_expertFunction" value="error" id="id_LinearEquation_expertFunction_1" /> compute error bounds for the solution
+				<label for="id_lapack_le_expertFunction_1">
+					<input type="checkbox" name="lapack_le_expertFunction" value="error" id="id_lapack_le_expertFunction_1" /> compute error bounds for the solution
 				</label>
 			</li>
 			<li>
-				<label for="id_LinearEquation_expertFunction_2">
-					<input type="checkbox" name="LinearEquation_expertFunction" value="refine" id="id_LinearEquation_expertFunction_2" /> refine the solution
+				<label for="id_lapack_le_expertFunction_2">
+					<input type="checkbox" name="lapack_le_expertFunction" value="refine" id="id_lapack_le_expertFunction_2" /> refine the solution
 				</label>
 			</li>
 			<li>
-				<label for="id_LinearEquation_expertFunction_3">
-					<input type="checkbox" name="LinearEquation_expertFunction" value="equilibrate" id="id_LinearEquation_expertFunction_3" /> equilibrate the matrix
+				<label for="id_lapack_le_expertFunction_3">
+					<input type="checkbox" name="lapack_le_expertFunction" value="equilibrate" id="id_lapack_le_expertFunction_3" /> equilibrate the matrix
 				</label>
 			</li>
 		</ul>
@@ -184,54 +184,54 @@
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' not in Question_advanced %}            
-			            "return validateComputationalCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6,
-			            id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1,
-			            id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3,
-			            id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1,
-			            id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3,
-			            id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1)"
+			            "return validateComputationalCheckbox(id_lapack_le_computationalFunction_0, id_lapack_le_computationalFunction_1, id_lapack_le_computationalFunction_2, id_lapack_le_computationalFunction_3, id_lapack_le_computationalFunction_4, id_lapack_le_computationalFunction_5, id_lapack_le_computationalFunction_6,
+			            id_lapack_le_computationalComplex_0, id_lapack_le_computationalComplex_1, id_lapack_le_computationalMatrixType_0, id_lapack_le_computationalMatrixType_1,
+			            id_lapack_le_computationalMatrixType_2, id_lapack_le_computationalMatrixType_3,
+			            id_lapack_le_computationalMatrixType_4, id_lapack_le_computationalMatrixType_5, id_lapack_le_computationalStorageType_0, id_lapack_le_computationalStorageType_1,
+			            id_lapack_le_computationalStorageType_2, id_lapack_le_computationalStorageType_3,
+			            id_lapack_le_computationalPrecision_0, id_lapack_le_computationalPrecision_1)"
 			        {% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' not in Question_advanced %}
             	{% if 'Simple Driver Routines' in Question_advanced %}
             		{% if 'Expert Driver Routines' not in Question_advanced %}            
-            			"return validateSimpleCheckbox(id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1)"                 
+            			"return validateSimpleCheckbox(id_lapack_le_simpleFunction_0, id_lapack_le_simpleComplex_0, id_lapack_le_simpleComplex_1, id_lapack_le_simpleMatrixType_0, id_lapack_le_simpleMatrixType_1, id_lapack_le_simpleMatrixType_2, id_lapack_le_simpleMatrixType_3, id_lapack_le_simpleMatrixType_4, id_lapack_le_simpleStorageType_0, id_lapack_le_simpleStorageType_1, id_lapack_le_simpleStorageType_2, id_lapack_le_simpleStorageType_3, id_lapack_le_simplePrecision_0, id_lapack_le_simplePrecision_1)"                 
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' not in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateExpertCheckbox(id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"                 
+           				"return validateExpertCheckbox(id_lapack_le_expertEquation_0, id_lapack_le_expertEquation_1, id_lapack_le_expertEquation_2, id_lapack_le_expertFunction_0, id_lapack_le_expertFunction_1, id_lapack_le_expertFunction_2, id_lapack_le_expertFunction_3, id_lapack_le_expertComplex_0, id_lapack_le_expertComplex_1, id_lapack_le_expertMatrixType_0, id_lapack_le_expertMatrixType_1, id_lapack_le_expertMatrixType_2, id_lapack_le_expertMatrixType_3, id_lapack_le_expertMatrixType_4, id_lapack_le_expertStorageType_0, id_lapack_le_expertStorageType_1, id_lapack_le_expertStorageType_2, id_lapack_le_expertStorageType_3, id_lapack_le_expertPrecision_0, id_lapack_le_expertPrecision_1)"                 
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' in Question_advanced %}
             		{% if 'Expert Driver Routines' not in Question_advanced %}            
-           				"return validateComputationalSimpleCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1)"
+           				"return validateComputationalSimpleCheckbox(id_lapack_le_computationalFunction_0, id_lapack_le_computationalFunction_1, id_lapack_le_computationalFunction_2, id_lapack_le_computationalFunction_3, id_lapack_le_computationalFunction_4, id_lapack_le_computationalFunction_5, id_lapack_le_computationalFunction_6, id_lapack_le_computationalComplex_0, id_lapack_le_computationalComplex_1, id_lapack_le_computationalMatrixType_0, id_lapack_le_computationalMatrixType_1, id_lapack_le_computationalMatrixType_2, id_lapack_le_computationalMatrixType_3, id_lapack_le_computationalMatrixType_4, id_lapack_le_computationalMatrixType_5, id_lapack_le_computationalStorageType_0, id_lapack_le_computationalStorageType_1, id_lapack_le_computationalStorageType_2, id_lapack_le_computationalStorageType_3, id_lapack_le_computationalPrecision_0, id_lapack_le_computationalPrecision_1, id_lapack_le_simpleFunction_0, id_lapack_le_simpleComplex_0, id_lapack_le_simpleComplex_1, id_lapack_le_simpleMatrixType_0, id_lapack_le_simpleMatrixType_1, id_lapack_le_simpleMatrixType_2, id_lapack_le_simpleMatrixType_3, id_lapack_le_simpleMatrixType_4, id_lapack_le_simpleStorageType_0, id_lapack_le_simpleStorageType_1, id_lapack_le_simpleStorageType_2, id_lapack_le_simpleStorageType_3, id_lapack_le_simplePrecision_0, id_lapack_le_simplePrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' not in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateComputationalExpertCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2,, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
+           				"return validateComputationalExpertCheckbox(id_lapack_le_computationalFunction_0, id_lapack_le_computationalFunction_1, id_lapack_le_computationalFunction_2, id_lapack_le_computationalFunction_3, id_lapack_le_computationalFunction_4, id_lapack_le_computationalFunction_5, id_lapack_le_computationalFunction_6, id_lapack_le_computationalComplex_0, id_lapack_le_computationalComplex_1, id_lapack_le_computationalMatrixType_0, id_lapack_le_computationalMatrixType_1, id_lapack_le_computationalMatrixType_2, id_lapack_le_computationalMatrixType_3, id_lapack_le_computationalMatrixType_4, id_lapack_le_computationalMatrixType_5, id_lapack_le_computationalStorageType_0, id_lapack_le_computationalStorageType_1, id_lapack_le_computationalStorageType_2, id_lapack_le_computationalStorageType_3, id_lapack_le_computationalPrecision_0, id_lapack_le_computationalPrecision_1, id_lapack_le_expertEquation_0, id_lapack_le_expertEquation_1, id_lapack_le_expertEquation_2,, id_lapack_le_expertFunction_0, id_lapack_le_expertFunction_1, id_lapack_le_expertFunction_2, id_lapack_le_expertFunction_3, id_lapack_le_expertComplex_0, id_lapack_le_expertComplex_1, id_lapack_le_expertMatrixType_0, id_lapack_le_expertMatrixType_1, id_lapack_le_expertMatrixType_2, id_lapack_le_expertMatrixType_3, id_lapack_le_expertMatrixType_4, id_lapack_le_expertStorageType_0, id_lapack_le_expertStorageType_1, id_lapack_le_expertStorageType_2, id_lapack_le_expertStorageType_3, id_lapack_le_expertPrecision_0, id_lapack_le_expertPrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' not in Question_advanced %}
             	{% if 'Simple Driver Routines' in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateSimpleExpertCheckbox(id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1, id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
+           				"return validateSimpleExpertCheckbox(id_lapack_le_simpleFunction_0, id_lapack_le_simpleComplex_0, id_lapack_le_simpleComplex_1, id_lapack_le_simpleMatrixType_0, id_lapack_le_simpleMatrixType_1, id_lapack_le_simpleMatrixType_2, id_lapack_le_simpleMatrixType_3, id_lapack_le_simpleMatrixType_4, id_lapack_le_simpleStorageType_0, id_lapack_le_simpleStorageType_1, id_lapack_le_simpleStorageType_2, id_lapack_le_simpleStorageType_3, id_lapack_le_simplePrecision_0, id_lapack_le_simplePrecision_1, id_lapack_le_expertEquation_0, id_lapack_le_expertEquation_1, id_lapack_le_expertEquation_2, id_lapack_le_expertFunction_0, id_lapack_le_expertFunction_1, id_lapack_le_expertFunction_2, id_lapack_le_expertFunction_3, id_lapack_le_expertComplex_0, id_lapack_le_expertComplex_1, id_lapack_le_expertMatrixType_0, id_lapack_le_expertMatrixType_1, id_lapack_le_expertMatrixType_2, id_lapack_le_expertMatrixType_3, id_lapack_le_expertMatrixType_4, id_lapack_le_expertStorageType_0, id_lapack_le_expertStorageType_1, id_lapack_le_expertStorageType_2, id_lapack_le_expertStorageType_3, id_lapack_le_expertPrecision_0, id_lapack_le_expertPrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
             {% if 'Computational Routines' in Question_advanced %}
             	{% if 'Simple Driver Routines' in Question_advanced %}
             		{% if 'Expert Driver Routines' in Question_advanced %}            
-           				"return validateComputationalSimpleExpertCheckbox(id_LinearEquation_computationalFunction_0, id_LinearEquation_computationalFunction_1, id_LinearEquation_computationalFunction_2, id_LinearEquation_computationalFunction_3, id_LinearEquation_computationalFunction_4, id_LinearEquation_computationalFunction_5, id_LinearEquation_computationalFunction_6, id_LinearEquation_computationalComplex_0, id_LinearEquation_computationalComplex_1, id_LinearEquation_computationalMatrixType_0, id_LinearEquation_computationalMatrixType_1, id_LinearEquation_computationalMatrixType_2, id_LinearEquation_computationalMatrixType_3, id_LinearEquation_computationalMatrixType_4, id_LinearEquation_computationalMatrixType_5, id_LinearEquation_computationalStorageType_0, id_LinearEquation_computationalStorageType_1, id_LinearEquation_computationalStorageType_2, id_LinearEquation_computationalStorageType_3, id_LinearEquation_computationalPrecision_0, id_LinearEquation_computationalPrecision_1, id_LinearEquation_simpleFunction_0, id_LinearEquation_simpleComplex_0, id_LinearEquation_simpleComplex_1, id_LinearEquation_simpleMatrixType_0, id_LinearEquation_simpleMatrixType_1, id_LinearEquation_simpleMatrixType_2, id_LinearEquation_simpleMatrixType_3, id_LinearEquation_simpleMatrixType_4, id_LinearEquation_simpleStorageType_0, id_LinearEquation_simpleStorageType_1, id_LinearEquation_simpleStorageType_2, id_LinearEquation_simpleStorageType_3, id_LinearEquation_simplePrecision_0, id_LinearEquation_simplePrecision_1, id_LinearEquation_expertEquation_0, id_LinearEquation_expertEquation_1, id_LinearEquation_expertEquation_2, id_LinearEquation_expertFunction_0, id_LinearEquation_expertFunction_1, id_LinearEquation_expertFunction_2, id_LinearEquation_expertFunction_3, id_LinearEquation_expertComplex_0, id_LinearEquation_expertComplex_1, id_LinearEquation_expertMatrixType_0, id_LinearEquation_expertMatrixType_1, id_LinearEquation_expertMatrixType_2, id_LinearEquation_expertMatrixType_3, id_LinearEquation_expertMatrixType_4, id_LinearEquation_expertStorageType_0, id_LinearEquation_expertStorageType_1, id_LinearEquation_expertStorageType_2, id_LinearEquation_expertStorageType_3, id_LinearEquation_expertPrecision_0, id_LinearEquation_expertPrecision_1)"
+           				"return validateComputationalSimpleExpertCheckbox(id_lapack_le_computationalFunction_0, id_lapack_le_computationalFunction_1, id_lapack_le_computationalFunction_2, id_lapack_le_computationalFunction_3, id_lapack_le_computationalFunction_4, id_lapack_le_computationalFunction_5, id_lapack_le_computationalFunction_6, id_lapack_le_computationalComplex_0, id_lapack_le_computationalComplex_1, id_lapack_le_computationalMatrixType_0, id_lapack_le_computationalMatrixType_1, id_lapack_le_computationalMatrixType_2, id_lapack_le_computationalMatrixType_3, id_lapack_le_computationalMatrixType_4, id_lapack_le_computationalMatrixType_5, id_lapack_le_computationalStorageType_0, id_lapack_le_computationalStorageType_1, id_lapack_le_computationalStorageType_2, id_lapack_le_computationalStorageType_3, id_lapack_le_computationalPrecision_0, id_lapack_le_computationalPrecision_1, id_lapack_le_simpleFunction_0, id_lapack_le_simpleComplex_0, id_lapack_le_simpleComplex_1, id_lapack_le_simpleMatrixType_0, id_lapack_le_simpleMatrixType_1, id_lapack_le_simpleMatrixType_2, id_lapack_le_simpleMatrixType_3, id_lapack_le_simpleMatrixType_4, id_lapack_le_simpleStorageType_0, id_lapack_le_simpleStorageType_1, id_lapack_le_simpleStorageType_2, id_lapack_le_simpleStorageType_3, id_lapack_le_simplePrecision_0, id_lapack_le_simplePrecision_1, id_lapack_le_expertEquation_0, id_lapack_le_expertEquation_1, id_lapack_le_expertEquation_2, id_lapack_le_expertFunction_0, id_lapack_le_expertFunction_1, id_lapack_le_expertFunction_2, id_lapack_le_expertFunction_3, id_lapack_le_expertComplex_0, id_lapack_le_expertComplex_1, id_lapack_le_expertMatrixType_0, id_lapack_le_expertMatrixType_1, id_lapack_le_expertMatrixType_2, id_lapack_le_expertMatrixType_3, id_lapack_le_expertMatrixType_4, id_lapack_le_expertStorageType_0, id_lapack_le_expertStorageType_1, id_lapack_le_expertStorageType_2, id_lapack_le_expertStorageType_3, id_lapack_le_expertPrecision_0, id_lapack_le_expertPrecision_1)"
             		{% endif %}
 			    {% endif %}
             {% endif %}
@@ -250,26 +250,26 @@
 
 <!-- ########### Simple search questions: ###########-->
 {% block dojango_content_simpleSearch %}
-{% include "lapack/simpleSearch.html" %}
+{% include "lighthouse/lapack_le/simpleSearch.html" %}
 {% endblock %}
 
 
 <!-- ########### Keyword search: ###########-->
 {% block dojango_content_keywordSearch %}
-{% include "lapack/keywordSearch.html" %}
+{% include "lighthouse/lapack_le/keywordSearch.html" %}
 {% endblock %}
 
 <!-- ########### Selected Routines: ###########-->
 {% block dojango_content_selected_routines %}
-{% include "lapack/selectedRoutines.html" %}
+{% include "lighthouse/lapack_le/selectedRoutines.html" %}
 {% endblock %}
 
 <!-- ########### Code Template: ###########-->
 {% block dojango_content_code_template %}
-{% include "lapack/codeTemplate.html" %}
+{% include "lighthouse/lapack_le/codeTemplate.html" %}
 {% endblock %}
 
 <!-- ########### Script Area: ###########-->
 {% block dojango_content_script %}
-{% include "lapack/script.html" %}
+{% include "lighthouse/lapack_le/script.html" %}
 {% endblock %}
