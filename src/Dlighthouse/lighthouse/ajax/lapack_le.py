@@ -6,7 +6,7 @@ import os
 from codeGen.templates import BTOGenerator
 
 
-generatedCodeTemplate_dir = './lighthouse/lapack_le/generatedCodeTemplate/'
+generatedCodeTemplate_dir = './lighthouse/library/lapack_le/generatedCodeTemplate/'
 
 
 
