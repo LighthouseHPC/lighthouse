@@ -6,23 +6,44 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
+from django import forms
 
 from haystack.views import SearchView 
 from haystack.query import SearchQuerySet
-from haystack.forms import ModelSearchForm, SearchForm
+from haystack.forms import ModelSearchForm
 
 from calendar import month_name
 import time
 
 from blog.models import *
-from blog.forms import CustomSearchForm
+from blog.forms import CustomModelSearchForm
 
+
+
+""" modify Haystack ModelSearchForm --> CUSTOM_CHOICES """
+CUSTOM_CHOICES = (
+    ('blog.Post', 'Posts'),
+    ('blog.Comment', 'Comments'),
+)
+
+
+class CustomModelSearchForm(ModelSearchForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomModelSearchForm, self).__init__(*args, **kwargs)
+        self.fields['models'] = forms.MultipleChoiceField(
+            label='Search In',
+            choices=CUSTOM_CHOICES,
+            required=False,
+            widget=forms.CheckboxSelectMultiple
+            )
+        
+        
+        
 
 
 
 """ modify Haystack SearchView """
 class MyHaystackSearchView(SearchView):
-
     def __call__(self, request, some_var):
         self.some_var = some_var
         return super(MyHaystackSearchView, self).__call__(request)
@@ -30,7 +51,7 @@ class MyHaystackSearchView(SearchView):
     def extra_context(self):
         return {
             "months": mkmonth_lst(),
-            "searchForm": CustomSearchForm()
+            "searchForm": CustomModelSearchForm()
         }
 
 
@@ -38,10 +59,12 @@ class MyHaystackSearchView(SearchView):
 
 def MySearchView(request):
     if request.method == 'GET': # If the form has been submitted...
-        form = CustomSearchForm(request.GET) # A form bound to the GET data
+        form = CustomModelSearchForm(request.GET) # A form bound to the GET data
+        form.search
         if form.is_valid(): # All validation rules pass
-            print request.GET.getlist('models')
-            search_view = MyHaystackSearchView(template = "blog/blog_search.html")
+            ### only search in the models 'Post' and 'Comment'.
+            sqs = SearchQuerySet().models(Post, Comment)
+            search_view = MyHaystackSearchView(template = "blog/blog_search.html", searchqueryset=sqs)
             return search_view(request, "hello")
 
             
@@ -67,7 +90,7 @@ def main(request):
     except (InvalidPage, EmptyPage):
         posts = paginator.page(paginator.num_pages)
 
-    d = {"posts": posts, "user": request.user, "months": mkmonth_lst(), "searchForm": CustomSearchForm()}
+    d = {"posts": posts, "user": request.user, "months": mkmonth_lst(), "searchForm": CustomModelSearchForm()}
     return render_to_response("blog/list.html", d)
 
 
