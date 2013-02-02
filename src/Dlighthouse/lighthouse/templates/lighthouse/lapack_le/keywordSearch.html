@@ -14,16 +14,16 @@
 </div>
 <br>
 <div id="button-div" >
-        <table id="icon-table" style="margin-left: 10px; padding-top: 0px;">
+        <table  border="0" cellspacing="10" id="icon-table" style="margin-left: 10px; padding-top: 0px;">
                 <tr>
-                  <td style="padding-top:5px; padding-bottom:5px;">
-                    <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
-                    <b> Please enter a word or phrase: </b>
-                  </td>
-                </tr>
-                
-                <tr>                
-                  <form action="/lapack/keyword/" method="get" name="kw_form" id="keyword_form">                                                                                
+                        <td style="padding-top:5px; padding-bottom:5px;">
+                                <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+                        </td>
+                        <td  colspan="2" >
+                                <b> Please enter a word or phrase: </b>
+                        </td>
+                </tr>               
+<!--                  <form action="/lapack/keyword/" method="get" name="kw_form" id="keyword_form">                                                                                
                   <td>
                     <input type="text" name="kwtb" size="50" id="keyword" onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)" autocomplete="off" style="border:solid 1px black; font-family: Tahoma; font-size: 15px;">
                   </td>
@@ -43,7 +43,37 @@
                   </td>
                 </tr>              
 
+                </form>-->
+                <form action="/lapack_le/keyword/" method="get" name="kw_form" id="keyword_form">
+                <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                                <input type="text" size="50"
+                                        onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)"
+                                        autocomplete="off"
+                                        style="border:solid 1px black; font-family: Tahoma; font-size: 15px;"
+                                        name="q" id="id_q" />
+                        </td>
+                </tr>
+                <tr>
+                        <td>&nbsp;</td>
+                        <th><label for="id_models_0"><b>Search In:</b></label><ul>
+                        <!--<td><label for="id_models_0"><input type="checkbox" name="models" value="blog.comment" id="id_models_0" /> Comments</label></td>-->
+                        <li><label for="id_models_2"><input type="checkbox" name="models" value="lighthouse.lapack_le_driver" id="id_models_2" /> Lapack driver linear equation routines</label></li>
+                        <li><label for="id_models_1"><input type="checkbox" name="models" value="lighthouse.lapack_le_computational" id="id_models_1" /> Lapack computational linear equation routines</label></li>
+                        <!--<td><label for="id_models_3"><input type="checkbox" name="models" value="blog.post" id="id_models_3" /> Posts</label></td>-->
+                        </ul></th>
+                </tr>
+                <tr>
+                        <td colspan="3" style="text-align:center; padding-left: 10px; width: 100%;">
+                                <button type="submit" name="Search" id="searchButton" title="Search String"
+                                        style="width: 60px;" onclick="return checkKeyword();">
+                                        <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+                                </button >                      
+                        </td>
+                </tr>
                 </form>
+                
         </table>
 
 </div>
