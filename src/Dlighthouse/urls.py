@@ -48,6 +48,9 @@ urlpatterns = patterns('',
 
     ### Link blog/urls.py for blog:
     (r'^blog/', include('blog.urls')),
+
+    ### Link forum/urls.py for blog:
+    (r'^forum/', include('forum.urls')),
     
     ### Link lighthouse/library/lapack_le/urls.py for guided, advanced, and keyword Searches:
     (r'^lapack_le/', include('lighthouse.libraries.lapack_le.urls')),

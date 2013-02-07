@@ -1,0 +1,35 @@
+{% extends "forum/fbase.html" %}
+
+{% block content %}
+<table id="rounded-corner">
+    <thead>
+        <tr>
+            <th scope="col" class="rounded-company">Forum name</th>
+            <th scope="col" class="rounded-q1">Posts</th>
+            <th scope="col" class="rounded-q2">Last post</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for forum in forums %}
+        <tr>
+            <td {% if forloop.last %}class="last"{% endif %}>
+                <div class="title"> <a style="text-decoration: none" href="/forum/forum/{{ forum.id }}/">{{ forum.title }}</a>
+                </div>
+            </td>
+            <td {% if forloop.last %}class="last"{% endif %}>
+                {{ forum.num_posts }}
+            </td>
+            <td {% if forloop.last %}class="last"{% endif %}>
+                {{ forum.last_post.short|linebreaksbr }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="rounded-foot-left"></td>
+            <td colspan="2" class="rounded-foot-right">&nbsp;</td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}Lighthouse Forum{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/forumstyle.css" media="screen" />
+</head>
+
+<body id="wordpress-org"  >
+    <div id="header">
+	<div class="wrapper">
+		<h1>Lighthouse Forum</h1>
+		
+<!--                <ul>
+                    <li><a href='http://wordpress.org/showcase/' title='See some of the sites built on WordPress.'>Showcase</a></li>
+                    <li><a href='http://wordpress.org/extend/themes/' title='Find just the right look for your website.'>Themes</a></li>
+                    <li><a href='http://wordpress.org/extend/plugins/' title='Plugins can extend WordPress to do almost anything you can imagine.'>Plugins</a></li>
+                    <li><a href='http://wordpress.org/extend/mobile/' title='Take your website on the go!'>Mobile</a></li>
+                </ul>-->
+	</div>
+    </div>
+    <div id="pagebody">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

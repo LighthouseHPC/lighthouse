@@ -1,0 +1,64 @@
+{% extends "forum/fbase.html" %}
+
+{% block content %}
+<div>
+    <a id="new_topic" class="buttont" style="text-decoration: none" href="{% url forum.views.post 'new_thread' pk %}">Post a new topic</a>
+    <form action="/forum/post/{{ new_thread }}{{ pk }}">
+        <input type="submit" value="Add New">
+    </form>
+</div>
+<div>
+    <table id="hor-zebra">
+        <thead>
+            <tr>
+                <th scope="col">Topics</th>
+                <th scope="col">Replies</th>
+                <th scope="col">By</th>
+                <th scope="col">When</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for thread in threads.object_list %}
+            <tr class="{% if forloop.counter|divisibleby:2 %}even{% endif %}">
+                <td>
+                    <div class="title"> <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
+                    </div>
+                </td>
+                <td>
+                    {{ thread.num_replies }}
+                </td>
+                <td >
+                    {{ thread.last_post.short|linebreaksbr }}
+                </td>
+                <td>
+                    <a class="button" href="{% url forum.views.thread thread.pk %}">VIEW</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!-- Next/Prev page links  -->
+{% if threads.object_list and threads.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if threads.has_previous %}
+            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ threads.number }} of {{ threads.paginator.num_pages }}
+        </span>
+
+        {% if threads.has_next %}
+            <a href="?page={{ threads.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+<div>
+    <button type="button">Add New</button>
+</div>
+
+{% endblock %}
