@@ -13,15 +13,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = patterns('',
-    ### Example:
-    # (r'^Dlighthouse/', include('Dlighthouse.foo.urls')),
-
     ### Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     ### to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    ###  dajaxice URLS
-    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     ### For dojango
     #(r'^dojango/', include('dojango.urls')),
@@ -30,6 +24,8 @@ urlpatterns = patterns('',
     #(r'^search/', include('haystack.urls')),
     
     
+    ###  For dajaxice
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     ### Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
@@ -44,17 +40,18 @@ urlpatterns = patterns('',
     (r'^$', 'django.contrib.auth.views.login'),
     (r'^index/$', 'django.contrib.auth.views.login'),
     
-    ### Link lighthouse/library/lapack_le/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack_le/', include('lighthouse.library.lapack_le.urls')),
-
-    ### Link blog/urls.py for blog:
-    (r'^blog/', include('blog.urls')),
-    
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
     
     ### Link emailRegistartion/urls.py to use email as username:
-    (r'^accounts/', include('emailRegistration.urls'))
+    (r'^accounts/', include('emailRegistration.urls')),
+
+    ### Link blog/urls.py for blog:
+    (r'^blog/', include('blog.urls')),
+    
+    ### Link lighthouse/library/lapack_le/urls.py for guided, advanced, and keyword Searches:
+    (r'^lapack_le/', include('lighthouse.libraries.lapack_le.urls')),
+
 
 )
 

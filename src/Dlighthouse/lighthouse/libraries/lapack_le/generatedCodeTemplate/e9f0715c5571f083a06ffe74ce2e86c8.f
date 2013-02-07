@@ -1,0 +1,6 @@
+cgesvx(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)
+chetrf(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)
+dgecon(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)
+dgecon(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)
+cgecon(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)
+zgecon(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)
