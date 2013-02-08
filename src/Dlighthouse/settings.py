@@ -168,6 +168,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'lighthouse',
     'blog',
+    'forum',
     'haystack',
     'dojango',
     'taggit',
