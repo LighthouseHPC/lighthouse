@@ -2,11 +2,9 @@
 
 {% block content %}
 <div>
-    <a id="new_topic" class="buttont" style="text-decoration: none" href="{% url forum.views.post 'new_thread' pk %}">Post a new topic</a>
-    <form action="/forum/post/{{ new_thread }}{{ pk }}">
-        <input type="submit" value="Add New">
-    </form>
+    <a id="new_topic" style="text-decoration: none" href="{% url post 'new_thread' pk %}">Ask Question</a>
 </div>
+
 <div>
     <table id="hor-zebra">
         <thead>
@@ -21,7 +19,7 @@
             {% for thread in threads.object_list %}
             <tr class="{% if forloop.counter|divisibleby:2 %}even{% endif %}">
                 <td>
-                    <div class="title"> <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
+                    <div class="title"> <a href="{% url thread thread.pk %}">{{ thread.title }}</a>
                     </div>
                 </td>
                 <td>
@@ -31,7 +29,7 @@
                     {{ thread.last_post.short|linebreaksbr }}
                 </td>
                 <td>
-                    <a class="button" href="{% url forum.views.thread thread.pk %}">VIEW</a>
+                    <a class="button" href="{% url thread thread.pk %}">VIEW</a>
                 </td>
             </tr>
             {% endfor %}
@@ -58,7 +56,7 @@
 {% endif %}
 
 <div>
-    <button type="button">Add New</button>
+    <a id="new_topic" style="text-decoration: none" href="{% url post 'new_thread' pk %}">Ask Question</a>
 </div>
 
 {% endblock %}

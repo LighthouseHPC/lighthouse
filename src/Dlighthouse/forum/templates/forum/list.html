@@ -5,16 +5,15 @@
     <thead>
         <tr>
             <th scope="col" class="rounded-company">Forum name</th>
-            <th scope="col" class="rounded-q1">Posts</th>
-            <th scope="col" class="rounded-q2">Last post</th>
+            <th scope="col" class="rounded-q1">Threads</th>
+            <th scope="col" class="rounded-q2">Posts</th>
         </tr>
     </thead>
     <tbody>
         {% for forum in forums %}
         <tr>
             <td {% if forloop.last %}class="last"{% endif %}>
-                <div class="title"> <a style="text-decoration: none" href="/forum/forum/{{ forum.id }}/">{{ forum.title }}</a>
-                </div>
+                <a style="text-decoration: none" href="{% url forum forum.pk %}">{{ forum.title }}</a>
             </td>
             <td {% if forloop.last %}class="last"{% endif %}>
                 {{ forum.num_posts }}

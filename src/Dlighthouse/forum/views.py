@@ -1,9 +1,10 @@
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from settings import MEDIA_ROOT, MEDIA_URL
-from forum.models import Forum, Thread, Post
+from forum.models import Forum, Thread, Post, ThreadForm, PostForm
 
 def main(request):
     """Main listing."""
@@ -12,10 +13,6 @@ def main(request):
     return render_to_response("forum/list.html", d)
 
 
-def add_csrf(request, ** kwargs):
-    d = dict(user=request.user, ** kwargs)
-    d.update(csrf(request))
-    return d
 
 def mk_paginator(request, items, num_items):
     """Create and return a paginator."""
@@ -28,6 +25,13 @@ def mk_paginator(request, items, num_items):
     except (InvalidPage, EmptyPage):
         items = paginator.page(paginator.num_pages)
     return items
+
+
+
+def add_csrf(request, ** kwargs):
+    d = dict(user=request.user, ** kwargs)
+    d.update(csrf(request))
+    return d
 
 
 def forum(request, pk):
@@ -48,25 +52,28 @@ def thread(request, pk):
 
 def post(request, ptype, pk):
     """Display a post form."""
-    action = reverse("DLighthouse.forum.views.%s" % ptype, args=[pk])
+    action = reverse("%s" % ptype, args=[pk])
     if ptype == "new_thread":
-        title = "Start New Topic"
+        title = "Start New Question"
         subject = ''
+        form = ThreadForm()
     elif ptype == "reply":
         title = "Reply"
         subject = "Re: " + Thread.objects.get(pk=pk).title
+        form = PostForm()
 
     return render_to_response("forum/post.html", add_csrf(request, subject=subject,
-        action=action, title=title))
+        action=action, title=title, form=form))
 
 
 def new_thread(request, pk):
     """Start a new thread."""
     p = request.POST
-    if p["subject"] and p["body"]:
+    print "p['body']", p['body']
+    if p["title"] and p["body"]:
         forum = Forum.objects.get(pk=pk)
-        thread = Thread.objects.create(forum=forum, title=p["subject"], creator=request.user)
-        Post.objects.create(thread=thread, title=p["subject"], body=p["body"], creator=request.user)
+        thread = Thread.objects.create(forum=forum, title=p["title"], creator=request.user)
+        Post.objects.create(thread=thread, title=p["title"], body=p["body"], creator=request.user)
     return HttpResponseRedirect(reverse("forum", args=[pk]))
 
 

@@ -4,9 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}Lighthouse Forum{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="/static/forumstyle.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
+        djConfig="parseOnLoad: true">
+    </script>
+    <script type="text/javascript">
+	{% include "forum/js_functions.js" %}
+    </script>
 </head>
 
-<body id="wordpress-org"  >
+<body id="wordpress-org" class="claro">
     <div id="header">
 	<div class="wrapper">
 		<h1>Lighthouse Forum</h1>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+from django.forms import ModelForm
 from string import join
 from settings import MEDIA_ROOT
 
@@ -9,6 +10,9 @@ class Forum(models.Model):
     
     def __unicode__(self):
         return self.title
+    
+    #def num_thread(self):
+
     
     def num_posts(self):
         return sum([t.num_posts() for t in self.thread_set.all()])
@@ -29,10 +33,12 @@ class Thread(models.Model):
     title = models.CharField(max_length=60)
     created = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, blank=True, null=True)
+    body = models.TextField(max_length=10000)
     forum = models.ForeignKey(Forum)
 
     def __unicode__(self):
         return unicode(self.creator) + " - " + self.title
+    
     def num_posts(self):
         return self.post_set.count()
 
@@ -58,3 +64,18 @@ class Post(models.Model):
     def short(self):
         return u"%s - %s\n%s" % (self.creator, self.title, self.created.strftime("%b %d, %I:%M %p"))
     short.allow_tags = True
+    
+    
+    
+""" Forms """
+    
+class ThreadForm(ModelForm):
+    class Meta:
+        model = Thread
+        exclude = ["forum", "creator"]
+        
+        
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        exclude = ["thread", "creator"]
