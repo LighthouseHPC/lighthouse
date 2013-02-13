@@ -58,10 +58,9 @@ def post(request, ptype, pk):
         subject = ''
         form = ThreadForm()
     elif ptype == "reply":
-        title = "Reply"
+        title = "Reply to " + "\""+ Thread.objects.get(pk=pk).title + "\""
         subject = "Re: " + Thread.objects.get(pk=pk).title
-        form = PostForm()
-
+        form = PostForm(initial={'title': subject})
     return render_to_response("forum/post.html", add_csrf(request, subject=subject,
         action=action, title=title, form=form))
 
@@ -73,7 +72,9 @@ def new_thread(request, pk):
         if form.is_valid():
             p = form.cleaned_data
             forum = Forum.objects.get(pk=pk)
+            """ save the thread in table Thread"""
             thread = Thread.objects.create(forum=forum, title=p["title"], creator=request.user)
+            """ save the thread in table Post, too """
             Post.objects.create(thread=thread, title=p["title"], body=p["body"], creator=request.user)
         return HttpResponseRedirect(reverse("forum", args=[pk]))
 
@@ -81,10 +82,11 @@ def new_thread(request, pk):
 
 
 def reply(request, pk):
-    """Reply to a thread."""
-    p = request.POST
-    if p["body"]:
-        thread = Thread.objects.get(pk=pk)
-        post = Post.objects.create(thread=thread, title=p["subject"], body=p["body"],
-            creator=request.user)
-    return HttpResponseRedirect(reverse("thread", args=[pk]) + "?page=last")
+    """Reply to a thread --> new post."""
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            p = form.cleaned_data
+            thread = Thread.objects.get(pk=pk)
+            post = Post.objects.create(thread=thread, title=p["title"], body=p["body"], creator=request.user)
+        return HttpResponseRedirect(reverse("thread", args=[pk]) + "?page=last")

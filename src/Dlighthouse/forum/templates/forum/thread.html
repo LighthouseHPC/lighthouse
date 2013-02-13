@@ -1,50 +1,27 @@
-<!-- Threads  -->
-<a id="new_topic" class="buttont" href=
-"{% url forum.views.post 'new_thread' pk %}">Start New Topic</a>
-<br />
-<br />
+{% extends "forum/fbase.html" %}
 
-<div id="list">
-<table border="1" cellpadding="4" width="100%">
-    <tr>
-        <td>Topics</td>
-        <td>Replies</td>
-        <td>Last post</td>
-        <td></td>
-    </tr>
-
-    {% for thread in threads.object_list %}
-    <tr>
-        <td {% if forloop.last %}class="last"{% endif %}>
-        <div class="title"> <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
-            </div></td>
-        <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
-        <td {% if forloop.last %}class="last"{% endif %}>
-            {{ thread.last_post.short|linebreaksbr }}</td>
-        <td {% if forloop.last %}class="last"{% endif %}>
-            <a class="button" href="{% url forum.views.thread thread.pk %}">VIEW</a>
-        </td>
-    </tr>
-
+{% block content %}
+<div>
+    <table id="box-table-a" width=80%>
+        <tr>
+            <th align="center">{{ posts.object_list.0.title }}</th>
+        </tr>
+        {% for post in posts.object_list|slice:"1:" %}
+        <tr>
+            <td>
+                {{ post.title }}<br/>
+                <span style="font-family:verdana;color:grey;font-size:10px;">by {{ post.creator }} | {{ post.created }}</span></br></br>
+                {{ post.body }}
+            </td>
+        </tr>
     {% endfor %}
-</table>
+    </table>
 </div>
 
-<!-- Next/Prev page links  -->
-{% if threads.object_list and threads.paginator.num_pages > 1 %}
-<div class="pagination">
-    <span class="step-links">
-        {% if threads.has_previous %}
-            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
-        {% endif %}
+<!-- Next/Prev page links
+    ...
+-->
 
-        <span class="current">
-            &nbsp;Page {{ threads.number }} of {{ threads.paginator.num_pages }}
-        </span>
+<a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
 
-        {% if threads.has_next %}
-            <a href="?page={{ threads.next_page_number }}"> &gt;&gt; next</a>
-        {% endif %}
-    </span>
-</div>
-{% endif %}
+{% endblock %}

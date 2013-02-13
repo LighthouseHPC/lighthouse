@@ -3,9 +3,10 @@
 {% block content %}
     <p>{{ title }}</p>
     
-    {% if not subject %}
     <form dojoType="dijit.form.Form" method="post" action="{{ action }}">{% csrf_token %}
         <table border="0" width="75%" height="80%"  cellspacing="10">
+            <!--for starting a new tread (question)-->
+            {% if not subject %}
             <tr>
                 <th align="left" style="width: 10%">
                     <label for="id_title">Title:</label>
@@ -14,6 +15,17 @@
                     <input id="id_title" type="text" style="width: 99%" name="title" maxlength="60"/>
                 </td>
             </tr>
+            <!--for creating a new post (reply to a thread)-->
+            {% else %}
+            <tr>
+                <th align="left" style="width: 10%">
+                    <label for="id_title">Subject:</label>
+                </th>
+                <td align="left">
+                    <input id="id_title" type="text" style="width: 99%" name="title" value="{{ subject }}" maxlength="60"/>
+                </td>
+            </tr>
+            {% endif %}
             <tr>
                 <th align="left">
                     <label for="id_body">Body:</label>
@@ -36,10 +48,7 @@
             </tr>
         </table>
     </form>
-    {% else %}
-        {{ form }}
-        
-    {% endif %}
+
         
 {% endblock %}
 
