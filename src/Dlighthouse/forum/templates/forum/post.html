@@ -5,22 +5,6 @@
     
     {% if not subject %}
     <form dojoType="dijit.form.Form" method="post" action="{{ action }}">{% csrf_token %}
-        <script type="dojo/event" event="onSubmit" args="e">
-            dojo.stopEvent(e); // prevent the default submit
-            if (dojo.byId('editorThread').value ="") {
-                window.alert('Please fix fields');
-            }
-
-            window.alert("Would submit here via xhr");
-            // dojo.xhrPost( {
-            //      url: 'foo.com/handler',
-            //      content: { field: 'go here' },
-            //      handleAs: 'json'
-            //      load: function(data) { .. },
-            //      error: function(data) { .. }
-            //  });
-            
-        </script>
         <table border="0" width="75%" height="80%"  cellspacing="10">
             <tr>
                 <th align="left" style="width: 10%">
@@ -37,18 +21,16 @@
             </tr>    
             <tr>
                 <td colspan="2" >
-                    <input type="hidden" id="id_body" name="body"/>
-                    <div dojoType="dijit.Editor" id="editorThread"
-                     onChange="console.log('editor1 onChange handler: ' + arguments[0])"></div>
+                    <textarea id="id_body" rows="40" cols="90" name="body"></textarea>
                 </td>
             </tr>
             <tr>
                 <td align="center" colspan="2">
-                    <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('formDialog').hide();">
+                    <button dojoType="dijit.form.Button" type="button">
                         Cancel
                     </button>
-                    <button dojoType="dijit.form.Button" type="submit" onClick="submitThread(dojo.byId('id_title').value, arguments[0])">
-                        Submit Your Question
+                    <button dojoType="dijit.form.Button" type="submit">
+                        Submit
                     </button>
                 </td>
             </tr>

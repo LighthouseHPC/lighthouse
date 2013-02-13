@@ -54,7 +54,7 @@ def post(request, ptype, pk):
     """Display a post form."""
     action = reverse("%s" % ptype, args=[pk])
     if ptype == "new_thread":
-        title = "Start New Question"
+        title = "Start New Topic"
         subject = ''
         form = ThreadForm()
     elif ptype == "reply":
@@ -68,13 +68,15 @@ def post(request, ptype, pk):
 
 def new_thread(request, pk):
     """Start a new thread."""
-    p = request.POST
-    print "p['body']", p['body']
-    if p["title"] and p["body"]:
-        forum = Forum.objects.get(pk=pk)
-        thread = Thread.objects.create(forum=forum, title=p["title"], creator=request.user)
-        Post.objects.create(thread=thread, title=p["title"], body=p["body"], creator=request.user)
-    return HttpResponseRedirect(reverse("forum", args=[pk]))
+    if request.method == 'POST':
+        form = ThreadForm(request.POST)
+        if form.is_valid():
+            p = form.cleaned_data
+            forum = Forum.objects.get(pk=pk)
+            thread = Thread.objects.create(forum=forum, title=p["title"], creator=request.user)
+            Post.objects.create(thread=thread, title=p["title"], body=p["body"], creator=request.user)
+        return HttpResponseRedirect(reverse("forum", args=[pk]))
+
 
 
 

@@ -1,35 +1,35 @@
 {% extends "forum/fbase.html" %}
 
 {% block content %}
+<form action="{% url post 'new_thread' pk %}" method="post">
+    {% csrf_token %}
+    <button>
+        Start New Topic
+    </button>
+</form>
 <div>
-    <a id="new_topic" style="text-decoration: none" href="{% url post 'new_thread' pk %}">Ask Question</a>
-</div>
-
-<div>
-    <table id="hor-zebra">
+    <table id="hor-zebra", border="0">
         <thead>
             <tr>
                 <th scope="col">Topics</th>
                 <th scope="col">Replies</th>
-                <th scope="col">By</th>
-                <th scope="col">When</th>
+                <th scope="col">Last post</th>
             </tr>
         </thead>
         <tbody>
             {% for thread in threads.object_list %}
             <tr class="{% if forloop.counter|divisibleby:2 %}even{% endif %}">
                 <td>
-                    <div class="title"> <a href="{% url thread thread.pk %}">{{ thread.title }}</a>
+                    <div class="title">
+                        <a style="text-decoration: none" href="{% url thread thread.pk %}">{{ thread.title }}</a>
                     </div>
                 </td>
                 <td>
                     {{ thread.num_replies }}
                 </td>
                 <td >
-                    {{ thread.last_post.short|linebreaksbr }}
-                </td>
-                <td>
-                    <a class="button" href="{% url thread thread.pk %}">VIEW</a>
+                    {{ thread.last_post.short }}</br>
+                    <span style="font-family:verdana;color:grey;font-size:10px;">{{ thread.last_post.short_time }}</span>
                 </td>
             </tr>
             {% endfor %}
@@ -55,8 +55,11 @@
 </div>
 {% endif %}
 
-<div>
-    <a id="new_topic" style="text-decoration: none" href="{% url post 'new_thread' pk %}">Ask Question</a>
-</div>
+<form action="{% url post 'new_thread' pk %}" method="post">
+    {% csrf_token %}
+    <button>
+        Start New Topic
+    </button>
+</form>
 
 {% endblock %}
