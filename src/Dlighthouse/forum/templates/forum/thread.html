@@ -16,12 +16,33 @@
         </tr>
     {% endfor %}
     </table>
+    <table width=80%>
+        <tr><td align="right"><a style="text-decoration: none" href="{% url forum.views.post 'reply' pk %}">Reply</a></td></tr>
+    </table>
+
+
+
+
 </div>
 
-<!-- Next/Prev page links
-    ...
--->
+<!-- Next/Prev page links -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="pagination" style="text-align:center;">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a style="text-decoration: none" href= "?page={{ posts.previous_page_number }}">newer entries &lt;&lt; </a>
+        {% endif %}
 
-<a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
+        <span class="current">
+            &nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a style="text-decoration: none" href="?page={{ posts.next_page_number }}"> &gt;&gt; older entries</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
 
 {% endblock %}
