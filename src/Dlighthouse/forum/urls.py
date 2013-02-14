@@ -8,7 +8,9 @@ urlpatterns = patterns('forum.views',
     url(r"^forum/(\d+)/$", "forum", name="forum"),
     url(r"^thread/(\d+)/$", "thread", name="thread"),
     
-    url(r"^post/(new_thread|reply)/(\d+)/$", "post", name="post"),
+    url(r"^post/(new_thread|reply)/(\d+)/$", "post", name="forumPost"),
     url(r"^reply/(\d+)/$", "reply", name="reply"),
-    url(r"^new_thread/(\d+)/$", "new_thread", name="newthread"),
+    url(r"^new_thread/(\d+)/$", "new_thread", name="new_thread"),
+    
+    url(r"^search/$", "MyForumSearchView"),
 )

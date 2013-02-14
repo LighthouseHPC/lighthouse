@@ -1,7 +1,8 @@
 {% extends "forum/fbase.html" %}
 
 {% block content %}
-<form action="{% url post 'new_thread' pk %}" method="post">
+</br></br>
+<form action="{% url forumPost 'new_thread' pk %}" method="post">
     {% csrf_token %}
     <button>
         Start New Topic
@@ -55,11 +56,11 @@
 </div>
 {% endif %}
 
-<form action="{% url post 'new_thread' pk %}" method="post">
+<form action="{% url forumPost 'new_thread' pk %}" method="post">
     {% csrf_token %}
     <button>
         Start New Topic
     </button>
 </form>
-
+</br>
 {% endblock %}
