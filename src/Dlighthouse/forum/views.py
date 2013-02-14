@@ -6,10 +6,17 @@ from django.shortcuts import render_to_response
 from settings import MEDIA_ROOT, MEDIA_URL
 from forum.models import Forum, Thread, Post, ThreadForm, PostForm
 
+from haystack.views import SearchView
+from haystack.query import SearchQuerySet
+from haystack.forms import ModelSearchForm
+
+
+
+
 def main(request):
     """Main listing."""
     forums = Forum.objects.all()
-    d = {"forums": forums, "user": request.user}
+    d = {"forums": forums, "user": request.user, "searchForm": ModelSearchForm()}
     return render_to_response("forum/list.html", d)
 
 
@@ -38,7 +45,7 @@ def forum(request, pk):
     """Listing of threads in a forum."""
     threads = Thread.objects.filter(forum=pk).order_by("-created")
     threads = mk_paginator(request, threads, 20)
-    return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk))
+    return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk, searchForm= ModelSearchForm()))
 
 
 def thread(request, pk):
@@ -47,7 +54,7 @@ def thread(request, pk):
     posts = mk_paginator(request, posts, 15)
     title = Thread.objects.get(pk=pk).title
     return render_to_response("forum/thread.html", add_csrf(request, posts=posts, pk=pk,
-        title=title, media_url=MEDIA_URL))
+        title=title, media_url=MEDIA_URL, searchForm= ModelSearchForm()))
 
 
 def post(request, ptype, pk):
@@ -62,7 +69,7 @@ def post(request, ptype, pk):
         subject = "Re: " + Thread.objects.get(pk=pk).title
         form = PostForm(initial={'title': subject})
     return render_to_response("forum/post.html", add_csrf(request, subject=subject,
-        action=action, title=title, form=form))
+        action=action, title=title, form=form, searchForm= ModelSearchForm()))
 
 
 def new_thread(request, pk):
@@ -90,3 +97,11 @@ def reply(request, pk):
             thread = Thread.objects.get(pk=pk)
             post = Post.objects.create(thread=thread, title=p["title"], body=p["body"], creator=request.user)
         return HttpResponseRedirect(reverse("thread", args=[pk]) + "?page=last")
+
+
+def MyForumSearchView(request):
+    form = ModelSearchForm(request.GET) # A form bound to the GET data
+    if form.is_valid(): # All validation rules pass
+        sqs = SearchQuerySet().models(Post)
+        search_view = SearchView(template = "forum/forum_search.html", searchqueryset=sqs)
+        return search_view(request)
