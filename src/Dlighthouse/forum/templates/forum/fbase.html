@@ -13,21 +13,54 @@
     </script>
 </head>
 
-<body id="wordpress-org" class="claro">
+<body id="wordpress-org" class="claro" background="">
     <div id="header">
-	<div class="wrapper">
-		<h1>Lighthouse Forum</h1>
-		
-<!--                <ul>
-                    <li><a href='http://wordpress.org/showcase/' title='See some of the sites built on WordPress.'>Showcase</a></li>
-                    <li><a href='http://wordpress.org/extend/themes/' title='Find just the right look for your website.'>Themes</a></li>
-                    <li><a href='http://wordpress.org/extend/plugins/' title='Plugins can extend WordPress to do almost anything you can imagine.'>Plugins</a></li>
-                    <li><a href='http://wordpress.org/extend/mobile/' title='Take your website on the go!'>Mobile</a></li>
-                </ul>-->
+	<h1>Lighthouse Forum</h1>
+	{% block nav-global %}
+	<ul>
+	    <li><a href="/index/">Home</a></li>
+	    <li><a href="{% url blogindex %}">Blog</a></li>
+	    <li><a href="{% url lapack_le %}">Lapack</a></li>
+	    {% if user.is_staff %}
+	    <li><a href="{% url admin:index %}">Admin</a></li>
+	    <li><a href="{% url admin:forum_forum_add %}">Add forum</a></li>
+	    {% endif %}
+	</ul>
+	<div id="layoutdims">
+	    <form method="get" action="/blog/search/">
+	    <table align="center" border="0" width=60%>
+		<tr>
+			<th><label for="id_q">Search:</label></th>
+			<td colspan="2" align="center"><input style="width: 400px; padding: 2px" type="text" name="q" id="id_q" /></td>
+			<td><input type="submit" value="Search" onclick="blogbutcheck_onclick()"></td>
+		</tr>
+	    </table>
+	    </form>
 	</div>
+	{% endblock %}
     </div>
-    <div id="pagebody">
-        {% block content %}{% endblock %}
+    <div class="colmask rightmenu">
+	    <div class="colleft">
+		    <div class="col1">
+			    <!-- Column 1 start -->
+			    {% block content %}{% endblock %}
+			    <!-- Column 1 end -->
+		    </div>
+		    <div class="col2">
+			    <!-- Column 2 start -->
+			    {% block sidebar %}
+			    {% endblock %}
+			    <!-- Column 2 end -->
+		    </div>
+	    </div>
     </div>
+    <div id="footer">
+	    {% if user.is_staff %}
+		<p>{{ user }}</p>
+	    {% else %}
+		<p>Lighthouse</p>
+	    {% endif %}
+    </div>
+
 </body>
 </html>
