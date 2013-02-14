@@ -1,10 +1,10 @@
 {% extends "forum/fbase.html" %}
 
 {% block content %}
-    <p>{{ title }}</p>
+    <h4>{{ title }}</h4>
     
     <form dojoType="dijit.form.Form" method="post" action="{{ action }}">{% csrf_token %}
-        <table border="0" width="75%" height="80%"  cellspacing="10">
+        <table border="0" height="80%"  cellspacing="10">
             <!--for starting a new tread (question)-->
             {% if not subject %}
             <tr>
@@ -33,7 +33,7 @@
             </tr>    
             <tr>
                 <td colspan="2" >
-                    <textarea id="id_body" rows="40" cols="90" name="body"></textarea>
+                    <textarea id="id_body" rows="40" cols="70" name="body"></textarea>
                 </td>
             </tr>
             <tr>
