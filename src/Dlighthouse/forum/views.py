@@ -49,12 +49,25 @@ def forum(request, pk):
 
 
 def thread(request, pk):
-    """Listing of posts in a thread."""
-    posts = Post.objects.filter(thread=pk).order_by("created")
+    """Listing of posts in a thread. The first post is always the thread post."""
+    thread = Post.objects.filter(thread=pk).order_by("created")[0]
+    posts = Post.objects.filter(thread=pk).order_by("created")[1:]
     posts = mk_paginator(request, posts, 15)
     title = Thread.objects.get(pk=pk).title
-    return render_to_response("forum/thread.html", add_csrf(request, posts=posts, pk=pk,
-        title=title, media_url=MEDIA_URL, searchForm= ModelSearchForm()))
+    
+    """creates the paginator with 2 items per page."""
+    paginator = Paginator(posts, 3)
+
+    try: page = int(request.GET.get("page", '1'))
+    except ValueError: page = 1
+
+    try:
+        posts = paginator.page(page)
+    except (InvalidPage, EmptyPage):
+        posts = paginator.page(paginator.num_pages)
+        
+    return render_to_response("forum/thread.html", add_csrf(request, thread=thread, posts=posts, pk=pk,
+        title=title, searchForm= ModelSearchForm()))
 
 
 def post(request, ptype, pk):

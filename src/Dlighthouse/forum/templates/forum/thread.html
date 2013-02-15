@@ -2,18 +2,19 @@
 
 {% block content %}
 <div>
+    {% ifequal posts.number 1 %}
     <table id="box-table-a" width=80%>
         <tr>
             <th>
                 <p style="text-align:center">
-                    {{ posts.object_list.0.title }}</br>
+                    {{ thread.title }}</br>
                     <span style="font-family:verdana;color:grey;font-size:10px;">
-                        by {{ posts.object_list.0.creator }} | {{ posts.object_list.0.created }}</span>
+                        by {{ thread.creator }} | {{ thread.created }}</span>
                 </p>
-                <div STYLE="font-size: 12px; font-weight:lighter"> {{ posts.object_list.0.body }} </div>
+                <div STYLE="font-size: 12px; font-weight:lighter"> {{ thread.body }} </div>
             </th>
         </tr>
-        {% for post in posts.object_list|slice:"1:" %}
+        {% for post in posts.object_list %}
         <tr>
             <td>
                 {{ post.title }}<br/>
@@ -22,15 +23,25 @@
                 {{ post.body }}
             </td>
         </tr>
-    {% endfor %}
+        {% endfor %}
     </table>
+    {% else %}
+    <table id="box-table-a" width=80%>
+        {% for post in posts.object_list %}
+        <tr>
+            <td>
+                {{ post.title }}<br/>
+                <span style="font-family:verdana;color:grey;font-size:10px;">&nbsp &nbsp &nbsp by {{ post.creator }} | {{ post.created }}</span>
+                </br></br>
+                {{ post.body }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>        
+    {% endifequal %}
     <table width=80%>
         <tr><td align="right"><a style="text-decoration: none" href="{% url forum.views.post 'reply' pk %}">Reply</a></td></tr>
     </table>
-
-
-
-
 </div>
 
 <!-- Next/Prev page links -->
@@ -38,7 +49,7 @@
 <div class="pagination" style="text-align:center;">
     <span class="step-links">
         {% if posts.has_previous %}
-            <a style="text-decoration: none" href= "?page={{ posts.previous_page_number }}">newer entries &lt;&lt; </a>
+            <a style="text-decoration: none" href= "?page={{ posts.previous_page_number }}">older entries &lt;&lt; </a>
         {% endif %}
 
         <span class="current">
@@ -46,7 +57,7 @@
         </span>
 
         {% if posts.has_next %}
-            <a style="text-decoration: none" href="?page={{ posts.next_page_number }}"> &gt;&gt; older entries</a>
+            <a style="text-decoration: none" href="?page={{ posts.next_page_number }}"> &gt;&gt; newer entries</a>
         {% endif %}
     </span>
 </div>
