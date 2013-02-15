@@ -8,7 +8,7 @@
             on page {{ page.number }} of {{ page.paginator.num_pages }}:</h3>
         <ul>
         {% for result in page.object_list %}
-            <li><p><a href="/forum/thread/{{ result.object.thread.id }}/?page={{ result.object.page }}#{{ result.object.created }}">{{ result.object.title }},</a>
+            <li><p><a href="/forum/thread/{{ result.object.thread.id }}#{{ result.object.created }}">{{ result.object.title }},</a>
                 &nbsp;
                 <span style="font-family:verdana;color:grey;font-size:10px;">{{ result.object.created }}</span></p>
             </li>

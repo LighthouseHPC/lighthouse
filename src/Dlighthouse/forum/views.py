@@ -56,15 +56,15 @@ def thread(request, pk):
     title = Thread.objects.get(pk=pk).title
     
     """creates the paginator with 2 items per page."""
-    paginator = Paginator(posts, 3)
-
-    try: page = int(request.GET.get("page", '1'))
-    except ValueError: page = 1
-
-    try:
-        posts = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        posts = paginator.page(paginator.num_pages)
+    #paginator = Paginator(posts, 3)
+    #
+    #try: page = int(request.GET.get("page", '1'))
+    #except ValueError: page = 1
+    #
+    #try:
+    #    posts = paginator.page(page)
+    #except (InvalidPage, EmptyPage):
+    #    posts = paginator.page(paginator.num_pages)
         
     return render_to_response("forum/thread.html", add_csrf(request, thread=thread, posts=posts, pk=pk,
         title=title, searchForm= ModelSearchForm()))
