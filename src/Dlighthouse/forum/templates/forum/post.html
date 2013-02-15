@@ -12,7 +12,8 @@
                     <label for="id_title">Title:</label>
                 </th>
                 <td align="left">
-                    <input id="id_title" type="text" style="width: 99%" name="title" maxlength="60"/>
+                    <input id="id_title" type="text" style="width: 99%" name="title" maxlength="60"
+                            dojoType="myValidationTextarea" required="true"/>
                 </td>
             </tr>
             <!--for creating a new post (reply to a thread)-->
@@ -22,7 +23,8 @@
                     <label for="id_title">Subject:</label>
                 </th>
                 <td align="left">
-                    <input id="id_title" type="text" style="width: 99%" name="title" value="{{ subject }}" maxlength="60"/>
+                    <input id="id_title" type="text" style="width: 99%" name="title" value="{{ subject }}" maxlength="60"
+                            dojoType="myValidationTextarea" required="true"/>
                 </td>
             </tr>
             {% endif %}
@@ -33,7 +35,8 @@
             </tr>    
             <tr>
                 <td colspan="2" >
-                    <textarea id="id_body" rows="40" cols="70" name="body"></textarea>
+                    <textarea id="id_body" name="body" rows="40" cols="70"
+                              dojoType="myValidationTextarea" required="true"></textarea>
                 </td>
             </tr>
             <tr>
