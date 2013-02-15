@@ -16,22 +16,25 @@
 <body id="wordpress-org" class="claro" background="">
     <div id="header">
 	<h1>Lighthouse Forum</h1>
+	</br></br></br>
 	{% block nav-global %}
 	<ul>
 	    <li><a href="/index/">Home</a></li>
 	    <li><a href="{% url blogindex %}">Blog</a></li>
+	    <li><a href="{% url forumList %}">Forum</a></li>
 	    <li><a href="{% url lapack_le %}">Lapack</a></li>
 	    {% if user.is_staff %}
 	    <li><a href="{% url admin:index %}">Admin</a></li>
+	    <li><a href="{% url admin:blog_post_add %}">Add post</a></li>
 	    <li><a href="{% url admin:forum_forum_add %}">Add forum</a></li>
 	    {% endif %}
 	</ul>
 	<div id="layoutdims">
-	    <form method="get" action="/blog/search/">
+	    <form method="get" action="{% url forumSearch %}">
 	    <table align="center" border="0" width=60%>
 		<tr>
 			<th><label for="id_q">Search:</label></th>
-			<td colspan="2" align="center"><input style="width: 400px; padding: 2px" type="text" name="q" id="id_q" /></td>
+			<td colspan="2" align="center"><input style="width: 400px; padding: 3px" type="text" name="q" id="id_q" /></td>
 			<td><input type="submit" value="Search" onclick="blogbutcheck_onclick()"></td>
 		</tr>
 	    </table>
