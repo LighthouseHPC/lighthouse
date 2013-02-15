@@ -6,7 +6,7 @@
         <tr>
             <th scope="col" class="rounded-company">Forum name</th>
             <th scope="col" class="rounded-q1">Threads</th>
-            <th scope="col" class="rounded-q2">Posts</th>
+            <th scope="col" class="rounded-q2">Replies</th>
         </tr>
     </thead>
     <tbody>
@@ -16,10 +16,10 @@
                 <a style="text-decoration: none" href="{% url forum forum.pk %}">{{ forum.title }}</a>
             </td>
             <td {% if forloop.last %}class="last"{% endif %}>
-                {{ forum.num_posts }}
+                {{ forum.num_threads }}
             </td>
             <td {% if forloop.last %}class="last"{% endif %}>
-                {{ forum.last_post.short|linebreaksbr }}
+                {{ forum.num_replies }}
             </td>
         </tr>
         {% endfor %}

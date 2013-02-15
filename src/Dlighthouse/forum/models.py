@@ -11,11 +11,11 @@ class Forum(models.Model):
     def __unicode__(self):
         return self.title
     
-    #def num_thread(self):
-
+    def num_threads(self):
+        return self.thread_set.count()
     
-    def num_posts(self):
-        return sum([t.num_posts() for t in self.thread_set.all()])
+    def num_replies(self):
+        return sum([t.num_posts() for t in self.thread_set.all()])-self.thread_set.count()
 
     def last_post(self):
         if self.thread_set.count():
