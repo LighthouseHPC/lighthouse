@@ -112,6 +112,8 @@ def reply(request, pk):
         return HttpResponseRedirect(reverse("thread", args=[pk]) + "?page=last")
 
 
+
+""" perform haystack search """
 def MyForumSearchView(request):
     form = ModelSearchForm(request.GET) # A form bound to the GET data
     if form.is_valid(): # All validation rules pass

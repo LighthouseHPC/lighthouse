@@ -8,7 +8,7 @@
             <th>
                 <p style="text-align:center">
                     {{ thread.title }}</br>
-                    <span style="font-family:verdana;color:grey;font-size:10px;">
+                    <span style="font-family:verdana;color:grey;font-size:10px;" id="{{ thread.created }}">
                         by {{ thread.creator }} | {{ thread.created }}</span>
                 </p>
                 <div STYLE="font-size: 12px; font-weight:lighter"> {{ thread.body }} </div>
@@ -18,7 +18,7 @@
         <tr>
             <td>
                 {{ post.title }}<br/>
-                <span style="font-family:verdana;color:grey;font-size:10px;">&nbsp &nbsp &nbsp by {{ post.creator }} | {{ post.created }}</span>
+                <span style="font-family:verdana;color:grey;font-size:10px;" id="{{ post.created }}">&nbsp &nbsp &nbsp by {{ post.creator }} | {{ post.created }}</span>
                 </br></br>
                 {{ post.body }}
             </td>
@@ -31,7 +31,7 @@
         <tr>
             <td>
                 {{ post.title }}<br/>
-                <span style="font-family:verdana;color:grey;font-size:10px;">&nbsp &nbsp &nbsp by {{ post.creator }} | {{ post.created }}</span>
+                <span style="font-family:verdana;color:grey;font-size:10px;" id="{{ post.created }}">&nbsp &nbsp &nbsp by {{ post.creator }} | {{ post.created }}</span>
                 </br></br>
                 {{ post.body }}
             </td>
