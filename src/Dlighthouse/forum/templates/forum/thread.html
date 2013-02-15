@@ -4,7 +4,14 @@
 <div>
     <table id="box-table-a" width=80%>
         <tr>
-            <th align="center">{{ posts.object_list.0.title }}</th>
+            <th>
+                <p style="text-align:center">
+                    {{ posts.object_list.0.title }}</br>
+                    <span style="font-family:verdana;color:grey;font-size:10px;">
+                        by {{ posts.object_list.0.creator }} | {{ posts.object_list.0.created }}</span>
+                </p>
+                <div STYLE="font-size: 12px; font-weight:lighter"> {{ posts.object_list.0.body }} </div>
+            </th>
         </tr>
         {% for post in posts.object_list|slice:"1:" %}
         <tr>
