@@ -22,50 +22,10 @@ from blog.models import Post, Comment, CommentForm
 
 
 
-
-""" modify Haystack SearchView """
-class MyHaystackSearchView(SearchView):
-    def __call__(self, request, some_var):
-        self.some_var = some_var
-        return super(MyHaystackSearchView, self).__call__(request)
-    
-    def extra_context(self):
-        return {
-            "months": mkmonth_lst(),
-            "searchForm": ModelSearchForm()
-        }
-
-
-
-
-def MySearchView(request):
-    modelList = []
-    if request.method == 'GET': # If the form has been submitted...
-        form = ModelSearchForm(request.GET) # A form bound to the GET data
-        if form.is_valid(): # All validation rules pass
-            answer = form.cleaned_data['models']
-            if answer == []:
-                sqs = SearchQuerySet().models(Post, Comment)
-            else:
-                for model_name in answer:
-                    # Turen a string into a class and create a list of model classes for sqs
-                    ct = ContentType.objects.get(model=model_name.split(".")[1])
-                    modelList.append(ct.model_class())
-                sqs = SearchQuerySet().models(*modelList)
-            search_view = MyHaystackSearchView(template = "blog/blog_search.html", searchqueryset=sqs)
-            return search_view(request, "hello")
-
-            
-
-
-    
-    
-    
 def main(request):
     """Main listing."""
-    
     """The list of posts is ordered by created time in reverse order."""
-    posts = Post.objects.all().order_by("title")
+    posts = Post.objects.all().order_by("-created")
     
     """creates the paginator with 2 items per page."""
     paginator = Paginator(posts, 3)
@@ -187,6 +147,45 @@ def delete_comment(request, post_pk, pk=None):
         return HttpResponseRedirect(reverse("post", args=[post_pk]))
     
 
+    
+
+
+""" modify Haystack SearchView """
+class MyHaystackSearchView(SearchView):
+    def __call__(self, request, some_var):
+        self.some_var = some_var
+        return super(MyHaystackSearchView, self).__call__(request)
+    
+    def extra_context(self):
+        return {
+            "months": mkmonth_lst(),
+            "searchForm": ModelSearchForm()
+        }
+
+
+
+
+def MySearchView(request):
+    modelList = []
+    if request.method == 'GET': # If the form has been submitted...
+        form = ModelSearchForm(request.GET) # A form bound to the GET data
+        if form.is_valid(): # All validation rules pass
+            answer = form.cleaned_data['models']
+            if answer == []:
+                sqs = SearchQuerySet().models(Post, Comment)
+            else:
+                for model_name in answer:
+                    # Turen a string into a class and create a list of model classes for sqs
+                    ct = ContentType.objects.get(model=model_name.split(".")[1])
+                    modelList.append(ct.model_class())
+                sqs = SearchQuerySet().models(*modelList)
+            search_view = MyHaystackSearchView(template = "blog/blog_search.html", searchqueryset=sqs)
+            return search_view(request, "hello")
+
+            
+
+
+    
     
     
 
