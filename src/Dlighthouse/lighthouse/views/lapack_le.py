@@ -12,8 +12,11 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 
 from codeGen.templates import BTOGenerator
-from haystack.forms import ModelSearchForm
+
+import haystack.views
 from haystack.query import SearchQuerySet
+from haystack.forms import ModelSearchForm
+
 from itertools import chain
 
 from lighthouse.forms.lapack_le import *
@@ -791,9 +794,8 @@ def advancedResult(request):
 
 
 ###---------------- Keyword Search ------------------###
-
 def keywordResult(request):
-
+	modelList = []
 	keywords = ""
 
 	try:
@@ -805,54 +807,84 @@ def keywordResult(request):
 		request.session['scriptOutput'] = ""
 		request.session['userScript'] = ""
 	
-	if request.GET.get('kwtb'):		
-		keywords = request.GET['kwtb']
-		keywords = keywords.lower().strip()
-		routines = []
-
-		# For keywords within double quotes
-		if keywords.startswith('"') and keywords.endswith('"'):
-			routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(info__icontains=keywords)
-			routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(info__icontains=keywords)
-		
-		# For keywords without double quotes 
-		else:			
-			keyword_array = keywords.split(' ')
-			formatted_keyword_array = []
-			for word in keyword_array:
-				formatted_keyword_array.append(word.strip())
-
-			queries = [Q(info__icontains=word) for word in formatted_keyword_array]
-			query = queries.pop()
-			
-			# The query is made by ANDing the keywords (doing OR produces way too many results)
-			for item in queries:
-			    query &= item
-		
-			routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(query)
-			routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(query)
-			
-		routines = list(chain(routines_le_driver, routines_le_computational))
-		notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_driver, routines_le_computational)))
-		context = {
-			'form': ProblemForm(), 
-			'formAdvanced': AdvancedForm(), 
+	""" sub-class the Haystack View to add to the context """
+	class SearchView(haystack.views.SearchView):
+	    def extra_context(self):
+		return {
+			'form': ProblemForm(),
+			'formAdvanced': AdvancedForm(),
 			'scriptForm': scriptForm(), 
 			'keywords': keywords, 
-			'results': routines, 
-			'notSelectedRoutines': notSelectedRoutines, 
+			#'results': routines, 
+			#'notSelectedRoutines': notSelectedRoutines, 
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'], 
 			'codeTemplate': getCodeTempate(request.session.session_key) 
 		}
-		return render_to_response(
-			'lighthouse/lapack_le/keywordResult.html', 
-			{'KeywordTab': True}, 
-			context_instance=RequestContext(request, context)
-		)
-	else:
-		HttpResponse("Error!")
+	
+	if request.method == 'GET':		
+		#keywords = request.GET['kwtb']
+		#keywords = keywords.lower().strip()
+		routines = []
+		form = ModelSearchForm(request.GET) # A form bound to the GET data
+		print form
+		if form.is_valid(): # All validation rules pass
+			answer = form.cleaned_data['models']
+			if answer == []:
+			    sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational)
+			else:
+			    for model_name in answer:
+				# Turen a string into a class and create a list of model classes for sqs
+				ct = ContentType.objects.get(model=model_name.split(".")[1])
+				modelList.append(ct.model_class())
+				sqs = SearchQuerySet().models(*modelList)
+			search_view = SearchView(template = "lighthouse/lapack_le/keyword_search.html", searchqueryset=sqs)
+			return search_view(request)
+
+		## For keywords within double quotes
+		#if keywords.startswith('"') and keywords.endswith('"'):
+		#	routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(info__icontains=keywords)
+		#	routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(info__icontains=keywords)
+		#
+		## For keywords without double quotes 
+		#else:			
+		#	keyword_array = keywords.split(' ')
+		#	formatted_keyword_array = []
+		#	for word in keyword_array:
+		#		formatted_keyword_array.append(word.strip())
+		#
+		#	queries = [Q(info__icontains=word) for word in formatted_keyword_array]
+		#	query = queries.pop()
+		#	
+		#	# The query is made by ANDing the keywords (doing OR produces way too many results)
+		#	for item in queries:
+		#	    query &= item
+		#
+		#	routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(query)
+		#	routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(query)
+			
+		#routines = list(chain(routines_le_driver, routines_le_computational))
+		#notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_driver, routines_le_computational)))
+		#context = {
+		#	'form': ProblemForm(), 
+		#	'formAdvanced': AdvancedForm(), 
+		#	'scriptForm': scriptForm(), 
+		#	'keywords': keywords, 
+		#	'results': routines, 
+		#	'notSelectedRoutines': notSelectedRoutines, 
+		#	'selectedRoutines': request.session['selectedRoutines'],
+		#	'scriptCode': request.session['userScript'],
+		#	'scriptOutput': request.session['scriptOutput'], 
+		#	'codeTemplate': getCodeTempate(request.session.session_key) 
+		#}
+		#return render_to_response(
+		#	'lighthouse/lapack_le/keywordResult.html', 
+		#	{'KeywordTab': True}, 
+		#	context_instance=RequestContext(request, context)
+		#)
+		else:
+			HttpResponse("Error!")
 
 
 

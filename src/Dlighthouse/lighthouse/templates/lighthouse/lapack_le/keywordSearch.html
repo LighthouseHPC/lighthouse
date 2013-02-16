@@ -19,7 +19,7 @@
                         <td style="padding-top:5px; padding-bottom:5px;">
                                 <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
                         </td>
-                        <td  colspan="2" >
+                        <td  label for="id_q" colspan="2" >
                                 <b> Please enter a word or phrase: </b>
                         </td>
                 </tr>               
@@ -55,14 +55,14 @@
                                         name="q" id="id_q" />
                         </td>
                 </tr>
+
                 <tr>
-                        <td>&nbsp;</td>
-                        <th><label for="id_models_0"><b>Search In:</b></label><ul>
-                        <!--<td><label for="id_models_0"><input type="checkbox" name="models" value="blog.comment" id="id_models_0" /> Comments</label></td>-->
-                        <li><label for="id_models_2"><input type="checkbox" name="models" value="lighthouse.lapack_le_driver" id="id_models_2" /> Lapack driver linear equation routines</label></li>
-                        <li><label for="id_models_1"><input type="checkbox" name="models" value="lighthouse.lapack_le_computational" id="id_models_1" /> Lapack computational linear equation routines</label></li>
-                        <!--<td><label for="id_models_3"><input type="checkbox" name="models" value="blog.post" id="id_models_3" /> Posts</label></td>-->
-                        </ul></th>
+                        <th><label for="id_models_0"><b>Search In:</b></label></th>
+                        <td><ul>
+                                <li><label for="id_models_1"><input type="checkbox" name="models" value="lighthouse.lapack_le_computational" id="id_models_1" /> Lapack_le_computationals</label></li>
+                                <li><label for="id_models_2"><input type="checkbox" name="models" value="lighthouse.lapack_le_driver" id="id_models_2" /> Lapack_le_drivers</label></li>
+                                
+                        </ul></td>
                 </tr>
                 <tr>
                         <td colspan="3" style="text-align:center; padding-left: 10px; width: 100%;">
