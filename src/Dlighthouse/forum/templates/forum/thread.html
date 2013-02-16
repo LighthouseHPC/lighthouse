@@ -2,7 +2,6 @@
 
 {% block content %}
 <div>
-    {% ifequal posts.number 1 %}
     <table id="box-table-a" width=80%>
         <tr>
             <th>
@@ -25,20 +24,6 @@
         </tr>
         {% endfor %}
     </table>
-    {% else %}
-    <table id="box-table-a" width=80%>
-        {% for post in posts.object_list %}
-        <tr>
-            <td>
-                {{ post.title }}<br/>
-                <span style="font-family:verdana;color:grey;font-size:10px;" id="{{ post.created }}">&nbsp &nbsp &nbsp by {{ post.creator }} | {{ post.created }}</span>
-                </br></br>
-                {{ post.body }}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>        
-    {% endifequal %}
     <table width=80%>
         <tr><td align="right"><a style="text-decoration: none" href="{% url forum.views.post 'reply' pk %}">Reply</a></td></tr>
     </table>
