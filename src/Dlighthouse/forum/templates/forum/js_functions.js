@@ -42,3 +42,14 @@ dojo.declare(
         }
      }
 );
+
+
+function searchbutcheck_onclick(){
+    var x=dojo.byId("id_q").value;
+    if (x==null || x==""){
+        alert("Oops! The search filed is empty.");
+        return false;
+    }
+    else
+        return true;
+}
