@@ -839,7 +839,7 @@ def keywordResult(request):
 				ct = ContentType.objects.get(model=model_name.split(".")[1])
 				modelList.append(ct.model_class())
 				sqs = SearchQuerySet().models(*modelList)
-			search_view = SearchView(template = "lighthouse/lapack_le/keyword_search.html", searchqueryset=sqs)
+			search_view = SearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
 			return search_view(request)
 
 		## For keywords within double quotes

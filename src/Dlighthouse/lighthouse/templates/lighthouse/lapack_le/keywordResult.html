@@ -10,8 +10,9 @@
 				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
 			</td>		
 			<td style="text-align:left">
-				{% if results %}
-					Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
+				{% if query %}
+					{{ page.object_list|length }} of {{ page.paginator.count }} results for "<i>{{ request.GET.q }}</i>"
+					on page {{ page.number }} of {{ page.paginator.num_pages }}:
 				{% else %}
 					Your search - '{{ keywords }}' - did not match any routine.
 				{% endif %} 
@@ -20,150 +21,169 @@
 	</table>	
 </div>
 
-{% if results %}
-<div id="routineListNode" class="container">	
-	{% for item in results %}
 
-		{% if item in notSelectedRoutines %}
+<div id="routineListNode" class="container">
 
-		<div class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-		    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
-			<div class="routineName">
-				<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-					<tr>
-						<td class="hiddenStuff">
-							<input type="checkbox" name="routines" checked="checked" value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
-						</td>
-						<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
-							{{ item.thePrecision|upper }}{{ item.routineName|upper }}
-						</td>
-						<td class="hiddenStuff">
-							<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>	
-						</td>				
-						<td  class="hiddenStuff">
-							<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
-						</td>	
-					</tr>
-				</table>			
-			</div>
-			<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-				<button onclick="dijit.byId('sel_{{ item.id }}').show()">more</button>
-			</div>
-			<div class="dijitHidden">
-				<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
-					<div align="center">
-						<table id="table_main" width="80%" border = "1">
-							<tr>
-							<th>Precision</th>
-							<th>Routine Name</th>
-							<th>Matrix Type</th>
-							<th>Storage</th>
-							</tr>
-							<tr>
-							<td>{{ item.thePrecision|upper }}</td>
-							<td>{{ item.routineName|upper }}</td> 
-							<td>{{ item.matrixType }}</td> 
-							<td>{{ item.storageType }}</td>      
-							</tr>
-						</table><br/>
-						<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
-						<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
-					</div>
+{% for item in page.object_list %}
+	{% if item.object in notSelectedRoutines %}
+
+	<div class="dojoDndItem" id="sel_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}"
+	     detail="{{ item.object.thePrecision }}_{{ item.object.routineName }}_{{ item.object.matrixType }}_{{ item.object.storageType }}_{{ item.object.id }}_{{ item.object.url }}">
+		<div class="routineName">
+			<table id="tb_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+				<tr>					
+					<td class="hiddenStuff">
+						<input type="checkbox" name="routines" checked="checked"
+						       value="{{ item.object.thePrecision }}_{{ item.object.routineName }}_{{ item.object.matrixType }}_{{ item.object.storageType }}_{{ item.object.id }}_{{ item.object.url }}"
+						       id="cb_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}"
+						       onclick="checkChanged('{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+					</td>
+					<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}');">
+						{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}
+					</td>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.object.id }}').show()"/>
+					</td>
+					<td  class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}');"/>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.object.info with "{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}" max_length 500 %}
+			<button onclick="dijit.byId('sel_{{ item.object.id }}').show()">more</button>
+		</div>
+		<div class="dijitHidden">
+			<div id="sel_{{ item.object.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}">
+				<div align="center">
+					<table id="table_main" width="80%" border = "1">
+						<tr>
+						<th>Precision</th>
+						<th>Routine Name</th>
+						<th>Matrix Type</th>
+						<th>Storage</th>
+						</tr>
+						<tr>
+						<td>{{ item.object.thePrecision|upper }}</td>
+						<td>{{ item.object.routineName|upper }}</td> 
+						<td>{{ item.object.matrixType }}</td> 
+						<td>{{ item.object.storageType }}</td>      
+						</tr>
+					</table><br/>
+					<iframe src="{{ MEDIA_URL }}{{ item.object.url }}" width="750px" height="400px"></iframe><br/></br>
+					<button onClick="dijit.byId('sel_{{ item.object.id }}').hide()">Close</button>
 				</div>
-			</div>		
-		</div> 
-
-	{% else %}
-
-		<div class="notDndItem" id="nsel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-		    detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
-			<div class="routineName">
-				<table id="ntb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
-					<tr>
-						<td class="hiddenStuff">
-							<input type="checkbox" name="routines" checked="checked" value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}" id="ncb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
-						</td>
-						<td style="width: 56px; font-weight: bold;">
-							{{ item.thePrecision|upper }}{{ item.routineName|upper }}
-						</td>
-						<td style="color: #555; font-weight: bold;">
-							(Already selected)
-						</td>
-						<td class="hiddenStuff">
-							<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('nsel_{{ item.id }}').show()"/>	
-						</td>				
-						<td  class="hiddenStuff">
-							<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
-						</td>	
-					</tr>
-				</table>			
 			</div>
-			<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-				<button onclick="dijit.byId('nsel_{{ item.id }}').show()">more</button>
-			</div>
-			<div class="dijitHidden">
-				<div id="nsel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
-					<div align="center">
-						<table id="table_main" width="80%" border = "1">
-							<tr>
-							<th>Precision</th>
-							<th>Routine Name</th>
-							<th>Matrix Type</th>
-							<th>Storage</th>
-							</tr>
-							<tr>
-							<td>{{ item.thePrecision|upper }}</td>
-							<td>{{ item.routineName|upper }}</td> 
-							<td>{{ item.matrixType }}</td> 
-							<td>{{ item.storageType }}</td>      
-							</tr>
-						</table><br/>
-						<iframe src="{{ item.url }}" width="640px" height="400px"></iframe><br/></br> 
-						<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
-					</div>
+		</div>		
+	</div> 
+	
+	{% else %} 
+
+	<div class="notDndItem" id="nsel_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}"
+	     detail="{{ item.object.thePrecision }}_{{ item.object.routineName }}_{{ item.object.matrixType }}_{{ item.object.storageType }}_{{ item.object.id }}_{{ item.object.url }}"
+	     style="list-style-type: none;">
+		<div class="routineName">
+			<table id="ntb_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+				<tr>
+					<!--
+					<td id="sn_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}" class="hiddenStuff" style="font-weight: bold;"></td>
+					-->
+					<td class="hiddenStuff">
+						<input type="checkbox" name="routines" checked="checked"
+						       value="{{ item.object.thePrecision }}_{{ item.object.routineName }}_{{ item.object.matrixType }}_{{ item.object.storageType }}_{{ item.object.id }}_{{ item.object.url }}"
+						       id="ncb_{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}"
+						       onclick="checkChanged('{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+					</td>
+					<td style="width: 56px; font-weight: bold;">
+						{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}
+					</td>
+					<td style="color: #555; font-weight: bold;">
+						(Already selected)
+					</td>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.object.id }}').show()"/>
+					</td>
+					<td  class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}');"/>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="routineInfo" style="margin-bottom: 15px;">
+			<button onclick="dijit.byId('nsel_{{ item.object.id }}').show()">more</button>
+		</div>
+		<div class="dijitHidden">
+			<div id="nsel_{{ item.object.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}">
+				<div align="center">
+					<table id="table_main" width="80%" border = "1">
+						<tr>
+						<th>Precision</th>
+						<th>Routine Name</th>
+						<th>Matrix Type</th>
+						<th>Storage</th>
+						</tr>
+						<tr>
+						<td>{{ item.object.thePrecision|upper }}</td>
+						<td>{{ item.object.routineName|upper }}</td> 
+						<td>{{ item.object.matrixType }}</td> 
+						<td>{{ item.object.storageType }}</td>      
+						</tr>
+					</table><br/>
+					<iframe src="{{ MEDIA_URL }}{{ item.object.url }}" width="750px" height="400px"></iframe><br/></br>
+					<button onClick="dijit.byId('nsel_{{ item.object.id }}').hide()">Close</button>
 				</div>
-			</div>		
-		</div> 
+			</div>
+		</div>		
+	</div> 
 
-	{% endif %}
+	{% endif %} 
 
-{% empty %}
 {% endfor %}
 
 </div>
-{% endif %} 
+
+
+
+{% if page.has_previous or page.has_next %}
+    <div>
+	{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+	|
+	{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+    </div>
+{% endif %}
 
 {% endblock %}
 
+
 <!-- ########### Simple search questions: ###########-->
 {% block dojango_content_simpleSearch %}
-{% include "lapack/simpleSearch.html" %}
+{% include "lighthouse/lapack_le/simpleSearch.html" %}
 {% endblock %}
 
 
 <!-- ########### Keyword search: ###########-->
 {% block dojango_content_keywordSearch %}
-{% include "lapack/keywordSearch.html" %}
+{% include "lighthouse/lapack_le/keywordSearch.html" %}
 {% endblock %}
 
 <!-- ########### Keyword search: ###########-->
 {% block dojango_content_advancedSearch %}
-{% include "lapack/advancedSearch.html" %}
+{% include "lighthouse/lapack_le/advancedSearch.html" %}
 {% endblock %}
 
 
 <!-- ########### Selected Routines: ###########-->
 {% block dojango_content_selected_routines %}
-{% include "lapack/selectedRoutines.html" %}
+{% include "lighthouse/lapack_le/selectedRoutines.html" %}
 {% endblock %}
 
 
 <!-- ########### Code Template: ###########-->
 {% block dojango_content_code_template %}
-{% include "lapack/codeTemplate.html" %}
+{% include "lighthouse/lapack_le/codeTemplate.html" %}
 {% endblock %}
 
 <!-- ########### Script Area: ###########-->
 {% block dojango_content_script %}
-{% include "lapack/script.html" %}
+{% include "lighthouse/lapack_le/script.html" %}
 {% endblock %}
