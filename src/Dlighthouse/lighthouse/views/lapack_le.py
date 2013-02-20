@@ -796,8 +796,8 @@ def advancedResult(request):
 ###---------------- Keyword Search ------------------###
 """ sub-class the Haystack View to add to the context """
 class keywordSearchView(SearchView):
-    def extra_context(self, **kwargs):
-	return kwargs
+    def extra_context(self):
+	return {'selected': [1,2,3]}
 	
 
 def keywordResult(request):
@@ -824,7 +824,7 @@ def keywordResult(request):
 			else:
 				sqs = SearchQuerySet().filter(django_ct=answer[0])
 				
-			notSelectedRoutines = filterSelectedRoutines2(request, sqs)
+			#notSelectedRoutines = filterSelectedRoutines2(request, sqs)
 			#context = {
 			#	'form': ProblemForm(), 
 			#	'formAdvanced': AdvancedForm(), 
@@ -837,8 +837,8 @@ def keywordResult(request):
 			#	'scriptOutput': request.session['scriptOutput'], 
 			#	'codeTemplate': getCodeTempate(request.session.session_key) 
 			#	}
-			search_view = SearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
-			#search_view.extra_context(context)
+			search_view = keywordSearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
+			#search_view.extra_context(selectedRoutines=request.session['selectedRoutines'])
 			return search_view(request)
 
 		## For keywords within double quotes
@@ -884,6 +884,70 @@ def keywordResult(request):
 		#)
 		else:
 			HttpResponse("Error!")
+
+
+
+
+
+###---------------- for Selected and NotSelected----------------###
+"""
+From the list of routines returned after each step of the Guided Search (i.e. request.session['Routines']), 
+this function creates a new list of routines that excludes the routines 
+that are in the request.session['selectedRoutines'] list
+"""
+def filterSelectedRoutines(request):	
+	request.session['notSelectedRoutines'] = request.session['Routines']
+
+	for item in request.session['selectedRoutines']:
+		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
+	
+	request.session.modified = True
+
+
+
+
+"""
+From the list of routines returned by a Keyword Search this function removes 
+the routines that are in the request.session['selectedRoutines'] list
+"""
+def filterSelectedRoutines2(request, routines): 
+	indices = []
+	i = 0
+	for item1 in routines:		
+		for item2 in request.session['selectedRoutines']:
+			# Save the indices of the routines that match
+			if item2['thePrecision'] == item1.thePrecision and item2['routineName'] == item1.routineName:
+				indices.append(i)
+		i += 1
+
+	# Reverse the list, so the routine with highest index gets popped first 
+	# (popping the lowest index first messes up the list)
+	indices.reverse()
+
+	for item in indices:
+		routines.pop(item)
+	
+	return routines
+
+
+
+"""
+From the list of routines returned by an Advanced Search this function  
+creates a new list of routines (in the same format as the search result)
+that contains only the routines that are in request.session['selectedRoutines'] list
+"""
+def filterSelectedRoutines3(request, routines):
+	alreadySelectedRoutines = []
+
+	for item1 in request.session['selectedRoutines']:
+		for lst in routines:
+			for item2 in lst:
+				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
+					alreadySelectedRoutines.append(item2)
+
+	return alreadySelectedRoutines
+
+
 
 
 
@@ -1037,62 +1101,3 @@ def clear_session(request):
 
 
 
-###---------------- for Selected and NotSelected----------------###
-"""
-From the list of routines returned after each step of the Guided Search (i.e. request.session['Routines']), 
-this function creates a new list of routines that excludes the routines 
-that are in the request.session['selectedRoutines'] list
-"""
-def filterSelectedRoutines(request):	
-	request.session['notSelectedRoutines'] = request.session['Routines']
-
-	for item in request.session['selectedRoutines']:
-		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
-	
-	request.session.modified = True
-
-
-
-
-"""
-From the list of routines returned by a Keyword Search this function removes 
-the routines that are in the request.session['selectedRoutines'] list
-"""
-def filterSelectedRoutines2(request, routines):
-
-	indices = []
-	i = 0
-	for item1 in routines:		
-		for item2 in request.session['selectedRoutines']:
-			# Save the indices of the routines that match
-			if item2['thePrecision'] == item1.thePrecision and item2['routineName'] == item1.routineName:
-				indices.append(i)
-		i += 1
-
-	# Reverse the list, so the routine with highest index gets popped first 
-	# (popping the lowest index first messes up the list)
-	indices.reverse()
-
-	for item in indices:
-		routines.pop(item)
-	
-	return routines
-
-
-
-"""
-From the list of routines returned by an Advanced Search this function  
-creates a new list of routines (in the same format as the search result)
-that contains only the routines that are in request.session['selectedRoutines'] list
-"""
-def filterSelectedRoutines3(request, routines):
-
-	alreadySelectedRoutines = []
-
-	for item1 in request.session['selectedRoutines']:
-		for lst in routines:
-			for item2 in lst:
-				if item2.thePrecision == item1['thePrecision'] and item2.routineName == item1['routineName']:
-					alreadySelectedRoutines.append(item2)
-
-	return alreadySelectedRoutines
