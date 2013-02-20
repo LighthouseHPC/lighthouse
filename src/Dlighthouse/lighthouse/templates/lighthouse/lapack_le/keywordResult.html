@@ -95,7 +95,7 @@
 						       onclick="checkChanged('{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 					</td>
 					<td style="width: 56px; font-weight: bold;">
-						{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}
+						{{ item.object.id }}{{ item.object.thePrecision|upper }}{{ item.object.routineName|upper }}
 					</td>
 					<td style="color: #555; font-weight: bold;">
 						(Already selected)
@@ -109,7 +109,7 @@
 				</tr>
 			</table>			
 		</div>
-		<div class="routineInfo" style="margin-bottom: 15px;">
+		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.object.info with "item.object.thePrecision""item.object.routineName" max_length 500 %}
 			<button onclick="dijit.byId('nsel_{{ item.object.id }}').show()">more</button>
 		</div>
 		<div class="dijitHidden">

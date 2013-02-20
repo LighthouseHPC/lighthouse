@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from codeGen.templates import BTOGenerator
 
-import haystack.views
+from haystack.views import SearchView
 from haystack.query import SearchQuerySet
 from haystack.forms import ModelSearchForm
 
@@ -794,6 +794,12 @@ def advancedResult(request):
 
 
 ###---------------- Keyword Search ------------------###
+""" sub-class the Haystack View to add to the context """
+class keywordSearchView(SearchView):
+    def extra_context(self, dictionary):
+	return dictionary
+	
+
 def keywordResult(request):
 	modelList = []
 	keywords = ""
@@ -807,39 +813,32 @@ def keywordResult(request):
 		request.session['scriptOutput'] = ""
 		request.session['userScript'] = ""
 	
-	""" sub-class the Haystack View to add to the context """
-	class SearchView(haystack.views.SearchView):
-	    def extra_context(self):
-		return {
-			'form': ProblemForm(),
-			'formAdvanced': AdvancedForm(),
-			'scriptForm': scriptForm(), 
-			'keywords': keywords, 
-			#'results': routines, 
-			#'notSelectedRoutines': notSelectedRoutines, 
-			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'], 
-			'codeTemplate': getCodeTempate(request.session.session_key) 
-		}
-	
 	if request.method == 'GET':		
 		#keywords = request.GET['kwtb']
 		#keywords = keywords.lower().strip()
-		routines = []
 		form = ModelSearchForm(request.GET) # A form bound to the GET data
-		print form
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
-			if answer == []:
-			    sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational)
+			if answer == [] or len(answer)==2:
+				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational)
 			else:
-			    for model_name in answer:
-				# Turen a string into a class and create a list of model classes for sqs
-				ct = ContentType.objects.get(model=model_name.split(".")[1])
-				modelList.append(ct.model_class())
-				sqs = SearchQuerySet().models(*modelList)
+				sqs = SearchQuerySet().filter(django_ct=answer[0])
+				
+			#notSelectedRoutines = filterSelectedRoutines2(request, sqs)
+			#context = {
+			#	'form': ProblemForm(), 
+			#	'formAdvanced': AdvancedForm(), 
+			#	'scriptForm': scriptForm(), 
+			#	#'keywords': keywords, 
+			#	#'results': routines, 
+			#	'notSelectedRoutines': notSelectedRoutines, 
+			#	'selectedRoutines': request.session['selectedRoutines'],
+			#	'scriptCode': request.session['userScript'],
+			#	'scriptOutput': request.session['scriptOutput'], 
+			#	'codeTemplate': getCodeTempate(request.session.session_key) 
+			#	}
 			search_view = SearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
+			#search_view.extra_context(context)
 			return search_view(request)
 
 		## For keywords within double quotes
