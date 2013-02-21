@@ -1,6 +1,7 @@
 import string, types, sys, os, StringIO
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
 from django.db.models import get_model, Q
@@ -13,9 +14,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from codeGen.templates import BTOGenerator
 
+from haystack.forms import ModelSearchForm
+from haystack.inputs import AutoQuery, Exact, Clean
 from haystack.views import SearchView
 from haystack.query import SearchQuerySet
-from haystack.forms import ModelSearchForm
 
 from itertools import chain
 
@@ -796,9 +798,18 @@ def advancedResult(request):
 ###---------------- Keyword Search ------------------###
 """ sub-class the Haystack View to add to the context """
 class keywordSearchView(SearchView):
-    def extra_context(self):
-	return {'selected': [1,2,3]}
+	#def extra_context(self, **kwargs):
+	#    return kwargs
+	def extra_context(self):
+		return {'selectedRoutines': [1,2,3]}
 	
+
+fastWords = {
+		'thePrecision': ['single', 'double'],
+		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD',] 	
+	
+	}
+
 
 def keywordResult(request):
 	modelList = []
@@ -820,26 +831,22 @@ def keywordResult(request):
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
 			if answer == [] or len(answer)==2:
-				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational)
+				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(request.GET['q'])).order_by('id')
 			else:
-				sqs = SearchQuerySet().filter(django_ct=answer[0])
+				sqs = SearchQuerySet().filter(django_ct=answer[0]).filter(content=AutoQuery(request.GET['q'])).order_by('id')
+			
+			"""
+			***** haystack basically adds "" to strings automatically. *****
+			***** if haystack fails to find anything, try normal django search and remove the "". *****
+			"""
+			if sqs:	
+				#notSelectedRoutines = filterSelectedRoutines2(request, sqs)
+				search_view = keywordSearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
+				#search_view.extra_context(selectedRoutines=request.session['selectedRoutines'])
+				return search_view(request)
+			else:
 				
-			#notSelectedRoutines = filterSelectedRoutines2(request, sqs)
-			#context = {
-			#	'form': ProblemForm(), 
-			#	'formAdvanced': AdvancedForm(), 
-			#	'scriptForm': scriptForm(), 
-			#	#'keywords': keywords, 
-			#	#'results': routines, 
-			#	'notSelectedRoutines': notSelectedRoutines, 
-			#	'selectedRoutines': request.session['selectedRoutines'],
-			#	'scriptCode': request.session['userScript'],
-			#	'scriptOutput': request.session['scriptOutput'], 
-			#	'codeTemplate': getCodeTempate(request.session.session_key) 
-			#	}
-			search_view = keywordSearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
-			#search_view.extra_context(selectedRoutines=request.session['selectedRoutines'])
-			return search_view(request)
+				return HttpResponse("Hello")
 
 		## For keywords within double quotes
 		#if keywords.startswith('"') and keywords.endswith('"'):
