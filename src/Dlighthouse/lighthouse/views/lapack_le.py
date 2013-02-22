@@ -846,7 +846,7 @@ def keywordResult(request):
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
 			keywords = request.GET['q']
-			
+			print keywords
 			###***** haystack search *****###
 			if answer == [] or len(answer)==2:
 				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
@@ -876,16 +876,20 @@ def keywordResult(request):
 			keywords_dictionary['thePrecision'] = precisionList
 			
 			
+			### dynamic field_name for queryset filter. ### 
+			kwargs = {}
 			for table in keywords_dictionary['table']:
 				table = "lapack_le_"+table
-				ct = ContentType.objects.get(model=table)
-				for matrix in keywords_dictionary['matrixType']:
-					for storage in keywords_dictionary['storageType']:
-						for precision in keywords_dictionary['thePrecision']:
-							results += ct.model_class().objects.filter(matrixType=matrix).filter(storageType=storage).filter(thePrecision=precision)
+				tableClass = ContentType.objects.get(model=table).model_class()
+				for key in keywords_dictionary.keys():
+					if key == 'table' or key == 'dataType':
+						continue
+					else:
+						if len(keywords_dictionary[key]) !=0 :
+							for item in keywords_dictionary[key]:
+								kwargs.update({'{0}'.format(key): item,})
+				results += tableClass.objects.filter(**kwargs)
 			
-			for key in keywords_dictionary.keys():
-				print key
 			
 			###***** combine results and sqs*****###
 			results += sqs
