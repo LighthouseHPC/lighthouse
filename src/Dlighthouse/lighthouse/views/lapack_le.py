@@ -895,7 +895,7 @@ def keywordResult(request):
 			results += sqs
 			
 			notSelectedRoutines = filterSelectedRoutines2(request, results)
-			context = {'results': results, 'notSelectedRoutines': notSelectedRoutines, 'selectedRoutines': request.session['selectedRoutines'],}
+			context = {'results': results}
 			return render_to_response(
 				'lighthouse/lapack_le/keywordResult.html', 
 				{'KeywordTab': True}, 
