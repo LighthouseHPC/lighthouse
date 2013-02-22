@@ -858,36 +858,46 @@ def keywordResult(request):
 			keywords = keyword_handler(keywords)
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
-				
+			
+			### combine dataType and thePrecision to determine 's', 'd', 'c', 'z'. ###
+			precisionList = []
+			for data in keywords_dictionary['dataType']:
+				for precision in keywords_dictionary['thePrecision']:
+					if data == 'real' and precision =='single':
+						precision = 's'
+					elif data == 'real' and precision =='double':
+						precision = 'd'
+					elif data == 'complex' and precision =='single':
+						precision = 'c'
+					else:
+						precision = 'z'
+					precisionList.append(precision)
+			
+			keywords_dictionary['thePrecision'] = precisionList
+			
+			
 			for table in keywords_dictionary['table']:
 				table = "lapack_le_"+table
 				ct = ContentType.objects.get(model=table)
 				for matrix in keywords_dictionary['matrixType']:
 					for storage in keywords_dictionary['storageType']:
-						for data in keywords_dictionary['dataType']:
-							for precision in keywords_dictionary['thePrecision']:
-								if data == 'real' and precision =='single':
-									precision = 's'
-								elif data == 'real' and precision =='double':
-									precision = 'd'
-								elif data == 'complex' and precision =='single':
-									precision = 'c'
-								else:
-									precision = 'z'
-								results += ct.model_class().objects.filter(matrixType=matrix).filter(storageType=storage).filter(thePrecision=precision)
-			print len(results)
-			for item in results:
-				print item.thePrecision, item.routineName	
+						for precision in keywords_dictionary['thePrecision']:
+							results += ct.model_class().objects.filter(matrixType=matrix).filter(storageType=storage).filter(thePrecision=precision)
 			
+			for key in keywords_dictionary.keys():
+				print key
 			
-			if sqs:	
-				context = {'sqs': sqs}
-				return render_to_response(
-					'lighthouse/lapack_le/keywordResult.html', 
-					{'KeywordTab': True}, 
-					context_instance=RequestContext(request, context)
-				)
-				
+			###***** combine results and sqs*****###
+			results += sqs
+			
+			notSelectedRoutines = filterSelectedRoutines2(request, results)
+			context = {'results': results, 'notSelectedRoutines': notSelectedRoutines, 'selectedRoutines': request.session['selectedRoutines'],}
+			return render_to_response(
+				'lighthouse/lapack_le/keywordResult.html', 
+				{'KeywordTab': True}, 
+				context_instance=RequestContext(request, context)
+			)
+			
 
 
 		## For keywords within double quotes
