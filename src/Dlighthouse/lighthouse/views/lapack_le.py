@@ -796,27 +796,39 @@ def advancedResult(request):
 
 
 ###---------------- Keyword Search ------------------###
-""" sub-class the Haystack View to add to the context """
-class keywordSearchView(SearchView):
-	#def extra_context(self, **kwargs):
-	#    return kwargs
-	def extra_context(self):
-		return {'selectedRoutines': [1,2,3]}
-	
-
 special_words = {
 		'dataType': ['real', 'complex'],
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert'],
+		'table': ['solve', 'factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert'],
 	}
+
+
+
+
+def keyword_handler(keywords):
+	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
+	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
+	keywords = re.sub(r'\binver.*?\b', 'invert', keywords)
+	keywords = re.sub(r'\bermitian.*?\b', 'Hermitian', keywords)
+	keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
+	keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
+	keywords = re.sub(r'\bband.*?\b', 'band', keywords)
+	keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
+	
+	keywords = keywords.split(' ')
+	return keywords
+
+
+
 
 
 def keywordResult(request):
 	modelList = []
 	keywords = []
 	keywords_dictionary = {}
+	results = []
 
 	try:
 		request.session['selectedRoutines']
@@ -834,41 +846,49 @@ def keywordResult(request):
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
 			keywords = request.GET['q']
-			print keywords
-			keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
-			keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
-			keywords = re.sub(r'\binver.*?\b', 'invert', keywords)
-			keywords = re.sub(r'\bermitian.*?\b', 'Hermitian', keywords)
-			keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
-			keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
-			keywords = re.sub(r'\bband.*?\b', 'band', keywords)
-			keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
 			
-			keywords = keywords.split(' ')
+			###***** haystack search *****###
+			if answer == [] or len(answer)==2:
+				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
+			else:
+				sqs = SearchQuerySet().filter(django_ct=answer[0]).filter(content=AutoQuery(keywords)).order_by('id')
+			
+			
+			###***** Django querry search *****###
+			keywords = keyword_handler(keywords)
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
-			print keywords_dictionary
-			
-			#results = lapack_le_factor.objects.all()
-			#print results
 				
-			if answer == [] or len(answer)==2:
-				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(request.GET['q'])).order_by('id')
-			else:
-				sqs = SearchQuerySet().filter(django_ct=answer[0]).filter(content=AutoQuery(request.GET['q'])).order_by('id')
+			for table in keywords_dictionary['table']:
+				table = "lapack_le_"+table
+				ct = ContentType.objects.get(model=table)
+				for matrix in keywords_dictionary['matrixType']:
+					for storage in keywords_dictionary['storageType']:
+						for data in keywords_dictionary['dataType']:
+							for precision in keywords_dictionary['thePrecision']:
+								if data == 'real' and precision =='single':
+									precision = 's'
+								elif data == 'real' and precision =='double':
+									precision = 'd'
+								elif data == 'complex' and precision =='single':
+									precision = 'c'
+								else:
+									precision = 'z'
+								results += ct.model_class().objects.filter(matrixType=matrix).filter(storageType=storage).filter(thePrecision=precision)
+			print len(results)
+			for item in results:
+				print item.thePrecision, item.routineName	
 			
-			"""
-			***** haystack basically adds "" to strings automatically. *****
-			***** if haystack fails to find anything, try normal django search and remove the "". *****
-			"""
+			
 			if sqs:	
-				#notSelectedRoutines = filterSelectedRoutines2(request, sqs)
-				search_view = keywordSearchView(template = "lighthouse/lapack_le/keywordResult.html", searchqueryset=sqs)
-				#search_view.extra_context(selectedRoutines=request.session['selectedRoutines'])
-				return search_view(request)
-			else:
-				print request.GET['q']
-				return HttpResponse(request.GET['q'])
+				context = {'sqs': sqs}
+				return render_to_response(
+					'lighthouse/lapack_le/keywordResult.html', 
+					{'KeywordTab': True}, 
+					context_instance=RequestContext(request, context)
+				)
+				
+
 
 		## For keywords within double quotes
 		#if keywords.startswith('"') and keywords.endswith('"'):
