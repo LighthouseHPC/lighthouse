@@ -12,12 +12,11 @@ class lapack_le_driverIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
     routineName = indexes.CharField(model_attr='routineName')
     matrixType = indexes.CharField(model_attr='matrixType')
     storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
 
     def get_model(self):
         return lapack_le_driver
-    
-    #def index_queryset(self):
-    #    return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())
+
 
 
 
@@ -27,6 +26,7 @@ class lapack_le_computationalIndex(indexes.RealTimeSearchIndex, indexes.Indexabl
     routineName = indexes.CharField(model_attr='routineName')
     matrixType = indexes.CharField(model_attr='matrixType')
     storageType = indexes.CharField(model_attr='storageType')
+    url = indexes.CharField(model_attr='url')
 
     def get_model(self):
         return lapack_le_computational
