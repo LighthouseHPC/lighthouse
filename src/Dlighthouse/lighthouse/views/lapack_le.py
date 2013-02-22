@@ -1,4 +1,4 @@
-import string, types, sys, os, StringIO
+import string, types, sys, os, StringIO, re
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -804,16 +804,19 @@ class keywordSearchView(SearchView):
 		return {'selectedRoutines': [1,2,3]}
 	
 
-fastWords = {
+special_words = {
+		'dataType': ['real', 'complex'],
 		'thePrecision': ['single', 'double'],
-		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD',] 	
-	
+		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
+		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
+		'table': ['factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert'],
 	}
 
 
 def keywordResult(request):
 	modelList = []
-	keywords = ""
+	keywords = []
+	keywords_dictionary = {}
 
 	try:
 		request.session['selectedRoutines']
@@ -830,6 +833,25 @@ def keywordResult(request):
 		form = ModelSearchForm(request.GET) # A form bound to the GET data
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
+			keywords = request.GET['q']
+			print keywords
+			keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
+			keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
+			keywords = re.sub(r'\binver.*?\b', 'invert', keywords)
+			keywords = re.sub(r'\bermitian.*?\b', 'Hermitian', keywords)
+			keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
+			keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
+			keywords = re.sub(r'\bband.*?\b', 'band', keywords)
+			keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
+			
+			keywords = keywords.split(' ')
+			for key in special_words:
+				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
+			print keywords_dictionary
+			
+			#results = lapack_le_factor.objects.all()
+			#print results
+				
 			if answer == [] or len(answer)==2:
 				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(request.GET['q'])).order_by('id')
 			else:
@@ -845,8 +867,8 @@ def keywordResult(request):
 				#search_view.extra_context(selectedRoutines=request.session['selectedRoutines'])
 				return search_view(request)
 			else:
-				
-				return HttpResponse("Hello")
+				print request.GET['q']
+				return HttpResponse(request.GET['q'])
 
 		## For keywords within double quotes
 		#if keywords.startswith('"') and keywords.endswith('"'):
