@@ -861,17 +861,30 @@ def keywordResult(request):
 			
 			### combine dataType and thePrecision to determine 's', 'd', 'c', 'z'. ###
 			precisionList = []
-			for data in keywords_dictionary['dataType']:
+			if len(keywords_dictionary['dataType']) == 0 and len(keywords_dictionary['thePrecision']) != 0:
 				for precision in keywords_dictionary['thePrecision']:
-					if data == 'real' and precision =='single':
-						precision = 's'
-					elif data == 'real' and precision =='double':
-						precision = 'd'
-					elif data == 'complex' and precision =='single':
-						precision = 'c'
+					if precision =='single':
+						precisionList.extend(['s', 'c'])
 					else:
-						precision = 'z'
-					precisionList.append(precision)
+						precisionList.extend(['d', 'z'])
+			elif len(keywords_dictionary['dataType']) != 0 and len(keywords_dictionary['thePrecision']) == 0:
+				for data in keywords_dictionary['dataType']:
+					if data == 'real':
+						precisionList.extend(['s', 'd'])
+					else:
+						precisionList.extend(['c', 'z'])
+			else:
+				for data in keywords_dictionary['dataType']:
+					for precision in keywords_dictionary['thePrecision']:
+						if data == 'real' and precision =='single':
+							precision = 's'
+						elif data == 'real' and precision =='double':
+							precision = 'd'
+						elif data == 'complex' and precision =='single':
+							precision = 'c'
+						else:
+							precision = 'z'
+						precisionList.append(precision)
 			
 			keywords_dictionary['thePrecision'] = precisionList
 			
