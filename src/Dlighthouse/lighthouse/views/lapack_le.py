@@ -858,6 +858,22 @@ def keywordResult(request):
 			keywords = keyword_handler(keywords)
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
+				
+			## if storageType is empty, set it 'full' ##
+			if keywords_dictionary['storageType']==[]:
+				keywords_dictionary['storageType'] = ['full']
+				
+			## combine matrixType and storageType ##
+			keywords_dictionary.update({'matrix_storage':[]})
+			for matrix in keywords_dictionary['matrixType']:
+				for storage in keywords_dictionary['storageType']:
+					combineType = matrix+"_"+storage
+					keywords_dictionary['matrix_storage'].append(combineType)
+			
+			## delete keywords_dictionary['matrixType'] and keywords_dictionary['storageType'] ##
+			del keywords_dictionary['matrixType']
+			del keywords_dictionary['storageType']
+			
 			
 			### combine dataType and thePrecision to determine 's', 'd', 'c', 'z'. ###
 			precisionList = []
@@ -888,22 +904,24 @@ def keywordResult(request):
 			
 			keywords_dictionary['thePrecision'] = precisionList
 			
+			## delete keywords_dictionary['dataType'] ##
+			del keywords_dictionary['dataType']
+
 			
-			### dynamic field_name for queryset filter. ### 
-			kwargs = {}
+			### use keywords_dictionary['matrix_storage'] ### 
 			for table in keywords_dictionary['table']:
 				table = "lapack_le_"+table
 				tableClass = ContentType.objects.get(model=table).model_class()
-				for key in keywords_dictionary.keys():
-					if key == 'table' or key == 'dataType':
-						continue
-					else:
-						if len(keywords_dictionary[key]) !=0 :
-							for item in keywords_dictionary[key]:
-								kwargs.update({'{0}'.format(key): item,})
-				results += tableClass.objects.filter(**kwargs)
-			
-			
+				if len(keywords_dictionary['matrix_storage']) !=0 and len(keywords_dictionary['thePrecision']) !=0:
+					for combineType in keywords_dictionary['matrix_storage']:
+						for precision in keywords_dictionary['thePrecision']:
+							kwargs = {'matrixType': combineType.split('_')[0],
+								'storageType': combineType.split('_')[1],
+								'thePrecision': precision}
+							results += tableClass.objects.filter(**kwargs)
+							
+							
+							
 			###***** combine results and sqs*****###
 			results += sqs
 			
