@@ -12,5 +12,5 @@ urlpatterns = patterns('forum.views',
     url(r"^reply/(\d+)/$", "reply", name="reply"),
     url(r"^new_thread/(\d+)/$", "new_thread", name="new_thread"),
     
-    url(r"^search/$", "MyForumSearchView"),
+    url(r"^search/$", "MyForumSearchView", name="forumSearch"),
 )
