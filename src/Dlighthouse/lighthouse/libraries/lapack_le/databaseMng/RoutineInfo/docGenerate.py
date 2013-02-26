@@ -2,11 +2,8 @@ import csv, urllib
 import glob
 import MySQLdb
 import os
-dirDlighthouse = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.sys.path.insert(0,dirDlighthouse)
-
-
-print dirDlighthouse
+dirDlighthouse = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+currentDir = os.getcwd()
 
 
 beginId = raw_input("Enter the start id number: ")
@@ -26,6 +23,7 @@ reader = csv.reader(open(dirDlighthouse+"/media/Doxygen/url.csv"))
 
 
 docList = []
+lookup = "Univ. of"
 for idn, precision, routine, url in reader:
     docList.append([precision+routine+"_"+idn+".txt"])
     
@@ -34,22 +32,19 @@ for idn, precision, routine, url in reader:
         URL = str("http://www.netlib.org/lapack/lapack_routine"+url)
         page = urllib.urlopen(URL)
         
-        ###  save chopped info in the RoutineTxt directory.   
-        copy_page= open(dirDlighthouse+'/routineInfo/RoutineTxt/'+file_name(precision, routine, idn), "w")
+        ###  save chopped info in the RoutineTxt directory.
+        copy_page= open('./RoutineTxt/'+file_name(precision, routine, idn), "w")
         
         flag = 1
         while True:
             content = page.readline()[3:]
-            if "===============================================" in content:
-                print idn, "--> find match!"
-                break
-            if "\par Further Details:" in content:
+            if "-- Univ. of" in content:
                 print idn, "--> find match!"
                 break
             else:
                 if "\par Purpose:" in content:
                     flag = 0
-                if "===============================================" in content:
+                if "-- Univ. of" in content:
                     flag = 1
                 if not flag and not "\par Purpose:" in content:
                     if "=======" in content:
@@ -63,7 +58,7 @@ for idn, precision, routine, url in reader:
         pass
 
 
-### create routine_info.csv for loading the data to table Driver_routineinfo.
+### create routine_info.csv for loading the data to table lapack_le_routineinfo.
 f_database = csv.writer(open("routine_info.csv", "wb"))
 
 print "\nCreating routine_info.csv for the database..."
