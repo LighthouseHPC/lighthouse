@@ -1,24 +1,29 @@
 ##### Load data into the database #####
 
 import os
+currentDir = os.getcwd()
 
-### load data to Driver_routineinfo table 
-os.system('python ../RoutineInfo/load_data.py')
-
-
-### load data to
-### Driver_linearequation_simple, Driver_linearequation_expert, Driver_linearequation_driver
-os.system('python ../Driver/dataBase/load_data.py')
+### load data to lapack_le_routineinfo table
+os.chdir("RoutineInfo")
+os.system('python load_data.py')
 
 
 ### load data to
-### Computational_linearequation_computational, Computational_linearequation_factor
-### Computational_linearequation_solve, Computational_linearequation_condition_number
-### Computational_linearequation_error_bound, Computational_linearequation_invert
-### Computational_linearequation_equilibrate
-os.system('python ../Computational/dataBase/load_data.py')
+### lapack_le_linearequation_simple, lapack_le_linearequation_expert, lapack_le_linearequation_driver
+os.chdir("../Driver")
+os.system('python load_data.py')
 
 
 ### load data to
-### Combine_linearequation_only
-os.system('python ../Combine/load_data.py')
+### lapack_le_linearequation_computational, lapack_le_linearequation_factor
+### lapack_le_linearequation_solve, lapack_le_linearequation_condition_number
+### lapack_le_linearequation_error_bound, lapack_le_linearequation_invert
+### lapack_le_linearequation_equilibrate
+os.chdir("../Computational")
+os.system('python load_data.py')
+
+
+### load data to
+### lapack_le_only
+os.chdir("../Combine")
+os.system('python load_data.py')
