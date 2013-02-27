@@ -801,7 +801,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['solve', 'factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert', 'driver', 'computational'],
+		'table': ['factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert', 'driver', 'computational'],
 	}
 
 
@@ -909,6 +909,8 @@ def keywordResult(request):
 						precisionList.extend(['s', 'd'])
 					else:
 						precisionList.extend(['c', 'z'])
+			elif len(keywords_dictionary['dataType']) == 0 and len(keywords_dictionary['thePrecision']) == 0:
+				precisionList.extend(['s', 'd', 'c', 'z'])
 			else:
 				for data in keywords_dictionary['dataType']:
 					for precision in keywords_dictionary['thePrecision']:
@@ -935,7 +937,7 @@ def keywordResult(request):
 						kwargs = {'matrixType': combineType.split('_')[0],
 							'storageType': combineType.split('_')[1],
 							'thePrecision': precision}
-						results += table.objects.filter(**kwargs)
+						results += table.objects.filter(**kwargs).order_by('id')
 							
 			print results
 							
