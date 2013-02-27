@@ -44,3 +44,21 @@ Authors:
 \author NAG Ltd. 
 \date November 2011
 \ingroup doubleOTHERcomputational
+\par Further Details:
+ The band storage scheme is illustrated by the following example, when
+ N = 6, KD = 2, and UPLO = 'U':
+ On entry:                       On exit:
+     *    *   a13  a24  a35  a46      *    *   u13  u24  u35  u46
+     *   a12  a23  a34  a45  a56      *   u12  u23  u34  u45  u56
+    a11  a22  a33  a44  a55  a66     u11  u22  u33  u44  u55  u66
+ Similarly, if UPLO = 'L' the format of A is as follows:
+ On entry:                       On exit:
+    a11  a22  a33  a44  a55  a66     l11  l22  l33  l44  l55  l66
+    a21  a32  a43  a54  a65   *      l21  l32  l43  l54  l65   *
+    a31  a42  a53  a64   *    *      l31  l42  l53  l64   *    *
+ Array elements marked * are not used by the routine.
+\par Contributors:
+ Peter Mayes and Giuseppe Radicati, IBM ECSEC, Rome, March 23, 1989
+   SUBROUTINE DPBTRF( UPLO, N, KD, AB, LDAB, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

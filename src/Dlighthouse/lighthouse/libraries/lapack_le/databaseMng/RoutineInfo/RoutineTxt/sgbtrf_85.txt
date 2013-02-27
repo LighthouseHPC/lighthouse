@@ -48,3 +48,19 @@ Authors:
 \author NAG Ltd. 
 \date November 2011
 \ingroup realGBcomputational
+\par Further Details:
+ The band storage scheme is illustrated by the following example, when
+ M = N = 6, KL = 2, KU = 1:
+ On entry:                       On exit:
+     *    *    *    +    +    +       *    *    *   u14  u25  u36
+     *    *    +    +    +    +       *    *   u13  u24  u35  u46
+     *   a12  a23  a34  a45  a56      *   u12  u23  u34  u45  u56
+    a11  a22  a33  a44  a55  a66     u11  u22  u33  u44  u55  u66
+    a21  a32  a43  a54  a65   *      m21  m32  m43  m54  m65   *
+    a31  a42  a53  a64   *    *      m31  m42  m53  m64   *    *
+ Array elements marked * are not used by the routine; elements marked
+ + need not be set on entry, but are required by the routine to store
+ elements of U because of fill-in resulting from the row interchanges.
+   SUBROUTINE SGBTRF( M, N, KL, KU, AB, LDAB, IPIV, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

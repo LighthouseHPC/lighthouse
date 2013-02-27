@@ -176,3 +176,27 @@ Authors:
 \author NAG Ltd. 
 \date April 2012
 \ingroup realOTHERsolve
+\par Further Details:
+ The band storage scheme is illustrated by the following example, when
+ N = 6, KD = 2, and UPLO = 'U':
+ Two-dimensional storage of the symmetric matrix A:
+    a11  a12  a13
+         a22  a23  a24
+              a33  a34  a35
+                   a44  a45  a46
+                        a55  a56
+    (aij=conjg(aji))         a66
+ Band storage of the upper triangle of A:
+     *    *   a13  a24  a35  a46
+     *   a12  a23  a34  a45  a56
+    a11  a22  a33  a44  a55  a66
+ Similarly, if UPLO = 'L' the format of A is as follows:
+    a11  a22  a33  a44  a55  a66
+    a21  a32  a43  a54  a65   *
+    a31  a42  a53  a64   *    *
+ Array elements marked * are not used by the routine.
+   SUBROUTINE SPBSVX( FACT, UPLO, N, KD, NRHS, AB, LDAB, AFB, LDAFB,
+  $                   EQUED, S, B, LDB, X, LDX, RCOND, FERR, BERR,
+  $                   WORK, IWORK, INFO )
+-- LAPACK driver routine (version 3.4.1) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

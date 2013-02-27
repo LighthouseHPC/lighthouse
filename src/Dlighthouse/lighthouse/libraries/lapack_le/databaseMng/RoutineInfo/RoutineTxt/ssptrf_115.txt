@@ -47,3 +47,37 @@ Authors:
 \author NAG Ltd. 
 \date November 2011
 \ingroup realOTHERcomputational
+\par Further Details:
+ 5-96 - Based on modifications by J. Lewis, Boeing Computer Services
+        Company
+ If UPLO = 'U', then A = U*D*U**T, where
+    U = P(n)*U(n)* ... *P(k)U(k)* ...,
+ i.e., U is a product of terms P(k)*U(k), where k decreases from n to
+ 1 in steps of 1 or 2, and D is a block diagonal matrix with 1-by-1
+ and 2-by-2 diagonal blocks D(k).  P(k) is a permutation matrix as
+ defined by IPIV(k), and U(k) is a unit upper triangular matrix, such
+ that if the diagonal block D(k) is of order s (s = 1 or 2), then
+            (   I    v    0   )   k-s
+    U(k) =  (   0    I    0   )   s
+            (   0    0    I   )   n-k
+               k-s   s   n-k
+ If s = 1, D(k) overwrites A(k,k), and v overwrites A(1:k-1,k).
+ If s = 2, the upper triangle of D(k) overwrites A(k-1,k-1), A(k-1,k),
+ and A(k,k), and v overwrites A(1:k-2,k-1:k).
+ If UPLO = 'L', then A = L*D*L**T, where
+    L = P(1)*L(1)* ... *P(k)*L(k)* ...,
+ i.e., L is a product of terms P(k)*L(k), where k increases from 1 to
+ n in steps of 1 or 2, and D is a block diagonal matrix with 1-by-1
+ and 2-by-2 diagonal blocks D(k).  P(k) is a permutation matrix as
+ defined by IPIV(k), and L(k) is a unit lower triangular matrix, such
+ that if the diagonal block D(k) is of order s (s = 1 or 2), then
+            (   I    0     0   )  k-1
+    L(k) =  (   0    I     0   )  s
+            (   0    v     I   )  n-k-s+1
+               k-1   s  n-k-s+1
+ If s = 1, D(k) overwrites A(k,k), and v overwrites A(k+1:n,k).
+ If s = 2, the lower triangle of D(k) overwrites A(k,k), A(k+1,k),
+ and A(k+1,k+1), and v overwrites A(k+2:n,k:k+1).
+   SUBROUTINE SSPTRF( UPLO, N, AP, IPIV, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

@@ -35,3 +35,17 @@ Authors:
 \author NAG Ltd. 
 \date November 2011
 \ingroup complexOTHERcomputational
+\par Further Details:
+ A triangular matrix A can be transferred to packed storage using one
+ of the following program segments:
+ UPLO = 'U':                      UPLO = 'L':
+       JC = 1                           JC = 1
+       DO 2 J = 1, N                    DO 2 J = 1, N
+          DO 1 I = 1, J                    DO 1 I = J, N
+             AP(JC+I-1) = A(I,J)              AP(JC+I-J) = A(I,J)
+     1    CONTINUE                    1    CONTINUE
+          JC = JC + J                      JC = JC + N - J + 1
+     2 CONTINUE                       2 CONTINUE
+   SUBROUTINE CTPTRI( UPLO, DIAG, N, AP, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

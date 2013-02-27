@@ -326,5 +326,11 @@ Authors:
 \author Univ. of California Berkeley 
 \author Univ. of Colorado Denver 
 \author NAG Ltd. 
-\date April 2012
-\ingroup realSYcomputational
+\date September 2012
+\ingroup realSYdriver
+   SUBROUTINE SSYSVXX( FACT, UPLO, N, NRHS, A, LDA, AF, LDAF, IPIV,
+  $                    EQUED, S, B, LDB, X, LDX, RCOND, RPVGRW, BERR,
+  $                    N_ERR_BNDS, ERR_BNDS_NORM, ERR_BNDS_COMP,
+  $                    NPARAMS, PARAMS, WORK, IWORK, INFO )
+-- LAPACK driver routine (version 3.4.2) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

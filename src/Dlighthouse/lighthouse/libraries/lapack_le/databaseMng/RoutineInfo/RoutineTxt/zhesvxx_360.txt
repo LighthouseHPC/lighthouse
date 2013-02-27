@@ -292,7 +292,7 @@ Arguments:
            is true, 0.0 is false.
         Default: 1.0 (attempt componentwise convergence)
 \param[out] WORK
-         WORK is COMPLEX*16 array, dimension (2*N)
+         WORK is COMPLEX*16 array, dimension (5*N)
 \param[out] RWORK
          RWORK is DOUBLE PRECISION array, dimension (2*N)
 \param[out] INFO
@@ -326,3 +326,9 @@ Authors:
 \author NAG Ltd. 
 \date April 2012
 \ingroup complex16HEsolve
+   SUBROUTINE ZHESVXX( FACT, UPLO, N, NRHS, A, LDA, AF, LDAF, IPIV,
+  $                    EQUED, S, B, LDB, X, LDX, RCOND, RPVGRW, BERR,
+  $                    N_ERR_BNDS, ERR_BNDS_NORM, ERR_BNDS_COMP,
+  $                    NPARAMS, PARAMS, WORK, RWORK, INFO )
+-- LAPACK driver routine (version 3.4.1) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

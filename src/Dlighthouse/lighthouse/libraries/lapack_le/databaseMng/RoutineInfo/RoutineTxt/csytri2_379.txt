@@ -1,4 +1,4 @@
-CSYTRI2 computes the inverse of a COMPLEX hermitian indefinite matrix
+CSYTRI2 computes the inverse of a COMPLEX symmetric indefinite matrix
 A using the factorization A = U*D*U**T or A = L*D*L**T computed by
 CSYTRF. CSYTRI2 sets the LEADING DIMENSION of the workspace
 before calling CSYTRI2X that actually computes the inverse.
@@ -51,5 +51,8 @@ Authors:
 \author Univ. of California Berkeley 
 \author Univ. of Colorado Denver 
 \author NAG Ltd. 
-\date November 2011
+\date September 2012
 \ingroup complexSYcomputational
+   SUBROUTINE CSYTRI2( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
+-- LAPACK computational routine (version 3.4.2) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --
