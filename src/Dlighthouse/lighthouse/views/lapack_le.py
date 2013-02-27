@@ -801,7 +801,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['solve', 'factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert'],
+		'table': ['solve', 'factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert', 'driver', 'computational'],
 	}
 
 
@@ -816,8 +816,7 @@ def keyword_handler(keywords):
 	keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
 	keywords = re.sub(r'\bband.*?\b', 'band', keywords)
 	keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
-	
-	keywords = keywords.split(' ')
+
 	return keywords
 
 
@@ -840,37 +839,52 @@ def keywordResult(request):
 		request.session['userScript'] = ""
 	
 	if request.method == 'GET':		
-		#keywords = request.GET['kwtb']
-		#keywords = keywords.lower().strip()
 		form = ModelSearchForm(request.GET) # A form bound to the GET data
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
 			keywords = request.GET['q']
-			print keywords
+			keywords = keyword_handler(keywords)
+			
 			###***** haystack search *****###
 			if answer == [] or len(answer)==2:
 				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
 			else:
 				sqs = SearchQuerySet().filter(django_ct=answer[0]).filter(content=AutoQuery(keywords)).order_by('id')
 			
+			#spelling_suggestion = sqs.spelling_suggestion()
+			#print spelling_suggestion
+			
+			
 			
 			###***** Django querry search *****###
-			keywords = keyword_handler(keywords)
+			keywords = keywords.split(' ')
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
 				
-			## if storageType is empty, set it 'full' ##
+			###***** if dictionary values are empty for keys: 'table', 'matrixType', 'storageType' *****###
+			if keywords_dictionary['table']==[]:
+				keywords_dictionary['table'] = answer
+
+			## convert table strings to class
+			for i,value in enumerate(keywords_dictionary['table']):
+				table = "lapack_le_"+value
+				tableClass = ContentType.objects.get(model=table).model_class()
+				keywords_dictionary['table'][i] = tableClass
+				
+			if keywords_dictionary['matrixType']==[]:
+				keywords_dictionary['matrixType']= ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']
+				
 			if keywords_dictionary['storageType']==[]:
 				keywords_dictionary['storageType'] = ['full']
 				
-			## combine matrixType and storageType ##
+			###***** combine matrixType and storageType *****###
 			keywords_dictionary.update({'matrix_storage':[]})
 			for matrix in keywords_dictionary['matrixType']:
 				for storage in keywords_dictionary['storageType']:
 					combineType = matrix+"_"+storage
 					keywords_dictionary['matrix_storage'].append(combineType)
 			
-			## delete keywords_dictionary['matrixType'] and keywords_dictionary['storageType'] ##
+			###***** delete keywords_dictionary['matrixType'] and keywords_dictionary['storageType'] *****###
 			del keywords_dictionary['matrixType']
 			del keywords_dictionary['storageType']
 			
@@ -910,15 +924,14 @@ def keywordResult(request):
 			
 			### use keywords_dictionary['matrix_storage'] ### 
 			for table in keywords_dictionary['table']:
-				table = "lapack_le_"+table
-				tableClass = ContentType.objects.get(model=table).model_class()
+				print type(table)
 				if len(keywords_dictionary['matrix_storage']) !=0 and len(keywords_dictionary['thePrecision']) !=0:
 					for combineType in keywords_dictionary['matrix_storage']:
 						for precision in keywords_dictionary['thePrecision']:
 							kwargs = {'matrixType': combineType.split('_')[0],
 								'storageType': combineType.split('_')[1],
 								'thePrecision': precision}
-							results += tableClass.objects.filter(**kwargs)
+							results += table.objects.filter(**kwargs)
 							
 							
 							
