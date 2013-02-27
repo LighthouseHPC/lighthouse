@@ -24,6 +24,8 @@ from itertools import chain
 from lighthouse.forms.lapack_le import *
 from lighthouse.models.lapack_le import *
 
+from spell.spell import correct
+
 
 
 
@@ -861,6 +863,7 @@ def keywordResult(request):
 			
 			###-------- Django querry search --------###
 			keywords = keywords.split(' ')
+			print correct(keywords[0])
 			
 			###***** make a dictionary for the keywords users enter *****###
 			for key in special_words:
@@ -939,7 +942,6 @@ def keywordResult(request):
 							'thePrecision': precision}
 						results += table.objects.filter(**kwargs).order_by('id')
 							
-			print results
 							
 			###***** combine results and sqs*****###
 			results += sqs
