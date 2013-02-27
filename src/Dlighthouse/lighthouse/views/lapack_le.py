@@ -845,30 +845,36 @@ def keywordResult(request):
 			keywords = request.GET['q']
 			keywords = keyword_handler(keywords)
 			
-			###***** haystack search *****###
+			###-------- haystack search --------###
 			if answer == [] or len(answer)==2:
+				## if none of 'search in' boxes is checked, then search in both lapack_le_driver, lapack_le_computational models. ##
 				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
+				answer = ['driver', 'computational']
 			else:
 				sqs = SearchQuerySet().filter(django_ct=answer[0]).filter(content=AutoQuery(keywords)).order_by('id')
+				answer[0] = answer[0].split('_')[-1]
 			
 			#spelling_suggestion = sqs.spelling_suggestion()
 			#print spelling_suggestion
 			
 			
 			
-			###***** Django querry search *****###
+			###-------- Django querry search --------###
 			keywords = keywords.split(' ')
+			
+			###***** make a dictionary for the keywords users enter *****###
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
 				
-			###***** if dictionary values are empty for keys: 'table', 'matrixType', 'storageType' *****###
+				
+			###***** set the dictionary values for 'table', 'matrixType', 'storageType' if they are empty *****###
 			if keywords_dictionary['table']==[]:
-				keywords_dictionary['table'] = answer
+					keywords_dictionary['table'] = answer
 
 			## convert table strings to class
-			for i,value in enumerate(keywords_dictionary['table']):
-				table = "lapack_le_"+value
-				tableClass = ContentType.objects.get(model=table).model_class()
+			for i,value in enumerate(keywords_dictionary['table']):	
+				value = "lapack_le_"+value
+				tableClass = ContentType.objects.get(model=value).model_class()
 				keywords_dictionary['table'][i] = tableClass
 				
 			if keywords_dictionary['matrixType']==[]:
@@ -924,16 +930,14 @@ def keywordResult(request):
 			
 			### use keywords_dictionary['matrix_storage'] ### 
 			for table in keywords_dictionary['table']:
-				print type(table)
-				if len(keywords_dictionary['matrix_storage']) !=0 and len(keywords_dictionary['thePrecision']) !=0:
-					for combineType in keywords_dictionary['matrix_storage']:
-						for precision in keywords_dictionary['thePrecision']:
-							kwargs = {'matrixType': combineType.split('_')[0],
-								'storageType': combineType.split('_')[1],
-								'thePrecision': precision}
-							results += table.objects.filter(**kwargs)
+				for combineType in keywords_dictionary['matrix_storage']:
+					for precision in keywords_dictionary['thePrecision']:
+						kwargs = {'matrixType': combineType.split('_')[0],
+							'storageType': combineType.split('_')[1],
+							'thePrecision': precision}
+						results += table.objects.filter(**kwargs)
 							
-							
+			print results
 							
 			###***** combine results and sqs*****###
 			results += sqs
