@@ -10,7 +10,16 @@
 				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
 			</td>		
 			<td style="text-align:left">
-				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
+				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for
+				<span style="text-decoration:underline; color:blue">
+					{% for word in keywordsList %}
+						{% if word not in common %}
+							<i><b>{{ word }}</b></i>
+						{% else %}
+							{{ word }}
+						{% endif %}
+					{% endfor %}
+				</span>:
 			</td>
 		</tr>
 	</table>	

@@ -830,10 +830,11 @@ def keyword_handler(keywords):
 
 def keywordResult(request):
 	modelList = []
-	keywordsList = []
-	keywordsList_corrected = []
-	keywords_corrected = ""
 	keywords_dictionary = {}
+	keywords_origList = []
+	keywords_origList_corrected = []
+	keywords_corrected = ""
+	keywordsList = []
 	results = []
 
 	try:
@@ -850,22 +851,21 @@ def keywordResult(request):
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
 			keywords_orig = request.GET['q']
-			print keywords_orig
-			keywordsList = keywords_orig.split()
+			keywords_origList = keywords_orig.split()
 			
 			## spell check ##
-			for item in keywordsList:
+			for item in keywords_origList:
 				if item == 'spd':
 					item = 'SPD'
 				if item == 'hpd':
 					item = 'HPD'
-				keywordsList_corrected.append(correct(item))
+				keywords_origList_corrected.append(correct(item))
 				keywords_corrected += correct(item)+' '
 			
 			
-			## sent to keyword_handler ##
+			## sent to keyword_handler --> keywords ready now ##
 			keywords = keyword_handler(keywords_corrected)
-			print keywords
+
 			
 			###-------- haystack search --------###
 			if answer == [] or len(answer)==2:
@@ -880,13 +880,14 @@ def keywordResult(request):
 			#print spelling_suggestion
 			
 			
-			
 			###-------- Django querry search --------###
-			keywords_split = keywords.split(' ')
+			keywordsList = keywords.split()
+			common = list(set(keywords_origList) & set(keywordsList))
+
 			
 			###***** make a dictionary for the keywords users enter *****###
 			for key in special_words:
-				keywords_dictionary[key] = list(set(keywords_split) & set(special_words[key]))
+				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				
 				
 			###***** set the dictionary values for 'table', 'matrixType', 'storageType' if they are empty *****###
@@ -964,9 +965,7 @@ def keywordResult(request):
 							
 			###***** combine results and sqs*****###
 			results += sqs
-			
-			notSelectedRoutines = filterSelectedRoutines2(request, results)
-			context = {'results': results}
+			context = {'results': results, 'keywordsList': keywordsList, 'common': common}
 			return render_to_response(
 				'lighthouse/lapack_le/keywordResult.html', 
 				{'KeywordTab': True}, 
