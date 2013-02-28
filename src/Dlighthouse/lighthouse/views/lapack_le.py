@@ -810,19 +810,19 @@ special_words = {
 
 
 def keyword_handler(keywords):
+	keywords = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', keywords)
 	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
-	keywords = re.sub(r'\b.*?quilib.*?\b', 'equilibrate', keywords)
+	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
 	keywords = re.sub(r'\bin.*?r.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\berror .*?nd.*?\b', 'error_bound', keywords)
-	keywords = re.sub(r'\condition.*? number.*?\b', 'condition_number', keywords)
-	keywords = re.sub(r'\sol.*? linear equations\b', 'solve', keywords)
+	keywords = re.sub(r'\bcondition.*? number.*?\b', 'condition_number', keywords)
 	keywords = re.sub(r'\bhermitian.*?\b', 'Hermitian', keywords)
-	keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
-	keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
+	keywords = re.sub(r'\bHermitian positive definite\b', 'HPD', keywords)
+	keywords = re.sub(r'\bsymmetric positive definite\b', 'SPD', keywords)
 	keywords = re.sub(r'\bband.*?\b', 'band', keywords)
 	keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
-
+	
 	return keywords
 
 
@@ -861,11 +861,12 @@ def keywordResult(request):
 					item = 'SPD'
 				if item == 'hpd':
 					item = 'HPD'
+				item = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', item)
 				keywords_origList_corrected.append(correct(item))
 				keywords_corrected += correct(item)+' '
+			print keywords_corrected
 			
-			
-			## sent to keyword_handler --> keywords ready now ##
+			## sent to keyword_handler to make keywords ready ##
 			keywords = keyword_handler(keywords_corrected)
 			print keywords
 
