@@ -803,7 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition', 'number', 'error', 'bound', 'equilibrate', 'invert', 'driver', 'computational'],
+		'table': ['factor', 'condition_number', 'error_bound', 'equilibrate', 'invert', 'driver', 'computational'],
 	}
 
 
@@ -812,8 +812,11 @@ special_words = {
 def keyword_handler(keywords):
 	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
 	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
-	keywords = re.sub(r'\binver.*?\b', 'invert', keywords)
-	keywords = re.sub(r'\bermitian.*?\b', 'Hermitian', keywords)
+	keywords = re.sub(r'\bin.*?r.*?\b', 'invert', keywords)
+	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
+	keywords = re.sub(r'\berror b.*?nd.*?\b', 'error_bound', keywords)
+	keywords = re.sub(r'\condition.*? number.*?\b', 'condition_number', keywords)
+	keywords = re.sub(r'\bhermitian.*?\b', 'Hermitian', keywords)
 	keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
 	keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
 	keywords = re.sub(r'\bband.*?\b', 'band', keywords)
@@ -827,8 +830,11 @@ def keyword_handler(keywords):
 
 def keywordResult(request):
 	modelList = []
-	keywords = []
+	keywordsList = []
+	keywordsList_corrected = []
+	keywords_corrected = ""
 	keywords_dictionary = {}
+	#keywords = []
 	results = []
 
 	try:
@@ -844,8 +850,19 @@ def keywordResult(request):
 		form = ModelSearchForm(request.GET) # A form bound to the GET data
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
-			keywords = request.GET['q']
-			keywords = keyword_handler(keywords)
+			keywords_orig = request.GET['q']
+			print keywords_orig
+			keywordsList = keywords_orig.split(' ')
+			
+			## spell check ##
+			for item in keywordsList:
+				keywordsList_corrected.append(correct(item))
+				keywords_corrected += correct(item)+' '
+			
+			
+			## sent to keyword_handler ##
+			keywords = keyword_handler(keywords_corrected)
+			print keywords
 			
 			###-------- haystack search --------###
 			if answer == [] or len(answer)==2:
@@ -862,12 +879,11 @@ def keywordResult(request):
 			
 			
 			###-------- Django querry search --------###
-			keywords = keywords.split(' ')
-			print correct(keywords[0])
+			keywords_split = keywords.split(' ')
 			
 			###***** make a dictionary for the keywords users enter *****###
 			for key in special_words:
-				keywords_dictionary[key] = list(set(keywords) & set(special_words[key]))
+				keywords_dictionary[key] = list(set(keywords_split) & set(special_words[key]))
 				
 				
 			###***** set the dictionary values for 'table', 'matrixType', 'storageType' if they are empty *****###
@@ -935,13 +951,13 @@ def keywordResult(request):
 			
 			### use keywords_dictionary['matrix_storage'] ### 
 			for table in keywords_dictionary['table']:
+				print table
 				for combineType in keywords_dictionary['matrix_storage']:
 					for precision in keywords_dictionary['thePrecision']:
 						kwargs = {'matrixType': combineType.split('_')[0],
 							'storageType': combineType.split('_')[1],
 							'thePrecision': precision}
 						results += table.objects.filter(**kwargs).order_by('id')
-							
 							
 			###***** combine results and sqs*****###
 			results += sqs
