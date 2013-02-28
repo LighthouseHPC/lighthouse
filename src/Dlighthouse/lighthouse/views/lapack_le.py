@@ -814,7 +814,7 @@ def keyword_handler(keywords):
 	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
 	keywords = re.sub(r'\bin.*?r.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
-	keywords = re.sub(r'\berror b.*?nd.*?\b', 'error_bound', keywords)
+	keywords = re.sub(r'\berror .*?nd.*?\b', 'error_bound', keywords)
 	keywords = re.sub(r'\condition.*? number.*?\b', 'condition_number', keywords)
 	keywords = re.sub(r'\bhermitian.*?\b', 'Hermitian', keywords)
 	keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
@@ -834,7 +834,6 @@ def keywordResult(request):
 	keywordsList_corrected = []
 	keywords_corrected = ""
 	keywords_dictionary = {}
-	#keywords = []
 	results = []
 
 	try:
@@ -852,10 +851,14 @@ def keywordResult(request):
 			answer = form.cleaned_data['models']
 			keywords_orig = request.GET['q']
 			print keywords_orig
-			keywordsList = keywords_orig.split(' ')
+			keywordsList = keywords_orig.split()
 			
 			## spell check ##
 			for item in keywordsList:
+				if item == 'spd':
+					item = 'SPD'
+				if item == 'hpd':
+					item = 'HPD'
 				keywordsList_corrected.append(correct(item))
 				keywords_corrected += correct(item)+' '
 			
