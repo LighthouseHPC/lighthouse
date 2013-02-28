@@ -803,7 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition_number', 'error_bound', 'equilibrate', 'invert', 'driver', 'computational'],
+		'table': ['factor', 'condition_number', 'error_bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
 	}
 
 
@@ -816,6 +816,7 @@ def keyword_handler(keywords):
 	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\berror .*?nd.*?\b', 'error_bound', keywords)
 	keywords = re.sub(r'\condition.*? number.*?\b', 'condition_number', keywords)
+	keywords = re.sub(r'\sol.*? linear equations\b', 'solve', keywords)
 	keywords = re.sub(r'\bhermitian.*?\b', 'Hermitian', keywords)
 	keywords = re.sub(r'\bHermitian positive definite', 'HPD', keywords)
 	keywords = re.sub(r'\bsymmetric positive definite', 'SPD', keywords)
@@ -851,6 +852,7 @@ def keywordResult(request):
 		if form.is_valid(): # All validation rules pass
 			answer = form.cleaned_data['models']
 			keywords_orig = request.GET['q']
+			print keywords_orig
 			keywords_origList = keywords_orig.split()
 			
 			## spell check ##
@@ -865,6 +867,7 @@ def keywordResult(request):
 			
 			## sent to keyword_handler --> keywords ready now ##
 			keywords = keyword_handler(keywords_corrected)
+			print keywords
 
 			
 			###-------- haystack search --------###
@@ -893,8 +896,16 @@ def keywordResult(request):
 			###***** set the dictionary values for 'table', 'matrixType', 'storageType' if they are empty *****###
 			if keywords_dictionary['table']==[]:
 					keywords_dictionary['table'] = answer
-
-			## convert table strings to class
+					
+			### if choosing 'solve', search in both 'simple' and 'solve' ###
+			if len(keywords_dictionary['table']) == 1 and keywords_dictionary['table'][0] == 'solve':
+				keywords_dictionary['table'].append('simple')
+				
+			### if choosing 'solve' and other, search in 'expert' ###
+			if len(keywords_dictionary['table']) > 1 and 'solve' in keywords_dictionary['table']:
+				keywords_dictionary['table'] = ['expert']
+				
+			### convert table strings to class ###
 			for i,value in enumerate(keywords_dictionary['table']):	
 				value = "lapack_le_"+value
 				tableClass = ContentType.objects.get(model=value).model_class()
@@ -949,11 +960,10 @@ def keywordResult(request):
 			
 			keywords_dictionary['thePrecision'] = precisionList
 			
-			## delete keywords_dictionary['dataType'] ##
+			### delete keywords_dictionary['dataType'] ###
 			del keywords_dictionary['dataType']
-
-			
-			### use keywords_dictionary['matrix_storage'] ### 
+				
+			### use keywords_dictionary['matrix_storage'] ###				
 			for table in keywords_dictionary['table']:
 				print table
 				for combineType in keywords_dictionary['matrix_storage']:
