@@ -811,7 +811,7 @@ special_words = {
 
 def keyword_handler(keywords):
 	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
-	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
+	keywords = re.sub(r'\b.*?quilib.*?\b', 'equilibrate', keywords)
 	keywords = re.sub(r'\bin.*?r.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\berror .*?nd.*?\b', 'error_bound', keywords)
