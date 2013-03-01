@@ -814,7 +814,7 @@ def keyword_handler(keywords):
 	keywords = re.sub(r'\bLU factor.*?\b', 'LU_factorization', keywords)
 	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
 	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
-	keywords = re.sub(r'\bin.*?r.*?\b', 'invert', keywords)
+	keywords = re.sub(r'\binv.*?t.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
 	keywords = re.sub(r'\berror .*?nd.*?\b', 'error_bound', keywords)
 	keywords = re.sub(r'\bcondition.*? number.*?\b', 'condition_number', keywords)
@@ -829,17 +829,20 @@ def keyword_handler(keywords):
 
 ###------- set up keywords_dictionary for query_django--------###
 def kwDictionary_set(keywords_dictionary, answer):
+	print len(keywords_dictionary['table'])
 	###***** set the dictionary values for 'table', 'matrixType', 'storageType' if empty *****###
 	if keywords_dictionary['table']==[]:
 			keywords_dictionary['table'] = answer
 			
 	### if choosing 'solve', search in both 'simple' and 'solve' ###
-	if len(keywords_dictionary['table']) == 1 and keywords_dictionary['table'][0] == 'solve':
+	elif len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
 		keywords_dictionary['table'].append('simple')
 		
 	### if choosing 'solve' and other, search in 'expert' ###
-	if len(keywords_dictionary['table']) > 1 and 'solve' in keywords_dictionary['table']:
+	elif len(keywords_dictionary['table']) > 1 and 'solve' in keywords_dictionary['table']:
 		keywords_dictionary['table'] = ['expert']
+	else:
+		pass
 		
 	###***** convert table strings to class *****###
 	for i,value in enumerate(keywords_dictionary['table']):	
