@@ -809,21 +809,41 @@ special_words = {
 
 
 
-def keyword_handler(keywords):
-	keywords = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', keywords)
-	keywords = re.sub(r'\bLU factor.*?\b', 'LU_factorization', keywords)
-	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
-	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
-	keywords = re.sub(r'\binv.*?t.*?\b', 'invert', keywords)
-	keywords = re.sub(r'\bverse.*?\b', 'invert', keywords)
-	keywords = re.sub(r'\berror .*?nd.*?\b', 'error_bound', keywords)
-	keywords = re.sub(r'\bcondition.*? number.*?\b', 'condition_number', keywords)
-	keywords = re.sub(r'\bhermitian.*?\b', 'Hermitian', keywords)
-	keywords = re.sub(r'\bHermitian positive definite\b', 'HPD', keywords)
-	keywords = re.sub(r'\bsymmetric positive definite\b', 'SPD', keywords)
-	keywords = re.sub(r'\bband.*?\b', 'band', keywords)
-	keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
-	return keywords
+def quoted_words(string):
+	matches=re.findall(r'\"(.+?)\"',string)
+	return matches
+	
+
+
+def spell_check(word):
+	word = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', word)
+	if word== 'spd':
+		word= 'SPD'
+	elif word== 'hpd':
+		word= 'HPD'
+	elif word== 'lu' or word== 'LU':
+		word= 'LU'
+	else: 	
+		word= correct(word)
+	return word
+
+
+	
+def keyword_handler(string):
+	string = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', string)
+	string = re.sub(r'\bfactor.*?\b', 'factor', string)
+	string = re.sub(r'\bLU f.*?\b', 'LU factorization', string)
+	string = re.sub(r'\bequilib.*?\b', 'equilibrate', string)
+	string = re.sub(r'\binv.*?t.*?\b', 'invert', string)
+	string = re.sub(r'\bverse.*?\b', 'invert', string)
+	string = re.sub(r'\berror .*?nd.*?\b', 'error_bound', string)
+	string = re.sub(r'\bcondition.*? number.*?\b', 'condition_number', string)
+	string = re.sub(r'\bhermitian.*?\b', 'Hermitian', string)
+	string = re.sub(r'\bHermitian positive definite\b', 'HPD', string)
+	string = re.sub(r'\bsymmetric positive definite\b', 'SPD', string)
+	string = re.sub(r'\bband.*?\b', 'band', string)
+	string = re.sub(r'\bpack.*?\b', 'packed', string)
+	return string	
 
 
 
@@ -956,7 +976,6 @@ def keywordResult(request):
 		form = ModelSearchForm(request.GET)
 		if form.is_valid():
 			answer_class = form.cleaned_data['models']
-			
 			## created list answer for storing model names --- used in query_django ##
 			if answer_class == [] or len(answer_class)==2:
 				answer = ['driver', 'computational']
@@ -964,9 +983,32 @@ def keywordResult(request):
 				answer.append(answer_class[0].split('_')[-1])
 			
 			keywords_orig = request.GET['q']
-			print keywords_orig
-			keywords_origList = keywords_orig.split()
+
+			## find quoted words and put them in a list ##
+			quoted_wordsList = quoted_words(keywords_orig)
+				
+			## remove quoted words from keywords_orig, new string called keywords_orig_no_quote ##
+			keywords_orig_no_quote = keywords_orig
+			for item in quoted_wordsList:
+				keywords_orig_no_quote = keywords_orig_no_quote.replace('\"'+item+'\"', "")
 			
+			## make keywords_orig_no_quote into a list ##
+			keywords_orig_no_quoteList = keywords_orig_no_quote.split()
+			
+			## spell check and keyword_handler for keywords_orig_no_quoteList ##
+			for i, word in enumerate(keywords_orig_no_quoteList):
+				keywords_orig_no_quoteList[i] = keyword_handler(correct(word))
+			print keywords_orig_no_quoteList	
+
+			
+			## spell check and keyword_handler for quoted_wordsList ##
+			if quoted_wordsList:
+				for i, item in enumerate(quoted_wordsList):
+					for word in item.split():
+						item = item.replace(word, spell_check(word))
+					quoted_wordsList[i] = keyword_handler(item)
+			print quoted_wordsList
+
 			## spell check ##
 			for item in keywords_origList:
 				item = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', item)
@@ -993,7 +1035,6 @@ def keywordResult(request):
 			###***** make a dictionary for the keywords that users enter *****###
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
-			print keywords_dictionary
 			
 			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
 			if keywords_dictionary['table'] == []:
