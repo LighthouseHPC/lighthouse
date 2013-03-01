@@ -905,7 +905,6 @@ def kwDictionary_set(keywords_dictionary, answer):
 ###-------- haystack search --------###
 def query_haystack(keywords, answer_class):
 	keywords = re.sub('_', ' ', keywords)
-	print keywords
 	if answer_class == [] or len(answer_class)==2:
 		## if none of 'search in' boxes is checked, then search in both lapack_le_driver, lapack_le_computational models. ##
 		sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
@@ -991,18 +990,27 @@ def keywordResult(request):
 			###***** make a dictionary for the keywords that users enter *****###
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
+			print keywords_dictionary
 			
-			## set up the dictionary values ##
-			keywords_dictionary = kwDictionary_set(keywords_dictionary, answer)
-
-			sqs = query_haystack(keywords, answer_class)
-			#spelling_suggestion = sqs.spelling_suggestion()
-			#print spelling_suggestion
-
-			results = query_django(keywords_dictionary)	
+			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
+			if keywords_dictionary['table'] == []:
+				print 'use haystack'
+				results = query_haystack(keywords, answer_class)
+				#spelling_suggestion = sqs.spelling_suggestion()
+				#print spelling_suggestion
+			elif not any([keywords_dictionary[i] == [] for i in keywords_dictionary]):
+				print 'use django'
+				## set up the dictionary values ##
+				keywords_dictionary = kwDictionary_set(keywords_dictionary, answer)
+				results = query_django(keywords_dictionary)	
+			else:
+				print 'use both'
+				sqs =query_haystack(keywords, answer_class)
+				keywords_dictionary = kwDictionary_set(keywords_dictionary, answer)
+				results = query_django(keywords_dictionary)
+				results += sqs
 							
-			###***** combine results and sqs*****###
-			results += sqs
+			
 			context = {'results': results, 'keywordsList': keywordsList, 'common': common}
 			return render_to_response(
 				'lighthouse/lapack_le/keywordResult.html', 
