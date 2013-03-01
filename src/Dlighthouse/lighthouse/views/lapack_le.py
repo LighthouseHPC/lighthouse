@@ -948,7 +948,12 @@ def query_django(keywords_dictionary):
 				kwargs = {'matrixType': combineType.split('_')[0],
 					'storageType': combineType.split('_')[1],
 					'thePrecision': precision}
-				results += table.objects.filter(**kwargs).order_by('id')
+				results = table.objects.filter(**kwargs).order_by('id')
+				if keywords_dictionary['other']:
+					for item in keywords_dictionary['other']:
+						results = +results.filter(info__icontains=item)
+				else:
+					results += results
 	return results
 
 
@@ -960,8 +965,8 @@ def keywordResult(request):
 	keywords_dictionary = {}
 	keywords_origList = []
 	keywords_origList_corrected = []
-	keywords_corrected = ""
 	keywordsList = []
+	keywords = ""
 
 	try:
 		request.session['selectedRoutines']
@@ -997,8 +1002,7 @@ def keywordResult(request):
 			
 			## spell check and keyword_handler for keywords_orig_no_quoteList ##
 			for i, word in enumerate(keywords_orig_no_quoteList):
-				keywords_orig_no_quoteList[i] = keyword_handler(correct(word))
-			print keywords_orig_no_quoteList	
+				keywords_orig_no_quoteList[i] = keyword_handler(correct(word))	
 
 			
 			## spell check and keyword_handler for quoted_wordsList ##
@@ -1007,34 +1011,26 @@ def keywordResult(request):
 					for word in item.split():
 						item = item.replace(word, spell_check(word))
 					quoted_wordsList[i] = keyword_handler(item)
-			print quoted_wordsList
 
-			## spell check ##
-			for item in keywords_origList:
-				item = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', item)
-				if item == 'spd':
-					item = 'SPD'
-				elif item == 'hpd':
-					item = 'HPD'
-				elif item == 'lu' or item == 'LU':
-					item = 'LU'
-				else: 	
-					item = correct(item)
-				keywords_origList_corrected.append(item)
-				keywords_corrected += item+' '
-			print keywords_corrected
+			## combine keywords_orig_no_quoteList and quoted_wordsList ##
+			keywordsList = keywords_orig_no_quoteList + quoted_wordsList
+			print keywordsList
 			
-			## sent to keyword_handler to make keywords ready ##
-			keywords = keyword_handler(keywords_corrected)
+			## make a string out of keywordsList
+			for item in keywordsList:
+				keywords += item+" "
 			print keywords
 			
-			keywordsList = keywords.split()
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
 			
-			###***** make a dictionary for the keywords that users enter *****###
+			###***** make a dictionary for the keywords for django query *****###
+			sumList = []
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
+				sumList += keywords_dictionary[key]
+			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
+			print keywords_dictionary
 			
 			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
 			if keywords_dictionary['table'] == []:
