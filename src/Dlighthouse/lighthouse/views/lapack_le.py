@@ -811,6 +811,7 @@ special_words = {
 
 def keyword_handler(keywords):
 	keywords = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', keywords)
+	keywords = re.sub(r'\bLU factor.*?\b', 'LU_factorization', keywords)
 	keywords = re.sub(r'\bfactor.*?\b', 'factor', keywords)
 	keywords = re.sub(r'\bequilib.*?\b', 'equilibrate', keywords)
 	keywords = re.sub(r'\bin.*?r.*?\b', 'invert', keywords)
@@ -822,21 +823,123 @@ def keyword_handler(keywords):
 	keywords = re.sub(r'\bsymmetric positive definite\b', 'SPD', keywords)
 	keywords = re.sub(r'\bband.*?\b', 'band', keywords)
 	keywords = re.sub(r'\bpack.*?\b', 'packed', keywords)
-	
 	return keywords
 
+
+
+###------- set up keywords_dictionary for query_django--------###
+def kwDictionary_set(keywords_dictionary, answer):
+	###***** set the dictionary values for 'table', 'matrixType', 'storageType' if empty *****###
+	if keywords_dictionary['table']==[]:
+			keywords_dictionary['table'] = answer
+			
+	### if choosing 'solve', search in both 'simple' and 'solve' ###
+	if len(keywords_dictionary['table']) == 1 and keywords_dictionary['table'][0] == 'solve':
+		keywords_dictionary['table'].append('simple')
+		
+	### if choosing 'solve' and other, search in 'expert' ###
+	if len(keywords_dictionary['table']) > 1 and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['expert']
+		
+	###***** convert table strings to class *****###
+	for i,value in enumerate(keywords_dictionary['table']):	
+		value = "lapack_le_"+value
+		tableClass = ContentType.objects.get(model=value).model_class()
+		keywords_dictionary['table'][i] = tableClass
+		
+	if keywords_dictionary['matrixType']==[]:
+		keywords_dictionary['matrixType']= ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']
+		
+	if keywords_dictionary['storageType']==[]:
+		keywords_dictionary['storageType'] = ['full']
+		
+	###***** combine matrixType and storageType *****###
+	keywords_dictionary.update({'matrix_storage':[]})
+	for matrix in keywords_dictionary['matrixType']:
+		for storage in keywords_dictionary['storageType']:
+			combineType = matrix+"_"+storage
+			keywords_dictionary['matrix_storage'].append(combineType)
+	
+	###***** delete keywords_dictionary['matrixType'] and keywords_dictionary['storageType'] *****###
+	del keywords_dictionary['matrixType']
+	del keywords_dictionary['storageType']
+	
+	
+	###***** combine dataType and thePrecision to determine 's', 'd', 'c', 'z'. *****###
+	precisionList = []
+	if len(keywords_dictionary['dataType']) == 0 and len(keywords_dictionary['thePrecision']) != 0:
+		for precision in keywords_dictionary['thePrecision']:
+			if precision =='single':
+				precisionList.extend(['s', 'c'])
+			else:
+				precisionList.extend(['d', 'z'])
+	elif len(keywords_dictionary['dataType']) != 0 and len(keywords_dictionary['thePrecision']) == 0:
+		for data in keywords_dictionary['dataType']:
+			if data == 'real':
+				precisionList.extend(['s', 'd'])
+			else:
+				precisionList.extend(['c', 'z'])
+	elif len(keywords_dictionary['dataType']) == 0 and len(keywords_dictionary['thePrecision']) == 0:
+		precisionList.extend(['s', 'd', 'c', 'z'])
+	else:
+		for data in keywords_dictionary['dataType']:
+			for precision in keywords_dictionary['thePrecision']:
+				if data == 'real' and precision =='single':
+					precision = 's'
+				elif data == 'real' and precision =='double':
+					precision = 'd'
+				elif data == 'complex' and precision =='single':
+					precision = 'c'
+				else:
+					precision = 'z'
+				precisionList.append(precision)
+	keywords_dictionary['thePrecision'] = precisionList
+			
+	###***** delete keywords_dictionary['dataType'] *****###
+	del keywords_dictionary['dataType']
+	return keywords_dictionary
+
+
+
+
+###-------- haystack search --------###
+def query_haystack(keywords, answer_class):
+	keywords = re.sub('_', ' ', keywords)
+	print keywords
+	if answer_class == [] or len(answer_class)==2:
+		## if none of 'search in' boxes is checked, then search in both lapack_le_driver, lapack_le_computational models. ##
+		sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
+	else:
+		sqs = SearchQuerySet().filter(django_ct=answer_class[0]).filter(content=AutoQuery(keywords)).order_by('id')
+	return sqs
+
+
+
+
+###-------- Django querry search --------###
+def query_django(keywords_dictionary):
+	results = []
+	for table in keywords_dictionary['table']:
+		print table
+		for combineType in keywords_dictionary['matrix_storage']:
+			for precision in keywords_dictionary['thePrecision']:
+				kwargs = {'matrixType': combineType.split('_')[0],
+					'storageType': combineType.split('_')[1],
+					'thePrecision': precision}
+				results += table.objects.filter(**kwargs).order_by('id')
+	return results
 
 
 
 
 def keywordResult(request):
 	modelList = []
+	answer = []
 	keywords_dictionary = {}
 	keywords_origList = []
 	keywords_origList_corrected = []
 	keywords_corrected = ""
 	keywordsList = []
-	results = []
 
 	try:
 		request.session['selectedRoutines']
@@ -848,131 +951,55 @@ def keywordResult(request):
 		request.session['userScript'] = ""
 	
 	if request.method == 'GET':		
-		form = ModelSearchForm(request.GET) # A form bound to the GET data
-		if form.is_valid(): # All validation rules pass
-			answer = form.cleaned_data['models']
+		form = ModelSearchForm(request.GET)
+		if form.is_valid():
+			answer_class = form.cleaned_data['models']
+			
+			## created list answer for storing model names --- used in query_django ##
+			if answer_class == [] or len(answer_class)==2:
+				answer = ['driver', 'computational']
+			else:
+				answer.append(answer_class[0].split('_')[-1])
+			
 			keywords_orig = request.GET['q']
 			print keywords_orig
 			keywords_origList = keywords_orig.split()
 			
 			## spell check ##
 			for item in keywords_origList:
+				item = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', item)
 				if item == 'spd':
 					item = 'SPD'
-				if item == 'hpd':
+				elif item == 'hpd':
 					item = 'HPD'
-				item = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', item)
-				keywords_origList_corrected.append(correct(item))
-				keywords_corrected += correct(item)+' '
+				elif item == 'lu' or item == 'LU':
+					item = 'LU'
+				else: 	
+					item = correct(item)
+				keywords_origList_corrected.append(item)
+				keywords_corrected += item+' '
 			print keywords_corrected
 			
 			## sent to keyword_handler to make keywords ready ##
 			keywords = keyword_handler(keywords_corrected)
 			print keywords
-
 			
-			###-------- haystack search --------###
-			if answer == [] or len(answer)==2:
-				## if none of 'search in' boxes is checked, then search in both lapack_le_driver, lapack_le_computational models. ##
-				sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
-				answer = ['driver', 'computational']
-			else:
-				sqs = SearchQuerySet().filter(django_ct=answer[0]).filter(content=AutoQuery(keywords)).order_by('id')
-				answer[0] = answer[0].split('_')[-1]
-			
-			#spelling_suggestion = sqs.spelling_suggestion()
-			#print spelling_suggestion
-			
-			
-			###-------- Django querry search --------###
 			keywordsList = keywords.split()
+			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
-
 			
-			###***** make a dictionary for the keywords users enter *****###
+			###***** make a dictionary for the keywords that users enter *****###
 			for key in special_words:
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
-				
-				
-			###***** set the dictionary values for 'table', 'matrixType', 'storageType' if they are empty *****###
-			if keywords_dictionary['table']==[]:
-					keywords_dictionary['table'] = answer
-					
-			### if choosing 'solve', search in both 'simple' and 'solve' ###
-			if len(keywords_dictionary['table']) == 1 and keywords_dictionary['table'][0] == 'solve':
-				keywords_dictionary['table'].append('simple')
-				
-			### if choosing 'solve' and other, search in 'expert' ###
-			if len(keywords_dictionary['table']) > 1 and 'solve' in keywords_dictionary['table']:
-				keywords_dictionary['table'] = ['expert']
-				
-			### convert table strings to class ###
-			for i,value in enumerate(keywords_dictionary['table']):	
-				value = "lapack_le_"+value
-				tableClass = ContentType.objects.get(model=value).model_class()
-				keywords_dictionary['table'][i] = tableClass
-				
-			if keywords_dictionary['matrixType']==[]:
-				keywords_dictionary['matrixType']= ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']
-				
-			if keywords_dictionary['storageType']==[]:
-				keywords_dictionary['storageType'] = ['full']
-				
-			###***** combine matrixType and storageType *****###
-			keywords_dictionary.update({'matrix_storage':[]})
-			for matrix in keywords_dictionary['matrixType']:
-				for storage in keywords_dictionary['storageType']:
-					combineType = matrix+"_"+storage
-					keywords_dictionary['matrix_storage'].append(combineType)
 			
-			###***** delete keywords_dictionary['matrixType'] and keywords_dictionary['storageType'] *****###
-			del keywords_dictionary['matrixType']
-			del keywords_dictionary['storageType']
-			
-			
-			### combine dataType and thePrecision to determine 's', 'd', 'c', 'z'. ###
-			precisionList = []
-			if len(keywords_dictionary['dataType']) == 0 and len(keywords_dictionary['thePrecision']) != 0:
-				for precision in keywords_dictionary['thePrecision']:
-					if precision =='single':
-						precisionList.extend(['s', 'c'])
-					else:
-						precisionList.extend(['d', 'z'])
-			elif len(keywords_dictionary['dataType']) != 0 and len(keywords_dictionary['thePrecision']) == 0:
-				for data in keywords_dictionary['dataType']:
-					if data == 'real':
-						precisionList.extend(['s', 'd'])
-					else:
-						precisionList.extend(['c', 'z'])
-			elif len(keywords_dictionary['dataType']) == 0 and len(keywords_dictionary['thePrecision']) == 0:
-				precisionList.extend(['s', 'd', 'c', 'z'])
-			else:
-				for data in keywords_dictionary['dataType']:
-					for precision in keywords_dictionary['thePrecision']:
-						if data == 'real' and precision =='single':
-							precision = 's'
-						elif data == 'real' and precision =='double':
-							precision = 'd'
-						elif data == 'complex' and precision =='single':
-							precision = 'c'
-						else:
-							precision = 'z'
-						precisionList.append(precision)
-			
-			keywords_dictionary['thePrecision'] = precisionList
-			
-			### delete keywords_dictionary['dataType'] ###
-			del keywords_dictionary['dataType']
-				
-			### use keywords_dictionary['matrix_storage'] ###				
-			for table in keywords_dictionary['table']:
-				print table
-				for combineType in keywords_dictionary['matrix_storage']:
-					for precision in keywords_dictionary['thePrecision']:
-						kwargs = {'matrixType': combineType.split('_')[0],
-							'storageType': combineType.split('_')[1],
-							'thePrecision': precision}
-						results += table.objects.filter(**kwargs).order_by('id')
+			## set up the dictionary values ##
+			keywords_dictionary = kwDictionary_set(keywords_dictionary, answer)
+
+			sqs = query_haystack(keywords, answer_class)
+			#spelling_suggestion = sqs.spelling_suggestion()
+			#print spelling_suggestion
+
+			results = query_django(keywords_dictionary)	
 							
 			###***** combine results and sqs*****###
 			results += sqs
