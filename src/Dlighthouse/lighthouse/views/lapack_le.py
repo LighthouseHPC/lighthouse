@@ -801,9 +801,9 @@ def advancedResult(request):
 special_words = {
 		'dataType': ['real', 'complex'],
 		'thePrecision': ['single', 'double'],
-		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'positive', 'definite'],
+		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition_number', 'error_bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
+		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
 	}
 
 
@@ -836,11 +836,7 @@ def keyword_handler(string):
 	string = re.sub(r'\bequilib.*?\b', 'equilibrate', string)
 	string = re.sub(r'\binv.*?t.*?\b', 'invert', string)
 	string = re.sub(r'\bverse.*?\b', 'invert', string)
-	string = re.sub(r'\berror .*?nd.*?\b', 'error_bound', string)
-	string = re.sub(r'\bcondition.*? number.*?\b', 'condition_number', string)
 	string = re.sub(r'\bhermitian.*?\b', 'Hermitian', string)
-	string = re.sub(r'\bHermitian positive definite\b', 'HPD', string)
-	string = re.sub(r'\bsymmetric positive definite\b', 'SPD', string)
 	string = re.sub(r'\bband.*?\b', 'band', string)
 	string = re.sub(r'\bpack.*?\b', 'packed', string)
 	return string	
@@ -1005,26 +1001,30 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			print keywords_dictionary
 			
 			
 			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
-			if keywords_dictionary['table'] == []:
-				print 'use haystack'
-				results = query_haystack(keywords, answer_class)
-				#spelling_suggestion = sqs.spelling_suggestion()
-				#print spelling_suggestion		
-			elif not any([keywords_dictionary[i] == [] for i in keywords_dictionary]):
+			if not any([keywords_dictionary[i] == [] for i in keywords_dictionary]):
 				print 'use django'
 				## set up the dictionary values ##
+				for i, item in enumerate(keywords_dictionary['table']):
+					if item == 'condition number':
+						keywords_dictionary['table'][i] = item.replace('condition number', 'condition_number')
+					if item == 'error bound':
+						keywords_dictionary['table'][i] = item.replace('error bound', 'error_bound')
+				for i, item in enumerate(keywords_dictionary['matrixType']):
+					if item == 'symmetric positive definite':
+						keywords_dictionary['matrixType'][i] = item.replace('symmetric positive definite', 'SPD')
+					if item == 'Hermitian positive definite':
+						keywords_dictionary['matrixType'][i] = item.replace('Hermitian positive definite', 'HPD')
+				print keywords_dictionary
 				keywords_dictionary = kwDictionary_set(keywords_dictionary)
 				results = query_django(keywords_dictionary)	
 			else:
-				print 'use both'
-				sqs =query_haystack(keywords, answer_class)
-				keywords_dictionary = kwDictionary_set(keywords_dictionary)
-				results = query_django(keywords_dictionary)
-				results += sqs
+				print 'use haystack'
+				results = query_haystack(keywords, answer_class)
+				#spelling_suggestion = sqs.spelling_suggestion()
+				#print spelling_suggestion
 							
 			
 			context = {'results': results, 'keywordsList': keywordsList, 'common': common}
