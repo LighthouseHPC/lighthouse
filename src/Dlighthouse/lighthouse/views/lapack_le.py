@@ -1,4 +1,4 @@
-import string, types, sys, os, StringIO, re
+import string, types, sys, os, StringIO, re, shlex
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -948,12 +948,7 @@ def query_django(keywords_dictionary):
 				kwargs = {'matrixType': combineType.split('_')[0],
 					'storageType': combineType.split('_')[1],
 					'thePrecision': precision}
-				results = table.objects.filter(**kwargs).order_by('id')
-				if keywords_dictionary['other']:
-					for item in keywords_dictionary['other']:
-						results = +results.filter(info__icontains=item)
-				else:
-					results += results
+				results += table.objects.filter(**kwargs).order_by('id')
 	return results
 
 
@@ -988,38 +983,29 @@ def keywordResult(request):
 				answer.append(answer_class[0].split('_')[-1])
 			
 			keywords_orig = request.GET['q']
-
+			print keywords_orig
+			
+			## Don't split double-quoted words ##
+			keywords_origList = shlex.split(keywords_orig)
+			#print keywords_origList
+			
 			## find quoted words and put them in a list ##
 			quoted_wordsList = quoted_words(keywords_orig)
-				
-			## remove quoted words from keywords_orig, new string called keywords_orig_no_quote ##
-			keywords_orig_no_quote = keywords_orig
-			for item in quoted_wordsList:
-				keywords_orig_no_quote = keywords_orig_no_quote.replace('\"'+item+'\"', "")
 			
-			## make keywords_orig_no_quote into a list ##
-			keywords_orig_no_quoteList = keywords_orig_no_quote.split()
-			
-			## spell check and keyword_handler for keywords_orig_no_quoteList ##
-			for i, word in enumerate(keywords_orig_no_quoteList):
-				keywords_orig_no_quoteList[i] = keyword_handler(correct(word))	
-
-			
-			## spell check and keyword_handler for quoted_wordsList ##
-			if quoted_wordsList:
-				for i, item in enumerate(quoted_wordsList):
+			## spell check and keyword_handler ##
+			keywordsList = []
+			for i, item in enumerate(keywords_origList):
+				if item in quoted_wordsList:
 					for word in item.split():
 						item = item.replace(word, spell_check(word))
-					quoted_wordsList[i] = keyword_handler(item)
-
-			## combine keywords_orig_no_quoteList and quoted_wordsList ##
-			keywordsList = keywords_orig_no_quoteList + quoted_wordsList
-			print keywordsList
-			
+					keywordsList.append(keyword_handler(item))
+				else:
+					keywordsList.append(keyword_handler(correct(item)))		
+			#print keywordsList
+				
 			## make a string out of keywordsList
 			for item in keywordsList:
 				keywords += item+" "
-			print keywords
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
@@ -1030,7 +1016,7 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			print keywords_dictionary
+			#print keywords_dictionary
 			
 			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
 			if keywords_dictionary['table'] == []:
