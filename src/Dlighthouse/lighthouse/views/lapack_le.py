@@ -848,14 +848,9 @@ def keyword_handler(string):
 
 
 ###------- set up keywords_dictionary for query_django--------###
-def kwDictionary_set(keywords_dictionary, answer):
-	print len(keywords_dictionary['table'])
-	###***** set the dictionary values for 'table', 'matrixType', 'storageType' if empty *****###
-	if keywords_dictionary['table']==[]:
-			keywords_dictionary['table'] = answer
-			
+def kwDictionary_set(keywords_dictionary):
 	### if choosing 'solve', search in both 'simple' and 'solve' ###
-	elif len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
+	if len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
 		keywords_dictionary['table'].append('simple')
 		
 	### if choosing 'solve' and other, search in 'expert' ###
@@ -959,7 +954,6 @@ def keywordResult(request):
 	answer = []
 	keywords_dictionary = {}
 	keywords_origList = []
-	keywords_origList_corrected = []
 	keywordsList = []
 	keywords = ""
 
@@ -976,11 +970,6 @@ def keywordResult(request):
 		form = ModelSearchForm(request.GET)
 		if form.is_valid():
 			answer_class = form.cleaned_data['models']
-			## created list answer for storing model names --- used in query_django ##
-			if answer_class == [] or len(answer_class)==2:
-				answer = ['driver', 'computational']
-			else:
-				answer.append(answer_class[0].split('_')[-1])
 			
 			keywords_orig = request.GET['q']
 			print keywords_orig
@@ -1016,23 +1005,24 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			#print keywords_dictionary
+			print keywords_dictionary
+			
 			
 			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
 			if keywords_dictionary['table'] == []:
 				print 'use haystack'
 				results = query_haystack(keywords, answer_class)
 				#spelling_suggestion = sqs.spelling_suggestion()
-				#print spelling_suggestion
+				#print spelling_suggestion		
 			elif not any([keywords_dictionary[i] == [] for i in keywords_dictionary]):
 				print 'use django'
 				## set up the dictionary values ##
-				keywords_dictionary = kwDictionary_set(keywords_dictionary, answer)
+				keywords_dictionary = kwDictionary_set(keywords_dictionary)
 				results = query_django(keywords_dictionary)	
 			else:
 				print 'use both'
 				sqs =query_haystack(keywords, answer_class)
-				keywords_dictionary = kwDictionary_set(keywords_dictionary, answer)
+				keywords_dictionary = kwDictionary_set(keywords_dictionary)
 				results = query_django(keywords_dictionary)
 				results += sqs
 							
