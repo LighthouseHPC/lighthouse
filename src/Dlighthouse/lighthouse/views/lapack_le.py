@@ -803,7 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
+		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solve a system of linear equations'],
 	}
 
 
@@ -830,7 +830,7 @@ def spell_check(word):
 
 	
 def keyword_handler(string):
-	string = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', string)
+	string = re.sub(r'\bs.*? linear eq.*?\b', 'solve a system of linear equations', string)
 	string = re.sub(r'\berror b.*?\b', 'error bound', string)
 	string = re.sub(r'\bfactor.*?\b', 'factor', string)
 	string = re.sub(r'\bLU f.*?\b', 'LU factorization', string)
@@ -849,14 +849,16 @@ def keyword_handler(string):
 def keyword_handler2(keywords_dictionary):
 	for i, item in enumerate(keywords_dictionary['table']):
 		if item == 'condition number':
-			keywords_dictionary['table'][i] = item.replace('condition number', 'condition_number')
+			keywords_dictionary['table'][i] = item.replace(item, 'condition_number')
 		if item == 'error bound':
-			keywords_dictionary['table'][i] = item.replace('error bound', 'error_bound')
+			keywords_dictionary['table'][i] = item.replace(item, 'error_bound')
+		if item == 'solve a system of linear equations' or item == 'solve linear equations':
+			keywords_dictionary['table'][i] = item.replace(item, 'solve')
 	for i, item in enumerate(keywords_dictionary['matrixType']):
 		if item == 'symmetric positive definite':
-			keywords_dictionary['matrixType'][i] = item.replace('symmetric positive definite', 'SPD')
+			keywords_dictionary['matrixType'][i] = item.replace(item, 'SPD')
 		if item == 'Hermitian positive definite':
-			keywords_dictionary['matrixType'][i] = item.replace('Hermitian positive definite', 'HPD')
+			keywords_dictionary['matrixType'][i] = item.replace(item, 'HPD')
 	return keywords_dictionary	
 
 
@@ -1018,6 +1020,7 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
+			print keywords_dictionary
 			
 			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
