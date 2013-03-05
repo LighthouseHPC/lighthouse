@@ -844,6 +844,25 @@ def keyword_handler(string):
 
 
 
+
+###------- set up keywords_dictionary to use proper model names--------###
+def keyword_handler2(keywords_dictionary):
+	for i, item in enumerate(keywords_dictionary['table']):
+		if item == 'condition number':
+			keywords_dictionary['table'][i] = item.replace('condition number', 'condition_number')
+		if item == 'error bound':
+			keywords_dictionary['table'][i] = item.replace('error bound', 'error_bound')
+	for i, item in enumerate(keywords_dictionary['matrixType']):
+		if item == 'symmetric positive definite':
+			keywords_dictionary['matrixType'][i] = item.replace('symmetric positive definite', 'SPD')
+		if item == 'Hermitian positive definite':
+			keywords_dictionary['matrixType'][i] = item.replace('Hermitian positive definite', 'HPD')
+	return keywords_dictionary	
+
+
+
+
+
 ###------- set up keywords_dictionary for query_django--------###
 def kwDictionary_set(keywords_dictionary):
 	### if choosing 'solve', search in both 'simple' and 'solve' ###
@@ -861,9 +880,6 @@ def kwDictionary_set(keywords_dictionary):
 		value = "lapack_le_"+value
 		tableClass = ContentType.objects.get(model=value).model_class()
 		keywords_dictionary['table'][i] = tableClass
-		
-	if keywords_dictionary['matrixType']==[]:
-		keywords_dictionary['matrixType']= ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']
 		
 	if keywords_dictionary['storageType']==[]:
 		keywords_dictionary['storageType'] = ['full']
@@ -987,7 +1003,7 @@ def keywordResult(request):
 					keywordsList.append(keyword_handler(item))
 				else:
 					keywordsList.append(keyword_handler(correct(item)))		
-			print keywordsList
+			#print keywordsList
 				
 			## make a string out of keywordsList
 			for item in keywordsList:
@@ -1003,24 +1019,11 @@ def keywordResult(request):
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
 			
-			
-			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
-			if not any([keywords_dictionary[i] == [] for i in keywords_dictionary]):
+			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
-				## set up the dictionary values ##
-				for i, item in enumerate(keywords_dictionary['table']):
-					if item == 'condition number':
-						keywords_dictionary['table'][i] = item.replace('condition number', 'condition_number')
-					if item == 'error bound':
-						keywords_dictionary['table'][i] = item.replace('error bound', 'error_bound')
-				for i, item in enumerate(keywords_dictionary['matrixType']):
-					if item == 'symmetric positive definite':
-						keywords_dictionary['matrixType'][i] = item.replace('symmetric positive definite', 'SPD')
-					if item == 'Hermitian positive definite':
-						keywords_dictionary['matrixType'][i] = item.replace('Hermitian positive definite', 'HPD')
-				print keywords_dictionary
+				keywords_dictionary = keyword_handler2(keywords_dictionary)
 				keywords_dictionary = kwDictionary_set(keywords_dictionary)
-				results = query_django(keywords_dictionary)	
+				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
 				results = query_haystack(keywords, answer_class)
