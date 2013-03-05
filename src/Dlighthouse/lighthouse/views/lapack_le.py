@@ -831,6 +831,7 @@ def spell_check(word):
 	
 def keyword_handler(string):
 	string = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', string)
+	string = re.sub(r'\berror b.*?\b', 'error bound', string)
 	string = re.sub(r'\bfactor.*?\b', 'factor', string)
 	string = re.sub(r'\bLU f.*?\b', 'LU factorization', string)
 	string = re.sub(r'\bequilib.*?\b', 'equilibrate', string)
@@ -986,7 +987,7 @@ def keywordResult(request):
 					keywordsList.append(keyword_handler(item))
 				else:
 					keywordsList.append(keyword_handler(correct(item)))		
-			#print keywordsList
+			print keywordsList
 				
 			## make a string out of keywordsList
 			for item in keywordsList:
