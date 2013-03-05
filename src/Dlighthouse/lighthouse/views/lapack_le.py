@@ -810,19 +810,19 @@ special_words = {
 
 
 def quoted_words(string):
-	matches=re.findall(r'\"(.+?)\"',string)
+	matches=re.findall(r'\"(.+?)\"', string)
 	return matches
 	
 
 
 def spell_check(word):
 	word = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', word)
-	if word== 'spd':
-		word= 'SPD'
-	elif word== 'hpd':
-		word= 'HPD'
-	elif word== 'lu' or word== 'LU':
-		word= 'LU'
+	if word == 'spd':
+		word = 'SPD'
+	elif word == 'hpd':
+		word = 'HPD'
+	elif word in ['LU', 'lu', 'Lu', 'lU']:
+		word = 'LU'
 	else: 	
 		word= correct(word)
 	return word
@@ -1040,50 +1040,6 @@ def keywordResult(request):
 				{'KeywordTab': True}, 
 				context_instance=RequestContext(request, context)
 			)
-			
-
-
-		## For keywords within double quotes
-		#if keywords.startswith('"') and keywords.endswith('"'):
-		#	routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(info__icontains=keywords)
-		#	routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(info__icontains=keywords)
-		#
-		## For keywords without double quotes 
-		#else:			
-		#	keyword_array = keywords.split(' ')
-		#	formatted_keyword_array = []
-		#	for word in keyword_array:
-		#		formatted_keyword_array.append(word.strip())
-		#
-		#	queries = [Q(info__icontains=word) for word in formatted_keyword_array]
-		#	query = queries.pop()
-		#	
-		#	# The query is made by ANDing the keywords (doing OR produces way too many results)
-		#	for item in queries:
-		#	    query &= item
-		#
-		#	routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(query)
-		#	routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(query)
-			
-		#routines = list(chain(routines_le_driver, routines_le_computational))
-		#notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_driver, routines_le_computational)))
-		#context = {
-		#	'form': ProblemForm(), 
-		#	'formAdvanced': AdvancedForm(), 
-		#	'scriptForm': scriptForm(), 
-		#	'keywords': keywords, 
-		#	'results': routines, 
-		#	'notSelectedRoutines': notSelectedRoutines, 
-		#	'selectedRoutines': request.session['selectedRoutines'],
-		#	'scriptCode': request.session['userScript'],
-		#	'scriptOutput': request.session['scriptOutput'], 
-		#	'codeTemplate': getCodeTempate(request.session.session_key) 
-		#}
-		#return render_to_response(
-		#	'lighthouse/lapack_le/keywordResult.html', 
-		#	{'KeywordTab': True}, 
-		#	context_instance=RequestContext(request, context)
-		#)
 		else:
 			HttpResponse("Error!")
 
