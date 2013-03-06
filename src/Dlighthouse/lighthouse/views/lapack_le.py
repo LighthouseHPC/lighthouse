@@ -804,6 +804,7 @@ special_words = {
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
 		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solve a system of linear equations'],
+		'multiStrings': ['LU factorization', 'error bound', 'condition number', 'LU decomposition']
 	}
 
 
@@ -1008,8 +1009,8 @@ def keywordResult(request):
 			print keywordsList
 				
 			## make a string out of keywordsList
-			for item in keywordsList:
-				keywords += item+" "
+			keywords = " ".join(keywordsList)
+			print keywords
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
