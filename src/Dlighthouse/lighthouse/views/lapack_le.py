@@ -803,26 +803,26 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
+		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solve a system of linear equations'],
 	}
 
 
 
 
 def quoted_words(string):
-	matches=re.findall(r'\"(.+?)\"',string)
+	matches=re.findall(r'\"(.+?)\"', string)
 	return matches
 	
 
 
 def spell_check(word):
 	word = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', word)
-	if word== 'spd':
-		word= 'SPD'
-	elif word== 'hpd':
-		word= 'HPD'
-	elif word== 'lu' or word== 'LU':
-		word= 'LU'
+	if word == 'spd':
+		word = 'SPD'
+	elif word == 'hpd':
+		word = 'HPD'
+	elif word in ['LU', 'lu', 'Lu', 'lU']:
+		word = 'LU'
 	else: 	
 		word= correct(word)
 	return word
@@ -830,7 +830,8 @@ def spell_check(word):
 
 	
 def keyword_handler(string):
-	string = re.sub(r'\bsolve .*? li.*? equations\b', 'solve a system of linear equations', string)
+	string = re.sub(r'\bs.*? linear eq.*?\b', 'solve a system of linear equations', string)
+	string = re.sub(r'\berror b.*?\b', 'error bound', string)
 	string = re.sub(r'\bfactor.*?\b', 'factor', string)
 	string = re.sub(r'\bLU f.*?\b', 'LU factorization', string)
 	string = re.sub(r'\bequilib.*?\b', 'equilibrate', string)
@@ -840,6 +841,27 @@ def keyword_handler(string):
 	string = re.sub(r'\bband.*?\b', 'band', string)
 	string = re.sub(r'\bpack.*?\b', 'packed', string)
 	return string	
+
+
+
+
+###------- set up keywords_dictionary to use proper model names--------###
+def keyword_handler2(keywords_dictionary):
+	for i, item in enumerate(keywords_dictionary['table']):
+		if item == 'condition number':
+			keywords_dictionary['table'][i] = item.replace(item, 'condition_number')
+		if item == 'error bound':
+			keywords_dictionary['table'][i] = item.replace(item, 'error_bound')
+		if item == 'solve a system of linear equations' or item == 'solve linear equations':
+			keywords_dictionary['table'][i] = item.replace(item, 'solve')
+	for i, item in enumerate(keywords_dictionary['matrixType']):
+		if item == 'symmetric positive definite':
+			keywords_dictionary['matrixType'][i] = item.replace(item, 'SPD')
+		if item == 'Hermitian positive definite':
+			keywords_dictionary['matrixType'][i] = item.replace(item, 'HPD')
+	return keywords_dictionary	
+
+
 
 
 
@@ -860,9 +882,6 @@ def kwDictionary_set(keywords_dictionary):
 		value = "lapack_le_"+value
 		tableClass = ContentType.objects.get(model=value).model_class()
 		keywords_dictionary['table'][i] = tableClass
-		
-	if keywords_dictionary['matrixType']==[]:
-		keywords_dictionary['matrixType']= ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD']
 		
 	if keywords_dictionary['storageType']==[]:
 		keywords_dictionary['storageType'] = ['full']
@@ -985,8 +1004,8 @@ def keywordResult(request):
 						item = item.replace(word, spell_check(word))
 					keywordsList.append(keyword_handler(item))
 				else:
-					keywordsList.append(keyword_handler(correct(item)))		
-			#print keywordsList
+					keywordsList.append(keyword_handler(item))		
+			print keywordsList
 				
 			## make a string out of keywordsList
 			for item in keywordsList:
@@ -994,6 +1013,7 @@ def keywordResult(request):
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
+			#print common
 			
 			###***** make a dictionary for the keywords for django query *****###
 			sumList = []
@@ -1001,25 +1021,13 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
+			#print keywords_dictionary
 			
-			
-			###***** if problem is unknown, search with Haystack; otherwise, use django query or both *****###
-			if not any([keywords_dictionary[i] == [] for i in keywords_dictionary]):
+			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
-				## set up the dictionary values ##
-				for i, item in enumerate(keywords_dictionary['table']):
-					if item == 'condition number':
-						keywords_dictionary['table'][i] = item.replace('condition number', 'condition_number')
-					if item == 'error bound':
-						keywords_dictionary['table'][i] = item.replace('error bound', 'error_bound')
-				for i, item in enumerate(keywords_dictionary['matrixType']):
-					if item == 'symmetric positive definite':
-						keywords_dictionary['matrixType'][i] = item.replace('symmetric positive definite', 'SPD')
-					if item == 'Hermitian positive definite':
-						keywords_dictionary['matrixType'][i] = item.replace('Hermitian positive definite', 'HPD')
-				print keywords_dictionary
+				keywords_dictionary = keyword_handler2(keywords_dictionary)
 				keywords_dictionary = kwDictionary_set(keywords_dictionary)
-				results = query_django(keywords_dictionary)	
+				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
 				results = query_haystack(keywords, answer_class)
@@ -1033,50 +1041,6 @@ def keywordResult(request):
 				{'KeywordTab': True}, 
 				context_instance=RequestContext(request, context)
 			)
-			
-
-
-		## For keywords within double quotes
-		#if keywords.startswith('"') and keywords.endswith('"'):
-		#	routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(info__icontains=keywords)
-		#	routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(info__icontains=keywords)
-		#
-		## For keywords without double quotes 
-		#else:			
-		#	keyword_array = keywords.split(' ')
-		#	formatted_keyword_array = []
-		#	for word in keyword_array:
-		#		formatted_keyword_array.append(word.strip())
-		#
-		#	queries = [Q(info__icontains=word) for word in formatted_keyword_array]
-		#	query = queries.pop()
-		#	
-		#	# The query is made by ANDing the keywords (doing OR produces way too many results)
-		#	for item in queries:
-		#	    query &= item
-		#
-		#	routines_le_driver = SearchQuerySet().models(lapack_le_driver).filter(query)
-		#	routines_le_computational = SearchQuerySet().models(lapack_le_computational).filter(query)
-			
-		#routines = list(chain(routines_le_driver, routines_le_computational))
-		#notSelectedRoutines = filterSelectedRoutines2(request, list(chain(routines_le_driver, routines_le_computational)))
-		#context = {
-		#	'form': ProblemForm(), 
-		#	'formAdvanced': AdvancedForm(), 
-		#	'scriptForm': scriptForm(), 
-		#	'keywords': keywords, 
-		#	'results': routines, 
-		#	'notSelectedRoutines': notSelectedRoutines, 
-		#	'selectedRoutines': request.session['selectedRoutines'],
-		#	'scriptCode': request.session['userScript'],
-		#	'scriptOutput': request.session['scriptOutput'], 
-		#	'codeTemplate': getCodeTempate(request.session.session_key) 
-		#}
-		#return render_to_response(
-		#	'lighthouse/lapack_le/keywordResult.html', 
-		#	{'KeywordTab': True}, 
-		#	context_instance=RequestContext(request, context)
-		#)
 		else:
 			HttpResponse("Error!")
 

@@ -1,0 +1,174 @@
+javed@Europa:~/Desktop$ make petscmetadataut
+/home/javed/Desktop/petsc-3.3-p5/petsc/bin/mpicc -o petscmetadataut.o -c -fPIC -Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -g3 -fno-inline -O0 -I/home/javed/Desktop/petsc-3.3-p5/include -I/home/javed/Desktop/petsc-3.3-p5/petsc/include -D__INSDIR__= petscmetadataut.c
+petscmetadataut.c: In function ‘PetscMetadataInit’:
+petscmetadataut.c:27:2: warning: passing argument 2 of ‘strcmp’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscerror.h:8:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsys.h:1427,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscis.h:7,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscvec.h:9,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscmat.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscdm.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/usr/include/string.h:143:12: note: expected ‘const char *’ but argument is of type ‘PetscErrorCode (*)(void)’
+petscmetadataut.c:27:2: warning: passing argument 1 of ‘strcmp’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscerror.h:8:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsys.h:1427,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscis.h:7,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscvec.h:9,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscmat.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscdm.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/usr/include/string.h:143:12: note: expected ‘const char *’ but argument is of type ‘PetscErrorCode (*)(void)’
+petscmetadataut.c: In function ‘MetadataSetEvent’:
+petscmetadataut.c:46:4: warning: passing argument 2 of ‘strcmp’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscerror.h:8:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsys.h:1427,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscis.h:7,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscvec.h:9,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscmat.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscdm.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/usr/include/string.h:143:12: note: expected ‘const char *’ but argument is of type ‘PetscErrorCode (*)(char *)’
+petscmetadataut.c:46:4: warning: passing argument 1 of ‘strcmp’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscerror.h:8:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsys.h:1427,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscis.h:7,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscvec.h:9,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscmat.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscdm.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/usr/include/string.h:143:12: note: expected ‘const char *’ but argument is of type ‘PetscErrorCode (*)(char *)’
+petscmetadataut.c: In function ‘SNESMonitorMetadata’:
+petscmetadataut.c:73:3: warning: passing argument 2 of ‘strcmp’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscerror.h:8:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsys.h:1427,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscis.h:7,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscvec.h:9,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscmat.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscdm.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/usr/include/string.h:143:12: note: expected ‘const char *’ but argument is of type ‘PetscErrorCode (*)(struct _p_SNES *, PetscInt,  PetscReal,  void *)’
+petscmetadataut.c:73:3: warning: passing argument 1 of ‘strcmp’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscerror.h:8:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsys.h:1427,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscis.h:7,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscvec.h:9,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscmat.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscdm.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/usr/include/string.h:143:12: note: expected ‘const char *’ but argument is of type ‘PetscErrorCode (*)(struct _p_SNES *, PetscInt,  PetscReal,  void *)’
+petscmetadataut.c:75:3: warning: passing argument 2 of ‘SNESGetType’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:2:0:
+/home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:144:29: note: expected ‘const char **’ but argument is of type ‘char **’
+petscmetadataut.c:79:3: warning: passing argument 2 of ‘PCGetType’ from incompatible pointer type [enabled by default]
+In file included from /home/javed/Desktop/petsc-3.3-p5/include/petscksp.h:6:0,
+                 from /home/javed/Desktop/petsc-3.3-p5/include/petscsnes.h:6,
+                 from petscmetadataut.c:2:
+/home/javed/Desktop/petsc-3.3-p5/include/petscpc.h:187:29: note: expected ‘const char **’ but argument is of type ‘char **’
+petscmetadataut.c:109:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:112:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:116:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:123:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:135:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:142:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:155:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:162:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:169:5: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c: In function ‘PetscMetadataAddDouble’:
+petscmetadataut.c:272:3: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:273:3: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:274:3: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c: In function ‘MatComputePropertiesVariance’:
+petscmetadataut.c:291:3: warning: implicit declaration of function ‘MatrixComputeQuantity’ [-Wimplicit-function-declaration]
+petscmetadataut.c:292:3: warning: passing argument 1 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:292:3: warning: passing argument 3 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:295:3: warning: passing argument 1 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:295:3: warning: passing argument 3 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:298:3: warning: passing argument 1 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:298:3: warning: passing argument 3 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:301:3: warning: passing argument 1 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:301:3: warning: passing argument 3 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:304:3: warning: passing argument 1 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c:304:3: warning: passing argument 3 of ‘PetscMetadataAddDouble’ discards ‘const’ qualifier from pointer target type [enabled by default]
+petscmetadataut.c:269:16: note: expected ‘char *’ but argument is of type ‘const char *’
+petscmetadataut.c: In function ‘MatComputePropertiesAll’:
+petscmetadataut.c:348:3: warning: passing argument 1 of ‘GetCategories’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:7:0:
+/home/javed/Desktop/anamod2-petsc3.3/anamod.h:57:23: note: expected ‘int *’ but argument is of type ‘char ***’
+petscmetadataut.c:348:3: warning: passing argument 2 of ‘GetCategories’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:7:0:
+/home/javed/Desktop/anamod2-petsc3.3/anamod.h:57:23: note: expected ‘const char ***’ but argument is of type ‘int *’
+petscmetadataut.c:352:7: warning: passing argument 2 of ‘CategoryGetModules’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:7:0:
+/home/javed/Desktop/anamod2-petsc3.3/anamod.h:58:23: note: expected ‘const char ***’ but argument is of type ‘char ***’
+petscmetadataut.c:363:6: warning: passing argument 3 of ‘QuantityAsString’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:7:0:
+/home/javed/Desktop/anamod2-petsc3.3/anamod.h:106:23: note: expected ‘const char **’ but argument is of type ‘char **’
+petscmetadataut.c:367:13: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:368:13: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:370:13: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:380:6: warning: passing argument 5 of ‘ComputeQuantity’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:7:0:
+/home/javed/Desktop/anamod2-petsc3.3/anamod.h:94:23: note: expected ‘int *’ but argument is of type ‘double *’
+petscmetadataut.c:382:6: warning: passing argument 3 of ‘QuantityAsString’ from incompatible pointer type [enabled by default]
+In file included from petscmetadataut.c:7:0:
+/home/javed/Desktop/anamod2-petsc3.3/anamod.h:106:23: note: expected ‘const char **’ but argument is of type ‘char **’
+petscmetadataut.c:386:13: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:387:13: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c:389:13: warning: format not a string literal and no format arguments [-Wformat-security]
+petscmetadataut.c: In function ‘PetscMetadataAddDouble’:
+petscmetadataut.c:278:1: warning: control reaches end of non-void function [-Wreturn-type]
+/home/javed/Desktop/petsc-3.3-p5/petsc/bin/mpicc -fPIC -Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -g3 -fno-inline -O0  -o petscmetadataut petscmetadataut.o -Wl,-rpath,/home/javed/Desktop/petsc-3.3-p5/petsc/lib -L/home/javed/Desktop/petsc-3.3-p5/petsc/lib  -lpetsc -lpthread -Wl,-rpath,/home/javed/Desktop/petsc-3.3-p5/petsc/lib -lf2clapack -lf2cblas -lm -lm -ldl  
+/usr/lib/gcc/x86_64-linux-gnu/4.7/../../../x86_64-linux-gnu/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+petscmetadataut.o: In function `MatComputePropertiesVariance':
+/home/javed/Desktop/petscmetadataut.c:289: undefined reference to `RegisterVarianceModules'
+/home/javed/Desktop/petscmetadataut.c:291: undefined reference to `MatrixComputeQuantity'
+/home/javed/Desktop/petscmetadataut.c:294: undefined reference to `MatrixComputeQuantity'
+/home/javed/Desktop/petscmetadataut.c:297: undefined reference to `MatrixComputeQuantity'
+/home/javed/Desktop/petscmetadataut.c:300: undefined reference to `MatrixComputeQuantity'
+/home/javed/Desktop/petscmetadataut.c:303: undefined reference to `MatrixComputeQuantity'
+petscmetadataut.o: In function `MatComputePropertiesAll':
+/home/javed/Desktop/petscmetadataut.c:337: undefined reference to `RegisterSimpleModules'
+/home/javed/Desktop/petscmetadataut.c:338: undefined reference to `RegisterVarianceModules'
+/home/javed/Desktop/petscmetadataut.c:339: undefined reference to `RegisterStructureModules'
+/home/javed/Desktop/petscmetadataut.c:340: undefined reference to `RegisterSpectrumModules'
+/home/javed/Desktop/petscmetadataut.c:341: undefined reference to `RegisterNormalityModules'
+/home/javed/Desktop/petscmetadataut.c:342: undefined reference to `RegisterIprsModules'
+/home/javed/Desktop/petscmetadataut.c:348: undefined reference to `GetCategories'
+/home/javed/Desktop/petscmetadataut.c:351: undefined reference to `CategoryGetModules'
+/home/javed/Desktop/petscmetadataut.c:355: undefined reference to `GetDataType'
+/home/javed/Desktop/petscmetadataut.c:360: undefined reference to `ComputeQuantity'
+/home/javed/Desktop/petscmetadataut.c:363: undefined reference to `QuantityAsString'
+/home/javed/Desktop/petscmetadataut.c:379: undefined reference to `ComputeQuantity'
+/home/javed/Desktop/petscmetadataut.c:382: undefined reference to `QuantityAsString'
+collect2: error: ld returned 1 exit status
+make: [petscmetadataut] Error 1 (ignored)
+/bin/rm -f petscmetadataut.o
