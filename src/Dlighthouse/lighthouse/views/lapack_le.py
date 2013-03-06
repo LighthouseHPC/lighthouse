@@ -845,6 +845,17 @@ def keyword_handler(string):
 
 
 
+###------- add quotes to some special strings--------### 
+def quoteStrings(keywordsList):
+	for strings in special_words['multiStrings']:
+		string1 = strings.split()[0]
+		string2 = strings.split()[1]
+		if string1 in keywordsList and string2 in keywordsList:
+			index1 = keywordsList.index(string1)
+			keywordsList[index1:index1+2] = [" ".join(keywordsList[index1:index1+2])]
+	return keywordsList
+
+
 
 ###------- set up keywords_dictionary to use proper model names--------###
 def keyword_handler2(keywords_dictionary):
@@ -1007,10 +1018,14 @@ def keywordResult(request):
 				else:
 					keywordsList.append(keyword_handler(item))		
 			print keywordsList
+			
+			## combine special strings if they are not quoted in the beginning ##
+			keywordsList = quoteStrings(keywordsList)
+			print keywordsList
 				
 			## make a string out of keywordsList
 			keywords = " ".join(keywordsList)
-			print keywords
+			#print keywords
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
