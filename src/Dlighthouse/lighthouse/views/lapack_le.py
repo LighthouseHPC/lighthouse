@@ -1004,8 +1004,8 @@ def keywordResult(request):
 						item = item.replace(word, spell_check(word))
 					keywordsList.append(keyword_handler(item))
 				else:
-					keywordsList.append(keyword_handler(correct(item)))		
-			#print keywordsList
+					keywordsList.append(keyword_handler(item))		
+			print keywordsList
 				
 			## make a string out of keywordsList
 			for item in keywordsList:
@@ -1013,6 +1013,7 @@ def keywordResult(request):
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
+			#print common
 			
 			###***** make a dictionary for the keywords for django query *****###
 			sumList = []
@@ -1020,7 +1021,7 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			print keywords_dictionary
+			#print keywords_dictionary
 			
 			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
