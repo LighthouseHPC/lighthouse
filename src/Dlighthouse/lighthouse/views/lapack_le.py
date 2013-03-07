@@ -803,7 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solve a system of linear equations'],
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solve a system of linear equations'],
 		'multiStrings': ['LU factorization', 'error bound', 'condition number', 'LU decomposition']
 	}
 
@@ -833,7 +833,6 @@ def spell_check(word):
 def keyword_handler(string):
 	string = re.sub(r'\bs.*? linear eq.*?\b', 'solve a system of linear equations', string)
 	string = re.sub(r'\berror b.*?\b', 'error bound', string)
-	string = re.sub(r'\bfactor.*?\b', 'factor', string)
 	string = re.sub(r'\bLU f.*?\b', 'LU factorization', string)
 	string = re.sub(r'\bequilib.*?\b', 'equilibrate', string)
 	string = re.sub(r'\binv.*?t.*?\b', 'invert', string)
@@ -860,6 +859,8 @@ def quoteStrings(keywordsList):
 ###------- set up keywords_dictionary to use proper model names--------###
 def keyword_handler2(keywords_dictionary):
 	for i, item in enumerate(keywords_dictionary['table']):
+		if item == 'factorization':
+			keywords_dictionary['table'][i] = item.replace(item, 'factor')
 		if item == 'condition number':
 			keywords_dictionary['table'][i] = item.replace(item, 'condition_number')
 		if item == 'error bound':
@@ -999,7 +1000,7 @@ def keywordResult(request):
 			answer_class = form.cleaned_data['models']
 			
 			keywords_orig = request.GET['q']
-			print keywords_orig
+			print 'keywords_orig = ', keywords_orig
 			
 			## Don't split double-quoted words ##
 			keywords_origList = shlex.split(keywords_orig)
@@ -1016,12 +1017,12 @@ def keywordResult(request):
 						item = item.replace(word, spell_check(word))
 					keywordsList.append(keyword_handler(item))
 				else:
-					keywordsList.append(keyword_handler(item))		
-			print keywordsList
+					keywordsList.append(keyword_handler(spell_check(item)))		
+			print 'keywordsList after spell check and keyword_handler: ', keywordsList
 			
 			## combine special strings if they are not quoted in the beginning ##
 			keywordsList = quoteStrings(keywordsList)
-			print keywordsList
+			print 'keywordsList with quotes: ', keywordsList
 				
 			## make a string out of keywordsList
 			keywords = " ".join(keywordsList)
