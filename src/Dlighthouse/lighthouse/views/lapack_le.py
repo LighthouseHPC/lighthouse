@@ -803,7 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solution'],
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solution', 'solver'],
 	}
 
 
@@ -831,6 +831,7 @@ def spell_check(word):
 	
 def keyword_handler(strings):
 	strings = re.sub(r'\bli.*? eq.*?\b', 'linear equations', strings)
+	strings = re.sub(r'\blinear equations s.*?ver\b', 'linear equations solver', strings)
 	strings = re.sub(r'\bsys.*? linear eq.*?\b', 'system of linear equations', strings)
 	strings = re.sub(r'\berror b.*?\b', '\"'+'error bound'+'\"', strings)
 	strings = re.sub(r'\bcondition n.*?\b', '\"'+'condition number'+'\"', strings)
@@ -859,7 +860,7 @@ def keyword_handler2(keywords_dictionary):
 			keywords_dictionary['table'][i] = item.replace(item, 'condition_number')
 		if item == 'error bound':
 			keywords_dictionary['table'][i] = item.replace(item, 'error_bound')
-		if item in ['solution', 'solve'] and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
+		if item in ['solution', 'solve', 'solver'] and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
 			keywords_dictionary['table'][i] = item.replace(item, 'solve')
 	for i, item in enumerate(keywords_dictionary['matrixType']):
 		if item == 'symmetric positive definite':
