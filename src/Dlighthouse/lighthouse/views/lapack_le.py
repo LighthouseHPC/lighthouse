@@ -830,11 +830,12 @@ def spell_check(word):
 
 	
 def keyword_handler(strings):
-	strings = re.sub(r'\bli.*? eq.*?\b', '\"'+'system of linear equations'+'\"', strings)
+	strings = re.sub(r'\bli.*? eq.*?\b', 'linear equations', strings)
+	strings = re.sub(r'\bsys.*? linear eq.*?\b', 'system of linear equations', strings)
 	strings = re.sub(r'\berror b.*?\b', '\"'+'error bound'+'\"', strings)
 	strings = re.sub(r'\bcondition n.*?\b', '\"'+'condition number'+'\"', strings)
 	strings = re.sub(r'\bLU fact.*?\b', '\"'+'LU factorization'+'\"', strings)
-	strings = re.sub(r'\bC.*?ky fact.*?\b', '\"'+'Cholesky factorization'+'\"', strings)
+	strings = re.sub(r'\bCh.*?ky fact.*?\b', '\"'+'Cholesky factorization'+'\"', strings)
 	strings = re.sub(r'\bLU decomp.*?\b', '\"'+'LU decomposition'+'\"', strings)
 	strings = re.sub(r'\bequilib.*?\b', 'equilibrate', strings)
 	strings = re.sub(r'\binv.*?t.*?\b', 'invert', strings)
@@ -993,11 +994,9 @@ def keywordResult(request):
 			answer_class = form.cleaned_data['models']
 			
 			keywords_orig = request.GET['q']
-			print 'keywords_orig = ', keywords_orig
 			
 			## Don't split double-quoted words ##
 			keywords_origList = shlex.split(keywords_orig)
-			print keywords_origList
 			
 			## split all words ##
 			keywords_singleList = keywords_orig.split()
@@ -1006,20 +1005,19 @@ def keywordResult(request):
 			for i, item in enumerate(keywords_singleList):
 				keywords_singleList[i] = spell_check(item)	
 				
-			## make a string out of keywordsList
+			## make a string out of keywordsList ##
 			keywords = " ".join(keywords_singleList)
 			
-			## keywords goes through keyword_handler
+			## keywords goes through keyword_handler ##
 			keywords = keyword_handler(keywords)
-			print keywords
 			
 			## final keywordsList, Don't split double-quoted words
 			keywordsList = shlex.split(keywords)
-			print keywordsList
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
 			#print common
+			
 			
 			###***** make a dictionary for the keywords for django query *****###
 			sumList = []
@@ -1036,9 +1034,6 @@ def keywordResult(request):
 				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
-				## remove quotes from keywords ##
-				keywords = keywords.replace('\"', '')
-				print keywords
 				results = query_haystack(keywords, answer_class)
 				#spelling_suggestion = sqs.spelling_suggestion()
 				#print spelling_suggestion
