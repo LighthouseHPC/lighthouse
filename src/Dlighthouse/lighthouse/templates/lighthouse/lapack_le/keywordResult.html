@@ -1,6 +1,7 @@
 <!-- ########### Keyword search result: ###########-->
 {% extends "dojango/base.html" %}
 {% load highlight %}
+{% load lighthouse_custom_filters %}
 {% block dojango_content_search_result %}
 
 <div id="title-div">
@@ -12,13 +13,21 @@
 			<td style="text-align:left">
 				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for
 				<span style="text-decoration:underline; color:blue">
-					{% for word in keywordsList %}
-						{% if word not in common %}
-							<i><b>{{ word }}</b></i>
-						{% else %}
-							{{ word }}
-						{% endif %}
-					{% endfor %}
+                                        {% for word in keywordsList %}
+                                                {% if word not in common %}
+							{% if word|contains:" " %}
+								<i><b>"{{ word }}"</b></i>
+							{% else %}
+								<i><b>{{ word }}</b></i>
+							{% endif %}
+                                                {% else %}
+							{% if word|contains:" " %}
+								<b>"{{ word }}"</b>
+							{% else %}
+								<b>{{ word }}</b>
+							{% endif %}
+                                                {% endif %}
+                                        {% endfor %}
 				</span>:
 			</td>
 		</tr>
