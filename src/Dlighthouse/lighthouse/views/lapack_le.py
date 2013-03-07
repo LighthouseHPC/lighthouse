@@ -803,8 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solve a system of linear equations'],
-		'multiStrings': ['LU factorization', 'error bound', 'condition number', 'LU decomposition']
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
 	}
 
 
@@ -830,29 +829,23 @@ def spell_check(word):
 
 
 	
-def keyword_handler(string):
-	string = re.sub(r'\bs.*? linear eq.*?\b', 'solve a system of linear equations', string)
-	string = re.sub(r'\berror b.*?\b', 'error bound', string)
-	string = re.sub(r'\bLU f.*?\b', 'LU factorization', string)
-	string = re.sub(r'\bequilib.*?\b', 'equilibrate', string)
-	string = re.sub(r'\binv.*?t.*?\b', 'invert', string)
-	string = re.sub(r'\bverse.*?\b', 'invert', string)
-	string = re.sub(r'\bhermitian.*?\b', 'Hermitian', string)
-	string = re.sub(r'\bband.*?\b', 'band', string)
-	string = re.sub(r'\bpack.*?\b', 'packed', string)
-	return string	
+def keyword_handler(strings):
+	strings = re.sub(r'\bli.*? eq.*?\b', '\"'+'system of linear equations'+'\"', strings)
+	strings = re.sub(r'\berror b.*?\b', '\"'+'error bound'+'\"', strings)
+	strings = re.sub(r'\bcondition n.*?\b', '\"'+'condition number'+'\"', strings)
+	strings = re.sub(r'\bLU f.*?\b', '\"'+'LU factorization'+'\"', strings)
+	strings = re.sub(r'\bC.*?ky factorization\b', '\"'+'Cholesky factorization'+'\"', strings)
+	strings = re.sub(r'\bLU decomp.*?\b', '\"'+'LU decomposition'+'\"', strings)
+	strings = re.sub(r'\bequilib.*?\b', 'equilibrate', strings)
+	strings = re.sub(r'\binv.*?t.*?\b', 'invert', strings)
+	strings = re.sub(r'\bverse.*?\b', 'invert', strings)
+	strings = re.sub(r'\bhermitian.*?\b', 'Hermitian', strings)
+	strings = re.sub(r'\bHermitian p.*? def.*?\b', '\"'+'Hermitian positive definite'+'\"', strings)
+	strings = re.sub(r'\bband.*?\b', 'band', strings)
+	strings = re.sub(r'\bpack.*?\b', 'packed', strings)
+	return strings	
 
 
-
-###------- add quotes to some special strings--------### 
-def quoteStrings(keywordsList):
-	for strings in special_words['multiStrings']:
-		string1 = strings.split()[0]
-		string2 = strings.split()[1]
-		if string1 in keywordsList and string2 in keywordsList:
-			index1 = keywordsList.index(string1)
-			keywordsList[index1:index1+2] = [" ".join(keywordsList[index1:index1+2])]
-	return keywordsList
 
 
 
@@ -1004,29 +997,25 @@ def keywordResult(request):
 			
 			## Don't split double-quoted words ##
 			keywords_origList = shlex.split(keywords_orig)
-			#print keywords_origList
+			print keywords_origList
 			
-			## find quoted words and put them in a list ##
-			quoted_wordsList = quoted_words(keywords_orig)
+			## split all words ##
+			keywords_singleList = keywords_orig.split()
 			
-			## spell check and keyword_handler ##
-			keywordsList = []
-			for i, item in enumerate(keywords_origList):
-				if item in quoted_wordsList:
-					for word in item.split():
-						item = item.replace(word, spell_check(word))
-					keywordsList.append(keyword_handler(item))
-				else:
-					keywordsList.append(keyword_handler(spell_check(item)))		
-			print 'keywordsList after spell check and keyword_handler: ', keywordsList
-			
-			## combine special strings if they are not quoted in the beginning ##
-			keywordsList = quoteStrings(keywordsList)
-			print 'keywordsList with quotes: ', keywordsList
+			## spell check ##
+			for i, item in enumerate(keywords_singleList):
+				keywords_singleList[i] = spell_check(item)	
 				
 			## make a string out of keywordsList
-			keywords = " ".join(keywordsList)
-			#print keywords
+			keywords = " ".join(keywords_singleList)
+			
+			## keywords goes through keyword_handler
+			keywords = keyword_handler(keywords)
+			print keywords
+			
+			## final keywordsList, Don't split double-quoted words
+			keywordsList = shlex.split(keywords)
+			print keywordsList
 			
 			## find the words that are not corrected ##
 			common = list(set(keywords_origList) & set(keywordsList))
@@ -1047,6 +1036,9 @@ def keywordResult(request):
 				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
+				## remove quotes from keywords ##
+				keywords = keywords.replace('\"', '')
+				print keywords
 				results = query_haystack(keywords, answer_class)
 				#spelling_suggestion = sqs.spelling_suggestion()
 				#print spelling_suggestion
