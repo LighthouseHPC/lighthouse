@@ -803,7 +803,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal'],
-		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve'],
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solution'],
 	}
 
 
@@ -859,7 +859,7 @@ def keyword_handler2(keywords_dictionary):
 			keywords_dictionary['table'][i] = item.replace(item, 'condition_number')
 		if item == 'error bound':
 			keywords_dictionary['table'][i] = item.replace(item, 'error_bound')
-		if item == 'solve a system of linear equations' or item == 'solve linear equations':
+		if item in ['solution', 'solve'] and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
 			keywords_dictionary['table'][i] = item.replace(item, 'solve')
 	for i, item in enumerate(keywords_dictionary['matrixType']):
 		if item == 'symmetric positive definite':
@@ -1025,7 +1025,7 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			#print keywords_dictionary
+			print keywords_dictionary
 			
 			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
