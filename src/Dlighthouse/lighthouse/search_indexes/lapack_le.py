@@ -1,12 +1,11 @@
 import datetime
 from haystack import indexes
-
 from lighthouse.models.lapack_le import lapack_le_driver, lapack_le_computational
 
 
 
 
-class lapack_le_driverIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
+class lapack_le_driverIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True) 
     thePrecision = indexes.CharField(model_attr='thePrecision')
     routineName = indexes.CharField(model_attr='routineName')
@@ -20,7 +19,7 @@ class lapack_le_driverIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
 
 
 
-class lapack_le_computationalIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
+class lapack_le_computationalIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True) 
     thePrecision = indexes.CharField(model_attr='thePrecision')
     routineName = indexes.CharField(model_attr='routineName')

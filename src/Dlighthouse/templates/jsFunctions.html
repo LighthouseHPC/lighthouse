@@ -1514,4 +1514,25 @@
 		if(content.length > 0)			
 			window.location = '/lapack_le/downloadCFile/';
 	}
+
+	/*--------------------------------------------------------------------------------- */	
+	/* --------------------------------- For PETSc ------------------------------ */
+	/*--------------------------------------------------------------------------------- */
+
+	function upload_mat_changed(){
+		var combo = document.getElementById("upload_mat");
+		var txt = combo.options[combo.selectedIndex].text;
+
+		if(txt == ""){
+			document.getElementById("file").disabled = true;
+			document.getElementById("mat_props").disabled = true;
+		} else if(txt == "Yes"){
+			document.getElementById("file").disabled = false;
+			document.getElementById("mat_props").disabled = true;
+		} else if(txt == "No"){
+			document.getElementById("file").disabled = true;
+			document.getElementById("mat_props").disabled = false;
+		}
+	}
+
 </script>

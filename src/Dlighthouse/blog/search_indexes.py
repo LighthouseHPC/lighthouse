@@ -7,7 +7,7 @@ from blog.models import Post, Comment
 """ This indicates to both Haystack and the search engine about which field is the primary field for searching within. """
 """ RealTimeSearchIndex will automatically update the index when a Post and Comment are created or changed. """
 
-class PostIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
+class PostIndex(indexes.SearchIndex, indexes.Indexable):
     """ Note: the text field is enough to do a full-text search """
     """ The other fields are only for further filtering the search results. """
     text = indexes.CharField(document=True, use_template=True)
@@ -30,7 +30,7 @@ class PostIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
     #    return [a for a in obj.comment_set.all()]
     
     
-class CommentIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
+class CommentIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     created = indexes.DateTimeField(model_attr='created')
     title = indexes.CharField(model_attr='title')
