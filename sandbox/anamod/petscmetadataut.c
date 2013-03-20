@@ -2,10 +2,10 @@
 #include "petscsnes.h"
 #include "petscmetadataut.h"
 
-#include "/home/javed/Desktop/petsc-3.3-p5/include/petsc-private/matimpl.h"
-#include "/home/javed/Desktop/petsc-3.3-p5/include/petsc-private/snesimpl.h"
-#include "/home/javed/Desktop/anamod2-petsc3.3/anamod.h"
-#include "/home/javed/Desktop/anamod2-petsc3.3/anamodsalsamodules.h"
+#include "petsc-private/matimpl.h"
+#include "petsc-private/snesimpl.h"
+#include "anamod.h"
+#include "anamodsalsamodules.h"
 
 // #include "Profile/TauAPI.h"
 // #include <TAU.h>
@@ -266,7 +266,7 @@ PetscErrorCode PetscMetadataFini(void)
 
 #undef __FUNCT__
 #define __FUNCT__ "PetscMetadataAddDouble"
-PetscErrorCode PetscMetadataAddDouble(char *category, char *event, char *name, double val) {
+PetscErrorCode PetscMetadataAddDouble(const char *category, char *event, const char *name, double val) {
   int index;
   index = PMetadataObject.num;
   sprintf(PMetadataObject.PetscMetadataTable[index].category, category);
@@ -288,19 +288,19 @@ PetscErrorCode MatComputePropertiesVariance(Mat A, char *event) {
   
   ierr = RegisterVarianceModules(); CHKERRQ(ierr);
 
-  ierr = MatrixComputeQuantity(A,"variance","row-variability",(AnalysisItem*)&res,&l,&flg);
+  ierr = ComputeQuantity(A,"variance","row-variability",(AnalysisItem*)&res,&l,&flg);
   if (flg) PetscMetadataAddDouble("MatrixProperty",event,"row-variability",res.r);
 
-  ierr = MatrixComputeQuantity(A,"variance","col-variability",(AnalysisItem*)&res,&l,&flg);
+  ierr = ComputeQuantity(A,"variance","col-variability",(AnalysisItem*)&res,&l,&flg);
   if (flg) PetscMetadataAddDouble("MatrixProperty",event,"col-variability",res.r);
 
-  ierr = MatrixComputeQuantity(A,"variance","diagonal-variance",(AnalysisItem*)&res,&l,&flg);
+  ierr = ComputeQuantity(A,"variance","diagonal-variance",(AnalysisItem*)&res,&l,&flg);
   if (flg) PetscMetadataAddDouble("MatrixProperty",event,"diagonal-variance",res.r);
 
-  ierr = MatrixComputeQuantity(A,"variance","diagonal-average",(AnalysisItem*)&res,&l,&flg);
+  ierr = ComputeQuantity(A,"variance","diagonal-average",(AnalysisItem*)&res,&l,&flg);
   if (flg) PetscMetadataAddDouble("MatrixProperty",event,"diagonal-average",res.r);
 
-  ierr = MatrixComputeQuantity(A,"variance","diagonal-sign",(AnalysisItem*)&res,&l,&flg);
+  ierr = ComputeQuantity(A,"variance","diagonal-sign",(AnalysisItem*)&res,&l,&flg);
   if (flg) PetscMetadataAddDouble("MatrixProperty",event,"diagonal-sign",res.r);
 
   PetscFunctionReturn(0);
@@ -327,7 +327,7 @@ PetscErrorCode MatComputePropertiesVariance(Mat A, char *event) {
 @*/
 int MatComputePropertiesAll(Mat A) {
   PetscBool flg;
-  int ncat,nmod,icat,imod; char **cat,**mod;
+  int ncat,nmod,icat,imod; const char **cat,**mod;
   PetscErrorCode ierr;
   int indx;
   
@@ -345,22 +345,22 @@ int MatComputePropertiesAll(Mat A) {
   /*
    * Compute all available properties of the matrix
    */
-  ierr = GetCategories(&cat,&ncat); CHKERRQ(ierr);
+  ierr = GetCategories(&ncat,&cat); CHKERRQ(ierr);
   for (icat=0; icat<ncat; icat++) {
     AnalysisDataType *types;
     ierr = CategoryGetModules
       (cat[icat],&mod,&types,PETSC_NULL,&nmod); CHKERRQ(ierr);
     for (imod=0; imod<nmod; imod++) {
-      AnalysisDataType type; char *string;
+      AnalysisDataType type; const char *string;
       ierr = GetDataType(cat[icat],mod[imod],&type, NULL); CHKERRQ(ierr);
+      AnalysisItem result;
       switch (type) {
       case ANALYSISINTEGER : 
 	{
-	  int res, reslen;
 	  ierr = ComputeQuantity
-	    (A,cat[icat],mod[imod],(AnalysisItem*)&res,&reslen,&flg); CHKERRQ(ierr);
+	    (A,cat[icat],mod[imod],&result,NULL,&flg); CHKERRQ(ierr);
 	  if (flg) {
-	    ierr = QuantityAsString((void*)&res,type,&string); CHKERRQ(ierr);
+	    ierr = QuantityAsString(&result,type,&string); CHKERRQ(ierr);
 	    printf("Computed <%s:%s> as <%s>\n",cat[icat],mod[imod],string);
             /* Update metadata */
             sprintf(PMetadataObject.PetscMetadataTable[indx].category, "MatrixProperties");
@@ -375,11 +375,10 @@ int MatComputePropertiesAll(Mat A) {
 	break;
       case ANALYSISDOUBLE :
 	{
-	  double res,reslen;
 	  ierr = ComputeQuantity
-	    (A,cat[icat],mod[imod],(AnalysisItem*)&res,&reslen,&flg); CHKERRQ(ierr);
+	    (A,cat[icat],mod[imod],&result,NULL,&flg); CHKERRQ(ierr);
 	  if (flg) {
-	    ierr = QuantityAsString((void*)&res,type,&string); CHKERRQ(ierr);
+	    ierr = QuantityAsString(&result,type,&string); CHKERRQ(ierr);
 	    printf("Computed <%s:%s> as <%s>\n",cat[icat],mod[imod],string);
             /* Update metadata */
             sprintf(PMetadataObject.PetscMetadataTable[indx].category, "MatrixProperties");
@@ -439,4 +438,7 @@ int MatComputePropertiesAll(Mat A) {
   PMetadataObject.num=indx;
 
   PetscFunctionReturn(0);
+}
+
+int main() {
 }
