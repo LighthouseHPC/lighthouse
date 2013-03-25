@@ -1,0 +1,53 @@
+        PROGRAM TEMP_dgesv 
+            IMPLICIT NONE
+
+            INTEGER                                                     :: N, NRHS, LDA, LDB, INFO
+            REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE         :: A, B
+            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_int_list
+            CHARACTER(LEN=1)                                            :: UPLO
+            REAL(kind=8), DIMENSION(:), ALLOCATABLE               :: real_1D_list 
+            
+        
+            PRINT *, "***Solve ax = b with dgesv***"
+            PRINT *, "Input the order of your square matrix. n = "
+            READ *, n
+            
+            PRINT *, "Input number of columns in b. nrhs = "
+            READ *, nrhs
+            
+            ALLOCATE(a(n,n))
+            ALLOCATE(b(n,nrhs))
+            ALLOCATE(ipiv(n))
+            
+            lda = n  ! leading dimension of a
+            ldb = n  ! leading dimension of b
+            
+            
+            ! obtain the dada of the square matrix a
+            OPEN (unit=11, file='data_zgesv.txt', status='old')
+            READ (11, *) a
+            
+            ! obtain the data of right hand side b
+            OPEN (unit=99, file='array_zgesv.txt', status='old')
+            READ (99,*) b
+            
+            ! Note: the solution is returned in b and a has been changed.
+            CALL dgesv (n, nrhs, a, lda, ipiv, b, ldb, info)
+            
+            ! write the solution
+            WRITE(*,*)
+            WRITE(*,*) 'SOLUTION: '
+            DO I = 1, N
+                WRITE(*,11100) ( b( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+                
+            WRITE(*, *) "info = ", info
+            WRITE(*, *) "Pivot indices = ", ipiv
+            
+11100       FORMAT(11(:,1X, F6.2))            
+
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+            
+            DEALLOCATE(a,b,ipiv)
+        END PROGRAM TEMP_dgesv
