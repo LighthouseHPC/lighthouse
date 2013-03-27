@@ -1,8 +1,9 @@
-        PROGRAM TEMP_dpbsv 
+        PROGRAM TEMP_dgesv 
             IMPLICIT NONE
             
-            INTEGER                                                     :: N, KD, NRHS, LDAB, LDB, INFO
-            CHARACTER(LEN=1)                                            :: UPLO
+            INTEGER                                                     :: N, NRHS, LDA, LDB, INFO
+            REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE                :: A, B
+:: UPLO
             REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE                :: AB, B
             
             PRINT *, "*********************************"
