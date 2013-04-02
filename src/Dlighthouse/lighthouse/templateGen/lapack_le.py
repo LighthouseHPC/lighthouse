@@ -77,16 +77,15 @@ class generateTemplate(object):
 
             
     def make_template(self):
-        print self.sort_parameters()
         ### --- define variables --- ###
-        with open("./lighthouse/templateGen/fortran/test.f90", "w") as f:
+        with open("./lighthouse/templateGen/fortran/test1.f90", "w") as f:
             with open("./lighthouse/templateGen/fortran/driver_simple_head.txt", "r") as f_head:
                 for line in f_head.readlines():
                     f.write(line)
         
                 
         ### --- set up input questions --- ###
-        with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
+        with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
             f.write('\n')
             f.write('\t    !--- obtain inputs ---!\n')
             for key, value in inputQ.iteritems():
@@ -96,7 +95,7 @@ class generateTemplate(object):
                     
         ### --- set up ALLOCATE and prepare for deallocate --- ###
         ALLOCATE = []
-        with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
+        with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
             f.write('\n\n')
             f.write('\t    !--- allocate matrix/array ---!\n')
             for key, value in allocate.iteritems():
@@ -109,7 +108,7 @@ class generateTemplate(object):
         ## --- read data --- ###
         for item in ALLOCATE:
             flag = 1
-            with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
+            with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
                 with open("./lighthouse/templateGen/fortran/readAB.txt", "r") as f_readAB:
                     if item == 'AB' and 'gbsv' in self.routineName:
                         for line in f_readAB.readlines():
@@ -132,7 +131,7 @@ class generateTemplate(object):
                     f.write('\n')
         
         ## --- call lapack subroutine --- ###
-        with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
+        with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
             f.write('\n')
             f.write('\t    !--- call lapack subroutine %s ---!\n'%self.routineName)
             f.write('\t    %s\n'%self.sort_parameters()['call'])
@@ -140,13 +139,13 @@ class generateTemplate(object):
             
         
         ### --- print solution --- ###
-        with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
+        with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
             with open("./lighthouse/templateGen/fortran/driver_simple_tail.txt", "r") as f_tail:
                 for line in f_tail.readlines():
                     f.write(line)
                     
                     
-        ### --- final fix --- ###
+        ### --- final fixes --- ###
         """ create a dictionary for replacing strings in the original file. """
         replaceDict = {'routineName': self.routineName,
                        'dataType': self.sort_parameters()['dataType'][0],
@@ -156,14 +155,14 @@ class generateTemplate(object):
                        'ALLOCATE_list': ','.join(ALLOCATE),
                        }
         
-        with open("./lighthouse/templateGen/fortran/final.f90", "wt") as fout:
-            with open("./lighthouse/templateGen/fortran/test.f90", "r") as fini:
+        with open("./lighthouse/templateGen/fortran/test2.f90", "wt") as fout:
+            with open("./lighthouse/templateGen/fortran/test1.f90", "r") as fini:
                 fout.write(replacemany(replaceDict, fini.read()))
                 
-        f_read = open("./lighthouse/templateGen/fortran/final.f90", "r")
+        f_read = open("./lighthouse/templateGen/fortran/test2.f90", "r")
         lines = f_read.readlines()
         f_read.close()
-        f_write = open("./lighthouse/templateGen/fortran/final2.f90","w")
+        f_write = open("./lighthouse/templateGen/fortran/temp_%s.f90"%self.routineName,"w")
         for line in lines:
             if 'array_1D_int_list' in line:
                 if self.sort_parameters()['array_1D_int']:
@@ -192,7 +191,9 @@ class generateTemplate(object):
             else:
                 f_write.write(line)
                     
-        return self.sort_parameters()
+        """ remove test files """
+        os.remove('./lighthouse/templateGen/fortran/test1.f90')
+        os.remove('./lighthouse/templateGen/fortran/test2.f90')
     
 
 
