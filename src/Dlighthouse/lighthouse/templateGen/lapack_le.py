@@ -77,21 +77,7 @@ class generateTemplate(object):
 
             
     def make_template(self):
-        #print self.sort_parameters()
-        """ create a dictionary for replacing strings in the original file. """
-        replaceDict = {'routineName': self.routineName,
-                       'dataType': self.sort_parameters()['dataType'][0],
-                       'KIND=': self.sort_parameters()['dataType'][1],
-                       'integer_list': ', '.join(self.sort_parameters()['integer']),
-                       'matrix_list': ', '.join(self.sort_parameters()['matrix']),
-                       }
-        
-        #replaceDict2 = {'array_1D_int_list': ', '.join(self.sort_parameters()['array_1D_int']),
-        #               'real_1D_list': self.sort_parameters()['real_1D'][0],
-        #               'array_1D_list': ', '.join(self.sort_parameters()['array_1D_int_list'])
-        #               }
-
-                
+        print self.sort_parameters()
         ### --- define variables --- ###
         with open("./lighthouse/templateGen/fortran/test.f90", "w") as f:
             with open("./lighthouse/templateGen/fortran/driver_simple_head.txt", "r") as f_head:
@@ -161,6 +147,15 @@ class generateTemplate(object):
                     
                     
         ### --- final fix --- ###
+        """ create a dictionary for replacing strings in the original file. """
+        replaceDict = {'routineName': self.routineName,
+                       'dataType': self.sort_parameters()['dataType'][0],
+                       'KIND=': self.sort_parameters()['dataType'][1],
+                       'integer_list': ', '.join(self.sort_parameters()['integer']),
+                       'matrix_list': ', '.join(self.sort_parameters()['matrix']),
+                       'ALLOCATE_list': ','.join(ALLOCATE),
+                       }
+        
         with open("./lighthouse/templateGen/fortran/final.f90", "wt") as fout:
             with open("./lighthouse/templateGen/fortran/test.f90", "r") as fini:
                 fout.write(replacemany(replaceDict, fini.read()))
@@ -172,7 +167,7 @@ class generateTemplate(object):
         for line in lines:
             if 'array_1D_int_list' in line:
                 if self.sort_parameters()['array_1D_int']:
-                    line = line.replace('array_1D_int', self.sort_parameters()['array_1D_int'])
+                    line = line.replace('array_1D_int_list', ', '.join(self.sort_parameters()['array_1D_int']))
                     f_write.write(line)
                 else:
                     pass
@@ -194,9 +189,6 @@ class generateTemplate(object):
                     f_write.write(line)
                 else:
                     pass
-            elif 'ALLOCATE_list' in line:
-                line = line.replace('ALLOCATE_list', ', '.join(ALLOCATE))
-                f_write.write(line)
             else:
                 f_write.write(line)
                     
