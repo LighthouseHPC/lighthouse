@@ -1182,9 +1182,7 @@
 
 	// Clear code template area and remove template file from server
 	function clearTemplateArea(){
-		Dajaxice.lighthouse.lapack_le.removeTemplateFile(Dajax.process);
-		var template = document.getElementById('div-codeTemp');
-		template.innerHTML = "";	
+		dojo.byId("template_output").innerHTML = "";	
 	}
 
 	// Check if there's any code template, allow download if template is not empty
