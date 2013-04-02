@@ -194,8 +194,8 @@ class generateTemplate(object):
         """ remove test files """
         os.remove('./lighthouse/templateGen/fortran/test1.f90')
         os.remove('./lighthouse/templateGen/fortran/test2.f90')
-    
-
+        
+        
 
 
 

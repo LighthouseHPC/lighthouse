@@ -4,10 +4,10 @@ from dajax.core import Dajax
 from dajaxice.core import dajaxice_functions
 import os
 from codeGen.templates import BTOGenerator
-
+from lighthouse.templateGen.lapack_le import generateTemplate
 
 generatedCodeTemplate_dir = './lighthouse/libraries/lapack_le/generatedCodeTemplate/'
-
+txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 
 
 @dajaxice_register
@@ -34,19 +34,28 @@ def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_
 	if selectedRoutine_ajax:
 		#delete the empty string in the selectedRoutineNames list
 		for item in filter(None, selectedRoutine_ajax):
-			innerHTMLText = "%s(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)" % item
-			dajax.script('dojo.create("div", {innerHTML: "%s"}, dojo.byId("div-codeTemp"));' % innerHTMLText)
-			f.write(innerHTMLText+"\n");
+			go = generateTemplate(item)
+			go.make_template()
+			f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
+			text = f_output.read()
+			dajax.assign("#template_output", 'innerHTML', text)
+			f_output.close()
 	else:
 		for item in selectedRoutine_session:
-			innerHTMLText = "%s(n, nrhs, &a[0][0], lda, ipiv, &b[0][0], ldb, &info)" % item
-			dajax.script('dojo.create("div", {innerHTML: "%s"}, dojo.byId("div-codeTemp"));' % innerHTMLText)
-			f.write(innerHTMLText+"\n");
-
+			go = generateTemplate(item)
+			go.make_template()
+			f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
+			text = f_output.read()			
+			dajax.assign("#template_output", 'innerHTML', text)
+			f_output.close()
+			
 	if selectedRoutine_ajax or selectedRoutine_session:
 		f.close()	
 
 	return dajax.json()
+
+
+
 
 
 
