@@ -15,6 +15,7 @@
 
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+
             
-            DEALLOCATE(a,b,ipiv)
+            DEALLOCATE(ALLOCATE_list)
         END PROGRAM TEMP_routineName

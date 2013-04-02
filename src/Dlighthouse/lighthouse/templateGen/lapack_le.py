@@ -13,13 +13,13 @@ allocate = {'IPIV': 'IPIV(N)', 'WORK': 'WORK(LWORK)',
             'A':'A(LDA,N)', 'B': 'B(LDB,NRHS)', 'AB':'AB(LDAB,N)',}
 
 inputQ = {
-        "UPLO": "PRINT *, 'Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = '\nREAD *, UPLO \n",
-        "N": "PRINT *, 'Input the order of your square matrix. N = '\nREAD *, N \n",
-        "NRHS": "PRINT *, 'Input number of columns in B. NRHS = '\nREAD *, NRHS \n",
-        "LDA": "PRINT *, 'Input leading dimension of A, LDA = '\nREAD *, LDA \n",
-        "LDB": "PRINT *, 'Input leading dimension of B, LDB = '\nREAD *, LDB \n",
-        "LDAB": "PRINT *, 'Input leading dimension of AB, LDAB = '\nREAD *, LDAB \n",
-        "KD": "PRINT *, 'Input the number of superdiagonals(or subdiagonals) of the matrix A if UPLO = 'U'(or UPLO = 'L'). KD = '\nREAD *, KD \n",
+        "UPLO": "PRINT *, 'Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = '\n\t    READ *, UPLO \n",
+        "N": "PRINT *, 'Input the order of your square matrix. N = '\n\t    READ *, N \n",
+        "NRHS": "PRINT *, 'Input number of columns in B. NRHS = '\n\t    READ *, NRHS \n",
+        "LDA": "PRINT *, 'Input leading dimension of A, LDA = '\n\t    READ *, LDA \n",
+        "LDB": "PRINT *, 'Input leading dimension of B, LDB = '\n\t    READ *, LDB \n",
+        "LDAB": "PRINT *, 'Input leading dimension of AB, LDAB = '\n\t    READ *, LDAB \n",
+        "KD": "PRINT *, 'Input the number of superdiagonals(or subdiagonals) of the matrix A if UPLO = 'U'(or UPLO = 'L'). KD = '\n\t    READ *, KD \n",
          
          }
 
@@ -102,20 +102,20 @@ class generateTemplate(object):
         ### --- set up input questions --- ###
         with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
             f.write('\n')
-            f.write('!--- obtain inputs ---!\n')
+            f.write('\t    !--- obtain inputs ---!\n')
             for key, value in inputQ.iteritems():
                 if key in self.sort_parameters()['character']+self.sort_parameters()['integer']:
-                    f.write(value)
+                    f.write('\t    '+value)
                     
                     
         ### --- set up ALLOCATE and prepare for deallocate --- ###
         ALLOCATE = []
         with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
             f.write('\n\n')
-            f.write('!--- allocate matrix/array ---!\n')
+            f.write('\t    !--- allocate matrix/array ---!\n')
             for key, value in allocate.iteritems():
                 if key in self.sort_parameters()['array_1D_int']+self.sort_parameters()['array_1D']+self.sort_parameters()['matrix']:
-                    f.write("ALLOCATE(%s) \n"%value)
+                    f.write("\t    ALLOCATE(%s) \n"%value)
                     ALLOCATE.append(key)
             f.write('\n\n')
                 
@@ -126,32 +126,30 @@ class generateTemplate(object):
             with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
                 with open("./lighthouse/templateGen/fortran/readAB.txt", "r") as f_readAB:
                     if item == 'AB' and 'gbsv' in self.routineName:
-                        f.write('!--- read data from file for %s ---!\n'%item)
                         for line in f_readAB.readlines():
-                            if line.startswith("begin AB(gbsv)"):
+                            if "begin AB(gbsv)" in line:
                                 flag = 0
-                            if line.startswith("end AB(gbsv)"):
+                            if "end AB(gbsv)" in line:
                                 flag = 1
-                            if not flag and not line.startswith("begin AB(gbsv)"):
+                            if not flag and not "begin AB(gbsv)" in line:
                                f.write(line)
                     elif item == 'IPIV':
                         pass
                     else:
-                        f.write('!--- read data from file for %s ---!\n'%item)
                         for line in f_readAB.readlines():
-                            if line.startswith("begin %s\n"%item):
+                            if "begin %s\n"%item in line:
                                 flag = 0
-                            if line.startswith("end %s\n"%item):
+                            if "end %s\n"%item in line:
                                 flag = 1
-                            if not flag and not line.startswith("begin %s\n"%item):
+                            if not flag and not "begin %s\n"%item in line:
                                f.write(line)
                     f.write('\n')
         
         ## --- call lapack subroutine --- ###
         with open("./lighthouse/templateGen/fortran/test.f90", "a") as f:
             f.write('\n')
-            f.write('!--- call lapack subroutine %s ---!\n'%self.routineName)
-            f.write('%s\n'%self.sort_parameters()['call'])
+            f.write('\t    !--- call lapack subroutine %s ---!\n'%self.routineName)
+            f.write('\t    %s\n'%self.sort_parameters()['call'])
             f.write('\n')
             
         
@@ -196,6 +194,9 @@ class generateTemplate(object):
                     f_write.write(line)
                 else:
                     pass
+            elif 'ALLOCATE_list' in line:
+                line = line.replace('ALLOCATE_list', ', '.join(ALLOCATE))
+                f_write.write(line)
             else:
                 f_write.write(line)
                     
