@@ -60,7 +60,8 @@
 											<td id="{{ item.serialNo }}" style="font-weight: bold;">{{ item.serialNo }}.</td>
 											-->
 											<td>
-												<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %}
+												<input name="routines" type="CheckBox" dojoType="dijit.form.CheckBox"
+												       {% if item.checkState == "checked" %} checked="checked" {% endif %}
 												       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
 												       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 												       onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
@@ -125,7 +126,7 @@
 				<tr style="text-align: center; width: 100%;">
 					<td id="moveup" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; background: #ccc; cursor:pointer;  width: 75px;"
 					    onClick="allRoutines_session = moveup(selectedRoutine, allRoutines_session);">
-						<lable onselectStart="return false();">Move up</lable>
+						<label onselectStart="return false();">Move up</label>
 					</td>
 					<td id="movedown" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; background: #ccc; cursor:pointer;  width: 75px;"
 					    onClick="selectedRoutine_session = closeOrderingPanel(selectedRoutine, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines); selectedRoutine = '';">
@@ -144,21 +145,21 @@
 
 		<div id="button-div">
 			<select id="selectMenu" onChange="selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);">
-		     <option value="1">Select</option>
-		     <option value="2">All</option>
-		     <option value="3">None</option>					     
+				<option value="1">Select</option>
+				<option value="2">All</option>
+				<option value="3">None</option>					     
 		 	</select>
 		 	<select id="clearMenu" onChange="clearMenuChanged();">
-		     <option value="1" selected="selected">Clear</option>
-		     <option value="2">Unchecked</option>
-		     <option value="3">Checked</option>
-		     <option value="4">All</option>					     
+				<option value="1" selected="selected">Clear</option>
+				<option value="2">Unchecked</option>
+				<option value="3">Checked</option>
+				<option value="4">All</option>					     
 		 	</select>
 		 	<select id="generateMenu" onChange="generateMenuChanged();">
-		     <option value="1" selected="selected">Generate Template</option>
-		     <option value="2">C</option>
-		     <option value="3">FORTRAN</option>
-		 	</select>
+				<option value="1" selected="selected">Generate Template</option>
+				<option value="2">C</option>
+				<option value="3">FORTRAN</option>
+			</select>
 		</div>
 	</form>
 </div>
