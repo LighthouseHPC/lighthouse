@@ -844,7 +844,7 @@
 		dojo.xhrPost( {
 			url: "/lapack_le/clear_session/",
 			content: {clearList: dojo.toJson(clearList)},
-			handleAs: "json", 
+			handleAs: "text", 
 			load: function(response){
 				console.log(response);
 			    },
