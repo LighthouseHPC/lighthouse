@@ -801,18 +801,58 @@
 	
 	// Called when user selects an option from the "Generate Template" menu (combobox)
 	function generateMenuChanged(){
-		checked_list = getCheckedRoutines();
 		/* get the checked values */
+		checked_list = getCheckedRoutines();
 		//console.log(checked_list);
 		/* get selected option */
-		//console.log(document.getElementById('generateMenu').value); 
-		if (document.getElementById('generateMenu').value == '3'){
+		//console.log(document.getElementById('generateMenu').value);
+		if (document.getElementById('generateMenu').value == '1'){
+			Dajaxice.lighthouse.lapack_le.createTemplate_C(Dajax.process, {'checked_list': checked_list});
+		}	
+		else if (document.getElementById('generateMenu').value == '2'){
 			Dajaxice.lighthouse.lapack_le.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
 		}
-		else if (document.getElementById('generateMenu').value == '2'){
-			Dajaxice.lighthouse.lapack_le.createTemplate_C(Dajax.process, {'checked_list': checked_list});
-		}		
+	
 	}
+	
+	
+	// Called when user selects an option from the "Clear" menu (combobox)
+	function clearMenuChanged(){
+		/* get the checked values */
+		checked_list = getCheckedRoutines();
+		console.log(checked_list);
+		/* get selected option */
+		//console.log(document.getElementById('clearMenu').value);
+		if (document.getElementById('clearMenu').value == '1'){
+			alert('1');
+		}
+		else if (document.getElementById('clearMenu').value == '2'){
+			alert('2');
+		}
+		else {
+			alert('3');
+		}
+		
+		
+		//var menu = document.getElementById('clearMenu');
+		//var selected = menu.options[menu.selectedIndex].text;
+		//menu.options[0].selected = true;
+		//if(selected == "Unchecked"){
+		//	
+		//	clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
+		//	uncheckedRoutines.length = 0;
+		//}			
+		//else if(selected == "Checked")
+		//	alert("Not implemented yet");
+		//else if(selected == "All"){
+		//	clearAllRoutines(); 
+		//	selectedRoutineNames.length = 0; 
+		//	selectedRoutine_session.length = 0; 
+		//	uncheckedRoutines.length = 0;
+		//	allRoutines_session.length = 0;
+		//}			
+	}
+	
 	
 	
 	// Hide the unchecked routines from the Selected Routine area and remove them from session
@@ -942,26 +982,7 @@
         return false;
 	}
 
-	// Called when user selects an option from the "Clear" menu (combobox)
-	function clearMenuChanged(){
-		var menu = document.getElementById('clearMenu');
-		var selected = menu.options[menu.selectedIndex].text;
-		menu.options[0].selected = true;
-		if(selected == "Unchecked"){
-			
-			clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
-			uncheckedRoutines.length = 0;
-		}			
-		else if(selected == "Checked")
-			alert("Not implemented yet");
-		else if(selected == "All"){
-			clearAllRoutines(); 
-			selectedRoutineNames.length = 0; 
-			selectedRoutine_session.length = 0; 
-			uncheckedRoutines.length = 0;
-			allRoutines_session.length = 0;
-		}			
-	}
+
 
 	// Called when user selects an option from the "Select" menu (combobox)
 	function selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){

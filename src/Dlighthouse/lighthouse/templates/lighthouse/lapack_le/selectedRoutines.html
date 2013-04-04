@@ -26,32 +26,26 @@
 			     style="background: #eee; padding-bottom: 15px; padding-left:30px;
 			     background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top;
 			     padding-top: 55px; border: 2px solid #ccc; border-radius: 5px; overflow: hidden;">
-
 				<table style="width: 100%; position: relative; left: -2px; top: 2px;">
 					<tr>
 					<td>
 					<div id="sel_routineListNode" class="container2" style="padding: 0px;">
 					{% if selectedRoutines %}			
 						{% for item in selectedRoutines %}
-<script>console.log('{{item.url}}')</script>
 							<script type="text/javascript">
-									allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
+								allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
 							</script>
-			
+						
 							{% if item.checkState == "checked" %}
 								<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
 								<script type="text/javascript">
 									selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');		
-								</script>
-	
-							{% endif %}
-	
-							{% if item.checkState == "unchecked" %}							
+								</script>	
+							{% else %}						
 								<script type="text/javascript">
 									uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
 								</script>
-							{% endif %}
-	
+							{% endif %}						
 							<div class="sel_dojoDndItem" id="sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 								<div class="routineName">
 									<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
@@ -145,20 +139,20 @@
 
 		<div id="button-div">
 			<select id="selectMenu" onChange="selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);">
-				<option value="1">Select</option>
-				<option value="2">All</option>
-				<option value="3">None</option>					     
+				<option value="0">Select</option>
+				<option value="1">All</option>
+				<option value="2">None</option>					     
 		 	</select>
 		 	<select id="clearMenu" onChange="clearMenuChanged();">
-				<option value="1" selected="selected">Clear</option>
-				<option value="2">Unchecked</option>
-				<option value="3">Checked</option>
-				<option value="4">All</option>					     
+				<option value="0" selected="selected">Clear</option>
+				<option value="1">Unchecked</option>
+				<option value="2">Checked</option>
+				<option value="3">All</option>					     
 		 	</select>
 		 	<select id="generateMenu" onChange="generateMenuChanged();">
-				<option value="1" selected="selected">Generate Template</option>
-				<option value="2">C</option>
-				<option value="3">FORTRAN</option>
+				<option value="0" selected="selected">Generate Template</option>
+				<option value="1">C</option>
+				<option value="2">FORTRAN</option>
 			</select>
 		</div>
 	</form>
