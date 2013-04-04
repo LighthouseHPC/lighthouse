@@ -15,6 +15,7 @@ txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 def createTemplate_FORTRAN(request, checked_list):
 	dajax = Dajax()
 	for item in checked_list:
+		item = item.lower()
 		go = generateTemplate(item)
 		go.make_template()
 		f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")

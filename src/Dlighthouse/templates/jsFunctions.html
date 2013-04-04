@@ -793,7 +793,7 @@
 		dojo.query('[name=routines]').forEach(function(n){
 			/* n is one of the checkboxes */
 			if (n.checked == true){
-			  checked_list.push(n.id.split('_')[1].toLowerCase());
+			  checked_list.push(n.id.split('_')[1]);
 			}		
 		}); 
 		return checked_list;
@@ -817,20 +817,24 @@
 	
 	
 	// Called when user selects an option from the "Clear" menu (combobox)
-	function clearMenuChanged(){
+	function clearMenuChanged(uncheckedRoutines){
 		/* get the checked values */
 		checked_list = getCheckedRoutines();
-		console.log(checked_list);
+		//console.log(checked_list);
 		/* get selected option */
 		//console.log(document.getElementById('clearMenu').value);
 		if (document.getElementById('clearMenu').value == '1'){
-			alert('1');
+			/* clear unchecked */
+			alert(uncheckedRoutines);
 		}
 		else if (document.getElementById('clearMenu').value == '2'){
-			alert('2');
+			/* clear checked */
+			for (i=0; i<checked_list.length; i++)
+				dojo.destroy("sel_ajax_"+checked_list[i]);
 		}
-		else {
-			alert('3');
+		else if (document.getElementById('clearMenu').value == '3'){
+			/* clear all */
+			alert(uncheckedRoutines.concat(checked_list));
 		}
 		
 		
