@@ -33,17 +33,17 @@
 					{% if selectedRoutines %}			
 						{% for item in selectedRoutines %}
 							<script type="text/javascript">
-								allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
+								allRoutines_session.push('{{ item.thePrecision|upper }}'+'{{ item.routineName|upper }}');	
 							</script>
 						
 							{% if item.checkState == "checked" %}
 								<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
 								<script type="text/javascript">
-									selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');		
+									selectedRoutine_session.push('{{ item.thePrecision|upper }}'+'{{ item.routineName|upper }}');		
 								</script>	
 							{% else %}						
 								<script type="text/javascript">
-									uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
+									uncheckedRoutines.push('{{ item.thePrecision|upper }}'+'{{ item.routineName|upper }}');				
 								</script>
 							{% endif %}						
 							<div class="sel_dojoDndItem" id="sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -143,7 +143,7 @@
 				<option value="1">All</option>
 				<option value="2">None</option>					     
 		 	</select>
-		 	<select id="clearMenu" onChange="clearMenuChanged();">
+		 	<select id="clearMenu" onChange="clearMenuChanged(uncheckedRoutines);">
 				<option value="0" selected="selected">Clear</option>
 				<option value="1">Unchecked</option>
 				<option value="2">Checked</option>
