@@ -1,4 +1,4 @@
-import string, types, sys, os, StringIO, re, shlex
+import string, types, sys, os, StringIO, re, shlex, json
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -131,7 +131,7 @@ def guidedSearch_problem(request):
                 	'notSelectedRoutines': request.session['notSelectedRoutines'], 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
-					'scriptOutput': request.session['scriptOutput'],
+			'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
 		
@@ -149,8 +149,8 @@ def guidedSearch_problem(request):
                 	'form': ProblemForm(), 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
-					'scriptOutput': request.session['scriptOutput'],
-					'codeTemplate': getCodeTempate(request.session.session_key)
+			'scriptOutput': request.session['scriptOutput'],
+			'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
                 	'lighthouse/lapack_le/index.html', 
@@ -1162,7 +1162,7 @@ def getCodeTempate(session_key):
 def downloadTemplate(request):
 
 	fileName_c = './lighthouse/lapack_le/generatedCodeTemplate/' + request.session.session_key + '.c'
-	fileName_f = './lighthouse/lapack_le/generatedCodeTemplate/' + request.session.session_key + '.f'
+	fileName_f = './lighthouse/libraries/' + request.session.session_key + '.f90'
 
 	# assuming the user in not generating templates in both C and FORTRAN
 
@@ -1238,59 +1238,18 @@ def update_session(request):
 @csrf_exempt
 def clear_session(request):
 	if request.is_ajax():
-		mode = [{"clear": request.POST.get('clear')}]
-		# Clear all routines
-		if mode[0]['clear'] == 'all':
-			request.session['selectedRoutines'] = []
-			return HttpResponse('cleared')
-		# Clear unchecked routines
-		elif mode[0]['clear'] == 'unchecked':
-			test = request.session['selectedRoutines']
-			request.session['selectedRoutines'] = []
-			for item in test:
-				if item['checkState'] == 'checked':					
-					request.session['selectedRoutines'].append(item)
-		# Clear checked routines			
-		elif mode[0]['clear'] == 'checked':
-			test = request.session['selectedRoutines']
-			request.session['selectedRoutines'] = []
-			for item in test:
-				if item['checkState'] == 'unchecked':					
-					request.session['selectedRoutines'].append(item)
-			return HttpResponse('cleared')				
+		# Convert JSON array to Python list #
+		clearList = json.loads(request.POST.get('clearList'))
+		
+		for n, item in enumerate(request.session['selectedRoutines']):
+			for cleareditem in clearList:
+				if item['thePrecision'] == cleareditem[0].lower() and item['routineName'] == cleareditem[1:].lower():
+					request.session['selectedRoutines'] = request.session['selectedRoutines'].pop(n)
+		return HttpResponse('cleared')				
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
 	
 
-###---------------- Petsc ------------------###
-#Question_problem: Which of the following functions do you wish to execute?
-#@login_required
-def petsc(request):    
-	
-  	context = {
-  		#'form': ProblemForm(), 
-  	}
-	return render_to_response(
-		'lighthouse/lapack_le/petsc.html', 
-		context_instance=RequestContext(request, context)
-	)
 
-def petsc_code(request):	
 
-	if request.method == 'POST':
-		
-  		context = {
-	  		#'form': ProblemForm(), 
-	  		"task": request.POST['main_task'],
-	  		"code": True,
-	  		#"mat_file": request.POST['file'],
-			#"solution": request.POST['soln_type'],
-			#"out_format": request.POST['output_format'],
-			#"solver": request.POST['solver'],
-			#"prec": request.POST['precond'],
-	  	}
-		
-		return render_to_response(
-			'lighthouse/lapack_le/petsc.html', 
-			context_instance=RequestContext(request, context)
-		)
+
