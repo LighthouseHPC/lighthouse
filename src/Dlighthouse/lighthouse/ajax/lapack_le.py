@@ -10,10 +10,10 @@ generatedCodeTemplate_dir = './lighthouse/templateGen/'
 txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 
 
+### ---------- For code template generation ---------- ###
 @dajaxice_register
-def createTemplate(request, checked_list, prog_language):
+def createTemplate_FORTRAN(request, checked_list):
 	dajax = Dajax()
-	print prog_language
 	for item in checked_list:
 		go = generateTemplate(item)
 		go.make_template()
@@ -26,24 +26,17 @@ def createTemplate(request, checked_list, prog_language):
 
 
 
-
-
-
 @dajaxice_register
-def removeTemplateFile(request):
+def createTemplate_C(request, checked_list):
 	dajax = Dajax()
-
-	fileName = generatedCodeTemplate_dir + request.session.session_key;
+	dajax.assign("#template_output", 'innerHTML', 'Coming Soon!')
 	
-	if os.path.isfile(fileName + '.c'):
-		os.remove(fileName + '.c')
-	elif os.path.isfile(fileName + '.f'):
-		os.remove(fileName + '.f')
-
 	return dajax.json()
 
 
 
+
+### ---------- For (BTO) script area ---------- ###
 @dajaxice_register
 def make_mfile(request, paramProperty):
 	dajax = Dajax()
