@@ -802,23 +802,9 @@
 	// Called when user selects an option from the "Generate Template" menu (combobox)
 	function generateMenuChanged(){
 		checked_list = getCheckedRoutines();
-		console.log(checked_list);
-		console.log(document.getElementById('generateMenu').value);
-		
-		
-		//var menu = document.getElementById('generateMenu');
-		//var selected = menu.options[menu.selectedIndex].text;
-		//menu.options[0].selected = true;
-		//
-		//// If user reordered the routines but did not click 'Done', show this dialogue
-		//if(document.getElementById("movebuttons").style.display == "block"){
-		//	alert("Click 'Done' if you are done reordering the routines.");
-		//	return;
-		//}
-		if(selected == "C")
-			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
-		else if(selected == "FORTRAN")
-			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+		//console.log(checked_list);
+		//console.log(document.getElementById('generateMenu').value);
+		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'prog_language': document.getElementById('generateMenu').value});
 	}
 	
 	
