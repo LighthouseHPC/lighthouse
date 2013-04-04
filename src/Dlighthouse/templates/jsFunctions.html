@@ -793,7 +793,8 @@
 		dojo.query('[name=routines]').forEach(function(n){
 			/* n is one of the checkboxes */
 			if (n.checked == true){
-			  checked_list.push(n.id.split('_')[1]);
+				/* note: n.id is uppercase */
+				checked_list.push(n.id.split('_')[1]);
 			}		
 		}); 
 		return checked_list;
@@ -818,26 +819,42 @@
 	
 	// Called when user selects an option from the "Clear" menu (combobox)
 	function clearMenuChanged(uncheckedRoutines){
+		var clearList = new Array();
+		
 		/* get the checked values */
 		checked_list = getCheckedRoutines();
-		//console.log(checked_list);
-		/* get selected option */
-		//console.log(document.getElementById('clearMenu').value);
+		
 		if (document.getElementById('clearMenu').value == '1'){
 			/* clear unchecked */
-			alert(uncheckedRoutines);
+			clearList = uncheckedRoutines;
 		}
 		else if (document.getElementById('clearMenu').value == '2'){
 			/* clear checked */
-			for (i=0; i<checked_list.length; i++)
-				dojo.destroy("sel_ajax_"+checked_list[i]);
+			clearList = checked_list;
 		}
 		else if (document.getElementById('clearMenu').value == '3'){
 			/* clear all */
-			alert(uncheckedRoutines.concat(checked_list));
+			clearList = uncheckedRoutines.concat(checked_list)
 		}
 		
+		for (i=0; i<clearList.length; i++)
+				dojo.destroy("sel_ajax_"+clearList[i]);
+				
+		// Remove cleared routines from the session
+		dojo.xhrPost( {
+			url: "/lapack_le/clear_session/",
+			content: {clearList: dojo.toJson(clearList)},
+			handleAs: "json", 
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
 		
+		
+				
 		//var menu = document.getElementById('clearMenu');
 		//var selected = menu.options[menu.selectedIndex].text;
 		//menu.options[0].selected = true;
