@@ -802,9 +802,16 @@
 	// Called when user selects an option from the "Generate Template" menu (combobox)
 	function generateMenuChanged(){
 		checked_list = getCheckedRoutines();
+		/* get the checked values */
 		//console.log(checked_list);
-		//console.log(document.getElementById('generateMenu').value);
-		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'prog_language': document.getElementById('generateMenu').value});
+		/* get selected option */
+		//console.log(document.getElementById('generateMenu').value); 
+		if (document.getElementById('generateMenu').value == '3'){
+			Dajaxice.lighthouse.lapack_le.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
+		}
+		else if (document.getElementById('generateMenu').value == '2'){
+			Dajaxice.lighthouse.lapack_le.createTemplate_C(Dajax.process, {'checked_list': checked_list});
+		}		
 	}
 	
 	
