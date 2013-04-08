@@ -29,7 +29,7 @@
 			<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 				<tr>					
 					<td class="hiddenStuff">
-						<input type="checkbox" name="routines" checked="checked"
+						<input type="checkbox"
 						       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
 						       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 						       onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
