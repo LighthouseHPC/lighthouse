@@ -26,26 +26,32 @@
 			     style="background: #eee; padding-bottom: 15px; padding-left:30px;
 			     background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top;
 			     padding-top: 55px; border: 2px solid #ccc; border-radius: 5px; overflow: hidden;">
+
 				<table style="width: 100%; position: relative; left: -2px; top: 2px;">
 					<tr>
 					<td>
 					<div id="sel_routineListNode" class="container2" style="padding: 0px;">
 					{% if selectedRoutines %}			
 						{% for item in selectedRoutines %}
+<script>console.log('{{item.url}}')</script>
 							<script type="text/javascript">
-								allRoutines_session.push('{{ item.thePrecision|upper }}'+'{{ item.routineName|upper }}');	
+									allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
 							</script>
-						
+			
 							{% if item.checkState == "checked" %}
 								<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
 								<script type="text/javascript">
-									selectedRoutine_session.push('{{ item.thePrecision|upper }}'+'{{ item.routineName|upper }}');		
-								</script>	
-							{% else %}						
-								<script type="text/javascript">
-									uncheckedRoutines.push('{{ item.thePrecision|upper }}'+'{{ item.routineName|upper }}');				
+									selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');		
 								</script>
-							{% endif %}						
+	
+							{% endif %}
+	
+							{% if item.checkState == "unchecked" %}							
+								<script type="text/javascript">
+									uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
+								</script>
+							{% endif %}
+	
 							<div class="sel_dojoDndItem" id="sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 								<div class="routineName">
 									<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
@@ -54,8 +60,7 @@
 											<td id="{{ item.serialNo }}" style="font-weight: bold;">{{ item.serialNo }}.</td>
 											-->
 											<td>
-												<input name="routines" type="CheckBox" dojoType="dijit.form.CheckBox"
-												       {% if item.checkState == "checked" %} checked="checked" {% endif %}
+												<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %}
 												       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
 												       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 												       onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
@@ -120,7 +125,7 @@
 				<tr style="text-align: center; width: 100%;">
 					<td id="moveup" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; background: #ccc; cursor:pointer;  width: 75px;"
 					    onClick="allRoutines_session = moveup(selectedRoutine, allRoutines_session);">
-						<label onselectStart="return false();">Move up</label>
+						<lable onselectStart="return false();">Move up</lable>
 					</td>
 					<td id="movedown" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; background: #ccc; cursor:pointer;  width: 75px;"
 					    onClick="selectedRoutine_session = closeOrderingPanel(selectedRoutine, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines); selectedRoutine = '';">
@@ -139,21 +144,21 @@
 
 		<div id="button-div">
 			<select id="selectMenu" onChange="selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);">
-				<option value="0">Select</option>
-				<option value="1">All</option>
-				<option value="2">None</option>					     
+		     <option value="1">Select</option>
+		     <option value="2">All</option>
+		     <option value="3">None</option>					     
 		 	</select>
-		 	<select id="clearMenu" onChange="clearMenuChanged(uncheckedRoutines);">
-				<option value="0" selected="selected">Clear</option>
-				<option value="1">Unchecked</option>
-				<option value="2">Checked</option>
-				<option value="3">All</option>					     
+		 	<select id="clearMenu" onChange="clearMenuChanged();">
+		     <option value="1" selected="selected">Clear</option>
+		     <option value="2">Unchecked</option>
+		     <option value="3">Checked</option>
+		     <option value="4">All</option>					     
 		 	</select>
 		 	<select id="generateMenu" onChange="generateMenuChanged();">
-				<option value="0" selected="selected">Generate Template</option>
-				<option value="1">C</option>
-				<option value="2">FORTRAN</option>
-			</select>
+		     <option value="1" selected="selected">Generate Template</option>
+		     <option value="2">C</option>
+		     <option value="3">FORTRAN</option>
+		 	</select>
 		</div>
 	</form>
 </div>

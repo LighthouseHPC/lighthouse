@@ -6,38 +6,74 @@ import os
 from codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate
 
-generatedCodeTemplate_dir = './lighthouse/templateGen/'
+generatedCodeTemplate_dir = './lighthouse/libraries/lapack_le/generatedCodeTemplate/'
 txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 
 
-### ---------- For code template generation ---------- ###
 @dajaxice_register
-def createTemplate_FORTRAN(request, checked_list):
+def createTemplate(request, selectedRoutine_ajax, selectedRoutine_session, prog_language):
 	dajax = Dajax()
-	for item in checked_list:
-		item = item.lower()
-		go = generateTemplate(item)
-		go.make_template()
-		f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
-		text = f_output.read()
-		dajax.assign("#template_output", 'innerHTML', text)
-		f_output.close()
+	#dajax.script('console.log("1", selectedRoutineNames)')
+	#dajax.script('console.log("2", selectedRoutine_session)')
+
+	# if file already exists, open in append mode, if not open in write mode
+
+	if selectedRoutine_ajax or selectedRoutine_session:
+		if prog_language == "C":
+			fileName =  generatedCodeTemplate_dir + request.session.session_key + '.c'
+		elif prog_language == "FORTRAN":
+			fileName =  generatedCodeTemplate_dir + request.session.session_key + '.f'
+		
+		if os.path.isfile(fileName):
+		   	f = open(fileName, 'a')
+		else:
+			f = open(fileName, 'w')
+
+	# if there is a dnd action, use selectedRoutine_ajax; if not, use selectedRoutine_session.
+
+	if selectedRoutine_ajax:
+		#delete the empty string in the selectedRoutineNames list
+		for item in filter(None, selectedRoutine_ajax):
+			go = generateTemplate(item)
+			go.make_template()
+			f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
+			text = f_output.read()
+			dajax.assign("#template_output", 'innerHTML', text)
+			f_output.close()
+	else:
+		for item in selectedRoutine_session:
+			go = generateTemplate(item)
+			go.make_template()
+			f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
+			text = f_output.read()			
+			dajax.assign("#template_output", 'innerHTML', text)
+			f_output.close()
+			
+	if selectedRoutine_ajax or selectedRoutine_session:
+		f.close()	
 
 	return dajax.json()
 
 
 
+
+
+
 @dajaxice_register
-def createTemplate_C(request, checked_list):
+def removeTemplateFile(request):
 	dajax = Dajax()
-	dajax.assign("#template_output", 'innerHTML', 'Coming Soon!')
+
+	fileName = generatedCodeTemplate_dir + request.session.session_key;
 	
+	if os.path.isfile(fileName + '.c'):
+		os.remove(fileName + '.c')
+	elif os.path.isfile(fileName + '.f'):
+		os.remove(fileName + '.f')
+
 	return dajax.json()
 
 
 
-
-### ---------- For (BTO) script area ---------- ###
 @dajaxice_register
 def make_mfile(request, paramProperty):
 	dajax = Dajax()

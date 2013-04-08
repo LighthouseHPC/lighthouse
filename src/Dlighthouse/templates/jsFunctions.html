@@ -131,7 +131,7 @@
 							storageType: storageType,
 							idn: idn,
 							url: url,							
-							//checkState: "checked"
+							checkState: "checked"
 							},
 						load: function(response){
 							//response is a string --> convert into an array							
@@ -225,7 +225,9 @@
 		var restart = "";
 		restart = confirm("Are you sure you start over the search?");
 		if(restart)
-			window.location = "/lapack_le/";	
+			window.location = "/lapack_le/";
+		else
+			return false;		
 	}
 
 
@@ -593,7 +595,7 @@
 	}
 
 	// Keyword autocompletion functions
-	/*var code;
+	var code;
 	var tmp = -1;	
 	var t = null;
 	var s = null;
@@ -778,106 +780,15 @@
 		var text = document.getElementById("sel").options[val].innerHTML;
 		document.forms['kw_form'].elements['kwtb'].value = text;
 		document.getElementById("show").style.display='none';
-	} */
+	}
 
-	
-	
-	
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
-	
-	//** Get the checked items **//
-	function getCheckedRoutines(){
-		var checked_list = [];
-		dojo.query('[name=routines]').forEach(function(n){
-			/* n is one of the checkboxes */
-			if (n.checked == true){
-				/* note: n.id is uppercase */
-				checked_list.push(n.id.split('_')[1]);
-			}		
-		}); 
-		return checked_list;
-	}
-	
-	// Called when user selects an option from the "Generate Template" menu (combobox)
-	function generateMenuChanged(){
-		/* get the checked values */
-		checked_list = getCheckedRoutines();
-		//console.log(checked_list);
-		/* get selected option */
-		//console.log(document.getElementById('generateMenu').value);
-		if (document.getElementById('generateMenu').value == '1'){
-			Dajaxice.lighthouse.lapack_le.createTemplate_C(Dajax.process, {'checked_list': checked_list});
-		}	
-		else if (document.getElementById('generateMenu').value == '2'){
-			Dajaxice.lighthouse.lapack_le.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
-		}
-	
-	}
-	
-	
-	// Called when user selects an option from the "Clear" menu (combobox)
-	function clearMenuChanged(uncheckedRoutines){
-		var clearList = new Array();
-		
-		/* get the checked values */
-		checked_list = getCheckedRoutines();
-		
-		if (document.getElementById('clearMenu').value == '1'){
-			/* clear unchecked */
-			clearList = uncheckedRoutines;
-		}
-		else if (document.getElementById('clearMenu').value == '2'){
-			/* clear checked */
-			clearList = checked_list;
-		}
-		else if (document.getElementById('clearMenu').value == '3'){
-			/* clear all */
-			clearList = uncheckedRoutines.concat(checked_list)
-		}
-		
-		for (i=0; i<clearList.length; i++)
-				dojo.destroy("tb_"+clearList[i]);
-				
-		// Remove cleared routines from the session
-		dojo.xhrPost( {
-			url: "/lapack_le/clear_session/",
-			content: {clearList: dojo.toJson(clearList)},
-			handleAs: "text", 
-			load: function(response){
-				console.log(response);
-			    },
-			error: function(){
-			    console.log("error");
-			    }
-		});
-		
-		
-				
-		//var menu = document.getElementById('clearMenu');
-		//var selected = menu.options[menu.selectedIndex].text;
-		//menu.options[0].selected = true;
-		//if(selected == "Unchecked"){
-		//	
-		//	clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
-		//	uncheckedRoutines.length = 0;
-		//}			
-		//else if(selected == "Checked")
-		//	alert("Not implemented yet");
-		//else if(selected == "All"){
-		//	clearAllRoutines(); 
-		//	selectedRoutineNames.length = 0; 
-		//	selectedRoutine_session.length = 0; 
-		//	uncheckedRoutines.length = 0;
-		//	allRoutines_session.length = 0;
-		//}			
-	}
-	
-	
-	
+
 	// Hide the unchecked routines from the Selected Routine area and remove them from session
 	function clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames){		
+		
 		// Remove unchecked routines from the session
 		dojo.xhrPost( {
 			url: "/lapack_le/clear_session/",
@@ -1003,7 +914,25 @@
         return false;
 	}
 
-
+	// Called when user selects an option from the "Clear" menu (combobox)
+	function clearMenuChanged(){
+		var menu = document.getElementById('clearMenu');
+		var selected = menu.options[menu.selectedIndex].text;
+		menu.options[0].selected = true;
+		if(selected == "Unchecked"){
+			clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
+			uncheckedRoutines.length = 0;
+		}			
+		else if(selected == "Checked")
+			alert("Not implemented yet");
+		else if(selected == "All"){
+			clearAllRoutines(); 
+			selectedRoutineNames.length = 0; 
+			selectedRoutine_session.length = 0; 
+			uncheckedRoutines.length = 0;
+			allRoutines_session.length = 0;
+		}			
+	}
 
 	// Called when user selects an option from the "Select" menu (combobox)
 	function selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
@@ -1016,7 +945,24 @@
 			uncheckAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
 	}
 
+	// Called when user selects an option from the "Generate Template" menu (combobox)
+	function generateMenuChanged(){
 
+		var menu = document.getElementById('generateMenu');
+		var selected = menu.options[menu.selectedIndex].text;
+		menu.options[0].selected = true;
+
+		// If user reordered the routines but did not click 'Done', show this dialogue
+		if(document.getElementById("movebuttons").style.display == "block"){
+			alert("Click 'Done' if you are done reordering the routines.");
+			return;
+		}
+
+		if(selected == "C")
+			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
+		else if(selected == "FORTRAN")
+			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+	}
 
 	// Unused function
 	function hoverEffect(ele){
@@ -1240,7 +1186,7 @@
 	}
 
 	// Check if there's any code template, allow download if template is not empty
-	function downloadCodeTemplate(){		
+	function checkCodeTemplate(){		
 		var template = document.getElementById('div-codeTemp');
 		var content = trim(template.innerHTML);
 		

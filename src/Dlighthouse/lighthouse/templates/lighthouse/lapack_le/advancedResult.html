@@ -281,7 +281,7 @@
 								<table id="tb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 									<tr>
 										<td class="hiddenStuff">
-											<input name="routines" type="CheckBox" dojoType="dijit.form.CheckBox"
+											<input type="checkbox" name="routines" checked="checked"
 											       value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}"
 											       id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
 											       onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
@@ -352,7 +352,7 @@
 							<table id="ntb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 								<tr>
 									<td class="hiddenStuff">
-										<input name="routines" type="CheckBox" dojoType="dijit.form.CheckBox"
+										<input type="checkbox" name="routines" checked="checked"
 										       value="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{ routine.url }}"
 										       id="ncb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
 										       onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
