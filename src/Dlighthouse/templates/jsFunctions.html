@@ -785,6 +785,35 @@
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
+	
+        //** Get the checked items **//
+        function getCheckedRoutines(){
+                var checked_list = [];
+                dojo.query('[name=routines]').forEach(function(n){
+                        /* n is one of the checkboxes */
+                        if (n.checked == true){
+                                /* note: n.id is uppercase */
+                                checked_list.push(n.id.split('_')[1]);
+                        }               
+                }); 
+                return checked_list;
+        }
+        
+        // Called when user selects an option from the "Generate Template" menu (combobox)
+        function generateMenuChanged(){
+                /* get the checked values */
+                checked_list = getCheckedRoutines();
+                //console.log(checked_list);
+                /* get selected option */
+                //console.log(document.getElementById('generateMenu').value);
+                if (document.getElementById('generateMenu').value == '2'){
+                        Dajaxice.lighthouse.lapack_le.createTemplate_C(Dajax.process, {'checked_list': checked_list});
+                }       
+                else if (document.getElementById('generateMenu').value == '3'){
+                        Dajaxice.lighthouse.lapack_le.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
+                }
+        
+        }
 
 	// Hide the unchecked routines from the Selected Routine area and remove them from session
 	function clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames){		
@@ -946,23 +975,23 @@
 	}
 
 	// Called when user selects an option from the "Generate Template" menu (combobox)
-	function generateMenuChanged(){
-
-		var menu = document.getElementById('generateMenu');
-		var selected = menu.options[menu.selectedIndex].text;
-		menu.options[0].selected = true;
-
-		// If user reordered the routines but did not click 'Done', show this dialogue
-		if(document.getElementById("movebuttons").style.display == "block"){
-			alert("Click 'Done' if you are done reordering the routines.");
-			return;
-		}
-
-		if(selected == "C")
-			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
-		else if(selected == "FORTRAN")
-			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
-	}
+	//function generateMenuChanged(){
+	//
+	//	var menu = document.getElementById('generateMenu');
+	//	var selected = menu.options[menu.selectedIndex].text;
+	//	menu.options[0].selected = true;
+	//
+	//	// If user reordered the routines but did not click 'Done', show this dialogue
+	//	if(document.getElementById("movebuttons").style.display == "block"){
+	//		alert("Click 'Done' if you are done reordering the routines.");
+	//		return;
+	//	}
+	//
+	//	if(selected == "C")
+	//		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
+	//	else if(selected == "FORTRAN")
+	//		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+	//}
 
 	// Unused function
 	function hoverEffect(ele){
