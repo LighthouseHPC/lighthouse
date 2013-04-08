@@ -2,7 +2,7 @@ from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajax.core import Dajax
 from dajaxice.core import dajaxice_functions
-import os
+import os, glob
 from codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate
 
@@ -13,13 +13,18 @@ txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 @dajaxice_register
 def createTemplate_FORTRAN(request, checked_list):
         dajax = Dajax()
+	file_list = []
+	for files in glob.glob("./lighthouse/templateGen/fortran/*.f90"):
+	    file_list.append(files)
         for item in checked_list:
 		item = item.lower()
-                go = generateTemplate(item)
-                go.make_template()
-                f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
-                text = f_output.read()
-                dajax.assign("#template_output", 'innerHTML', text)
+		file_name = './lighthouse/templateGen/fortran/temp_'+item+'.f90'
+		if file_name not in file_list:
+			go = generateTemplate(item)
+			go.make_template()
+		f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
+		text = f_output.read()
+		dajax.assign("#template_output", 'innerHTML', text)
                 f_output.close()
 
         return dajax.json()
@@ -32,6 +37,8 @@ def createTemplate_C(request, checked_list):
 	dajax.assign("#template_output", 'innerHTML', 'Coming Soon!')
 	return dajax.json()
 	
+
+
 
 
 @dajaxice_register
