@@ -13,13 +13,13 @@ allocate = {'IPIV': 'IPIV(N)', 'WORK': 'WORK(LWORK)',
             'A':'A(LDA,N)', 'B': 'B(LDB,NRHS)', 'AB':'AB(LDAB,N)',}
 
 inputQ = {
-        "UPLO": "PRINT *, 'Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = '\n\t    READ *, UPLO \n",
-        "N": "PRINT *, 'Input the order of your square matrix. N = '\n\t    READ *, N \n",
-        "NRHS": "PRINT *, 'Input number of columns in B. NRHS = '\n\t    READ *, NRHS \n",
-        "LDA": "PRINT *, 'Input leading dimension of A, LDA = '\n\t    READ *, LDA \n",
-        "LDB": "PRINT *, 'Input leading dimension of B, LDB = '\n\t    READ *, LDB \n",
-        "LDAB": "PRINT *, 'Input leading dimension of AB, LDAB = '\n\t    READ *, LDAB \n",
-        "KD": "PRINT *, 'Input the number of superdiagonals(or subdiagonals) of the matrix A if UPLO = 'U'(or UPLO = 'L'). KD = '\n\t    READ *, KD \n",
+        "UPLO": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = '\n\t    READ *, UPLO \n",
+        "N": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input the order of your square matrix. N = '\n\t    READ *, N \n",
+        "NRHS": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input number of columns in B. NRHS = '\n\t    READ *, NRHS \n",
+        "LDA": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of A, LDA = '\n\t    READ *, LDA \n",
+        "LDB": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of B, LDB = '\n\t    READ *, LDB \n",
+        "LDAB": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of AB, LDAB = '\n\t    READ *, LDAB \n",
+        "KD": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input the number of superdiagonals(or subdiagonals) of the matrix A if UPLO = 'U'(or UPLO = 'L'). KD = '\n\t    READ *, KD \n",
          
          }
 
