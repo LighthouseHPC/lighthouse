@@ -1,6 +1,6 @@
             begin B
             !--- read data from file for B ---!
-            READ(99,*) ((B(I,J),J=1,NRHS),I=1,N)
+            READ(99,*) ((B(I,J),J=1,NRHS),I=1,LDB)
             end B
             
             
@@ -30,7 +30,7 @@
             
             begin A
             !--- read data from file for A ---!
-            READ(11, *) ((A(I,J),J=1,N),I=1,N)
+            READ(11, *) ((A(I,J),J=1,N),I=1,LDA)
             end A
             
             
