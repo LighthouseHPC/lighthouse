@@ -77,31 +77,36 @@ class generateTemplate(object):
 
             
     def make_template(self):
-        ### --- define variables --- ###
+        ### --- copy sample file to test1.f90 --- ###
         with open("./lighthouse/templateGen/fortran/test1.f90", "w") as f:
-            with open("./lighthouse/templateGen/fortran/driver_simple_head.txt", "r") as f_head:
+            with open("./lighthouse/templateGen/fortran/base_driver_simple.txt", "r") as f_head:
                 for line in f_head.readlines():
                     f.write(line)
         
                 
-        ### --- set up input questions --- ###
+        ### --- set up input question subprogram --- ###
         with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
-            f.write('\n')
+            f.write('\n\n')
+            f.write('\tSUBROUTINE VAR_ASSIGNMENT\n')
             f.write('\t    !--- obtain inputs ---!\n')
             for key, value in inputQ.iteritems():
                 if key in self.sort_parameters()['character']+self.sort_parameters()['integer']:
                     f.write('\t    '+value)
-                    
+            f.write('\tEND SUBROUTINE VAR_ASSIGNMENT')
+            f.write('\n\n')
+
                     
         ### --- set up ALLOCATE and prepare for deallocate --- ###
         ALLOCATE = []
         with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
             f.write('\n\n')
+            f.write('\tSUBROUTINE DIMNS_ASSIGNMENT(ALLOCATE_list)\n')
             f.write('\t    !--- allocate matrix/array ---!\n')
             for key, value in allocate.iteritems():
                 if key in self.sort_parameters()['array_1D_int']+self.sort_parameters()['array_1D']+self.sort_parameters()['matrix']:
                     f.write("\t    ALLOCATE(%s) \n"%value)
                     ALLOCATE.append(key)
+            f.write('\tEND SUBROUTINE DIMNS_ASSIGNMENT\n')
             f.write('\n\n')
                 
                     
@@ -129,21 +134,8 @@ class generateTemplate(object):
                             if not flag and not "begin %s\n"%item in line:
                                f.write(line)
                     f.write('\n')
-        
-        ## --- call lapack subroutine --- ###
-        with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
-            f.write('\n')
-            f.write('\t    !--- call lapack subroutine %s ---!\n'%self.routineName)
-            f.write('\t    %s\n'%self.sort_parameters()['call'])
-            f.write('\n')
             
-        
-        ### --- print solution --- ###
-        with open("./lighthouse/templateGen/fortran/test1.f90", "a") as f:
-            with open("./lighthouse/templateGen/fortran/driver_simple_tail.txt", "r") as f_tail:
-                for line in f_tail.readlines():
-                    f.write(line)
-                    
+
                     
         ### --- final fixes --- ###
         """ create a dictionary for replacing strings in the original file. """
@@ -153,6 +145,7 @@ class generateTemplate(object):
                        'integer_list': ', '.join(self.sort_parameters()['integer']),
                        'matrix_list': ', '.join(self.sort_parameters()['matrix']),
                        'ALLOCATE_list': ','.join(ALLOCATE),
+                       'routine_function': self.sort_parameters()['call']
                        }
         
         with open("./lighthouse/templateGen/fortran/test2.f90", "wt") as fout:
@@ -188,6 +181,13 @@ class generateTemplate(object):
                     f_write.write(line)
                 else:
                     pass
+            elif 'input_lines' in line:
+                q_list = []
+                for key, value in inputQ.iteritems():
+                    if key in self.sort_parameters()['character']+self.sort_parameters()['integer']:
+                        q_list.append(value)
+                print q_list
+                line = line.replace('input_lines', ''.join(q_list))
             else:
                 f_write.write(line)
                     
