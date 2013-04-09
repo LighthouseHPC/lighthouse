@@ -1,0 +1,88 @@
+        PROGRAM TEMP_routineName 
+            IMPLICIT NONE
+            
+            !--- declarations ---!
+            INTEGER                                                     :: integer_list, I, J
+            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
+            CHARACTER(LEN=1)                                            :: character_list
+            REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
+            dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
+            dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
+            
+            
+            !--- solve Ax = B ---!
+            PRINT *, "*********************************"
+            PRINT *, "*** Use routineName to solve Ax = B ***"
+            PRINT *, "*********************************"
+            PRINT *,
+ 
+ 
+            !--- open files that store data ---!
+            CALL OPEN_FILES
+
+
+            !--- prompt user for variable values ---!
+            CALL VAR_ASSIGNMENT
+
+
+            !--- assign memory storage ---!
+            CALL DIMNS_ASSIGNMENT(ALLOCATE_list)
+
+            
+            !--- read data ---!
+            CALL GET_DATA
+
+            
+            !--- call lapack subroutine routineName ---!
+            routine_function
+
+            
+            !--- write the solution ---!
+            !--- Note: the solution is returned in B and A has been changed ---!  
+            CALL PRINT_SOLUTION( B, N, NRHS)
+            CALL PRINT_INFO( INFO)
+            
+            DEALLOCATE(ALLOCATE_list)
+        END PROGRAM TEMP_routineName
+        
+
+
+
+        
+        SUBROUTINE OPEN_FILES
+            !--- obtain the dada of the square matrix A ---!
+            OPEN (unit=11, file='file_name_for_data_A', status='old')
+            
+            !--- obtain the data of right hand side B ---!
+            OPEN (unit=99, file='file_name_for_data_B', status='old')
+        END SUBROUTINE OPEN_FILES
+        
+
+        
+        SUBROUTINE PRINT_SOLUTION( B, N, NRHS )
+            INTEGER             :: N, NRHS, I, J
+            dataType(KIND=)     :: B (N, NRHS)
+
+            WRITE(*,*)
+            WRITE(*,*) 'SOLUTION: '
+            DO I = 1, N
+                WRITE(*,11100) ( B( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+                
+            !--- real ---!
+11100       FORMAT(11(:,1X, F6.2))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+
+
+
+        SUBROUTINE PRINT_INFO( INFO)
+             INTEGER             :: INFO
+             
+             WRITE(*, *) "info = ", INFO
+        END SUBROUTINE PRINT_INFO
+        
+        
