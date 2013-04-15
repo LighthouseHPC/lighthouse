@@ -13,7 +13,7 @@ allocate = {'IPIV': 'IPIV(N)', 'WORK': 'WORK(LWORK)',
             'A':'A(LDA,N)', 'B': 'B(LDB,NRHS)', 'AB':'AB(LDAB,N)',}
 
 inputQ = {
-        "UPLO": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = '\n\t    READ *, UPLO \n",
+        "UPLO": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input U for upper triangular matrix or L for lower triangular matrix. UPLO = '\n\t    READ *, UPLO \n",
         "N": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input the order of your square matrix. N = '\n\t    READ *, N \n",
         "NRHS": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input number of columns in B. NRHS = '\n\t    READ *, NRHS \n",
         "LDA": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of A, LDA = '\n\t    READ *, LDA \n",
@@ -40,8 +40,10 @@ class generateTemplate(object):
                 file_abs = os.path.join(txtpath, file)
                 with open(file_abs,'r') as opentxt:
                     for line in opentxt:
+                        line = line.strip('*').strip()
                         if 'SUBROUTINE' in line:
-                            parameters['call'] = line.replace("*       SUBROUTINE", "CALL")
+                            line = line + opentxt.next().strip('*').strip()
+                            parameters['call'] = line.replace("SUBROUTINE", "CALL")
                             for item in line.split('(')[1].strip(')').strip('\n)').replace(' ', '').split(','):
                                 if item in integer:
                                     parameters['integer'].append(item)
@@ -94,7 +96,12 @@ class generateTemplate(object):
             for key, value in inputQ.iteritems():
                 if key in self.sort_parameters()['character']+self.sort_parameters()['integer']:
                     f.write('\t    '+value)
-            f.write('\n')           
+            f.write('\n')
+            
+            if 'LWORK' in self.sort_parameters()['integer']:
+                f.write('\t    LWORK = N*N\n')
+                f.write('\n')
+            
         ### --- set up ALLOCATE and prepare for deallocate --- ###
             f.write('\t    !--- allocate matrix/array ---!\n')
             for key, value in allocate.iteritems():
