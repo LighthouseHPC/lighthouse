@@ -18,9 +18,9 @@ inputQ = {
         "NRHS": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input number of columns in B. NRHS = '\n\t    READ *, NRHS \n",
         "LDA": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of A, LDA = '\n\t    READ *, LDA \n",
         "LDB": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of B, LDB = '\n\t    READ *, LDB \n",
-        "LDAB": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of AB, LDAB = '\n\t    READ *, LDAB \n",
         "KD": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input the number of superdiagonals(or subdiagonals) of the matrix A if UPLO = 'U'(or UPLO = 'L'). KD = '\n\t    READ *, KD \n",
-         
+        "KL": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input the number of subdiagonals within the band of the matrix. KL = '\n\t    READ *, KL \n",
+        "KU": "WRITE(*, '(A)', ADVANCE = 'NO') 'Input the number of superdiagonals within the band of the matrix. KU = '\n\t    READ *, KU \n", 
          }
 
 
@@ -100,6 +100,10 @@ class generateTemplate(object):
             
             if 'LWORK' in self.sort_parameters()['integer']:
                 f.write('\t    LWORK = N*N\n')
+                f.write('\n')
+                
+            if 'LDAB' in self.sort_parameters()['integer']:
+                f.write('\t    ldab = 2*KL+KU+1\n')
                 f.write('\n')
             
         ### --- set up ALLOCATE and prepare for deallocate --- ###
