@@ -14,15 +14,15 @@ txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 def createTemplate_FORTRAN(request, checked_list):
         dajax = Dajax()
 	file_list = []
-	for files in glob.glob("./lighthouse/templateGen/fortran/*.f90"):
+	for files in glob.glob("./lighthouse/templateGen/fortran/codeTemplates/*.f90"):
 	    file_list.append(files)
         for item in checked_list:
 		item = item.lower()
-		file_name = './lighthouse/templateGen/fortran/temp_'+item+'.f90'
+		file_name = './lighthouse/templateGen/fortran/codeTemplates/temp_'+item+'.f90'
 		if file_name not in file_list:
 			go = generateTemplate(item)
 			go.make_template()
-		f_output = open("./lighthouse/templateGen/fortran/temp_%s.f90"%item,"r")
+		f_output = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r")
 		text = f_output.read()
 		dajax.assign("#template_output", 'innerHTML', text)
                 f_output.close()
