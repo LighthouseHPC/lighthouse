@@ -22,8 +22,5 @@ urlpatterns = patterns('lighthouse.views.lapack_le',
     
     url(r'^keyword/$', "keywordResult"),
     url(r'^download/$', "downloadTemplate"),
-
-    url(r'^petsc/linear_system/$', "petsc"),
-    url(r'^petsc/linear_system/code/$', "petsc_code"),
     #(r'^script/$', runScript),
 )

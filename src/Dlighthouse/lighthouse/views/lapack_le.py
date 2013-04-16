@@ -1261,36 +1261,3 @@ def clear_session(request):
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
 	
-
-###---------------- Petsc ------------------###
-#Question_problem: Which of the following functions do you wish to execute?
-#@login_required
-def petsc(request):    
-	
-  	context = {
-  		#'form': ProblemForm(), 
-  	}
-	return render_to_response(
-		'lighthouse/lapack_le/petsc.html', 
-		context_instance=RequestContext(request, context)
-	)
-
-def petsc_code(request):	
-
-	if request.method == 'POST':
-		
-  		context = {
-	  		#'form': ProblemForm(), 
-	  		"task": request.POST['main_task'],
-	  		"code": True,
-	  		#"mat_file": request.POST['file'],
-			#"solution": request.POST['soln_type'],
-			#"out_format": request.POST['output_format'],
-			#"solver": request.POST['solver'],
-			#"prec": request.POST['precond'],
-	  	}
-		
-		return render_to_response(
-			'lighthouse/lapack_le/petsc.html', 
-			context_instance=RequestContext(request, context)
-		)
