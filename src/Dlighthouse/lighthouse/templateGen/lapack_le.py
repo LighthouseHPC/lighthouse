@@ -52,7 +52,7 @@ class generateTemplate(object):
         
         ### --- create SUBROUTINE DIMNS_ASSIGNMENT --- ###           
             ## --- set up input question subprogram by reading from readQ.txt --- ##
-            input_list = ROUTINE[0].integers.strip('\"').split(',')+[ROUTINE[0].uplo]
+            input_list = ROUTINE[0].integers.split(',')+[ROUTINE[0].uplo]
             f.write('\n\n')
             f.write('\tSUBROUTINE DIMNS_ASSIGNMENT\n')
             f.write('\t    USE Declaration\n')
@@ -69,7 +69,7 @@ class generateTemplate(object):
                            f.write(line)
                            
             ## --- set up ALLOCATE --- ##
-            allocate_list = ROUTINE[0].allocate.strip('\"').split(";")
+            allocate_list = ROUTINE[0].allocate.split(";")
             f.write('\n')
             f.write('\t    !--- allocate matrix/array ---!\n')
             for item in allocate_list:
@@ -78,7 +78,7 @@ class generateTemplate(object):
             
             
         ### --- create SUBROUTINE GET_DATA --- ###
-            readData_list = ROUTINE[0].readData.strip('\"').split(';')
+            readData_list = ROUTINE[0].readData.split(';')
             f.write('\n\n')
             f.write('\tSUBROUTINE GET_DATA\n')
             f.write('\t    USE Declaration\n')
