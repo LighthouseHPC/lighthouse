@@ -118,7 +118,7 @@ class generateTemplate(object):
                        'matrix_list': ROUTINE[0].matrix,
                        'array_1D_list': ROUTINE[0].array_1d,
                        'LDAB_condition': ROUTINE[0].LDAB_condition,
-#                       'ALLOCATE_list': 
+                       'ALLOCATE_list': ROUTINE[0].allocate_list,
                        }
         with open("./lighthouse/templateGen/fortran/codeTemplates/test2.f90", "wt") as fout:
             with open("./lighthouse/templateGen/fortran/codeTemplates/test1.f90", "r") as fini:
