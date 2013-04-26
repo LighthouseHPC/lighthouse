@@ -19,9 +19,8 @@ class generateTemplate(object):
                 file_abs = os.path.join(txtpath, file)
                 with open(file_abs,'r') as opentxt:
                     for line in opentxt:
-                        line = line.strip('*').strip()
-                        if 'SUBROUTINE' in line:
-                            line = line + opentxt.next().strip('*').strip()
+                        if '*       SUBROUTINE' in line:
+                            line = line.strip('*').strip() + opentxt.next().strip('*').strip()
                             routine_function = line.replace("SUBROUTINE", "CALL")
                         
         return routine_function
