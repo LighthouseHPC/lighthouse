@@ -106,7 +106,13 @@ class generateTemplate(object):
             
 
         ### --- final fixes --- ###
-        """ create a dictionary for replacing strings in the original file. """
+        ## --- set up format number for printing matrix --- ##
+        if self.routineName.startswith('s') or self.routineName.startswith('d'):
+            fmtNum = '11100'
+        else:
+            fmtNum = '22200'
+            
+        ## --- create a dictionary for replacing strings in the original file. --- ##
         replaceDict = {'routineName': self.routineName,
                        'routine_function': self.get_parameters(),
                        'dataType': self.get_dataType()[0],
@@ -119,12 +125,28 @@ class generateTemplate(object):
                        'array_1D_list': ROUTINE[0].array_1d,
                        'LDAB_condition': ROUTINE[0].LDAB_condition,
                        'ALLOCATE_list': ROUTINE[0].allocate_list,
+                       'fmtNum': fmtNum,
                        }
         with open("./lighthouse/templateGen/fortran/codeTemplates/test2.f90", "wt") as fout:
             with open("./lighthouse/templateGen/fortran/codeTemplates/test1.f90", "r") as fini:
                 fout.write(replacemany(replaceDict, fini.read()))
 
+
+        ### --- delete lines containing empty allocate lists and copy test2.f90 to the final temp_xxxxx.f90 file. --- ### 
+        f_read = open("./lighthouse/templateGen/fortran/codeTemplates/test2.f90", "r")
+        lines = f_read.readlines()
+        f_read.close()
+        f_write = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%self.routineName,"w")
+        for line in lines:
+            if ':: \n' not in line:
+                f_write.write(line)
         
+                
+        ### --- remove test files --- ###
+        os.remove('./lighthouse/templateGen/fortran/codeTemplates/test1.f90')
+        os.remove('./lighthouse/templateGen/fortran/codeTemplates/test2.f90')
+
+
 
 
 
