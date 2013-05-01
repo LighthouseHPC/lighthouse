@@ -191,7 +191,7 @@ admin.site.register(lapack_le_only, lapack_le_onlyAdmin)
 
 """ Arguments """
 class lapack_le_argAdmin(admin.ModelAdmin):
-	list_display = ('id', 'routineName', 'matrix', 'array_1d_real', 'array_1d', 'array_1d_int', 'uplo', 'integers', 'LDAB_condition', 'allocate_list', 'allocate', 'readData', 'readData_L')
+	list_display = ('id', 'routineName', 'param_in', 'param_out', 'param_inout', 'matrix', 'array_1d_real', 'array_1d', 'array_1d_int', 'uplo', 'integers', 'LDA_condition', 'allocate_list', 'allocate', 'readData', 'readData_L')
 	
 	list_filter = ['matrix']
 	search_fileds = ['routineName']
