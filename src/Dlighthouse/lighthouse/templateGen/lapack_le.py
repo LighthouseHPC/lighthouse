@@ -122,7 +122,7 @@ class generateTemplate(object):
                        'real_1D_list': ROUTINE[0].array_1d_real,
                        'matrix_list': ROUTINE[0].matrix,
                        'array_1D_list': ROUTINE[0].array_1d,
-                       'LDAB_condition': ROUTINE[0].LDAB_condition,
+                       'LDA_condition': ROUTINE[0].LDA_condition,
                        'ALLOCATE_list': ROUTINE[0].allocate_list,
                        'fmtNum': fmtNum,
                        }
