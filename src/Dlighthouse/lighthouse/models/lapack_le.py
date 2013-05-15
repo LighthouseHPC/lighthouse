@@ -281,20 +281,20 @@ class lapack_le_only(models.Model):
 """ Arguments """
 class lapack_le_arg(models.Model):
 	routineName = models.CharField('Routine Name', max_length=20)
+	param_all = models.CharField('Parameters', max_length=100)
 	param_in = models.CharField('In', max_length=40)
 	param_out = models.CharField('Out', max_length=40)
-	param_inout = models.CharField('In, Out', max_length=40)
+	param_inout = models.CharField('In, Out', max_length=20)
 	matrix = models.CharField('Matrix', max_length=10)
 	array_1d_real = models.CharField('Array_1d_real', max_length=10)
 	array_1d = models.CharField('Array_1d', max_length=20)
 	array_1d_int = models.CharField('Array_1d_int', max_length=20)
-	uplo = models.CharField('UPLO', max_length=10)
+	char = models.CharField('UPLO', max_length=10)
 	integers = models.CharField('Integer', max_length=40)
+	reals = models.CharField('Real', max_length=40)
 	LDA_condition = models.CharField('LDA_condition', max_length=40)
 	allocate_list = models.CharField('Allocate list', max_length=40)
 	allocate = models.CharField('Allocate', max_length=100)
-	readData = models.CharField('Read matrix', max_length=100)
-	readData_L = models.CharField('Read matrix_LO', max_length=100)
 	
 	def __unicode__(self):
 	    return self.routineName
