@@ -13,7 +13,7 @@
             USE Declaration
             IMPLICIT NONE
             
-            !--- solve Ax = B ---!
+            !--- message ---!
             PRINT *, "*********************************"
             PRINT *, "*** Use routineName to solve Ax = B ***"
             PRINT *, "*********************************"
@@ -39,7 +39,10 @@
             !--- write the solution ---!
             !--- Note: the solution is returned in B and A has been changed ---!  
             CALL PRINT_SOLUTION( B, N, NRHS)
-            CALL PRINT_INFO( INFO)
+             
+            !--- write INFO ---!
+            WRITE(*,*)
+            WRITE(*, *) "info = ", INFO
             
             DEALLOCATE(ALLOCATE_list)
         END PROGRAM TEMP_routineName
