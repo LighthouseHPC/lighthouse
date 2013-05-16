@@ -7,7 +7,7 @@ fortran_path = './lighthouse/templateGen/fortran/'
 
 routine_task = {'sv': 'solve Ax = B',
                'rf': 'factor matrix A',
-               'on': 'estimate the reciprocal of the condition number of matrix A'}
+               'on': 'estimate the reciprocal of the condition number of matrix A',}
 
 
 class generateTemplate(object):
@@ -69,25 +69,26 @@ class generateTemplate(object):
             
             
         ### --- create SUBROUTINE GET_DATA --- ###
+            readData_list = ROUTINE[0].readData.split(';')
             f.write('\n\n')
             f.write('\tSUBROUTINE GET_DATA\n')
             f.write('\t    USE Declaration\n')
             f.write('\t    !--- read data from files ---!\n')
-            flag = 1
-            with open(fortran_path+"baseCode/readA.txt", "r") as f_readA:
-                for line in f_readA.readlines():
-                    if "begin" in line and self.routineName[1:3] in line:
-                        flag = 0
-                    if "end" in line and self.routineName[1:3] in line:
-                        flag = 1
-                    if not flag and not "begin" in line and not self.routineName[1:3] in line:
-                       f.write(line)                
-            f.write('\n')
+            if ROUTINE[0].readData_L:
+                f.write("\t    IF (UPLO == 'U') THEN\n")
+                f.write("\t        READ(11, *) %s\n"%readData_list[0])
+                f.write("\t    ELSE IF (UPLO == 'L') THEN\n")
+                f.write("\t        READ(11, *) %s\n"%ROUTINE[0].readData_L.strip('\"'))
+                f.write("\t    END IF\n\n")
+            else:
+                for item in readData_list:
+                    f.write('\t    READ(11, *) %s\n\n'%item)
 
             if 'B' in ROUTINE[0].param_inout.split(','):
                 f.write('\t    !--- read data from file for B ---!\n')
                 f.write('\t    READ(99, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
-                f.write('\tEND SUBROUTINE GET_DATA\n')
+                
+            f.write('\tEND SUBROUTINE GET_DATA\n')
             
             
         ### --- Combine with tail.txt file--- ###
