@@ -37,14 +37,9 @@ class generateTemplate(object):
         
         ### --- copy head.txt file to test1.f90 --- ###
         with open(fortran_path+"codeTemplates/test1.f90", "w") as f:
-            if 'sv' in self.routineName:
-                with open(fortran_path+"baseCode/driver_simple_head.txt", "r") as f_head:
-                    for line in f_head.readlines():
-                        f.write(line)
-            elif 'trf' in self.routineName:
-                with open(fortran_path+"baseCode/computational_head.txt", "r") as f_head:
-                    for line in f_head.readlines():
-                        f.write(line)
+            with open(fortran_path+"baseCode/head_"+self.routineName[-2:]+".txt", "r") as f_head:
+                for line in f_head.readlines():
+                    f.write(line)
         
         ### --- create SUBROUTINE DIMNS_ASSIGNMENT --- ###           
             ## --- set up input question subprogram by reading from readQ.txt --- ##
@@ -97,9 +92,10 @@ class generateTemplate(object):
             
         ### --- Combine with tail.txt file--- ###
         with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
-            with open(fortran_path+"baseCode/driver_simple_tail.txt", "r") as f_tail:
+            with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                 for line in f_tail.readlines():
                     f.write(line)            
+
             
         ### --- final fixes --- ###
         ## --- set up format number for printing matrix --- ##
