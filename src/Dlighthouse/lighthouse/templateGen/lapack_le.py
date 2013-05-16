@@ -92,11 +92,8 @@ class generateTemplate(object):
             
             
         ### --- Combine with tail.txt file--- ###
-        with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
-            with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
-                for line in f_tail.readlines():
-                    f.write(line)            
-
+        self.call_tail()
+            
             
         ### --- final fixes --- ###
         ## --- set up format number for printing matrix --- ##
@@ -142,6 +139,12 @@ class generateTemplate(object):
         os.remove(fortran_path+'codeTemplates/test2.f90')
 
 
+
+    def call_tail(self):
+        with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
+            with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
+                for line in f_tail.readlines():
+                    f.write(line)
 
 
 
