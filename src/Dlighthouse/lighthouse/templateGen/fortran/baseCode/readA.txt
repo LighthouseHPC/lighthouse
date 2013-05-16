@@ -1,0 +1,48 @@
+            begin ge
+            READ(11, *) ((A(I,J),J=1,N),I=1,N)
+            end ge
+
+            
+            begin gt
+            READ(11,*) (DU(I),I=1,N-1)
+            READ(11,*) (D(I),I=1,N)
+            READ(11,*) (DL(I),I=1,N-1)
+            end gt
+
+            
+            begin pt
+            READ(11,*) (D(I),I=1,N)
+            READ(11,*) (E(I),I=1,N-1)            
+            end pt
+            
+
+            begin gb
+            READ(11, *) ((AB(KL+KU+1+I-J,J),J=MAX(I-KL,1),MIN(I+KU,N)),I=1,N)
+            end gb
+            
+
+            begin pb
+            IF (UPLO =='U') THEN
+                READ (11,*) ((AB(KD+1+I-J,J),J=I,MIN(N,I+KD)),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (11,*) ((AB(1+I-J,J),J=MAX(1,I-KD),I),I=1,N)
+            END IF
+            end pb
+            
+
+            begin sy, he, po
+            IF (UPLO =='U') THEN
+                READ (11,*) ((A(I,J),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (11,*) ((A(I,J),J=1,I),I=1,N)
+            END IF
+            end sy, he, po
+            
+            
+            begin pp, sp, hp
+            IF (UPLO =='U') THEN
+                READ (11,*) ((AP(I+J*(J-1)/2),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (11,*) ((AP(I+(2*N-J)*(J-1)/2),J=1,I),I=1,N)
+            END IF
+            end pp, sp, hp
