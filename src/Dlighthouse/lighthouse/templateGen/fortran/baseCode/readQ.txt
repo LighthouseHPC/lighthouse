@@ -1,7 +1,13 @@
             begin N
-	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the order of your square matrix. N = "
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of columns of matrix A. N >= 0. N = "
 	    READ *, N 
             end N
+            
+            
+            begin M
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of rows of matrix A. M >= 0. M = "
+            READ *, M
+            end M
             
             
             begin NRHS
