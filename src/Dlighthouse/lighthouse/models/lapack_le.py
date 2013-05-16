@@ -295,6 +295,8 @@ class lapack_le_arg(models.Model):
 	LDA_condition = models.CharField('LDA_condition', max_length=40)
 	allocate_list = models.CharField('Allocate list', max_length=40)
 	allocate = models.CharField('Allocate', max_length=100)
+	readData = models.CharField('Read matrix', max_length=100)		
+	readData_L = models.CharField('Read matrix_LO', max_length=100)
 	
 	def __unicode__(self):
 	    return self.routineName
