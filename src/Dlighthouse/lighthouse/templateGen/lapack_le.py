@@ -2,7 +2,8 @@ import os, fnmatch, re
 
 from lighthouse.models.lapack_le import lapack_le_arg
 
-txtpath = 'media/Doxygen/lapack'
+fortran_path = './lighthouse/templateGen/fortran/'
+
 
 routine_task = {'sv': 'solve Ax = B',
                'rf': 'factor matrix A',
@@ -35,13 +36,13 @@ class generateTemplate(object):
         ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
         
         ### --- copy head.txt file to test1.f90 --- ###
-        with open("./lighthouse/templateGen/fortran/codeTemplates/test1.f90", "w") as f:
+        with open(fortran_path+"codeTemplates/test1.f90", "w") as f:
             if 'sv' in self.routineName:
-                with open("./lighthouse/templateGen/fortran/baseCode/driver_simple_head.txt", "r") as f_head:
+                with open(fortran_path+"baseCode/driver_simple_head.txt", "r") as f_head:
                     for line in f_head.readlines():
                         f.write(line)
             elif 'trf' in self.routineName:
-                with open("./lighthouse/templateGen/fortran/baseCode/computational_head.txt", "r") as f_head:
+                with open(fortran_path+"baseCode/computational_head.txt", "r") as f_head:
                     for line in f_head.readlines():
                         f.write(line)
         
@@ -54,7 +55,7 @@ class generateTemplate(object):
             f.write('\t    !--- obtain inputs ---!\n')
             for item in input_list:
                 flag = 1
-                with open("./lighthouse/templateGen/fortran/baseCode/readQ.txt", "r") as f_readQ:
+                with open(fortran_path+"baseCode/readQ.txt", "r") as f_readQ:
                     for line in f_readQ.readlines():
                         if "begin %s\n"%item in line:
                             flag = 0
@@ -78,7 +79,7 @@ class generateTemplate(object):
             f.write('\t    USE Declaration\n')
             f.write('\t    !--- read data from files ---!\n')
             flag = 1
-            with open("./lighthouse/templateGen/fortran/baseCode/readA.txt", "r") as f_readA:
+            with open(fortran_path+"baseCode/readA.txt", "r") as f_readA:
                 for line in f_readA.readlines():
                     if "begin" in line and self.routineName[1:3] in line:
                         flag = 0
@@ -95,8 +96,8 @@ class generateTemplate(object):
             
             
         ### --- Combine with tail.txt file--- ###
-        with open("./lighthouse/templateGen/fortran/codeTemplates/test1.f90", "a") as f:
-            with open("./lighthouse/templateGen/fortran/baseCode/driver_simple_tail.txt", "r") as f_tail:
+        with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
+            with open(fortran_path+"baseCode/driver_simple_tail.txt", "r") as f_tail:
                 for line in f_tail.readlines():
                     f.write(line)            
             
@@ -124,24 +125,24 @@ class generateTemplate(object):
                        'fmtNum': fmtNum,
                        }
 
-        with open("./lighthouse/templateGen/fortran/codeTemplates/test2.f90", "wt") as fout:
-            with open("./lighthouse/templateGen/fortran/codeTemplates/test1.f90", "r") as fini:
+        with open(fortran_path+"codeTemplates/test2.f90", "wt") as fout:
+            with open(fortran_path+"codeTemplates/test1.f90", "r") as fini:
                 fout.write(replacemany(replaceDict, fini.read()))
 
 
         ### --- delete lines containing empty allocate lists and copy test2.f90 to the final temp_xxxxx.f90 file. --- ### 
-        f_read = open("./lighthouse/templateGen/fortran/codeTemplates/test2.f90", "r")
+        f_read = open(fortran_path+"codeTemplates/test2.f90", "r")
         lines = f_read.readlines()
         f_read.close()
-        f_write = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%self.routineName,"w")
+        f_write = open(fortran_path+"codeTemplates/temp_%s.f90"%self.routineName,"w")
         for line in lines:
             if ':: \n' not in line:
                 f_write.write(line)
         
                 
         ### --- remove test files --- ###
-        os.remove('./lighthouse/templateGen/fortran/codeTemplates/test1.f90')
-        os.remove('./lighthouse/templateGen/fortran/codeTemplates/test2.f90')
+        os.remove(fortran_path+'codeTemplates/test1.f90')
+        os.remove(fortran_path+'codeTemplates/test2.f90')
 
 
 
