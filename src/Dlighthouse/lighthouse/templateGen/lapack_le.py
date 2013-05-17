@@ -30,10 +30,32 @@ class generateTemplate(object):
         return dataType
 
             
-        
+    def get_database(self):
+        if self.routineName[-2:] == 'sv' or self.routineName[-2:] == 'rf':
+            ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+            ROUTINE_trf = ''
+            question_list = ROUTINE[0].param_in.split(',')
+        elif self.routineName[-2:] == 'on':
+            ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName)
+            routineName_trf = self.routineName.replace('con', 'trf')
+            ROUTINE_trf = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+            question_list = ROUTINE_trf[0].param_in.split(',')
+        else:
+            ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+            routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
+            ROUTINE_trf = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+            question_list = ROUTINE_trf[0].param_in.split(',')
+            
+        databaseInfo = {'routine': ROUTINE, 'routinetrf': ROUTINE_trf, 'questionList': question_list}
+        return databaseInfo
+    
+    
     def make_template(self):
         ### --- get data from database --- ### 
-        ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+        ROUTINE = self.get_database()['routine']
+        ROUTINE_trf = self.get_database()['routinetrf']
+        question_list = self.get_database()['questionList']
+        
         
         ### --- copy head.txt file to test1.f90 --- ###
         with open(fortran_path+"codeTemplates/test1.f90", "w") as f:
@@ -43,12 +65,11 @@ class generateTemplate(object):
         
         ### --- create SUBROUTINE DIMNS_ASSIGNMENT --- ###           
             ## --- set up input question subprogram by reading from readQ.txt --- ##
-            input_list = ROUTINE[0].param_in.split(',')
             f.write('\n\n')
             f.write('\tSUBROUTINE DIMNS_ASSIGNMENT\n')
             f.write('\t    USE Declaration\n')
             f.write('\t    !--- obtain inputs ---!\n')
-            for item in input_list:
+            for item in question_list:
                 flag = 1
                 with open(fortran_path+"baseCode/readQ.txt", "r") as f_readQ:
                     for line in f_readQ.readlines():
@@ -132,6 +153,8 @@ class generateTemplate(object):
                        'LDA_condition': ROUTINE[0].LDA_condition,
                        'ALLOCATE_list': ROUTINE[0].allocate_list,
                        'fmtNum': fmtNum,
+                       #'routineName_trf': self.routineName.replace(self.routineName[-3:], 'trf'),
+                       #'trf_parameters': ROUTINE_trf[0].param_all,
                        }
 
         with open(fortran_path+"codeTemplates/test2.f90", "wt") as fout:
