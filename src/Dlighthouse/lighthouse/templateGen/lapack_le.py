@@ -97,11 +97,11 @@ class generateTemplate(object):
                 with open(fortran_path+"baseCode/tail_rf.txt", "r") as f_tail:
                     flag = 1
                     for line in f_tail.readlines():
-                        if "begin %s"%self.routineName[1:] in line:
+                        if "begin" in line and self.routineName[1:] in line:
                             flag = 0
-                        if "end %s"%self.routineName[1:] in line:
+                        if "end" in line and self.routineName[1:] in line:
                             flag = 1
-                        if not flag and not "begin %s"%self.routineName[1:] in line:
+                        if not flag and not "begin" in line and not self.routineName[1:] in line:
                            f.write(line)
             else:
                 with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:

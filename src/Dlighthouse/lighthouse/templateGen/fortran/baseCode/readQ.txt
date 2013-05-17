@@ -48,7 +48,7 @@
             
  
             begin KD
-	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of superdiagonals(subdiagonals) of the matrix A if UPLO = 'U'(UPLO = 'L'). KD >= 0. KD = "
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of superdiagonals/subdiagonals of the matrix A. KD >= 0. KD = "
             READ *, KD
             end KD
             !--- end for band matrix ---!
