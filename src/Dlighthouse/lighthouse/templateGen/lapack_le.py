@@ -88,11 +88,26 @@ class generateTemplate(object):
                 f.write('\t    !--- read data from file for B ---!\n')
                 f.write('\t    READ(99, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
                 
-            f.write('\tEND SUBROUTINE GET_DATA\n')
+            f.write('\tEND SUBROUTINE GET_DATA\n\n\n')
             
             
         ### --- Combine with tail.txt file--- ###
-        self.call_tail()
+        with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
+            if self.routineName[-2:] == 'rf':
+                with open(fortran_path+"baseCode/tail_rf.txt", "r") as f_tail:
+                    flag = 1
+                    for line in f_tail.readlines():
+                        if "begin %s"%self.routineName[1:] in line:
+                            flag = 0
+                        if "end %s"%self.routineName[1:] in line:
+                            flag = 1
+                        if not flag and not "begin %s"%self.routineName[1:] in line:
+                           f.write(line)
+            else:
+                with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
+                    for line in f_tail.readlines():
+                        f.write(line)
+        
             
             
         ### --- final fixes --- ###
@@ -139,12 +154,6 @@ class generateTemplate(object):
         os.remove(fortran_path+'codeTemplates/test2.f90')
 
 
-
-    def call_tail(self):
-        with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
-            with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
-                for line in f_tail.readlines():
-                    f.write(line)
 
 
 
