@@ -33,27 +33,29 @@ class generateTemplate(object):
     def get_database(self):
         if self.routineName[-2:] == 'sv' or self.routineName[-2:] == 'rf':
             ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
-            ROUTINE_trf = ''
+            RroutineName_trf = ''
+            trf_parameters = ''
             question_list = ROUTINE[0].param_in.split(',')
         elif self.routineName[-2:] == 'on':
             ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName)
             routineName_trf = self.routineName.replace('con', 'trf')
-            ROUTINE_trf = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
-            question_list = ROUTINE_trf[0].param_in.split(',')
+            trf_parameters = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_all
+            question_list = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_in.split(',')
         else:
             ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
             routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
-            ROUTINE_trf = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
-            question_list = ROUTINE_trf[0].param_in.split(',')
+            trf_parameters = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_all
+            question_list = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_in.split(',')
             
-        databaseInfo = {'routine': ROUTINE, 'routinetrf': ROUTINE_trf, 'questionList': question_list}
+        databaseInfo = {'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters, 'questionList': question_list}
         return databaseInfo
     
     
     def make_template(self):
         ### --- get data from database --- ### 
         ROUTINE = self.get_database()['routine']
-        ROUTINE_trf = self.get_database()['routinetrf']
+        RroutineName_trf = self.get_database()['routineTrf']
+        trf_parameters = self.get_database()['trfParameters']
         question_list = self.get_database()['questionList']
         
         
@@ -153,8 +155,8 @@ class generateTemplate(object):
                        'LDA_condition': ROUTINE[0].LDA_condition,
                        'ALLOCATE_list': ROUTINE[0].allocate_list,
                        'fmtNum': fmtNum,
-                       #'routineName_trf': self.routineName.replace(self.routineName[-3:], 'trf'),
-                       #'trf_parameters': ROUTINE_trf[0].param_all,
+                       'routineName_trf': RroutineName_trf,
+                       'trf_parameters': trf_parameters,
                        }
 
         with open(fortran_path+"codeTemplates/test2.f90", "wt") as fout:
@@ -181,6 +183,10 @@ class generateTemplate(object):
 
 
 def replacemany(adict, astring):
+    for item in adict.keys():
+        if item not in astring:
+            del adict[item]
+    print adict
     pat = '|'.join(re.escape(s) for s in adict)
     there = re.compile(pat)
     def onerepl(mo):
