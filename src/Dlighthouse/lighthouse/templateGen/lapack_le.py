@@ -5,11 +5,6 @@ from lighthouse.models.lapack_le import lapack_le_arg
 fortran_path = './lighthouse/templateGen/fortran/'
 
 
-routine_task = {'sv': 'solve Ax = B',
-               'rf': 'factor matrix A',
-               'on': 'estimate the reciprocal of the condition number of matrix A',}
-
-
 class generateTemplate(object):
     __name__ = 'generateTemplate'
     
@@ -43,8 +38,8 @@ class generateTemplate(object):
                 ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
             
             routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
-            trf_parameters = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_all
-            question_list = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_in.split(',')
+            trf_parameters = lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_all
+            question_list = lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_in.split(',')
             
         databaseInfo = {'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters, 'questionList': question_list}
         return databaseInfo
@@ -141,7 +136,6 @@ class generateTemplate(object):
             
         ## --- create a dictionary for replacing strings in the original file. --- ##
         replaceDict = {'routineName': self.routineName,
-                       'routineTask': routine_task[self.routineName[-2:]],
                        'routine_parameters': ROUTINE[0].param_all,
                        'dataType': self.get_dataType()[0],
                        'KIND=': self.get_dataType()[1],
