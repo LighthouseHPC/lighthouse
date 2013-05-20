@@ -33,10 +33,10 @@ class generateTemplate(object):
             question_list = ROUTINE[0].param_in.split(',')
         else:    
             if self.routineName[-2:] == 'on':
-                ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName)
+                ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
                 routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
                 trf_parameters = lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_all
-                question_list = list(set(lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_in.split(','))|set(lapack_le_arg.objects.filter(routineName=self.routineName)[0].param_in.split(',')))
+                question_list = list(set(lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
                 question_list = sorted(question_list, reverse=True)
             else:
                 ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
@@ -117,7 +117,7 @@ class generateTemplate(object):
             
         ### --- Combine with tail.txt file--- ###
         with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-            if self.routineName[-2:] == 'rf' or self.routineName[-2:] == 'on':
+            if self.routineName[-2:] == 'rf':
                 with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                     flag = 1
                     for line in f_tail.readlines():
@@ -126,7 +126,17 @@ class generateTemplate(object):
                         if "end" in line and self.routineName[1:] in line:
                             flag = 1
                         if not flag and not "begin" in line and not self.routineName[1:] in line:
-                           f.write(line)
+                           f.write(line)                  
+            elif self.routineName[-2:] == 'on':
+                with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
+                    flag = 1
+                    for line in f_tail.readlines():
+                        if "begin" in line and self.routineName in line:
+                            flag = 0
+                        if "end" in line and self.routineName in line:
+                            flag = 1
+                        if not flag and not "begin" in line and not self.routineName in line:
+                           f.write(line)                
             else:
                 with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                     for line in f_tail.readlines():
