@@ -16,25 +16,8 @@
             end NRHS
             
             
-            begin LDB
-	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the leading dimension of matrix B. LDB >= max(1,N). LDB = "
-            READ *, LDB
-            end LDB
-            
-            
-            begin LDA
-	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the leading dimension of matrix A. LDA >= max(1,N). LDA = "
-            READ *, LDA
-            end LDA
-            
             
             !--- for band matrix ---!
-            begin LDAB
-	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the leading dimension of the matrix AB. LDA_condition. LDAB = "
-            READ *, LDAB
-            end LDAB
-            
-            
             begin KL
 	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of subdiagonals within the band of A. KL >= 0. KL = "
             READ *, KL
@@ -65,4 +48,10 @@
             WRITE(*, '(A)', ADVANCE = 'NO') "Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = "
             READ *, UPLO
             end UPLO
+            
+            
+            begin NORM
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input '1' for 1-norm or 'I' for Infinity-norm. NORM = "
+            READ *, NORM            
+            end NORM
             
