@@ -33,16 +33,15 @@ class generateTemplate(object):
     def get_database(self):
         if self.routineName[-2:] == 'sv' or self.routineName[-2:] == 'rf':
             ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
-            RroutineName_trf = ''
+            routineName_trf = ''
             trf_parameters = ''
             question_list = ROUTINE[0].param_in.split(',')
-        elif self.routineName[-2:] == 'on':
-            ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName)
-            routineName_trf = self.routineName.replace('con', 'trf')
-            trf_parameters = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_all
-            question_list = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_in.split(',')
-        else:
-            ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+        else:    
+            if self.routineName[-2:] == 'on':
+                ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName)
+            else:
+                ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
+            
             routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
             trf_parameters = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_all
             question_list = lapack_le_arg.objects.filter(routineName=self.routineName[1:])[0].param_in.split(',')
@@ -54,13 +53,13 @@ class generateTemplate(object):
     def make_template(self):
         ### --- get data from database --- ### 
         ROUTINE = self.get_database()['routine']
-        RroutineName_trf = self.get_database()['routineTrf']
+        routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
         question_list = self.get_database()['questionList']
         
         
         ### --- copy head.txt file to test1.f90 --- ###
-        with open(fortran_path+"codeTemplates/test1.f90", "w") as f:
+        with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "w") as f:
             with open(fortran_path+"baseCode/head_"+self.routineName[-2:]+".txt", "r") as f_head:
                 for line in f_head.readlines():
                     f.write(line)
@@ -115,7 +114,7 @@ class generateTemplate(object):
             
             
         ### --- Combine with tail.txt file--- ###
-        with open(fortran_path+"codeTemplates/test1.f90", "a") as f:
+        with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
             if self.routineName[-2:] == 'rf':
                 with open(fortran_path+"baseCode/tail_rf.txt", "r") as f_tail:
                     flag = 1
@@ -155,17 +154,17 @@ class generateTemplate(object):
                        'LDA_condition': ROUTINE[0].LDA_condition,
                        'ALLOCATE_list': ROUTINE[0].allocate_list,
                        'fmtNum': fmtNum,
-                       'routineName_trf': RroutineName_trf,
+                       'routineName_trf': routineName_trf,
                        'trf_parameters': trf_parameters,
                        }
 
-        with open(fortran_path+"codeTemplates/test2.f90", "wt") as fout:
-            with open(fortran_path+"codeTemplates/test1.f90", "r") as fini:
+        with open(fortran_path+"codeTemplates/test2_"+self.routineName+".f90", "wt") as fout:
+            with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "r") as fini:
                 fout.write(replacemany(replaceDict, fini.read()))
 
 
         ### --- delete lines containing empty allocate lists and copy test2.f90 to the final temp_xxxxx.f90 file. --- ### 
-        f_read = open(fortran_path+"codeTemplates/test2.f90", "r")
+        f_read = open(fortran_path+"codeTemplates/test2_"+self.routineName+".f90", "r")
         lines = f_read.readlines()
         f_read.close()
         f_write = open(fortran_path+"codeTemplates/temp_%s.f90"%self.routineName,"w")
@@ -175,18 +174,14 @@ class generateTemplate(object):
         
                 
         ### --- remove test files --- ###
-        os.remove(fortran_path+'codeTemplates/test1.f90')
-        os.remove(fortran_path+'codeTemplates/test2.f90')
+        os.remove(fortran_path+"codeTemplates/test1_"+self.routineName+".f90")
+        os.remove(fortran_path+"codeTemplates/test2_"+self.routineName+".f90")
 
 
 
 
 
 def replacemany(adict, astring):
-    for item in adict.keys():
-        if item not in astring:
-            del adict[item]
-    print adict
     pat = '|'.join(re.escape(s) for s in adict)
     there = re.compile(pat)
     def onerepl(mo):
