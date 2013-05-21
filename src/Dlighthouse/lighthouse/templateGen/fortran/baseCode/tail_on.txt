@@ -237,3 +237,74 @@ begin checon, zhecon
             END DO
         END SUBROUTINE COMPUTE_ANORM
 end checon, zhecon
+
+
+begin sppcon, dppcon, sspcon, dspcon, cspcon, zspcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,N
+                        Y(I,J) = AP(I+J*(J-1)/2)
+                        Y(J,I) = Y(I,J)
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=1,I
+                        Y(I,J) = AP(I+(2*N-J)*(J-1)/2)
+                        Y(J,I) = Y(I,J) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)                
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end sppcon, dppcon, sspcon, dspcon, cspcon, zspcon
+
+
+begin cppcon, zppcon, chpcon, zhpcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,N
+                        Y(I,J) = AP(I+J*(J-1)/2)
+                        Y(J,I) = conjg(Y(I,J))
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=1,I
+                        Y(I,J) = AP(I+(2*N-J)*(J-1)/2)
+                        Y(J,I) = conjg(Y(I,J)) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end cppcon, zppcon, chpcon, zhpcon
+
