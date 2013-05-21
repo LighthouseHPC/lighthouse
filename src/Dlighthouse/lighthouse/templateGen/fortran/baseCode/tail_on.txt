@@ -169,7 +169,7 @@ begin cpbcon, zpbcon
 end cpbcon, zpbcon
 
 
-begin ssycon, dsycon, csycon, zsycon
+begin ssycon, dsycon, csycon, zsycon, spocon, dpocon
         SUBROUTINE COMPUTE_ANORM
             USE Declaration
             dataType(KIND=)            :: Y(N,N)
@@ -201,10 +201,10 @@ begin ssycon, dsycon, csycon, zsycon
                 ANORM = MAX(ANORM, ROWSUM)                
             END DO
         END SUBROUTINE COMPUTE_ANORM
-end ssycon, dsycon, csycon, zsycon
+end ssycon, dsycon, csycon, zsycon, spocon, dpocon
 
 
-begin checon, zhecon
+begin checon, zhecon, cpocon, zpocon
         SUBROUTINE COMPUTE_ANORM
             USE Declaration
             dataType(KIND=)            :: Y(N,N)
@@ -236,7 +236,7 @@ begin checon, zhecon
                 ANORM = MAX(ANORM, ROWSUM)                
             END DO
         END SUBROUTINE COMPUTE_ANORM
-end checon, zhecon
+end checon, zhecon, cpocon, zpocon
 
 
 begin sppcon, dppcon, sspcon, dspcon, cspcon, zspcon
