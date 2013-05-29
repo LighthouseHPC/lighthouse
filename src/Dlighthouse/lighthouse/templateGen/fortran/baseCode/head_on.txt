@@ -7,7 +7,6 @@
             REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
             dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
             dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
-
             
             EXTERNAL routine_anorm
         END MODULE Declaration
@@ -18,9 +17,9 @@
             IMPLICIT NONE
             
             !--- message ---!
-            PRINT *, "******************************************************************************"
+            PRINT *, "*********************************************************************************"
             PRINT *, "*** Use routineName to estimate the reciprocal of the condition number of matrix A ***"
-            PRINT *, "******************************************************************************"
+            PRINT *, "*********************************************************************************"
             PRINT *,
  
  

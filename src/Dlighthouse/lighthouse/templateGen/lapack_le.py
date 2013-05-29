@@ -54,7 +54,6 @@ class generateTemplate(object):
         routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
         question_list = self.get_database()['questionList']
-        print question_list
         
         ### --- copy head.txt file to test1.f90 --- ###
         with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "w") as f:
@@ -111,7 +110,7 @@ class generateTemplate(object):
 
             if 'B' in ROUTINE[0].param_inout.split(','):
                 f.write('\t    !--- read data from file for B ---!\n')
-                f.write('\t    READ(99, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
+                f.write('\t    READ(22, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
                 
             f.write('\tEND SUBROUTINE GET_DATA\n\n\n')
             

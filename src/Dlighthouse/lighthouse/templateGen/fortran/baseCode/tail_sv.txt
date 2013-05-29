@@ -5,7 +5,7 @@
 
             WRITE(*,*)
             WRITE(*,*) 'SOLUTION: '
-            DO I = 1, N
+            DO I = 1, LDB
                 WRITE(*,fmtNum) ( B( I, J ), J = 1, NRHS )
             END DO
             WRITE(*,*)
