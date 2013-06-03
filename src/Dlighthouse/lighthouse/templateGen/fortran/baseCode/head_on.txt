@@ -2,7 +2,8 @@
             !--- declare arrays to be allocatable ---!
             INTEGER                                                     :: integer_list, I, J
             CHARACTER(LEN=1)                                            :: character_list
-            REAL(KIND=)                                                 :: real_list,routine_anorm
+            REAL(KIND=)                                                 :: real_list
+            REAL(KIND=)                                                 :: routine_anorm
             INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
             REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
             dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
@@ -33,18 +34,12 @@
             
             !--- read data ---!
             CALL GET_DATA
-
-
-            !--- compute ANORM with routine_anorm---!
+        
+            
+            !--- compute the reciprocal of the condition number RCOND ---!
             ANORM = anorm_param
-            
-            
-            !--- factor A with routineName_trf first ---!
-            CALL routineName_trf ( trf_parameters )
-            
-            
-            !--- call lapack subroutine routineName ---!
-            CALL routineName ( routine_parameters )
+            CALL routineName_trf trf_parameters
+            CALL routineName routine_parameters
 
             
             !--- write the solution ---!

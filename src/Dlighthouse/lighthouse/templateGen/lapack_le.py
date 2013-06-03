@@ -54,6 +54,7 @@ class generateTemplate(object):
         routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
         question_list = self.get_database()['questionList']
+        print ROUTINE[0].char
         
         ### --- copy head.txt file to test1.f90 --- ###
         with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "w") as f:

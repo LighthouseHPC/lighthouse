@@ -49,3 +49,20 @@
             READ *, NORM            
             end NORM
             
+            
+            begin TRANS
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' for No transpose, 'T' for Transpose, or 'C' for Conjugate transpose. TRANS = "
+            READ *, TRANS  
+            end TRANS
+            
+            
+            begin DIAG
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if A is non-unit triangular or 'U' if A is unit triangular. DIAG = "
+            READ *, DIAG
+            end DIAG
+            
+            
+            begin TRANSR
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if the Normal TRANSR of RFP A is stored  or 'T' if the Transpose TRANSR of RFP A is stored. TRANSR = "
+            READ *, TRANSR  
+            end TRANSR
