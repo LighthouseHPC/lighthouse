@@ -195,7 +195,7 @@ class lapack_le_argAdmin(admin.ModelAdmin):
 			'matrix', 'array_1d_real', 'array_1d', 'array_1d_int', 'char', 'integers', 'reals',
 			'LDA_condition', 'allocate_list', 'allocate', 'readData', 'readData_L', 'anorm_routine')
 	
-	list_filter = ['matrix']
+	#list_filter = ['matrix']
 	search_fileds = ['routineName']
         ordering = ('id',)
 	
