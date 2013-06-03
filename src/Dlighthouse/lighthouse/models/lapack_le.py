@@ -280,7 +280,7 @@ class lapack_le_only(models.Model):
 
 """ Arguments """
 class lapack_le_arg(models.Model):
-	routineName = models.CharField('Routine Name', max_length=20)
+	routineName = models.CharField('Routine Name', max_length=60)
 	param_all = models.CharField('Parameters', max_length=100)
 	param_in = models.CharField('In', max_length=100)
 	param_out = models.CharField('Out', max_length=100)
