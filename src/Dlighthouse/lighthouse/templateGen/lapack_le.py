@@ -106,7 +106,7 @@ class generateTemplate(object):
                 for item in readData_list:
                     f.write('\t    READ(11, *) %s\n\n'%item)
 
-            if 'B' in ROUTINE[0].param_inout.split(','):
+            if self.routineName[-2:] in ['sv', 'rs']:
                 f.write('\t    !--- read data from file for B ---!\n')
                 f.write('\t    READ(22, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
                 
@@ -116,7 +116,7 @@ class generateTemplate(object):
         ### --- Combine with tail.txt file--- ###
         if not self.routineName[-2:] == 'on':
             with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-                if self.routineName[-2:] == 'rf':
+                if self.routineName[-2:] == 'sv':
                     with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():
@@ -125,17 +125,17 @@ class generateTemplate(object):
                             if "end" in line and self.routineName[1:] in line:
                                 flag = 1
                             if not flag and not "begin" in line and not self.routineName[1:] in line:
-                               f.write(line)                  
-                elif self.routineName[-2:] == 'on':
+                               f.write(line)
+                elif elf.routineName[-2:] =='rf':
                     with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():
-                            if "begin" in line and self.routineName in line:
+                            if "begin" in line and self.routineName[1:] in line:
                                 flag = 0
-                            if "end" in line and self.routineName in line:
+                            if "end" in line and self.routineName[1:] in line:
                                 flag = 1
-                            if not flag and not "begin" in line and not self.routineName in line:
-                               f.write(line)                
+                            if not flag and not "begin" in line and not self.routineName[1:] in line:
+                               f.write(line)                    
                 else:
                     with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                         for line in f_tail.readlines():
