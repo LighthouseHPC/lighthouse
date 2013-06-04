@@ -26,24 +26,19 @@ class generateTemplate(object):
 
             
     def get_database(self):
+        ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
         if self.routineName[-2:] == 'sv' or self.routineName[-2:] == 'rf':
-            ROUTINE = lapack_le_arg.objects.filter(routineName=self.routineName[1:])
             routineName_trf = ''
             trf_parameters = ''
             question_list = ROUTINE[0].param_in.split(',')
-        else:    
+        else:
+            routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
+            trf_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_all
             if self.routineName[-2:] == 'on':
-                ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
-                routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
-                trf_parameters = lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_all
-                question_list = list(set(lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_in.split(','))|set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
-                question_list = sorted(question_list, reverse=True)
+                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
             else:
-                ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
-                routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
-                trf_parameters = lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_all
-                question_list = list(set(lapack_le_arg.objects.filter(routineName=routineName_trf[1:])[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
-                question_list = sorted(question_list, reverse=True)
+                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
+            question_list = sorted(question_list, reverse=True)
                 
         databaseInfo = {'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters, 'questionList': question_list}
         return databaseInfo
@@ -55,7 +50,7 @@ class generateTemplate(object):
         routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
         question_list = self.get_database()['questionList']
-        print question_list
+        #print question_list
 
         
         ### --- copy head.txt file to test1.f90 --- ###
