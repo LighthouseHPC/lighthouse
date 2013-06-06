@@ -1,7 +1,8 @@
-begin gesv,gtsv,ptsv,gbsv,pbsv,sysv,hesv,posv,ppsv,spsv,hpsv
+begin gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
         SUBROUTINE PRINT_SOLUTION
             USE Declaration
 
+            !--- Note: the solution is returned in B and A has been changed ---! 
             WRITE(*,*)
             WRITE(*,*) 'SOLUTION: '
             DO I = 1, LDB
@@ -15,10 +16,10 @@ begin gesv,gtsv,ptsv,gbsv,pbsv,sysv,hesv,posv,ppsv,spsv,hpsv
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE PRINT_SOLUTION
-end gesv,gtsv,ptsv,gbsv,pbsv,sysv,hesv,posv,ppsv,spsv,hpsv
+end gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
 
 
-begin sgesv,cgesv,sposv,cposv
+begin sgesv cgesv sposv cposv
         SUBROUTINE PRINT_SOLUTION
             USE Declaration
 
@@ -36,5 +37,5 @@ begin sgesv,cgesv,sposv,cposv
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE PRINT_SOLUTION
-end sgesv,cgesv,sposv,cposv
+end sgesv cgesv sposv cposv
         

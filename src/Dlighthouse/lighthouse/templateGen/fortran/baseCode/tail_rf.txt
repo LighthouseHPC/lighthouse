@@ -119,7 +119,7 @@ end pbtrf
 
 
 
-begin sytrf, hetrf, potrf
+begin sytrf hetrf potrf
         SUBROUTINE PRINT_SOLUTION
             USE Declaration
 
@@ -142,11 +142,11 @@ begin sytrf, hetrf, potrf
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE PRINT_SOLUTION
-end sytrf, hetrf, potrf
+end sytrf hetrf potrf
 
 
 
-begin pptrf, sptrf, hptrf
+begin pptrf sptrf hptrf
         SUBROUTINE PRINT_SOLUTION
             USE Declaration
 
@@ -169,4 +169,4 @@ begin pptrf, sptrf, hptrf
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE PRINT_SOLUTION
-end pptrf, sptrf, hptrf
+end pptrf sptrf hptrf

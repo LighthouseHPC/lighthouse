@@ -37,12 +37,11 @@
             CALL routineName routine_parameters
 
             
-            !--- write the solution ---!
-            !--- Note: the solution is returned in B and A has been changed ---!  
+            !--- write the solution ---! 
             CALL PRINT_SOLUTION
              
             !--- write INFO ---!
-            WRITE(*, *) "info = ", INFO
+            WRITE(*, *) "INFO = ", INFO
             
             DEALLOCATE(ALLOCATE_list)
         END PROGRAM TEMP_routineName
