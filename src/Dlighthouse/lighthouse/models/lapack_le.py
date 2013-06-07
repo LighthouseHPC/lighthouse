@@ -14,6 +14,7 @@ MATRIX_CHOICES = (
 	(u'Hermitian', u'Hermitian'), 
 	(u'SPD', u'SPD'),
 	(u'HPD', u'HPD'),
+	(u'semidefinite', 'semidefinite')
 	)
 
 STORAGE_CHOICES = (
@@ -21,6 +22,7 @@ STORAGE_CHOICES = (
 	(u'band', u'band'),
 	(u'packed', u'packed'),
 	(u'tridiagonal', u'tridiagonal'),
+	(u'rectangular full packed', u'rectangular full packed')
 )  	
 
 
@@ -49,7 +51,7 @@ class lapack_le_driver(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
 	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
 	url = models.URLField()
 	notes = models.CharField('Notes', max_length=225)
 	info = models.ForeignKey(lapack_RoutineInfo)
@@ -71,7 +73,7 @@ class lapack_le_simple(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
 	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
 	url = models.URLField()
 	notes = models.CharField('Notes', max_length=225)
 	info = models.ForeignKey(lapack_RoutineInfo)
@@ -93,7 +95,7 @@ class lapack_le_expert(models.Model):
 	thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=30)
 	matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-	storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+	storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
 	url = models.URLField()
 	notes = models.CharField('Notes', max_length=225)
 	info = models.ForeignKey(lapack_RoutineInfo)
@@ -120,7 +122,7 @@ class lapack_le_computational(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -139,7 +141,7 @@ class lapack_le_factor(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -158,7 +160,7 @@ class lapack_le_solve(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -177,7 +179,7 @@ class lapack_le_condition_number(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -195,7 +197,7 @@ class lapack_le_error_bound(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -214,7 +216,7 @@ class lapack_le_invert(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -233,7 +235,7 @@ class lapack_le_equilibrate(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -257,7 +259,7 @@ class lapack_le_only(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=20, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         url = models.URLField()
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)

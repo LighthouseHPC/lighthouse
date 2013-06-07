@@ -22,6 +22,9 @@ cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_solve")
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_only")
 
 
+cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg")
+
+
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_routineinfo")
 
 conn.commit()

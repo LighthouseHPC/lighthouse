@@ -27,3 +27,9 @@ os.system('python load_data.py')
 ### lapack_le_only
 os.chdir("../Combine")
 os.system('python load_data.py')
+
+
+### load data to
+### lapack_le_arg
+os.chdir("../Arguments")
+os.system('python load_data.py')
