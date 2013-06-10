@@ -116,7 +116,7 @@ class generateTemplate(object):
         ### --- Combine with tail.txt file--- ###
         if not self.routineName[-2:] == 'on':
             with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-                if self.routineName[-2:] in ['sv', 'rf']:
+                if self.routineName[-2:] in ['sv', 'rf', 'ri']:
                     with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():
