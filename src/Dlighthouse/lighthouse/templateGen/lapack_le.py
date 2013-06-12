@@ -4,6 +4,7 @@ from lighthouse.models.lapack_le import lapack_le_arg
 
 fortran_path = './lighthouse/templateGen/fortran/'
 
+keyword_list = ['sv', 'trf', 'trs', 'con', 'tri', 'rfs',]
 
 class generateTemplate(object):
     __name__ = 'generateTemplate'
@@ -27,26 +28,33 @@ class generateTemplate(object):
             
     def get_database(self):
         ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
-        if self.routineName[-2:] == 'sv' or self.routineName[-2:] == 'rf':
+        ### --- determin problem type: sv, trf, trs, con, tri, rfs ---###
+        for item in keyword_list:
+            if item in self.routineName:
+                keyword = item
+        
+        ### --- set up important parameters --- ###
+        if keyword in ['sv', 'trf']:
             routineName_trf = ''
             trf_parameters = ''
             question_list = ROUTINE[0].param_in.split(',')
         else:
-            routineName_trf = self.routineName.replace(self.routineName[-3:], 'trf')
+            routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_all
-            if self.routineName[-2:] == 'on':
+            if keyword == 'con':
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
             else:
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
             question_list = sorted(question_list, reverse=True)
                 
-        databaseInfo = {'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters, 'questionList': question_list}
+        databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters, 'questionList': question_list}
         return databaseInfo
     
     
     def make_template(self):
         ### --- get data from database --- ### 
         ROUTINE = self.get_database()['routine']
+        keyword = self.get_database()['keyword']
         routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
         question_list = self.get_database()['questionList']
@@ -55,7 +63,7 @@ class generateTemplate(object):
         
         ### --- copy head.txt file to test1.f90 --- ###
         with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "w") as f:
-            with open(fortran_path+"baseCode/head_"+self.routineName[-2:]+".txt", "r") as f_head:
+            with open(fortran_path+"baseCode/head_"+keyword+".txt", "r") as f_head:
                 for line in f_head.readlines():
                     f.write(line)
         
@@ -106,7 +114,7 @@ class generateTemplate(object):
                 for item in readData_list:
                     f.write('\t    READ(11, *) %s\n\n'%item)
 
-            if self.routineName[-2:] in ['sv', 'rs']:
+            if keyword in ['sv', 'trs']:
                 f.write('\t    !--- read data from file for B ---!\n')
                 f.write('\t    READ(22, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
                 
@@ -114,10 +122,10 @@ class generateTemplate(object):
             
             
         ### --- Combine with tail.txt file--- ###
-        if not self.routineName[-2:] == 'on':
+        if not keyword == 'con':
             with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-                if self.routineName[-2:] in ['sv', 'rf', 'ri']:
-                    with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
+                if keyword in ['sv', 'trf', 'tri']:
+                    with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():
                             if "begin" in line and self.routineName[1:] in line.split():
@@ -127,7 +135,7 @@ class generateTemplate(object):
                             if not flag and not "begin" in line and not self.routineName[1:] in line.split():
                                f.write(line)                  
                 else:
-                    with open(fortran_path+"baseCode/tail_"+self.routineName[-2:]+".txt", "r") as f_tail:
+                    with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                         for line in f_tail.readlines():
                             f.write(line)
         

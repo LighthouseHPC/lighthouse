@@ -1,0 +1,172 @@
+begin getri 
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            DO I = 1, M
+                WRITE(*,fmtNum) ( A( I, J ), J = 1, N )
+            END DO
+            WRITE(*,*)
+            
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end getri
+
+
+
+begin gttri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+            
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            WRITE(*,*) 'Second super-diagonal of U:'
+            WRITE (*,fmtNum) (DU2(I), I=1,N-2)
+            WRITE(*,*)
+            WRITE(*,*) 'First super-diagonal of U:'
+            WRITE (*,fmtNum) (DU(I), I=1,N-1)
+            WRITE(*,*)
+            WRITE(*,*) 'diagonal of U:'
+            WRITE (*,fmtNum) (D(I), I=1,N)
+            WRITE(*,*)
+            WRITE(*,*) 'multipliers:'
+            WRITE (*,fmtNum) (DL(I), I=1,N-1)
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end gttri    
+        
+        
+        
+begin pttri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            WRITE(*,*) 'diagonal elements of the diagonal matrix A: '
+            WRITE(*,11100) (D(I), I=1,N)
+            WRITE(*,*)
+            WRITE(*,*) 'subdiagonal elements of the unit bidiagonal factor L from the L*D*L**H factorization of A:'
+            WRITE(*,fmtNum) (E(I), I=1,N-1)
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end pttri
+
+
+
+begin gbtri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            DO I=1,N
+                WRITE(*,fmtNum) (AB(KL+KU+1+I-J,J),J=MAX(I-KL,1),MIN(I+KU,N))
+            END DO
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end gbtri
+
+
+
+begin pbtri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            IF (UPLO =='U') THEN
+                DO I = 1,N
+                    WRITE(*,fmtNum) (AB(KD+1+I-J,J),J=I,MIN(N,I+KD))
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1, N
+                    WRITE(*,fmtNum) (AB(1+I-J,J),J=MAX(1,I-KD),I)
+                END DO
+            END IF
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end pbtri
+
+
+
+begin sytri hetri potri trtri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            IF (UPLO =='U') THEN
+                DO I = 1,N
+                    WRITE(*,fmtNum) (A(I,J),J=I,N)
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1, N
+                    WRITE(*,fmtNum) (A(I,J),J=1,I)
+                END DO
+            END IF
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end sytri hetri potri trtri
+
+
+
+begin pptri sptri hptri tptri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'Inverted Matrix: '
+            IF (UPLO =='U') THEN
+                DO I = 1,N
+                    WRITE(*,fmtNum) ( AP( I+J*(J-1)/2 ), J=I,N )
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1, N
+                    WRITE(*,fmtNum) ( AP(I+(2*N-J)*(J-1)/2), J=1,I )
+                END DO
+            END IF
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end pptri sptri hptri tptri
