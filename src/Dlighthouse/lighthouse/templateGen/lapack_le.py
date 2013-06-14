@@ -33,34 +33,40 @@ class generateTemplate(object):
             if item in self.routineName:
                 keyword = item
         
-        ### --- set up important parameters --- ###
+        ### --- set up important parameters for later replacement --- ###
+        routineName_trs = ''
+        trs_parameters = ''
+        copy_arrays = ''
+        
         if keyword in ['sv', 'trf']:
             routineName_trf = ''
             trf_parameters = ''
-            routineName_trs = ''
-            trs_parameters = ''
             question_list = ROUTINE[0].param_in.split(',')
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_all
-            if keyword == 'con':
-                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
-                routineName_trs = ''
-                trs_parameters = ''
-            elif keyword == 'rfs':
-                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
-                trf_parameters = trf_parameters.replace('A', 'AF')
+            if keyword == 'rfs':
+                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
+                                     set(ROUTINE[0].param_in.split(',')))
                 routineName_trs = self.routineName.replace(keyword, 'trs')
-                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace('A', 'AF').replace('B', 'X')
+                A_org = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
+                A_fact = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
+                trf_parameters = trf_parameters.replace(A_org, A_fact)
+                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_org, A_fact).replace('B', 'X')
+                copy_arrays = ROUTINE[0].other
+            elif keyword == 'con':
+                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
+                                     set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
             else:
-                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
-                routineName_trs = ''
-                trs_parameters = ''
+                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
+                                     set(ROUTINE[0].param_in.split(',')))
+
             question_list = sorted(question_list, reverse=True)
                 
         databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'questionList': question_list,
                         'routineTrf': routineName_trf, 'trfParameters': trf_parameters,
-                        'routineTrs': routineName_trs, 'trsParameters': trs_parameters}
+                        'routineTrs': routineName_trs, 'trsParameters': trs_parameters,
+                        'copyArrays': copy_arrays,}
         return databaseInfo
     
     
@@ -73,7 +79,8 @@ class generateTemplate(object):
         trf_parameters = self.get_database()['trfParameters']
         routineName_trs = self.get_database()['routineTrs']
         trs_parameters = self.get_database()['trsParameters']
-        #print question_list
+        copy_arrays = self.get_database()['copyArrays']
+        #print copy_arrays
 
         
         ### --- copy head.txt file to test1.f90 --- ###
@@ -107,7 +114,7 @@ class generateTemplate(object):
             ## --- set up ALLOCATE --- ##
             allocate_list = ROUTINE[0].allocate.split(";")
             f.write('\n')
-            f.write('\t    !--- allocate matrix/array ---!\n')
+            f.write('\t    !--- allocate arrays ---!\n')
             for item in allocate_list:
                 f.write('\t    ALLOCATE(%s)\n'%item)
             f.write('\tEND SUBROUTINE DIMNS_ASSIGNMENT\n')
@@ -183,6 +190,7 @@ class generateTemplate(object):
                        'anorm_param': self.routineName[0]+ROUTINE[0].other,
                        'routineName_trs': routineName_trs,
                        'trs_parameters': trs_parameters,
+                       'copy_arrays': copy_arrays, 
                        }
 
         with open(fortran_path+"codeTemplates/test2_"+self.routineName+".f90", "wt") as fout:
