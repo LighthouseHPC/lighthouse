@@ -37,17 +37,30 @@ class generateTemplate(object):
         if keyword in ['sv', 'trf']:
             routineName_trf = ''
             trf_parameters = ''
+            routineName_trs = ''
+            trs_parameters = ''
             question_list = ROUTINE[0].param_in.split(',')
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_all
             if keyword == 'con':
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
+                routineName_trs = ''
+                trs_parameters = ''
+            elif keyword == 'rfs':
+                question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
+                trf_parameters = trf_parameters.replace('A', 'AF')
+                routineName_trs = self.routineName.replace(keyword, 'trs')
+                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace('A', 'AF').replace('B', 'X')
             else:
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|set(ROUTINE[0].param_in.split(',')))
+                routineName_trs = ''
+                trs_parameters = ''
             question_list = sorted(question_list, reverse=True)
                 
-        databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters, 'questionList': question_list}
+        databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'questionList': question_list,
+                        'routineTrf': routineName_trf, 'trfParameters': trf_parameters,
+                        'routineTrs': routineName_trs, 'trsParameters': trs_parameters}
         return databaseInfo
     
     
@@ -55,9 +68,11 @@ class generateTemplate(object):
         ### --- get data from database --- ### 
         ROUTINE = self.get_database()['routine']
         keyword = self.get_database()['keyword']
+        question_list = self.get_database()['questionList']
         routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
-        question_list = self.get_database()['questionList']
+        routineName_trs = self.get_database()['routineTrs']
+        trs_parameters = self.get_database()['trsParameters']
         #print question_list
 
         
@@ -114,7 +129,7 @@ class generateTemplate(object):
                 for item in readData_list:
                     f.write('\t    READ(11, *) %s\n\n'%item)
 
-            if keyword in ['sv', 'trs']:
+            if keyword in ['sv', 'trs', 'rfs']:
                 f.write('\t    !--- read data from file for B ---!\n')
                 f.write('\t    READ(22, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
                 
@@ -164,8 +179,10 @@ class generateTemplate(object):
                        'fmtNum': fmtNum,
                        'routineName_trf': routineName_trf,
                        'trf_parameters': trf_parameters,
-                       'routine_anorm': self.routineName[0]+ROUTINE[0].anorm_routine[0:5],
-                       'anorm_param': self.routineName[0]+ROUTINE[0].anorm_routine
+                       'routine_anorm': self.routineName[0]+ROUTINE[0].other[0:5],
+                       'anorm_param': self.routineName[0]+ROUTINE[0].other,
+                       'routineName_trs': routineName_trs,
+                       'trs_parameters': trs_parameters,
                        }
 
         with open(fortran_path+"codeTemplates/test2_"+self.routineName+".f90", "wt") as fout:
