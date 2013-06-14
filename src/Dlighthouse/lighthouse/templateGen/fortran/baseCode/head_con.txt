@@ -1,5 +1,4 @@
         MODULE Declaration
-            !--- declare arrays to be allocatable ---!
             INTEGER                                                     :: integer_list, I, J
             CHARACTER(LEN=1)                                            :: character_list
             REAL(KIND=)                                                 :: real_list
@@ -47,7 +46,6 @@
             WRITE (*, 33300) "Condition number = ", 1.d0/RCOND
             WRITE (*,*)
 33300       FORMAT (1X, A, 1P, E10.4)
-
              
             !--- write INFO ---!
             WRITE(*, *) "info = ", INFO

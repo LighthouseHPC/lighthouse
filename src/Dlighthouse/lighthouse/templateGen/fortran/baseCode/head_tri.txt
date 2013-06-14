@@ -1,5 +1,4 @@
         MODULE Declaration
-            !--- declare arrays to be allocatable ---!
             INTEGER                                                     :: integer_list, I, J
             CHARACTER(LEN=1)                                            :: character_list
             INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
@@ -21,7 +20,7 @@
             PRINT *,
  
  
-            !--- open file that stores data ---!
+            !--- open files that store data ---!
             CALL OPEN_FILES
 
 
