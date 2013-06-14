@@ -52,7 +52,7 @@ class generateTemplate(object):
                 A_org = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
                 A_fact = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
                 trf_parameters = trf_parameters.replace(A_org, A_fact)
-                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_org, A_fact).replace('B', 'X')
+                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_org, A_fact).replace('B, LDB', 'X, LDX')
                 copy_arrays = ROUTINE[0].other
             elif keyword == 'con':
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
