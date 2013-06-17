@@ -193,7 +193,7 @@ admin.site.register(lapack_le_only, lapack_le_onlyAdmin)
 class lapack_le_argAdmin(admin.ModelAdmin):
 	list_display = ('id', 'routineName', 'param_all', 'param_in', 'param_out', 'param_inout',
 			'matrix', 'array_1d_real', 'array_1d', 'array_1d_int', 'char', 'integers', 'reals',
-			'LDA_condition', 'allocate_list', 'allocate', 'readData', 'readData_L', 'Other')
+			'LDA_condition', 'allocate_list', 'allocate', 'readData', 'readData_L', 'other')
 	
 	#list_filter = ['matrix']
 	search_fileds = ['routineName']
