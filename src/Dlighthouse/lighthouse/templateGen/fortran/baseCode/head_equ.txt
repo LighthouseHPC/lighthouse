@@ -1,0 +1,68 @@
+        MODULE Declaration
+            INTEGER                                                     :: integer_list, I, J
+            CHARACTER(LEN=1)                                            :: character_list
+            REAL(KIND=)                                                 :: real_list, DLAMCH, SMLNUM, BIGNUM
+            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
+            REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
+            dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
+            dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
+            
+            EXTERNAL DLAMCH
+        END MODULE Declaration
+                
+
+        PROGRAM TEMP_routineName
+            USE Declaration
+            IMPLICIT NONE
+            
+            !--- message ---!
+            PRINT *, "************************************************"
+            PRINT *, "*** Use routineName to equilibrate matrix A. ***"
+            PRINT *, "************************************************"
+            PRINT *,
+ 
+ 
+            !--- open files that store data ---!
+            CALL OPEN_FILES
+
+
+            !--- allocate storage ---!
+            CALL DIMNS_ASSIGNMENT
+
+            
+            !--- read data ---!
+            CALL GET_DATA
+        
+        
+            !--- compute smallest/largest safe numbers ---!       
+            SMLNUM = DLAMCH('s')
+            BIGNUM = 1.0/DLAMCH('s')
+            
+            
+            !--- compute the reciprocal of the condition number RCOND ---!
+            CALL routineName routine_parameters
+
+            
+            !--- write the solution ---!
+            CALL PRINT_SOLUTION
+            
+            
+            !--- print scaled matrix ---!
+            CALL MATRIX_SCALING
+            
+             
+            !--- write INFO ---!
+            WRITE(*, *) "info = ", INFO
+            
+            DEALLOCATE(ALLOCATE_list)
+        END PROGRAM TEMP_routineName
+        
+
+
+        
+        SUBROUTINE OPEN_FILES
+            !--- obtain the dada of the matrix A ---!
+            OPEN (unit=11, file='file_name_for_data_A', status='old')
+            
+        END SUBROUTINE OPEN_FILES
+        

@@ -4,7 +4,7 @@ from lighthouse.models.lapack_le import lapack_le_arg
 
 fortran_path = './lighthouse/templateGen/fortran/'
 
-keyword_list = ['sv', 'trf', 'trs', 'con', 'tri', 'rfs',]
+keyword_list = ['sv', 'trf', 'trs', 'con', 'tri', 'rfs', 'equ']
 
 class generateTemplate(object):
     __name__ = 'generateTemplate'
@@ -28,7 +28,7 @@ class generateTemplate(object):
             
     def get_database(self):
         ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
-        ### --- determin problem type: sv, trf, trs, con, tri, rfs ---###
+        ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ ---###
         for item in keyword_list:
             if item in self.routineName:
                 keyword = item
@@ -38,10 +38,10 @@ class generateTemplate(object):
         trs_parameters = ''
         copy_arrays = ''
         
-        if keyword in ['sv', 'trf']:
+        if keyword in ['sv', 'trf', 'equ']:
             routineName_trf = ''
             trf_parameters = ''
-            question_list = ROUTINE[0].param_in.split(',')
+            question_list = ROUTINE[0].param_in.split(',')+ROUTINE[0].char.split(',')
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_all
@@ -146,7 +146,7 @@ class generateTemplate(object):
         ### --- Combine with tail.txt file--- ###
         if not keyword == 'con':
             with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-                if keyword in ['sv', 'trf', 'tri']:
+                if keyword in ['sv', 'trf', 'tri', 'equ']:
                     with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():
