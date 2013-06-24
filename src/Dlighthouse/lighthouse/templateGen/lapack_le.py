@@ -41,7 +41,7 @@ class generateTemplate(object):
         if keyword in ['sv', 'trf', 'equ']:
             routineName_trf = ''
             trf_parameters = ''
-            question_list = ROUTINE[0].param_in.split(',')+ROUTINE[0].char.split(',')
+            question_list = list(set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_all
@@ -61,7 +61,7 @@ class generateTemplate(object):
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
                                      set(ROUTINE[0].param_in.split(',')))
 
-            question_list = sorted(question_list, reverse=True)
+        question_list = sorted(question_list, reverse=True)
                 
         databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'questionList': question_list,
                         'routineTrf': routineName_trf, 'trfParameters': trf_parameters,

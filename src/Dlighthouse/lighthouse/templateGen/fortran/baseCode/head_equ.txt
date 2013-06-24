@@ -16,9 +16,9 @@
             IMPLICIT NONE
             
             !--- message ---!
-            PRINT *, "************************************************"
+            PRINT *, "********************************************"
             PRINT *, "*** Use routineName to equilibrate matrix A. ***"
-            PRINT *, "************************************************"
+            PRINT *, "********************************************"
             PRINT *,
  
  
@@ -39,7 +39,7 @@
             BIGNUM = 1.0/DLAMCH('s')
             
             
-            !--- compute the reciprocal of the condition number RCOND ---!
+            !--- call lapack subroutine routineName ---!
             CALL routineName routine_parameters
 
             
@@ -52,7 +52,7 @@
             
              
             !--- write INFO ---!
-            WRITE(*, *) "info = ", INFO
+            WRITE(*, *) "INFO = ", INFO
             
             DEALLOCATE(ALLOCATE_list)
         END PROGRAM TEMP_routineName

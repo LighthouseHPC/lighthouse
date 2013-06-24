@@ -1,4 +1,4 @@
-begin geequ geequb gbequ gbequb poequ poequb pbequ ppequ syequb heequb
+begin geequ geequb gbequ gbequb
         SUBROUTINE PRINT_SOLUTION
             USE Declaration
 
@@ -20,7 +20,31 @@ begin geequ geequb gbequ gbequb poequ poequb pbequ ppequ syequb heequb
         END SUBROUTINE PRINT_SOLUTION
         
         
-end geequ geequb gbequ gbequb poequ poequb pbequ ppequ syequb heequb
+end geequ geequb gbequ gbequb
+
+
+
+begin poequ poequb pbequ ppequ syequb heequb
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,33300) 'AMAX = ', AMAX
+            WRITE(*,33300) 'SCOND = ', SCOND
+            WRITE(*,*)
+            WRITE(*,*) 'Scale factors:'
+            WRITE(*, 44400) (S(I), I=1,N)
+            WRITE(*,*)
+            
+33300       FORMAT(1X,3(A,1P,ES15.2))
+
+44400       FORMAT(11(:,1X, ES15.2))
+        END SUBROUTINE PRINT_SOLUTION
+        
+        
+end poequ poequb pbequ ppequ syequb heequb
+
+
 
 
 begin geequ geequb
@@ -207,7 +231,7 @@ end ppequ
 
 
 
-begin poequ poequb syequ heequ
+begin poequ poequb syequb heequb
         SUBROUTINE MATRIX_SCALING
             USE Declaration
             
@@ -246,4 +270,4 @@ begin poequ poequb syequ heequ
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE MATRIX_SCALING
-end poequ poequb syequ heequ
+end poequ poequb syequb heequb
