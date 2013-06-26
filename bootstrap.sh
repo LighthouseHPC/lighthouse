@@ -20,6 +20,8 @@ echo "Installing Dajaxice"
 sudo $pythonexec django_dajaxice
 echo "Installing Dajax"
 sudo $pythonexec django_dajax
+echo "Installing django_taggit"
+sudo easy_install django_taggit
 
 # No longer needed for now (while using the sqlite3 db for demo purposes)
 #echo ""; echo "--------------------------------------------------------"; 
