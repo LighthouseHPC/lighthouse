@@ -4,7 +4,7 @@ from lighthouse.models.lapack_le import lapack_le_arg
 
 fortran_path = './lighthouse/templateGen/fortran/'
 
-keyword_list = ['sv', 'trf', 'trs', 'con', 'tri', 'rfs', 'equ']
+keyword_list = ['trf', 'trs', 'con', 'tri', 'rfs', 'equ', 'svx']
 
 class generateTemplate(object):
     __name__ = 'generateTemplate'
@@ -29,9 +29,12 @@ class generateTemplate(object):
     def get_database(self):
         ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
         ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ ---###
-        for item in keyword_list:
-            if item in self.routineName:
-                keyword = item
+        if self.routineName[-2:] == 'sv':
+            keyword = 'sv'
+        else:
+            for item in keyword_list:
+                if item in self.routineName:
+                    keyword = item
         
         ### --- set up important parameters for later replacement --- ###
         routineName_trs = ''
