@@ -283,7 +283,7 @@ class lapack_le_only(models.Model):
 """ Arguments """
 class lapack_le_arg(models.Model):
 	routineName = models.CharField('Routine Name', max_length=60)
-	param_all = models.CharField('Parameters', max_length=160)
+	param_all = models.CharField('Parameters', max_length=300)
 	param_in = models.CharField('In', max_length=100)
 	param_out = models.CharField('Out', max_length=100)
 	param_inout = models.CharField('In, Out', max_length=50)
@@ -296,7 +296,7 @@ class lapack_le_arg(models.Model):
 	reals = models.CharField('Real', max_length=50)
 	LDA_condition = models.CharField('LDA_condition', max_length=100)
 	allocate_list = models.CharField('Allocate list', max_length=100)
-	allocate = models.CharField('Allocate', max_length=160)
+	allocate = models.CharField('Allocate', max_length=300)
 	readData = models.CharField('Read matrix', max_length=100)		
 	readData_L = models.CharField('Read matrix_LO', max_length=100)
 	other = models.CharField('Other', max_length=100)
