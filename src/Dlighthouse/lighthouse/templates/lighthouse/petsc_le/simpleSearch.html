@@ -1,0 +1,69 @@
+<!-- ########### Simple search form: ###########-->
+
+<div id="title-div">
+	<table id="icon-table">
+		<tr>
+			<td id="icon-cell">
+				<img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
+			</td>		
+			<td id="title-cell">
+				PETSc Guided Search
+			</td>
+		</tr>
+	</table>	
+</div>
+
+<form id="main_op"  action="/petsc/linear_system/" name="main_op" method="post">
+	{% csrf_token %}
+	{% for field in form %}
+	<!-- ### Question 1 : Which of the following do you wish to compute? ###-->
+	<div id="question-div-petsc">
+
+		<table id="question">
+
+		<tr>
+			<td>			
+		        <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+				<b>{{ field.label }}</b>			
+			</td>
+		</tr>
+
+		</table>
+		{% for option in field %}
+		<table id="option">
+		
+		<tr>				
+			<td>				
+				{{ option }}
+			</td>			
+		</tr>
+
+		</table>
+
+		{% endfor %}
+		<br>	
+	</div>
+	{% endfor %}
+
+	<div id="button-div">
+	    <table style="width:100%; margin: 0px auto;">
+		<tr style="width:100%;">
+			<td style="text-align:left;">				
+				<button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
+				    <!-- <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> -->
+				    Reset
+				</button>				
+			</td>			
+			<td style="text-align:center;">
+				<div id="tooltip"></div>
+			</td>
+			<td style="text-align:right;">
+				<button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkOperation();">
+				    <!-- <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/> -->
+				    Submit
+				</button >
+			</td>
+		</tr>
+    	</table>
+	</div>
+</form>

@@ -1,0 +1,34 @@
+{% extends "dojango/base_petsc.html" %}
+
+
+<!-- ########### Simple search tab: ###########-->
+{% block simpleSearch %}
+{% include "lighthouse/petsc_le/simpleSearch.html" %}
+{% endblock %}
+
+<!-- ########### Advanced search tab: ###########-->
+{% block advancedSearch %}
+{% include "lighthouse/petsc_le/advancedSearch.html" %}
+{% endblock %}
+
+<!-- ########### Instructions tab ###########-->
+{% block instructions %}
+{% include "lighthouse/petsc_le/instructions.html" %}
+{% endblock %}
+
+<!-- ########### Code tab: ###########-->
+{% block code %}
+{% include "lighthouse/petsc_le/code.html" %}
+{% endblock %}
+
+<!-- ########### Command-line options tab: ###########-->
+{% block command_line_options %}
+{% include "lighthouse/petsc_le/command_line_options.html" %}
+{% endblock %}
+
+
+<!-- ########### Makefile tab: ###########-->
+{% block makefile %}
+{% include "lighthouse/petsc_le/makefile.html" %}
+{% endblock %}
+

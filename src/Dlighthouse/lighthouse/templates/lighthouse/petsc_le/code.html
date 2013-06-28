@@ -1,0 +1,20 @@
+{% if code %}
+
+<div id="title-div">
+	<table style="width: 100%; border: 0px solid;">
+		<tr>
+			<td style="text-align:left; padding-left:5px; width:24px;">
+				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+			</td>		
+			<td style="text-align:left">
+				Code
+			</td>
+		</tr>
+	</table>	
+</div>
+<br>
+
+<div id="question-div-petsc" style="margin: 0px auto; font-family: monospace; white-space: pre; font-size: 12px; overflow: auto;">{{ code }}
+<br></div>
+
+{% endif %}

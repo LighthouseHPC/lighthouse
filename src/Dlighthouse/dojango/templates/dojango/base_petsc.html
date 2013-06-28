@@ -88,8 +88,8 @@
                                 minSize="100" style="width: 40%;" id="leftTab"
                                 region="leading" splitter="true">
                                 <!-- Simple Search-->
-                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
-                                        {% block guidedSearch %}{% endblock %}
+                                <div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                        {% block simpleSearch %}{% endblock %}
                                 </div><!-- end Simple Search -->
 
                                 <!--  Advanced Search -->
