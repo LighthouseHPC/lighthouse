@@ -41,7 +41,7 @@ class generateTemplate(object):
         trs_parameters = ''
         copy_arrays = ''
         
-        if keyword in ['sv', 'trf', 'equ']:
+        if keyword in ['sv', 'trf', 'equ', 'svx']:
             routineName_trf = ''
             trf_parameters = ''
             question_list = list(set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
@@ -101,13 +101,22 @@ class generateTemplate(object):
             for item in question_list:
                 flag = 1
                 with open(fortran_path+"baseCode/readQ.txt", "r") as f_readQ:
-                    for line in f_readQ.readlines():
-                        if "begin %s\n"%item in line:
-                            flag = 0
-                        if "end %s\n"%item in line:
-                            flag = 1
-                        if not flag and not "begin %s\n"%item in line:
-                           f.write(line)
+                    if item == 'FACT':
+                        for line in f_readQ.readlines():
+                            if "begin %s"%item in line and self.routineName[1:] in line.split():
+                                flag = 0
+                            if "end %s"%item in line and self.routineName[1:] in line.split():
+                                flag = 1
+                            if not flag and not "begin %s"%item in line:
+                               f.write(line)                        
+                    else:
+                        for line in f_readQ.readlines():
+                            if "begin %s\n"%item in line:
+                                flag = 0
+                            if "end %s\n"%item in line:
+                                flag = 1
+                            if not flag and not "begin %s\n"%item in line:
+                               f.write(line)
             
             if ROUTINE[0].LDA_condition:
                 f.write('\n')
@@ -139,7 +148,7 @@ class generateTemplate(object):
                 for item in readData_list:
                     f.write('\t    READ(11, *) %s\n\n'%item)
 
-            if keyword in ['sv', 'trs', 'rfs']:
+            if keyword in ['sv', 'trs', 'rfs', 'svx']:
                 f.write('\t    !--- read data from file for B ---!\n')
                 f.write('\t    READ(22, *) ((B(I,J),J=1,NRHS),I=1,LDB)\n')
                 
@@ -149,7 +158,7 @@ class generateTemplate(object):
         ### --- Combine with tail.txt file--- ###
         if not keyword == 'con':
             with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-                if keyword in ['sv', 'trf', 'tri', 'equ']:
+                if keyword in ['sv', 'trf', 'tri', 'equ', 'svx']:
                     with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():

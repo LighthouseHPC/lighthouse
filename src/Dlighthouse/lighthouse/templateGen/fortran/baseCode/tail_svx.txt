@@ -1,0 +1,79 @@
+begin sysvx hesvx 
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AF and IPIV are input arguments ---!
+            open (unit=33, file='file_name_for_data_AF', status='old')
+            open (unit=33, file='file_name_for_data_IPIV', status='old')
+            
+            !--- read data from file for AF ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AF(I,J),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AF(I,J),J=1,I),I=1,N)
+            END IF
+            
+            !--- read data from file for IPIV ---!
+            READ (44,*) (IPIV(I), I=1,N)
+        END SUBROUTINE FACT_INPUT
+        
+        
+end sysvx hesvx 
+
+
+
+
+begin gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'SOLUTION: '
+            DO I = 1, LDX
+                WRITE(*,22200) ( X( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+            
+            !--- write forward errors ---!
+            !--- Note: forward errors are machine-dependent ---!
+            WRITE(*, *) "FERR: "
+            WRITE(*, "(ES15.3, 1X, ES15.3)") (FERR(I), I = 1, NRHS)
+            WRITE(*, *)            
+            
+            !--- write backward errors ---!
+            !--- Note: backward errors are machine-dependent ---!
+            WRITE(*, *) "BERR: "
+            WRITE(*, "(ES15.3, 1X, ES15.3)") (BERR(I), I = 1, NRHS)
+            WRITE(*, *)
+            
+            !--- write condition number ---!
+            WRITE (*,*) "Reciprocal condition number: "
+            WRITE (*,33300) "RCOND = ", RCOND
+            WRITE (*,*)
+            WRITE (*,*) "Condition number: "
+            WRITE (*,33300) "1/RCOND = ", 1.d0/RCOND
+            WRITE (*,*)
+
+end gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
+
+
+
+
+begin gesvx gbsvx pbsvx posvx ppsvx
+
+
+begin gesvx gbsvx pbsvx posvx ppsvx
+
+
+
+
+begin gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.3))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+
+33300       FORMAT (5X, A, 1P, E10.4)
+
+        END SUBROUTINE PRINT_SOLUTION
+end gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
