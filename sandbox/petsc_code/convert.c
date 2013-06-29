@@ -1,10 +1,8 @@
 
-#if !defined(PETSC_USE_COMPLEX)
-
-static char help[] = "Reads in a complex matrix in MatrixMarket format. Writes\n\
-it using the PETSc sparse format. It also adds a Vector set to 1+i to the\n\
+static char help[] = "Reads in a matrix in MatrixMarket format. Writes\n\
+it using the PETSc sparse format. It also adds a Vector set to 1 to the\n\
 output file. Input parameters are:\n\
-  -fin <filename>  : input file\n\
+  -fin <filename> : input file\n\
   -fout <filename> : output file\n\n";
 
 #include <petscmat.h>
@@ -14,28 +12,37 @@ output file. Input parameters are:\n\
 int main(int argc,char **args)
 {
   Mat            A;
-  Vec            b;
+  Vec            b, d;
   char           filein[PETSC_MAX_PATH_LEN],fileout[PETSC_MAX_PATH_LEN],buf[PETSC_MAX_PATH_LEN];
-  PetscInt       i,m,n,nnz,col,row;
+  PetscInt       i,m,n,k,nnz,col,row;
   PetscErrorCode ierr;
   PetscMPIInt    size;
-  PetscScalar    val_r, val_i, z;
+  PetscScalar    val;
+  PetscBool      flg;
   FILE*          file;
   PetscViewer    view;
   PetscRandom    r;
 
   PetscInitialize(&argc,&args,(char *)0,help);
-
   ierr = MPI_Comm_size(PETSC_COMM_WORLD,&size);CHKERRQ(ierr);
-  if (size > 1) SETERRQ(PETSC_COMM_WORLD,1,"Uniprocessor Example only\n");
+  if (size != 1) SETERRQ(PETSC_COMM_WORLD,1,"This is a uniprocessor program only!");
 
-  /* Read in matrix */
-  ierr = PetscOptionsGetString(PETSC_NULL,"-fin",filein,PETSC_MAX_PATH_LEN,PETSC_NULL);CHKERRQ(ierr);
+  /* Read in matrix and RHS */
+  ierr = PetscOptionsGetString(PETSC_NULL,"-fin",filein,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  if (!flg) {
+    SETERRQ(PETSC_COMM_WORLD,1,"Must indicate input matrix file with the -fin option");
+  }
   ierr = PetscFOpen(PETSC_COMM_SELF,filein,"r",&file);CHKERRQ(ierr);
 
   /* process header with comments */
-  do fgets(buf,PETSC_MAX_PATH_LEN-1,file);
-  while (buf[0] == '%');
+  PetscBool isSymmetric = PETSC_FALSE;
+
+  do {
+    fgets(buf,PETSC_MAX_PATH_LEN-1,file);
+    if(strstr(buf, "symmetric") != NULL){
+      isSymmetric = PETSC_TRUE;
+    }
+  }while (buf[0] == '%');
 
   /* The first non-comment line has the matrix dimensions */
   sscanf(buf,"%d %d %d\n",&m,&n,&nnz);
@@ -46,16 +53,29 @@ int main(int argc,char **args)
   ierr = VecCreate(PETSC_COMM_WORLD,&b);CHKERRQ(ierr);
   ierr = VecSetSizes(b,PETSC_DECIDE,n);CHKERRQ(ierr);
   ierr = VecSetFromOptions(b);CHKERRQ(ierr);
-  ierr = VecSet(b,(1+PETSC_i));CHKERRQ(ierr);
-  //ierr = PetscRandomCreate(PETSC_COMM_SELF,&r);CHKERRQ(ierr);
-  //ierr = PetscRandomSetFromOptions(r);CHKERRQ(ierr);
-  //ierr = VecSetRandom(b,r);CHKERRQ(ierr);
+  ierr = VecSet(b,1);CHKERRQ(ierr);
+  ierr = VecDuplicate(b,&d);CHKERRQ(ierr);
 
   for (i=0; i<nnz; i++) {
-    fscanf(file,"%d %d %le %le\n",&row,&col,(double*)&val_r, (double*)&val_i);
-    row = row-1; col = col-1;
-    z = val_r + (val_i*PETSC_i);
-    ierr = MatSetValues(A,1,&row,1,&col,&z,INSERT_VALUES);CHKERRQ(ierr);
+    fscanf(file,"%d %d %le\n",&row,&col,(double*)&val);
+    row = row-1; col = col-1 ;
+    ierr = MatSetValues(A,1,&row,1,&col,&val,INSERT_VALUES);CHKERRQ(ierr);
+    if(isSymmetric){
+      if (row != col){
+        ierr = MatSetValues(A,1,&col,1,&row,&val,INSERT_VALUES);CHKERRQ(ierr);
+      }
+    }
+    if(row == col)
+       VecSetValue(d,row,1,ADD_VALUES);
+  }
+
+  VecAssemblyBegin(d); VecAssemblyEnd(d);
+  PetscScalar dv[1];
+  val = 0;
+  for(k=0; k<m; k++){
+    VecGetValues(d,1,&k,dv);
+    if(dv[0] == 0)
+      ierr = MatSetValues(A,1,&k,1,&k,&val,INSERT_VALUES);CHKERRQ(ierr);
   }
 
   fclose(file);
@@ -80,11 +100,3 @@ int main(int argc,char **args)
   ierr = PetscFinalize();
   return 0;
 }
-#else
-#include <stdio.h>
-int main(int argc,char **args)
-{
-  fprintf(stdout,"This example does not work for complex numbers.\n");
-  return 0;
-}
-#endif

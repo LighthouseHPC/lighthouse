@@ -1,7 +1,7 @@
 
 /* Program usage:  mpiexec ex1 [-help] [all PETSc options] */
 
-static char help[] = "Solves a linear system with various combinations of KSP + PC.\n\n";
+static char help[] = "Solves a linear system.\n\n";
 
 #include <petscksp.h>
 #include <petsctime.h>
@@ -14,12 +14,11 @@ int main(int argc,char **args)
   Mat            A;        /* linear system matrix */
   KSP            ksp;          /* linear solver context */
   PetscErrorCode ierr;
-  PetscInt       its[41], i = 1;
+  PetscInt       its;
   PetscMPIInt    size;
-  PetscReal      norm[41];
-  PetscLogDouble tsetup[41],tsetup1,tsetup2,tsolve[41],tsolve1,tsolve2;
-  char           settings[41][30];
-  PetscBool      flg, print_result = PETSC_TRUE;
+  PetscReal      norm;
+  PetscLogDouble tsetup,tsetup1,tsetup2,tsolve,tsolve1,tsolve2;
+  PetscBool      flg;
   
   PetscViewer    fd;              /* viewer */
   char           file[PETSC_MAX_PATH_LEN];
@@ -32,7 +31,7 @@ int main(int argc,char **args)
     SETERRQ(PETSC_COMM_WORLD,1,"Must indicate matrix file with the -f option");
   }
 
-  /* Read petsc binary matrix file */
+  /* Read Matrix Market File */
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   /*
      Load the matrix and vector; then destroy the viewer.
@@ -63,30 +62,23 @@ int main(int argc,char **args)
   ierr = KSPSetUpOnBlocks(ksp);CHKERRQ(ierr);
 
   ierr = PetscTime(&tsetup2);CHKERRQ(ierr);
-  tsetup[i] = tsetup2 - tsetup1;
+  tsetup = tsetup2 - tsetup1;
 
   ierr = PetscTime(&tsolve1);CHKERRQ(ierr);
   ierr = KSPSolve(ksp,b,x);CHKERRQ(ierr); 
-  ierr = KSPGetIterationNumber(ksp,&its[i]);CHKERRQ(ierr);
+  ierr = KSPGetIterationNumber(ksp,&its);CHKERRQ(ierr);
   ierr = MatMult(A,x,u);CHKERRQ(ierr);
   ierr = VecAXPY(u,-1.0,b);CHKERRQ(ierr);
-  ierr = VecNorm(u,NORM_2,&norm[i]);CHKERRQ(ierr);
+  ierr = VecNorm(u,NORM_2,&norm);CHKERRQ(ierr);
   ierr = PetscTime(&tsolve2);CHKERRQ(ierr);
-  tsolve[i] = tsolve2 - tsolve1;
+  tsolve = tsolve2 - tsolve1;
 
-  //strcpy(settings[i], " KSPCG     + PCILU(0)");
-  if(print_result){
-    ierr = PetscPrintf(PETSC_COMM_WORLD,"%D. %s",i,settings[i]);CHKERRQ(ierr);    
-    ierr = PetscPrintf(PETSC_COMM_WORLD," :: Time: %es | Norm: %11G | Iterations: %5D\n",tsetup[i]+tsolve[i],norm[i],its[i]);CHKERRQ(ierr);
-  }
-  i++;
-
+  ierr = PetscPrintf(PETSC_COMM_WORLD," :: Time: %es | Norm: %11G | Iterations: %5D\n",tsetup+tsolve,norm,its);CHKERRQ(ierr);
+  
   /* 
      Free work space.  All PETSc objects should be destroyed when they
      are no longer needed.
   */
-
-
   ierr = VecDestroy(&x);CHKERRQ(ierr);
   ierr = VecDestroy(&b);CHKERRQ(ierr); 
   ierr = MatDestroy(&A);CHKERRQ(ierr);
