@@ -1,34 +1,29 @@
+export PETSC_DIR=/Users/Andromeda/Desktop/petsc-3.4.1
+export PETSC_ARCH=petsc_real
+
 include ${PETSC_DIR}/conf/variables
 include ${PETSC_DIR}/conf/rules
 
-lin_sol_par_real_batch: lin_sol_par_real_batch.o  chkopts
-	-${CLINKER} -o lin_sol_par_real_batch lin_sol_par_real_batch.o  ${PETSC_KSP_LIB}
-	${RM} lin_sol_par_real_batch.o
+solver: solver.o  chkopts
+	-${CLINKER} -o solver solver.o  ${PETSC_KSP_LIB}
+	${RM} solver.o
 
-mat_conv_real: mat_conv_real.o  chkopts
-	-${CLINKER} -o mat_conv_real mat_conv_real.o  ${PETSC_MAT_LIB}
-	${RM} mat_conv_real.o
+sequential: sequential.o  chkopts
+	-${CLINKER} -o sequential sequential.o  ${PETSC_KSP_LIB}
+	${RM} sequential.o
 
-mat_props_real: mat_props_real.o  chkopts
-	-${CLINKER} -o mat_props_real mat_props_real.o  ${PETSC_MAT_LIB}
-	${RM} mat_props_real.o
+parallel: parallel.o  chkopts
+	-${CLINKER} -o parallel parallel.o  ${PETSC_KSP_LIB}
+	${RM} parallel.o
 
-mat_conv_comp: mat_conv_comp.o  chkopts
-	-${CLINKER} -o mat_conv_comp mat_conv_comp.o  ${PETSC_MAT_LIB}
-	${RM} mat_conv_comp.o
+convert: convert.o  chkopts
+	-${CLINKER} -o convert convert.o  ${PETSC_MAT_LIB}
+	${RM} convert.o
 
-lin_sol_seq_real_batch: lin_sol_seq_real_batch.o  chkopts
-	-${CLINKER} -o lin_sol_seq_real_batch lin_sol_seq_real_batch.o  ${PETSC_KSP_LIB}
-	${RM} lin_sol_seq_real_batch.o
-
-lin_sol_par_real: lin_sol_par_real.o  chkopts
-	-${CLINKER} -o lin_sol_par_real lin_sol_par_real.o  ${PETSC_KSP_LIB}
-	${RM} lin_sol_par_real.o
+properties: properties.o  chkopts
+	-${CLINKER} -o properties properties.o  ${PETSC_MAT_LIB}
+	${RM} properties.o
 
 ex10: ex10.o  chkopts
 	-${CLINKER} -o ex10 ex10.o  ${PETSC_KSP_LIB}
 	${RM} ex10.o
-
-ex11: ex11.o  chkopts
-	-${CLINKER} -o ex11 ex11.o  ${PETSC_KSP_LIB}
-	${RM} ex11.o
