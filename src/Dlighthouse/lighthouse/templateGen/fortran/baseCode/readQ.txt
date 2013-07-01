@@ -66,3 +66,44 @@
 	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if the Normal TRANSR of RFP A is stored  or 'T' if the Transpose TRANSR of RFP A is stored. TRANSR = "
             READ *, TRANSR  
             end TRANSR
+	    	    
+	    
+	    begin FACT gtsvx ptsvx sysvx hesvx spsvx
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'F' for factored form of A; otherwise, enter 'N'. FACT = "
+	    READ *, FACT
+	    
+	    IF (FACT == 'F') THEN
+	        CALL FACT_INPUT
+	    END IF
+	    end FACT gtsvx ptsvx sysvx hesvx spsvx
+	    
+	    
+	    begin FACT gesvx gbsvx
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'F' for factored form of A, 'E' if A is to be equilibrated; otherwise, enter 'N'. FACT = "
+	    READ *, FACT
+	    
+	    IF (FACT == 'F') THEN
+                !--- EQUED is an input argument only when FACT = 'F'; otherwise, it is an output argument ---!
+		WRITE(*, '(A)') "Input 'N' for No equilibration, or R' for Row equilibration, or"
+		WRITE(*, '(A)', ADVANCE = 'NO') "'C' for Column equilibration, or 'B' for Both row and column equilibration. EQUED = "
+                READ *, EQUED
+		
+	        CALL FACT_INPUT
+	    END IF
+	    end FACT gesvx gbsvx
+
+	    
+	    begin FACT posvx pbsvx
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'F' for factored form of A, 'E' if A is to be equilibrated; otherwise, enter 'N'. FACT = "
+	    READ *, FACT
+	    
+	    IF (FACT == 'F') THEN
+                !--- EQUED is an input argument only when FACT = 'F'; otherwise, it is an output argument ---!
+		WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' for No equilibration, or 'Y' for equilibration. EQUED = "
+                READ *, EQUED
+		
+	        CALL FACT_INPUT
+	    END IF 
+	    end FACT posvx pbsvx
+	    
+	    
