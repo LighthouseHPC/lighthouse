@@ -102,6 +102,30 @@ begin posvx
 end posvx
 
 
+begin ppsvx 
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AFP is an input arguments ---!
+            !--- if FACT = 'F' and EQUED = 'Y', then S is an input argument ---!
+            open (unit=33, file='file_name_for_data_AFP_S', status='old')
+            
+            !--- read data from file for AFP. (read S only if EQUED = 'Y'.) ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AFP(I+J*(J-1)/2),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AFP(I+(2*N-J)*(J-1)/2),J=1,I),I=1,N)
+            END IF
+            
+            IF (EQUED == 'Y') THEN
+                READ(33, *) (S(I), I=1,N)
+            END IF
+        END SUBROUTINE FACT_INPUT
+        
+        
+end ppsvx
+
+
+
 begin sysvx hesvx 
         SUBROUTINE FACT_INPUT
             USE Declaration
@@ -160,14 +184,14 @@ begin ptsvx
 end ptsvx
 
 
-begin spsvx
+begin spsvx hpsvx
         SUBROUTINE FACT_INPUT
             USE Declaration
-            !--- if FACT = 'F', AP and IPIV are input arguments ---!
-            open (unit=33, file='file_name_for_data_AF', status='old')
+            !--- if FACT = 'F', AFP and IPIV are input arguments ---!
+            open (unit=33, file='file_name_for_data_AFP', status='old')
             open (unit=44, file='file_name_for_data_IPIV', status='old')
             
-            !--- read data from file for AP. ---!
+            !--- read data from file for AFP. ---!
             IF (UPLO =='U') THEN
                 READ (33,*) ((AFP(I+J*(J-1)/2),J=I,N),I=1,N)
             ELSE IF (UPLO == 'L') THEN
@@ -179,7 +203,7 @@ begin spsvx
         END SUBROUTINE FACT_INPUT
         
         
-end spsvx
+end spsvx hpsvx
 
 
 
@@ -223,7 +247,7 @@ end gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
 
 ####---------- for writing scaled matrix ----------####
 
-begin gesvx gbsvx pbsvx posvx ppsvx
+begin gesvx gbsvx pbsvx
             !--- write A ---!
             IF (EQUED == 'N') THEN
                 WRITE (*,*) "A is not scaled. A = "
@@ -232,10 +256,21 @@ begin gesvx gbsvx pbsvx posvx ppsvx
             ELSE IF (EQUED == 'C') THEN
                 WRITE (*,*) "A is column scaled. A = "
             ELSE IF (EQUED == 'B') THEN
-                WRITE (*,*) "A is row and column scaled. A ="
+                WRITE (*,*) "A is row and column scaled. A = "
             END IF
             
-end gesvx gbsvx pbsvx posvx ppsvx
+end gesvx gbsvx pbsvx
+
+
+begin posvx ppsvx
+            !--- write A ---!
+            IF (EQUED == 'N') THEN
+                WRITE (*,*) "A is not scaled. A = "
+            ELSE IF (EQUED == 'Y') THEN
+                WRITE (*,*) "A is scaled. A = "
+            END IF
+            
+end posvx ppsvx
 
 
 
@@ -263,6 +298,29 @@ begin pbsvx
                 END IF
             END DO
 end pbsvx
+
+
+begin posvx
+            DO I = 1, N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (A(I,J), J=I,N)
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (A(I,J), J=1,I)
+                END IF
+            END DO 
+end posvx
+
+
+begin ppsvx
+            DO I = 1, N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (AP(I+J*(J-1)/2), J=I,N)
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (AP(I+(2*N-J)*(J-1)/2), J=1,I)
+                END IF
+            END DO 
+end ppsvx
+
 
 
 
