@@ -202,7 +202,8 @@ class generateTemplate(object):
                        'anorm_param': self.routineName[0]+ROUTINE[0].other,
                        'routineName_trs': routineName_trs,
                        'trs_parameters': trs_parameters,
-                       'copy_arrays': copy_arrays, 
+                       'copy_arrays': copy_arrays,
+                       'get_precision': self.routineName[0] 
                        }
 
         with open(fortran_path+"codeTemplates/test2_"+self.routineName+".f90", "wt") as fout:
