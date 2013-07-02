@@ -43,7 +43,13 @@
             READ *, UPLO
             end UPLO
             
+	    
+	    begin TOL
+            WRITE(*, '(A)', ADVANCE = 'NO') "Define Tolerance. TOL = "
+            READ *, TOL
+            end TOL
             
+	    
             begin NORM
             WRITE(*, '(A)', ADVANCE = 'NO') "Input '1' for 1-norm or 'I' for Infinity-norm. NORM = "
             READ *, NORM            
@@ -63,7 +69,7 @@
             
             
             begin TRANSR
-	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if the Normal TRANSR of RFP A is stored  or 'T' if the Transpose TRANSR of RFP A is stored. TRANSR = "
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if ARF is in Normal format,  or 'T' if ARF is in Transpose format. TRANSR = "
             READ *, TRANSR  
             end TRANSR
 	    	    

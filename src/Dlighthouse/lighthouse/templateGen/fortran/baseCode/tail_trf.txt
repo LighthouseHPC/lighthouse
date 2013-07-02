@@ -1,11 +1,11 @@
 !--- beginning of the SUBROUTINE ---!
-begin getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf
+begin getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf pstrf
         SUBROUTINE PRINT_SOLUTION
             USE Declaration
 
             WRITE(*,*)
             WRITE(*,*) 'Factored Matrix: '
-end getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf
+end getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf pstrf
 
 
 
@@ -67,7 +67,7 @@ end pbtrf
 
 
 
-begin sytrf hetrf potrf
+begin sytrf hetrf potrf pstrf
             IF (UPLO =='U') THEN
                 DO I = 1,N
                     WRITE(*,fmtNum) (A(I,J),J=I,N)
@@ -77,7 +77,7 @@ begin sytrf hetrf potrf
                     WRITE(*,fmtNum) (A(I,J),J=1,I)
                 END DO
             END IF
-end sytrf hetrf potrf
+end sytrf hetrf potrf pstrf
 
 
 
@@ -98,7 +98,7 @@ end pptrf sptrf hptrf
 
 
 !--- end of the SUBROUTINE ---!
-begin getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf
+begin getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf pstrf
             WRITE(*,*)
             
             !--- real ---!
@@ -106,8 +106,8 @@ begin getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf
 
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
-        END SUBROUTINE PRINT_SOLUTION'
-end getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf
+        END SUBROUTINE PRINT_SOLUTION
+end getrf gttrf pttrf gbtrf pbtrf sytrf hetrf potrf pptrf sptrf hptrf pstrf
 
 
 
