@@ -170,3 +170,36 @@ begin pptri sptri hptri tptri
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE PRINT_SOLUTION
 end pptri sptri hptri tptri
+
+
+
+
+!--- for pftri and tftri ---!
+begin pftri tftri
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            !--- use get_precisiontfttr to convert A from rectangular full packed format (TF) to standard full format (TR). ---!
+            CALL get_precisiontfttr( TRANSR, UPLO, N, A, AA, LDA, INFO )
+            
+            WRITE(*,*)
+            WRITE(*,*) 'Inverse of matrix A: '
+            IF (UPLO =='U') THEN
+                DO I = 1,N
+                    WRITE(*,fmtNum) ( AA(I, J), J=I,N )
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1, N
+                    WRITE(*,fmtNum) ( AA(I, J), J=1,I )
+                END DO
+            END IF
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,5X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end pftri tftri
+
