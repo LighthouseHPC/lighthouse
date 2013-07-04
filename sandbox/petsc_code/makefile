@@ -1,6 +1,3 @@
-export PETSC_DIR=/Users/Andromeda/Desktop/petsc-3.4.1
-export PETSC_ARCH=petsc_real
-
 include ${PETSC_DIR}/conf/variables
 include ${PETSC_DIR}/conf/rules
 
@@ -23,7 +20,3 @@ convert: convert.o  chkopts
 properties: properties.o  chkopts
 	-${CLINKER} -o properties properties.o  ${PETSC_MAT_LIB}
 	${RM} properties.o
-
-ex10: ex10.o  chkopts
-	-${CLINKER} -o ex10 ex10.o  ${PETSC_KSP_LIB}
-	${RM} ex10.o

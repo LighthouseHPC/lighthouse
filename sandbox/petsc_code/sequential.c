@@ -1,7 +1,5 @@
-
-/* Program usage:  mpiexec ex1 [-help] [all PETSc options] */
-
-static char help[] = "Solves a linear system with various combinations of KSP + PC.\n\n";
+static char help[] = "Solves a linear system with various combinations of KSP + PC.\n\
+  -f <input_file> : petsc binary file containing matrix\n\n";
 
 #include <petscksp.h>
 #include <petsctime.h>
@@ -26,7 +24,8 @@ int main(int argc,char **args)
   PetscMPIInt    size;
   PetscBool      flg, pcSideLeft=PETSC_TRUE,isSymmetric=PETSC_FALSE;
 
-  char           filein[PETSC_MAX_PATH_LEN],buf[PETSC_MAX_PATH_LEN];
+  char           filein[PETSC_MAX_PATH_LEN],buf[PETSC_MAX_PATH_LEN],link[PETSC_MAX_PATH_LEN];
+  char*          lnk;
   FILE*          file; 
   PetscInt       k,m,n,nnz,col,row;
   PetscScalar    val;
@@ -49,6 +48,10 @@ int main(int argc,char **args)
     fgets(buf,PETSC_MAX_PATH_LEN-1,file);
     if(strstr(buf, "symmetric") != NULL){
       isSymmetric = PETSC_TRUE;
+    }
+    if(strstr(buf, "http")){
+      strcpy(link,buf);
+      lnk = link;
     }
   }while (buf[0] == '%');
 
@@ -103,6 +106,9 @@ int main(int argc,char **args)
   // Finish builing matrix
   ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
   ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
+
+  // Print link to the matrix
+  PetscPrintf(PETSC_COMM_WORLD,"%s",lnk);
 
   // Solve the linear system with the following KSP+PC combinations
 
@@ -221,7 +227,6 @@ int main(int argc,char **args)
     Solve(KSPCG,PCSOR,-1,pcSideLeft,A);
     Solve(KSPCG,PCNONE,-1,pcSideLeft,A);  
   }
-
   //PetscPrintf(PETSC_COMM_WORLD,"L time: %e | L norm: %G \n",lowestTime,lowestNorm);
 
   // Destroy Matrix and Vector
@@ -230,8 +235,6 @@ int main(int argc,char **args)
   ierr = PetscFinalize();
   return 0;
 }
-
-
 
 PetscErrorCode Solve(KSPType kt, PCType pt, PetscInt pcFactorLevel, PetscBool pcSideLeft, Mat A){
   
@@ -298,6 +301,8 @@ PetscErrorCode Solve(KSPType kt, PCType pt, PetscInt pcFactorLevel, PetscBool pc
       hasConverged = PETSC_TRUE;
       if(solveTime < lowestTime){
         lowestTime = solveTime;
+      }
+      if(pNorm < lowestNorm){
         lowestNorm = pNorm;
       }
     }
@@ -312,7 +317,7 @@ PetscErrorCode Solve(KSPType kt, PCType pt, PetscInt pcFactorLevel, PetscBool pc
     ierr = PetscPrintf(PETSC_COMM_WORLD," | %D | %e | %G | %D\n",reason,solveTime,pNorm,its);CHKERRQ(ierr);
 
   }
-  else{ // Error occurred, print error code
+  else{ // Disaster happened, print error code
     if(pcFactorLevel != -1){
       ierr = PetscPrintf(PETSC_COMM_WORLD,"%s | %s(%D) | Failed | Errorcode %D ||\n",kt,pt,pcFactorLevel,ierr);CHKERRQ(ierr);    
     }else{
@@ -320,7 +325,7 @@ PetscErrorCode Solve(KSPType kt, PCType pt, PetscInt pcFactorLevel, PetscBool pc
     }
   }
 
-  // Again, destroy KSP and vector
+  // Destroy KSP and vector
   ierr = KSPDestroy(&ksp);CHKERRQ(ierr);
   ierr = VecDestroy(&x);CHKERRQ(ierr);
   ierr = VecDestroy(&b);CHKERRQ(ierr);
@@ -335,8 +340,10 @@ PetscErrorCode MyKSPMonitor(KSP ksp,PetscInt n,PetscReal rnorm,void *dummy)
   //PetscPrintf(PETSC_COMM_WORLD,"It: %D, norm: %G\n",n,rnorm);
   pNorm = rnorm;
   if(hasConverged){
-    if(currentTime - startTime > lowestTime){
-      SETERRQ(PETSC_COMM_WORLD,-1,"This is taking way too long!\n");
+    if(currentTime - startTime > (lowestTime*10)){
+      if(rnorm > lowestNorm){
+        SETERRQ(PETSC_COMM_WORLD,-1,"This is taking way too long!\n");
+      }
     }
   }
   return 0;
