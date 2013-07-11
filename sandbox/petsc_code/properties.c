@@ -33,8 +33,8 @@ extern PetscErrorCode DiagonalAverage(Mat,PetscScalar*);
 extern PetscErrorCode DiagonalVariance(Mat,PetscScalar*);
 extern PetscErrorCode DiagonalSign(Mat,PetscInt*);
 extern PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
-extern PetscErrorCode lowerBandwidth(Mat,PetscInt*);
-extern PetscErrorCode upperBandwidth(Mat,PetscInt*);
+extern PetscErrorCode LowerBandwidth(Mat,PetscInt*);
+extern PetscErrorCode UpperBandwidth(Mat,PetscInt*);
 
 
 #undef __FUNCT__
@@ -222,10 +222,10 @@ int main(int argc,char **args)
   DiagonalNonZeros(A,&r); 
   printf ("Diagonal nonzero count: %d\n",r);
 
-  lowerBandwidth(A, &r);
+  LowerBandwidth(A, &r);
   printf ("Lower bandwidth: %d\n",r);
 
-  upperBandwidth(A, &r);
+  UpperBandwidth(A, &r);
   printf ("Upper bandwidth: %d\n",r);
 
   /* Destroy matrices and finalize PETSc */ 
@@ -832,7 +832,7 @@ PetscErrorCode DiagonalNonZeros(Mat M, PetscInt* nzd){
 }
 
 // finds the lower bandwidth of a matrix
-PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
+PetscErrorCode LowerBandwidth(Mat M, PetscInt *lowerb)
 {
   PetscInt m,n,i,j,nc,lb;
   PetscErrorCode ierr;  
@@ -860,7 +860,7 @@ PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
 }
 
 // finds the upper bandwidth of a matrix
-PetscErrorCode upperBandwidth(Mat M, PetscInt *lowerb)
+PetscErrorCode UpperBandwidth(Mat M, PetscInt *lowerb)
 {
   PetscInt m,n,i,j,nc,lb;
   PetscErrorCode ierr;  
