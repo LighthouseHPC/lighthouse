@@ -2,6 +2,7 @@
 # Script
 #
 clear
+
 echo "0/960"
 ./properties -f /home/javed/Desktop/matrix_properties/matrices/b1_ss.mtx > /home/javed/Desktop/matrix_properties/matrices/b1_ss_props.txt
 echo "1/960"
@@ -1922,4 +1923,5 @@ echo "958/960"
 ./properties -f /home/javed/Desktop/matrix_properties/matrices/memplus.mtx > /home/javed/Desktop/matrix_properties/matrices/memplus_props.txt
 echo "959/960"
 ./properties -f /home/javed/Desktop/matrix_properties/matrices/spiral_E.mtx > /home/javed/Desktop/matrix_properties/matrices/spiral_E_props.txt
+
 exit 0

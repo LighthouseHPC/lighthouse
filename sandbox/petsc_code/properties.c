@@ -33,6 +33,9 @@ extern PetscErrorCode DiagonalAverage(Mat,PetscScalar*);
 extern PetscErrorCode DiagonalVariance(Mat,PetscScalar*);
 extern PetscErrorCode DiagonalSign(Mat,PetscInt*);
 extern PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
+extern PetscErrorCode lowerBandwidth(Mat,PetscInt*);
+extern PetscErrorCode upperBandwidth(Mat,PetscInt*);
+
 
 #undef __FUNCT__
 #define __FUNCT__ "main"
@@ -201,25 +204,11 @@ int main(int argc,char **args)
   ColumnDiagonalDominance(A,&r); 
   printf ("Column Diagonal Dominance: %d\n",r);
 
-  ierr = VecCreate(PETSC_COMM_WORLD,&V);CHKERRQ(ierr);
-  ierr = VecSetSizes(V,PETSC_DECIDE,n);CHKERRQ(ierr);
-  ierr = VecSetFromOptions(V);CHKERRQ(ierr);
-  ierr = VecSet(V,0);CHKERRQ(ierr);
-
   RowVariance(A,&x); 
   printf ("Row variance: %G\n",x);
 
-  VecDestroy(&V);
-
-  ierr = VecCreate(PETSC_COMM_WORLD,&V);CHKERRQ(ierr);
-  ierr = VecSetSizes(V,PETSC_DECIDE,n);CHKERRQ(ierr);
-  ierr = VecSetFromOptions(V);CHKERRQ(ierr);
-  ierr = VecSet(V,0);CHKERRQ(ierr);
-
   ColumnVariance(A,&x); 
   printf ("Column variance: %G\n",x);
-
-  VecDestroy(&V);
 
   DiagonalAverage(A,&x); 
   printf ("Diagonal average: %g\n",x);
@@ -232,6 +221,12 @@ int main(int argc,char **args)
 
   DiagonalNonZeros(A,&r); 
   printf ("Diagonal nonzero count: %d\n",r);
+
+  lowerBandwidth(A, &r);
+  printf ("Lower bandwidth: %d\n",r);
+
+  upperBandwidth(A, &r);
+  printf ("Upper bandwidth: %d\n",r);
 
   /* Destroy matrices and finalize PETSc */ 
 
@@ -714,10 +709,12 @@ PetscErrorCode RowVariance(Mat M, PetscScalar* vrn){
   ierr = VecGetArray(V,&d); CHKERRQ(ierr);
   mean = vecSum/m;
   ssum = 0;
+  PetscScalar maxVar = 0;
   for(i=0; i<m; i++){
-    ssum = ssum + ((d[i]-mean)*(d[i]-mean));    
+    if(d[i] > maxVar) maxVar = d[i];    
   }
-  *vrn = ssum/m;
+  //*vrn = ssum/m;
+  *vrn = maxVar;
   return 0;
 }
 
@@ -834,29 +831,58 @@ PetscErrorCode DiagonalNonZeros(Mat M, PetscInt* nzd){
   return 0;
 }
 
-// - "left-bandwidth" : \f$\max_i\{i-j\colon a_{ij}\not=0\}\f$
-// - "right-bandwidth" : \f$\max_i\{j-i\colon a_{ij}\not=0\}\f$
-// - "diag-zerostart" : \f$\min\{i\colon \forall_{j>i}a_{jj}=0\}\f$
-// - "diag-definite" : 1 if diagonal positive, 0 otherwise
-// - "n-struct-unsymm" : number of structurally unsymmetric elements
-//   (this is actually calculated in the simple.c)
+// finds the lower bandwidth of a matrix
+PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
+{
+  PetscInt m,n,i,j,nc,lb;
+  PetscErrorCode ierr;  
 
-// see SymmetryFANorm().
-// - "n-struct-unsymm" : number of structurally unsymmetric elements;
-// see NUnstruct().
-//   (this is calculated here, but declared as an element of the \ref structure
-//   category.)
+  ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
+  lb = 0;
 
-// - "nnzup" : number of nonzeros in upper triangle
-// - "nnzlow" : number of nonzeros in lower triangle
-// - "avgdistfromdiag" : average distance of nonzeros to the diagonal
-// - "relsymm" : relative symmetry, ratio of structural symmetric elements
-//   to total number of nonzeros
-// - "upband" : bandwidth in the upper triangle
-// - "loband" : bandwidth in the lower triangle
-// - "n-nonzero-diags" : number of diagonals that have any nonzero element
-// - "avg-diag-dist" : average distance of nonzero diagonal to main diagonal
-// - "sigma-diag-dist" : standard deviation of diag-dist
+  for (i=0; i<m; i++) {
+    const PetscInt *cols[n];
+    const PetscScalar *vals[n];
+    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    if(nc != 0){      
+      for(j=0;j<nc;j++){                   
+        if(*(vals[0]+j) != 0){
+          if((i - *(cols[0]+j)) > lb ){
+            lb = i - *(cols[0]+j);
+          }
+        } 
+      }
+    }
+    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+  }
+  *lowerb = lb;
+  return(0);
+}
 
-// - "nsplits" : number of split points found in the matrix
-// - "splits" : the sequence of split points, including 0 and N
+// finds the upper bandwidth of a matrix
+PetscErrorCode upperBandwidth(Mat M, PetscInt *lowerb)
+{
+  PetscInt m,n,i,j,nc,lb;
+  PetscErrorCode ierr;  
+
+  ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
+  lb = 0;
+
+  for (i=0; i<m; i++) {
+    const PetscInt *cols[n];
+    const PetscScalar *vals[n];
+    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    if(nc != 0){      
+      for(j=0;j<nc;j++){                   
+        if(*(vals[0]+j) != 0){
+          if((*(cols[0]+j)-i) > lb ){
+            lb = *(cols[0]+j)-i;
+          }
+        } 
+      }
+    }
+    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+  }
+  *lowerb = lb;
+  return(0);
+}
