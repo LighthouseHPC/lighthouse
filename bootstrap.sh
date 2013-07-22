@@ -13,7 +13,7 @@ fi
 echo "Using python $pythonexec2"
 
 echo "Installing Whoosh"
-sudo $pythonexec whoosh
+sudo $pythonexec "whoosh==2.4.1"
 echo "Installing Haystack"
 sudo $pythonexec django-haystack
 echo "Installing Dajaxice"
