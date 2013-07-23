@@ -23,11 +23,11 @@ public class convenience{
     // generateParallelCommands(path);
     // generateConversionCommands(path);
     // processParallelData(path);
-    // generatePropertyComputationCommands(path);
+     generatePropertyComputationCommands(path);
     // addLink(path);
     // generateMatlabScript(path);
     // generateTargetClassVector(path);
-      dataset();
+    // dataset();
     // generateRandomTargetClassVector();
     // generateParallelTargetClassVector(path);
     // downloadProperties(path);
@@ -36,6 +36,63 @@ public class convenience{
     }
     // System.out.println("exit 0");
   }
+
+  static void generateTargetClassVector2(String path){
+    try{
+      File dir = new File(path);
+      File[] files = dir.listFiles();
+      PrintWriter out = new PrintWriter(new 
+        BufferedWriter(new FileWriter("target_class.txt")));
+      StringBuilder sb = new StringBuilder("Tc = [");
+
+      int counter = 1;
+      int ct = 0;
+      Arrays.sort(files);
+      for(int i = 0; i < files.length; i++){
+        BufferedReader br = null;
+        if(files[i].getName().contains(".txt")){
+          if(i%2 ==0)
+            System.out.println(counter+" "+files[i].getName());
+          br = new BufferedReader(new FileReader(path+files[i].getName()));
+          String[] s;
+          String l = "";
+          double c,t,r;
+          String ksp="",pc="";
+          double lowest = Double.MAX_VALUE;
+          int cls = 42;
+          l = br.readLine();
+          while(l != null){
+            if(l.contains("%")){
+              l = br.readLine();
+            }
+            l = l.replace("Failed","-99");
+            l = l.replace("|",";");
+            s = l.split(";");
+            c = Double.parseDouble(s[2]);
+            if(c >= 0){
+              t = Double.parseDouble(s[3]);
+              if(t < lowest){
+                lowest = t;
+                ksp = s[0].trim();
+                pc = s[1].trim();                
+              }
+            }
+           l = br.readLine();
+          }
+          sb.append(getCls(ksp,pc)+" ");
+          br.close();         
+          counter++;
+        }        
+      }
+      System.out.println(ct);      
+      sb.append("];\n");
+      out.write(sb.toString());
+      out.close();
+    }catch(Exception x){
+      x.printStackTrace();
+    }    
+  }
+
 
   static void dataset(){
     try{
@@ -297,7 +354,7 @@ public class convenience{
       File dir = new File(path);
       File[] files = dir.listFiles();
       PrintWriter out = new PrintWriter(new 
-        BufferedWriter(new FileWriter(path+"matlab/target_class.txt")));
+        BufferedWriter(new FileWriter("target_class.txt")));
       StringBuilder sb = new StringBuilder("Tc = [");
 
       int counter = 1;
@@ -345,7 +402,8 @@ public class convenience{
             c = Double.parseDouble(s[2]);
             if(c >= 0){
               t = Double.parseDouble(s[3]);
-              if(t/lowest < 1.1) sb.append("1 ");
+              if(t/lowest < 1.1) 
+                sb.append("1 ");
               else sb.append("2 ");               
             }
             else{ 
@@ -470,7 +528,7 @@ public class convenience{
       File dir = new File(path);
       File[] files = dir.listFiles();
       PrintWriter out = new PrintWriter(new 
-        BufferedWriter(new FileWriter(path+"/matlab/prop_matrix.txt")));
+        BufferedWriter(new FileWriter("prop_matrix.txt")));
       StringBuilder sb = new StringBuilder("");
       int counter = 1;
 
@@ -496,10 +554,12 @@ public class convenience{
             //sb.append(v+" ");
             l = br.readLine();
           }
-          for(int j=1; j <= 41; j++){
-            wt = wt + "D("+counter+",:)=[" + ns + j +"];\n";
-            counter++;
-          }
+          // for(int j=1; j <= 41; j++){
+          //   //wt = wt + "D("+counter+",:)=[" + ns + j +"];\n";
+          //   counter++;
+          // }
+          wt = "D("+counter+",:)=[" + ns + "];\n";
+          counter++;
           sb.append(wt);
           br.close();
           //counter++;
@@ -687,6 +747,7 @@ public class convenience{
   }
 
   static void generatePropertyComputationCommands(String path){
+  	path = "/home/javed/Desktop/matrix_properties/matrices/";
     File dir = new File(path);
     File[] files = dir.listFiles();
     
@@ -697,10 +758,9 @@ public class convenience{
     });
     for(int i = 0; i < files.length; i++){
       if(files[i].getName().contains(".mtx")){
-        System.out.println("echo \""+i+"/"+files.length+"\"");
+        //System.out.println("echo \""+i+"/"+files.length+"\"");
         System.out.println("./properties -f "
-          + path+files[i].getName() + " > " 
-        + path+files[i].getName().replace(".mtx","_props.txt"));
+          + path+files[i].getName());
       }
     }
   }

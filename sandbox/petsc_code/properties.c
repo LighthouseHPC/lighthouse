@@ -3,6 +3,8 @@ of a real square matrix (matrix market format).\n\
   -f <input_file> : matrix market file\n\n";
 
 #include <petscmat.h>
+#include <petsctime.h>
+
 extern PetscErrorCode Dimension(Mat,PetscInt*,PetscInt*);
 extern PetscErrorCode BlockSize(Mat,PetscInt*);
 extern PetscErrorCode Nonzeros(Mat,PetscInt*);
@@ -33,8 +35,8 @@ extern PetscErrorCode DiagonalAverage(Mat,PetscScalar*);
 extern PetscErrorCode DiagonalVariance(Mat,PetscScalar*);
 extern PetscErrorCode DiagonalSign(Mat,PetscInt*);
 extern PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
-extern PetscErrorCode LowerBandwidth(Mat,PetscInt*);
-extern PetscErrorCode UpperBandwidth(Mat,PetscInt*);
+extern PetscErrorCode lowerBandwidth(Mat,PetscInt*);
+extern PetscErrorCode upperBandwidth(Mat,PetscInt*);
 
 
 #undef __FUNCT__
@@ -49,6 +51,7 @@ int main(int argc,char **args)
   PetscMPIInt    size;
   PetscScalar    val,one = 1;
   FILE*          file;
+  PetscLogDouble compTime,startTime,endTime;
 
   PetscInitialize(&argc,&args,(char *)0,help);
 
@@ -132,50 +135,32 @@ int main(int argc,char **args)
 
   PetscInt r=0,c=0,nz=0;
   PetscScalar x;
-  Vec V;
 
-  ierr = Dimension(A,&r,&c);CHKERRQ(ierr);
-  printf ("Rows: %d\n",r);
-  printf ("Columns: %d\n",c);
+  ierr = PetscTime(&startTime);CHKERRQ(ierr);
 
-  ierr = BlockSize(A, &r);
-  printf ("Block size: %d\n",r);
-
-  ierr = Nonzeros(A,&nz);CHKERRQ(ierr);
+  RowVariance(A,&x); 
+  printf ("Row variance: %G\n",x);
+  
+  ColumnVariance(A,&x); 
+  printf ("Column variance: %G\n",x);
+  
+  DiagonalVariance(A,&x); 
+  printf ("Diagonal variance: %g\n",x);
+  
+  Nonzeros(A,&nz);
   printf ("Nonzeros: %d\n",nz);
+  
+  Dimension(A,&r,&c);
+  printf ("Rows: %d\n",r);
 
-  MaxNonzerosPerRow(A,&nz);
-  printf ("Max. nonzeros per row: %d\n",nz);
+  FrobeniusNorm(A,&x);
+  printf ("Frobenius norm: %G\n",x);
 
-  MinNonzerosPerRow(A,&nz);
-  printf ("Min. nonzeros per row: %d\n",nz);
+  SymmetricFrobeniusNorm(A,&x);
+  printf ("Frobenius norm of symmetric part: %G\n",x);
 
-  AvgNonzerosPerRow(A,&nz);
-  printf ("Avg. nonzeros per row: %d\n",nz);
-
-  DummyRows(A,&nz);
-  printf ("Number of dummy rows: %d\n",nz);
-
-  DummyRowsKind(A,&nz);
-  printf ("Dummy rows kind: %d\n",nz);
-
-  ierr = NumericValueSymmetryV1(A,&r);CHKERRQ(ierr);
-  printf ("Numerical Symmetry: %d\n",r);
-
-  ierr = NonZeroPatternSymmetryV1(B,&r);CHKERRQ(ierr);
-  printf ("Structural Symmetry: %d\n",r);
-
-  ierr = NumericValueSymmetryV2(A,&x);CHKERRQ(ierr);
-  printf ("Numeric value Symmetry: %G\n",x);
-
-  ierr = NonZeroPatternSymmetryV2(B,&x);CHKERRQ(ierr);
-  printf ("Nonzero pattern Symmetry: %G\n",x);
-
-  Trace(A,&x);
-  printf ("Trace: %G\n",x);
-
-  AbsoluteTrace(A,&x);
-  printf ("Absolute trace: %G\n",x);
+  AntiSymmetricFrobeniusNorm(A,&x);
+  printf ("Frobenius norm of antisymmetric part: %G\n",x);
 
   OneNorm(A,&x);
   printf ("One norm: %G\n",x);
@@ -183,52 +168,72 @@ int main(int argc,char **args)
   InfinityNorm(A,&x);
   printf ("Infinity norm: %G\n",x);
 
-  FrobeniusNorm(A,&x);
-  printf ("Frobenius norm: %G\n",x);
-
   SymmetricInfinityNorm(A,&x);
   printf ("Inifinity norm of symmetric part: %G\n",x);
-
-  SymmetricFrobeniusNorm(A,&x);
-  printf ("Frobenius norm of symmetric part: %G\n",x);
-
+  
   AntiSymmetricInfinityNorm(A,&x);
   printf ("Inifinity norm of antisymmetric part: %G\n",x);
+  
+  MaxNonzerosPerRow(A,&nz);
+  printf ("Max. nonzeros per row: %d\n",nz);
+  
+  Trace(A,&x);
+  printf ("Trace: %G\n",x);
+  
+  AbsoluteTrace(A,&x);
+  printf ("Absolute trace: %G\n",x);
 
-  AntiSymmetricFrobeniusNorm(A,&x);
-  printf ("Frobenius norm of antisymmetric part: %G\n",x);
+  MinNonzerosPerRow(A,&nz);
+  printf ("Min. nonzeros per row: %d\n",nz);
+  
+  AvgNonzerosPerRow(A,&nz);
+  printf ("Avg. nonzeros per row: %d\n",nz);
+  
+  DummyRows(A,&nz);
+  printf ("Number of dummy rows: %d\n",nz);
+  
+  DummyRowsKind(A,&nz);
+  printf ("Dummy rows kind: %d\n",nz);
+  
+  NumericValueSymmetryV1(A,&r);
+  printf ("Numerical Symmetry: %d\n",r);
+  
+  NonZeroPatternSymmetryV1(B,&r);
+  printf ("Structural Symmetry: %d\n",r);
+
+  NumericValueSymmetryV2(A,&x);
+  printf ("Numeric value Symmetry: %G\n",x);
+
+  NonZeroPatternSymmetryV2(B,&x);
+  printf ("Nonzero pattern Symmetry: %G\n",x);
 
   RowDiagonalDominance(A,&r); 
   printf ("Row Diagonal Dominance: %d\n",r);
-
+  
   ColumnDiagonalDominance(A,&r); 
   printf ("Column Diagonal Dominance: %d\n",r);
-
-  RowVariance(A,&x); 
-  printf ("Row variance: %G\n",x);
-
-  ColumnVariance(A,&x); 
-  printf ("Column variance: %G\n",x);
-
+  
   DiagonalAverage(A,&x); 
   printf ("Diagonal average: %g\n",x);
-
-  DiagonalVariance(A,&x); 
-  printf ("Diagonal variance: %g\n",x);
-
+  
   DiagonalSign(A,&r); 
   printf ("Diagonal sign: %d\n",r);
 
   DiagonalNonZeros(A,&r); 
   printf ("Diagonal nonzero count: %d\n",r);
 
-  LowerBandwidth(A, &r);
+  lowerBandwidth(A, &r);
   printf ("Lower bandwidth: %d\n",r);
 
-  UpperBandwidth(A, &r);
+  upperBandwidth(A, &r);
   printf ("Upper bandwidth: %d\n",r);
 
   /* Destroy matrices and finalize PETSc */ 
+  ierr = PetscTime(&endTime);CHKERRQ(ierr);
+  
+  // Find computation time
+  compTime = endTime - startTime;
+  //printf("%e\n",compTime);
 
   ierr = MatDestroy(&A);CHKERRQ(ierr);
   ierr = MatDestroy(&B);CHKERRQ(ierr);
@@ -283,13 +288,13 @@ PetscErrorCode MaxNonzerosPerRow(Mat M, PetscInt *maxNz)
 {
   PetscErrorCode ierr;
   PetscInt m, n, i, j, nnz, nc;
-  const PetscInt *cols[n];
-  const PetscScalar *vals[n];
 
   *maxNz = 0;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
   for(i = 0; i < m; i++){
+    const PetscInt *cols[n];
+    const PetscScalar *vals[n];
     ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
     nnz = 0;
     if(nc != 0){      
@@ -310,13 +315,13 @@ PetscErrorCode MinNonzerosPerRow(Mat M, PetscInt *minNz)
 {
   PetscErrorCode ierr;
   PetscInt m, n, i, j, nnz, nc;
-  const PetscInt *cols[n];
-  const PetscScalar *vals[n];
-
+  
   *minNz = n;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
   for(i = 0; i < m; i++){
+    const PetscInt *cols[n];
+    const PetscScalar *vals[n];
     ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
     nnz = 0;
     if(nc != 0){      
@@ -832,7 +837,7 @@ PetscErrorCode DiagonalNonZeros(Mat M, PetscInt* nzd){
 }
 
 // finds the lower bandwidth of a matrix
-PetscErrorCode LowerBandwidth(Mat M, PetscInt *lowerb)
+PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
 {
   PetscInt m,n,i,j,nc,lb;
   PetscErrorCode ierr;  
@@ -860,7 +865,7 @@ PetscErrorCode LowerBandwidth(Mat M, PetscInt *lowerb)
 }
 
 // finds the upper bandwidth of a matrix
-PetscErrorCode UpperBandwidth(Mat M, PetscInt *lowerb)
+PetscErrorCode upperBandwidth(Mat M, PetscInt *lowerb)
 {
   PetscInt m,n,i,j,nc,lb;
   PetscErrorCode ierr;  
