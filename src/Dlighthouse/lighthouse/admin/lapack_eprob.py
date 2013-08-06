@@ -14,12 +14,12 @@ class EntryAdminForm(forms.ModelForm):
 	class Meta:
 		app_label = 'lighthouse'
 		#model = 'lapack_RoutineInfo'
-		
+
 
 """ Driver routines """
 class lapack_eprob_simpleAdmin(admin.ModelAdmin):
-	list_display = ('routineName', 'kind', 'compl', 'matrix', 'storage', 'schur', 'evaluerange', 'algorithm','balancing','schurform','precision')
-	list_filter = ['kind', 'compl', 'matrix', 'storage', 'schur', 'evaluerange', 'algorithm','balancing','schurform','precision']
+	list_display = ('routineName', 'kind', 'compl', 'matrixType', 'storageType', 'schur', 'evaluerange', 'algorithm','balancing','schurform','precision')
+	list_filter = ['kind', 'compl', 'matrixType', 'storageType', 'schur', 'evaluerange', 'algorithm','balancing','schurform','precision']
 	search_fields = ['routineName',]
 	ordering = ('info',)
 	raw_id_fields = ('info',)

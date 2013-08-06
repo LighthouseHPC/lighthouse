@@ -22,7 +22,7 @@ cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_solve")
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_only")
 
 
-cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_routineinfo")
+cursor.execute("TRUNCATE TABLE lighthouse_lapack_routineinfo")
 
 conn.commit()
 

@@ -12,21 +12,21 @@ EPROB_YESNO_CHOICES = (
 )
 
 EPROB_MATRIX_CHOICES = (
-	(u'gen',			u'General Matrix'),
-	(u'sym',			u'Symmetric Matrix'),
-	(u'her',			u'Hermitian Matrix'),	
+	(u'gen',			u'General'),
+	(u'sym',			u'Symmetric'),
+	(u'her',			u'Hermitian'),	
 )
 
 EPROB_STORAGE_CHOICES = (
-	(u'full',			u'Full Matrix'),
-	(u'band',			u'Band Matrix'),
-	(u'pack',			u'Packed Matrix'),
-	(u'tri',			u'Tridiagonal Matrix'),
+	(u'full',			u'Full'),
+	(u'band',			u'Band'),
+	(u'pack',			u'Packed'),
+	(u'tri',			u'Tridiagonal'),
 )
 
 EPROB_PRECISION_CHOICES = (
-	(u's',			u'Single Precision'),
-	(u'd',			u'Double Precision'),
+	(u's',			u'Single'),
+	(u'd',			u'Double'),
 )
 
 EPROB_ALGORITHM_CHOICES = (
@@ -41,8 +41,8 @@ class lapack_eprob_simple(models.Model):
 	generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
 	kind = models.CharField('Problem Kind', max_length=4, choices=EPROB_PROBLEM_CHOICES)
 	compl = models.CharField('Complex Numbers', max_length=1, choices=EPROB_YESNO_CHOICES)
-	matrix = models.CharField('Matrix Type', max_length=3, choices=EPROB_MATRIX_CHOICES)
-	storage = models.CharField('Matrix Storage', max_length=4, choices=EPROB_STORAGE_CHOICES, blank = True, null = True)
+	matrixType = models.CharField('Matrix Type', max_length=3, choices=EPROB_MATRIX_CHOICES)
+	storageType = models.CharField('Matrix Storage', max_length=4, choices=EPROB_STORAGE_CHOICES, blank = True, null = True)
 	schur = models.CharField('Schur Form', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = True)
 	evaluerange = models.CharField('Range of Eigenvalues', max_length=1, choices=EPROB_YESNO_CHOICES, blank= True, null = True)
 	algorithm = models.CharField('Algorithm Used', max_length=4, choices=EPROB_ALGORITHM_CHOICES, blank = True, null = True)
