@@ -14,24 +14,7 @@ class EntryAdminForm(forms.ModelForm):
 	class Meta:
 		app_label = 'lighthouse'
 		#model = 'lapack_RoutineInfo'
-
-
-
-
-
-""" for lapack routine information """
-class lapack_eprob_RoutineInfoAdmin(admin.ModelAdmin):
-	list_display = ('id', 'routine')
-	ordering = ('id',)
-	search_fields = ['routine']
-	form = EntryAdminForm
-
-
-
-admin.site.register(lapack_eprob_RoutineInfo, lapack_eprob_RoutineInfoAdmin)
-
-
-
+		
 
 """ Driver routines """
 class lapack_eprob_simpleAdmin(admin.ModelAdmin):

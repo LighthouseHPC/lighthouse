@@ -6,8 +6,6 @@ cursor = conn.cursor()
 
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_eprob_simple")
 
-cursor.execute("TRUNCATE TABLE lapack_eprob_RoutineInfo")
-
 conn.commit()
 
 cursor.close()

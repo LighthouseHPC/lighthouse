@@ -1,5 +1,5 @@
 from django.db import models
-
+from lighthouse.models.lapack_le import lapack_RoutineInfo
 
 EPROB_PROBLEM_CHOICES = (
 	(u'eval' 				,u'Eigenproblem'),
@@ -37,20 +37,6 @@ EPROB_ALGORITHM_CHOICES = (
 )
 
 
-""" for routine information """
-class lapack_eprob_RoutineInfo(models.Model):
-	routine = models.CharField('Routine', max_length=30)
-	info = models.TextField('Information', blank=True, null=True)
-
-	def __unicode__(self):
-		return self.info
-
-	class Meta:
-		app_label = 'lighthouse'
-
-
-
-
 class lapack_eprob_simple(models.Model):
 	generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
 	kind = models.CharField('Problem Kind', max_length=4, choices=EPROB_PROBLEM_CHOICES)
@@ -65,7 +51,7 @@ class lapack_eprob_simple(models.Model):
 	precision = models.CharField('Number Precision', max_length=1, choices=EPROB_PRECISION_CHOICES)
 	routineName = models.CharField('Routine Name', max_length=8)
 	url = models.URLField('Function URL', blank = True, null = True)
-	info = models.ForeignKey(lapack_eprob_RoutineInfo, primary_key=True)
+	info = models.ForeignKey(lapack_RoutineInfo, primary_key=True)
 
 	def __unicode__(self):
 		return self.routineName
