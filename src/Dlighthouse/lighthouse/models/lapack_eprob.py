@@ -27,6 +27,8 @@ EPROB_STORAGE_CHOICES = (
 EPROB_PRECISION_CHOICES = (
 	(u's',			u'Single'),
 	(u'd',			u'Double'),
+	(u'c',			u'Single'),
+	(u'z',			u'Double')
 )
 
 EPROB_ALGORITHM_CHOICES = (
@@ -41,8 +43,8 @@ class lapack_eprob_simple(models.Model):
 	generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
 	kind = models.CharField('Problem Kind', max_length=4, choices=EPROB_PROBLEM_CHOICES)
 	compl = models.CharField('Complex Numbers', max_length=1, choices=EPROB_YESNO_CHOICES)
-	matrixType = models.CharField('Matrix Type', max_length=3, choices=EPROB_MATRIX_CHOICES)
-	storageType = models.CharField('Matrix Storage', max_length=4, choices=EPROB_STORAGE_CHOICES, blank = True, null = True)
+	matrix = models.CharField('Matrix Type', max_length=3, choices=EPROB_MATRIX_CHOICES)
+	storage = models.CharField('Matrix Storage', max_length=4, choices=EPROB_STORAGE_CHOICES, blank = True, null = True)
 	schur = models.CharField('Schur Form', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = True)
 	evaluerange = models.CharField('Range of Eigenvalues', max_length=1, choices=EPROB_YESNO_CHOICES, blank= True, null = True)
 	algorithm = models.CharField('Algorithm Used', max_length=4, choices=EPROB_ALGORITHM_CHOICES, blank = True, null = True)
