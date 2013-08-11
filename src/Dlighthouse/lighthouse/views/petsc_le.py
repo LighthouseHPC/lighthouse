@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
-from lighthouse.forms.petsc import *
+from lighthouse.forms.petsc_le import *
 
 	
 
