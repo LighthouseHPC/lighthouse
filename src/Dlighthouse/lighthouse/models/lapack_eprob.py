@@ -4,101 +4,116 @@ from lighthouse.models.lapack_le import lapack_RoutineInfo
 from collections import OrderedDict
 
 EPROB_PROBLEM_CHOICES = (
-	(u'eval' 				,u'Eigenproblem'),
-	(u'svd'					,u'Singular Value Decomposition')
+	('eval' 				,'Eigenproblem'),
+	('svd'					,'Singular Value Decomposition')
 )
 
 EPROB_NOYES_CHOICES = (
-	(u'n'	,			u'No'),
-	(u'y'	,			u'Yes')
+	('n'	,			'No'),
+	('y'	,			'Yes')
 )
 
 EPROB_YESNO_CHOICES = (
-	(u'y'	,			u'Yes'),
-	(u'n'	,			u'No')
+	('y'	,			'Yes'),
+	('n'	,			'No')
 )
 
 EPROB_MATRIX_CHOICES = (
-	(u'gen',			u'General'),
-	(u'sym',			u'Symmetric'),
-	(u'her',			u'Hermitian'),	
+	('gen',			'General'),
+	('sym',			'Symmetric'),
+	('her',			'Hermitian'),	
 )
 
 EPROB_STORAGE_CHOICES = (
-	(u'full',			u'Full'),
-	(u'band',			u'Band'),
-	(u'pack',			u'Packed'),
-	(u'tri',			u'Tridiagonal'),
+	('full',			'Full'),
+	('band',			'Band'),
+	('pack',			'Packed'),
+	('tri',			'Tridiagonal'),
 )
 
 EPROB_PRECISION_CHOICES = (
-	(u's',			u'Single'),
-	(u'd',			u'Double'),
+	('s',			'Single'),
+	('d',			'Double'),
 )
 
 EPROB_ALGORITHM_CHOICES = (
-	(u'n', 			u'Default algorithm'),
-	(u'dc',			u'Divide and Conquer'),
-	(u'rrr',		u'Relatively Robust Representation'),
-	(u'mrrr',		u'Multiple Relatively Robust Representation'),
+	('n', 			'Default algorithm'),
+	('dc',			'Divide and Conquer'),
+	('rrr',		'Relatively Robust Representation'),
+	('mrrr',		'Multiple Relatively Robust Representation'),
 )
 
 ## ---------------- Define the forms ---------------- ###
 eprob_fields = OrderedDict([
-        ('problem' , ('What kind of eigenproblem do you want to solve?', EPROB_PROBLEM_CHOICES)),
-        ('complex' , ('Does your matrix contain any complex numbers?', EPROB_NOYES_CHOICES)),
-        ('matrix' , ('What type of matrix do you have?', EPROB_MATRIX_CHOICES)),
-        ('storage' , ('How is your matrix stored?', EPROB_STORAGE_CHOICES)),
-        ('schur' , ('Do you need the Schur form?', EPROB_NOYES_CHOICES)),
-        ('evaluerange' , ('Do you only need eigenvalues within a specific range?', EPROB_NOYES_CHOICES)),
-        ('algorithm' , ('Do you need to use a specific algorithm?', EPROB_ALGORITHM_CHOICES)),
-        ('balancing' , ('Do you need a balancing transform or reciprocal condition numbers?', EPROB_NOYES_CHOICES)),
-        ('schurform' , ('Do you need the ordered Schur form or reciprocal condition numbers?', EPROB_NOYES_CHOICES)),
-        ('queryPrecision' , ('Is your matrix single or double precision?', EPROB_PRECISION_CHOICES)),
-    ])
+		('problem' , ('What type of problem do you need to solve?', EPROB_PROBLEM_CHOICES)),
+		('complex' , ('Does your matrix have any complex numbers?', EPROB_NOYES_CHOICES)),
+		('matrix' , ('What type of matrix do you have?', EPROB_MATRIX_CHOICES)),
+		('storage' , ('How is your matrix stored?', EPROB_STORAGE_CHOICES)),
+		('schur' , ('Do you need the Schur form?', EPROB_NOYES_CHOICES)),
+		('evaluerange' , ('Do you only need eigenvalues within a specific range?', EPROB_NOYES_CHOICES)),
+		('algorithm' , ('Do you need to use an advanced algorithm?', EPROB_ALGORITHM_CHOICES)),
+		('balancing' , ('Do you need a balancing transform or reciprocal condition numbers?', EPROB_NOYES_CHOICES)),
+		('schurform' , ('Do you need the ordered Schur form or reciprocal condition numbers?', EPROB_NOYES_CHOICES)),
+		('queryPrecision' , ('Is your matrix single or double precision?', EPROB_PRECISION_CHOICES)),
+	])
 
-
+eprob_eval = [
+	'complex',
+]
 
 eprob_nextform = OrderedDict([
-        ('start' , 'problem'),
-        ('problem', 'complex'),
-        ('complex' , 'matrix'),
-        ('matrix' , 'storage'),
-        ('storage' , 'schur'),
-        ('schur' , 'evaluerange'),
-        ('evaluerange' , 'algorithm'),
-        ('algorithm' , 'balancing'),
-        ('balancing' , 'schurform'),
-        ('schurform' , 'queryPrecision'),
-        ('queryPrecision' , 'finish'),
-    ])
+		('start' , 'problem'),
+		('problem', 'complex'),
+		('complex' , 'matrix'),
+		('matrix' , 'storage'),
+		('storage' , 'schur'),
+		('schur' , 'evaluerange'),
+		('evaluerange' , 'algorithm'),
+		('algorithm' , 'balancing'),
+		('balancing' , 'schurform'),
+		('schurform' , 'queryPrecision'),
+		('queryPrecision' , 'finish'),
+	])
 
 def getFilteredList(answered_questions):
-    db = lapack_eprob_simple.objects.all()
-    Qr = None
-    for field,value in answered_questions.items():
-        q = Q(**{"%s__exact" % field: value })
-        if Qr:
-            Qr = Qr & q # or & for filtering
-        else:
-            Qr = q    
+	db = lapack_eprob_simple.objects.all()
+	Qr = None
+	for field,value in answered_questions.items():
+		q = Q(**{"%s__exact" % field: value })
+		if Qr:
+			Qr = Qr & q # or & for filtering
+		else:
+			Qr = q    
 
-    if Qr != None:
-        db = db.filter(Qr)
-    return db
+	if Qr != None:
+		db = db.filter(Qr)
+	return db
+
+def getFilteredChoices(filtered,field):
+	result = ()
+	possibleResults = filtered.values_list(field, flat=True).order_by(field).distinct()
+	label, choices = eprob_fields[field]
+	for shortAns, longAns in choices:
+		for value in possibleResults:
+			if value == shortAns:
+				result = result + ((shortAns,longAns),)
+				continue
+	return result
+
+
 
 def findNextForm(filtered_list,last):
 	try:
-	    field = eprob_nextform[last]
+		field = eprob_nextform[last]
 	except KeyError:
-	    return 'finish'
+		return 'finish'
 	num = filtered_list.count()
 	while field != 'finish':
-	    (value,_) = eprob_fields[field][1][0]
-	    qnum = filtered_list.filter(Q(**{"%s__exact"% field : value})).count()
-	    if (num != qnum and qnum > 0):
-	        break
-	    field = eprob_nextform[field]
+		(value,_) = eprob_fields[field][1][0]
+		qnum = filtered_list.filter(Q(**{"%s__exact"% field : value})).count()
+		if (num != qnum and qnum > 0):
+			break
+		field = eprob_nextform[field]
 	return field
 
 class lapack_eprob_simple(models.Model):
