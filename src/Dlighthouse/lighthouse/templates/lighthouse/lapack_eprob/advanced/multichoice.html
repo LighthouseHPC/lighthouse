@@ -1,0 +1,14 @@
+
+{% for field in advanced_form %}
+<tr>
+  <th>
+    <label for="id_question_fact">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> {{ field.label_tag }} </b>
+    </label>
+  </th>
+  	{% for radio in field %}
+      {{ radio }}
+    {% endfor %}
+</tr>
+{% endfor %}

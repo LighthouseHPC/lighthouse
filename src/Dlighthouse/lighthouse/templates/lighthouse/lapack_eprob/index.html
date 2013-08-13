@@ -1,0 +1,264 @@
+{% extends "dojango/base_eprob.html" %}
+
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_eprob_simpleSearch %}
+<div id="title-div">
+  <table id="icon-table">
+    <tr>
+      <td id="icon-cell">
+        <img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
+      </td>
+      <td id="title-cell">
+        Guided Search
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+{% include "lighthouse/lapack_eprob/simple/answered.html" %}
+
+<form action="/lapack_eprob/" name="frmType" method="post">
+    {% csrf_token %}
+
+    {% include simple_query %}
+
+  <br>
+    
+    <div id="button-div">
+      <table style="width:100%; margin: 0px auto;">
+    <tr style="width:100%;">
+      <td style="text-align:left;">
+        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
+            <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/>
+        </button>
+      </td>
+      <td style="text-align:center;">
+        <div id="tooltip"></div>
+      </td>
+      <td style="text-align:right;">
+        <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
+            <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+        </button >
+      </td>
+    </tr>
+      </table>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block dojango_content_eprob_search_result %}
+
+<!-- ########### Simple search result: ###########-->
+
+{% load highlight %}
+
+
+{% if results %}
+<div id="title-div">
+  <table style="width: 100%; border: 0px solid;">
+    <tr>
+      <td style="text-align:left; padding-left:5px; width:24px;">
+        <img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+      </td>   
+      <td style="text-align:left">
+        Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
+      </td>
+    </tr>
+  </table>  
+</div>
+
+<div id="routineListNode" class="container">
+
+{% for item in results %}
+  
+  {% if item in selectedRoutines %}
+
+  <div class="notDndItem" id="nsel_{{ item.precision|upper }}{{ item.routineName|upper }}"
+       detail="{{ item.precision }}_{{ item.routineName }}_{{ item.get_matrix_display }}_{{ item.get_storage_display }}_{{ item.id }}_{{ item.url }}"
+       style="list-style-type: none;">
+    <div class="routineName">
+      <table id="ntb_{{ item.precision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+        <tr>
+          <!--
+          <td id="sn_{{ item.precision|upper }}{{ item.routineName|upper }}" class="hiddenStuff" style="font-weight: bold;"></td>
+          -->
+          <td class="hiddenStuff">
+            <input type="checkbox" name="routines" checked="checked"
+                   value="{{ item.precision }}_{{ item.routineName }}_{{ item.get_matrix_display }}_{{ item.get_storage_display }}_{{ item.id }}_{{ item.url }}"
+                   id="ncb_{{ item.precision|upper }}{{ item.routineName|upper }}"
+                   onclick="checkChanged('{{ item.precision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+          </td>
+          <td style="width: 56px; font-weight: bold;">
+            {{ item.precision|upper }}{{ item.routineName|upper }}
+          </td>
+          <td style="color: #555; font-weight: bold;">
+            (Already selected)
+          </td>
+          <td class="hiddenStuff">
+            <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
+          </td>
+          <td  class="hiddenStuff">
+            <img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.precision|upper }}{{ item.routineName|upper }}');"/>
+          </td>
+        </tr>
+      </table>      
+    </div>
+    <div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.precision|upper }}{{ item.routineName|upper }}" max_length 500 %}
+      <button onclick="dijit.byId('nsel_{{ item.id }}').show()">more</button>
+    </div>
+    <div class="dijitHidden">
+      <div id="nsel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.precision|upper }}{{ item.routineName|upper }}">
+        <div align="center">
+          <table id="table_main" width="80%" border = "1">
+            <tr>
+            <th>Precision</th>
+            <th>Routine Name</th>
+            <th>Matrix Type</th>
+            <th>Storage</th>
+            </tr>
+            <tr>
+            <td>{{ item.precision|upper }}</td>
+            <td>{{ item.routineName|upper }}</td> 
+            <td>{{ item.get_matrix_display }}</td> 
+            <td>{{ item.get_storage_display }}</td>      
+            </tr>
+          </table><br/>
+          <iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
+          <button onClick="dijit.byId('nsel_{{ item.id }}').hide()">Close</button>
+        </div>
+      </div>
+    </div>    
+  </div> 
+  
+  {% else %} 
+
+    <div class="dojoDndItem" id="sel_{{ item.precision|upper }}{{ item.routineName|upper }}"
+       detail="{{ item.precision }}_{{ item.routineName }}_{{ item.get_matrix_display }}_{{ item.get_storage_display }}_{{ item.id }}_{{ item.url }}">
+    <div class="routineName">
+      <table id="tb_{{ item.precision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+        <tr>          
+          <td class="hiddenStuff">
+            <input type="checkbox"
+                   value="{{ item.precision }}_{{ item.routineName }}_{{ item.get_storage_display }}_{{ item.get_storage_display }}_{{ item.id }}_{{ item.url }}"
+                   id="cb_{{ item.precision|upper }}{{ item.routineName|upper }}"
+                   onclick="checkChanged('{{ item.precision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+          </td>
+          <td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.precision|upper }}{{ item.routineName|upper }}');">
+            {{ item.precision|upper }}{{ item.routineName|upper }}
+          </td>
+          <td class="hiddenStuff">
+            <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
+          </td>
+          <td  class="hiddenStuff">
+            <img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.precision|upper }}{{ item.routineName|upper }}');"/>
+          </td>
+        </tr>
+      </table>      
+    </div>
+    <div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.precision|upper }}{{ item.routineName|upper }}" max_length 500 %}
+      <button onclick="dijit.byId('sel_{{ item.id }}').show()">more</button>
+    </div>
+    <div class="dijitHidden">
+      <div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.precision|upper }}{{ item.routineName|upper }}">
+        <div align="center">
+          <table id="table_main" width="80%" border = "1">
+            <tr>
+            <th>Precision</th>
+            <th>Routine Name</th>
+            <th>Matrix Type</th>
+            <th>Storage</th>
+            </tr>
+            <tr>
+            <td>{{ item.precision|upper }}</td>
+            <td>{{ item.routineName|upper }}</td> 
+            <td>{{ item.get_matrix_display }}</td> 
+            <td>{{ item.get_storage_display }}</td>      
+            </tr>
+          </table><br/>
+          <iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
+          <button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+        </div>
+      </div>
+    </div>    
+  </div> 
+
+  {% endif %} 
+
+{% endfor %}
+
+</div>
+{% endif %} 
+
+
+{% endblock %}
+
+
+<!-- ########### Advanced search questions: ###########-->
+{% block dojango_content_eprob_advancedSearch %}
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                <img src="{{ MEDIA_URL }}Images/advancedSearch.png" width="32" height="32"/>
+            </td>       
+           <td id="title-cell">
+                Advanced Search
+            </td>
+        </tr>
+    </table>    
+</div>
+<br>
+
+<form name="advanced" action="/lapack_eprob/" name="frmProb" method="post">
+  {% csrf_token %}
+  {% include advanced_query %}
+
+<br>
+
+  <div id="button-div">
+      <table style="width:100%; margin: 0px auto;">
+    <tr style="width:100%;">
+      <td style="text-align:left;">       
+        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
+            <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+        </button>       
+      </td>     
+      <td style="text-align:center;">
+        <div id="tooltip2"></div>
+      </td>
+      <td style="text-align:right;">
+        <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip2', 'Submit', '#009900');" onmouseout="showTooltip('tooltip2','');" onclick="return validateAdvancedCategoryCheckbox(id_advanced_0, id_advanced_1, id_advanced_2);">
+            <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+        </button >
+      </td>
+    </tr>
+      </table>
+  </div>
+</form>
+{% endblock %}
+
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_eprob_keywordSearch %}
+{% include content_eprob_keywordSearch %}
+{% endblock %}
+
+
+<!-- ########### Selected routines: ###########-->
+{% block dojango_content_eprob_selected_routines %}
+{% include "lighthouse/lapack_eprob/selectedRoutines.html" %}
+{% endblock %}
+
+
+<!-- ########### Code Template: ###########-->
+{% block dojango_content_eprob_code_template %}
+{% include "lighthouse/lapack_eprob/codeTemplate.html" %}
+{% endblock %}
+
+<!-- ########### Script Area: ###########-->
+{% block dojango_content_eprob_script %}
+{% include "lighthouse/lapack_eprob/script.html" %}
+{% endblock %}
