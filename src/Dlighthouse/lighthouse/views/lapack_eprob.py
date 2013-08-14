@@ -20,7 +20,6 @@ def findAnsweredQuestions(answered_questions):
         for shortval, longval in field_choices:
             if value == shortval:
                 results.update({field_label:longval})
-
     return results
 
 
@@ -62,7 +61,7 @@ def lapack_eprob(request):
     answered = findAnsweredQuestions(answered_temp)
     results = getFilteredList(answered_temp)
 
-    context = { 'sess_key' : request.session.keys(),
+    context = {
             'simple_answered' : answered,
             'advanced_query' : 'lighthouse/lapack_eprob/advanced/multichoice.html',
             'advanced_form' : AdvancedForm,    
@@ -72,7 +71,7 @@ def lapack_eprob(request):
             'content_eprob_keywordSearch' : 'lighthouse/lapack_eprob/keyword/search.html'
     }
 
-    nextform = findNextForm(results)
+    nextform = findNextForm(results,answered_temp)
 
     if nextform != 'finish':
         request.session['eprob_current_form'] = nextform
@@ -105,43 +104,3 @@ def eprob_clear(request):
         return HttpResponse('cleared')              
     else:
         return HttpResponse('only AJAX requests are allowed!')
-
-
-def eprob_guided(request, page):
-    if request.method == 'POST':
-        formname = request.session['eprob_current_form']
-        form = SimpleForm(formname,request.POST)
-        if form.is_valid():
-            request.session['eprob_form_' + formname] = form.cleaned_data[formname]
-
-
-    try:
-        context = {
-                    'simple_answered' : {},
-                    'simple_query' : 'lighthouse/lapack_eprob/simple/multichoice.html',
-                    'simple_form' : FilteredForm(page,answered_questions),
-                    'advanced_query' : 'lighthouse/lapack_eprob/advanced/multichoice.html',
-                    'advanced_form' : AdvancedForm,    
-                    'results' : get_model('lighthouse','lapack_eprob_simple').objects.filter(kind = 'eval'),
-                    'content_eprob_simpleSearch' :   'lighthouse/lapack_eprob/simple/landing.html',
-                    'content_eprob_advancedSearch' : 'lighthouse/lapack_eprob/advanced/landing.html',
-                    'content_eprob_keywordSearch' : 'lighthouse/lapack_eprob/keyword/search.html'
-        }
-        return render_to_response('lighthouse/lapack_eprob/index.html',
-            context_instance=RequestContext(request, context) )
-    except KeyError:
-        raise Http404()
-    
-def current_datetime(request):
-    now = datetime.datetime.now()
-    html = "<html><body>It is now %s.</body></html>" % now
-    return HttpResponse(html)
-    
-def hours_ahead(request, offset):
-    try:
-        offset = int(offset)
-    except ValueError:
-        raise Http404()
-    dt = datetime.datetime.now() + datetime.timedelta(hours=offset)
-    html = "<html><body>In %s hour(s), it will be %s.</body></html>" % (offset, dt)
-    return HttpResponse(html)

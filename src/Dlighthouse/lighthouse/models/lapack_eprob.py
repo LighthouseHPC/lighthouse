@@ -91,26 +91,26 @@ def getFilteredChoices(filtered,field):
 	result = ()
 	possibleResults = filtered.values_list(field, flat=True).order_by(field).distinct()
 	label, choices = eprob_fields[field]
+	
 	for shortAns, longAns in choices:
-		for value in possibleResults:
-			if value == shortAns:
-				result = result + ((shortAns,longAns),)
-				continue
+		if shortAns in possibleResults:
+			result = result + ((shortAns,longAns),)
 	return result
 
 
 
-def findNextForm(filtered_list):
+def findNextForm(filtered_list,answered):
 	field = eprob_nextform['start']
 	while field != 'finish':
-#		(value,_) = eprob_fields[field][1][0]
-#		qnum = filtered_list.filter(Q(**{"%s__exact"% field : value})).count()
-# 		if (num != qnum and qnum > 0):
-# 			break
-		
-		qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
-		if qnum > 1:
-			break
+
+		if field in answered:
+			# already filtered, ignore it
+			pass			
+		else:
+			# test to see if it has more than one possible value
+			qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
+			if qnum > 1:
+				break
 		field = eprob_nextform[field]
 	return field
 
