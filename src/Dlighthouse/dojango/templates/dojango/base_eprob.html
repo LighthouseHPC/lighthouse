@@ -213,12 +213,10 @@
                                 <div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result" selected="false" style="padding:10px; display:none;">
                                         {% block dojango_content_eprob_search_result %}{% endblock %}        
                                 </div><!-- end:first upper tab -->
-
-                                <!-- second tab ==> script area -->
-                                <div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="{{ ScriptTab|default:"false" }}" style="padding:10px; height:45%;">
-                                        {% block dojango_content_eprob_script %}{% endblock %}
-                                </div><!-- end second tab -->
-                        </div><!-- end of region="center" TabContainer -->
+                                
+                            <!-- remove the script tab -->
+                              
+                      </div><!-- end of region="center" TabContainer -->
 
 
                         <!-- bottom right tabs -->
