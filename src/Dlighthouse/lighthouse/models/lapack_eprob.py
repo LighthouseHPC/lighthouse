@@ -45,6 +45,7 @@ EPROB_ALGORITHM_CHOICES = (
 
 ## ---------------- Define the forms ---------------- ###
 eprob_fields = OrderedDict([
+		('generalized' , ('Do you need to solve a generalized eigenproblem?', EPROB_NOYES_CHOICES)),
 		('problem' , ('What type of problem do you need to solve?', EPROB_PROBLEM_CHOICES)),
 		('complex' , ('Does your matrix have any complex numbers?', EPROB_NOYES_CHOICES)),
 		('matrix' , ('What type of matrix do you have?', EPROB_MATRIX_CHOICES)),
@@ -57,12 +58,9 @@ eprob_fields = OrderedDict([
 		('queryPrecision' , ('Is your matrix single or double precision?', EPROB_PRECISION_CHOICES)),
 	])
 
-eprob_eval = [
-	'complex',
-]
-
 eprob_nextform = OrderedDict([
-		('start' , 'problem'),
+		('start' , 'generalized'),
+		('generalized', 'problem'),
 		('problem', 'complex'),
 		('complex' , 'matrix'),
 		('matrix' , 'storage'),
@@ -102,16 +100,16 @@ def getFilteredChoices(filtered,field):
 
 
 
-def findNextForm(filtered_list,last):
-	try:
-		field = eprob_nextform[last]
-	except KeyError:
-		return 'finish'
-	num = filtered_list.count()
+def findNextForm(filtered_list):
+	field = eprob_nextform['start']
 	while field != 'finish':
-		(value,_) = eprob_fields[field][1][0]
-		qnum = filtered_list.filter(Q(**{"%s__exact"% field : value})).count()
-		if (num != qnum and qnum > 0):
+#		(value,_) = eprob_fields[field][1][0]
+#		qnum = filtered_list.filter(Q(**{"%s__exact"% field : value})).count()
+# 		if (num != qnum and qnum > 0):
+# 			break
+		
+		qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
+		if qnum > 1:
 			break
 		field = eprob_nextform[field]
 	return field
