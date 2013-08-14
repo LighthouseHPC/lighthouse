@@ -76,9 +76,15 @@ def lapack_eprob(request):
 
     if nextform != 'finish':
         request.session['eprob_current_form'] = nextform
-        context.update({'simple_query':'lighthouse/lapack_eprob/simple/multichoice.html', 'simple_form' : FilteredForm(nextform,results)})
+        context.update({
+                        'content_eprob_guided_form':'lighthouse/lapack_eprob/simple/guided.html', 
+                        'simple_form' : FilteredForm(nextform,results),
+                        'content_eprob_guided_buttons' : 'lighthouse/lapack_eprob/simple/buttons_more.html'
+                        })
     else:
-        context.update({'simple_query' : 'lighthouse/lapack_eprob/simple/finished.html'})
+        context.update({
+                        'content_eprob_guided_form':'lighthouse/lapack_eprob/simple/finished.html', 
+                        })
  
     return render_to_response(
     'lighthouse/lapack_eprob/index.html',

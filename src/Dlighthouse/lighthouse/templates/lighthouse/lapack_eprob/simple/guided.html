@@ -1,0 +1,20 @@
+<form action="/lapack_eprob/" name="frmType" method="post">
+    {% csrf_token %}
+    <div id="question-div"
+    {% for field in simple_form %}
+     <li><label>{{ field.label_tag }}</label> 
+      <ul style="list-style: none;">
+        {% for radio in field %}
+          <li >
+              {{ radio }}
+          </li>
+        {% endfor %}
+        </ul>
+     </li>  
+     {% endfor %}
+    </div>
+
+  <br>
+    
+    {% include "lighthouse/lapack_eprob/common/buttons_more.html" %}
+</form>
