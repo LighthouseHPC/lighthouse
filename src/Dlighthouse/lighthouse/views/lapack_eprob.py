@@ -37,13 +37,18 @@ def lapack_eprob(request):
 
    
     else:
-        request.session['eprob_current_form'] = 'start'
-        formname = 'start'
-        for key, _ in eprob_fields.items():
-            try:
-                del request.session['eprob_form_' + key]
-            except KeyError:
-                continue
+        try :
+            formname = request.session['eprob_current_form']
+        except KeyError:
+            request.session['eprob_current_form'] = 'start'
+            formname = 'start'
+
+        if formname == 'start':            
+            for key, _ in eprob_fields.items():
+                try:
+                    del request.session['eprob_form_' + key]
+                except KeyError:
+                    continue
 
     for key,_ in eprob_fields.items():
         label = 'eprob_form_' + key
@@ -67,7 +72,7 @@ def lapack_eprob(request):
             'content_eprob_keywordSearch' : 'lighthouse/lapack_eprob/keyword/search.html'
     }
 
-    nextform = findNextForm(results,formname)
+    nextform = findNextForm(results)
 
     if nextform != 'finish':
         request.session['eprob_current_form'] = nextform
@@ -79,6 +84,22 @@ def lapack_eprob(request):
     'lighthouse/lapack_eprob/index.html',
             context_instance=RequestContext(request, context)
     )
+
+
+@csrf_exempt
+def eprob_clear(request):
+    if request.is_ajax():
+#      mode = [{"clear": request.POST.get('clear')}]
+        request.session['eprob_current_form'] = 'start'
+        for key, _ in eprob_fields.items():
+            try:
+                del request.session['eprob_form_' + key]
+            except KeyError:
+                continue
+        return HttpResponse('cleared')              
+    else:
+        return HttpResponse('only AJAX requests are allowed!')
+
 
 def eprob_guided(request, page):
     if request.method == 'POST':

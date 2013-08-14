@@ -223,10 +223,22 @@
 	/* Ask for confirmation when user clicks on Restart Search button */
 	function show_confirm(){
 		var restart = "";
-		restart = confirm("Are you sure you start over the search?");
-		if(restart)
+		restart = confirm("Are you sure you start the search over?");
+		if(restart) {
+			dojo.xhrPost( {
+				url: "/lapack_eprob/clear/",
+				content: {clear: "all"},
+				sync:true,
+				load: function(response){
+					console.log(response);
+				    },
+				error: function(){
+				    console.log("error");
+					}
+				}
+			);
 			window.location = "/lapack_eprob/";
-		else
+		} else
 			return false;		
 	}
 
