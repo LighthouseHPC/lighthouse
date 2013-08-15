@@ -22,7 +22,11 @@ def findAnsweredQuestions(answered_questions):
                 results.update({field_label:longval})
     return results
 
-
+def clearSession(request):
+    for key, _ in eprob_fields.items():
+        label = 'eprob_form_' + key
+        if label in request.session:
+            del request.session[label]
 
 def lapack_eprob(request):
     answered_temp = OrderedDict()
@@ -36,26 +40,20 @@ def lapack_eprob(request):
 
    
     else:
-        try :
+        if 'eprob_current_form' in request.session:
             formname = request.session['eprob_current_form']
-        except KeyError:
+        else:
             request.session['eprob_current_form'] = 'start'
             formname = 'start'
 
         if formname == 'start':            
-            for key, _ in eprob_fields.items():
-                try:
-                    del request.session['eprob_form_' + key]
-                except KeyError:
-                    continue
+            clearSession(request)
 
     for key,_ in eprob_fields.items():
         label = 'eprob_form_' + key
-        try :
+        if label in request.session:
             name = request.session[label]
-        except KeyError:
-            continue
-        answered_temp.update({key : name})
+            answered_temp.update({key : name})
 
 
     answered = findAnsweredQuestions(answered_temp)
@@ -66,7 +64,6 @@ def lapack_eprob(request):
             'advanced_query' : 'lighthouse/lapack_eprob/advanced/multichoice.html',
             'advanced_form' : AdvancedForm,    
             'results' : results,
-            'content_eprob_simpleSearch' :   'lighthouse/lapack_eprob/simple/landing.html',
             'content_eprob_advancedSearch' : 'lighthouse/lapack_eprob/advanced/landing.html',
             'content_eprob_keywordSearch' : 'lighthouse/lapack_eprob/keyword/search.html'
     }
@@ -78,7 +75,6 @@ def lapack_eprob(request):
         context.update({
                         'content_eprob_guided_form':'lighthouse/lapack_eprob/simple/guided.html', 
                         'simple_form' : FilteredForm(nextform,results),
-                        'content_eprob_guided_buttons' : 'lighthouse/lapack_eprob/simple/buttons_more.html'
                         })
     else:
         context.update({
@@ -96,11 +92,8 @@ def eprob_clear(request):
     if request.is_ajax():
 #      mode = [{"clear": request.POST.get('clear')}]
         request.session['eprob_current_form'] = 'start'
-        for key, _ in eprob_fields.items():
-            try:
-                del request.session['eprob_form_' + key]
-            except KeyError:
-                continue
+        clearSession(request)
+
         return HttpResponse('cleared')              
     else:
         return HttpResponse('only AJAX requests are allowed!')

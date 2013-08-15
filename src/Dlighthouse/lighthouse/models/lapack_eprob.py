@@ -61,7 +61,7 @@ eprob_fields = OrderedDict([
 eprob_nextform = OrderedDict([
 		('start' , 'generalized'),
 		('generalized', 'problem'),
-		('problem', 'complex'),
+		('problem', 'test'),
 		('complex' , 'matrix'),
 		('matrix' , 'storage'),
 		('storage' , 'schur'),
@@ -73,46 +73,6 @@ eprob_nextform = OrderedDict([
 		('queryPrecision' , 'finish'),
 	])
 
-def getFilteredList(answered_questions):
-	db = lapack_eprob_simple.objects.all()
-	Qr = None
-	for field,value in answered_questions.items():
-		q = Q(**{"%s__exact" % field: value })
-		if Qr:
-			Qr = Qr & q # or & for filtering
-		else:
-			Qr = q    
-
-	if Qr != None:
-		db = db.filter(Qr)
-	return db
-
-def getFilteredChoices(filtered,field):
-	result = ()
-	possibleResults = filtered.values_list(field, flat=True).order_by(field).distinct()
-	label, choices = eprob_fields[field]
-	
-	for shortAns, longAns in choices:
-		if shortAns in possibleResults:
-			result = result + ((shortAns,longAns),)
-	return result
-
-
-
-def findNextForm(filtered_list,answered):
-	field = eprob_nextform['start']
-	while field != 'finish':
-
-		if field in answered:
-			# already filtered, ignore it
-			pass			
-		else:
-			# test to see if it has more than one possible value
-			qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
-			if qnum > 1:
-				break
-		field = eprob_nextform[field]
-	return field
 
 class lapack_eprob_simple(models.Model):
 	generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
@@ -136,3 +96,49 @@ class lapack_eprob_simple(models.Model):
 
 	class Meta:
 		app_label = 'lighthouse'
+
+
+def getFilteredList(answered_questions = OrderedDict()):
+	db = lapack_eprob_simple.objects.all()
+	Qr = None
+	for field,value in answered_questions.items():
+		q = Q(**{"%s__exact" % field: value })
+		if Qr:
+			Qr = Qr & q # or & for filtering
+		else:
+			Qr = q    
+
+	if Qr != None:
+		db = db.filter(Qr)
+	return db
+
+def getFilteredChoices(filtered,field):
+	result = ()
+	possibleResults = filtered.values_list(field, flat=True).order_by(field).distinct()
+	if field in eprob_fields:
+		label, choices = eprob_fields[field]
+		
+		for shortAns, longAns in choices:
+			if shortAns in possibleResults:
+				result = result + ((shortAns,longAns),)
+	return result
+
+
+
+def findNextForm(filtered_list=lapack_eprob_simple.objects.all(),answered=OrderedDict()):
+	field = eprob_nextform['start']
+	while field != 'finish':
+		if field in eprob_fields:
+			if field in answered:
+				# already filtered, ignore it
+				pass			
+			else:
+				# test to see if it has more than one possible value
+				qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
+				if qnum > 1:
+					break
+			field = eprob_nextform[field]
+		else:
+			return 'finish'
+	return field
+

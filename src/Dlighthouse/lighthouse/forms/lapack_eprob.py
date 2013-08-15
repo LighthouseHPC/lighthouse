@@ -4,13 +4,18 @@ from lighthouse.models.lapack_eprob import *
 
 
 def makeFieldRadio(name):
-	field_label, field_choices = eprob_fields[name]
-	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.RadioSelect())
-
+    if name in eprob_fields:
+    	field_label, field_choices = eprob_fields[name]
+    	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.RadioSelect())
+    else:
+        return forms.ChoiceField(widget=forms.RadioSelect)
 def makeFieldCheckbox(name):
-	field_label, field_choices = eprob_fields[name]
-	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple())
-
+    if name in eprob_fields:        
+    	field_label, field_choices = eprob_fields[name]
+    	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple())
+    else:
+        return forms.ChoiceField(widget=forms.CheckboxSelectMultiple)
+        
 ### ---------------- Form Classes  ---------------- ###
 
 

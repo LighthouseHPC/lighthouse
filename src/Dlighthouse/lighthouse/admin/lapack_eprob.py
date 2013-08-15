@@ -18,8 +18,8 @@ class EntryAdminForm(forms.ModelForm):
 
 """ Driver routines """
 class lapack_eprob_simpleAdmin(admin.ModelAdmin):
-	list_display = ('id','routineName', 'problem', 'complex', 'matrix', 'storage', 'schur', 'evaluerange', 'algorithm','balancing','schurform','queryPrecision')
-	list_filter = ['problem', 'complex', 'matrix', 'storage', 'schur', 'evaluerange', 'algorithm','balancing','schurform','queryPrecision']
+	list_display = ('id','routineName', 'generalized', 'problem', 'complex', 'matrix', 'storage', 'schur', 'evaluerange', 'algorithm','balancing','schurform','queryPrecision')
+	list_filter = [ 'generalized', 'problem', 'complex', 'matrix', 'storage', 'schur', 'evaluerange', 'algorithm','balancing','schurform','queryPrecision']
 	search_fields = ['routineName',]
 	ordering = ('info',)
 	raw_id_fields = ('info',)
