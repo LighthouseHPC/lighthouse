@@ -306,3 +306,24 @@ class lapack_le_arg(models.Model):
 
 	class Meta:
 		app_label = 'lighthouse'
+		
+		
+		
+		
+class lapack_le_arg_C(models.Model):
+	routineName = models.CharField('Routine Name', max_length=60)
+	param = models.CharField('Parameters', max_length=300)
+	define = models.CharField('Define', max_length=100)
+	char = models.CharField('Char', max_length=50)
+	global_var = models.CharField('Global', max_length=100)
+	integers = models.CharField('Integer', max_length=50)
+	array_real = models.CharField('Real', max_length=300)
+	array_complex = models.CharField('Complex', max_length=300)
+	array_float = models.CharField('Float Array', max_length=300)
+	array_float_complex = models.CharField('Float Complex Array', max_length=300)
+	
+	def __unicode__(self):
+	    return self.routineName
+
+	class Meta:
+		app_label = 'lighthouse'
