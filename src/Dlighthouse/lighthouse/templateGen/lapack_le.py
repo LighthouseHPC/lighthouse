@@ -1,11 +1,14 @@
 import os, fnmatch, re
 
-from lighthouse.models.lapack_le import lapack_le_arg
+from lighthouse.models.lapack_le import lapack_le_arg, lapack_le_arg_C
 
 fortran_path = './lighthouse/templateGen/fortran/'
+c_path = './lighthouse/templateGen/C/'
 
 keyword_list = ['trf', 'trs', 'con', 'tri', 'rfs', 'equ', 'svx']
 
+
+""" generate template in Fortran  """
 class generateTemplate(object):
     __name__ = 'generateTemplate'
     
@@ -227,11 +230,60 @@ class generateTemplate(object):
 
 
 
-
-
 def replacemany(adict, astring):
     pat = '|'.join(re.escape(s) for s in adict)
     there = re.compile(pat)
     def onerepl(mo):
         return adict[mo.group()]
     return there.sub(onerepl, astring)
+
+
+
+
+
+
+""" generate template in C  """
+class generateTemplate_C(object):
+    __name__ = 'generateTemplate_C'
+    
+    def __init__(self, routineName):
+        self.routineName = routineName
+        
+        
+    def get_dataType(self):
+        dataType = []
+        if self.routineName.startswith('s'):
+            dataType.extend(['REAL', 'float'])
+        elif self.routineName.startswith('d'):
+            dataType.extend(['REAL', 'double'])
+        elif self.routineName.startswith('c'):
+            dataType.extend(['COMPLEX', 'float'])
+        elif self.routineName.startswith('z'):
+            dataType.extend(['COMPLEX', 'double'])
+        return dataType
+    
+    
+    def get_database(self):
+        ROUTINE = lapack_le_arg_C.objects.filter(routineName__icontains=self.routineName)
+        ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ ---###
+        if self.routineName[-2:] == 'sv':
+            keyword = 'sv'
+        else:
+            for item in keyword_list:
+                if item in self.routineName:
+                    keyword = item
+        databaseInfo = {'keyword': keyword, 'routine': ROUTINE}
+        
+        return databaseInfo
+    
+    
+    def make_template(self):
+        ### --- get data from database --- ### 
+        ROUTINE = self.get_database()['routine']
+        keyword = self.get_database()['keyword']
+
+        ### --- copy head.txt file to test1.c --- ###
+        with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "w") as f:
+            with open(c_path+"baseCode/head_"+keyword+".txt", "r") as f_head:
+                for line in f_head.readlines():
+                    f.write(line)
