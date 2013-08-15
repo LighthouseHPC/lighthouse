@@ -22,13 +22,13 @@ def findAnsweredQuestions(answered_questions):
                 results.update({field_label:longval})
     return results
 
-def clearSession(request):
+def clearAnsweredQuestions(request):
     for key, _ in eprob_fields.items():
         label = 'eprob_form_' + key
         if label in request.session:
             del request.session[label]
 
-def lapack_eprob(request):
+def lapack_eprob_simple(request):
     answered_temp = OrderedDict()
     formname = ''
     if request.method == 'POST':
@@ -47,7 +47,7 @@ def lapack_eprob(request):
             formname = 'start'
 
         if formname == 'start':            
-            clearSession(request)
+            clearAnsweredQuestions(request)
 
     for key,_ in eprob_fields.items():
         label = 'eprob_form_' + key
@@ -90,10 +90,18 @@ def lapack_eprob(request):
 @csrf_exempt
 def eprob_clear(request):
     if request.is_ajax():
-#      mode = [{"clear": request.POST.get('clear')}]
-        request.session['eprob_current_form'] = 'start'
-        clearSession(request)
+        mode = request.POST.get('clear')
+        if (mode == 'simple_questions'):
+            request.session['eprob_current_form'] = 'start'
+            clearAnsweredQuestions(request)
+        if (mode == 'other'):
+            pass
 
         return HttpResponse('cleared')              
     else:
         return HttpResponse('only AJAX requests are allowed!')
+
+
+def lapack_eprob(request):
+
+    return lapack_eprob_simple(request)

@@ -15,7 +15,7 @@ def makeFieldCheckbox(name):
     	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple())
     else:
         return forms.ChoiceField(widget=forms.CheckboxSelectMultiple)
-        
+
 ### ---------------- Form Classes  ---------------- ###
 
 
@@ -27,7 +27,8 @@ class SimpleForm(forms.Form):
 class FilteredForm(forms.Form):
     def __init__(self, name, filtered, *args, **kwargs):
         super(FilteredForm, self).__init__(*args, **kwargs)
-        self.fields[name] = forms.ChoiceField(label=eprob_fields[name][0], choices=getFilteredChoices(filtered,name), widget=forms.RadioSelect())
+        self.fields[name] = forms.ChoiceField(label=eprob_fields[name][0],
+            choices=getFilteredChoices(filtered,name), widget=forms.RadioSelect())
 
 class AdvancedForm(forms.Form):
 	def __init__(self, *args, **kwargs):
