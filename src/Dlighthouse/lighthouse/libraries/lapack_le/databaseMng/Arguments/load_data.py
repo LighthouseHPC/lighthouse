@@ -13,9 +13,12 @@ cursor = myDB.cursor()
 ##### MySQL storage engine must be set = MyISAM (old), not InnoDB (default) #####
 ##### -------------------------------------------------------------------------#####
 
-nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_arguments.txt' INTO TABLE \
-                                    lighthouse_lapack_le_arg FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\r'")
+#nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_arguments.txt' INTO TABLE \
+#                                    lighthouse_lapack_le_arg FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\r'")
 
+
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_arguments_C.txt' INTO TABLE \
+                                    lighthouse_lapack_le_arg_C FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\r'")
 
 
 myDB.commit()
