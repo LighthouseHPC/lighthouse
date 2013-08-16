@@ -209,6 +209,7 @@ class generateTemplate(object):
                        'get_precision': self.routineName[0] 
                        }
 
+        ## --- write the replaced version in to test2 --- ## 
         with open(fortran_path+"codeTemplates/test2_"+self.routineName+".f90", "wt") as fout:
             with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "r") as fini:
                 fout.write(replacemany(replaceDict, fini.read()))
@@ -230,14 +231,6 @@ class generateTemplate(object):
 
 
 
-def replacemany(adict, astring):
-    pat = '|'.join(re.escape(s) for s in adict)
-    there = re.compile(pat)
-    def onerepl(mo):
-        return adict[mo.group()]
-    return there.sub(onerepl, astring)
-
-
 
 
 
@@ -253,13 +246,13 @@ class generateTemplate_C(object):
     def get_dataType(self):
         dataType = []
         if self.routineName.startswith('s'):
-            dataType.extend(['REAL', 'float'])
+            dataType.extend(['real', 'float', 'f'])
         elif self.routineName.startswith('d'):
-            dataType.extend(['REAL', 'double'])
+            dataType.extend(['real', 'double', 'lf'])
         elif self.routineName.startswith('c'):
-            dataType.extend(['COMPLEX', 'float'])
+            dataType.extend(['complex', 'float', 'f'])
         elif self.routineName.startswith('z'):
-            dataType.extend(['COMPLEX', 'double'])
+            dataType.extend(['complex', 'double', 'lf'])
         return dataType
     
     
@@ -287,3 +280,69 @@ class generateTemplate_C(object):
             with open(c_path+"baseCode/head_"+keyword+".txt", "r") as f_head:
                 for line in f_head.readlines():
                     f.write(line)
+                    
+        ### --- Combine with tail.txt file--- ###
+        if not keyword == 'con':
+            with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "a") as f:
+                if keyword in ['sv', 'trf', 'tri', 'equ', 'svx']:
+                    with open(c_path+"baseCode/tail_"+self.get_dataType()[0]+"_"+keyword+".txt", "r") as f_tail:
+                        flag = 1
+                        for line in f_tail.readlines():
+                            if "begin" in line and self.routineName[1:] in line.split():
+                                flag = 0
+                            if "end" in line and self.routineName[1:] in line.split():
+                                flag = 1
+                            if not flag and not "begin" in line and not self.routineName[1:] in line.split():
+                               f.write(line)                  
+                else:
+                    with open(c_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
+                        for line in f_tail.readlines():
+                            f.write(line)
+                            
+        ## --- create a dictionary for replacing strings in the original file. --- ##
+        replaceDict = {'routineName': self.routineName,
+                       'routine_parameters': ROUTINE[0].param,
+                       'dataType': self.get_dataType()[1],
+                       'placeholder': self.get_dataType()[2],
+                       'integer_list': ROUTINE[0].integers,
+                       'real_list': ROUTINE[0].array_real,
+                       'complex_list': ROUTINE[0].array_complex,
+                       #'character_list': ROUTINE[0].char,
+                       'float_list': ROUTINE[0].array_float,
+                       'float_complex_list': ROUTINE[0].array_float_complex,
+                       }
+
+        ## --- write the replaced version in to test2 --- ##
+        with open(c_path+"codeTemplates/test2_"+self.routineName+".c", "wt") as fout:
+            with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "r") as fini:
+                fout.write(replacemany(replaceDict, fini.read()))
+                
+
+        ### --- delete lines containing empty array lists and copy test2.c to the final temp_xxxxx.c file. --- ### 
+        f_read = open(c_path+"codeTemplates/test2_"+self.routineName+".c", "r")
+        lines = f_read.readlines()
+        f_read.close()
+        f_write = open(c_path+"codeTemplates/temp_%s.c"%self.routineName,"w")
+        for line in lines:
+            if 'na::;' not in line:
+                f_write.write(line)
+        
+                
+        ### --- remove test files --- ###
+        os.remove(c_path+"codeTemplates/test1_"+self.routineName+".c")
+        os.remove(c_path+"codeTemplates/test2_"+self.routineName+".c")
+
+                
+                
+                
+                
+                
+                
+                
+""" replace strings in text """
+def replacemany(adict, astring):
+    pat = '|'.join(re.escape(s) for s in adict)
+    there = re.compile(pat)
+    def onerepl(mo):
+        return adict[mo.group()]
+    return there.sub(onerepl, astring)

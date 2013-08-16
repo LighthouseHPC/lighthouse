@@ -1,6 +1,6 @@
-/*****************************************************************/
-/*** solving the matrix equation A*x=b using LAPACK subroutine ***/
-/*****************************************************************/
+/*********************************************************************/
+/*** solve the matrix equation A*x=B using LAPACK subroutine routineName ***/
+/*********************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,8 +15,8 @@
 const char UPLO = 'L';      //set UPLO = 'U' or 'u' for upper triangular matrix, and 'L' or 'l' for lower triangular matrix
 
 /*--- enter file locations for (1) matrix A and (2) matrix B ---*/ 
-#define fileA "data/data_sposv9L.txt"
-#define fileB "data/array_sposv9L.txt"
+#define fileA "file_name_for_data_A"
+#define fileB "file_name_for_data_B"
 /**************************** END CONSTANT SET UP ****************************/
 
 
@@ -26,8 +26,11 @@ int nrhs = COL_B;
 int lda = SIZE;
 int ldb = ROW_B;
   
-int i, j, info;
-float B[ROW_B][COL_B], AT[SIZE*SIZE], BT[ROW_B*COL_B];
+int integer_list, i, j;
+dataType real_list;
+dataType complex complex_list;
+float float_list;
+float complex float_complex_list;
 FILE *fptA, *fptB;
 
 
@@ -41,7 +44,7 @@ extern void PRINT_SOLUTION();
 main(){  
   /*--- message ---*/
   printf("*********************************\n");
-  printf("*** Use sposv to solve Ax = B ***\n");
+  printf("*** Use routineName to solve Ax = B ***\n");
   printf("*********************************\n");
   printf("\n");
     
@@ -58,7 +61,7 @@ main(){
   /*--- (1) all the arguments must be pointers ---*/ 
   /*--- (2) add an underscore to the routine name ---*/
   /*--- (3) matrices must be transformed into Fortran vector format ---*/ 
-  sposv_(&UPLO, &n, &nrhs, AT, &lda, BT, &ldb, &info); 
+  routineName_routine_parameters; 
 
   
   /*--- print the silution ---*/
@@ -93,56 +96,3 @@ void OPEN_FILE(){
 
 
 
-void GET_DATA(){
-  /*--- read and transform A into its Fortran vector format, AT ---*/
-  if (UPLO == 'U' || UPLO == 'u'){
-    for(i=0; i<lda; i++){
-      for(j=i; j<n; j++){
-	fscanf(fptA, "%f",&AT[i+lda*j]);
-	//printf("%d, %d, %d --> %f\n", i, j, i+lda*j, AT[i+lda*j]);
-      }
-      //printf("------------------------\n");
-    }    
-  }
-  else if (UPLO == 'L' || UPLO == 'l' ){
-    for(i=0; i<lda; i++){
-      for(j=0; j<=i; j++){
-	fscanf(fptA, "%f",&AT[i+lda*j]);
-	//printf("%d, %d, %d --> %f\n", i, j, i+lda*j, AT[i+lda*j]);
-      }
-      //printf("------------------------\n");
-    }
-  }
-  else{
-    printf("Invalid UPLO value!\n");
-    exit(EXIT_FAILURE);
-    }
-
-  
-  /*--- read and transform B into its Fortran vector format, BT ---*/
-  for(i=0; i <ldb; i++){
-    for (j=0; j<nrhs; j++){
-      fscanf(fptB, "%f",&BT[i+n*j]);
-      //printf("%d, %d ---> %f\n", i, j, B[i][j]);
-    }
-  }
-}
-
-
-
-
-void PRINT_SOLUTION(){
-  /*--- print vector x ---*/
-  printf("Solution: \n");
-  for (i=0; i<n; i++){
-    for (j=0; j<nrhs; j++){
-      B[i][j] = BT[i+n*j];
-      printf("\t% 6.2f", B[i][j]);	
-    }
-    printf("\n");
-  }
-
-
-  /*---print info ---*/
-   printf("\n\ninfo = %d", info);   
-}
