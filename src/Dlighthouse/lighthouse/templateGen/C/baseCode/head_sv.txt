@@ -8,23 +8,18 @@
 #include <errno.h>
 
 /**************************** BEGIN CONSTANT SET UP ****************************/
-/*--- matrix properties ---*/
-#define SIZE 9
-#define ROW_B 9
-#define COL_B 2
-const char UPLO = 'L';      //set UPLO = 'U' or 'u' for upper triangular matrix, and 'L' or 'l' for lower triangular matrix
+/*--- input matrix properties ---*/
+define_list
+char_list
 
 /*--- enter file locations for (1) matrix A and (2) matrix B ---*/ 
-#define fileA "file_name_for_data_A"
-#define fileB "file_name_for_data_B"
+#define fileA "data/data_routineName.txt"
+#define fileB "data/array_routineName.txt"
 /**************************** END CONSTANT SET UP ****************************/
 
 
 /*--- global variables ---*/
-int n = SIZE;
-int nrhs = COL_B;
-int lda = SIZE;
-int ldb = ROW_B;
+global_list;
   
 int integer_list, i, j;
 dataType real_list;

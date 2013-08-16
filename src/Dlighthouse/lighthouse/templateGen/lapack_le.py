@@ -273,7 +273,7 @@ class generateTemplate_C(object):
     def make_template(self):
         ### --- get data from database --- ### 
         ROUTINE = self.get_database()['routine']
-        keyword = self.get_database()['keyword']
+        keyword = self.get_database()['keyword'] 
 
         ### --- copy head.txt file to test1.c --- ###
         with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "w") as f:
@@ -302,12 +302,14 @@ class generateTemplate_C(object):
         ## --- create a dictionary for replacing strings in the original file. --- ##
         replaceDict = {'routineName': self.routineName,
                        'routine_parameters': ROUTINE[0].param,
+                       'define_list': ROUTINE[0].define.replace(';', '\n'),
+                       'char_list': ROUTINE[0].char.replace(';', '\n'),
                        'dataType': self.get_dataType()[1],
                        'placeholder': self.get_dataType()[2],
+                       'global_list': ROUTINE[0].global_var.replace(';', ';\n'),
                        'integer_list': ROUTINE[0].integers,
                        'real_list': ROUTINE[0].array_real,
                        'complex_list': ROUTINE[0].array_complex,
-                       #'character_list': ROUTINE[0].char,
                        'float_list': ROUTINE[0].array_float,
                        'float_complex_list': ROUTINE[0].array_float_complex,
                        }
@@ -324,7 +326,7 @@ class generateTemplate_C(object):
         f_read.close()
         f_write = open(c_path+"codeTemplates/temp_%s.c"%self.routineName,"w")
         for line in lines:
-            if 'na::;' not in line:
+            if 'na::' not in line:
                 f_write.write(line)
         
                 
