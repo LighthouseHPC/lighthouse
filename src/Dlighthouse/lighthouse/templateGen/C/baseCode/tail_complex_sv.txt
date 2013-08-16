@@ -1,13 +1,14 @@
 begin gesv
-void GET_DATA_A(){
-  int linenum = 0;
+void GET_DATA(){
+  int linenum;
   char *ptr, line[BUFSIZ];
-  double *buffer_A;
+  double *buffer_A, *buffer_B;
 
   /*--- allocate temporary array ---*/ 
   buffer_A = (double*)malloc (sizeof (double)*(2*n*n));
   
-  /*--- read matrix into buffer ---*/
+  /*--- read matrix into buffer_A ---*/
+  linenum = 0;
   while(fgets(line, BUFSIZ, fptA)){                                     //read the file line by line
     ptr = strtok(line, ")(, ");                                         //split line around ")(, "
     //printf("%s\n", ptr);                                              //print the first element in the line after the split
@@ -29,20 +30,16 @@ void GET_DATA_A(){
   }
     
     free(buffer_A);
-}
   
 end gesv
+
+
  
 begin gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv  
-void GET_DATA_B(){
-  int linenum = 0;
-  char *ptr, line[BUFSIZ];
-  double *buffer_B;
-  
   /*--- allocate temporary array ---*/ 
   buffer_B = (double*)malloc (sizeof (double)*(2*ldb*nrhs));
   
-  /*--- read matrix B into buffer ---*/
+  /*--- read matrix B into buffer_B ---*/
   linenum = 0;
   while(fgets(line, BUFSIZ, fptB)){                                     //read the file line by line
     ptr = strtok(line, ")(, ");                                         //split line around ")(, "
@@ -69,18 +66,26 @@ void GET_DATA_B(){
 }
 
 
+
+
+void MAT_TRANSFORM(){
 end gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv
 
 
+
+
+
 begin gesv
-void MAT_TRANSFORM(){
   for (i=0; i<lda; i++){
     for(j=0; j<n; j++){
        AT[2*(i+lda*j)]=creal(A[i][j]);
        AT[2*(i+lda*j)+1]=cimag(A[i][j]);
     }
   }
+  
 end gesv
+
+
 
 
 begin gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv  
