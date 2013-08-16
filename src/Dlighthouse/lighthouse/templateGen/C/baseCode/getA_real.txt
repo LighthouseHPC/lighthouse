@@ -1,5 +1,4 @@
 begin gesv
-void GET_DATA(){
   /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
   /*--- read A and transform it to AT ---*/
   for(i=0; i<lda; i++){
@@ -10,3 +9,62 @@ void GET_DATA(){
   
 end gesv
  
+
+begin gtsv
+  /*--- get DU, D, and DL ---*/
+  for (i=0; i<3; i++){
+    if (i==0){
+      for(j=0; j<n-1; j++){
+        fscanf(fptA, "%placeholder",&DU[j]);
+      }
+    }
+    else if (i==1){
+      for(j=0; j<n; j++){
+        fscanf(fptA, "%placeholder",&D[j]);
+      }     
+    }
+    else if (i==2){
+      for(j=0; j<n-1; j++){
+        fscanf(fptA, "%placeholder",&DL[j]);
+      }      
+    }
+  }
+  
+end gtsv
+
+
+begin ptsv
+  /*--- get D and E ---*/
+  for (i=0; i<2; i++){
+    if (i==0){
+      for(j=0; j<n; j++){
+        fscanf(fptA, "%placeholder",&D[j]);
+      }
+    }
+    else if (i ==1){
+      for(j=0; j<n-1; j++){
+        fscanf(fptA, "%placeholder",&E[j]);
+      }     
+    }
+  }
+
+end ptsv
+
+
+begin gbsv
+  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
+  /*--- read AB ---*/
+  for(i=0; i<n; i++){
+    for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
+      fscanf(fptA, "%placeholder",&AB[kl+ku+i-j][j]);
+    }
+  }    
+
+  /*--- transform AB to AT ---*/
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+      ABT[i+ldab*j]=AB[i][j];
+    }
+  }
+  
+end gbsv

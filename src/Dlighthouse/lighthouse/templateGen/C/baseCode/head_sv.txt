@@ -7,6 +7,9 @@
 #include <string.h>
 #include <errno.h>
 
+#define min(a, b) (((a) < (b)) ? (a) : (b)) 
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
 /**************************** BEGIN CONSTANT SET UP ****************************/
 /*--- input matrix properties ---*/
 define_list
@@ -90,3 +93,4 @@ void OPEN_FILE(){
 
 
 
+void GET_DATA(){
