@@ -1,0 +1,12 @@
+begin gesv
+void GET_DATA(){
+  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
+  /*--- read A and transform it to AT ---*/
+  for(i=0; i<lda; i++){
+    for(j=0; j<n; j++){
+      fscanf(fptA, "%placeholder",&AT[i+lda*j]);
+    }
+  }
+  
+end gesv
+ 

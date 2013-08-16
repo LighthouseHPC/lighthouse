@@ -1,0 +1,44 @@
+begin gesv
+void GET_DATA(){
+  int linenum;
+  char *ptr, line[BUFSIZ];
+  double *buffer_A, *buffer_B;
+
+  /*--- allocate temporary array ---*/ 
+  buffer_A = (double*)malloc (sizeof (double)*(2*n*n));
+  
+  /*--- read matrix into buffer_A ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptA)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (i=0; i<2*n; i++){
+      buffer_A[linenum*2*n+i] = strtof(ptr, &ptr);                      //convert ptr to float
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    //printf("----------------------------\n");
+    linenum++;
+  }
+  
+  
+  /*--- get A ---*/
+  for (i=0; i<n; i++){
+    for (j=0; j<n; j++){
+      A[i][j] = buffer_A[2*(i*n+j)]+buffer_A[2*(i*n+j)+1]*I;
+      //printf("%d, %d ---> (%placeholder, %placeholder) \n", i,j, creal(A[i][j]), cimag(A[i][j]));
+    }
+    //printf("----------------------------\n");
+  }
+    
+    
+  /*--- transform A to its Fortran vector format AT---*/
+  for (i=0; i<lda; i++){
+    for(j=0; j<n; j++){
+       AT[2*(i+lda*j)]=creal(A[i][j]);
+       AT[2*(i+lda*j)+1]=cimag(A[i][j]);
+    }
+  }
+
+    free(buffer_A);
+  
+end gesv
