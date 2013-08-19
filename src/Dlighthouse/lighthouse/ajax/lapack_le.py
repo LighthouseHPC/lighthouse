@@ -4,7 +4,7 @@ from dajax.core import Dajax
 from dajaxice.core import dajaxice_functions
 import os, glob
 from codeGen.templates import BTOGenerator
-from lighthouse.templateGen.lapack_le import generateTemplate
+from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
 
 generatedCodeTemplate_dir = './lighthouse/libraries/lapack_le/generatedCodeTemplate/'
 txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
@@ -34,8 +34,21 @@ def createTemplate_FORTRAN(request, checked_list):
 @dajaxice_register
 def createTemplate_C(request, checked_list):
         dajax = Dajax()
-	dajax.assign("#template_output", 'innerHTML', 'Coming Soon!')
-	return dajax.json()
+	file_list = []
+	for files in glob.glob("./lighthouse/templateGen/C/codeTemplates/*.c"):
+	    file_list.append(files)
+        for item in checked_list:
+		item = item.lower()
+		file_name = './lighthouse/templateGen/C/codeTemplates/temp_'+item+'.c'
+		if file_name not in file_list:
+			go = generateTemplate_C(item)
+			go.make_template()
+		f_output = open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r")
+		text = f_output.read()
+		dajax.assign("#template_output", 'innerHTML', text)
+                f_output.close()
+
+        return dajax.json()
 	
 
 
