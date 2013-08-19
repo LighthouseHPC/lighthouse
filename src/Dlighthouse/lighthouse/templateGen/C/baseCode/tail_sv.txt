@@ -103,7 +103,7 @@ end (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
 
 
 
-begin (complex) sgesv cgesv sposv cposv
+begin (complex) cgesv cposv
 void PRINT_SOLUTION(){
   /*--- print vector x ---*/
   printf("Solution: \n");
@@ -115,15 +115,15 @@ void PRINT_SOLUTION(){
     printf("\n");
   }
   
-end (complex) sgesv cgesv sposv cposv
+end (complex) cgesv cposv
 
 
 
 
 !--- print info ---!
-begin (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv
+begin (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv hesv hpsv
   /*---print info ---*/
    printf("\ninfo = %d", info);   
 }
 
-end (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv  
+end (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv hesv hpsv 
