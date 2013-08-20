@@ -1,0 +1,31 @@
+
+
+TEST_FILENAME="af23560.mtx"
+echo "Filename : ${TEST_FILENAME}"
+
+for EPS_WHICH in eps_largest_magnitude eps_smallest_magnitude eps_largest_real eps_smallest_real #eps_largest_imaginary eps_smallest_imaginary
+do
+    for NUMBER_OF_EIGENVALUES in 1 2 10
+    do
+	for TOLERANCE in 0.0001 0.00000001 0.0000000001
+	do
+          if [ "$EPS_WHICH" = "eps_largest_magnitude" ];then # power and subspace only work for Largest magnitude
+	   #./eigenvalue_solver -fin $TEST_FILENAME -eps_type power -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES
+	   ./eigenvalue_solver -fin $TEST_FILENAME -eps_type subspace -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES
+          fi
+	   ./eigenvalue_solver -fin $TEST_FILENAME -eps_type arnoldi  -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES -$EPS_WHICH
+	   #./eigenvalue_solver -fin $TEST_FILENAME -eps_type lanczos -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES -$EPS_WHICH # for HEP
+	   ./eigenvalue_solver -fin $TEST_FILENAME -eps_type krylovschur -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES -$EPS_WHICH
+	   ./eigenvalue_solver -fin $TEST_FILENAME -eps_type gd -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES -$EPS_WHICH
+	   ./eigenvalue_solver -fin $TEST_FILENAME -eps_type jd -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES -$EPS_WHICH
+           #./eigenvalue_solver -fin $TEST_FILENAME -eps_type rqcg -eps_tol $TOLERANCE -eps_nev $NUMBER_OF_EIGENVALUES -$EPS_WHICH
+	done
+    done
+done
+
+
+
+
+
+
+#./eigenvalue_solver -fin $TEST_FILENAME -eps_smallest_real -eps_type rqcg          # only for smallest real
