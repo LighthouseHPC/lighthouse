@@ -1,7 +1,8 @@
         MODULE Declaration
             INTEGER                                                     :: integer_list, I, J
             CHARACTER(LEN=1)                                            :: character_list
-            REAL(KIND=)                                                 :: real_list, get_precisionlamch, SMLNUM, BIGNUM
+            REAL(KIND=)                                                 :: real_list, SMLNUM, BIGNUM
+            REAL(KIND=8)                                                :: get_precisionlamch
             INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
             REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
             dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
