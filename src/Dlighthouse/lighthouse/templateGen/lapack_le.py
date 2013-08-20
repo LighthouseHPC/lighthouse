@@ -312,7 +312,7 @@ class generateTemplate_C(object):
                             f.write(line)
                             
         ## --- create a dictionary for replacing strings in the original file. --- ##
-        replaceDict = {'routineName': self.routineName,
+        replaceDict = {'routineName': self.routineName.upper(),
                        'routine_parameters': ROUTINE[0].param,
                        'define_list': ROUTINE[0].define.replace(';', '\n'),
                        'char_list': ROUTINE[0].char.replace(';', '\n'),
