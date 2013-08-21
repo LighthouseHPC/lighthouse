@@ -1,7 +1,7 @@
 
 /* Program usage:  mpiexec ex1 [-help] [all PETSc options] */
 
-static char help[] = "Solves a linear system with KSP.\n\n";
+static char help[] = "Solves a eigenvalue system.\n\n";
 
 /*T
    Main operation: Solve a linear system
@@ -21,24 +21,25 @@ int main(int argc,char **args)
 {
   Mat            A;
   Vec            b;
-  char           filein[PETSC_MAX_PATH_LEN],fileout[PETSC_MAX_PATH_LEN],buf[PETSC_MAX_PATH_LEN];
+  char           filein[PETSC_MAX_PATH_LEN],buf[PETSC_MAX_PATH_LEN];
   PetscInt       i,m,n,nnz,col,row;
   PetscErrorCode ierr;
   PetscMPIInt    size;
   PetscScalar    val;
   FILE*          file;
-  PetscViewer    view;
+  //PetscViewer    view;
   PetscRandom    r;
   PetscLogDouble numberOfFlops, tsolve1, tsolve2;
 EPS            eps;         /* eigenproblem solver context */
   const EPSType  type;
   PetscReal      error,tol,re,im;
-  PetscScalar    kr,ki,value[3];
-  Vec            xr,xi;
-  PetscInt       ne=30,Istart,Iend,nev,maxit,its,nconv;
-  PetscBool      FirstBlock=PETSC_FALSE,LastBlock=PETSC_FALSE;
+  PetscScalar    kr,ki;//,value[3];
+  Vec            xr=0,xi=0;
+  PetscInt       nev,maxit,its,nconv;
+  EPSWhich 	 which;
+  //PetscBool      FirstBlock=PETSC_FALSE,LastBlock=PETSC_FALSE;
 
-  PetscTime(tsolve1);
+  
 //PetscInitialize(&argc,&args,(char *)0,help);
 SlepcInitialize(&argc,&args,(char*)0,help);
 
@@ -55,7 +56,7 @@ SlepcInitialize(&argc,&args,(char*)0,help);
 
   /* The first non-comment line has the matrix dimensions */
   sscanf(buf,"%d %d %d\n",&m,&n,&nnz);
-  printf ("m = %d, n = %d, nnz = %d\n",m,n,nnz);
+  //printf ("m = %d, n = %d, nnz = %d\n",m,n,nnz);
 
   ierr = MatCreateSeqAIJ(PETSC_COMM_WORLD,m,n,nnz*2/m,0,&A);CHKERRQ(ierr);
   ierr = MatSetOption(A,MAT_NEW_NONZERO_ALLOCATION_ERR,PETSC_FALSE);CHKERRQ(ierr);
@@ -79,7 +80,7 @@ SlepcInitialize(&argc,&args,(char*)0,help);
   ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
   ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
 
-  ierr = PetscPrintf(PETSC_COMM_SELF,"Reading matrix completes.\n");CHKERRQ(ierr);
+  //ierr = PetscPrintf(PETSC_COMM_SELF,"Reading matrix completes.\n");CHKERRQ(ierr);
 
 
 
@@ -94,7 +95,7 @@ SlepcInitialize(&argc,&args,(char*)0,help);
      Set operators. In this case, it is a standard eigenvalue problem
   */
   ierr = EPSSetOperators(eps,A,PETSC_NULL);CHKERRQ(ierr);
-  ierr = EPSSetProblemType(eps,EPS_HEP);CHKERRQ(ierr);
+  //ierr = EPSSetProblemType(eps,EPS_HEP);CHKERRQ(ierr);
 
   /*
      Set solver parameters at runtime
@@ -104,41 +105,24 @@ SlepcInitialize(&argc,&args,(char*)0,help);
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
                       Solve the eigensystem
      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
+  PetscTime(tsolve1);
   ierr = EPSSolve(eps);CHKERRQ(ierr);
-
+  PetscTime(tsolve2);
   /*
      Optional: Get some information from the solver and display it
   */
-  ierr = EPSGetIterationNumber(eps,&its);CHKERRQ(ierr);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Number of iterations of the method: %D\n",its);CHKERRQ(ierr);
-  ierr = EPSGetType(eps,&type);CHKERRQ(ierr);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Solution method: %s\n\n",type);CHKERRQ(ierr);
+  ierr = EPSGetWhichEigenpairs(eps, &which);CHKERRQ(ierr);
   ierr = EPSGetDimensions(eps,&nev,PETSC_NULL,PETSC_NULL);CHKERRQ(ierr);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Number of requested eigenvalues: %D\n",nev);CHKERRQ(ierr);
+  ierr = EPSGetType(eps,&type);CHKERRQ(ierr);
   ierr = EPSGetTolerances(eps,&tol,&maxit);CHKERRQ(ierr);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Stopping condition: tol=%.4G, maxit=%D\n",tol,maxit);CHKERRQ(ierr);
-  ierr = PetscGetFlops(&numberOfFlops);CHKERRQ(ierr);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Number of flops of the method: %F\n",numberOfFlops);CHKERRQ(ierr);
-  PetscTime(tsolve2);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Time taken to solve : %2.1e\n",(tsolve2-tsolve1));CHKERRQ(ierr);
-  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-                    Display solution and clean up
-     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-  /* 
-     Get number of converged approximate eigenpairs
-  */
   ierr = EPSGetConverged(eps,&nconv);CHKERRQ(ierr);
-  ierr = PetscPrintf(PETSC_COMM_WORLD," Number of converged eigenpairs: %D\n\n",nconv);CHKERRQ(ierr);
+  ierr = EPSGetIterationNumber(eps,&its);CHKERRQ(ierr);
+  ierr = PetscGetFlops(&numberOfFlops);CHKERRQ(ierr);
+  
+  //Print output:
+  ierr = PetscPrintf(PETSC_COMM_WORLD,"%D\t %D\t %.4G\t %s\t %D\t %D\t %F\t %2.1e\t",which, nev, tol, type, nconv, its, numberOfFlops, (tsolve2-tsolve1));CHKERRQ(ierr);
 
   if (nconv>0) {
-    /*
-       Display eigenvalues and relative errors
-    */
-    ierr = PetscPrintf(PETSC_COMM_WORLD,
-         "           k          ||Ax-kx||/||kx||\n"
-         "   ----------------- ------------------\n");CHKERRQ(ierr);
-
     for (i=0;i<nconv;i++) {
       /* 
         Get converged eigenpairs: i-th eigenvalue is stored in kr (real part) and
@@ -158,13 +142,16 @@ SlepcInitialize(&argc,&args,(char*)0,help);
       im = ki;
 #endif 
       if (im!=0.0) {
-        ierr = PetscPrintf(PETSC_COMM_WORLD," %9F%+9F j %12G\n",re,im,error);CHKERRQ(ierr);
+    //    ierr = PetscPrintf(PETSC_COMM_WORLD," %9F%+9F j %12G\n",re,im,error);CHKERRQ(ierr);
       } else {
-        ierr = PetscPrintf(PETSC_COMM_WORLD,"   %12F       %12G\n",re,error);CHKERRQ(ierr); 
+    //    ierr = PetscPrintf(PETSC_COMM_WORLD,"   %12F       %12G\n",re,error);CHKERRQ(ierr); 
       }
+      ierr = PetscPrintf(PETSC_COMM_WORLD,"%12G\t", error);CHKERRQ(ierr);
     }
-    ierr = PetscPrintf(PETSC_COMM_WORLD,"\n");CHKERRQ(ierr);
+    
   }
+
+ierr = PetscPrintf(PETSC_COMM_WORLD,"\n");CHKERRQ(ierr);
   
 //Destructors
   ierr = MatDestroy(&A);CHKERRQ(ierr);
