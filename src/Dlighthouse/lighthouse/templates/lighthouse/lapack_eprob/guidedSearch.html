@@ -1,0 +1,17 @@
+<div id="title-div">
+  <table id="icon-table">
+    <tr>
+      <td id="icon-cell">
+        <img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
+      </td>
+      <td id="title-cell">
+        Guided Search
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+{% include "lighthouse/lapack_eprob/guided/answered.html" %}
+
+{% include content_eprob_guided_form %}

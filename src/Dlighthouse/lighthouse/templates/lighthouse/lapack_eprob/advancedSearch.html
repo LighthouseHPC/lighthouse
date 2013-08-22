@@ -1,0 +1,16 @@
+  <div id="title-div">
+      <table id="icon-table">
+          <tr>
+              <td id="icon-cell">
+                  <img src="{{ MEDIA_URL }}Images/advancedSearch.png" width="32" height="32"/>
+              </td>       
+             <td id="title-cell">
+                  Advanced Search
+              </td>
+          </tr>
+      </table>    
+  </div>
+  <br>
+
+  {% include "lighthouse/lapack_eprob/advanced/answered.html" %}
+  {% include content_eprob_advanced_form %}

@@ -3,6 +3,12 @@ from django.db.models import Q
 from lighthouse.models.lapack_le import lapack_RoutineInfo
 from collections import OrderedDict
 
+#
+#
+# Define possible choices for forms and database fields
+#
+#
+
 EPROB_PROBLEM_CHOICES = (
     (u'eval'                 ,u'Eigenproblem'),
     (u'svd'                  ,u'Singular Value Decomposition')
@@ -43,7 +49,12 @@ EPROB_ALGORITHM_CHOICES = (
     (u'mrrr',u'Multiple Relatively Robust Representation'),
 )
 
-## ---------------- Define the forms ---------------- ###
+#
+#
+# Define the possible fields in the database and in forms
+#
+#
+
 eprob_fields = OrderedDict([
         ('generalized' , ('Do you need to solve a generalized eigenproblem?', EPROB_NOYES_CHOICES)),
         ('problem' , ('What type of problem do you need to solve?', EPROB_PROBLEM_CHOICES)),
@@ -57,6 +68,13 @@ eprob_fields = OrderedDict([
         ('schurform' , ('Do you need the ordered Schur form or reciprocal condition numbers?', EPROB_NOYES_CHOICES)),
         ('queryPrecision' , ('Is your matrix single or double precision?', EPROB_PRECISION_CHOICES)),
     ])
+
+
+#
+#
+# Define the order the questions are asked in the guided search
+#
+#
 
 eprob_nextform = OrderedDict([
         ('start' , 'generalized'),
@@ -72,6 +90,12 @@ eprob_nextform = OrderedDict([
         ('schurform' , 'queryPrecision'),
         ('queryPrecision' , 'finish'),
     ])
+
+#
+#
+# Define the different pages for the advanced search
+#
+#
 
 eprob_advanced_landing = (
     'generalized', 
@@ -92,11 +116,18 @@ eprob_advanced_optional = (
     'balancing',
     'schurform',
 )
+
 eprob_advanced_forms = OrderedDict([
     ('landing', eprob_advanced_landing),
     ('questions', eprob_advanced_questions),
     ('optional', eprob_advanced_optional),
     ])
+
+#
+#
+# Define the order the pages go in for the advanced search
+#
+#
 
 eprob_advanced_nextform = OrderedDict([
     ('start', 'landing'),
@@ -104,6 +135,12 @@ eprob_advanced_nextform = OrderedDict([
     ('questions', 'optional'),
     ('optional', 'finish'),
     ])
+
+#
+#
+# Define the model using the fields and choices from above
+#
+#
 
 class lapack_eprob(models.Model):
     generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
@@ -128,7 +165,13 @@ class lapack_eprob(models.Model):
     class Meta:
         app_label = 'lighthouse'
 
+#
+#
+# Helper functions
+#
+#
 
+# return a QuerySet containing the results from a given set of questions
 def getFilteredList(answered_questions = OrderedDict()):
     db = lapack_eprob.objects.all()
     Qr = None
@@ -143,9 +186,10 @@ def getFilteredList(answered_questions = OrderedDict()):
         db = db.filter(Qr)
     return db
 
-def getFilteredChoices(filtered,field):
+# Query the model to find what choices are available for a specific field given a set of results
+def getFilteredChoices(results,field):
     result = ()
-    possibleResults = filtered.values_list(field, flat=True).order_by(field).distinct()
+    possibleResults = results.values_list(field, flat=True).order_by(field).distinct()
     if field in eprob_fields:
         label, choices = eprob_fields[field]
         
@@ -154,18 +198,20 @@ def getFilteredChoices(filtered,field):
                 result = result + ((shortAns,longAns),)
     return result
 
-def getFilteredChoicesAdvanced(filtered,field):
+# Query the model to find what choices are available for a specific page given a set of results
+def getFilteredChoicesAdvanced(results,field):
     result = ()
 
     if field in eprob_advanced_forms:
         for i in eprob_advanced_forms[field]:
-            choices = getFilteredChoices(filtered,i)
+            choices = getFilteredChoices(results,i)
             if len(choices) > 1:
                 label,_ = eprob_fields[i]
                 result = result + ((i,label,choices),)
 
     return result
 
+# Query the model to find the next field with more than one choice available
 def findNextForm(filtered_list=lapack_eprob.objects.all(),answered=OrderedDict()):
     field = eprob_nextform['start']
     while field != 'finish':
@@ -180,13 +226,17 @@ def findNextForm(filtered_list=lapack_eprob.objects.all(),answered=OrderedDict()
             return 'finish'
     return field
 
+# Query the model to find the next page with more than one choice available
 def findNextFormAdvanced(filtered_list=lapack_eprob.objects.all(),answered=OrderedDict()):
         for temp in eprob_advanced_forms:
             viewed = False
+            # loop through the fields in the page to see if any have been answered
             for field in eprob_advanced_forms[temp]:
                 if field in answered:
                     viewed = True;
                     break
+
+            # if none were answered, check to see if any of the forms are applicable
             if not viewed:
                 for field in eprob_advanced_forms[temp]:
                     if field not in answered:
@@ -195,5 +245,6 @@ def findNextFormAdvanced(filtered_list=lapack_eprob.objects.all(),answered=Order
                             qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
                             if qnum > 1:
                                 return temp
+            # go to the next page
             temp = eprob_advanced_nextform[temp]
         return 'finish'

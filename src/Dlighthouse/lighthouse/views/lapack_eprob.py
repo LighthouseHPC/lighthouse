@@ -50,7 +50,7 @@ def clearAnsweredQuestions(request):
     request.session['eprob_guided_current_form'] = 'start'
 
 
-# render the current page for guided search
+# generate the context for the guided search tab
 def lapack_eprob_guided_context(request):
 
 
@@ -65,10 +65,11 @@ def lapack_eprob_guided_context(request):
 
     # if it was submitted and isn't a clear request
     if request.method == 'POST':
-        if request.POST.get('simple') != 'clear':  
+        if request.POST.get('guided') != 'clear':  
             if formname not in ('start', 'finish'):
                 # if it's not the first or last page, check the form
-                form = SimpleForm(formname,request.POST)
+                # uses GuidedForm instead of FilteredForm for performance
+                form = GuidedForm(formname,request.POST)
                 if form.is_valid():
                      answered_temp.update({formname : (form.cleaned_data[formname],)})
     
@@ -96,12 +97,12 @@ def lapack_eprob_guided_context(request):
         # build a list of answered questions and update the context
 
         context.update({'eprob_guided_answered' : answered,
-                        'content_eprob_guided_form':'lighthouse/lapack_eprob/simple/guided.html', 
-                        'simple_form' : FilteredForm(nextform,results),
+                        'content_eprob_guided_form':'lighthouse/lapack_eprob/guided/questions.html', 
+                        'guided_form' : FilteredForm(nextform,results),
                         })
     else:
         context.update({'eprob_guided_answered' : answered,
-                        'content_eprob_guided_form':'lighthouse/lapack_eprob/simple/finished.html', 
+                        'content_eprob_guided_form':'lighthouse/lapack_eprob/guided/finished.html', 
                         })
     # render the result to the page
     return context
@@ -109,7 +110,7 @@ def lapack_eprob_guided_context(request):
 
 
 
-
+# generate the context for the advanced tab
 def lapack_eprob_advanced_context(request):
 
     # retrieve session variables
@@ -171,7 +172,7 @@ def lapack_eprob_advanced_context(request):
 
         #update the context
         context.update({'eprob_advanced_answered' : answered,
-                        'content_eprob_advanced_form':'lighthouse/lapack_eprob/advanced/guided.html', 
+                        'content_eprob_advanced_form':'lighthouse/lapack_eprob/advanced/questions.html', 
                         'advanced_form' : AdvancedFilteredForm(nextform,results),
                         })
     else:
@@ -182,7 +183,7 @@ def lapack_eprob_advanced_context(request):
     return context
 
 
-
+# handle common setup and render the page
 def lapack_eprob(request):
     if 'eprob_selectedRoutines' not in request.session:
         request.session['eprob_selectedRoutines'] = []
@@ -205,54 +206,77 @@ def lapack_eprob(request):
     if 'eprob_advanced_current_form' not in request.session:
         request.session['eprob_advanced_current_form'] = 'start'
 
+
+    if 'eprob_current_tab' not in request.session:
+        request.session['eprob_current_tab'] = 'guided'
+
     context = {
 #        'selectedRoutines': selectedRoutines, 
         'selectedRoutineNames' : selectedRoutineNames,
-        'content_eprob_keywordSearch' : 'lighthouse/lapack_eprob/keyword/search.html'
+        'content_eprob_keywordSearch' : ''
 
     }
 
+    current_tab = ''
+
+    # if the page was a submission, handle that accordingly
     if request.method == 'POST':
         if "advanced" in request.POST:
-
-            # reset the guided search and get it's session
-            clearAnsweredQuestions(request)
-            context.update(lapack_eprob_guided_context(request))
-            
             #if POST was a clear request
             if request.POST.get('advanced') == 'clear':
                 clearAdvancedAnsweredQuestions(request)
-
-            context.update(lapack_eprob_advanced_context(request))
-            return render_to_response(
-                'lighthouse/lapack_eprob/index.html',
-                {'AdvancedTab': True}, 
-                context_instance=RequestContext(request,context)
-            )
-
-        elif "simple" in request.POST:  
-
-            # reset the advanced search
-            clearAdvancedAnsweredQuestions(request)
-            context.update(lapack_eprob_advanced_context(request))
-            
+            request.session['eprob_current_tab'] = 'advanced'
+        elif "keyword" in request.POST:
+            request.session['eprob_current_tab'] = 'keyword'            
+        elif "guided" in request.POST:  
             #if POST was a clear request
-            if request.POST.get('simple') == 'clear':
+            if request.POST.get('guided') == 'clear':
                 clearAnsweredQuestions(request)  
+            request.session['eprob_current_tab'] = 'guided'
 
-            context.update(lapack_eprob_guided_context(request))
 
-            return render_to_response(
-                'lighthouse/lapack_eprob/index.html',
-                context_instance=RequestContext(request,context)
-            )
-   
-    context.update({ 
-                'content_eprob_advanced_form' : 'lighthouse/lapack_eprob/advanced/guided.html',
-                'advanced_form' : AdvancedForm('landing'),  
-                'content_eprob_keywordSearch' : 'lighthouse/lapack_eprob/keyword/search.html'
-            })
-    return lapack_eprob_simple(request,context)
+    # render the page with the current tab active
+    current_tab = request.session['eprob_current_tab']
+    if current_tab == 'advanced':
+        # advanced search
+
+        # clear guided search
+        clearAnsweredQuestions(request)
+        context.update(lapack_eprob_guided_context(request))
+        context.update(lapack_eprob_advanced_context(request))
+        return render_to_response(
+            'lighthouse/lapack_eprob/index.html',
+            {'AdvancedTab': True}, 
+            context_instance=RequestContext(request,context)
+        )
+    elif current_tab == 'keyword':
+        # advanced search
+
+        # clear both guided and advanced search
+        clearAnsweredQuestions(request)
+        context.update(lapack_eprob_guided_context(request))
+        clearAdvancedAnsweredQuestions(request)
+        context.update(lapack_eprob_advanced_context(request))
+
+
+        return render_to_response(
+            'lighthouse/lapack_eprob/index.html',
+            {'KeywordTab': True},
+            context_instance=RequestContext(request,context)
+        )
+    else:
+        # guided search
+
+        # clear advanced search
+        clearAdvancedAnsweredQuestions(request)
+
+        context.update(lapack_eprob_advanced_context(request))
+        context.update(lapack_eprob_guided_context(request))
+
+        return render_to_response(
+            'lighthouse/lapack_eprob/index.html',
+            context_instance=RequestContext(request,context)
+        )
 
 @csrf_exempt
 def eprob_clear_session(request):
