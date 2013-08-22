@@ -15,7 +15,7 @@ cursor = myDB.cursor()
 ##### -------------------------------------------------------------------------#####
 
 nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'lighthouse_eprobs.csv' INTO TABLE \
-                                    lighthouse_lapack_eprob_simple FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
+                                    lighthouse_lapack_eprob FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 
 
 

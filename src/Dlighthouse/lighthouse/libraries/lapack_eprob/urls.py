@@ -4,6 +4,7 @@ from django.conf import settings
 
 urlpatterns = patterns('lighthouse.views.lapack_eprob',
     url(r'^$', "lapack_eprob", name="lapack_eprob"),
-	url(r'^clear/$', "eprob_clear"),
+    url(r'^clear_session/$', "eprob_clear_session"),  
+	url(r'^update_session/$', "eprob_update_session"),
     #(r'^script/$', runScript),
 )

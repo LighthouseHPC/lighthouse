@@ -1190,6 +1190,7 @@ def load_template(request):
 @csrf_exempt
 def update_session(request):
 	if request.is_ajax():
+		
 		selectedRoutineNames = []
 		selectedRoutineList = [{
 			 "thePrecision": request.POST.get('precision'),
