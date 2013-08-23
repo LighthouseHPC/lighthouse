@@ -164,7 +164,7 @@ begin pbequ
                 ELSE IF (UPLO=='L') THEN
                     DO J=1,N
                         DO I=J, MIN(N,J+KD)
-                            AB(KD+1+I-J,J) = S(I)*AB(KD+1+I-J,J)*S(J)
+                            AB(I+1-J,J) = S(I)*AB(I+1-J,J)*S(J)
                         END DO
                     END DO
                 END IF
@@ -175,7 +175,7 @@ begin pbequ
                 IF (UPLO=='U') THEN
                     WRITE (*,fmtNum) (AB(KD+1+I-J,J), J=I,MIN(N,I+KD))
                 ELSE IF (UPLO=='L') THEN
-                    WRITE (*,fmtNum) (AB(KD+1+I-J,J), J=MAX(1,I-KD),I)
+                    WRITE (*,fmtNum) (AB(I+1-J,J), J=MAX(1,I-KD),I)
                 END IF
             END DO
             
