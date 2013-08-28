@@ -1,0 +1,78 @@
+\documentclass[defaultstyle,11pt]{thesis}
+
+\usepackage{amssymb}		% to get all AMS symbols
+\usepackage{graphicx}		% to insert figures
+\usepackage{courier}                   % to use the courier font
+\usepackage{url}
+\usepackage{float}
+\usepackage{ textcomp }
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{lmodern}
+
+%%%%%%%%%%%%   All the preamble material:   %%%%%%%%%%%%
+
+\title{Lighthouse Taxonomy: Delivering Solutions for Sparse Linear Systems}
+
+\author{Javed}{Hossain}
+
+\otherdegrees{B.S. in Computer Science, 2010}
+
+\degree{Master of Science}		%  #1 {long descr.}
+	{M.S., Computer Science}		%  #2 {short descr.}
+
+\dept{Department of}			%  #1 {designation}
+	{Computer Science}		%  #2 {name}
+
+\advisor{Professor}				%  #1 {title}
+	{Elizabeth Jessup}			%  #2 {name}
+
+\reader{Clayton Lewis}		%  2nd person to sign thesis
+
+\abstract{  \OnePageChapter	% because it is very short
+
+	Many different fields of science and engineering rely on linear algebra computations for solving problems and creating simulations. These computations are expensive and can often become the most time-consuming part of the simulations. Writing computer programs for doing scientific computation is a difficult task and optimizing those programs for better performance is even more difficult. A large number of software libraries are available for solving matrix algebra related problems. It is good to have many choices. However, finding the suitable software package for solving a particular linear algebra problem can itself become a major challenge. Finding the appropriate routines, integrating them to a larger application and optimizing them is a complicated process that requires expertise in computer programming, numerical linear algebra, mathematical software, compilers, and computer architecture. We have been studying ways to ease the process of creating and using high-performance matrix algebra software. The Lighthouse Taxonomy is the product of our attempt to face the daunting challenges of high-performance numerical linear algebra computation. Like a lighthouse that helps sailors navigate their ships in the dark seas, the Lighthouse guides the numerical linear algebra practitioners through the dark seas of numerical software development. Lighthouse is an open-source web application that currently serves as a guide to the dense linear system solver routines from one of the most widely used numerical linear algebra package known as LAPACK. We have been working on expanding the Lighthouse framework for the production of matrix algebra software by adding support for sparse matrix algebra computations and integrating high-performance parallel numerical libraries. We are particularly interested in a scientific toolkit called PETSc because of its efficiency, unique features and widespread popularity. In this thesis, we explain the process of integrating the sparse linear solvers from PETSc to the Lighthouse Taxonomy and how this could be beneficial to the scientific computing community.
+	}
+
+\acknowledgements{	\OnePageChapter	% *MUST* BE ONLY ONE PAGE!
+I would like to thank my thesis adviser Professor Elizabeth Jessup. Without her continuous help and guidance, I would have gotten lost in the stormy seas of numerical linear algebra.\\
+\indent I would also like to thank Dr. Boyana Norris for her kind support, especially for helping me learn how to write programs using PETSc.\\
+\indent I want to thank Dr. Sa-Lin Bernstein for guiding me through the process of learning Django.\\
+\indent I would also like to thank Professor Clayton Lewis. I learned a great deal about designing user interfaces from his work.
+	}
+
+\ToCisShort	% use this only for 1-page Table of Contents
+
+\LoFisShort	% use this only for 1-page Table of Figures
+% \emptyLoF	% use this if there is no List of Figures
+
+\LoTisShort	% use this only for 1-page Table of Tables
+% \emptyLoT	% use this if there is no List of Tables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%       BEGIN DOCUMENT...         %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\input macros.tex
+\input chapter1.tex
+\input chapter2.tex
+\input chapter3.tex
+\input chapter4.tex
+\input chapter5.tex
+
+
+
+\nocite{*}			% list all refs in database, cited or not
+%%%%%%%%%   then the Bibliography, if any   %%%%%%%%%
+\bibliographystyle{IEEEtran}	% or "siam", or "alpha", etc.
+\bibliography{refs}		% Bib database in "refs.bib"
+
+%%%%%%%%%   then the Appendices, if any   %%%%%%%%%
+\appendix
+\input appendixA.tex
+
+
+\end{document}
+
