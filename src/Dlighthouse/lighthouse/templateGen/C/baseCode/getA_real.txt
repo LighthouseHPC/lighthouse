@@ -132,14 +132,14 @@ end sysv posv sposv
 begin ppsv spsv
   /*--- get AP ---*/
   if (UPLO == 'U' || UPLO == 'u'){
-    for(i=0; i<SIZE; i++){
-      for(j=i; j<SIZE; j++){
+    for(i=0; i<n; i++){
+      for(j=i; j<n; j++){
         fscanf(fptA, "%placeholder",&AP[(i+1)+j*(j+1)/2-1]);
       }
     }    
   }
   else if (UPLO == 'L' || UPLO == 'l' ){
-    for(i=0; i<SIZE; i++){
+    for(i=0; i<n; i++){
       for(j=0; j<=i; j++){
         fscanf(fptA, "%placeholder",&AP[i+j*(2*SIZE-j-1)/2]);
       }

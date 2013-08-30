@@ -1,12 +1,11 @@
-begin gesv cgesv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
-  /*--- read A and transform it to AT ---*/
+begin gesv cgesv geequ
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_A, *buffer_B;
+  dataType *buffer_A;
 
-  /*--- allocate temporary array ---*/ 
+  /*--- allocate temporary array buffer_A ---*/ 
   buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));
   
   /*--- read matrix into buffer_A ---*/
@@ -29,7 +28,8 @@ begin gesv cgesv
     }
   }
     
-    
+  free(buffer_A);
+  
   /*--- transform A to its Fortran vector format AT---*/
   for (i=0; i<lda; i++){
     for(j=0; j<n; j++){
@@ -37,16 +37,14 @@ begin gesv cgesv
        AT[2*(i+lda*j)+1]=cimag(A[i][j]);
     }
   }
-
-    free(buffer_A);
   
-end gesv cgesv
+end gesv cgesv geequ
  
 
 begin gtsv
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_DU, *buffer_D, *buffer_DL, *buffer_B;
+  dataType *buffer_DU, *buffer_D, *buffer_DL;
 
   /*--- allocate temporary arrays ---*/ 
   buffer_DU = (dataType*)malloc (sizeof (dataType)*(2*(SIZE-1)));
@@ -55,14 +53,14 @@ begin gtsv
   
   /*--- read matrix A into buffers ---*/
   linenum = 0;
-  while(fgets(line, BUFSIZ, fptA)  && linenum<3){               //read the file line by line
+  while(fgets(line, BUFSIZ, fptA)  && linenum<3){                       //read the file line by line
     i = 0;
-    ptr = strtok(line, ")(, ");                                 //split line around ")(, "
-        //printf("%s\n", ptr);                                  //print the first element in the line after the split
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+        //printf("%s\n", ptr);                                          //print the first element in the line after the split
         if (linenum == 0){
             while(ptr && i<2*(SIZE-1)){
-                    buffer_DU[i] = strtof(ptr, &ptr);           //convert ptr to dataType
-                    ptr = strtok(NULL, ")(, ");                 //and keep splitting , search in pointer+1
+                    buffer_DU[i] = strtof(ptr, &ptr);                   //convert ptr to dataType
+                    ptr = strtok(NULL, ")(, ");                         //and keep splitting , search in pointer+1
                     i++;
             }
         }
@@ -103,21 +101,21 @@ end gtsv
 begin ptsv
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_E, *buffer_B;
+  dataType *buffer_E;
 
-  /*--- allocate temporary arrays ---*/ 
+  /*--- allocate temporary arrays buffer_E---*/ 
   buffer_E = (dataType*)malloc (sizeof (dataType)*(2*(SIZE-1)));
   
   /*--- read matrix A into D and buffer_E ---*/
   linenum = 0;
-  while(fgets(line, BUFSIZ, fptA)  && linenum<2){               //read the file line by line
+  while(fgets(line, BUFSIZ, fptA)  && linenum<2){                       //read the file line by line
     i = 0;
-    ptr = strtok(line, ")(, ");                                 //split line around ")(, "
-        //printf("%s\n", ptr);                                  //print the first element in the line after the split
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+        //printf("%s\n", ptr);                                          //print the first element in the line after the split
         if (linenum == 0){
             while(ptr && i<SIZE){
-                    D[i] = strtof(ptr, &ptr);            //convert ptr to dataType
-                    ptr = strtok(NULL, ")(, ");                 //and keep splitting , search in pointer+1
+                    D[i] = strtof(ptr, &ptr);                           //convert ptr to dataType
+                    ptr = strtok(NULL, ")(, ");                         //and keep splitting , search in pointer+1
                     i++;
             }
         }
@@ -142,10 +140,10 @@ end ptsv
 
 
 begin gbsv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, ABT and BT ---*/
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_A, *buffer_B;
+  dataType *buffer_A;
 
   /*--- allocate temporary array buffer_A ---*/ 
   buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));
@@ -155,7 +153,7 @@ begin gbsv
   while(fgets(line, BUFSIZ, fptA)){                                     //read the file line by line
     ptr = strtok(line, ")(, ");                                         //split line around ")(, "
     //printf("%s\n", ptr);                                              //print the first element in the line after the split
-    for (j=2*(linenum-min(KL, linenum)); j<2*(linenum-min(KL, linenum))+2*(1+min(KU, SIZE-(linenum+1))+min(KL, linenum)); j++){
+    for (j=2*(linenum-min(kl, linenum)); j<2*(linenum-min(kl, linenum))+2*(1+min(ku, n-(linenum+1))+min(kl, linenum)); j++){
       buffer_A[linenum*2*n+j] = strtof(ptr, &ptr);                      //convert ptr to dataType
       ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
     }
@@ -168,6 +166,8 @@ begin gbsv
       A[i][j] = buffer_A[2*(i*n+j)]+buffer_A[2*(i*n+j)+1]*I;
     }
   }
+  
+  free(buffer_A);
   
   /*--- get AB ---*/
   for(i=0; i<n; i++){
@@ -184,18 +184,16 @@ begin gbsv
     }
   }
   
-  free(buffer_A);
-  
 end gbsv
 
 
 begin pbsv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, ABT and BT ---*/
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_A, *buffer_B;
+  dataType *buffer_A;
 
-  /*--- allocate temporary array ---*/
+  /*--- allocate temporary array buffer_A ---*/
   buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));
   
   /*--- read data of matrix A into buffer_A ---*/
@@ -229,6 +227,8 @@ begin pbsv
     }
   }
   
+  free(buffer_A);
+  
   /*--- get AB ---*/
   if (UPLO == 'U' || UPLO == 'u'){
     for(i=0; i<n; i++){
@@ -244,8 +244,6 @@ begin pbsv
       }
     }
   }
-  
-  free(buffer_A);
     
   /*--- transform AB into its Fortran vector format, ABT ---*/
   for (i=0; i<ldab; i++){
@@ -259,10 +257,10 @@ end pbsv
 
 
 begin sysv posv cposv hesv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_A, *buffer_B;
+  dataType *buffer_A;
 
   /*--- allocate temporary array buffer_A ---*/
   buffer_A = (dataType*)malloc (sizeof (dataType)*(2*lda*n));
@@ -312,10 +310,10 @@ end sysv posv cposv hesv
 
 
 begin ppsv spsv hpsv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format ---*/
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
-  dataType *buffer_A, *buffer_B;
+  dataType *buffer_A;
 
   /*--- allocate temporary array buffer_A ---*/
   buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));

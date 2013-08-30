@@ -45,7 +45,9 @@ end (real) sgesv cgesv sposv cposv
 
 
 !--- complex matrix B---!
-begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv  
+begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv
+  dataType *buffer_B;
+  
   /*--- allocate temporary array buffer_B ---*/ 
   buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
   
