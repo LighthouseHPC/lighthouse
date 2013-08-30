@@ -1,0 +1,260 @@
+!--- group1: with R and C ---!
+begin (real) (complex) geequ geequb gbequ gbequb
+}
+
+
+void PRINT_SOLUTION(){
+  printf("Solution: \n");
+  printf("AMAX = %6.3e\n", amax);
+  printf("ROWCND = %6.3e\n", rowcnd);
+  printf("COLCND = %6.3e\n\n", colcnd);
+  
+  printf("Row scale factors:\n");
+  for (i=0; i<m; i++){
+      printf("   % 6.3e\t", R[i]);      
+    }
+    
+  printf("\n\n");
+  
+  printf("Column scale factors:\n");
+  for (i=0; i<m; i++){
+      printf("   % 6.3e\t", C[i]);      
+    }
+
+  /*---print info ---*/
+   printf("\n\ninfo = %d\n\n", info);   
+}
+
+end (real) (complex) geequ geequb gbequ gbequb
+
+
+begin (real) geequ geequb
+void SCALED_MATRIX(){
+  if (rowcnd>=0.1 && SMLNUM<amax && amax<BIGNUM){
+    if (colcnd<0.1){
+      printf("Row scaling is not needed. Column Scaled Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=0; i<m; i++){
+           AT[i+m*j] =  AT[i+m*j]*C[j];
+        }
+      }
+    }
+    else
+      printf("Matrix is not worth scaling.\n");
+      exit(EXIT_SUCCESS);
+  }
+  else{
+    if (colcnd>=0.1){
+      printf("Column scaling is not needed. Row Scaled Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=0; i<m; i++){
+           AT[i+m*j] = R[i]* AT[i+m*j];
+        }
+      }
+    }
+    else {
+      printf("Row-and-column Scaled Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=0; i<m; i++){
+           AT[i+m*j] = R[i]* AT[i+m*j]*C[j];
+        }
+      }
+    }
+  } 
+
+  /*--- print scaled matrix A ---*/
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      printf("   %6.3f", AT[i+m*j]);    
+    }
+    printf("\n");
+  }
+}
+
+end (real) geequ geequb
+
+
+begin (complex) geequ geequb
+void SCALED_MATRIX(){
+  if (rowcnd>=0.1 && SMLNUM<amax && amax<BIGNUM){
+    if (colcnd<0.1){
+      printf("Row scaling is not needed. Column Scaled Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=0; i<m; i++){
+           A[i][j] = A[i][j]*C[j];
+        }
+      }
+    }
+    else
+      printf("Matrix is not worth scaling.");
+  }
+  else{
+    if (colcnd>=0.1){
+      printf("Column scaling is not needed. Row Scaled Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=0; i<m; i++){
+           A[i][j] = R[i]*A[i][j];
+        }
+      }
+    }
+    else {
+      printf("Row-and-column Scaled Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=0; i<m; i++){
+           A[i][j] = R[i]*A[i][j]*C[j];
+        }
+      }
+    }
+  } 
+  
+  /*--- print scaled matrix A ---*/
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      printf("   (%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));    
+    }
+    printf("\n");
+  }
+}
+
+end (complex) geequ geequb
+
+
+begin (real) gbequ gbequb
+void SCALED_MATRIX(){
+  if (rowcnd>=0.1 && SMLNUM<amax && amax<BIGNUM){
+    if (colcnd<0.1){
+      printf("Row scaling is not needed. Column Scaled Band Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
+          AB[ku+i-j][j] =  AB[ku+i-j][j]*C[j];
+        }
+      }
+    }
+    else
+      printf("Matrix is not worth scaling.");
+      exit(EXIT_SUCCESS);
+  }
+  else{
+    if (colcnd>=0.1){
+      printf("Column scaling is not needed. Row Scaled Band Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
+          AB[ku+i-j][j] = R[i]*AB[ku+i-j][j];
+        }
+      }
+    }
+    else {
+      printf("Row-and-column Scaled Band matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
+          AB[ku+i-j][j] = R[i]*AB[ku+i-j][j]*C[j];
+          //printf("%d, %d --> %f\n", ku+i-j, j, AB[ku+i-j][j]);
+        }
+      }
+    }
+  } 
+  
+  
+  /*--- print scaled band matrix A---*/
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<=min(i+ku,n-1)){
+        printf("\t%6.3f", AB[ku+i-j][j]);
+      }
+      else{
+        printf("\t ");
+      }
+    }
+    printf("\n");
+  }
+
+}
+
+end (real) gbequ gbequb
+
+
+
+begin (complex) gbequ gbequb
+void SCALED_MATRIX(){
+  /*--- scale AB ---*/
+  
+  if (rowcnd>=0.1 && SMLNUM<amax && amax<BIGNUM){
+    if (colcnd<0.1){
+      printf("Row scaling is not needed. Column Scaled Band Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
+          AB[ku+i-j][j] =  AB[ku+i-j][j]*C[j];
+        }
+      }
+    }
+    else
+      printf("Matrix is not worth scaling.");
+  }
+  else{
+    if (colcnd>=0.1){
+      printf("Column scaling is not needed. Row Scaled Band Matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
+          AB[ku+i-j][j] = R[i]*AB[ku+i-j][j];
+        }
+      }
+    }
+    else {
+      printf("Row-and-column Scaled Band matrix A =\n");
+      for (j=0; j<n; j++){
+        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
+          AB[ku+i-j][j] = R[i]*AB[ku+i-j][j]*C[j];
+          //printf("%d, %d --> %f\n", ku+i-j, j, AB[ku+i-j][j]);
+        }
+      }
+    }
+  } 
+  
+  
+  /*--- print scaled band matrix A---*/
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<=min(i+ku,n-1)){
+        printf("\t(%6.3f, %6.3f)", creal(AB[ku+i-j][j]), cimag(AB[ku+i-j][j]));
+      }
+      else{
+        printf("\t \t \t");
+      }
+    }
+    printf("\n");
+  }
+
+}
+
+end (complex) gbequ gbequb
+
+
+
+
+
+!--- group2: with S ---!
+begin (real) (complex) pbequ poequ ppequ poequb syequb heequb
+}
+
+
+void PRINT_SOLUTION(){
+  printf("Solution: \n");
+  printf("AMAX = %6.3e\n", amax);
+  printf("SCOND = %6.3e\n", scond);
+  
+  printf("\n\n");
+  
+  printf("Scale factors:\n");
+  for (i=0; i<n; i++){
+      printf("   % 6.3e\t", S[i]);      
+    }
+    
+  printf("\n");
+
+  /*---print info ---*/
+   printf("\n\ninfo = %d\n\n", info);   
+}
+
+end (real) (complex) pbequ poequ ppequ poequb syequb heequb
+
+
