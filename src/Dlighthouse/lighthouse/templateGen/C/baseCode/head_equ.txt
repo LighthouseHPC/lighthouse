@@ -1,0 +1,106 @@
+/*********************************************************************/
+/*                                                                   */
+/*      Equilibrate matrix A using LAPACK subroutine routineName      */
+/*                                                                   */
+/*                   -- Created by the Lighthouse Development Team   */
+/*                                                                   */
+/*********************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <complex.h>
+
+#define min(a, b) (((a) < (b)) ? (a) : (b)) 
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
+/**************************** BEGIN CONSTANT SET UP ****************************/
+/*--- input matrix properties ---*/
+define_list
+char_list
+
+/*--- enter file locations for (1) matrix A and (2) matrix B ---*/ 
+#define fileA "path_to_file A"
+/**************************** END CONSTANT SET UP ****************************/
+
+
+/*--- global variables ---*/
+global_list;
+  
+int integer_list, i, j;
+dataType real_list;
+dataType complex complex_list;
+float float_list;
+float complex float_complex_list;
+FILE *fptA, *fptB;
+
+
+/*--- external function prototype declaration ---*/
+extern void OPEN_FILE();
+extern void GET_DATA();
+extern void PRINT_SOLUTION();
+extern void SCALED_MATRIX();
+extern double SLAMCH();
+
+
+
+int main(){  
+  /*--- message ---*/
+  printf("******************************************\n");
+  printf("*** Use routineName to equilibrate matrix A ***\n");
+  printf("******************************************\n");
+  printf("\n");
+    
+    
+  /*--- open files that store data ---*/
+  OPEN_FILE();
+
+  
+  /*--- read data ---*/
+  GET_DATA();
+  
+  
+  /*--- compute smallest/largest safe numbers ---*/
+  SMLNUM = SLAMCH(&CMACH);
+  BIGNUM = 1.0/SLAMCH(&CMACH);
+  
+  printf("SMLNUM = %e\n", SMLNUM);
+  printf("BIGNUM = %e\n\n", BIGNUM);
+  
+  
+  /*--- call lapack subroutine routineName, note: ---*/  
+  /*--- (1) all the arguments must be pointers ---*/ 
+  /*--- (2) add an underscore to the routine name ---*/
+  /*--- (3) matrices must be transformed into Fortran vector format ---*/ 
+  routineName_routine_parameters; 
+
+  
+  /*--- print the silution ---*/
+  PRINT_SOLUTION();
+  
+  
+  /*--- write scaled matrix if there is one ---*/
+  SCALED_MATRIX();
+  
+  
+  /*--- close files ---*/
+  fclose(fptA);
+
+  return 0;
+}
+
+
+
+void OPEN_FILE(){
+  fptA = fopen(fileA,"r");
+  if(fptA == NULL){
+    printf("Cannot open %s.\n", fileA);    
+    puts(strerror(errno));
+    exit(EXIT_FAILURE);
+  } 
+}
+
+
+
+void GET_DATA(){
