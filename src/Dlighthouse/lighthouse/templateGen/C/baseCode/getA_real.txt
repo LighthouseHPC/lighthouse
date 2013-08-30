@@ -1,5 +1,5 @@
-begin gesv sgesv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
+begin gesv sgesv geequ geequb
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   for(i=0; i<lda; i++){
     for(j=0; j<n; j++){
@@ -7,7 +7,7 @@ begin gesv sgesv
     }
   }
   
-end gesv sgesv
+end gesv sgesv geequ geequb
  
 
 begin gtsv
@@ -52,7 +52,7 @@ end ptsv
 
 
 begin gbsv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, ABT and BT ---*/
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read AB ---*/
   for(i=0; i<n; i++){
     for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
@@ -60,7 +60,7 @@ begin gbsv
     }
   }    
 
-  /*--- transform AB to AT ---*/
+  /*--- transform AB to ABT ---*/
   for (i=0; i<ldab; i++){
     for (j=0; j<n; j++){
       ABT[i+ldab*j]=AB[i][j];
@@ -70,8 +70,27 @@ begin gbsv
 end gbsv
 
 
-begin pbsv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, ABT and BT ---*/
+begin gbequ gbequb
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/  
+  /*--- read AB ---*/
+  for(i=0; i<m; i++){
+    for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
+      fscanf(fptA, "%f",&AB[ku+i-j][j]);                
+    }
+  }    
+
+  /*--- transform AB to ABT ---*/
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+      ABT[i+ldab*j]=AB[i][j];
+    }
+  }
+  
+end gbequ gbequb
+
+
+begin pbsv pbequ
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read AB ---*/
   if (UPLO =='U' || UPLO =='u'){
     for(i=0; i<n; i++){
@@ -101,11 +120,11 @@ begin pbsv
     }
   }
 
-end pbsv
+end pbsv pbequ
 
 
-begin sysv posv sposv
-  /*--- to call a Fortran routine from C, matrices must be transformed into Fortran vector format, AT and BT ---*/
+begin sysv posv sposv poequ poequb syequb heequb
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   if (UPLO == 'U' || UPLO == 'u'){
     for(i=0; i<lda; i++){
@@ -126,10 +145,10 @@ begin sysv posv sposv
     exit(EXIT_FAILURE);
     }
 
-end sysv posv sposv
+end sysv posv sposv poequ poequb syequb heequb
 
 
-begin ppsv spsv
+begin ppsv spsv ppequ
   /*--- get AP ---*/
   if (UPLO == 'U' || UPLO == 'u'){
     for(i=0; i<n; i++){
@@ -150,5 +169,5 @@ begin ppsv spsv
     exit(EXIT_FAILURE);
     }
     
-end ppsv spsv
+end ppsv spsv ppequ
 
