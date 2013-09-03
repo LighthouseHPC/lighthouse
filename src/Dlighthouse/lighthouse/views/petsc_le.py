@@ -49,7 +49,7 @@ def petsc_code(request):
 		
 		if success:
 			error = "no"
-			message = "Awesome! You can download your PETSc program now."
+			message = "Success! You can download your PETSc program now."
 			code = getCode()
 			makefile = getMakefile()
 			command = getCommands()
@@ -64,7 +64,7 @@ def petsc_code(request):
 		  	}
 		else:			
 			error = "yes"
-			message = "Sorry, Lighthouse can't generate code for you right now because it's undergoing some very rigorous server maintenance."
+			message = "Sorry, Some error occurred!"
 			code = ""
 			makefile = ""
 			command = ""
@@ -83,45 +83,56 @@ def petsc_code(request):
 def generateCode(request):
 
 	upload_matrix = request.POST['upload_matrix']
-
-	input_format = ""
 	
 	if upload_matrix == "Yes":	
 		matrix_file = request.FILES['matrix_file']
 		handle_uploaded_file(matrix_file)
 	elif upload_matrix == "No":
-		input_format = request.POST['input_format'] 
-		row_count = request.POST['row_count']    
-		column_count = request.POST['column_count']
-		complex_number = request.POST['complex_number']
-		nonzero_structure = request.POST['nonzero_structure']
-		numerical_symmetry = request.POST['numerical_symmetry']
+		alt_option = request.POST['alt_choices']
 
-	solution_type = request.POST['solution_type']
-	output_format = request.POST['output_format']
 
 	base_path = './lighthouse/libraries/petsc_le/work_dir/'
 
 	if upload_matrix == "No":
-		if input_format == "PETSc binary format":		
-			if output_format == "PETSc binary format":
-				zf = zipfile.ZipFile( base_path + 'sample.zip', mode='w')
-				zf.write( base_path + "linear_solver.c")
-				zf.write( base_path + "makefile")
-				zf.write( base_path + "readme.txt")
-				zf.write( base_path + "command_line_options.txt")
-				zf.close()	
-				return True	
+		if alt_option == "1":
+			zf = zipfile.ZipFile( base_path + 'sample.zip', mode='w')
+			zf.write( base_path + "linear_solver.c")
+			zf.write( base_path + "makefile")
+			zf.write( base_path + "readme.txt")
+			zf.write( base_path + "command_line_options.txt")
+			zf.close()	
+			return True
+		elif alt_option == "2":
+			zf = zipfile.ZipFile( base_path + 'sample.zip', mode='w')
+			zf.write( base_path + "linear_solver.c")
+			zf.write( base_path + "makefile")
+			zf.write( base_path + "readme.txt")
+			zf.write( base_path + "command_line_options.txt")
+			zf.close()	
+			return True
+		elif alt_option == "3":
+			matrix_prop_file = request.FILES['matrix_prop_file']
+			handle_uploaded_file(matrix_prop_file)
+			solution_type = request.POST['solution_type']
+
+			zf = zipfile.ZipFile( base_path + 'sample.zip', mode='w')
+			zf.write( base_path + "linear_solver.c")
+			zf.write( base_path + "makefile")
+			zf.write( base_path + "readme.txt")
+			zf.write( base_path + "command_line_options.txt")
+			zf.close()	
+			return True
+		
 	
 	if upload_matrix == "Yes":
-			if output_format == "PETSc binary format":
-				zf = zipfile.ZipFile( base_path + 'sample.zip', mode='w')
-				zf.write( base_path + "linear_solver.c")
-				zf.write( base_path + "makefile")
-				zf.write( base_path + "readme.txt")
-				zf.write( base_path + "command_line_options.txt")
-				zf.close()	
-				return True			
+		solution_type = request.POST['solution_type']
+		zf = zipfile.ZipFile( base_path + 'sample.zip', mode='w')
+		zf.write( base_path + "linear_solver.c")
+		zf.write( base_path + "makefile")
+		zf.write( base_path + "readme.txt")
+		zf.write( base_path + "command_line_options.txt")
+		zf.close()	
+		return True			
 
 	return False
 

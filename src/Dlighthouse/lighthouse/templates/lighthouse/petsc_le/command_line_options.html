@@ -1,18 +1,19 @@
 {% if command %}
 
 <div id="title-div">
-    <table id="icon-table">
+    <table style="width: 100%; border: 0px solid;">
         <tr>
-            <td id="icon-cell">
+            <td style="text-align:left; padding-left:5px; width:24px;">
                 <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
             </td>           
-            <td id="title-cell">
+            <td style="text-align:left">
                     Command-line Options
             </td>
         </tr>
     </table>        
 </div>
+<br>
 
-<div id="question-div-petsc" style="margin: 0px auto; font-family: monospace; white-space: pre; font-size: 12px; overflow: auto;">{{ command }}</div> 
+<div id="question-div-petsc" style="margin: 0px auto; font-family: monospace; white-space: pre; font-size: 12px; overflow: auto; padding-bottom: 10px;">{{ command }}</div> 
 
 {% endif %}

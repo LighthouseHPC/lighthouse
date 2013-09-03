@@ -34,7 +34,7 @@
     <table style="width:100%; margin: 0px auto;">
 	<tr style="width:100%;">
 		<td style="text-align:left;">				
-			<button type="button" name="reset" id="resetbutton" title="Reset" onclick="window.location = '/petsc/';">
+			<button type="button" name="reset" id="resetbutton" title="Reset" onmouseover="showTooltip('tooltip', 'Reset','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="window.location = '/petsc/';">
 			    <!-- <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> -->
 			    Reset
 			</button>				
@@ -42,8 +42,11 @@
 		<td style="text-align:center;">
 				<div id="tooltip"></div>
 		</td>
-		<td style="text-align:right;">
-			
+		<td style="text-align:right;">			
+			<button id="download_button" {% if error == "yes" %}disabled="disabled"{% endif %} onmouseover="showTooltip('tooltip', 'Download', '#009900');" onmouseout="showTooltip('tooltip','');" onclick=""; >
+				<!--  <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/> -->
+				Download
+			</button >			
         </td>
 	</tr>
 	</table>
