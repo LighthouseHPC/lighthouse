@@ -129,14 +129,16 @@ begin sysv posv sposv poequ poequb syequb heequb
   if (UPLO == 'U' || UPLO == 'u'){
     for(i=0; i<lda; i++){
       for(j=i; j<n; j++){
-        fscanf(fptA, "%placeholder",&AT[i+lda*j]);
+        fscanf(fptA, "%placeholder",&A[i][j]);
+        AT[i+lda*j]=A[i][j];
       }
     }    
   }
   else if (UPLO == 'L' || UPLO == 'l' ){
     for(i=0; i<lda; i++){
       for(j=0; j<=i; j++){
-        fscanf(fptA, "%placeholder",&AT[i+lda*j]);
+        fscanf(fptA, "%placeholder",&A[i][j]);
+        AT[i+lda*j]=A[i][j];
       }
     }
   }
