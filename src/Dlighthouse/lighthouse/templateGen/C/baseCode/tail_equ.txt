@@ -1,4 +1,4 @@
-!--- group1: with R and C ---!
+!--- group 1: with R and C ---!
 begin (real) (complex) geequ geequb gbequ gbequb
 }
 
@@ -24,6 +24,7 @@ void PRINT_SOLUTION(){
   /*---print info ---*/
    printf("\n\ninfo = %d\n\n", info);   
 }
+
 
 end (real) (complex) geequ geequb gbequ gbequb
 
@@ -119,7 +120,7 @@ void SCALED_MATRIX(){
 end (complex) geequ geequb
 
 
-begin (real) gbequ gbequb
+begin (real) (complex) gbequ gbequb
 void SCALED_MATRIX(){
   if (rowcnd>=0.1 && SMLNUM<amax && amax<BIGNUM){
     if (colcnd<0.1){
@@ -148,13 +149,15 @@ void SCALED_MATRIX(){
       for (j=0; j<n; j++){
         for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
           AB[ku+i-j][j] = R[i]*AB[ku+i-j][j]*C[j];
-          //printf("%d, %d --> %f\n", ku+i-j, j, AB[ku+i-j][j]);
         }
       }
     }
-  } 
+  }
   
+end (real) (complex) gbequ gbequb
+
   
+begin (real) gbequ gbequb
   /*--- print scaled band matrix A---*/
   for (i=0; i<m; i++){
     for (j=0; j<n; j++){
@@ -172,45 +175,8 @@ void SCALED_MATRIX(){
 
 end (real) gbequ gbequb
 
-
-
+  
 begin (complex) gbequ gbequb
-void SCALED_MATRIX(){
-  /*--- scale AB ---*/
-  
-  if (rowcnd>=0.1 && SMLNUM<amax && amax<BIGNUM){
-    if (colcnd<0.1){
-      printf("Row scaling is not needed. Column Scaled Band Matrix A =\n");
-      for (j=0; j<n; j++){
-        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
-          AB[ku+i-j][j] =  AB[ku+i-j][j]*C[j];
-        }
-      }
-    }
-    else
-      printf("Matrix is not worth scaling.");
-  }
-  else{
-    if (colcnd>=0.1){
-      printf("Column scaling is not needed. Row Scaled Band Matrix A =\n");
-      for (j=0; j<n; j++){
-        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
-          AB[ku+i-j][j] = R[i]*AB[ku+i-j][j];
-        }
-      }
-    }
-    else {
-      printf("Row-and-column Scaled Band matrix A =\n");
-      for (j=0; j<n; j++){
-        for (i=max(0,j-ku); i<=min(n-1,j+kl); i++){
-          AB[ku+i-j][j] = R[i]*AB[ku+i-j][j]*C[j];
-          //printf("%d, %d --> %f\n", ku+i-j, j, AB[ku+i-j][j]);
-        }
-      }
-    }
-  } 
-  
-  
   /*--- print scaled band matrix A---*/
   for (i=0; i<m; i++){
     for (j=0; j<n; j++){
@@ -230,9 +196,7 @@ end (complex) gbequ gbequb
 
 
 
-
-
-!--- group2: with S ---!
+!--- group 2: with S ---!
 begin (real) (complex) pbequ poequ ppequ poequb syequb heequb
 }
 
@@ -255,6 +219,313 @@ void PRINT_SOLUTION(){
    printf("\n\ninfo = %d\n\n", info);   
 }
 
+
 end (real) (complex) pbequ poequ ppequ poequb syequb heequb
 
 
+begin (real) (complex) pbequ
+void SCALED_MATRIX(){
+  /*--- scale AB ---*/
+  if (scond>=0.1 && SMLNUM<amax && amax<BIGNUM){
+      printf("Matrix is not worth scaling.");
+  }
+  else {
+    printf("Scaled matrix A =\n");
+    if (UPLO=='U'){
+      for (j=0; j<n; j++){
+        for (i=max(0,j-kd); i<=j; i++){
+          AB[kd+i-j][j] = S[i]*AB[kd+i-j][j]*S[j];
+          //printf("%d, %d --> %f\n", kd+i-j, j, AB[kd+i-j][j]);
+        }
+      }      
+    }
+    else if (UPLO=='L'){ 
+      for (j=0; j<n; j++){
+        for (i=j; i<=min(n-1,j+kd); i++){
+          AB[i-j][j] = S[i]*AB[i-j][j]*S[j];
+          //printf("%d, %d --> %f\n", i-j, j, AB[i-j][j]);
+        }
+      }
+    }
+  } 
+  
+end (real) (complex) pbequ
+
+
+begin (real) pbequ  
+  /*--- print scaled matrix A---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t%6.3f", AB[kd+i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t%6.3f", AB[i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+
+}
+
+end (real) pbequ
+
+
+begin (complex) pbequ
+  /*--- print scaled matrix A---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t(%6.3f, %6.3f)", creal(AB[kd+i-j][j]), cimag(AB[kd+i-j][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AB[i-j][j]), cimag(AB[i-j][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+}
+
+end (complex) pbequ
+
+
+begin (real) (complex) poequ poequb syequb heequb
+void SCALED_MATRIX(){
+  /*--- scale A ---*/
+  if (scond>=0.1 && SMLNUM<amax && amax<BIGNUM){
+      printf("Matrix is not worth scaling.");
+  }
+  else {
+    printf("Scaled matrix A =\n");
+    if (UPLO=='U'){
+      for (j=0; j<n; j++){
+        for (i=0; i<=j; i++){
+          A[i][j] = S[i]*A[i][j]*S[j];
+        }
+      }      
+    }
+    else if (UPLO=='L'){ 
+      for (j=0; j<n; j++){
+        for (i=j; i<n; i++){
+          A[i][j] = S[i]*A[i][j]*S[j];
+        }
+      }
+    }
+  } 
+  
+end (real) (complex) poequ poequb syequb heequb
+
+
+begin (real) poequ poequb syequb
+  /*--- print scaled matrix A---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", A[i][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", A[i][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+
+}
+
+end (real) poequ poequb syequb
+
+
+begin (complex) poequ poequb syequb heequb
+  /*--- print scaled matrix A---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+
+}
+
+end (complex) poequ poequb syequb heequb
+
+
+begin (real) ppequ
+void SCALED_MATRIX(){
+  /*--- scale A ---*/
+  if (scond>=0.1 && SMLNUM<amax && amax<BIGNUM){
+      printf("Matrix is not worth scaling.");
+  }
+  else {
+    printf("Scaled matrix A =\n");
+    if (UPLO=='U'){
+      for (j=0; j<n; j++){
+        for (i=0; i<=j; i++){
+          AP[(i+1)+j*(j+1)/2-1] = S[i]*AP[(i+1)+j*(j+1)/2-1]*S[j];
+        }
+      }      
+    }
+    else if (UPLO=='L'){ 
+      for (j=0; j<n; j++){
+        for (i=j; i<n; i++){
+          AP[i+j*(2*SIZE-j-1)/2] = S[i]*AP[i+j*(2*SIZE-j-1)/2]*S[j];
+        }
+      }
+    }
+  } 
+  
+  
+  /*--- print scaled matrix A---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AP[(i+1)+j*(j+1)/2-1]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AP[i+j*(2*SIZE-j-1)/2]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+
+}
+
+end (real) ppequ
+
+
+begin (complex) ppequ
+void SCALED_MATRIX(){
+  /*--- scale A ---*/
+  if (scond>=0.1 && SMLNUM<amax && amax<BIGNUM){
+      printf("Matrix is not worth scaling.\n");
+      exit(EXIT_SUCCESS);
+  }
+  else {
+    printf("Scaled matrix A =\n");
+    if (UPLO=='U'){
+      for (j=0; j<n; j++){
+        for (i=0; i<=j; i++){
+          A[i][j] = S[i]*A[i][j]*S[j];
+        }
+      }      
+    }
+    else if (UPLO=='L'){ 
+      for (j=0; j<n; j++){
+        for (i=j; i<n; i++){
+          A[i][j] = S[i]*A[i][j]*S[j];
+        }
+      }
+    }
+  } 
+  
+  
+  /*--- print scaled matrix A---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+
+}
+
+end (complex) ppequ
