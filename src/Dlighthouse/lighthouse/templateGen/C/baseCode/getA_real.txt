@@ -75,7 +75,7 @@ begin gbequ gbequb
   /*--- read AB ---*/
   for(i=0; i<m; i++){
     for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
-      fscanf(fptA, "%f",&AB[ku+i-j][j]);                
+      fscanf(fptA, "%placeholder",&AB[ku+i-j][j]);                
     }
   }    
 
