@@ -246,13 +246,13 @@ class generateTemplate_C(object):
     def get_dataType(self):
         dataType = []
         if self.routineName.startswith('s'):
-            dataType.extend(['real', 'float', 'f'])
+            dataType.extend(['real', 'float', 'f', 'SLAMCH'])
         elif self.routineName.startswith('d'):
-            dataType.extend(['real', 'double', 'lf'])
+            dataType.extend(['real', 'double', 'lf', 'DLAMCH'])
         elif self.routineName.startswith('c'):
-            dataType.extend(['complex', 'float', 'f'])
+            dataType.extend(['complex', 'float', 'f', 'SLAMCH'])
         elif self.routineName.startswith('z'):
-            dataType.extend(['complex', 'double', 'lf'])
+            dataType.extend(['complex', 'double', 'lf', 'DLAMCH'])
         return dataType
     
     
@@ -324,6 +324,7 @@ class generateTemplate_C(object):
                        'complex_list': ROUTINE[0].array_complex,
                        'float_list': ROUTINE[0].array_float,
                        'float_complex_list': ROUTINE[0].array_float_complex,
+                       'big_small': self.get_dataType()[3],
                        }
 
         ## --- write the replaced version in to test2 --- ##

@@ -30,7 +30,7 @@ global_list;
   
 int integer_list, i, j;
 char CMACH = 's';
-float SMLNUM, BIGNUM;
+dataType SMLNUM, BIGNUM;
 dataType real_list;
 dataType complex complex_list;
 float float_list;
@@ -43,7 +43,7 @@ extern void OPEN_FILE();
 extern void GET_DATA();
 extern void PRINT_SOLUTION();
 extern void SCALED_MATRIX();
-extern double SLAMCH();
+extern double big_small();
 
 
 
@@ -64,8 +64,8 @@ int main(){
   
   
   /*--- compute smallest/largest safe numbers ---*/
-  SMLNUM = SLAMCH(&CMACH);
-  BIGNUM = 1.0/SLAMCH(&CMACH);
+  SMLNUM = big_small(&CMACH);
+  BIGNUM = 1.0/SMLNUM;
   
   printf("SMLNUM = %e\n", SMLNUM);
   printf("BIGNUM = %e\n\n", BIGNUM);
