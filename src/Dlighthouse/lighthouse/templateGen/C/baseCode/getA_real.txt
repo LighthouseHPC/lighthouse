@@ -1,4 +1,4 @@
-begin gesv sgesv geequ geequb
+begin gesv sgesv geequ geequb getrs getrf 
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   for(i=0; i<lda; i++){
@@ -7,10 +7,10 @@ begin gesv sgesv geequ geequb
     }
   }
   
-end gesv sgesv geequ geequb
+end gesv sgesv geequ geequb getrs getrf
  
 
-begin gtsv
+begin gtsv gttrs gttrf
   /*--- get DU, D, and DL ---*/
   for (i=0; i<3; i++){
     if (i==0){
@@ -30,10 +30,10 @@ begin gtsv
     }
   }
   
-end gtsv
+end gtsv gttrs gttrf
 
 
-begin ptsv
+begin ptsv pttrs pttrf
   /*--- get D and E ---*/
   for (i=0; i<2; i++){
     if (i==0){
@@ -48,10 +48,10 @@ begin ptsv
     }
   }
 
-end ptsv
+end ptsv pttrs pttrf
 
 
-begin gbsv
+begin gbsv gbtrs gbtrf
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read AB ---*/
   for(i=0; i<n; i++){
@@ -67,7 +67,7 @@ begin gbsv
     }
   }
   
-end gbsv
+end gbsv gbtrs gbtrf
 
 
 begin gbequ gbequb
@@ -89,7 +89,7 @@ begin gbequ gbequb
 end gbequ gbequb
 
 
-begin pbsv pbequ
+begin pbsv pbequ pbtrs tbtrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read AB ---*/
   if (UPLO =='U' || UPLO =='u'){
@@ -120,10 +120,10 @@ begin pbsv pbequ
     }
   }
 
-end pbsv pbequ
+end pbsv pbequ pbtrs tbtrs
 
 
-begin sysv posv sposv poequ poequb syequb heequb
+begin sysv posv sposv poequ poequb syequb heequb sytrs potrs trtrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   if (UPLO == 'U' || UPLO == 'u'){
@@ -147,10 +147,10 @@ begin sysv posv sposv poequ poequb syequb heequb
     exit(EXIT_FAILURE);
     }
 
-end sysv posv sposv poequ poequb syequb heequb
+end sysv posv sposv poequ poequb syequb heequb sytrs potrs trtrs
 
 
-begin ppsv spsv ppequ
+begin ppsv spsv ppequ pptrs sptrs tptrs
   /*--- get AP ---*/
   if (UPLO == 'U' || UPLO == 'u'){
     for(i=0; i<n; i++){
@@ -171,5 +171,15 @@ begin ppsv spsv ppequ
     exit(EXIT_FAILURE);
     }
     
-end ppsv spsv ppequ
+end ppsv spsv ppequ pptrs sptrs tptrs
+
+
+begin pftrs
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
+  /*--- get A and transform it to AT ---*/
+  for(i=0; i<n*(n+1)/2; i++){
+      fscanf(fptA, "%f",&AT[i]);
+    }
+
+end pftrs
 
