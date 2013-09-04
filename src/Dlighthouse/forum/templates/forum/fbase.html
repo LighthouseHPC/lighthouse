@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}Lighthouse Forum{% endblock %}</title>
+    <link rel="shortcut icon" href="/media/Images/favicon.png"/>
     <link rel="stylesheet" type="text/css" href="/static/forumstyle.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
@@ -13,17 +14,50 @@
     </script>
 </head>
 
-<body id="wordpress-org" class="claro" background="">
-    <div id="header">
-	<h1>Lighthouse Forum</h1>
-	</br></br></br>
+<body>
+	<!-- "main" BorderContainer just contains page title and another BorderContainer -->
+        <div style="height:57px; padding-left:8px; border-top:6px; border-left: 1px; border-right: 1px; border-bottom:1px; border-style:solid; border-color:#c9dcfa;">
+
+		<img src="/media/Images/forum_header.png"/>
+		<div style="float:right; padding-top: 13px; padding-right: 5px; font:11.5px sans-serif;">
+			{% if user.is_authenticated %}                            
+				<div style="text-align:right; color:#808080;">
+					<table>
+						<tr>
+							<td>Welcome, {{ user.username }}!</td>
+						</tr>
+						<tr>
+						<!--<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>-->        
+							<td>My Account &nbsp;&nbsp; | &nbsp;&nbsp;
+							    <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
+							</td>
+						</tr>
+					</table>        
+				</div>
+			{% else %}
+				<div>
+					<table>
+						<tr>
+							<td>
+								<a href="/accounts/logout/"><img src="/media/Images/logout.png"/></a>
+							</td>          
+							<td>
+								<a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
+							</td>
+						</tr>
+					</table>        
+				</div>                                
+			{% endif %}
+		</div>
+	</div>		 
+    <div id="header">	
 	{% block nav-global %}
 	<ul>
 	    <li><a href="/index/">Home</a></li>
 	    <li><a href="{% url blogindex %}">Blog</a></li>
 	    <li><a href="{% url forumList %}">Forum</a></li>
 	    <li><a href="{% url lapack_le %}">Lapack</a></li>
-	    <li><a href="{% url petsc_le %}">PETSc</a></li>
+	    <li><a href="{% url petsc %}">PETSc</a></li>
 	    {% if user.is_staff %}
 	    <li><a href="{% url admin:index %}">Admin</a></li>
 	    <li><a href="{% url admin:blog_post_add %}">Add post</a></li>
@@ -32,11 +66,11 @@
 	</ul>
 	<div id="layoutdims">
 	    <form method="get" action="{% url forumSearch %}">
-	    <table align="center" border="0" width=60%>
+	    <table align="center">
 		<tr>
-			<th><label for="id_q">Search:</label></th>
-			<td colspan="2" align="center"><input style="width: 400px; padding: 3px" type="text" name="q" id="id_q" /></td>
-			<td><input type="submit" value="Search" onclick="return searchbutcheck_onclick()"></td>
+			<td style="text-align:right;">Search</td>
+			<td style="text-align:center;"><input style="width: 250px; padding: 3px" type="text" name="q" id="id_q" /></td>
+			<td style="text-align:left;"><input type="submit" value="Search" onclick="return searchbutcheck_onclick()"></td>
 		</tr>
 	    </table>
 	    </form>
@@ -52,8 +86,7 @@
 		    </div>
 		    <div class="col2">
 			    <!-- Column 2 start -->
-			    {% block sidebar %}
-			    {% endblock %}
+			    {% block sidebar %}{% endblock %}
 			    <!-- Column 2 end -->
 		    </div>
 	    </div>
