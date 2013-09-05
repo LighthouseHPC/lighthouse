@@ -1,6 +1,5 @@
-begin gesv cgesv geequ geequb
+begin gesv cgesv geequ geequb getrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
-  
   int linenum;
   char *ptr, line[BUFSIZ];
   dataType *buffer_A;
@@ -38,10 +37,10 @@ begin gesv cgesv geequ geequb
     }
   }
   
-end gesv cgesv geequ geequb
+end gesv cgesv geequ geequb getrs
  
 
-begin gtsv
+begin gtsv gttrs
   int linenum;
   char *ptr, line[BUFSIZ];
   dataType *buffer_DU, *buffer_D, *buffer_DL;
@@ -95,10 +94,10 @@ begin gtsv
   free(buffer_D);
   free(buffer_DL);
   
-end gtsv
+end gtsv gttrs
 
 
-begin ptsv
+begin ptsv pttrs
   int linenum;
   char *ptr, line[BUFSIZ];
   dataType *buffer_E;
@@ -136,10 +135,10 @@ begin ptsv
     
   free(buffer_E);
 
-end ptsv
+end ptsv pttrs
 
 
-begin gbsv
+begin gbsv gbtrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
@@ -184,7 +183,7 @@ begin gbsv
     }
   }
   
-end gbsv
+end gbsv gbtrs
 
 
 begin gbequ gbequb
@@ -235,7 +234,7 @@ begin gbequ gbequb
 end gbequ gbequb
 
 
-begin pbsv pbequ
+begin pbsv pbequ pbtrs tbtrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
@@ -301,10 +300,10 @@ begin pbsv pbequ
     }
   }
 
-end pbsv pbequ
+end pbsv pbequ pbtrs tbtrs
 
 
-begin sysv posv cposv hesv poequ poequb syequb heequb
+begin sysv posv cposv hesv poequ poequb syequb heequb sytrs potrs hetrs trtrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
@@ -354,10 +353,10 @@ begin sysv posv cposv hesv poequ poequb syequb heequb
     }
   }
 
-end sysv posv cposv hesv poequ poequb syequb heequb
+end sysv posv cposv hesv poequ poequb syequb heequb sytrs potrs hetrs trtrs
 
 
-begin ppsv spsv hpsv ppequ
+begin ppsv spsv hpsv ppequ pptrs sptrs hptrs tptrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
@@ -417,5 +416,10 @@ begin ppsv spsv hpsv ppequ
     }
   }
     
-end ppsv spsv hpsv ppequ
+end ppsv spsv hpsv ppequ pptrs sptrs hptrs tptrs
 
+
+begin pftrs
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
+  Coming soon!
+end pftrs
