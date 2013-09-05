@@ -31,7 +31,7 @@ class generateTemplate(object):
             
     def get_database(self):
         ROUTINE = lapack_le_arg.objects.filter(routineName__icontains=self.routineName)
-        ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ ---###
+        ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ, svx ---###
         if self.routineName[-2:] == 'sv':
             keyword = 'sv'
         else:
@@ -258,14 +258,43 @@ class generateTemplate_C(object):
     
     def get_database(self):
         ROUTINE = lapack_le_arg_C.objects.filter(routineName__icontains=self.routineName)
-        ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ ---###
+        ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ, svx ---###
         if self.routineName[-2:] == 'sv':
             keyword = 'sv'
         else:
             for item in keyword_list:
                 if item in self.routineName:
                     keyword = item
-        databaseInfo = {'keyword': keyword, 'routine': ROUTINE}
+                    
+        ### --- set up important parameters for later replacement --- ###
+        routineName_trs = ''
+        trs_parameters = ''
+        #copy_arrays = ''
+        
+        if keyword in ['sv', 'trf', 'equ', 'svx']:
+            routineName_trf = ''
+            trf_parameters = ''
+        else:
+            routineName_trf = self.routineName.replace(keyword, 'trf')
+            trf_parameters = lapack_le_arg_C.objects.filter(routineName__icontains=routineName_trf)[0].param
+            #if keyword == 'rfs':
+            #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
+            #                         set(ROUTINE[0].param_in.split(',')))
+            #    routineName_trs = self.routineName.replace(keyword, 'trs')
+            #    A_org = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
+            #    A_fact = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
+            #    trf_parameters = trf_parameters.replace(A_org, A_fact)
+            #    trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_org, A_fact).replace('B, LDB', 'X, LDX')
+            #    copy_arrays = ROUTINE[0].other
+            #elif keyword == 'con':
+            #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
+            #                         set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
+            #else:
+            #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
+            #                         set(ROUTINE[0].param_in.split(',')))
+
+
+        databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters,}
         
         return databaseInfo
     
@@ -273,7 +302,9 @@ class generateTemplate_C(object):
     def make_template(self):
         ### --- get data from database --- ### 
         ROUTINE = self.get_database()['routine']
-        keyword = self.get_database()['keyword'] 
+        keyword = self.get_database()['keyword']
+        routineName_trf = self.get_database()['routineTrf']
+        trf_parameters = self.get_database()['trfParameters']
 
         ### --- copy head.txt file to test1.c --- ###
         with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "w") as f:
@@ -296,7 +327,7 @@ class generateTemplate_C(object):
         ### --- Combine with tail.txt file--- ###
         if not keyword == 'con':
             with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "a") as f:
-                if keyword in ['sv', 'trf', 'tri', 'equ', 'svx']:
+                if keyword in ['sv', 'trs', 'trf', 'tri', 'equ', 'svx']:
                     with open(c_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                         flag = 1
                         for line in f_tail.readlines():
@@ -325,6 +356,8 @@ class generateTemplate_C(object):
                        'float_list': ROUTINE[0].array_float,
                        'float_complex_list': ROUTINE[0].array_float_complex,
                        'big_small': self.get_dataType()[3],
+                       'routineName_trf': routineName_trf.upper(),
+                       'trf_parameters': trf_parameters,
                        }
 
         ## --- write the replaced version in to test2 --- ##
