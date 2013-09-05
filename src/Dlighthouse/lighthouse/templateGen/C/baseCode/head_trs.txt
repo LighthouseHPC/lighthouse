@@ -46,9 +46,9 @@ extern void PRINT_SOLUTION();
 
 int main(){  
   /*--- message ---*/
-  printf("*********************************\n");
+  printf("**********************************\n");
   printf("*** Use routineName to solve Ax = B ***\n");
-  printf("*********************************\n");
+  printf("**********************************\n");
   printf("\n");
     
     
@@ -64,7 +64,7 @@ int main(){
   /*--- (1) all the arguments must be pointers ---*/ 
   /*--- (2) add an underscore to the routine name ---*/
   /*--- (3) matrices must be transformed into their Fortran vector formats ---*/
-  /*--- (4) matrix A needs to be factored before calling routineName ---*/
+  /*--- (4) matrix A must be factored before calling routineName ---*/
   routineName_trf_trf_parameters;
   routineName_routine_parameters; 
 
