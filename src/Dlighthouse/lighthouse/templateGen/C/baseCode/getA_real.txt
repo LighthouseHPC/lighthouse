@@ -123,7 +123,7 @@ begin pbsv pbequ pbtrs tbtrs
 end pbsv pbequ pbtrs tbtrs
 
 
-begin sysv posv sposv poequ poequb syequb heequb sytrs potrs trtrs
+begin sysv posv sposv poequ poequb syequb sytrs potrs trtrs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   if (UPLO == 'U' || UPLO == 'u'){
@@ -145,7 +145,7 @@ begin sysv posv sposv poequ poequb syequb heequb sytrs potrs trtrs
     exit(EXIT_FAILURE);
     }
 
-end sysv posv sposv poequ poequb syequb heequb sytrs potrs trtrs
+end sysv posv sposv poequ poequb syequb sytrs potrs trtrs
 
 
 begin ppsv spsv ppequ pptrs sptrs tptrs
