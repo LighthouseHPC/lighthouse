@@ -1,6 +1,6 @@
 import os, fnmatch, re
 
-from lighthouse.models.lapack_le import lapack_le_arg, lapack_le_arg_C
+from lighthouse.models.lapack_le import lapack_le_arg, lapack_le_arg_c
 
 fortran_path = './lighthouse/templateGen/fortran/'
 c_path = './lighthouse/templateGen/C/'
@@ -257,7 +257,7 @@ class generateTemplate_C(object):
     
     
     def get_database(self):
-        ROUTINE = lapack_le_arg_C.objects.filter(routineName__icontains=self.routineName)
+        ROUTINE = lapack_le_arg_c.objects.filter(routineName__icontains=self.routineName)
         ### --- determine operation type: sv, trf, trs, con, tri, rfs, equ, svx ---###
         if self.routineName[-2:] == 'sv':
             keyword = 'sv'
@@ -276,7 +276,7 @@ class generateTemplate_C(object):
             trf_parameters = ''
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
-            trf_parameters = lapack_le_arg_C.objects.filter(routineName__icontains=routineName_trf)[0].param
+            trf_parameters = lapack_le_arg_c.objects.filter(routineName__icontains=routineName_trf)[0].param
             #if keyword == 'rfs':
             #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
             #                         set(ROUTINE[0].param_in.split(',')))

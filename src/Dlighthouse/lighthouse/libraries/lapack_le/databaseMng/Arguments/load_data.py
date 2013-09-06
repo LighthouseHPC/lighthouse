@@ -18,7 +18,7 @@ cursor = myDB.cursor()
 
 
 nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'le_arguments_C.txt' INTO TABLE \
-                                    lighthouse_lapack_le_arg_C FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\r'")
+                                    lighthouse_lapack_le_arg_c FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\r'")
 
 
 myDB.commit()

@@ -204,7 +204,7 @@ admin.site.register(lapack_le_arg, lapack_le_argAdmin)
 
 
 
-class lapack_le_arg_CAdmin(admin.ModelAdmin):
+class lapack_le_arg_cAdmin(admin.ModelAdmin):
 	list_display = ('id', 'routineName', 'param', 'define', 'char', 'global_var', 'integers', 'array_real',
 			'array_complex', 'array_float', 'array_float_complex')
 	
@@ -213,5 +213,5 @@ class lapack_le_arg_CAdmin(admin.ModelAdmin):
         ordering = ('id',)
 	
 	
-admin.site.register(lapack_le_arg_C, lapack_le_arg_CAdmin)
+admin.site.register(lapack_le_arg_c, lapack_le_arg_cAdmin)
 

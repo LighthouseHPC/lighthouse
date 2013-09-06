@@ -310,7 +310,7 @@ class lapack_le_arg(models.Model):
 		
 		
 		
-class lapack_le_arg_C(models.Model):
+class lapack_le_arg_c(models.Model):
 	routineName = models.CharField('Routine Name', max_length=60)
 	param = models.CharField('Parameters', max_length=300)
 	define = models.CharField('Define', max_length=300)
