@@ -1,18 +1,18 @@
 !---- close function GET_DATA() ----!
-begin (real) (complex) getri sytri potri pptri sptri trtri tptri
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri
 }
 
 
 
 void PRINT_SOLUTION(){
   /*--- print inverse of A ---*/
-end (real) (complex) getri sytri potri pptri sptri trtri tptri
+  printf("Solution: \n");
+end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri
 
 
 
 !---- print REAL inverted matrix ----!
 begin (real) getri
-  printf("Solution: \n");
   for (i=0; i<lda; i++){
     for (j=0; j<n; j++){
       printf("\t%6.2f", AT[i+lda*j]);   
@@ -23,7 +23,6 @@ end (real) getri
 
 
 begin (real) sytri potri trtri
-  printf("Solution: \n");
   if (UPLO =='U' || UPLO =='u'){
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
@@ -54,7 +53,6 @@ end (real) sytri potri trtri
 
 
 begin (real) pptri sptri tptri
-  printf("Solution: \n");
   if (UPLO =='U' || UPLO =='u'){
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
@@ -85,10 +83,83 @@ end (real) pptri sptri tptri
 
 
 
+
+!---- print COMPLEX inverted matrix ----!
+begin (complex) getri
+  for (i=0; i<lda; i++){
+    for (j=0; j<n; j++){
+      printf("   (%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);    
+    }
+    printf("\n");
+  }
+end (complex) getri
+
+
+begin (complex) sytri hetri potri trtri
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) sytri hetri potri trtri
+
+
+begin (complex) pptri sptri hptri tptri
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", AP[2*(i+j*(2*SIZE-j-1)/2)], AP[2*(i+j*(2*SIZE-j-1)/2)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", AP[2*(i+j*(2*SIZE-j-1)/2)], AP[2*(i+j*(2*SIZE-j-1)/2)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) pptri sptri hptri tptri
+
+
+
 !---- print info ----!
-begin (real) (complex) getri sytri potri pptri sptri trtri tptri
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri
 
   /*---print info ---*/
    printf("\n\ninfo = %d\n\n", info);   
 }
-end (real) (complex) getri sytri potri pptri sptri trtri tptri
+end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri
