@@ -1,10 +1,10 @@
-/************************************************************************************/
-/*                                                                                  */
+/*********************************************************************************/
+/*                                                                               */
 /*      computes the inverse of matrix A using LAPACK subroutine routineName          */
-/*                                                                                  */
-/*                              -- Created by the Lighthouse Development Team       */
-/*                                                                                  */
-/************************************************************************************/
+/*                                                                               */
+/*                              -- Created by the Lighthouse Development Team    */
+/*                                                                               */
+/*********************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +20,7 @@
 define_list
 char_list
 
-/*--- enter file location for matrix A ---*/ 
+/*--- enter file location for the data of matrix A ---*/ 
 #define fileA "path_to_file A"
 /**************************** END CONSTANT SET UP ****************************/
 
@@ -45,9 +45,9 @@ extern void PRINT_SOLUTION();
 
 int main(){  
   /*--- message ---*/
-  printf("******************************************\n");
+  printf("*************************************\n");
   printf("*** Use routineName to invert matrix A ***\n");
-  printf("******************************************\n");
+  printf("*************************************\n");
   printf("\n");
     
     
@@ -63,8 +63,7 @@ int main(){
   /*--- (1) all the arguments must be pointers ---*/ 
   /*--- (2) add an underscore to the routine name ---*/
   /*--- (3) matrices must be transformed into Fortran vector format ---*/
-  /*--- (4) matrix A must be factored before calling routineName ---*/
-  routineName_trf_trf_parameters;
+  routineName_trf_trf_parameters;                           //matrix A must be factored before calling routineName
   routineName_routine_parameters; 
 
   

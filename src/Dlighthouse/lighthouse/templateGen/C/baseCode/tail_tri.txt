@@ -1,0 +1,94 @@
+!---- close function GET_DATA() ----!
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print inverse of A ---*/
+end (real) (complex) getri sytri potri pptri sptri trtri tptri
+
+
+
+!---- print REAL inverted matrix ----!
+begin (real) getri
+  printf("Solution: \n");
+  for (i=0; i<lda; i++){
+    for (j=0; j<n; j++){
+      printf("\t%6.2f", AT[i+lda*j]);   
+    }
+    printf("\n");
+  }
+end (real) getri
+
+
+begin (real) sytri potri trtri
+  printf("Solution: \n");
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AT[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AT[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) sytri potri trtri
+
+
+begin (real) pptri sptri tptri
+  printf("Solution: \n");
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AP[(i+1)+j*(j+1)/2-1]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AP[i+j*(2*SIZE-j-1)/2]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) pptri sptri tptri
+
+
+
+!---- print info ----!
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri
+
+  /*---print info ---*/
+   printf("\n\ninfo = %d\n\n", info);   
+}
+end (real) (complex) getri sytri potri pptri sptri trtri tptri

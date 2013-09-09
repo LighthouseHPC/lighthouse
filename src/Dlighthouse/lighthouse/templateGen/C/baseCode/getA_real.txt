@@ -1,4 +1,4 @@
-begin gesv sgesv geequ geequb getrs getrf 
+begin gesv sgesv geequ geequb getrs getrf getri
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   for(i=0; i<lda; i++){
@@ -7,7 +7,7 @@ begin gesv sgesv geequ geequb getrs getrf
     }
   }
   
-end gesv sgesv geequ geequb getrs getrf
+end gesv sgesv geequ geequb getrs getrf getri
  
 
 begin gtsv gttrs gttrf
@@ -123,7 +123,7 @@ begin pbsv pbequ pbtrs tbtrs
 end pbsv pbequ pbtrs tbtrs
 
 
-begin sysv posv sposv poequ poequb syequb sytrs potrs trtrs
+begin sysv posv sposv poequ poequb syequb sytrs potrs trtrs sytri potri trtri
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   if (UPLO == 'U' || UPLO == 'u'){
@@ -145,10 +145,10 @@ begin sysv posv sposv poequ poequb syequb sytrs potrs trtrs
     exit(EXIT_FAILURE);
     }
 
-end sysv posv sposv poequ poequb syequb sytrs potrs trtrs
+end sysv posv sposv poequ poequb syequb sytrs potrs trtrs sytri potri trtri
 
 
-begin ppsv spsv ppequ pptrs sptrs tptrs
+begin ppsv spsv ppequ pptrs sptrs tptrs pptri sptri tptri
   /*--- get AP ---*/
   if (UPLO == 'U' || UPLO == 'u'){
     for(i=0; i<n; i++){
@@ -169,7 +169,7 @@ begin ppsv spsv ppequ pptrs sptrs tptrs
     exit(EXIT_FAILURE);
     }
     
-end ppsv spsv ppequ pptrs sptrs tptrs
+end ppsv spsv ppequ pptrs sptrs tptrs pptri sptri tptri
 
 
 begin pftrs
