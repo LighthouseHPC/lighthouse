@@ -358,6 +358,9 @@ class generateTemplate_C(object):
                        'big_small': self.get_dataType()[3],
                        'routineName_trf': routineName_trf.upper(),
                        'trf_parameters': trf_parameters,
+                       'routine_anorm': self.routineName[0].upper()+ROUTINE[0].other[0:5],
+                       'anorm_param': self.routineName[0].upper()+ROUTINE[0].other,
+                       'get_precision': self.routineName[0]
                        }
 
         ## --- write the replaced version in to test2 --- ##
