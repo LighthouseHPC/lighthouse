@@ -190,10 +190,10 @@ begin gbequ gbequb
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
-  float *buffer_A;
+  dataType *buffer_A;
 
   /*--- allocate temporary array buffer_A ---*/ 
-  buffer_A = (float*)malloc (sizeof (float)*(2*n*n));
+  buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));
 
   /*--- read data of matrix A into buffer_A ---*/
   linenum = 0;
@@ -301,6 +301,58 @@ begin pbsv pbequ pbtrs tbtrs
   }
 
 end pbsv pbequ pbtrs tbtrs
+
+
+
+begin gbcon
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
+  int linenum;
+  char *ptr, line[BUFSIZ];
+  dataType *buffer_A;
+
+  /*--- allocate temporary array buffer_A ---*/ 
+  buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));
+
+  /*--- read data of matrix A into buffer_A ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptA)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (j=2*(linenum-min(kl, linenum)); j<2*(linenum-min(kl, linenum))+2*(1+min(ku, n-(linenum+1))+min(kl, linenum)); j++){
+      buffer_A[linenum*2*n+j] = strtof(ptr, &ptr);                      //convert ptr to dataType
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    linenum++;
+  }
+  
+  /*--- get A ---*/  
+  for (i=0; i<n; i++){
+    for (j=0; j<n; j++){
+      A[i][j] = buffer_A[2*(i*n+j)]+buffer_A[2*(i*n+j)+1]*I;
+    }
+  }
+  
+  free(buffer_A);
+  
+  /*--- get AB and AB_anorm ---*/
+  for(i=0; i<n; i++){
+    for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
+      AB[kl+ku+i-j][j] = creal(A[i][j])+cimag(A[i][j])*I;
+      AB_anorm[ku+i-j][j] = creal(A[i][j])+cimag(A[i][j])*I;
+    }
+  }
+  
+  /*--- transform AB into ABT and AB_anorm into ABT_anorm ---*/
+  for (i=0; i<ldab; i++){
+    for(j=0; j<n; j++){
+       ABT[2*(i+ldab*j)]=creal(AB[i][j]);
+       ABT[2*(i+ldab*j)+1]=cimag(AB[i][j]);
+       ABT_anorm[2*(i+ldab*j)]=creal(AB_anorm[i][j]);
+       ABT_anorm[2*(i+ldab*j)+1]=cimag(AB_anorm[i][j]);
+    }
+  }
+  
+end gbcon
 
 
 begin sysv posv cposv hesv poequ poequb syequb heequb sytrs potrs hetrs trtrs sytri hetri potri trtri
