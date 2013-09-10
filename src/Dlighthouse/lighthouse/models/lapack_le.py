@@ -321,6 +321,7 @@ class lapack_le_arg_c(models.Model):
 	array_complex = models.CharField('Complex', max_length=300)
 	array_float = models.CharField('Float Array', max_length=300)
 	array_float_complex = models.CharField('Float Complex Array', max_length=300)
+	other = models.CharField('Other', max_length=100)
 	
 	def __unicode__(self):
 	    return self.routineName
