@@ -45,9 +45,9 @@ extern double routine_anorm();
 
 int main(){  
   /*--- message ---*/
-  printf("*************************************\n");
-  printf("*** Use routineName to invert matrix A ***\n");
-  printf("*************************************\n");
+  printf("**************************************************************\n");
+  printf("*** Use routineName to compute the condition number of matrix A ***\n");
+  printf("**************************************************************\n");
   printf("\n");
     
     
@@ -59,11 +59,13 @@ int main(){
   GET_DATA();
   
   
+  anorm = anorm_param;                       //compute matrix norm
+  
+  
   /*--- call lapack subroutine routineName, note: ---*/  
   /*--- (1) all the arguments must be pointers ---*/ 
   /*--- (2) add an underscore to the routine name ---*/
-  /*--- (3) matrices must be transformed into Fortran vector format ---*/
-  anorm_param;                       //compute matrix norm 
+  /*--- (3) matrices must be transformed into Fortran vector format ---*/ 
   routineName_trf_trf_parameters;                           //matrix A must be factored before calling routineName
   routineName_routine_parameters; 
 
