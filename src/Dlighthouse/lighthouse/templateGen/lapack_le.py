@@ -19,13 +19,13 @@ class generateTemplate(object):
     def get_dataType(self):
         dataType = []
         if self.routineName.startswith('s'):
-            dataType.extend(['REAL', 'KIND=4'])
+            dataType.extend(['REAL', 'KIND=4', 'SLAMCH'])
         elif self.routineName.startswith('d'):
-            dataType.extend(['REAL', 'KIND=8'])
+            dataType.extend(['REAL', 'KIND=8', 'DLAMCH'])
         elif self.routineName.startswith('c'):
-            dataType.extend(['COMPLEX', 'KIND=4'])
+            dataType.extend(['COMPLEX', 'KIND=4', 'SLAMCH'])
         elif self.routineName.startswith('z'):
-            dataType.extend(['COMPLEX', 'KIND=8'])
+            dataType.extend(['COMPLEX', 'KIND=8', 'DLAMCH'])
         return dataType
 
             
@@ -204,7 +204,7 @@ class generateTemplate(object):
                        'routineName_trs': routineName_trs,
                        'trs_parameters': trs_parameters,
                        'copy_arrays': copy_arrays,
-                       'get_precision': self.routineName[0] 
+                       'big_small': self.get_dataType()[2],
                        }
 
         ## --- write the replaced version in to test2 --- ## 
@@ -359,7 +359,6 @@ class generateTemplate_C(object):
                        'trf_parameters': trf_parameters,
                        'routine_anorm': self.routineName[0].upper()+ROUTINE[0].other[0:5],
                        'anorm_param': self.routineName[0].upper()+ROUTINE[0].other,
-                       'get_precision': self.routineName[0]
                        }
 
         ## --- write the replaced version in to test2 --- ##

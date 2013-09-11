@@ -2,13 +2,13 @@
             INTEGER                                                     :: integer_list, I, J
             CHARACTER(LEN=1)                                            :: character_list
             REAL(KIND=)                                                 :: real_list, SMLNUM, BIGNUM
-            REAL(kind=8)                                                :: get_precisionlamch
+            REAL(kind=8)                                                :: big_small
             INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
             REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
             dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
             dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
             
-            EXTERNAL get_precisionlamch
+            EXTERNAL big_small
         END MODULE Declaration
                 
 
@@ -36,8 +36,8 @@
         
         
             !--- compute smallest/largest safe numbers ---!       
-            SMLNUM = get_precisionlamch('s')
-            BIGNUM = 1.0/get_precisionlamch('s')
+            SMLNUM = big_small('s')
+            BIGNUM = 1.0/SMLNUM
             
             
             !--- call lapack subroutine routineName ---!
