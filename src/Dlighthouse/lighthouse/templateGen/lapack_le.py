@@ -95,7 +95,7 @@ class generateTemplate(object):
                 for line in f_head.readlines():
                     f.write(line)
         
-        ### --- create SUBROUTINE DIMNS_ASSIGNMENT --- ###           
+            ### --- create SUBROUTINE DIMNS_ASSIGNMENT --- ###           
             ## --- set up input question subprogram by reading from readQ.txt --- ##
             f.write('\n\n')
             f.write('\tSUBROUTINE DIMNS_ASSIGNMENT\n')
@@ -135,7 +135,7 @@ class generateTemplate(object):
             f.write('\tEND SUBROUTINE DIMNS_ASSIGNMENT\n')
             
             
-        ### --- create SUBROUTINE GET_DATA --- ###
+            ### --- create SUBROUTINE GET_DATA --- ###
             readData_list = ROUTINE[0].readData.split(';')
             f.write('\n\n')
             f.write('\tSUBROUTINE GET_DATA\n')
@@ -158,23 +158,21 @@ class generateTemplate(object):
             f.write('\tEND SUBROUTINE GET_DATA\n\n\n')
             
             
-        ### --- Combine with tail.txt file--- ###
-        if not keyword == 'con':
-            with open(fortran_path+"codeTemplates/test1_"+self.routineName+".f90", "a") as f:
-                if keyword in ['sv', 'trf', 'tri', 'equ', 'svx']:
-                    with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
-                        flag = 1
-                        for line in f_tail.readlines():
-                            if "begin" in line and self.routineName[1:] in line.split():
-                                flag = 0
-                            if "end" in line and self.routineName[1:] in line.split():
-                                flag = 1
-                            if not flag and not "begin" in line and not self.routineName[1:] in line.split():
-                               f.write(line)                  
-                else:
-                    with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
-                        for line in f_tail.readlines():
-                            f.write(line)
+            ### --- Combine with tail.txt file--- ###
+            if keyword in ['sv', 'trf', 'tri', 'equ', 'svx']:
+                with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
+                    flag = 1
+                    for line in f_tail.readlines():
+                        if "begin" in line and self.routineName[1:] in line.split():
+                            flag = 0
+                        if "end" in line and self.routineName[1:] in line.split():
+                            flag = 1
+                        if not flag and not "begin" in line and not self.routineName[1:] in line.split():
+                           f.write(line)                  
+            elif keyword in ['trs']:
+                with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
+                    for line in f_tail.readlines():
+                        f.write(line)
         
             
             
@@ -325,8 +323,9 @@ class generateTemplate_C(object):
                        f.write(line)            
                     
         ### --- Combine with tail.txt file--- ###
-        if not keyword == 'con':
-            with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "a") as f:
+            if keyword == 'con':
+                f.write('\n}')
+            else:
                 if keyword in ['sv', 'trs', 'trf', 'tri', 'equ', 'svx']:
                     with open(c_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                         flag = 1
