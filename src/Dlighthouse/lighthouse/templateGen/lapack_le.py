@@ -55,10 +55,10 @@ class generateTemplate(object):
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
                                      set(ROUTINE[0].param_in.split(',')))
                 routineName_trs = self.routineName.replace(keyword, 'trs')
-                A_org = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
+                A_orig = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
                 A_fact = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
-                trf_parameters = trf_parameters.replace(A_org, A_fact)
-                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_org, A_fact).replace('B, LDB', 'X, LDX')
+                trf_parameters = trf_parameters.replace(A_orig, A_fact)
+                trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_orig, A_fact).replace('B, LDB', 'X, LDX')
                 copy_arrays = ROUTINE[0].other
             elif keyword == 'con':
                 question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
@@ -169,7 +169,7 @@ class generateTemplate(object):
                             flag = 1
                         if not flag and not "begin" in line and not self.routineName[1:] in line.split():
                            f.write(line)                  
-            elif keyword in ['trs']:
+            elif keyword in ['trs', 'rfs']:
                 with open(fortran_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
                     for line in f_tail.readlines():
                         f.write(line)
@@ -279,10 +279,10 @@ class generateTemplate_C(object):
             #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
             #                         set(ROUTINE[0].param_in.split(',')))
             #    routineName_trs = self.routineName.replace(keyword, 'trs')
-            #    A_org = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
+            #    A_orig = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
             #    A_fact = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
-            #    trf_parameters = trf_parameters.replace(A_org, A_fact)
-            #    trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_org, A_fact).replace('B, LDB', 'X, LDX')
+            #    trf_parameters = trf_parameters.replace(A_orig, A_fact)
+            #    trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_orig, A_fact).replace('B, LDB', 'X, LDX')
             #    copy_arrays = ROUTINE[0].other
             #elif keyword == 'con':
             #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
