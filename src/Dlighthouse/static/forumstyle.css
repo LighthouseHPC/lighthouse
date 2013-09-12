@@ -68,19 +68,19 @@ img {
 	margin:0 0 0 1px;
 	padding:5px 12px 3px 12px;
 	text-align:center;
-	background:#FFD273;
-	color:#000;
+	background:#f7fafe;
+	color:#134c94;
 	text-decoration:none;
 	position:relative;
 	left:1px;
 	line-height:1.3em;
-	border:2px solid #FFC140;
+	border:2px solid #c9dcfa;
 	border-top-right-radius:5px;
 	border-top-left-radius:5px;
 }
 #header ul li a:hover {
-	background:#A67000;
-	color:#FFAD00;
+	background:#e0ecfb;
+	color:#000;
 }
 #header ul li a.active,
 #header ul li a.active:hover {
@@ -94,8 +94,8 @@ img {
 /* 'widths' sub menu */
 #layoutdims {
 	clear:both;
-	background:#FFAD00;
-	border-top:4px solid #000;
+	background:#e0ecfb;
+	border-top:4px solid #134c94;
 	margin:0;
 	padding:6px 15px !important;
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -143,8 +143,11 @@ img {
 	clear:both;
 	float:left;
 	width:100%;
-	border:1px solid #A67000;
-	background: #FFD273;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;	
+	border-top:1px solid #c9dcfa;
+	border-bottom:2px solid #c9dcfa;
+	background: #e0ecfb;
 }
 #footer p {
 	padding:10px;
@@ -189,26 +192,40 @@ img {
         text-align: left;
         border-collapse: collapse;
 }
-
+#rounded-corner thead th.rounded-company
+{
+        background: #b9c9fe url('table-images/left.png') left -1px no-repeat;
+}
+#rounded-corner thead th.rounded-q2
+{
+        background: #b9c9fe url('table-images/right.png') right -1px no-repeat;
+}
 #rounded-corner th
 {
         padding: 8px;
         font-weight: normal;
         font-size: 13px;
-        color: #000;
-        background: #BF9130;
+        color: #039;
+        background: #b9c9fe;
 }
 #rounded-corner td
 {
         padding: 8px;
-        background: #FFD273;
+        background: #e8edff;
         border-top: 1px solid #fff;
-        color: #734e00;
+        color: #669;
 }
-
+#rounded-corner tfoot td.rounded-foot-left
+{
+        background: #e8edff url('table-images/botleft.png') left bottom no-repeat;
+}
+#rounded-corner tfoot td.rounded-foot-right
+{
+        background: #e8edff url('table-images/botright.png') right bottom no-repeat;
+}
 #rounded-corner tbody tr:hover td
 {
-        background: #FFAD00;
+        background: #d0dafd;
 }
 
 
@@ -230,7 +247,7 @@ img {
         font-weight: normal;
         padding: 10px 8px;
         color: #039;
-        background: #B2B2B2
+        background: #B2B2B2;
         border-top-right-radius:5px;
 		border-top-left-radius:5px;		
 }
@@ -241,7 +258,7 @@ img {
 }
 #hor-zebra .even
 {
-        background: #FFD273; 
+        background: #f7fafe; 
 }
 
 
