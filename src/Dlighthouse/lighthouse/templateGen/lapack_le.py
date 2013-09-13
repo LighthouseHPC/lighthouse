@@ -267,7 +267,7 @@ class generateTemplate_C(object):
         ### --- set up important parameters for later replacement --- ###
         routineName_trs = ''
         trs_parameters = ''
-        #copy_arrays = ''
+        copy_arrays = ''
         
         if keyword in ['sv', 'trf', 'equ', 'svx']:
             routineName_trf = ''
