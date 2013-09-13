@@ -275,24 +275,18 @@ class generateTemplate_C(object):
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg_c.objects.filter(routineName__icontains=routineName_trf)[0].param
-            #if keyword == 'rfs':
-            #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
-            #                         set(ROUTINE[0].param_in.split(',')))
-            #    routineName_trs = self.routineName.replace(keyword, 'trs')
-            #    A_orig = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
-            #    A_fact = lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
-            #    trf_parameters = trf_parameters.replace(A_orig, A_fact)
-            #    trs_parameters = lapack_le_arg.objects.filter(routineName__icontains=routineName_trs)[0].param_all.replace(A_orig, A_fact).replace('B, LDB', 'X, LDX')
-            #    copy_arrays = ROUTINE[0].other
-            #elif keyword == 'con':
-            #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
-            #                         set(ROUTINE[0].param_in.split(','))|set(ROUTINE[0].char.split(',')))
-            #else:
-            #    question_list = list(set(lapack_le_arg.objects.filter(routineName__icontains=routineName_trf)[0].param_in.split(','))|
-            #                         set(ROUTINE[0].param_in.split(',')))
+            if keyword == 'rfs':
+                routineName_trs = self.routineName.replace(keyword, 'trs')
+                A_orig = lapack_le_arg_c.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[0]
+                A_fact = lapack_le_arg_c.objects.filter(routineName__icontains=routineName_trf)[0].other.split('=')[1]
+                trf_parameters = trf_parameters.replace(A_orig, A_fact)
+                trs_parameters = lapack_le_arg_c.objects.filter(routineName__icontains=routineName_trs)[0].param.replace(A_orig, A_fact).replace('BT, &ldb', 'XT, &ldx')
+                copy_arrays = ROUTINE[0].other
 
-
-        databaseInfo = {'keyword': keyword, 'routine': ROUTINE, 'routineTrf': routineName_trf, 'trfParameters': trf_parameters,}
+        databaseInfo = {'keyword': keyword, 'routine': ROUTINE,
+                        'routineTrf': routineName_trf, 'trfParameters': trf_parameters,
+                        'routineTrs': routineName_trs, 'trsParameters': trs_parameters,
+                        'copyArrays': copy_arrays,}
         
         return databaseInfo
     
@@ -303,6 +297,9 @@ class generateTemplate_C(object):
         keyword = self.get_database()['keyword']
         routineName_trf = self.get_database()['routineTrf']
         trf_parameters = self.get_database()['trfParameters']
+        routineName_trs = self.get_database()['routineTrs']
+        trs_parameters = self.get_database()['trsParameters']
+        copy_arrays = self.get_database()['copyArrays']
 
         ### --- copy head.txt file to test1.c --- ###
         with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "w") as f:
@@ -326,20 +323,15 @@ class generateTemplate_C(object):
             if keyword == 'con':
                 f.write('\n}')
             else:
-                if keyword in ['sv', 'trs', 'trf', 'tri', 'equ', 'svx']:
-                    with open(c_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
-                        flag = 1
-                        for line in f_tail.readlines():
-                            if "begin" in line and self.get_dataType()[0] in line and self.routineName[1:] in line.split():
-                                flag = 0
-                            if "end" in line and self.get_dataType()[0] in line and self.routineName[1:] in line.split():
-                                flag = 1
-                            if not flag and not "begin" in line and not self.routineName[1:] in line.split():
-                               f.write(line)                  
-                else:
-                    with open(c_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
-                        for line in f_tail.readlines():
-                            f.write(line)
+                with open(c_path+"baseCode/tail_"+keyword+".txt", "r") as f_tail:
+                    flag = 1
+                    for line in f_tail.readlines():
+                        if "begin" in line and self.get_dataType()[0] in line and self.routineName[1:] in line.split():
+                            flag = 0
+                        if "end" in line and self.get_dataType()[0] in line and self.routineName[1:] in line.split():
+                            flag = 1
+                        if not flag and not "begin" in line and not self.routineName[1:] in line.split():
+                           f.write(line)                  
                             
         ## --- create a dictionary for replacing strings in the original file. --- ##
         replaceDict = {'routineName': self.routineName.upper(),
@@ -354,11 +346,14 @@ class generateTemplate_C(object):
                        'complex_list': ROUTINE[0].array_complex,
                        'float_list': ROUTINE[0].array_float,
                        'float_complex_list': ROUTINE[0].array_float_complex,
-                       'big_small': self.get_dataType()[3],
                        'routineName_trf': routineName_trf.upper(),
                        'trf_parameters': trf_parameters,
                        'routine_anorm': self.routineName[0].upper()+ROUTINE[0].other[0:5],
                        'anorm_param': self.routineName[0].upper()+ROUTINE[0].other,
+                       'routineName_trs': routineName_trs.upper(),
+                       'trs_parameters': trs_parameters,
+                       'copy_arrays': copy_arrays,
+                       'big_small': self.get_dataType()[3],
                        }
 
         ## --- write the replaced version in to test2 --- ##
