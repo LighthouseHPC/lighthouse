@@ -1,5 +1,5 @@
 !--- real matrix B---!
-begin (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv sposv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
+begin (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
   /*--- read B and transform it to BT ---*/
   for(i=0; i <ldb; i++){
     for (j=0; j<nrhs; j++){
@@ -10,42 +10,28 @@ begin (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv sposv getrs gttr
 
 
 
-end (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv sposv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
-
-
-begin (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
 void PRINT_SOLUTION(){
   /*--- print vector x (stored in B) ---*/
   printf("Solution: \n");
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
       B[i][j] = BT[i+n*j];
-      printf("   %6.2f", B[i][j]);    
-    }
-    printf("\n");
-  }
-
-end (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
-
-
-begin (real) sgesv sposv
-void PRINT_SOLUTION(){
-  /*--- print vector x ---*/
-  printf("Solution: \n");
-  for (i=0; i<n; i++){
-    for (j=0; j<nrhs; j++){
-      X[i][j] = XT[i+n*j];
-      printf("   %6.2f", X[i][j]);    
+      printf("\t%6.3f", B[i][j]);    
     }
     printf("\n");
   }
   
-end (real) sgesv cgesv sposv cposv
+  /*---print info ---*/
+   printf("\ninfo = %d", info);   
+}
+
+end (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
+
 
 
 
 !--- complex matrix B---!
-begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
+begin (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
   /*--- allocate temporary array buffer_B ---*/
   dataType *buffer_B;
   buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
@@ -82,49 +68,19 @@ begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cge
 
 
 
-end (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
-
-
-
-begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
 void PRINT_SOLUTION(){
   /*--- print vector x (stored in B) ---*/
   printf("Solution: \n");
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
       B[i][j] = BT[2*(i+n*j)] + BT[2*(i+n*j)+1]*I;
-      printf("(%06.4f, %06.4f)\t", creal(B[i][j]), cimag(B[i][j]));     
-    }
-    printf("\n");
-  }
-
-end (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
-
-
-
-
-
-begin (complex) cgesv cposv
-void PRINT_SOLUTION(){
-  /*--- print vector x ---*/
-  printf("Solution: \n");
-  for (i=0; i<n; i++){
-    for (j=0; j<nrhs; j++){
-      X[i][j] = XT[2*(i+n*j)] + XT[2*(i+n*j)+1]*I;
-      printf("(%06.4f, %06.4f)\t", creal(X[i][j]), cimag(X[i][j]));     
+      printf("(%6.3f, %6.3f)\t", creal(B[i][j]), cimag(B[i][j]));     
     }
     printf("\n");
   }
   
-end (complex) cgesv cposv
-
-
-
-
-!--- print info ---!
-begin (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv hesv hpsv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
   /*---print info ---*/
    printf("\ninfo = %d", info);   
 }
 
-end (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv hesv hpsv getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
+end (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs

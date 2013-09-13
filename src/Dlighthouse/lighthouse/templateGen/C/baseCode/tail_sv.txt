@@ -20,7 +20,7 @@ void PRINT_SOLUTION(){
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
       B[i][j] = BT[i+n*j];
-      printf("   %6.2f", B[i][j]);    
+      printf("\t%6.3f", B[i][j]);    
     }
     printf("\n");
   }
@@ -35,7 +35,7 @@ void PRINT_SOLUTION(){
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
       X[i][j] = XT[i+n*j];
-      printf("   %6.2f", X[i][j]);    
+      printf("\t%6.3f", X[i][j]);    
     }
     printf("\n");
   }
@@ -46,9 +46,8 @@ end (real) sgesv cgesv sposv cposv
 
 !--- complex matrix B---!
 begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv
+  /*--- allocate temporary array buffer_B ---*/
   dataType *buffer_B;
-  
-  /*--- allocate temporary array buffer_B ---*/ 
   buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
   
   /*--- read matrix B into buffer_B ---*/
@@ -94,7 +93,7 @@ void PRINT_SOLUTION(){
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
       B[i][j] = BT[2*(i+n*j)] + BT[2*(i+n*j)+1]*I;
-      printf("(%06.4f, %06.4f)\t", creal(B[i][j]), cimag(B[i][j]));     
+      printf("(%6.3f, %6.3f)\t", creal(B[i][j]), cimag(B[i][j]));     
     }
     printf("\n");
   }
@@ -112,7 +111,7 @@ void PRINT_SOLUTION(){
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
       X[i][j] = XT[2*(i+n*j)] + XT[2*(i+n*j)+1]*I;
-      printf("(%06.4f, %06.4f)\t", creal(X[i][j]), cimag(X[i][j]));     
+      printf("(%6.3f, %6.3f)\t", creal(X[i][j]), cimag(X[i][j]));     
     }
     printf("\n");
   }
