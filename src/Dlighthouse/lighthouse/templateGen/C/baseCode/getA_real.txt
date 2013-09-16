@@ -115,7 +115,7 @@ begin gbrfs
   /*--- read AFB and AB---*/
   for(i=0; i<n; i++){
     for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
-      fscanf(fptA, "%lf",&AFB[kl+ku+i-j][j]);
+      fscanf(fptA, "%placeholder",&AFB[kl+ku+i-j][j]);
       AB[ku+i-j][j] = AFB[kl+ku+i-j][j];
     }
   }
@@ -137,7 +137,7 @@ begin gbrfs
 end gbrfs
 
 
-begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs
+begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read AB ---*/
   if (UPLO =='U' || UPLO =='u'){
@@ -166,7 +166,7 @@ begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs
     }
   }
 
-end pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs
+end pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
 
 
 begin sysv posv sposv poequ poequb syequb sytrs potrs trtrs sytri potri trtri sycon pocon trcon syrfs porfs trrfs
