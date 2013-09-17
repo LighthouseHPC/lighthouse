@@ -285,7 +285,65 @@ begin gbcon
 end gbcon
 
 
-begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs
+
+begin gbrfs
+  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
+  int linenum;
+  char *ptr, line[BUFSIZ];
+  dataType *buffer_A;
+
+  /*--- allocate temporary array buffer_A ---*/ 
+  buffer_A = (dataType*)malloc (sizeof (dataType)*(2*n*n));
+
+  /*--- read data of matrix A into buffer_A ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptA)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (j=2*(linenum-min(kl, linenum)); j<2*(linenum-min(kl, linenum))+2*(1+min(ku, n-(linenum+1))+min(kl, linenum)); j++){
+      buffer_A[linenum*2*n+j] = strtof(ptr, &ptr);                      //convert ptr to dataType
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    linenum++;
+  }
+  
+  /*--- get A ---*/  
+  for (i=0; i<n; i++){
+    for (j=0; j<n; j++){
+      A[i][j] = buffer_A[2*(i*n+j)]+buffer_A[2*(i*n+j)+1]*I;
+    }
+  }
+  
+  free(buffer_A);
+  
+  /*--- get AFB ---*/
+  for(i=0; i<n; i++){
+    for(j=max(i-kl,0); j<=min(i+ku,n-1); j++){
+      AFB[kl+ku+i-j][j] = creal(A[i][j])+cimag(A[i][j])*I;
+      AB[ku+i-j][j] = creal(A[i][j])+cimag(A[i][j])*I;
+    }
+  }
+  
+  /*--- transform AFB into its Fortran vector format, AFBT ---*/
+  for (i=0; i<ldafb; i++){
+    for(j=0; j<n; j++){
+       AFBT[2*(i+ldafb*j)]=creal(AFB[i][j]);
+       AFBT[2*(i+ldafb*j)+1]=cimag(AFB[i][j]);
+    }
+  }
+  
+  /*--- transform AB to ABT ---*/
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+       ABT[2*(i+ldab*j)]=creal(AB[i][j]);
+       ABT[2*(i+ldab*j)+1]=cimag(AB[i][j]);
+    }
+  }
+  
+end gbrfs
+
+
+begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
@@ -351,7 +409,7 @@ begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs
     }
   }
 
-end pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs
+end pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
 
 
 begin sysv posv cposv hesv poequ poequb syequb heequb sytrs potrs hetrs trtrs sytri hetri potri trtri sycon hecon pocon trcon syrfs herfs porfs trrfs
