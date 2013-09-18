@@ -1,4 +1,4 @@
-begin gesv sgesv geequ geequb getrs getrf getri gecon gerfs
+begin gesv sgesv geequ geequb getrs getrf getri gecon gerfs gesvx
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read A and transform it to AT ---*/
   for(i=0; i<lda; i++){
@@ -7,10 +7,10 @@ begin gesv sgesv geequ geequb getrs getrf getri gecon gerfs
     }
   }
   
-end gesv sgesv geequ geequb getrs getrf getri gecon gerfs
+end gesv sgesv geequ geequb getrs getrf getri gecon gerfs gesvx
  
 
-begin gtsv gttrs gttrf gtcon gtrfs
+begin gtsv gttrs gttrf gtcon gtrfs gtsvx
   /*--- get DU, D, and DL ---*/
   for (i=0; i<3; i++){
     if (i==0){
@@ -30,10 +30,10 @@ begin gtsv gttrs gttrf gtcon gtrfs
     }
   }
   
-end gtsv gttrs gttrf gtcon gtrfs
+end gtsv gttrs gttrf gtcon gtrfs gtsvx
 
 
-begin ptsv pttrs pttrf ptcon ptrfs
+begin ptsv pttrs pttrf ptcon ptrfs ptsvx
   /*--- get D and E ---*/
   for (i=0; i<2; i++){
     if (i==0){
@@ -48,7 +48,7 @@ begin ptsv pttrs pttrf ptcon ptrfs
     }
   }
 
-end ptsv pttrs pttrf ptcon ptrfs
+end ptsv pttrs pttrf ptcon ptrfs ptsvx
 
 
 begin gbsv gbtrs gbtrf
@@ -70,7 +70,7 @@ begin gbsv gbtrs gbtrf
 end gbsv gbtrs gbtrf
 
 
-begin gbequ gbequb
+begin gbequ gbequb gbsvx
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/  
   /*--- read AB ---*/
   for(i=0; i<m; i++){
@@ -86,7 +86,7 @@ begin gbequ gbequb
     }
   }
   
-end gbequ gbequb
+end gbequ gbequb gbsvx
 
 
 begin gbcon
@@ -137,7 +137,7 @@ begin gbrfs
 end gbrfs
 
 
-begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
+begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs pbsvx
   /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
   /*--- read AB ---*/
   if (UPLO =='U' || UPLO =='u'){
@@ -166,7 +166,7 @@ begin pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
     }
   }
 
-end pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs
+end pbsv pbequ pbtrs tbtrs pbcon tbcon tbrfs pbrfs pbsvx
 
 
 begin sysv posv sposv poequ poequb syequb sytrs potrs trtrs sytri potri trtri sycon pocon trcon syrfs porfs trrfs

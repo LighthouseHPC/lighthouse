@@ -100,15 +100,14 @@ begin (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hes
   /*--- print condition number ---*/
   printf("Reciprocal condition number: \n\trcond = %4.2e\n\n", rcond);
   printf("Condition number: \n\tCOND = %4.2e\n\n", 1.0/rcond);
-
-  printf("\n");
   
 end (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx
 
 
 
 !--- print equilibrated matrix ---!
-begin (real) gesvx
+!--- group 1: R and C ---!
+begin (real) (complex) gesvx gbsvx
   /*--- print scaled matrix A ---*/
   if(EQUED == 'N'){
     printf("A is not scaled. A = \n");
@@ -127,6 +126,11 @@ begin (real) gesvx
     exit(EXIT_FAILURE);
   }
   
+end (real) (complex) gesvx gbsvx
+
+
+begin (real) gesvx
+  
   for(i=0; i<lda; i++){
     for(j=0; j<n; j++){
       printf("\t%6.3f", AT[i+lda*j]);
@@ -134,16 +138,77 @@ begin (real) gesvx
     printf("\t \n");
   }
   
-  printf("\n");
-  
 end (real) gesvx
+
+
+begin (real) gbsvx
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<=min(i+ku,n-1)){
+        printf("\t%6.3f", AB[ku+i-j][j]);
+      }
+      else{
+        printf("\t ");
+      }
+    }
+    printf("\n");
+  }
+  
+end (real) gbsvx
+
+
+!--- group 2: S ---!
+begin (real) (complex) pbsvx
+  if(EQUED == 'N'){
+    printf("A is not scaled. A = \n");
+  }
+  else if(EQUED == 'Y'){
+    printf("A is sacled. A = \n");
+  }
+  else{
+    printf("Invalid EQUED value!\n");
+    exit(EXIT_FAILURE);
+  }
+  
+end (real) (complex) pbsvx
+
+
+begin (real) pbsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t%6.3f", AB[kd+i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t%6.3f", AB[i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (real) pbsvx
 
 
 
 !--- print error bounds ---!
 begin (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx   
   /*---print info ---*/
-   printf("\ninfo = %d", info);   
+  printf("\ninfo = %d", info);   
 }
 
 end (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx
