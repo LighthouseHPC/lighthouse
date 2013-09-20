@@ -206,7 +206,7 @@ admin.site.register(lapack_le_arg, lapack_le_argAdmin)
 
 class lapack_le_arg_cAdmin(admin.ModelAdmin):
 	list_display = ('id', 'routineName', 'param', 'define', 'char', 'global_var', 'integers', 'array_real',
-			'array_complex', 'array_float', 'array_float_complex')
+			'array_complex', 'other')
 	
 	#list_filter = ['matrix']
 	search_fileds = ['routineName']
