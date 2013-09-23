@@ -184,7 +184,7 @@ end (complex) gbsvx
 
 
 !--- group 2: S ---!
-begin (real) (complex) pbsvx
+begin (real) (complex) pbsvx posvx ppsvx
   if(EQUED == 'N'){
     printf("A is not scaled. A = \n");
   }
@@ -196,7 +196,7 @@ begin (real) (complex) pbsvx
     exit(EXIT_FAILURE);
   }
   
-end (real) (complex) pbsvx
+end (real) (complex) pbsvx posvx ppsvx
 
 
 begin (real) pbsvx
@@ -259,6 +259,101 @@ begin (complex) pbsvx
   }
   
 end (complex) pbsvx
+
+
+
+begin (real) posvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AT[i+n*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AT[i+n*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (real) posvx
+
+
+begin (complex) posvx ppsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (complex) posvx ppsvx
+
+
+begin (real) ppsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AP[(i+1)+j*(j+1)/2-1]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AP[i+j*(2*SIZE-j-1)/2]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (real) ppsvx
+
 
 
 
