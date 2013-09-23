@@ -353,6 +353,8 @@ class generateTemplate_C(object):
                        'trs_parameters': trs_parameters,
                        'copy_arrays': copy_arrays.replace(';', ';\n  '),
                        'big_small': self.get_dataType()[3],
+                       'input_list': ROUTINE[0].other.split(';')[1],
+                       'EQUED_comment': ROUTINE[0].other.split(';')[0],
                        }
 
         ## --- write the replaced version in to test2 --- ##

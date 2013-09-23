@@ -19,7 +19,10 @@
 /**************************** BEGIN CONSTANT SET UP ****************************/
 /*--- input matrix properties ---*/
 define_list
-char_list
+
+/*--- If FACT = 'F', must also input data of input_list.  ---*/
+/*--- EQUED_comment ---*/
+char_list;
 
 /*--- enter file locations for (1) matrix A and (2) matrix B ---*/ 
 #define fileA "path_to_file A"
