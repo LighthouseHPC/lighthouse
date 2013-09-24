@@ -134,7 +134,7 @@ begin (real) gesvx
     for(j=0; j<n; j++){
       printf("\t%6.3f", AT[i+lda*j]);
     }
-    printf("\t \n");
+    printf("\n");
   }
   
 end (real) gesvx
@@ -145,7 +145,7 @@ begin (complex) gesvx
     for(j=0; j<n; j++){
       printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));  
     }
-    printf("\t \n");
+    printf("\n");
   }
   
 end (complex) gesvx
