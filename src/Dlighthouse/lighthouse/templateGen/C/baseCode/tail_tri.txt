@@ -15,7 +15,7 @@ end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri
 begin (real) getri
   for (i=0; i<lda; i++){
     for (j=0; j<n; j++){
-      printf("\t%6.2f", AT[i+lda*j]);   
+      printf("\t%6.3f", AT[i+lda*j]);   
     }
     printf("\n");
   }
@@ -70,7 +70,7 @@ begin (real) pptri sptri tptri
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
         if (j>=0 && j<=i){
-          printf("\t%6.3f", AP[i+j*(2*SIZE-j-1)/2]);
+          printf("\t%6.3f", AP[i+j*(2*n-j-1)/2]);
         }
         else{
           printf("\t ");
@@ -130,7 +130,7 @@ begin (complex) pptri sptri hptri tptri
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
         if (j>=i && j<n){
-          printf("\t(%6.3f, %6.3f)", AP[2*(i+j*(2*SIZE-j-1)/2)], AP[2*(i+j*(2*SIZE-j-1)/2)+1]);
+          printf("\t(%6.3f, %6.3f)", AP[2*(i+j*(2*n-j-1)/2)], AP[2*(i+j*(2*n-j-1)/2)+1]);
         }
         else{
           printf("\t \t \t");
@@ -143,7 +143,7 @@ begin (complex) pptri sptri hptri tptri
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
         if (j>=0 && j<=i){
-          printf("\t(%6.3f, %6.3f)", AP[2*(i+j*(2*SIZE-j-1)/2)], AP[2*(i+j*(2*SIZE-j-1)/2)+1]);
+          printf("\t(%6.3f, %6.3f)", AP[2*(i+j*(2*n-j-1)/2)], AP[2*(i+j*(2*n-j-1)/2)+1]);
         }
         else{
           printf("\t \t \t");
