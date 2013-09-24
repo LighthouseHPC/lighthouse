@@ -8,7 +8,7 @@ c_path = './lighthouse/templateGen/C/'
 keyword_list = ['trf', 'trs', 'con', 'tri', 'rfs', 'equ', 'svx']
 
 
-""" generate template in Fortran  """
+""" generate template in Fortran """
 class generateTemplate(object):
     __name__ = 'generateTemplate'
     
@@ -233,7 +233,7 @@ class generateTemplate(object):
 
 
 
-""" generate template in C  """
+""" generate template in C """
 class generateTemplate_C(object):
     __name__ = 'generateTemplate_C'
     
@@ -268,10 +268,16 @@ class generateTemplate_C(object):
         routineName_trs = ''
         trs_parameters = ''
         copy_arrays = ''
+        input_list = ''
+        EQUED_comment = ''
         
         if keyword in ['sv', 'trf', 'equ', 'svx']:
             routineName_trf = ''
             trf_parameters = ''
+            if keyword == 'svx':
+                input_list = ROUTINE[0].other.split(';')[1]
+                EQUED_comment = ROUTINE[0].other.split(';')[0]
+                
         else:
             routineName_trf = self.routineName.replace(keyword, 'trf')
             trf_parameters = lapack_le_arg_c.objects.filter(routineName__icontains=routineName_trf)[0].param
@@ -286,7 +292,7 @@ class generateTemplate_C(object):
         databaseInfo = {'keyword': keyword, 'routine': ROUTINE,
                         'routineTrf': routineName_trf, 'trfParameters': trf_parameters,
                         'routineTrs': routineName_trs, 'trsParameters': trs_parameters,
-                        'copyArrays': copy_arrays,}
+                        'copyArrays': copy_arrays, 'inputList': input_list, 'EQUEDComment': EQUED_comment}
         
         return databaseInfo
     
@@ -300,6 +306,8 @@ class generateTemplate_C(object):
         routineName_trs = self.get_database()['routineTrs']
         trs_parameters = self.get_database()['trsParameters']
         copy_arrays = self.get_database()['copyArrays']
+        input_list = self.get_database()['inputList']
+        EQUED_comment = self.get_database()['EQUEDComment']
 
         ### --- copy head.txt file to test1.c --- ###
         with open(c_path+"codeTemplates/test1_"+self.routineName+".c", "w") as f:
@@ -353,8 +361,8 @@ class generateTemplate_C(object):
                        'trs_parameters': trs_parameters,
                        'copy_arrays': copy_arrays.replace(';', ';\n  '),
                        'big_small': self.get_dataType()[3],
-                       'input_list': ROUTINE[0].other.split(';')[1],
-                       'EQUED_comment': ROUTINE[0].other.split(';')[0],
+                       'input_list': input_list,
+                       'EQUED_comment': EQUED_comment,
                        }
 
         ## --- write the replaced version in to test2 --- ##
