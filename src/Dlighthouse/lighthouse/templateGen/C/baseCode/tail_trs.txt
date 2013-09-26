@@ -48,6 +48,7 @@ begin (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptr
   }
   
   /*--- transform B to its Fortran vector format BT---*/
+  /*--- NOTE: B[i][j] = buffer_B[2*(i*nrhs+j)]+buffer_B[2*(i*nrhs+j)+1]*I ---*/
   for (i=0; i<ldb; i++){                               
     for(j=0; j<nrhs; j++){
        BT[2*(i+ldb*j)]=buffer_B[2*(i*nrhs+j)];
