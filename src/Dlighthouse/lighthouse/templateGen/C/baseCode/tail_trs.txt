@@ -1,5 +1,5 @@
 !--- real matrix B---!
-begin (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
+begin (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs pftrs 
   /*--- read B and transform it to BT ---*/
   for(i=0; i <ldb; i++){
     for (j=0; j<nrhs; j++){
@@ -15,8 +15,7 @@ void PRINT_SOLUTION(){
   printf("Solution: \n");
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
-      B[i][j] = BT[i+n*j];
-      printf("\t%6.3f", B[i][j]);    
+      printf("\t%6.3f", BT[i+n*j]);    
     }
     printf("\n");
   }
@@ -25,13 +24,13 @@ void PRINT_SOLUTION(){
    printf("\ninfo = %d", info);   
 }
 
-end (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs
+end (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs pftrs 
 
 
 
 
 !--- complex matrix B---!
-begin (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
+begin (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs pftrs 
   /*--- allocate temporary array buffer_B ---*/
   dataType *buffer_B;
   buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
@@ -48,18 +47,11 @@ begin (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptr
     linenum++;
   }
   
-  /*--- get B ---*/
-  for (i=0; i<ldb; i++){
-    for (j=0; j<nrhs; j++){
-      B[i][j] = buffer_B[2*(i*nrhs+j)]+buffer_B[2*(i*nrhs+j)+1]*I;
-    }
-  }
-  
   /*--- transform B to its Fortran vector format BT---*/
   for (i=0; i<ldb; i++){                               
     for(j=0; j<nrhs; j++){
-       BT[2*(i+ldb*j)]=creal(B[i][j]);
-       BT[2*(i+ldb*j)+1]=cimag(B[i][j]);
+       BT[2*(i+ldb*j)]=buffer_B[2*(i*nrhs+j)];
+       BT[2*(i+ldb*j)+1]=buffer_B[2*(i*nrhs+j)+1];
     }
   }
   
@@ -73,8 +65,7 @@ void PRINT_SOLUTION(){
   printf("Solution: \n");
   for (i=0; i<n; i++){
     for (j=0; j<nrhs; j++){
-      B[i][j] = BT[2*(i+n*j)] + BT[2*(i+n*j)+1]*I;
-      printf("(%6.3f, %6.3f)\t", creal(B[i][j]), cimag(B[i][j]));     
+      printf("(%6.3f, %6.3f)\t", BT[2*(i+n*j)], BT[2*(i+n*j)+1]);     
     }
     printf("\n");
   }
@@ -83,4 +74,4 @@ void PRINT_SOLUTION(){
    printf("\ninfo = %d", info);   
 }
 
-end (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs
+end (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs pftrs 
