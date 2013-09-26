@@ -205,6 +205,7 @@ class generateTemplate(object):
                        'trs_parameters': trs_parameters,
                        'copy_arrays': copy_arrays,
                        'big_small': self.get_dataType()[2],
+                       'get_precision': self.routineName[0],
                        }
 
         ## --- write the replaced version in to test2 --- ## 
@@ -363,6 +364,7 @@ class generateTemplate_C(object):
                        'big_small': self.get_dataType()[3],
                        'input_list': input_list,
                        'EQUED_comment': EQUED_comment,
+                       'get_precision': self.routineName[0].upper(),
                        }
 
         ## --- write the replaced version in to test2 --- ##
