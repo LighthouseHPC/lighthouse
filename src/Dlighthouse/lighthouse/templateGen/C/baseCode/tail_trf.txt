@@ -1,5 +1,5 @@
 !---- close function GET_DATA() ----!
-begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf
+begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf
 }
 
 
@@ -7,7 +7,7 @@ begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf het
 void PRINT_SOLUTION(){
   /*--- print factored A ---*/
   printf("Solution: \n");
-end (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf
+end (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf
 
 
 
@@ -119,7 +119,7 @@ begin (real) pbtrf
 end (real) pbtrf
 
 
-begin (real) sytrf potrf 
+begin (real) sytrf potrf pstrf
   if (UPLO =='U' || UPLO =='u'){
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
@@ -146,7 +146,7 @@ begin (real) sytrf potrf
       printf("\n");
     }    
   }
-end (real) sytrf potrf 
+end (real) sytrf potrf pstrf
 
 
 begin (real) pptrf sptrf
@@ -323,7 +323,7 @@ begin (complex) pbtrf
 end (complex) pbtrf
 
 
-begin (complex) sytrf hetrf potrf 
+begin (complex) sytrf hetrf potrf pstrf
   if (UPLO =='U' || UPLO =='u'){
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
@@ -350,7 +350,7 @@ begin (complex) sytrf hetrf potrf
       printf("\n");
     }    
   }
-end (complex) sytrf hetrf potrf 
+end (complex) sytrf hetrf potrf pstrf
 
 
 begin (complex) pptrf sptrf hptrf
@@ -420,9 +420,9 @@ end (complex) pftrf
 
 
 !---- print info ----!
-begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf
+begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf 
 
   /*---print info ---*/
    printf("\n\ninfo = %d\n\n", info);   
 }
-end (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf
+end (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf
