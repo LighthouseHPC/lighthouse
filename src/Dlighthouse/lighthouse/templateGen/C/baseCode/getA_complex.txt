@@ -528,7 +528,7 @@ begin ppsv spsv hpsv ppequ pptrs sptrs hptrs tptrs pptri sptri hptri tptri ppcon
 end ppsv spsv hpsv ppequ pptrs sptrs hptrs tptrs pptri sptri hptri tptri ppcon spcon hpcon tpcon pprfs sprfs hprfs tprfs ppsvx spsvx hpsvx pptrf sptrf hptrf
 
 
-begin pftrs pftrf
+begin pftrs pftrf pftri tftri
   /*--- read A (1D array) from the file ---*/
   int linenum;
   char *ptr, line[BUFSIZ];
@@ -558,4 +558,4 @@ begin pftrs pftrf
     
   free(buffer_A);
   
-end pftrs pftrf
+end pftrs pftrf pftri tftri

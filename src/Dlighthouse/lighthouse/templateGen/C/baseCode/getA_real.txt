@@ -218,11 +218,11 @@ begin ppsv spsv ppequ pptrs sptrs tptrs pptri sptri tptri ppcon spcon tpcon pprf
 end ppsv spsv ppequ pptrs sptrs tptrs pptri sptri tptri ppcon spcon tpcon pprfs sprfs tprfs ppsvx spsvx pptrf sptrf
 
 
-begin pftrs pftrf
+begin pftrs pftrf pftri tftri
   /*--- read A (1D array) from the file ---*/
   for(i=0; i<n*(n+1)/2; i++){
     fscanf(fptA, "%placeholder",&A[i]);
   }
 
-end pftrs pftrf
+end pftrs pftrf pftri tftri
 

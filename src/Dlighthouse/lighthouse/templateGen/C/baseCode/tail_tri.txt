@@ -1,12 +1,12 @@
 !---- close function GET_DATA() ----!
-begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
 }
 
 
 
 void PRINT_SOLUTION(){
   printf("Inverse of A: \n");
-end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri
+end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
 
 
 
@@ -81,7 +81,7 @@ begin (real) pptri sptri tptri
 end (real) pptri sptri tptri
 
 
-begin (real) pftri
+begin (real) pftri tftri
 
   /*--- use get_precisionTFTTR to convert A from rectangular full packed format (TF) to standard full format (TR). ---*/
   get_precisionTFTTR_(&TRANSR, &UPLO, &n, A, ATR, &lda, &info);
@@ -113,7 +113,7 @@ begin (real) pftri
       printf("\n");
     }    
   }
-end (real) pftri
+end (real) pftri tftri
 
 
 
@@ -190,7 +190,7 @@ begin (complex) pptri sptri hptri tptri
 end (complex) pptri sptri hptri tptri
 
 
-begin (complex) pftri
+begin (complex) pftri tftri
 
   /*--- use get_precisionTFTTR to convert A from rectangular full packed format (TF) to standard full format (TR). ---*/
   get_precisionTFTTR_(&TRANSR, &UPLO, &n, A, ATR, &lda, &info);
@@ -222,15 +222,15 @@ begin (complex) pftri
       printf("\n");
     }    
   }
-end (complex) pftri
+end (complex) pftri tftri
 
 
 
 
 !---- print info ----!
-begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
 
   /*---print info ---*/
-   printf("\n\ninfo = %d\n\n", info);   
+   printf("\n\ninfo = %d\n", info);   
 }
-end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri
+end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
