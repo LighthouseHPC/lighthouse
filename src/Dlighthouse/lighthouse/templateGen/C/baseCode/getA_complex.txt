@@ -528,7 +528,34 @@ begin ppsv spsv hpsv ppequ pptrs sptrs hptrs tptrs pptri sptri hptri tptri ppcon
 end ppsv spsv hpsv ppequ pptrs sptrs hptrs tptrs pptri sptri hptri tptri ppcon spcon hpcon tpcon pprfs sprfs hprfs tprfs ppsvx spsvx hpsvx pptrf sptrf hptrf
 
 
-begin pftrs
-  /*--- to call a Fortran routine from C, matrices must be transformed into their Fortran vector formats ---*/
-  Coming soon!
-end pftrs
+begin pftrf
+  /*--- read A (1D array) from the file ---*/
+  int linenum;
+  char *ptr, line[BUFSIZ];
+  dataType *buffer_A;
+
+  /*--- allocate temporary arrays buffer_A ---*/ 
+  buffer_A = (dataType*)malloc (sizeof (dataType)*(SIZE*(SIZE+1)));
+  
+  /*--- read matrix A into D and buffer_A ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptA)){                       //read the file line by line
+    i = 0;
+    ptr = strtok(line, ")(, ");                           //split line around ")(, "
+    //printf("%s\n", ptr);                                //print the first element in the line after the split
+    while(ptr && i<SIZE*(SIZE+1)){
+      buffer_A[i] = strtof(ptr, &ptr);                    //convert ptr to dataType
+      ptr = strtok(NULL, ")(, ");                         //and keep splitting , search in pointer+1
+      i++;
+    }
+  }
+    
+
+  /*--- get A ---*/
+  for (j=0; j<SIZE*(SIZE+1)/2; j++){
+      A[j] = buffer_A[2*j] + buffer_A[2*j+1]*I;
+  }
+    
+  free(buffer_A);
+  
+end pftrf
