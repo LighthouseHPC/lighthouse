@@ -293,7 +293,7 @@ begin (real) posvx
 end (real) posvx
 
 
-begin (complex) posvx ppsvx
+begin (complex) posvx
   if (UPLO =='U' || UPLO =='u'){
     for (i=0; i<n; i++){
       for (j=0; j<n; j++){
@@ -321,7 +321,7 @@ begin (complex) posvx ppsvx
     }    
   }
   
-end (complex) posvx ppsvx
+end (complex) posvx
 
 
 begin (real) ppsvx
@@ -354,6 +354,36 @@ begin (real) ppsvx
   
 end (real) ppsvx
 
+
+begin (complex) ppsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(AP[(i+1)+j*(j+1)/2-1]), cimag(AP[(i+1)+j*(j+1)/2-1]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AP[i+j*(2*SIZE-j-1)/2]), cimag(AP[i+j*(2*SIZE-j-1)/2]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (complex) ppsvx
 
 
 
