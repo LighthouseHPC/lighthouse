@@ -13,18 +13,14 @@ txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 @dajaxice_register
 def createTemplate_FORTRAN(request, checked_list):
         dajax = Dajax()
-	file_list = []
-	for files in glob.glob("./lighthouse/templateGen/fortran/codeTemplates/*.f90"):
-	    file_list.append(files)
+        dajax.add_css_class("#template_output", 'brush:fortran;')
         for item in checked_list:
 		item = item.lower()
-		file_name = './lighthouse/templateGen/fortran/codeTemplates/temp_'+item+'.f90'
-		if file_name not in file_list:
-			go = generateTemplate(item)
-			go.make_template()
+		go = generateTemplate(item)
+		go.make_template()
 		f_output = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r")
-		text = f_output.read()
-		dajax.assign("#template_output", 'innerHTML', text)
+		dajax.assign("#template_output", 'innerHTML', f_output.read())
+		dajax.script('SyntaxHighlighter.highlight()')
                 f_output.close()
 
         return dajax.json()
@@ -34,18 +30,14 @@ def createTemplate_FORTRAN(request, checked_list):
 @dajaxice_register
 def createTemplate_C(request, checked_list):
         dajax = Dajax()
-	file_list = []
-	for files in glob.glob("./lighthouse/templateGen/C/codeTemplates/*.c"):
-	    file_list.append(files)
+        dajax.add_css_class("#template_output", 'brush:cpp;')
         for item in checked_list:
 		item = item.lower()
-		file_name = './lighthouse/templateGen/C/codeTemplates/temp_'+item+'.c'
-		if file_name not in file_list:
-			go = generateTemplate_C(item)
-			go.make_template()
+		go = generateTemplate_C(item)
+		go.make_template()
 		f_output = open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r")
-		text = f_output.read()
-		dajax.assign("#template_output", 'innerHTML', text)
+		dajax.assign("#template_output", 'innerHTML', f_output.read())
+		dajax.script('SyntaxHighlighter.highlight()')
                 f_output.close()
 
         return dajax.json()

@@ -44,9 +44,10 @@
                 <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shBrushFortran.js' type='text/javascript'></script>
                 <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shBrushCpp.js' type='text/javascript'></script>
                 <script language="javascript" type="text/javascript">
+                        SyntaxHighlighter.defaults['toolbar'] = false;
                         SyntaxHighlighter.config.bloggerMode = true;
-                        SyntaxHighlighter.all();                //comment out SyntaxHighlighter.all(); to disable SyntaxHighlighter for code template
-                        SyntaxHighlighter.highlight();
+                        //SyntaxHighlighter.all();                
+                        //SyntaxHighlighter.highlight();
                 </script>
                 
                 
