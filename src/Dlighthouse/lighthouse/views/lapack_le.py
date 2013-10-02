@@ -182,7 +182,7 @@ def guidedSearch_equation(request):
 			val_1 = 'AX = B'
 			complex_initial_value = 'None'
 			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
-				request.session['Routines'] = get_model('lighthouse', 'lapack_le_only').objects.filter(Q(notes__icontains='simple')|Q(notes__icontains='computational'))
+				request.session['Routines'] = get_model('lighthouse', 'lapack_le_only').objects.filter(notes__icontains='only')
 				
 
 		request.session['Question_equation'] = [val_0, val_1] 
