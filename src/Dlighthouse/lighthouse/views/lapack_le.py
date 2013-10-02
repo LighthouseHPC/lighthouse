@@ -161,7 +161,7 @@ def guidedSearch_problem(request):
 
 
 #Question_equation answered.
-#Question_factor: Is your matrix factored?
+#Question_complex: Are there complex numbers in your matrix?
 def guidedSearch_equation(request):
 	form_Equa = EquationForm(request.POST or None)
 	if form_Equa.is_valid():
@@ -187,7 +187,7 @@ def guidedSearch_equation(request):
 
 		request.session['Question_equation'] = [val_0, val_1] 
 		request.session['Complex_initial'] = complex_initial_value
-		form = FactorForm()
+		form = ComplexForm()
 		filterSelectedRoutines(request)
 
 		context = {
@@ -229,66 +229,66 @@ def guidedSearch_equation(request):
 
 
 
-#Question_factor answered.
-#Question_complex: Are there complex numbers in your matrix?
-def guidedSearch_factor(request):
-	form_Fact = FactorForm(request.POST or None)
-	if form_Fact.is_valid():
-		for val in form_Fact.fields['question_fact'].choices:
-			if val[0] == form_Fact.cleaned_data['question_fact']:
-				request.session['Question_factor'] = [val[0], val[1]]
-				
-		if form_Fact.cleaned_data['question_fact'] == unicode('y'):
-			request.session['FACT'] = 'Y'
-			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
-				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='computational')
-			else:
-				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
-
-		else:
-			request.session['FACT'] = 'N'
-			if 'Solve a system of linear equations only' in request.session['Question_problem'][0] and request.session['Question_equation'][0] == 'original':
-				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple')
-			else:
-				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
-
-		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
-		filterSelectedRoutines(request)
-
-		context = {
-			'query_prob': request.session['Question_problem'], 
-			'query_equa': request.session['Question_equation'][1],
-			'query_fact': request.session['Question_factor'][1], 
-			'form': form, 
-			'results': request.session['Routines'], 
-			'notSelectedRoutines': request.session['notSelectedRoutines'],
-			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key),
-		}					
-		return render_to_response(
-			'lighthouse/lapack_le/factor.html', 
-			context_instance=RequestContext(request, context)
-		)
-
- 			
-	else:
-		form = FactorForm()
-		context = {
-			'query_prob': request.session['Question_problem'], 
-			'query_equa': request.session['Question_equation'][1],
-			'form': form, 
-			'results': request.session['Routines'], 
-			'selectedRoutines': request.session['selectedRoutines'],
-			'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key)
-		}
-		return render_to_response(
-			'lighthouse/lapack_le/equation.html', 
-			context_instance=RequestContext(request, context)
-		)
+##Question_factor answered.
+##Question_complex: Are there complex numbers in your matrix?
+#def guidedSearch_factor(request):
+#	form_Fact = FactorForm(request.POST or None)
+#	if form_Fact.is_valid():
+#		for val in form_Fact.fields['question_fact'].choices:
+#			if val[0] == form_Fact.cleaned_data['question_fact']:
+#				request.session['Question_factor'] = [val[0], val[1]]
+#				
+#		if form_Fact.cleaned_data['question_fact'] == unicode('y'):
+#			request.session['FACT'] = 'Y'
+#			if 'Solve a system of linear equations only' in request.session['Question_problem'][0]:
+#				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='computational')
+#			else:
+#				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
+#
+#		else:
+#			request.session['FACT'] = 'N'
+#			if 'Solve a system of linear equations only' in request.session['Question_problem'][0] and request.session['Question_equation'][0] == 'original':
+#				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='simple')
+#			else:
+#				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
+#
+#		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
+#		filterSelectedRoutines(request)
+#
+#		context = {
+#			'query_prob': request.session['Question_problem'], 
+#			'query_equa': request.session['Question_equation'][1],
+#			#'query_fact': request.session['Question_factor'][1], 
+#			'form': form, 
+#			'results': request.session['Routines'], 
+#			'notSelectedRoutines': request.session['notSelectedRoutines'],
+#			'selectedRoutines': request.session['selectedRoutines'],
+#			'scriptCode': request.session['userScript'],
+#			'scriptOutput': request.session['scriptOutput'],
+#			'codeTemplate': getCodeTempate(request.session.session_key),
+#		}					
+#		return render_to_response(
+#			'lighthouse/lapack_le/factor.html', 
+#			context_instance=RequestContext(request, context)
+#		)
+#
+# 			
+#	else:
+#		form = FactorForm()
+#		context = {
+#			'query_prob': request.session['Question_problem'], 
+#			'query_equa': request.session['Question_equation'][1],
+#			'form': form, 
+#			'results': request.session['Routines'], 
+#			'selectedRoutines': request.session['selectedRoutines'],
+#			'scriptCode': request.session['userScript'],
+#			'scriptOutput': request.session['scriptOutput'],
+#			'codeTemplate': getCodeTempate(request.session.session_key)
+#		}
+#		return render_to_response(
+#			'lighthouse/lapack_le/equation.html', 
+#			context_instance=RequestContext(request, context)
+#		)
 
 
 
@@ -315,7 +315,7 @@ def guidedSearch_complex(request):
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
-			'query_fact': request.session['Question_factor'][1], 
+			#'query_fact': request.session['Question_factor'][1], 
 			'query_comp': val_1, 
 			'form': form,
 			'results': request.session['Routines'], 
@@ -350,7 +350,7 @@ def guidedSearch_complex(request):
 			context = {
 				'query_prob': request.session['Question_problem'], 
 				'query_equa': request.session['Question_equation'][1],
-				'query_fact': request.session['Question_factor'][1],
+				#'query_fact': request.session['Question_factor'][1],
 				'form': form, 
 				'results': request.session['Routines'],
 				'selectedRoutines': request.session['selectedRoutines'],
@@ -382,7 +382,7 @@ def guidedSearch_matrixtype(request):
 				context = {
 					'query_prob': request.session['Question_problem'],  
 					'query_equa': request.session['Question_equation'][1],
-					'query_fact': request.session['Question_factor'][1], 
+					#'query_fact': request.session['Question_factor'][1], 
 					'query_comp': request.session['Question_complex'][1],
 					'query_type': val[1], 
 					'form': form, 
@@ -404,7 +404,7 @@ def guidedSearch_matrixtype(request):
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
-			'query_fact': request.session['Question_factor'][1], 
+			#'query_fact': request.session['Question_factor'][1], 
 			'query_comp': request.session['Question_complex'][1],
 			'form': form, 
 			'results': request.session['Routines'],
@@ -437,7 +437,7 @@ def guidedSearch_storage(request):
 				context = {
 					'query_prob': request.session['Question_problem'], 
 					'query_equa': request.session['Question_equation'][1],
-					'query_fact': request.session['Question_factor'][1], 
+					#'query_fact': request.session['Question_factor'][1], 
 					'query_comp': request.session['Question_complex'][1],
 					'query_type': request.session['Question_matrixtype'][1], 
 					'query_stor': val[1], 
@@ -460,7 +460,7 @@ def guidedSearch_storage(request):
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
-			'query_fact': request.session['Question_factor'][1], 
+			#'query_fact': request.session['Question_factor'][1], 
 			'query_comp': request.session['Question_complex'][1],
 			'query_type': request.session['Question_matrixtype'][1], 
 			'form': form,
@@ -505,7 +505,7 @@ def guidedSearch_precision(request):
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
-			'query_fact': request.session['Question_factor'][1], 
+			#'query_fact': request.session['Question_factor'][1], 
 			'query_comp': request.session['Question_complex'][1],
 			'query_type': request.session['Question_matrixtype'][1], 
 			'query_stor': request.session['Question_storagetype'][1],
@@ -528,7 +528,7 @@ def guidedSearch_precision(request):
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
-			'query_fact': request.session['Question_factor'][1], 
+			#'query_fact': request.session['Question_factor'][1], 
 			'query_comp': request.session['Question_complex'][1],
 			'query_type': request.session['Question_matrixtype'][1], 
 			'query_stor': request.session['Question_storagetype'][1],
