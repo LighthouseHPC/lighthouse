@@ -14,6 +14,7 @@ MATRIX_CHOICES = (
 	(u'Hermitian', u'Hermitian'), 
 	(u'SPD', u'SPD'),
 	(u'HPD', u'HPD'),
+	(u'triangular', u'triangular'),
 	(u'semidefinite', 'semidefinite')
 	)
 
