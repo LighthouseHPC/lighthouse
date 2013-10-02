@@ -23,7 +23,7 @@ STORAGE_CHOICES = (
 	(u'band', u'band'),
 	(u'packed', u'packed'),
 	(u'tridiagonal', u'tridiagonal'),
-	(u'rectangular full packed', u'rectangular full packed')
+	(u'RFP', u'RFP')
 )  	
 
 
