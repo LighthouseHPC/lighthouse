@@ -359,7 +359,7 @@ def guidedSearch_complex(request):
 				'codeTemplate': getCodeTempate(request.session.session_key)
 			}
         	return render_to_response(
-        		'lighthouse/lapack_le/factor.html', 
+        		'lighthouse/lapack_le/equation.html', 
         		context_instance=RequestContext(request, context)
         	)
 
