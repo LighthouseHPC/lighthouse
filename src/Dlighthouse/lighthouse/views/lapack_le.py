@@ -74,6 +74,7 @@ def search_forms(request):
   		'codeTemplate': getCodeTempate(request.session.session_key), 
   		'scriptCode': request.session['userScript'], 
   		'scriptOutput': request.session['scriptOutput'],
+		'results': 'start',
   	}
 	return render_to_response(
 		'lighthouse/lapack_le/index.html', 
