@@ -38,10 +38,10 @@
 38,z,hptrf,Hermitian,packed,Doxygen/docs/html/zhptrf_8f.html,computes the factorization of a complex Hermitian packed matrix using the Bunch-Kaufman diagonal pivoting method,118
 39,c,sptrf,symmetric,packed,Doxygen/docs/html/csptrf_8f.html,computes the factorization of a complex symmetric matrix stored in packed format using the Bunch-Kaufman diagonal pivoting method,119
 40,z,sptrf,symmetric,packed,Doxygen/docs/html/zsptrf_8f.html,computes the factorization of a complex symmetric matrix stored in packed format using the Bunch-Kaufman diagonal pivoting method,120
-41,s,pftrf,SPD,rectangular full packed,Doxygen/docs/html/spftrf_8f.html,computes the Cholesky factorization of a real Hermitian positive definite matrix; RFP format,361
-42,d,pftrf,SPD,rectangular full packed,Doxygen/docs/html/dpftrf_8f.html,computes the Cholesky factorization of a real Hermitian positive definite matrix; RFP format,362
-43,c,pftrf,HPD,rectangular full packed,Doxygen/docs/html/cpftrf_8f.html,computes the Cholesky factorization of a complex Hermitian positive definite matrix; RFP format,363
-44,z,pftrf,HPD,rectangular full packed,Doxygen/docs/html/zpftrf_8f.html,computes the Cholesky factorization of a complex Hermitian positive definite matrix; RFP format,364
+41,s,pftrf,SPD,RFP,Doxygen/docs/html/spftrf_8f.html,computes the Cholesky factorization of a real Hermitian positive definite matrix; RFP format,361
+42,d,pftrf,SPD,RFP,Doxygen/docs/html/dpftrf_8f.html,computes the Cholesky factorization of a real Hermitian positive definite matrix; RFP format,362
+43,c,pftrf,HPD,RFP,Doxygen/docs/html/cpftrf_8f.html,computes the Cholesky factorization of a complex Hermitian positive definite matrix; RFP format,363
+44,z,pftrf,HPD,RFP,Doxygen/docs/html/zpftrf_8f.html,computes the Cholesky factorization of a complex Hermitian positive definite matrix; RFP format,364
 45,s,pstrf,semidefinite,full,Doxygen/docs/html/spstrf_8f.html,computes the Cholesky factorization with complete pivoting of a real Hermitian positive semidefinite matrix,365
 46,d,pstrf,semidefinite,full,Doxygen/docs/html/dpstrf_8f.html,computes the Cholesky factorization with complete pivoting of a real Hermitian positive semidefinite matrix,366
 47,c,pstrf,semidefinite,full,Doxygen/docs/html/cpstrf_8f.html,computes the Cholesky factorization with complete pivoting of a complex Hermitian positive semidefinite matrix,367
@@ -98,10 +98,10 @@
 98,d,tbtrs,triangular,band,Doxygen/docs/html/dtbtrs_8f.html,computational; solve A*X = B; B is an N-by-NRHS matrix; Transpose,170
 99,c,tbtrs,triangular,band,Doxygen/docs/html/ctbtrs_8f.html,computational; solve A*X = B; B is an N-by-NRHS matrix; Transpose,171
 100,z,tbtrs,triangular,band,Doxygen/docs/html/ztbtrs_8f.html,computational; solve A*X = B; B is an N-by-NRHS matrix; Transpose,172
-101,s,pftrs,SPD,full,Doxygen/docs/html/spftrs_8f.html,computational; solve A*X = B using Cholesky; computed by SPFTRF,333
-102,d,pftrs,SPD,full,Doxygen/docs/html/dpftrs_8f.html,computational; solve A*X = B using Cholesky; computed by DPFTRF,334
-103,c,pftrs,HPD,full,Doxygen/docs/html/cpftrs_8f.html,computational; solve A*X = B using Cholesky; computed by CPFTRF,335
-104,z,pftrs,HPD,full,Doxygen/docs/html/zpftrs_8f.html,computational; solve A*X = B using Cholesky; computed by ZPFTRF,336
+101,s,pftrs,SPD,RFP,Doxygen/docs/html/spftrs_8f.html,computational; solve A*X = B using Cholesky; computed by SPFTRF,333
+102,d,pftrs,SPD,RFP,Doxygen/docs/html/dpftrs_8f.html,computational; solve A*X = B using Cholesky; computed by DPFTRF,334
+103,c,pftrs,HPD,RFP,Doxygen/docs/html/cpftrs_8f.html,computational; solve A*X = B using Cholesky; computed by CPFTRF,335
+104,z,pftrs,HPD,RFP,Doxygen/docs/html/zpftrs_8f.html,computational; solve A*X = B using Cholesky; computed by ZPFTRF,336
 105,s,sytrs2,symmetric,full,Doxygen/docs/html/ssytrs2_8f.html,computational; solve A*X = B using A = U*D*U**T or A = L*D*L**T; computed by SSYTRF and converted by SSYCONV,337
 106,d,sytrs2,symmetric,full,Doxygen/docs/html/dsytrs2_8f.html,computational; solve A*X = B using A = U*D*U**T or A = L*D*L**T; computed by DSYTRF and converted by DSYCONV,338
 107,c,sytrs2,symmetric,full,Doxygen/docs/html/csytrs2_8f.html,computational; solve A*X = B using A = U*D*U**T or A = L*D*L**T; computed by CSYTRF and converted by CSYCONV,339
@@ -290,14 +290,14 @@
 290,d,tptri,triangular,packed,Doxygen/docs/html/dtptri_8f.html,computes the inverse of a matrix,306
 291,c,tptri,triangular,packed,Doxygen/docs/html/ctptri_8f.html,computes the inverse of a matrix,307
 292,z,tptri,triangular,packed,Doxygen/docs/html/ztptri_8f.html,computes the inverse of a matrix,308
-293,s,pftri,SPD,full,Doxygen/docs/html/spftri_8f.html,computes the inverse using the Cholesky factorization; computed by SPFTRF,369
-294,d,pftri,SPD,full,Doxygen/docs/html/dpftri_8f.html,computes the inverse using the Cholesky factorization; computed by DPFTRF,370
-295,c,pftri,HPD,full,Doxygen/docs/html/cpftri_8f.html,computes the inverse using the Cholesky factorization; computed by CPFTRF,371
-296,z,pftri,HPD,full,Doxygen/docs/html/zpftri_8f.html,computes the inverse using the Cholesky factorization; computed by ZPFTRF,372
-297,s,tftri,triangular,full,Doxygen/docs/html/stftri_8f.html,computes the inverse of a matrix; stored in RFP format ,373
-298,d,tftri,triangular,full,Doxygen/docs/html/dtftri_8f.html,computes the inverse of a matrix; stored in RFP format ,374
-299,c,tftri,triangular,full,Doxygen/docs/html/ctftri_8f.html,computes the inverse of a matrix; stored in RFP format ,375
-300,z,tftri,triangular,full,Doxygen/docs/html/ztftri_8f.html,computes the inverse of a matrix; stored in RFP format ,376
+293,s,pftri,SPD,RFP,Doxygen/docs/html/spftri_8f.html,computes the inverse using the Cholesky factorization; computed by SPFTRF,369
+294,d,pftri,SPD,RFP,Doxygen/docs/html/dpftri_8f.html,computes the inverse using the Cholesky factorization; computed by DPFTRF,370
+295,c,pftri,HPD,RFP,Doxygen/docs/html/cpftri_8f.html,computes the inverse using the Cholesky factorization; computed by CPFTRF,371
+296,z,pftri,HPD,RFP,Doxygen/docs/html/zpftri_8f.html,computes the inverse using the Cholesky factorization; computed by ZPFTRF,372
+297,s,tftri,triangular,RFP,Doxygen/docs/html/stftri_8f.html,computes the inverse of a matrix; stored in RFP format ,373
+298,d,tftri,triangular,RFP,Doxygen/docs/html/dtftri_8f.html,computes the inverse of a matrix; stored in RFP format ,374
+299,c,tftri,triangular,RFP,Doxygen/docs/html/ctftri_8f.html,computes the inverse of a matrix; stored in RFP format ,375
+300,z,tftri,triangular,RFP,Doxygen/docs/html/ztftri_8f.html,computes the inverse of a matrix; stored in RFP format ,376
 301,s,sytri2,symmetric,full,Doxygen/docs/html/ssytri2_8f.html,computes the inverse of a matrix; computed by SSYTRF; sets the LEADING DIMENSION of the workspace,377
 302,d,sytri2,symmetric,full,Doxygen/docs/html/dsytri2_8f.html,computes the inverse of a matrix; computed by DSYTRF; sets the LEADING DIMENSION of the workspace,378
 303,c,sytri2,symmetric,full,Doxygen/docs/html/csytri2_8f.html,computes the inverse of a matrix; computed by CSYTRF; sets the LEADING DIMENSION of the workspace,379
