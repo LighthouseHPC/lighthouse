@@ -300,14 +300,15 @@ def guidedSearch_equation(request):
 def guidedSearch_complex(request):
 	form_Comp = ComplexForm(request.POST or None)
 	if form_Comp.is_valid():
-		if form_Comp.cleaned_data['question_comp'] == unicode('y'):
-			val_0 = 'y'
-			val_1 = 'yes'
-			request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['c', 'z']})
-		else:
+		if form_Comp.cleaned_data['question_comp'] == unicode('n'):
 			val_0 = 'n'
 			val_1 = 'no'
 			request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['s', 'd']})
+			
+		else:
+			val_0 = 'y'
+			val_1 = 'yes'
+			request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['c', 'z']})
 			
 		request.session['Question_complex'] = [val_0, val_1] 
 		form = MatrixTypeForm(request)
