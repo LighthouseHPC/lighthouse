@@ -131,7 +131,7 @@ def guidedSearch_problem(request):
                 	'notSelectedRoutines': request.session['notSelectedRoutines'], 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
-					'scriptOutput': request.session['scriptOutput'],
+			'scriptOutput': request.session['scriptOutput'],
                 	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
 		
@@ -149,8 +149,8 @@ def guidedSearch_problem(request):
                 	'form': ProblemForm(), 
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
-					'scriptOutput': request.session['scriptOutput'],
-					'codeTemplate': getCodeTempate(request.session.session_key)
+			'scriptOutput': request.session['scriptOutput'],
+			'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
                 	'lighthouse/lapack_le/index.html', 
@@ -168,7 +168,7 @@ def guidedSearch_equation(request):
 		if form_Equa.cleaned_data['question_equa'] == unicode('transpose'):
 			val_0 = 'transpose'
 			val_1 = 'A<sup>T</sup>X = B'
-			complex_initial_value = 'n'
+			complex_initial_value = 'None'
 			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='trans')
 
 		elif form_Equa.cleaned_data['question_equa'] == unicode('Hermitian_trans'):
@@ -187,7 +187,7 @@ def guidedSearch_equation(request):
 
 		request.session['Question_equation'] = [val_0, val_1] 
 		request.session['Complex_initial'] = complex_initial_value
-		form = ComplexForm()
+		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
 		filterSelectedRoutines(request)
 
 		context = {
