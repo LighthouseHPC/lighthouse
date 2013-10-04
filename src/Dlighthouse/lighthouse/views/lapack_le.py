@@ -700,6 +700,8 @@ def advancedResult(request):
 							for storage in selected_StorageType:
 								for function in selected_Function:
 									for equation in selected_Equation:
+										#print equation
+										#print form_empty.find_equation(equation)
 										if equation == 'solve':
 											routine = lapack_le_expert.objects.filter(
 												thePrecision=whatPrecision(comp, precision),
@@ -723,7 +725,7 @@ def advancedResult(request):
  											routine = lapack_le_expert.objects.filter(
  												thePrecision=whatPrecision(comp, precision), 
  												matrixType=matrix, storageType=storage, 
- 												notes__icontains='trans').filter(notes__icontains=function
+ 												notes__icontains=equation).filter(notes__icontains=function
  											)
 											request.session['Results'][model[1]].append({
 												'Complex number': comp, 

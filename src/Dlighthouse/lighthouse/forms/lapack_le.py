@@ -162,10 +162,10 @@ MatrixTypeComputational_choices = (
 
 MatrixType_choices = (
 	('general',			'general'),
+	('Hermitian',			'Hermitian'),
 	('symmetric',			'symmetric'),
-	('SPD',				'SPD'),	
-	('Hermitian',			'Hermitian'),	
-	('HPD',				'HPD'),		
+	('SPD',				'real symmetric positive definite (SPD)'),	
+	('HPD',				'complex Hermitian positive definite (HPD)'),		
 )
 
 StorageTypeComputational_choices = (
