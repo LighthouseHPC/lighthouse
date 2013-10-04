@@ -135,7 +135,7 @@ class AdvancedForm(forms.Form):
 
 ###--------------- Linear Equation Computational Forms ------------------###
 Function_choices = (
-	('factor',			'factor a matrix (PA = LU)'),
+	('factorization',		'factor a matrix (PA = LU)'),
 	('error',			'compute forward or backward error bounds for the solution to a linear system'),
 	('refine',			'refine the solution to a linear system'),
 	('condition', 			'estimate the condition number of a matrix'),
