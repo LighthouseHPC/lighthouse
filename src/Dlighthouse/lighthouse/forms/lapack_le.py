@@ -168,6 +168,14 @@ MatrixType_choices = (
 	('HPD',				'HPD'),		
 )
 
+StorageTypeComputational_choices = (
+	('full',			'full'),
+	('band',			'band'),
+	('packed',			'packed'),
+	('tridiagonal',			'tridiagonal'),
+	('RFP',				'rectangular full packed (RFP)'),
+)
+	
 StorageType_choices = (
 	('full',			'full'),
 	('band',			'band'),
@@ -188,7 +196,7 @@ class lapack_le_computationalForm(forms.Form):
 	lapack_le_computationalFunction = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Function_choices)
 	lapack_le_computationalComplex = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Complex_choices)
 	lapack_le_computationalMatrixType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=MatrixTypeComputational_choices)
-	lapack_le_computationalStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageType_choices)
+	lapack_le_computationalStorageType = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=StorageTypeComputational_choices)
 	lapack_le_computationalPrecision = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=Precision_choices)
 
 	@staticmethod
