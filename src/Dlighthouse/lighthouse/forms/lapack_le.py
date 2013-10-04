@@ -49,8 +49,8 @@ class EquationForm(forms.Form):
 
 
 
-class FactorForm(forms.Form):
-	question_fact = forms.ChoiceField(label='Is your matrix factored?', choices=([('y','yes'), ('n','no')]), widget=forms.RadioSelect(), initial = dict())
+#class FactorForm(forms.Form):
+#	question_fact = forms.ChoiceField(label='Is your matrix factored?', choices=([('y','yes'), ('n','no')]), widget=forms.RadioSelect(), initial = dict())
 
 
 
@@ -68,6 +68,18 @@ class MatrixTypeForm(forms.Form):
 	def __init__(self, request, *args, **kwargs):
 		super(MatrixTypeForm, self).__init__(*args, **kwargs)
 		self.fields['question_type'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
+		##--- display full names for semidefinite, SPD and HPD ---##
+		for i, item in enumerate(self.fields['question_type'].choices):
+			if 'SPD' in item:
+				self.fields['question_type'].choices[i] = (u'SPD', u'real symmetric positive definite (SPD)')
+			elif 'HPD' in item:
+				self.fields['question_type'].choices[i] = (u'HPD', u'complex Hermitian positive definite (HPD)')
+			elif 'semidefiniteR' in item:
+				self.fields['question_type'].choices[i] = (u'semidefiniteR', u'real symmetric positive semidefinite (HPsD)')
+			elif 'semidefinite' in item:
+				self.fields['question_type'].choices[i] = (u'semidefinite', u'complex Hermitian positive semidefinite (HPsD)')
+		##--- order choices by string length ---##
+		self.fields['question_type'].choices.sort(key=lambda k:len(k[1]))
 		if len(self.fields['question_type'].choices) == 1:
 			self.fields['question_type'].initial = self.fields['question_type'].choices[0][1]
 
@@ -79,6 +91,11 @@ class StorageForm(forms.Form):
 	def __init__(self, request, *args, **kwargs):
 		super(StorageForm, self).__init__(*args, **kwargs)
 		self.fields['question_stor'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
+		##--- display full name for RFP ---##
+		for i, item in enumerate(self.fields['question_stor'].choices):
+			if 'RFP' in item:
+				self.fields['question_stor'].choices[i] = (u'RFP', u'rectangular full packed (RFP)')
+		self.fields['question_stor'].choices.sort(key=lambda k:len(k[1]))
 		if len(self.fields['question_stor'].choices) == 1:
 			self.fields['question_stor'].initial = self.fields['question_stor'].choices[0][1]
 
