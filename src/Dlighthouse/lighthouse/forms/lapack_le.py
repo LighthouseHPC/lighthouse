@@ -74,10 +74,10 @@ class MatrixTypeForm(forms.Form):
 				self.fields['question_type'].choices[i] = (u'SPD', u'real symmetric positive definite (SPD)')
 			elif 'HPD' in item:
 				self.fields['question_type'].choices[i] = (u'HPD', u'complex Hermitian positive definite (HPD)')
-			elif 'semidefiniteR' in item:
-				self.fields['question_type'].choices[i] = (u'semidefiniteR', u'real symmetric positive semidefinite (HPsD)')
-			elif 'semidefinite' in item:
-				self.fields['question_type'].choices[i] = (u'semidefinite', u'complex Hermitian positive semidefinite (HPsD)')
+			elif 'SPsD' in item:
+				self.fields['question_type'].choices[i] = (u'SPsD', u'real symmetric positive semidefinite (SPsD)')
+			elif 'HPsD' in item:
+				self.fields['question_type'].choices[i] = (u'HPsD', u'complex Hermitian positive semidefinite (HPsD)')
 		##--- order choices by string length ---##
 		self.fields['question_type'].choices.sort(key=lambda k:len(k[1]))
 		if len(self.fields['question_type'].choices) == 1:
@@ -151,11 +151,13 @@ Complex_choices = (
 
 MatrixTypeComputational_choices = (
 	('general',			'general'),
+	('Hermitian',			'Hermitian'),
 	('symmetric',			'symmetric'),
-	('SPD',				'SPD'),	
-	('Hermitian',			'Hermitian'),	
-	('HPD',				'HPD'),	
-	('triangular',			'triangular'),	
+	('triangular',			'triangular'),
+	('SPD',				'real symmetric positive definite (SPD)'),
+	('HPD',				'complex Hermitian positive definite (HPD)'),	
+	('SPsD', 			'real symmetric positive semidefinite (SPsD)'),
+	('HPsD', 			'complex Hermitian positive semidefinite (HPsD)'),
 )
 
 MatrixType_choices = (

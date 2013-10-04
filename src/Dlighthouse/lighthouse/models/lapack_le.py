@@ -15,7 +15,8 @@ MATRIX_CHOICES = (
 	(u'SPD', u'SPD'),
 	(u'HPD', u'HPD'),
 	(u'triangular', u'triangular'),
-	(u'semidefinite', 'semidefinite')
+	(u'SPsD', u'SPsD'),
+	(u'HPsD', u'HPsD'),
 	)
 
 STORAGE_CHOICES = (
@@ -23,7 +24,7 @@ STORAGE_CHOICES = (
 	(u'band', u'band'),
 	(u'packed', u'packed'),
 	(u'tridiagonal', u'tridiagonal'),
-	(u'RFP', u'RFP')
+	(u'RFP', u'RFP'),
 )  	
 
 
