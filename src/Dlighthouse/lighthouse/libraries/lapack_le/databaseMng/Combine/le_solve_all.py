@@ -3,8 +3,8 @@ import csv
 
 ###----- Created le_solve_all.csv based on all le_driver_all.csv and le_solve.csv. -----###
 
-f_le_driver_all = csv.reader(open('../Driver/dataBase/le_driver_all.csv', 'rb'), delimiter=',', lineterminator='\r\n')
-f_le_solve = csv.reader(open('../Computational/dataBase/le_solve.csv', 'rb'), delimiter=',', lineterminator='\r\n')
+f_le_driver_all = csv.reader(open('../Driver/le_simple.csv', 'rb'), delimiter=',', lineterminator='\r\n')
+f_le_solve = csv.reader(open('../Computational/le_solve.csv', 'rb'), delimiter=',', lineterminator='\r\n')
 
 
 f_le_solve_all = csv.writer(open('le_solve_all.csv', 'wb'), delimiter=',', lineterminator='\r\n')
