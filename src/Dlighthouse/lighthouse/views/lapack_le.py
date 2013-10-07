@@ -170,7 +170,7 @@ def guidedSearch_equation(request):
 			val_0 = 'transpose'
 			val_1 = 'A<sup>T</sup>X = B'
 			complex_initial_value = 'None'
-			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='transpose')
+			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='trans')
 
 		elif form_Equa.cleaned_data['question_equa'] == unicode('Hermitian_trans'):
 			val_0 = 'Hermitian_trans'
