@@ -112,7 +112,7 @@ def guidedSearch_problem(request):
 
                 request.session['Routines'] = get_model('lighthouse',modelName).objects.filter(combine_Q(request.session['queries']))
 
-                filterSelectedRoutines(request)
+                #filterSelectedRoutines(request)
 
                 if cataName == 'Driver' or cataName == 'Combine':
                         form = EquationForm()
@@ -189,7 +189,7 @@ def guidedSearch_equation(request):
 		request.session['Question_equation'] = [val_0, val_1] 
 		request.session['Complex_initial'] = complex_initial_value
 		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
-		filterSelectedRoutines(request)
+		#filterSelectedRoutines(request)
 
 		context = {
 			'query_prob': request.session['Question_problem'], 
@@ -254,7 +254,7 @@ def guidedSearch_equation(request):
 #				request.session['Routines'] = request.session['Routines'].filter(notes__icontains='expert')
 #
 #		form = ComplexForm(initial=dict(question_comp=request.session['Complex_initial']))
-#		filterSelectedRoutines(request)
+#		#filterSelectedRoutines(request)
 #
 #		context = {
 #			'query_prob': request.session['Question_problem'], 
@@ -313,7 +313,7 @@ def guidedSearch_complex(request):
 			
 		request.session['Question_complex'] = [val_0, val_1] 
 		form = MatrixTypeForm(request)
-		filterSelectedRoutines(request)	
+		#filterSelectedRoutines(request)	
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
@@ -380,7 +380,7 @@ def guidedSearch_matrixtype(request):
 				request.session['Routines'] = request.session['Routines'].filter(matrixType = val[0])
 				request.session['Question_matrixtype'] = [val[0], val[1]]
 				form = StorageForm(request)
-				filterSelectedRoutines(request)
+				#filterSelectedRoutines(request)
 				context = {
 					'query_prob': request.session['Question_problem'],  
 					'query_equa': request.session['Question_equation'][1],
@@ -435,7 +435,7 @@ def guidedSearch_storage(request):
 				request.session['Routines'] = request.session['Routines'].filter(storageType = val[0])
 				request.session['Question_storagetype'] = [val[0], val[1]]
 				form = PrecisionForm()
-				filterSelectedRoutines(request)
+				#filterSelectedRoutines(request)
 				context = {
 					'query_prob': request.session['Question_problem'], 
 					'query_equa': request.session['Question_equation'][1],
@@ -503,7 +503,7 @@ def guidedSearch_precision(request):
 			if request.session.get('Question_complex')[0] == 'n':
 				request.session['Routines'] = request.session['Routines'].filter(thePrecision = 's')	
 
-		filterSelectedRoutines(request)
+		#filterSelectedRoutines(request)
 		context = {
 			'query_prob': request.session['Question_problem'], 
 			'query_equa': request.session['Question_equation'][1],
@@ -1063,7 +1063,7 @@ def keywordResult(request):
 #this function creates a new list of routines that excludes the routines 
 #that are in the request.session['selectedRoutines'] list
 #"""
-#def filterSelectedRoutines(request):	
+#def #filterSelectedRoutines(request):	
 #	request.session['notSelectedRoutines'] = request.session['Routines']
 #
 #	for item in request.session['selectedRoutines']:
