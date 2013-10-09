@@ -19,7 +19,7 @@
 </div>
 
 <div id="selectedRoutines" name="selectedRoutines">
-	<form name="droppedRoutines">
+	<form id="droppedRoutines" name="droppedRoutines">
 		<!--Dropped-items area-->
 		<div style="padding: 10px;">
 			<div id="selectedListNode" class="container2"
@@ -33,7 +33,6 @@
 					<div id="sel_routineListNode" class="container2" style="padding: 0px;">
 					{% if selectedRoutines %}			
 						{% for item in selectedRoutines %}
-<script>console.log('{{item.url}}')</script>
 							<script type="text/javascript">
 									allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
 							</script>
@@ -62,8 +61,8 @@
 											<td>
 												<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %}
 												       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-												       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-												       onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+												       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
+												       <!--onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
 											</td>
 											<td style="width: 56px; font-weight: bold;" title="Select and move"
 											    onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
@@ -144,21 +143,24 @@
 
 		<div id="button-div">
 			<select id="selectMenu" onChange="selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);">
-		     <option value="1">Select</option>
-		     <option value="2">All</option>
-		     <option value="3">None</option>					     
+				<option value="1">Select</option>
+				<option value="2">All</option>
+				<option value="3">None</option>					     
 		 	</select>
 		 	<select id="clearMenu" onChange="clearMenuChanged();">
-		     <option value="1" selected="selected">Clear</option>
-		     <option value="2">Unchecked</option>
-		     <option value="3">Checked</option>
-		     <option value="4">All</option>					     
+				<option value="1" selected="selected">Clear</option>
+				<option value="2">Unchecked</option>
+				<option value="3">Checked</option>
+				<option value="4">All</option>					     
 		 	</select>
 		 	<select id="generateMenu" onChange="generateMenuChanged();">
-		     <option value="1" selected="selected">Generate Template</option>
-		     <option value="2">C</option>
-		     <option value="3">FORTRAN</option>
+				<option value="1" selected="selected">Generate Template</option>
+				<option value="2">C</option>
+				<option value="3">FORTRAN</option>
 		 	</select>
+			<input onclick="this.form.submited=this.value;" type="submit" value="Fortran" />
+			<input onclick="this.form.submited=this.value;" type="submit" value="C" onclick=generateMenuChanged(this.submited)"/>
+			<input type="reset" value="Reset">
 		</div>
 	</form>
 </div>
