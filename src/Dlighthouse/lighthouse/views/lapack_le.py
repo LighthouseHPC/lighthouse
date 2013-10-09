@@ -1196,40 +1196,44 @@ def update_session(request):
 	if request.is_ajax():
 		selectedRoutineNames = []
 		selectedRoutineList = [{
-			 "thePrecision": request.POST.get('precision'),
-			 "routineName": request.POST.get('routineName'),
-			 "matrixType": request.POST.get('matrixType'),
-			 "storageType": request.POST.get('storageType'),
-			 "id": request.POST.get('idn'),
-			 "url": request.POST.get('url'),
-			 "checkState": request.POST.get('checkState')
+			"thePrecision": request.POST.get('precision'),
+			"routineName": request.POST.get('routineName'),
+			"matrixType": request.POST.get('matrixType'),
+			"storageType": request.POST.get('storageType'),
+			"id": request.POST.get('idn'),
+			"url": request.POST.get('url'),
+			#"checkState": request.POST.get('checkState')
 		}]
-		
-		# Check if the routine already exists in request.session['selectedRoutines'], if it does save it's index
-		counter = 0
-		match = -1
-		for item in request.session['selectedRoutines']:
-			if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:
-				match = counter # Save the index
-				if selectedRoutineList[0]['checkState'] == 'checked':
-					request.session['selectedRoutines'][counter]['checkState'] = 'checked'
-				if selectedRoutineList[0]['checkState'] == 'unchecked':
-					request.session['selectedRoutines'][counter]['checkState'] = 'unchecked'							
-			counter += 1
-
-		if match == -1: # The routine does not exist in request.session['selectedRoutines'], so add it
+		print selectedRoutineList[0]
+		if selectedRoutineList[0] not in request.session['selectedRoutines']:
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
-
-		# Session was modified
-		request.session.modified = True
+		return HttpResponse(request.session['selectedRoutines'])
 		
-		# Create a list of all checked routines	
-		for item in request.session['selectedRoutines']:
-			if item['checkState'] == 'checked':
-				selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
-
-		# Return the list
-		return HttpResponse(selectedRoutineNames)
+		## Check if the routine already exists in request.session['selectedRoutines'], if it does save it's index
+		#counter = 0
+		#match = -1
+		#for item in request.session['selectedRoutines']:
+		#	if item['thePrecision'] == selectedRoutineList[0]['thePrecision'] and item['routineName'] == selectedRoutineList[0]['routineName']:
+		#		match = counter # Save the index
+		#		if selectedRoutineList[0]['checkState'] == 'checked':
+		#			request.session['selectedRoutines'][counter]['checkState'] = 'checked'
+		#		if selectedRoutineList[0]['checkState'] == 'unchecked':
+		#			request.session['selectedRoutines'][counter]['checkState'] = 'unchecked'							
+		#	counter += 1
+		#
+		#if match == -1: # The routine does not exist in request.session['selectedRoutines'], so add it
+		#	request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
+		#
+		## Session was modified
+		#request.session.modified = True
+		#
+		## Create a list of all checked routines	
+		#for item in request.session['selectedRoutines']:
+		#	if item['checkState'] == 'checked':
+		#		selectedRoutineNames.append(item['thePrecision']+item['routineName']+',')
+		#
+		## Return the list
+		#return HttpResponse(selectedRoutineNames)
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
 
