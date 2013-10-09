@@ -81,14 +81,8 @@
 		<div class="routineName">
 			<table id="ntb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 				<tr>
-					<!--
-					<td id="sn_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" class="hiddenStuff" style="font-weight: bold;"></td>
-					-->
 					<td class="hiddenStuff">
-						<input type="checkbox" name="routines" checked="checked"
-						       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-						       id="ncb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
-						       onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
+						<input type="checkbox"/> <!--this is a dummy checkbox = for space-->
 					</td>
 					<td style="width: 56px; font-weight: bold;">
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
