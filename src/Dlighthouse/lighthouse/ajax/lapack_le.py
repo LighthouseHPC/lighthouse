@@ -1,119 +1,217 @@
-from django.utils import simplejson
-from dajaxice.decorators import dajaxice_register
-from dajaxice.core import dajaxice_functions
-from dajax.core import Dajax
+from django.contrib import admin
+from django import forms
 
-import os, glob
-from codeGen.templates import BTOGenerator
-from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
-
-generatedCodeTemplate_dir = './lighthouse/libraries/lapack_le/generatedCodeTemplate/'
-txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
+from lighthouse.models.lapack_le import * 
 
 
-@dajaxice_register
-def createTemplate(request, checked_list, language):
-	dajax = Dajax()
-	dajax.add_css_class("#template_output", "brush: %s;"%language)
-	for item in checked_list:
-		item = item.lower()
-		if language == 'fortran':		
-			go = generateTemplate(item)
-			go.make_template()
-			f_output = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r")
-		elif language == 'cpp':
-			go = generateTemplate_C(item)
-			go.make_template()
-			f_output = open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r")
-		dajax.assign("#template_output", 'innerHTML', f_output.read())
-		dajax.script('SyntaxHighlighter.highlight()')
-		f_output.close()
 
-	return dajax.json()
+class EntryAdminForm(forms.ModelForm):
+	info = forms.CharField(widget=forms.Textarea(attrs={'rows':50,
+							    'cols':80,
+							    'style':'font-family:monospace'}),
+		help_text='<a href="http://www.netlib.org/lapack/" target="_blank">LAPACK Official Site</a>')
+
+	class Meta:
+		app_label = 'lighthouse'
+		#model = 'lapack_RoutineInfo'
+
+
+
+
+
+""" for lapack routine information """
+class lapack_RoutineInfoAdmin(admin.ModelAdmin):
+	list_display = ('id', 'routine')
+	ordering = ('id',)
+	search_fields = ['routine']
+	form = EntryAdminForm
+
+
+
+admin.site.register(lapack_RoutineInfo, lapack_RoutineInfoAdmin)
+
+
+
+
+
+
+
+""" Driver routines """
+class lapack_le_simpleAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
 	
 
 
-@dajaxice_register
-def removeTemplateFile(request):
-	dajax = Dajax()
-	fileName = generatedCodeTemplate_dir + request.session.session_key;
-	if os.path.isfile(fileName + '.c'):
-		os.remove(fileName + '.c')
-	elif os.path.isfile(fileName + '.f'):
-		os.remove(fileName + '.f')
 
-	return dajax.json()
-
-
-
-@dajaxice_register
-def make_mfile(request, paramProperty):
-	dajax = Dajax()
+class lapack_le_expertAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
 	
-	### set defaultDir = /homes/salin/Lighthouse/Dlighthouse/
-	defaultDir = os.getcwd()
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
 
-	### call codeGen.templates.BTOGenerator
-	bto = BTOGenerator()
-	
-	### create /private/tmp/lighthouse_temp and go there
-	bto.generateTmpDir()
-	
-	### create and write .m file in the current work dir: /private/tmp/lighthouse_temp
-	inArray = []
-	outArray = []
-	inoutArray = []
-	### filename = [kernelName].m
-	f=open('%s.m'%paramProperty['kernelName'], 'w')
-	f.write('%s\n'%paramProperty['kernelName'])
-	for item in paramProperty:
-		if paramProperty[item][0] == 'in':
-			inArray.append(str(item+': '+paramProperty[item][1]))
-		if paramProperty[item][0] == 'out':
-			outArray.append(str(item+': '+paramProperty[item][1]))
-		if paramProperty[item][0] == 'inout':
-			inoutArray.append(str(item+': '+paramProperty[item][1]))
-			
-	if inArray:
-		f.write('in\n')
-		f.write('  ')
-		for item in inArray[:-1]:
-			f.write('%s, '% (item))
-		f.write('%s \n'%inArray[-1])
-		
-	if outArray:
-		f.write('out\n')
-		f.write('  ')
-		for item in outArray[:-1]:
-			f.write('%s, '% (item))
-		f.write('%s \n'%outArray[-1])
-		
-	if inoutArray:
-		f.write('inout\n')
-		f.write('  ')
-		for item in inoutArray[:-1]:
-			f.write('%s, '% (item))
-		f.write('%s \n'%inoutArray[-1])
-		
-	f.write('{\n')
-	f.write('   %s\n'%paramProperty['equation'])
-	f.write('}')
-	f.close()
-	
-	try:
-		output = bto.submitToBTO('%s.m'%paramProperty['kernelName'])
 
-	except Exception, e:
-		print 'submitToBTO Exception caught:', str(e)
-		print 'bto.submitToBTO(','%s.m'%paramProperty['kernelName'],')'
-		
-	try: 
-		dajax.assign("#script_output", 'innerHTML', output)
-	
-	except Exception, e:
-		print 'cannot display output because of: '
-	
 
-	os.chdir(defaultDir)
 
-	return dajax.json()
+class lapack_le_driverAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+	
+	list_filter = ['matrixType', 'thePrecision', 'storageType']
+	search_fields = ['routineName', 'notes']
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+
+
+
+
+admin.site.register(lapack_le_simple, lapack_le_simpleAdmin)
+admin.site.register(lapack_le_expert, lapack_le_expertAdmin)
+admin.site.register(lapack_le_driver, lapack_le_driverAdmin)
+
+
+
+
+
+
+
+""" Computational routines """
+class lapack_le_computationalAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+
+class lapack_le_factorAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_solveAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_condition_numberAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_error_boundAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_invertAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_equilibrateAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+admin.site.register(lapack_le_computational, lapack_le_computationalAdmin)
+admin.site.register(lapack_le_factor, lapack_le_factorAdmin)
+admin.site.register(lapack_le_solve, lapack_le_solveAdmin)
+admin.site.register(lapack_le_condition_number, lapack_le_condition_numberAdmin)
+admin.site.register(lapack_le_error_bound, lapack_le_error_boundAdmin)
+admin.site.register(lapack_le_invert, lapack_le_invertAdmin)
+admin.site.register(lapack_le_equilibrate, lapack_le_equilibrateAdmin)
+
+
+
+
+
+
+""" Combine """
+class lapack_le_onlyAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+admin.site.register(lapack_le_only, lapack_le_onlyAdmin)
+
+
+
+
+
+
+""" Arguments """
+class lapack_le_argAdmin(admin.ModelAdmin):
+	list_display = ('id', 'routineName', 'param_all', 'param_in', 'param_out', 'param_inout',
+			'matrix', 'array_1d_real', 'array_1d', 'array_1d_int', 'char', 'integers', 'reals',
+			'LDA_condition', 'allocate_list', 'allocate', 'readData', 'readData_L', 'other')
+	
+	#list_filter = ['matrix']
+	search_fileds = ['routineName']
+        ordering = ('id',)
+	
+	
+admin.site.register(lapack_le_arg, lapack_le_argAdmin)
+
+
+
+class lapack_le_arg_cAdmin(admin.ModelAdmin):
+	list_display = ('id', 'routineName', 'param', 'define', 'char', 'global_var', 'integers', 'array_real',
+			'array_complex', 'other')
+	
+	#list_filter = ['matrix']
+	search_fileds = ['routineName']
+        ordering = ('id',)
+	
+	
+admin.site.register(lapack_le_arg_c, lapack_le_arg_cAdmin)
+
