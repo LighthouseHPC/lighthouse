@@ -1,7 +1,8 @@
 from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
-from dajax.core import Dajax
 from dajaxice.core import dajaxice_functions
+from dajax.core import Dajax
+
 import os, glob
 from codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
@@ -11,47 +12,31 @@ txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 
 
 @dajaxice_register
-def createTemplate_FORTRAN(request, checked_list):
-        dajax = Dajax()
-        dajax.add_css_class("#template_output", 'brush:fortran;')
-        for item in checked_list:
+def createTemplate(request, checked_list, language):
+	dajax = Dajax()
+	dajax.add_css_class("#template_output", "brush: %s;"%language)
+	for item in checked_list:
 		item = item.lower()
-		go = generateTemplate(item)
-		go.make_template()
-		f_output = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r")
+		if language == 'fortran':		
+			go = generateTemplate(item)
+			go.make_template()
+			f_output = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r")
+		elif language == 'cpp':
+			go = generateTemplate_C(item)
+			go.make_template()
+			f_output = open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r")
 		dajax.assign("#template_output", 'innerHTML', f_output.read())
 		dajax.script('SyntaxHighlighter.highlight()')
-                f_output.close()
+		f_output.close()
 
-        return dajax.json()
-
-
-
-@dajaxice_register
-def createTemplate_C(request, checked_list):
-        dajax = Dajax()
-        dajax.add_css_class("#template_output", 'brush:cpp;')
-        for item in checked_list:
-		item = item.lower()
-		go = generateTemplate_C(item)
-		go.make_template()
-		f_output = open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r")
-		dajax.assign("#template_output", 'innerHTML', f_output.read())
-		dajax.script('SyntaxHighlighter.highlight()')
-                f_output.close()
-
-        return dajax.json()
+	return dajax.json()
 	
-
-
 
 
 @dajaxice_register
 def removeTemplateFile(request):
 	dajax = Dajax()
-
 	fileName = generatedCodeTemplate_dir + request.session.session_key;
-	
 	if os.path.isfile(fileName + '.c'):
 		os.remove(fileName + '.c')
 	elif os.path.isfile(fileName + '.f'):
@@ -64,7 +49,7 @@ def removeTemplateFile(request):
 @dajaxice_register
 def make_mfile(request, paramProperty):
 	dajax = Dajax()
-
+	
 	### set defaultDir = /homes/salin/Lighthouse/Dlighthouse/
 	defaultDir = os.getcwd()
 

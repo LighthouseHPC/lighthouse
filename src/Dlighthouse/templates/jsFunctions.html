@@ -782,11 +782,22 @@
 //		document.getElementById("show").style.display='none';
 //	}
 
+
+
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
+	// clear all selected routines 
+	function clearMenuChanged(){
+		clearAllRoutines(); 
+		selectedRoutineNames.length = 0; 
+		selectedRoutine_session.length = 0; 
+		uncheckedRoutines.length = 0;
+		allRoutines_session.length = 0;			
+	}
 	
-        //** Get the checked items **//
+	
+        // Get checked items
         function getCheckedRoutines(){
                 var checked_list = [];
                 dojo.query('[name=routines]').forEach(function(n){
@@ -799,31 +810,12 @@
                 return checked_list;
         }
         
-        // Called when user selects an option from the "Generate Template" menu (combobox)
-        function generateMenuChanged(){
+        // Call lighthouse.lapack_le.createTemplate using dajax
+        function generateTemplate(language){
 		var checked_list = [];
 		checked_list = getCheckedRoutines();
-
 		alert (checked_list);
-		//    if (language == 'C'){
-		//	    Dajaxice.lighthouse.lapack_le.createTemplate_C(Dajax.process, {'checked_list': checked_list});
-		//    }
-		//    else if (language == 'Fortran'){
-		//	    Dajaxice.lighthouse.lapack_le.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
-		//    }
-
-
-	
-                ///* get the checked values */
-                //checked_list = getCheckedRoutines();
-                //console.log(checked_list);
-                ///* get selected option */
-                ////console.log(document.getElementById('generateMenu').value);
-      
-                //else if (document.getElementById('generateMenu').value == '3'){
-                //        Dajaxice.lighthouse.lapack_le.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
-                //}
-        
+		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language});
         }
 
 	// Hide the unchecked routines from the Selected Routine area and remove them from session
@@ -954,25 +946,6 @@
         return false;
 	}
 
-	// Called when user selects an option from the "Clear" menu (combobox)
-	function clearMenuChanged(){
-		var menu = document.getElementById('clearMenu');
-		var selected = menu.options[menu.selectedIndex].text;
-		menu.options[0].selected = true;
-		if(selected == "Unchecked"){
-			clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
-			uncheckedRoutines.length = 0;
-		}			
-		else if(selected == "Checked")
-			alert("Not implemented yet");
-		else if(selected == "All"){
-			clearAllRoutines(); 
-			selectedRoutineNames.length = 0; 
-			selectedRoutine_session.length = 0; 
-			uncheckedRoutines.length = 0;
-			allRoutines_session.length = 0;
-		}			
-	}
 
 	// Called when user selects an option from the "Select" menu (combobox)
 	function selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
@@ -986,7 +959,7 @@
 	}
 
 	// Called when user selects an option from the "Generate Template" menu (combobox)
-	//function generateMenuChanged(){
+	//function generateTemplate(){
 	//
 	//	var menu = document.getElementById('generateMenu');
 	//	var selected = menu.options[menu.selectedIndex].text;
@@ -1500,47 +1473,12 @@
 		}
 		//console.log(paramProperty);
 		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
-		
-		//// Get the input script
-		//var scriptCode = document.getElementById('script_input').value.trim();
-		//
-		//// Create an AJAX request
-		//dojo.xhrPost( {
-		//	url: "/lapack_le/script/",
-		//	// Send the input script
-		//	content: { 
-		//		scriptCode: scriptCode,
-		//	},
-		//	// Load and show the response in the output panel
-		//	load: function(response){
-		//		document.getElementById('script_output').value = response;
-		//		console.log("load response: ", response);
-		//	},
-		//	error: function(){
-		//	    console.log("error");
-		//	}
-		//});
 	}
 
 	
 	
 	// Called when user clicks the "Clear" button
 	function clearScript(){
-		//// Create an AJAX request
-		//dojo.xhrPost( {
-		//	url: "/lapack_le/script/",
-		//	// Send an empty string as input script
-		//	content: { 
-		//		scriptCode: "",
-		//	},
-		//	load: function(response){				
-		//		console.log("load response: ", response);
-		//	},
-		//	error: function(){
-		//	    console.log("error");
-		//	}
-		//});
-
 		// Replace the contents of input and output panel with empty strings
 		clearKernelEquation();
 		dojo.byId('script_output').value = "";
