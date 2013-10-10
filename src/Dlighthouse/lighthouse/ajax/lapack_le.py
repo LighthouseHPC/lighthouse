@@ -2,47 +2,54 @@ from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajaxice.core import dajaxice_functions
 from dajax.core import Dajax
-
 import os, glob
+from datetime import datetime
 from codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
-
-generatedCodeTemplate_dir = './lighthouse/libraries/lapack_le/generatedCodeTemplate/'
-txtpath = 'lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/RoutineTxt'
 
 
 @dajaxice_register
 def createTemplate(request, checked_list, language):
 	dajax = Dajax()
 	dajax.add_css_class("#template_output", "brush: %s;"%language)
-	for item in checked_list:
-		item = item.lower()
-		if language == 'fortran':		
-			go = generateTemplate(item)
-			go.make_template()
-			f_output = open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r")
-		elif language == 'cpp':
-			go = generateTemplate_C(item)
-			go.make_template()
-			f_output = open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r")
-		dajax.assign("#template_output", 'innerHTML', f_output.read())
-		dajax.script('SyntaxHighlighter.highlight()')
-		f_output.close()
+	time = 	datetime.now().strftime('%Y%m%d%H-%M-%S')
+	if language == 'fortran':
+		with open('./lighthouse/templateGen/output/%s.f90'%time, 'w') as outfile:
+			for item in checked_list:
+				item = item.lower()
+				go = generateTemplate(item)
+				go.make_template()
+				with open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r") as infile:
+					outfile.write(infile.read())
+		f_output = open("./lighthouse/templateGen/output/%s.f90"%time,"r")
+	elif language == 'cpp':
+		with open('./lighthouse/templateGen/output/%s.c'%time, 'w') as outfile:
+			for item in checked_list:
+				item = item.lower()
+				go = generateTemplate_C(item)
+				go.make_template()
+				with open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r") as infile:
+					outfile.write(infile.read())
+		f_output = open("./lighthouse/templateGen/output/%s.c"%time,"r")
+		
+	dajax.assign("#template_output", 'innerHTML', f_output.read())
+	dajax.script('SyntaxHighlighter.highlight()')
+	f_output.close()
 
 	return dajax.json()
 	
 
 
-@dajaxice_register
-def removeTemplateFile(request):
-	dajax = Dajax()
-	fileName = generatedCodeTemplate_dir + request.session.session_key;
-	if os.path.isfile(fileName + '.c'):
-		os.remove(fileName + '.c')
-	elif os.path.isfile(fileName + '.f'):
-		os.remove(fileName + '.f')
-
-	return dajax.json()
+#@dajaxice_register
+#def removeTemplateFile(request):
+#	dajax = Dajax()
+#	fileName = generatedCodeTemplate_dir + request.session.session_key;
+#	if os.path.isfile(fileName + '.c'):
+#		os.remove(fileName + '.c')
+#	elif os.path.isfile(fileName + '.f'):
+#		os.remove(fileName + '.f')
+#
+#	return dajax.json()
 
 
 
