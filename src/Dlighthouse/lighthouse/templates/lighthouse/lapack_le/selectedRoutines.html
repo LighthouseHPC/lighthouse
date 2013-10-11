@@ -19,7 +19,7 @@
 </div>
 
 <div id="selectedRoutines" name="selectedRoutines">
-	<form id="droppedRoutines" name="droppedRoutines">
+<!--	<form name="droppedRoutines">-->
 		<!--Dropped-items area-->
 		<div style="padding: 10px;">
 			<div id="selectedListNode" class="container2"
@@ -61,8 +61,8 @@
 											<td>
 												<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %}
 												       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-												       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
-												       <!--onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
+												       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
+												       onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
 											</td>
 											<td style="width: 56px; font-weight: bold;" title="Select and move"
 											    onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
@@ -138,28 +138,24 @@
 				</tr>
 			</table>			
 		</div>
-		
-		<!--load request.session["selectedRoutines]-->
-
-		<div id="button-div" style="padding: 2px; margin-top: 10px;">
-			<table style="width:100%; margin: 0px auto;">
-				<tr style="width:100%;">
-					<td style="text-align:left;">
-						<button type="button" id="clearSelected" title="Clear all selected routines" onclick="clearMenuChanged();">
-							Clear all
-						</button>
-					</td>
-					<td style="text-align:right;">
-						<button type="button" name="fortran" id="fortran_Button" title="Generate code template in Fortran" onclick="generateTemplate(this.name);">
-							Fortran template
-						</button>
-						<button type="button" name="cpp" id="c_Button" title="Generate code template in C" onclick="generateTemplate(this.name);">
-							C template
-						</button>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</form>
+<!--	</form>	-->	
+	<div id="button-div" style="padding: 2px; margin-top: 10px;">
+		<table style="width:100%; margin: 0px auto;">
+			<tr style="width:100%;">
+				<td style="text-align:left;">
+					<button type="button" id="clearSelected" title="Clear all selected routines" onclick="clearMenuChanged();">
+						Clear all
+					</button>
+				</td>
+				<td style="text-align:right;">
+					<button type="button" id="fortran_Button" name="fortran" title="Generate code template in Fortran" onclick="generateTemplate(this.name);">
+						Fortran template
+					</button>
+					<button type="button" id="c_Button" name="cpp" title="Generate code template in C" onclick="generateTemplate(this.name);">
+						C template
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>
-
