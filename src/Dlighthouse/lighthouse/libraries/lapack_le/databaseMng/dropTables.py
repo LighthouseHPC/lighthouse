@@ -23,7 +23,7 @@ cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_only")
 
 
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg")
-cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_c_arg")
+cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg_c")
 
 
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_routineinfo")
