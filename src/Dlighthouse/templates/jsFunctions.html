@@ -787,16 +787,6 @@
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
-	// clear all selected routines 
-	function clearMenuChanged(){
-		clearAllRoutines(); 
-		selectedRoutineNames.length = 0; 
-		selectedRoutine_session.length = 0; 
-		uncheckedRoutines.length = 0;
-		allRoutines_session.length = 0;			
-	}
-	
-	
         // Get checked items
         function getCheckedRoutines(){
                 var checked_list = [];
@@ -809,8 +799,19 @@
                 }); 
                 return checked_list;
         }
+	
+	
+	// clear all selected routines 
+	function clearMenuChanged(){
+		clearAllRoutines(); 
+		selectedRoutineNames.length = 0; 
+		selectedRoutine_session.length = 0; 
+		uncheckedRoutines.length = 0;
+		allRoutines_session.length = 0;			
+	}
+	
         
-        // Call lighthouse.lapack_le.createTemplate using dajax
+        // generate code template: call lighthouse.lapack_le.createTemplate using dajax
         function generateTemplate(language){
 		var checked_list = [];
 		checked_list = getCheckedRoutines();
@@ -818,6 +819,140 @@
 		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language});
         }
 
+	
+	
+	//*** for move up and down ***//
+	// Called when user clicks on the name of the routine in the selected routines area --> change color
+	function selectRoutine(selectedRoutine, id){
+
+		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
+			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
+				if(document.getElementById("tb_"+selectedRoutine))
+					document.getElementById("tb_"+selectedRoutine).style.background = "";				
+			}
+		}
+
+		var elem = document.getElementById("tb_"+id);
+		
+		// If the routine background was grey (i.e. it was selected)
+		if(elem.style.background == "rgb(170, 170, 170)"){
+			elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
+			document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
+			return "";
+		}
+		else{ // Routine was not selected
+			elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
+			document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
+			return id;
+		}
+	}
+	
+	
+	// Swaps the selected routine with the routine right above it (if there's any)
+	function moveup(id, routines){
+		if(id == "") return routines;
+
+		// Get the html element for the selected routine
+		var thisRoutine = document.getElementById("sel_ajax_"+id);
+		var prev_routine = "";
+		var prev_routine_index = -1;
+		var this_routine_index = -1;
+
+		// Find the index of this routine in the "routines" array, also save the index of the previous routine
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;
+				if(i > 0){
+					prev_routine = routines[i-1].toUpperCase();
+					prev_routine_index = i-1;
+				}
+				if (thisRoutine == null){	//combibe with the freshly dropped items
+					thisRoutine = document.getElementById("sel_"+id);
+				}
+			}
+		}		
+		
+		if(prev_routine != ""){ // If there is a routine above the selected routine
+			// Get the html element of the previous routine
+			var prevRoutine = document.getElementById("sel_ajax_"+prev_routine);
+			if (prevRoutine == null){
+				prevRoutine = document.getElementById("sel_"+prev_routine);
+			}			
+
+			// Swap the html contents of the routines
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = prevRoutine.innerHTML;
+			prevRoutine.innerHTML = temp;
+
+			// Swap their ids
+			temp = thisRoutine.id;
+			thisRoutine.id = prevRoutine.id;
+			prevRoutine.id = temp;
+
+			// Swap the routines in the "routines" array
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[prev_routine_index];
+			routines[prev_routine_index] = temp;
+		}
+		
+		return routines;
+	}
+
+	
+	// Swaps the selected routine with the routine right below it (if there's any)
+	function movedown(id, routines){
+		if(id == "") return routines;
+
+		// Get the html element for the selected routine
+		var thisRoutine = document.getElementById("sel_ajax_"+id);
+		var next_routine = "";
+		var this_routine_index = -1;
+		var next_routine_index = -1;
+
+		// Find the index of this routine in the "routines" array, also save the index of the next routine
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;				
+				if(i < (routines.length - 1)){
+					next_routine = routines[i+1].toUpperCase();
+					next_routine_index = i+1;
+				}
+				if (thisRoutine == null){	//combibe with the freshly dropped items
+					thisRoutine = document.getElementById("sel_"+id);
+				}
+			}
+		}		
+		
+		// If there is a routine below the selected routine
+		if(next_routine != ""){
+
+			// Get the html element of the next routine
+			var nextRoutine = document.getElementById("sel_ajax_"+next_routine);
+			if (nextRoutine == null){
+				nextRoutine = document.getElementById("sel_"+next_routine);
+			}
+			
+			// Swap the routines
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = nextRoutine.innerHTML;
+			nextRoutine.innerHTML = temp;
+
+			// Swap their ids
+			temp = thisRoutine.id;
+			thisRoutine.id = nextRoutine.id;
+			nextRoutine.id = temp;
+
+			// Swap the routines in the "routines" array
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[next_routine_index];
+			routines[next_routine_index] = temp;
+		}		
+
+		return routines;
+	}
+
+
+	
 	// Hide the unchecked routines from the Selected Routine area and remove them from session
 	function clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames){		
 		
@@ -987,123 +1122,7 @@
 			x.style.background = "rgb(200, 200, 200)";
 	}
 
-	// Swaps the selected routine with the routine right above it (if there's any)
-	function moveup(id, routines){
-		
-		if(id == "") return routines;
 
-		// Get the html element for the selected routine
-		var thisRoutine = document.getElementById("sel_"+id.toUpperCase());
-		var prev_routine = "";
-		var prev_routine_index = -1;
-		var this_routine_index = -1;
-
-		// Find the index of this routine in the "routines" array, also save the index of the previous routine
-		for(var i = 0; i < routines.length; i++){
-			if(routines[i] == id.toLowerCase()){
-				this_routine_index = i;
-				if(i > 0){
-					prev_routine = routines[i-1];
-					prev_routine_index = i-1;
-				}				
-			}
-		}		
-		
-		if(prev_routine != ""){ // If there is a routine above the selected routine
-
-			// Get the html element of the previous routine
-			var prevRoutine = document.getElementById("sel_"+prev_routine.toUpperCase());
-
-			// Swap the html contents of the routines
-			var temp = thisRoutine.innerHTML;	
-			thisRoutine.innerHTML = prevRoutine.innerHTML;
-			prevRoutine.innerHTML = temp;
-
-			// Swap their ids
-			temp = thisRoutine.id;
-			thisRoutine.id = prevRoutine.id;
-			prevRoutine.id = temp;
-
-			// Swap the routines in the "routines" array
-			temp = routines[this_routine_index];
-			routines[this_routine_index] = routines[prev_routine_index];
-			routines[prev_routine_index] = temp;
-		}
-		
-		return routines;
-	}
-
-	// Swaps the selected routine with the routine right below it (if there's any)
-	function movedown(id, routines){
-
-		if(id == "") return routines;
-
-		// Get the html element for the selected routine
-		var thisRoutine = document.getElementById("sel_"+id);
-		var next_routine = "";
-		var this_routine_index = -1;
-		var next_routine_index = -1;
-
-		// Find the index of this routine in the "routines" array, also save the index of the next routine
-		for(var i = 0; i < routines.length; i++){
-			if(routines[i] == id.toLowerCase()){
-				this_routine_index = i;				
-				if(i < (routines.length - 1)){
-					next_routine = routines[i+1];
-					next_routine_index = i+1;
-				}
-			}
-		}		
-		
-		// If there is a routine below the selected routine
-		if(next_routine != ""){
-
-			// Get the html element of the next routine
-			var nextRoutine = document.getElementById("sel_"+next_routine.toUpperCase());
-
-			// Swap the routines
-			var temp = thisRoutine.innerHTML;	
-			thisRoutine.innerHTML = nextRoutine.innerHTML;
-			nextRoutine.innerHTML = temp;
-
-			// Swap their ids
-			temp = thisRoutine.id;
-			thisRoutine.id = nextRoutine.id;
-			nextRoutine.id = temp;
-
-			// Swap the routines in the "routines" array
-			temp = routines[this_routine_index];
-			routines[this_routine_index] = routines[next_routine_index];
-			routines[next_routine_index] = temp;
-		}		
-
-		return routines;
-	}
-
-	// Called when user clicks on the name of the routine in the selected routines area
-	function selectRoutine(selectedRoutine, id){
-
-		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
-			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
-				if(document.getElementById("tb_"+selectedRoutine))
-					document.getElementById("tb_"+selectedRoutine).style.background = "";				
-			}
-		}
-
-		var elem = document.getElementById("tb_"+id);
-		
-		// If the routine background was grey (i.e. it was selected)
-		if(elem.style.background == "rgb(170, 170, 170)"){
-			elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
-			document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
-			return "";
-		}
-		else{ // Routine was not selected
-			elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
-			document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
-			return id;
-		}
-	}
 
 	// Hide the panel routine ordering 
 	function closeOrderingPanel(id, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
