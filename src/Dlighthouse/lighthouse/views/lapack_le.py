@@ -1204,7 +1204,7 @@ def update_session(request):
 			"url": request.POST.get('url'),
 			#"checkState": request.POST.get('checkState')
 		}]
-		print selectedRoutineList[0]
+		
 		if selectedRoutineList[0] not in request.session['selectedRoutines']:
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 		return HttpResponse(request.session['selectedRoutines'])
