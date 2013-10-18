@@ -18,7 +18,7 @@
     </table>        
 </div>
 
-<div id="selectedRoutines" name="selectedRoutines"">
+<div id="selectedRoutines" name="selectedRoutines">
 	<!--Dropped-items area-->
 	<div style="padding: 10px;">
 		<div id="selectedListNode" class="container2"
@@ -73,7 +73,7 @@
 										</td>
 										<td>						
 											<img src="{{ MEDIA_URL }}Images/remove.png" width="11" height="11" title="Remove"
-											     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+											     onclick="allRoutines_session = removeRoutine(dojo.query('.sel_dojoDndItem')[0].id, allRoutines_session);"/>
 										</td>
 										<!--
 										<td>						
@@ -139,7 +139,7 @@
 		<table style="width:100%; margin: 0px auto;">
 			<tr style="width:100%;">
 				<td style="text-align:left;">
-					<button type="button" id="clearSelected" title="Clear all selected routines" onclick="clearMenuChanged();">
+					<button type="button" id="clearSelected" title="Clear all selected routines" onclick="clearAllRoutines();">
 						Clear all
 					</button>
 				</td>

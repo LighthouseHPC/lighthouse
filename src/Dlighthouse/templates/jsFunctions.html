@@ -227,24 +227,6 @@
 	}
 
 
-	/* Clear all routines from selected routines area */
-	function clearAllRoutines(){
-		//reset request.session['selectedRoutines'] = [] and empty the list			
-		dojo.xhrPost( {
-			url: "/lapack_le/clear_session/",
-			content: {clear: "all"},
-			load: function(response){
-				dojo.empty("sel_routineListNode");
-				dojo.empty("selectedListNode");
-				console.log(response);
-			    },
-			error: function(){
-			    console.log("error");
-			    }
-		});
-		
-		//dojo.empty("routineListNode");
-	}
 	
 	/* Eliminate duplicated elements in arrays */
 	//Array.prototype.unique = function () {
@@ -795,15 +777,7 @@
                 }); 
                 return checked_list;
         }
-	
-	
-	// clear all selected routines 
-	function clearMenuChanged(){
-		clearAllRoutines(); 
-		selectedRoutine_session.length = 0; 
-		uncheckedRoutines.length = 0;
-		allRoutines_session.length = 0;			
-	}
+
 	
         
         // generate code template: call lighthouse.lapack_le.createTemplate using dajax
@@ -819,7 +793,7 @@
 	//*** for move up and down ***//
 	// Called when user clicks on the name of the routine in the selected routines area --> change color
 	function selectRoutine(selectedRoutine, id){
-		console.log(selectedRoutine);
+		//console.log(id);
 		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
 			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
 				if(document.getElementById("tb_"+selectedRoutine))
@@ -842,6 +816,7 @@
 		}
 	}
 	
+
 	
 	// Swaps the selected routine with the routine right above it (if there's any)
 	function moveup(id, routines){
@@ -892,6 +867,7 @@
 		
 		return routines;
 	}
+
 
 	
 	// Swaps the selected routine with the routine right below it (if there's any)
@@ -948,28 +924,47 @@
 
 
 	//remove routine
-	function removeRoutine(selectedRoutine, allRoutines_session){
-		//find the index of the routine to remove
-		var index = allRoutines_session.indexOf(selectedRoutine);
-		if (index > -1) {
-		    allRoutines_session.splice(index, 1);
-		}
-		
-		alert(allRoutines_session);
-		return allRoutines_session;
+	function removeRoutine(id, allRoutines_session){
+		var routineName = id.split("_").pop().toLowerCase();
+		var i = allRoutines_session.indexOf(routineName);
+		dojo.destroy(id);
+		allRoutines_session.splice(i, 1);
 		
 		//Remove checked routine from the session
-		//dojo.xhrPost( {
-		//	url: "/lapack_le/clear_session/",
-		//	content: {clear: "removed"},
-		//	load: function(response){
-		//		console.log(response);
-		//	    },
-		//	error: function(){
-		//	    console.log("error");
-		//	    }
-		//});
+		dojo.xhrPost( {
+			url: "/lapack_le/clear_session/",
+			content: {clear: "removed"},
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		
+		return allRoutines_session;
 	}
+	
+	
+	/* Clear all routines from selected routines area */
+	function clearAllRoutines(){
+		//reset request.session['selectedRoutines'] = [] and empty the list			
+		dojo.xhrPost( {
+			url: "/lapack_le/clear_session/",
+			load: function(response){
+				dojo.empty("sel_routineListNode");
+				dojo.empty("selectedListNode");
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		selectedRoutine_session.length = 0; 
+		uncheckedRoutines.length = 0;
+		allRoutines_session.length = 0;			
+	}
+	
 	
 	
 	/*--------------------------------------------------------------------------------- */	

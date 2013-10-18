@@ -1246,26 +1246,8 @@ def update_session(request):
 @csrf_exempt
 def clear_session(request):
 	if request.is_ajax():
-		mode = [{"clear": request.POST.get('clear')}]
-		# Clear all routines
-		if mode[0]['clear'] == 'all':
-			request.session['selectedRoutines'] = []
-			return HttpResponse('cleared')
-		# Clear unchecked routines
-		elif mode[0]['clear'] == 'unchecked':
-			test = request.session['selectedRoutines']
-			request.session['selectedRoutines'] = []
-			for item in test:
-				if item['checkState'] == 'checked':					
-					request.session['selectedRoutines'].append(item)
-		# Clear checked routines			
-		elif mode[0]['clear'] == 'checked':
-			test = request.session['selectedRoutines']
-			request.session['selectedRoutines'] = []
-			for item in test:
-				if item['checkState'] == 'unchecked':					
-					request.session['selectedRoutines'].append(item)
-			return HttpResponse('cleared')				
+		request.session['selectedRoutines'] = []
+		return HttpResponse('All cleared!')		
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
 	
