@@ -925,15 +925,15 @@
 
 	//remove routine
 	function removeRoutine(id, allRoutines_session){
-		var routineName = id.split("_").pop().toLowerCase();
-		var i = allRoutines_session.indexOf(routineName);
-		dojo.destroy(id);
+		var routine = id.split("_").pop().toLowerCase();
+		var i = allRoutines_session.indexOf(routine);
+
 		allRoutines_session.splice(i, 1);
-		
+		alert(id);
 		//Remove checked routine from the session
 		dojo.xhrPost( {
-			url: "/lapack_le/clear_session/",
-			content: {clear: "removed"},
+			url: "/lapack_le/remove_session/",
+			content: {routine: routine,},
 			load: function(response){
 				console.log(response);
 			    },
@@ -942,6 +942,7 @@
 			    }
 		});
 		
+		dojo.destroy(id);
 		return allRoutines_session;
 	}
 	

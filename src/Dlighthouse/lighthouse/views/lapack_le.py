@@ -1251,3 +1251,20 @@ def clear_session(request):
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
 	
+
+
+###---------------- Ajax post to remove ONE routine from request.session['selectedRoutines']------------------###
+@csrf_exempt
+def remove_session(request):
+	if request.is_ajax():
+		mode = [{'routine': request.POST.get('routine'),}]
+		rouitnePrecision = mode[0]['routine'][0]
+		routineName = mode[0]['routine'][1:]
+		for i, item in enumerate(request.session['selectedRoutines']):
+			if item.get('routineName') == routineName and item.get('thePrecision') == rouitnePrecision:
+				request.session['selectedRoutines'].pop(i)
+		
+		print request.session['selectedRoutines']
+		return HttpResponse("Removed!")		
+	else:
+		return HttpResponse('only AJAX requests are allowed!')
