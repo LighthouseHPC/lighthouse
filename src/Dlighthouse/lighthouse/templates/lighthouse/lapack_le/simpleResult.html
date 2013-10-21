@@ -41,7 +41,7 @@
 						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
 					</td>
 					<td  class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/remove.png" width="11" height="11" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+						<img src="{{ MEDIA_URL }}Images/remove.png" width="11" height="11" onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
 					</td>
 				</tr>
 			</table>			

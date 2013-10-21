@@ -133,7 +133,7 @@
 						load: function(response){
 							//response is a string --> convert into an array							
 							//selectedRoutineNames = response.split(',');
-							console.log("dnd done!");
+							console.log(response);
 						    },
 						error: function(){
 						    console.log("error");
@@ -929,7 +929,7 @@
 		var i = allRoutines_session.indexOf(routine);
 
 		allRoutines_session.splice(i, 1);
-		alert(id);
+		
 		//Remove checked routine from the session
 		dojo.xhrPost( {
 			url: "/lapack_le/remove_session/",

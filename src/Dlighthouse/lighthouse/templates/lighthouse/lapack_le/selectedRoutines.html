@@ -73,7 +73,7 @@
 										</td>
 										<td>						
 											<img src="{{ MEDIA_URL }}Images/remove.png" width="11" height="11" title="Remove"
-											     onclick="allRoutines_session = removeRoutine(dojo.query('.sel_dojoDndItem')[0].id, allRoutines_session);"/>
+											     onclick="allRoutines_session = removeRoutine('sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
 										</td>
 										<!--
 										<td>						

@@ -1207,7 +1207,8 @@ def update_session(request):
 		
 		if selectedRoutineList[0] not in request.session['selectedRoutines']:
 			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
-		return HttpResponse(request.session['selectedRoutines'])
+
+		return HttpResponse('Dropped '+request.POST.get('precision')+request.POST.get('routineName'))
 		
 		## Check if the routine already exists in request.session['selectedRoutines'], if it does save it's index
 		#counter = 0
@@ -1262,9 +1263,11 @@ def remove_session(request):
 		routineName = mode[0]['routine'][1:]
 		for i, item in enumerate(request.session['selectedRoutines']):
 			if item.get('routineName') == routineName and item.get('thePrecision') == rouitnePrecision:
-				request.session['selectedRoutines'].pop(i)
-		
-		print request.session['selectedRoutines']
-		return HttpResponse("Removed!")		
+				del request.session['selectedRoutines'][i]
+				
+		### important: mark the session as modified for it to save		
+		request.session.modified = True
+
+		return HttpResponse('Removed '+rouitnePrecision+routineName)		
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
