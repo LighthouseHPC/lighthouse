@@ -43,7 +43,7 @@
 			<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
 				<tr>					
 					<td class="hiddenStuff">
-						<input type="checkbox" name="routines" checked="checked"
+						<input type="checkbox" name="routines"
 						       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
 						       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 						       onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>
@@ -52,10 +52,16 @@
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 					</td>
 					<td class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
+						     onclick="dijit.byId('sel_{{ item.id }}').show()"/>
 					</td>
-					<td  class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/move.png" width="16" height="16" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
+						     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+					</td>
+					<td class="hiddenStuff">                                            
+						<img src="{{ MEDIA_URL }}Images/move.png" width="15" height="15" title="Move up and down"
+						     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
 					</td>
 				</tr>
 			</table>			
@@ -119,6 +125,11 @@
 <!-- ########### Selected Routines: ###########-->
 {% block dojango_content_selected_routines %}
 {% include "lighthouse/lapack_le/selectedRoutines.html" %}
+<script type="text/javascript">
+	window.onload = function () {
+		dojo.style(dojo.byId('selectedListNode'), "display", "block");
+	}
+</script>
 {% endblock %}
 
 
