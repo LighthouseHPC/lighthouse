@@ -34,14 +34,20 @@
 						       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
 						       <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
 					</td>
-					<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
+					<td style="width: 56px; font-weight: bold;">
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 					</td>
 					<td class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" onclick="dijit.byId('sel_{{ item.id }}').show()"/>
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
+						     onclick="dijit.byId('sel_{{ item.id }}').show()"/>
 					</td>
-					<td  class="hiddenStuff">
-						<img src="{{ MEDIA_URL }}Images/remove.png" width="11" height="11" onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
+						     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+					</td>
+					<td class="hiddenStuff">                                            
+						<img src="{{ MEDIA_URL }}Images/move.png" width="14" height="14" title="Move up and down"
+						     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
 					</td>
 				</tr>
 			</table>			

@@ -63,8 +63,7 @@
 											       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
 											       <!--onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>-->
 										</td>
-										<td style="width: 56px; font-weight: bold;" title="Select and move"
-										    onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
+										<td style="width: 56px; font-weight: bold;">
 											{{ item.thePrecision|upper }}{{ item.routineName|upper }}
 										</td>										
 										<td>						
@@ -72,15 +71,13 @@
 											     onclick="dijit.byId('sel_ajax_{{ item.id }}').show()"/>	
 										</td>
 										<td>						
-											<img src="{{ MEDIA_URL }}Images/remove.png" width="11" height="11" title="Remove"
+											<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
 											     onclick="allRoutines_session = removeRoutine('sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
 										</td>
-										<!--
-										<td>						
-											<img src="{{ MEDIA_URL }}Images/down.png" width="14" height="14"
-											onclick="allRoutines_session = movedown('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session);"/>
-										</td>
-										-->
+										<td>                                            
+											<img src="{{ MEDIA_URL }}Images/move.png" width="14" height="14" title="Move up and down"
+											     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+                                                                                </td>
 									</tr>
 								</table>											
 							</div>
@@ -116,8 +113,8 @@
 		</div>			
 	</div>
 
-	<div id="movebuttons">
-		<table style="text-align: center; width: 80%; margin-left:auto;margin-right:auto"">
+	<div id="movebuttons" style="display: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; -o-user-select: none;">
+		<table style="text-align: center; width: 80%; margin-left:auto;margin-right:auto">
 			<tr style="text-align: center; width: 80%;">
 				<td id="moveup" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; background: #ccc; cursor:pointer;  width: 60px;"
 				    onClick="allRoutines_session = moveup(selectedRoutine, allRoutines_session);">
