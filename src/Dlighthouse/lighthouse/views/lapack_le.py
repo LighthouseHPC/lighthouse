@@ -805,7 +805,7 @@ def advancedResult(request):
 special_words = {
 		'dataType': ['real', 'complex'],
 		'thePrecision': ['single', 'double'],
-		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite', 'triangular', 'SPsD', 'HPsD', 'real symmetric positive semidefinite', 'complex Hermitian positive semidefinite'],
+		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite', 'triangular', 'SPsD', 'HPsD', 'symmetric positive semidefinite', 'Hermitian positive semidefinite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal', 'rectangular full packed'],
 		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solution', 'solver'],
 	}
@@ -821,12 +821,18 @@ def quoted_words(string):
 
 def spell_check(word):
 	word = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', word)
-	if word == 'spd':
+	if word.lower() =='spd':
 		word = 'SPD'
-	elif word == 'hpd':
+	elif word.lower() == 'hpd':
 		word = 'HPD'
-	elif word in ['LU', 'lu', 'Lu', 'lU']:
+	elif word.lower() == 'spsd':
+		word = 'SPsD'
+	elif word.lower() == 'hpsd':
+		word = 'HPsD'		
+	elif word.lower() == 'lu':
 		word = 'LU'
+	elif word.lower() == 'rfp':
+		word = 'RFP'
 	else: 	
 		word= correct(word)
 	return word
@@ -847,9 +853,13 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bverse.*?\b', 'invert', strings)
 	strings = re.sub(r'\bhermitian.*?\b', 'Hermitian', strings)
 	strings = re.sub(r'\bHermitian p.*? def.*?\b', '\"'+'Hermitian positive definite'+'\"', strings)
-	strings = re.sub(r'\bymmetric p.*? def.*?\b', '\"'+'symmetric positive definite'+'\"', strings)
+	strings = re.sub(r'\bHermitian p.*? semidef.*?\b', '\"'+'Hermitian positive semidefinite'+'\"', strings)
+	strings = re.sub(r'\bsymmetric.*?\b', 'symmetric', strings)
+	strings = re.sub(r'\bsymmetric p.*? def.*?\b', '\"'+'symmetric positive definite'+'\"', strings)
+	strings = re.sub(r'\bsymmetric p.*? semidef.*?\b', '\"'+'symmetric positive semidefinite'+'\"', strings)
 	strings = re.sub(r'\bband.*?\b', 'band', strings)
 	strings = re.sub(r'\bpack.*?\b', 'packed', strings)
+	strings = re.sub(r'\brectang.*?\b fu.*? pa.*?\b', '\"'+'rectangular full packed'+'\"', strings)
 	return strings	
 
 
@@ -872,6 +882,13 @@ def keyword_handler2(keywords_dictionary):
 			keywords_dictionary['matrixType'][i] = item.replace(item, 'SPD')
 		if item == 'Hermitian positive definite':
 			keywords_dictionary['matrixType'][i] = item.replace(item, 'HPD')
+		if item == 'symmetric positive semidefinite':
+			keywords_dictionary['matrixType'][i] = item.replace(item, 'SPsD')
+		if item == 'Hermitian positive semidefinite':
+			keywords_dictionary['matrixType'][i] = item.replace(item, 'HPsD')
+	for i, item in enumerate(keywords_dictionary['storageType']):
+		if item == 'rectangular full packed':
+			keywords_dictionary['storageType'][i] = item.replace(item, 'RFP')		
 	return keywords_dictionary	
 
 
