@@ -806,7 +806,7 @@ special_words = {
 		'dataType': ['real', 'complex'],
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite', 'triangular', 'SPsD', 'HPsD', 'symmetric positive semidefinite', 'Hermitian positive semidefinite'],
-		'storageType': ['full', 'band', 'packed', 'tridiagonal', 'rectangular full packed'],
+		'storageType': ['full', 'band', 'packed', 'tridiagonal', 'rectangular full packed', 'RFP'],
 		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solution', 'solver'],
 	}
 
