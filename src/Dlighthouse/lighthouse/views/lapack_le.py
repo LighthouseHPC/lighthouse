@@ -758,7 +758,7 @@ def advancedResult(request):
 										'Matrix type': matrix,
 										'Storage type': storage, 
 										'Function': form_empty.find(function),
-										'Equation': 0, 
+										'Equation': '', 
 										'Description': form.Description,
 										'Routine': routine
 									})
@@ -847,6 +847,7 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bverse.*?\b', 'invert', strings)
 	strings = re.sub(r'\bhermitian.*?\b', 'Hermitian', strings)
 	strings = re.sub(r'\bHermitian p.*? def.*?\b', '\"'+'Hermitian positive definite'+'\"', strings)
+	strings = re.sub(r'\bymmetric p.*? def.*?\b', '\"'+'symmetric positive definite'+'\"', strings)
 	strings = re.sub(r'\bband.*?\b', 'band', strings)
 	strings = re.sub(r'\bpack.*?\b', 'packed', strings)
 	return strings	
