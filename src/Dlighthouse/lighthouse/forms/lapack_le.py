@@ -14,7 +14,7 @@ Problem_choices = (
 	('Computational lapack_le_error_bound error',				'Compute forward or backward error bound for the solution to a linear system'),
 	('Computational lapack_le_condition_number condition', 			'Estimate the condition number of a matrix'),
 	('Computational lapack_le_equilibrate equilibrate',			'Equilibrate a matrix'),
-	('Computational lapack_le_invert inverse',				'Invert a matrix using provided factors (P, L, U)'),
+	('Computational lapack_le_invert inverse',				'Invert a matrix'),
 	('Driver lapack_le_expert',						'Solve a system of linear equations AND'),
 	('Driver lapack_le_expert refine',					'Refine the solution'),
 	('Driver lapack_le_expert error',					'Compute forward or backward error bounds for the solution'),
