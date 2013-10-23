@@ -833,6 +833,8 @@ def spell_check(word):
 		word = 'LU'
 	elif word.lower() == 'rfp':
 		word = 'RFP'
+	elif word.lower() == 'solver':
+		pass
 	else: 	
 		word= correct(word)
 	return word
