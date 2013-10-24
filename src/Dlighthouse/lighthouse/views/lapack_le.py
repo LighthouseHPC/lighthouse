@@ -1164,49 +1164,6 @@ def runScript(request):
 
 
 
-###---------------- Code Template ------------------###
-
-# return the content of the code template file, if exists
-def getCodeTempate(session_key):
-
-	fileName_c = './lighthouse/lapack_le/generatedCodeTemplate/' + session_key + '.c'
-	fileName_f = './lighthouse/lapack_le/generatedCodeTemplate/' + session_key + '.f'
-
-	template = ""
-	
-	if os.path.isfile(fileName_c):
-	   	with open(fileName_c, 'r') as f:
-			template = f.read()
-	elif os.path.isfile(fileName_f):
-	   	with open(fileName_f, 'r') as f:
-			template = f.read()
-
-	return template
-
-def downloadTemplate(request):
-
-	fileName_c = './lighthouse/lapack_le/generatedCodeTemplate/' + request.session.session_key + '.c'
-	fileName_f = './lighthouse/lapack_le/generatedCodeTemplate/' + request.session.session_key + '.f'
-
-	# assuming the user in not generating templates in both C and FORTRAN
-
-	if os.path.isfile(fileName_c):
-	   	filename = fileName_c
-	if os.path.isfile(fileName_f):
-	   	filename = fileName_f
-
-	wrapper = FileWrapper(open(filename))
-	response = HttpResponse(wrapper, content_type='text/plain')
-	response['Content-Disposition'] = 'attachment; filename=%s' % filename
-	return response
-
-@csrf_exempt
-def load_template(request):
-	template = getCodeTempate(request.session.session_key);
-	return HttpResponse(template)
-
-
-
 
 
 
