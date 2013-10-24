@@ -12,9 +12,9 @@ from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_
 def createTemplate(request, checked_list, language, time):
 	dajax = Dajax()
 	dajax.add_css_class("#template_output", "brush: %s;"%language)
-	file_zip = zipfile.ZipFile("./lighthouse/templateGen/output/%s.zip"%time, "w")
+	file_zip = zipfile.ZipFile("./static/download/lighthouse_%s.zip"%time, "w")
 	if language == 'fortran':
-		with open('./lighthouse/templateGen/output/%s.f90'%time, 'w') as outfile:
+		with open('./static/download/%s.f90'%time, 'w') as outfile:
 			for item in checked_list:
 				item = item.lower()
 				go = generateTemplate(item)
@@ -23,9 +23,9 @@ def createTemplate(request, checked_list, language, time):
 				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
 				with open(name,"r") as infile:
 					outfile.write(infile.read())
-		f_output = open("./lighthouse/templateGen/output/%s.f90"%time,"r")
+		f_output = open("./static/download/%s.f90"%time,"r")
 	elif language == 'cpp':
-		with open('./lighthouse/templateGen/output/%s.c'%time, 'w') as outfile:
+		with open('./static/download/%s.c'%time, 'w') as outfile:
 			for item in checked_list:
 				item = item.lower()
 				go = generateTemplate_C(item)
@@ -34,7 +34,7 @@ def createTemplate(request, checked_list, language, time):
 				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
 				with open(name,"r") as infile:
 					outfile.write(infile.read())
-		f_output = open("./lighthouse/templateGen/output/%s.c"%time,"r")
+		f_output = open("./static/download/%s.c"%time,"r")
 
 	dajax.assign("#template_output", 'innerHTML', f_output.read())
 	dajax.script('SyntaxHighlighter.highlight()')

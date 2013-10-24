@@ -108,102 +108,126 @@
 	}
 
 	function upload_mat_changed(){
-		var x;
+		
 		if(document.getElementById('upload_matrix_0').checked) {		  
-		  x = document.getElementsByName('matrix_file_div');
+		  var x = document.getElementsByName('matrix_file_div');
 		  x[0].style.display = "block";
-		  x = document.getElementsByName('alt_choices_div');
+
+		  var x = document.getElementsByName('input_format_div');
 		  x[0].style.display = "none";
-    	  reset_radio_buttons('alt_choices');
 
 		}else if(document.getElementById('upload_matrix_1').checked) {	
-		  x = document.getElementsByName('matrix_file_div');
-		  x[0].style.display = "none";
-		  x = document.getElementsByName('alt_choices_div');
+		  var x = document.getElementsByName('matrix_file_div');
+		  x[0].style.display = "none";	  
+
+		  var x = document.getElementsByName('input_format_div');
 		  x[0].style.display = "block";
 		}
 
-		x = document.getElementById('sub_button');
-		x.disabled = true;
-
-		x = document.getElementsByName('sub_message');
+		var x = document.getElementsByName('solution_type_div');
 		x[0].style.display = "none";
 
-		x = document.getElementsByName('solution_type_div');
+		var x = document.getElementsByName('output_format_div');
 		x[0].style.display = "none";
 
-		x = document.getElementsByName('matrix_prop_file_div');
+		var x = document.getElementsByName('row_count_div');
+		x[0].style.display = "none";
+
+		var x = document.getElementsByName('column_count_div');
+		x[0].style.display = "none";
+
+		var x = document.getElementsByName('nonzero_structure_div');
+		x[0].style.display = "none";
+
+		var x = document.getElementsByName('numerical_symmetry_div');
+		x[0].style.display = "none";
+
+		var x = document.getElementsByName('complex_number_div');
 		x[0].style.display = "none";
 		
 		reset_radio_buttons('solution_type');
+		reset_radio_buttons('output_format');
+		reset_radio_buttons('input_format');
+		reset_radio_buttons('nonzero_structure');
+		reset_radio_buttons('complex_number');
+		reset_radio_buttons('numerical_symmetry');
+
+		document.getElementById('row_count').value = "";
+		document.getElementById('column_count').value = "";
+
 		if (document.getElementById("matrix_file").value != "" && document.getElementById('upload_matrix_0').checked){
 			var x = document.getElementsByName('solution_type_div');
 		  	x[0].style.display = "block";
 		}
 		
 	}
-	
-	function solution_type_changed(){				
-		var x = document.getElementById('sub_button');
-		x.disabled = false;
 
-		x = document.getElementsByName('sub_message');
+	function row_count_changed(){
+		var x = document.getElementById('row_count').value;
+		
+		if(x != ""){
+			if(!parseInt(x)){
+				alert("Invalid row count.");
+				d = document.getElementsByName('column_count_div');
+				d[0].style.display = "block";	
+			}else{
+				var x = document.getElementsByName('column_count_div');
+				x[0].style.display = "block";				
+			}
+		}
+		else{
+			d = document.getElementsByName('column_count_div');
+			d[0].style.display = "block";	
+		}
+	}
+
+	function column_count_changed(){
+		var x = document.getElementById('column_count').value;
+		
+		if(x != ""){
+			if(!parseInt(x)){
+				alert("Invalid column count.");
+				d = document.getElementsByName('complex_number_div');
+				d[0].style.display = "none";
+			}else{
+				var x = document.getElementsByName('complex_number_div');
+				x[0].style.display = "block";
+			}
+		}else{
+			d = document.getElementsByName('complex_number_div');
+			d[0].style.display = "none";
+		}
+	}
+
+	function input_format_changed(){
+		var x = document.getElementsByName('row_count_div');
 		x[0].style.display = "block";
+	}
+
+	function complex_number_changed(){
+		var x = document.getElementsByName('nonzero_structure_div');
+		x[0].style.display = "block";	
+	}
+
+	function nonzero_structure_changed(){
+		var x = document.getElementsByName('numerical_symmetry_div');
+		x[0].style.display = "block";
+	}
+
+	function numerical_symmetry_changed(){
+		var x = document.getElementsByName('solution_type_div');
+		x[0].style.display = "block";
+	}
+	
+	function solution_type_changed(){		
+		var x = document.getElementsByName('output_format_div');
+		  x[0].style.display = "block";
 	}
 
 	function file_changed(){
 		if (document.getElementById("matrix_file").value == ""){
 			alert("no file selected");
 		}else{
-			var x = document.getElementsByName('solution_type_div');
-		  	x[0].style.display = "block";
-		}
-	}
-
-	function prop_file_changed(){
-		if (document.getElementById("matrix_prop_file").value == ""){
-			alert("no file selected");
-		}else{
-			var x = document.getElementsByName('solution_type_div');
-		  	x[0].style.display = "block";
-		}
-	}	
-
-	function alt_choices_changed(){
-		if(document.getElementById('alt_choices_2').checked){		  
-			x = document.getElementsByName('matrix_prop_file_div');
-			x[0].style.display = "block";
-			x = document.getElementsByName('solution_type_div');
-		  	x[0].style.display = "none";
-		  	x = document.getElementById('sub_button');
-			x.disabled = true;
-			x = document.getElementsByName('sub_message');
-			x[0].style.display = "none";
-		}
-		if(document.getElementById('alt_choices_1').checked){		  
-			x = document.getElementsByName('matrix_prop_file_div');
-			x[0].style.display = "none";
-			x = document.getElementsByName('solution_type_div');
-		  	x[0].style.display = "none";
-			x = document.getElementById('sub_button');
-			x.disabled = false;
-			x = document.getElementsByName('sub_message');
-			x[0].style.display = "block";
-		}
-		if(document.getElementById('alt_choices_0').checked){		  
-			x = document.getElementsByName('matrix_prop_file_div');
-			x[0].style.display = "none";
-			x = document.getElementsByName('solution_type_div');
-		  	x[0].style.display = "none";
-		  	x = document.getElementById('sub_button');
-			x.disabled = false;
-		  	x = document.getElementsByName('sub_message');
-			x[0].style.display = "block";
-		}
-
-		
-		reset_radio_buttons('solution_type');
-		if (document.getElementById("matrix_prop_file").value != "" && document.getElementById('alt_choices_2').checked){
 			var x = document.getElementsByName('solution_type_div');
 		  	x[0].style.display = "block";
 		}

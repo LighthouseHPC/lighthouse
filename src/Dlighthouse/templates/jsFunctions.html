@@ -773,7 +773,7 @@
 		};
 		//For the time now
 		Date.prototype.timeNow = function(){
-		     return ((this.getHours() < 10)?"0":"") + this.getHours() +"-"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +"-"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+		     return ((this.getHours() < 10)?"0":"") + this.getHours() +"_"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +"_"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
 		};
 		var dateTime = newDate.today() + newDate.timeNow(); 
 		return dateTime;
@@ -801,6 +801,7 @@
 		//alert(time);
 		checked_list = getCheckedRoutines();
 		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
+		return time;
         }
 
 	
@@ -993,12 +994,10 @@
 	}
 
 	// Check if there's any code template, allow download if template is not empty
-	function checkCodeTemplate(){		
-		var template = document.getElementById('div-codeTemp');
-		var content = trim(template.innerHTML);
-		
+	function downloadTemplate(time){
+		var content = dojo.byId("template_output").innerHTML;
 		if(content.length > 0)			
-			window.location = '/lapack_le/download/';
+			window.location = '/static/download/lighthouse_'+time+'.zip';
 	}
 
 	// Loads code template for display, called when user clicks the "Show" button
@@ -1016,10 +1015,7 @@
 		});
 	}
 	
-	// Download template
-	function downloadTemplate(){
-		window.location='/lapack_le/download/';
-	}
+	
 
 	/*--------------------------------------------------------------------------------- */	
 	/* --------------------------------- For Script Area ------------------------------ */
