@@ -2,24 +2,26 @@ from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajaxice.core import dajaxice_functions
 from dajax.core import Dajax
-import os, glob
+import os, glob, zipfile
 from datetime import datetime
 from codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
 
 
 @dajaxice_register
-def createTemplate(request, checked_list, language):
+def createTemplate(request, checked_list, language, time):
 	dajax = Dajax()
 	dajax.add_css_class("#template_output", "brush: %s;"%language)
-	time = 	datetime.now().strftime('%Y%m%d%H-%M-%S')
+	file_zip = zipfile.ZipFile("./lighthouse/templateGen/output/%s.zip"%time, "w")
 	if language == 'fortran':
 		with open('./lighthouse/templateGen/output/%s.f90'%time, 'w') as outfile:
 			for item in checked_list:
 				item = item.lower()
 				go = generateTemplate(item)
 				go.make_template()
-				with open("./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item,"r") as infile:
+				name = "./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item
+				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+				with open(name,"r") as infile:
 					outfile.write(infile.read())
 		f_output = open("./lighthouse/templateGen/output/%s.f90"%time,"r")
 	elif language == 'cpp':
@@ -28,13 +30,16 @@ def createTemplate(request, checked_list, language):
 				item = item.lower()
 				go = generateTemplate_C(item)
 				go.make_template()
-				with open("./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item,"r") as infile:
+				name = "./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item
+				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+				with open(name,"r") as infile:
 					outfile.write(infile.read())
 		f_output = open("./lighthouse/templateGen/output/%s.c"%time,"r")
-		
+
 	dajax.assign("#template_output", 'innerHTML', f_output.read())
 	dajax.script('SyntaxHighlighter.highlight()')
 	f_output.close()
+	file_zip.close()
 
 	return dajax.json()
 	
