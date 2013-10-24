@@ -19,9 +19,7 @@ urlpatterns = patterns('lighthouse.views.lapack_le',
     url(r'^update_session/$', "update_session"),
     url(r'^clear_session/$', "clear_session"),
     url(r'^remove_session/$', "remove_session"),
-    url(r'^load_template/$', "load_template"),
     
     url(r'^keyword/$', "keywordResult"),
-    url(r'^download/$', "downloadTemplate"),
-    #(r'^script/$', runScript),
+
 )

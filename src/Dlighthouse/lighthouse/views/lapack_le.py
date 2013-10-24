@@ -71,7 +71,6 @@ def search_forms(request):
   		'formAdvanced': AdvancedForm(), 
   		'scriptForm': scriptForm(), 
   		'selectedRoutines': request.session['selectedRoutines'], 
-  		'codeTemplate': getCodeTempate(request.session.session_key), 
   		'scriptCode': request.session['userScript'], 
   		'scriptOutput': request.session['scriptOutput'],
 		'results': 'start',
@@ -133,7 +132,6 @@ def guidedSearch_problem(request):
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'],
-                	'codeTemplate': getCodeTempate(request.session.session_key)
                 }
 		
 		#for item in request.session['selectedRoutines']:
@@ -151,7 +149,6 @@ def guidedSearch_problem(request):
                 	'selectedRoutines': request.session['selectedRoutines'],
                 	'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key)
                 }
                 return render_to_response(
                 	'lighthouse/lapack_le/index.html', 
@@ -199,8 +196,7 @@ def guidedSearch_equation(request):
 			'notSelectedRoutines': request.session['notSelectedRoutines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'], 
-			'codeTemplate': getCodeTempate(request.session.session_key)
+			'scriptOutput': request.session['scriptOutput'],
 		}					
 		return render_to_response(
 			'lighthouse/lapack_le/equation.html', 
@@ -219,7 +215,6 @@ def guidedSearch_equation(request):
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
 			'lighthouse/lapack_le/problem.html', 
@@ -266,7 +261,6 @@ def guidedSearch_equation(request):
 #			'selectedRoutines': request.session['selectedRoutines'],
 #			'scriptCode': request.session['userScript'],
 #			'scriptOutput': request.session['scriptOutput'],
-#			'codeTemplate': getCodeTempate(request.session.session_key),
 #		}					
 #		return render_to_response(
 #			'lighthouse/lapack_le/factor.html', 
@@ -284,7 +278,6 @@ def guidedSearch_equation(request):
 #			'selectedRoutines': request.session['selectedRoutines'],
 #			'scriptCode': request.session['userScript'],
 #			'scriptOutput': request.session['scriptOutput'],
-#			'codeTemplate': getCodeTempate(request.session.session_key)
 #		}
 #		return render_to_response(
 #			'lighthouse/lapack_le/equation.html', 
@@ -325,7 +318,6 @@ def guidedSearch_complex(request):
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key) 
 		}
 		
 		return render_to_response(
@@ -358,7 +350,6 @@ def guidedSearch_complex(request):
 				'selectedRoutines': request.session['selectedRoutines'],
 				'scriptCode': request.session['userScript'],
 				'scriptOutput': request.session['scriptOutput'],
-				'codeTemplate': getCodeTempate(request.session.session_key)
 			}
         	return render_to_response(
         		'lighthouse/lapack_le/equation.html', 
@@ -393,7 +384,6 @@ def guidedSearch_matrixtype(request):
 					'selectedRoutines': request.session['selectedRoutines'],
 					'scriptCode': request.session['userScript'],
 					'scriptOutput': request.session['scriptOutput'],
-					'codeTemplate': getCodeTempate(request.session.session_key) 
 				}
 				return render_to_response(
 					'lighthouse/lapack_le/matrixtype.html', 
@@ -449,7 +439,6 @@ def guidedSearch_storage(request):
 					'selectedRoutines': request.session['selectedRoutines'],
 					'scriptCode': request.session['userScript'],
 					'scriptOutput': request.session['scriptOutput'],
-					'codeTemplate': getCodeTempate(request.session.session_key)
 				}
 				return render_to_response(
 					'lighthouse/lapack_le/storagetype.html', 
@@ -516,8 +505,7 @@ def guidedSearch_precision(request):
 			'notSelectedRoutines': request.session['notSelectedRoutines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'], 
-			'codeTemplate': getCodeTempate(request.session.session_key)
+			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
 			'lighthouse/lapack_le/precision.html', 
@@ -537,8 +525,7 @@ def guidedSearch_precision(request):
 			'form': form, 'results': request.session['Routines'], 
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
-			'scriptOutput': request.session['scriptOutput'], 
-			'codeTemplate': getCodeTempate(request.session.session_key)
+			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
 			'lighthouse/lapack_le/storagetype.html', 
@@ -632,7 +619,6 @@ def advancedForm(request):
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
 			'lighthouse/lapack_le/advancedForm.html', 
@@ -647,7 +633,6 @@ def advancedForm(request):
 			'selectedRoutines': request.session['selectedRoutines'],
 			'scriptCode': request.session['userScript'],
 			'scriptOutput': request.session['scriptOutput'],
-			'codeTemplate': getCodeTempate(request.session.session_key)
 		}
 		return render_to_response(
 			'lighthouse/lapack_le/advancedSearch.html', 
@@ -780,8 +765,7 @@ def advancedResult(request):
 		'alreadySelectedRoutines': alreadySelectedRoutines, 
 		'selectedRoutines': request.session['selectedRoutines'],
 		'scriptCode': request.session['userScript'],
-		'scriptOutput': request.session['scriptOutput'], 
-		'codeTemplate': getCodeTempate(request.session.session_key)
+		'scriptOutput': request.session['scriptOutput'],
 	}	
 
 	return render_to_response(
