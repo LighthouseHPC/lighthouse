@@ -764,7 +764,7 @@
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Selected Routines ---------------------------- */
 	/*--------------------------------------------------------------------------------- */
-	// Get current date and time
+	// Get current date and time (for naming download zip file)
 	function getDateTime(){
 		var newDate = new Date();
 		//For todays date;
@@ -984,6 +984,7 @@
 	
 	
 	
+	
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Code Template Area --------------------------- */
 	/*--------------------------------------------------------------------------------- */
@@ -1000,20 +1001,6 @@
 			window.location = '/static/download/lighthouse_'+time+'.zip';
 	}
 
-	// Loads code template for display, called when user clicks the "Show" button
-	function loadCodeTemplate(){
-		dojo.xhrPost( {
-			url: "/lapack_le/load_template/",
-			load: function(response){
-				// Set the content of the 'codeFrame' div
-				document.getElementById('codeFrame').innerHTML = response.replace(/\n/g,'<br>');
-				console.log("load response: ", response);
-			    },
-			error: function(){
-			    console.log("error");
-			    }
-		});
-	}
 	
 	
 
@@ -1089,7 +1076,12 @@
 		
 		// find the index of '=' in EACH equation
 		for (var i=0; i<equationList.length; i++){
-			positionEqualArray.push(indexEqual(equationList[i]));
+			if(equationList[i].indexOf('=') == -1)
+			{
+			  alert("No equal sign in equation "+(i+1)+": "+equationList[i]+".");
+			}
+			else
+				positionEqualArray.push(indexEqual(equationList[i]));
 		}
 		
 		
