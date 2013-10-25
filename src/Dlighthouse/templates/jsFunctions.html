@@ -546,7 +546,7 @@
 
 	// Check if any keyword was provided
 	function validateKeywordForm(){				
-		var x=document.forms["kw_form"]["q"].value;
+		var x=document.forms["keyword_form"]["q"].value;
 		if (x==null || x==""){
 			alert("No strings were entered!");
 			return false;
@@ -585,9 +585,9 @@
 		if(!e) var e = window.event;
 		code = e.keyCode;
 		
-		tmp2 = document.forms['kw_form'].elements['sel'].length - 1;
+		tmp2 = document.forms['keyword_form'].elements['sel'].length - 1;
 
-		if(document.forms['kw_form'].elements['sel'].length == 0) tmp = -1;
+		if(document.forms['keyword_form'].elements['sel'].length == 0) tmp = -1;
 		
 		// it's a letter (a-z, A-Z)
 		if(code >= 48 && code <= 90){
@@ -602,24 +602,24 @@
 		if(code==40){					
 			tmp = tmp + 1;
 			if(tmp > tmp2) tmp = tmp2;			
-			document.forms['kw_form'].elements['sel'].options[tmp].selected = true;
-			product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
-			document.forms['kw_form'].elements['kwtb'].value = product;			
+			document.forms['keyword_form'].elements['sel'].options[tmp].selected = true;
+			product = document.forms['keyword_form'].elements['sel'].options[tmp].text;   
+			document.forms['keyword_form'].elements['kwtb'].value = product;			
 		}
 		// up arrow key is pressed
 		if(code==38){
 			if(tmp == 0){
-				document.forms['kw_form'].elements['sel'].options[0].selected = false;				
-				document.forms['kw_form'].elements['kwtb'].value = org_input;
+				document.forms['keyword_form'].elements['sel'].options[0].selected = false;				
+				document.forms['keyword_form'].elements['kwtb'].value = org_input;
 				tmp = -1;
 				//document.getElementById("keyword").value = "";				
 			}
 
 			if(tmp >= 1){
 				tmp = tmp - 1;
-				document.forms['kw_form'].elements['sel'].options[tmp].selected = true;
-				product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
-				document.forms['kw_form'].elements['kwtb'].value = product;				
+				document.forms['keyword_form'].elements['sel'].options[tmp].selected = true;
+				product = document.forms['keyword_form'].elements['sel'].options[tmp].text;   
+				document.forms['keyword_form'].elements['kwtb'].value = product;				
 			}			
 		}
 		// enter is pressed
@@ -667,14 +667,14 @@
 			if(tfield.value.length > 0)
 			{
 				document.getElementById("show").style.display='inline-block';
-				var tmp = document.forms['kw_form'].elements['sel'].length;
+				var tmp = document.forms['keyword_form'].elements['sel'].length;
 				for(a = tmp; a >= 0; a--)
 				{
-					document.forms['kw_form'].elements['sel'].options[a] = null;
+					document.forms['keyword_form'].elements['sel'].options[a] = null;
 				}
 
 				// List of keywords
-				obj = document.forms['kw_form'].elements['sel'];				
+				obj = document.forms['keyword_form'].elements['sel'];				
 				obj[0] = new Option('factor a matrix','0');
 				obj[1] = new Option('factorization','1');
 				obj[2] = new Option('condition number','2');
@@ -755,7 +755,7 @@
 	function setKeywordValue(){
 		var val = document.getElementById("sel").selectedIndex;
 		var text = document.getElementById("sel").options[val].innerHTML;
-		document.forms['kw_form'].elements['kwtb'].value = text;
+		document.forms['keyword_form'].elements['kwtb'].value = text;
 		document.getElementById("show").style.display='none';
 	}
 
@@ -800,6 +800,8 @@
 		var time = getDateTime();
 		//alert(time);
 		checked_list = getCheckedRoutines();
+		if (checked_list.length == 0)
+			alert('No boxes were checked!');
 		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
 		return time;
         }
