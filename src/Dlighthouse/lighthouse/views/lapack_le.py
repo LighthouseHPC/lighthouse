@@ -55,7 +55,7 @@ def combine_Q(aList):
 
 ###---------------- Guided Search ------------------###
 #Question_problem: Which of the following functions do you wish to execute?
-#@login_required
+#@login_required(login_url='/')
 def search_forms(request):    
 	try:
 		request.session['selectedRoutines']
@@ -862,6 +862,8 @@ def keyword_handler2(keywords_dictionary):
 		if item == 'error bound':
 			keywords_dictionary['table'][i] = item.replace(item, 'error_bound')
 		if item in ['solution', 'solve', 'solver'] and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
+			keywords_dictionary['table'][i] = item.replace(item, 'solve')
+		if item == 'solver':
 			keywords_dictionary['table'][i] = item.replace(item, 'solve')
 	for i, item in enumerate(keywords_dictionary['matrixType']):
 		if item == 'symmetric positive definite':
