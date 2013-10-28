@@ -5,15 +5,15 @@ import socket
 
 
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+#DEBUG = True
+#EMPLATE_DEBUG = DEBUG
 
 
 # setting branches for deploying Django to the production server
-#if socket.gethostname() == 'cookie.mcs.anl.gov':
-#    DEBUG = TEMPLATE_DEBUG = True
-#else:
-#    DEBUG = TEMPLATE_DEBUG = False
+if socket.gethostname() == 'lighthouse2.mcs.anl.gov':
+    DEBUG = TEMPLATE_DEBUG = True
+else:
+    DEBUG = TEMPLATE_DEBUG = False
 
 
 
