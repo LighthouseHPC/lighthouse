@@ -5,8 +5,8 @@ import socket
 
 
 
-DEBUG = False
-#EMPLATE_DEBUG = DEBUG
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 
 # setting branches for deploying Django to the production server
