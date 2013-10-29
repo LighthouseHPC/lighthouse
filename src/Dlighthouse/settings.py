@@ -5,11 +5,11 @@ import socket
 
 
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 
-# setting branches for deploying Django to the production server
+### setting branches for deploying Django to the production server
 #if socket.gethostname() == 'lighthouse2.mcs.anl.gov':
 #    DEBUG = TEMPLATE_DEBUG = True
 #else:
