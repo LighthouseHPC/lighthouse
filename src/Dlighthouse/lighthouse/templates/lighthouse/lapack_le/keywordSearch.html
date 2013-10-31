@@ -20,15 +20,14 @@
                                 <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
                         </td>
                         <td  label for="id_q" colspan="2" >
-                                <b> Please enter a word or phrase: </b>
+                                <b> Please enter a word or phrase to search in the subroutines of <u>Linear Equations</u>: </b>
                         </td>
                 </tr>               
-                <form action="/lapack_le/keyword/" method="get" name="kw_form" id="keyword_form">
+                <form action="/lapack_le/keyword/" method="get" name="kw_form" id="keyword_form" onsubmit="return validateKeywordForm()">
                 <tr>
                         <td>&nbsp;</td>
                         <td colspan="2">
-                                <input type="text" size="60"
-                                        onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)"
+                                <input type="text" size="65"
                                         autocomplete="off"
                                         style="border:solid 1px black; font-family: Tahoma; font-size: 15px;"
                                         name="q"
