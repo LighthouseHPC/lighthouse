@@ -183,27 +183,41 @@
 
 	/* disable the radiobuttons in the first question when clicking a checkbox */
 	function disableRadiobuttons() {
-	    length = document.frmProb.length;
-	    for (i=0; i<length; i++)
-		{
-		    if (document.frmProb[i].type == "radio")
-			document.frmProb[i].disabled = "disabled";
-		}
+		length = document.frmProb.length;
+		for (i=0; i<length; i++)
+		    {
+			if (document.frmProb[i].type == "radio")
+				document.frmProb[i].disabled = "disabled";
+		    }
 	}
 
 
 
 	/* disable the checkboxes in the first question when clicking a radiobutton */
 	function disableCheckboxes() {
+		length = document.frmProb.length;
+		for (i=0; i<length; i++)
+		    {
+			if (document.frmProb[i].type == "checkbox"){
+				document.frmProb[i].disabled = "disabled";
+				document.frmProb[i].checked = false;
+			}
+		    }
+	}
+
+
+	
+	/* enable the checkboxes in the first question when clicking the last radiobutton */
+	function enableCheckboxes() {
 	    length = document.frmProb.length;
 	    for (i=0; i<length; i++)
 		{
 		    if (document.frmProb[i].type == "checkbox")
-			document.frmProb[i].disabled = "disabled";
-		}
+				document.frmProb[i].disabled = false;
+		}		
 	}
-
-
+	
+	
 	
 	/* disable THE OTHER radiobutton in the "complex numbers" question --> NOT working yet! */
 	//function disableComplex(dict) {

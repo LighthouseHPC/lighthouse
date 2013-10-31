@@ -16,10 +16,6 @@ Problem_choices = (
 	('Computational lapack_le_error_bound error',				'Compute forward or backward error bound for the solution to a linear system'),
 	('Computational lapack_le_error_bound refine',				'Refine the solution to a linear system'),
 	('Driver lapack_le_expert',						'Solve a system of linear equations AND'),
-	)
-
-
-Problem_expert_choices = (
 	('Driver lapack_le_expert refine',					'Refine the solution'),
 	('Driver lapack_le_expert error',					'Compute forward or backward error bounds for the solution'),
 	('Driver lapack_le_expert condition', 					'Estimate the condition number of the matrix'),

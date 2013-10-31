@@ -101,7 +101,13 @@ def guidedSearch_problem(request):
 
         if form_Prob.is_valid():
                 selected = form_Prob.cleaned_data['question_prob']
+		## remove Radiobutton 8: id="id_question_prob_7
+		if 'Driver lapack_le_expert' in selected:
+			selected.remove('Driver lapack_le_expert')
+			
+		## get "value"	
                 for answer in selected:
+			print answer
                         request.session['Question_problem'].append((answer, ProblemForm().find(answer))) 
 
                 cataName = selected[0].split()[0]
@@ -817,7 +823,7 @@ def spell_check(word):
 		word = 'LU'
 	elif word.lower() == 'rfp':
 		word = 'RFP'
-	elif word.lower() == 'solver':
+	elif word.lower() in ['solver', 'gaussian', 'gauss']:
 		pass
 	else: 	
 		word= correct(word)
