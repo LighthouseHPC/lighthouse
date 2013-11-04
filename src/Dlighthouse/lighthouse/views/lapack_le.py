@@ -811,20 +811,14 @@ def quoted_words(string):
 
 def spell_check(word):
 	word = re.sub(r'\b.*?qu.*?lib.*?\b', 'equilibrate', word)
-	if word.lower() =='spd':
-		word = 'SPD'
-	elif word.lower() == 'hpd':
-		word = 'HPD'
+	if word.lower() in ['spd', 'hpd', 'lu', 'qr', 'rfp']:
+		word = word.upper()
 	elif word.lower() == 'spsd':
 		word = 'SPsD'
 	elif word.lower() == 'hpsd':
 		word = 'HPsD'		
-	elif word.lower() == 'lu':
-		word = 'LU'
-	elif word.lower() == 'rfp':
-		word = 'RFP'
-	elif word.lower() in ['solver', 'gaussian', 'gauss']:
-		pass
+	#elif word.lower() in ['gaussian', 'qr']:
+	#	pass
 	else: 	
 		word= correct(word)
 	return word
@@ -852,6 +846,7 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bband.*?\b', 'band', strings)
 	strings = re.sub(r'\bpack.*?\b', 'packed', strings)
 	strings = re.sub(r'\brectang.*?\b fu.*? pa.*?\b', '\"'+'rectangular full packed'+'\"', strings)
+	strings = re.sub(r'\gauss.*? elim.*?\b', 'Gaussian elimination', strings)
 	return strings	
 
 
