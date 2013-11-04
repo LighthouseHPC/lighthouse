@@ -155,12 +155,6 @@
 
 	});
 
-	
-	/* clear cookie */
-	//function clearCookie() {
-	//	dojo.cookie("nameList", null, {expire: -1});
-	//}
-	
 
 	/* showing/hiding the table in the search result by clicking the image */
 	function show_hide(tblid, show) {
@@ -180,41 +174,45 @@
 		   fr.style.display="none";
 		}
 	}
+	
 
-	/* disable the radiobuttons in the first question when clicking a checkbox */
-	function disableRadiobuttons() {
-		length = document.frmProb.length;
-		for (i=0; i<length; i++)
-		    {
-			if (document.frmProb[i].type == "radio")
-				document.frmProb[i].disabled = "disabled";
+	// Check radio buttons in guided search, if none is selected return false, else return true
+	function checkRadios(){
+		var radios = document.getElementsByTagName('input');
+		var checked = false;
+		for (var i = 0; i < radios.length; i++) {
+		    if (radios[i].type === 'radio' && radios[i].checked) {
+		        checked = true;
 		    }
+		}
+		return checked;
 	}
+	
+	
+	
 
-
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Guided Search ------------------------------- */
+	/*--------------------------------------------------------------------------------- */
 
 	/* disable the checkboxes in the first question when clicking a radiobutton */
 	function disableCheckboxes() {
-		length = document.frmProb.length;
-		for (i=0; i<length; i++)
-		    {
-			if (document.frmProb[i].type == "checkbox"){
-				document.frmProb[i].disabled = "disabled";
-				document.frmProb[i].checked = false;
-			}
-		    }
+                dojo.query('[name=question_prob]').forEach(function(n){
+                        if (n.type == "checkbox"){
+                                n.disabled = true;
+				n.checked = false;
+                        }               
+                });
 	}
-
 
 	
 	/* enable the checkboxes in the first question when clicking the last radiobutton */
 	function enableCheckboxes() {
-	    length = document.frmProb.length;
-	    for (i=0; i<length; i++)
-		{
-		    if (document.frmProb[i].type == "checkbox")
-				document.frmProb[i].disabled = false;
-		}		
+                dojo.query('[name=question_prob]').forEach(function(n){
+                        if (n.type == "checkbox"){
+                                n.disabled = false;
+                        }               
+                });
 	}
 	
 	
@@ -228,37 +226,17 @@
 	//		document.frmComp[i].disabled = "disabled";
 	//	}
 	//}
-
 	
+
+
 	/* Ask for confirmation when user clicks on Restart Search button */
 	function show_confirm(){
 		var restart = "";
-		restart = confirm("Are you sure you start over the search?");
+		restart = confirm("Are you sure you want to start over the search?");
 		if(restart)
-			window.location = "/lapack_le/";
-		else
-			return false;		
+			window.location = "/lapack_le/";	
 	}
 
-
-	
-	/* Eliminate duplicated elements in arrays */
-	//Array.prototype.unique = function () {
-	//	var r = new Array();
-	//	o:for(var i = 0; i< this.length; i++)
-	//	{
-	//		for(var j = 0; j< r.length; j++)
-	//		{
-	//			if(r[j]==this[i])
-	//			{
-	//				//alert(r[j] +' is a DUPE!');
-	//				continue o;
-	//			}
-	//		}
-	//		r[r.length] = this[i];
-	//	}
-	//	return r;
-	//}
 
 	
 	// Functions for faster tooltips for submit and clear buttons
@@ -266,20 +244,10 @@
 		document.getElementById(id).innerHTML=text;
 		document.getElementById(id).style.color=color;
 	}
-
-
-	// Check radio buttons in guided search, if none is selected return false, else return true
-	function checkRadios(){
-		var radios = document.getElementsByTagName('input');
-		var checked = false;
-		for (var i = 0; i < radios.length; i++) {
-		    if (radios[i].type === 'radio' && radios[i].checked) {
-		        checked = true;
-		    }
-		}
-		return checked;
-	}
-
+	
+	
+	
+	
 	/*--------------------------------------------------------------------------------- */	
 	/* ------------------------------ For Advanced Search ----------------------------- */
 	/*--------------------------------------------------------------------------------- */
