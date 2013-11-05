@@ -9,7 +9,7 @@ from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_
 
 
 @dajaxice_register
-def createTemplate(request, checked_list, language, time):
+def createTemplate(request, checked_list, time):
 	dajax = Dajax()
 	try:
 		###--- for 'fortran' ---###
