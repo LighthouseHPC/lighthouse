@@ -987,14 +987,27 @@
 
 	// Clear code template area and remove template file from server
 	function clearTemplateArea(){
-		dojo.byId("template_output").innerHTML = "";	
+		dojo.empty("template_output_f");
+		dojo.empty("template_output_c");
 	}
 
 	// Check if there's any code template, allow download if template is not empty
 	function downloadTemplate(time){
-		var content = dojo.byId("template_output").innerHTML;
+		var content;
+		var extension;
+		if (document.getElementById('divSyntax_f').style.display == 'block'){
+			content = dojo.byId("divSyntax_f").innerHTML;
+			extension = 'f90';
+		}
+		
+		else if (document.getElementById('divSyntax_c').style.display == 'block'){
+			content = dojo.byId("divSyntax_c").innerHTML;
+			extension = 'c';
+		}
+		
+		
 		if(content.length > 0 && time != '')			
-			window.location = '/static/download/lighthouse_'+time+'.zip';
+			window.location = '/static/download/lighthouse_'+time+'_'+extension+'.zip';
 		else
 			alert("No template code was generated!");
 	}
