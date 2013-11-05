@@ -11,46 +11,36 @@ from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_
 @dajaxice_register
 def createTemplate(request, checked_list, language, time):
 	dajax = Dajax()
+	dajax.add_css_class("#template_output", "brush: %s;"%language)
+	file_zip = zipfile.ZipFile("./static/download/lighthouse_%s.zip"%time, "w")
 	try:
-		###--- for 'fortran' ---###
-		dajax.add_css_class("#template_output_f", "brush: fortran;")
-		file_zip_f = zipfile.ZipFile("./static/download/lighthouse_%s_f90.zip"%time, "w")
-		## merge files of different routines for output
-		with open('./static/download/%s.f90'%time, 'w') as outfile:
-			for item in checked_list:
-				item = item.lower()
-				go = generateTemplate(item)
-				go.make_template()
-				name = "./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item
-				file_zip_f.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
-				with open(name,"r") as infile:
-					outfile.write(infile.read())
-		f_output_f = open("./static/download/%s.f90"%time,"r")
-		dajax.assign("#template_output_f", 'innerHTML', f_output_f.read())
+		if language == 'fortran':
+			with open('./static/download/%s.f90'%time, 'w') as outfile:
+				for item in checked_list:
+					item = item.lower()
+					go = generateTemplate(item)
+					go.make_template()
+					name = "./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item
+					file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+					with open(name,"r") as infile:
+						outfile.write(infile.read())
+			f_output = open("./static/download/%s.f90"%time,"r")
+		elif language == 'cpp':
+			with open('./static/download/%s.c'%time, 'w') as outfile:
+				for item in checked_list:
+					item = item.lower()
+					go = generateTemplate_C(item)
+					go.make_template()
+					name = "./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item
+					file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+					with open(name,"r") as infile:
+						outfile.write(infile.read())
+			f_output = open("./static/download/%s.c"%time,"r")
+	
+		dajax.assign("#template_output", 'innerHTML', f_output.read())
 		dajax.script('SyntaxHighlighter.highlight()')
-		os.remove('./static/download/%s.f90'%time)
-		f_output_f.close()
-		file_zip_f.close()
-		
-		###--- for 'cpp' ---###
-		dajax.add_css_class("#template_output_c", "brush: cpp;")
-		file_zip_c = zipfile.ZipFile("./static/download/lighthouse_%s_c.zip"%time, "w")
-		## merge files of different routines for output
-		with open('./static/download/%s.c'%time, 'w') as outfile:
-			for item in checked_list:
-				item = item.lower()
-				go = generateTemplate_C(item)
-				go.make_template()
-				name = "./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item
-				file_zip_c.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
-				with open(name,"r") as infile:
-					outfile.write(infile.read())
-		f_output_c = open("./static/download/%s.c"%time,"r")
-		dajax.assign("#template_output_c", 'innerHTML', f_output_c.read())
-		dajax.script('SyntaxHighlighter.highlight()')
-		os.remove('./static/download/%s.c'%time)
 		f_output.close()
-		file_zip_c.close()
+		file_zip.close()
 		
 	except:
 		dajax.assign("#template_output", 'innerHTML', 'Coming soon...')		
