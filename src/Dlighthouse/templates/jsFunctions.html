@@ -783,7 +783,20 @@
 		checked_list = getCheckedRoutines();
 		if (checked_list.length == 0)
 			alert('No boxes were checked!');
-		Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
+		else
+			if (language == 'fortran'){
+				document.getElementById('divSyntax_f').style.display = 'block';
+				document.getElementById('divSyntax_c').style.display = 'none';
+			}
+		
+			else if (language == 'cpp'){
+				document.getElementById('divSyntax_c').style.display = 'block';
+				document.getElementById('divSyntax_f').style.display = 'none';
+			}
+			
+			if (dojo.byId('template_output_f').innerHTML == '' || dojo.byId('template_output_c').innerHTML == '')
+				Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
+		
 		return time;
         }
 
