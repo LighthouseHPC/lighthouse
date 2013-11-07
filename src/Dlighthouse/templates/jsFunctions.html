@@ -777,27 +777,16 @@
         
         // generate code template: call lighthouse.lapack_le.createTemplate using dajax
         function generateTemplate(language){
-		var checked_list = [];
-		var time = getDateTime();
-		//alert(time);
-		checked_list = getCheckedRoutines();
-		if (checked_list.length == 0)
-			alert('No boxes were checked!');
-		else
-			if (language == 'fortran'){
-				document.getElementById('divSyntax_f').style.display = 'block';
-				document.getElementById('divSyntax_c').style.display = 'none';
-			}
-		
-			else if (language == 'cpp'){
-				document.getElementById('divSyntax_c').style.display = 'block';
-				document.getElementById('divSyntax_f').style.display = 'none';
-			}
+                var checked_list = [];
+                var time = getDateTime();
+                //alert(time);
+                checked_list = getCheckedRoutines();
+                if (checked_list.length == 0)
+                        alert('No boxes were checked!');
 			
-			if (dojo.byId('template_output_f').innerHTML == '' || dojo.byId('template_output_c').innerHTML == '')
-				Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'time': time});
-		
-		return time;
+		else
+			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
+                return time;
         }
 
 	
@@ -986,32 +975,18 @@
 	/*--------------------------------------------------------------------------------- */
 
 	// Clear code template area and remove template file from server
-	function clearTemplateArea(){
-		dojo.empty("template_output_f");
-		dojo.empty("template_output_c");
-	}
+        function clearTemplateArea(){
+                dojo.byId("template_output").innerHTML = "";    
+        }
 
-	// Check if there's any code template, allow download if template is not empty
-	function downloadTemplate(time){
-		var content;
-		var extension;
-		if (document.getElementById('divSyntax_f').style.display == 'block'){
-			content = dojo.byId("divSyntax_f").innerHTML;
-			extension = 'f90';
-		}
-		
-		else if (document.getElementById('divSyntax_c').style.display == 'block'){
-			content = dojo.byId("divSyntax_c").innerHTML;
-			extension = 'c';
-		}
-		
-		
-		if(content.length > 0 && time != '')			
-			window.location = '/static/download/lighthouse_'+time+'_'+extension+'.zip';
-		else
-			alert("No template code was generated!");
-	}
-
+        // Check if there's any code template, allow download if template is not empty
+        function downloadTemplate(time){
+                var content = dojo.byId("template_output").innerHTML;
+                if(content.length > 0 && time != '')                    
+                        window.location = '/static/download/lighthouse_'+time+'.zip';
+                else
+                        alert("No template code was generated!");
+        }
 	
 	
 
@@ -1269,7 +1244,10 @@
 				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
 								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
 		}
-		//console.log(paramProperty);
+		//start loading spinner
+		document.body.appendChild(waitStandby.domNode);
+		dojo.byId("waitScript").style.display = "block";
+		waitStandby.show();
 		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
 	}
 
