@@ -132,7 +132,7 @@ def make_mfile(request, paramProperty):
 
 	os.chdir(defaultDir)
 
-	#dajax.script('dojo.byId("waitScript").style.display = "none"')
-	#dajax.script('waitStandby.hide()')
+	dajax.script('dojo.byId("waitScript").style.display = "none"')
+	dajax.script('waitStandby.hide()')
 		     
 	return dajax.json()
