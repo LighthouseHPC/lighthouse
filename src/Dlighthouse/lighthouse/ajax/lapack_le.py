@@ -125,6 +125,9 @@ def make_mfile(request, paramProperty):
 		
 	try: 
 		dajax.assign("#script_output", 'innerHTML', output)
+		f = open("%s/static/download/script/%s.m"%(defaultDir, paramProperty['kernelName']),"w")
+		f.write(output)
+		f.close()
 	
 	except Exception, e:
 		print 'cannot display output because of: '

@@ -1291,7 +1291,7 @@
 	function outputDownload(){		
 		var content = dojo.byId('script_output').value;
 		if(content.length > 0)			
-			window.location = '/lapack_le/downloadCFile/';
+			window.location = '/static/download/script/'+dojo.byId("kernelName").value+'.m';
 	}
 
 </script>
