@@ -1,8 +1,8 @@
         MODULE Declaration
-            !--- declare arrays to be allocatable ---!
-            INTEGER                                                     :: N, NRHS, LDA, LDB, INFO, I, J
+            INTEGER                                                     :: N,NRHS,LDA,LDB,INFO, I, J
             INTEGER, DIMENSION(:), ALLOCATABLE                          :: IPIV
-            REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE                :: A, B
+            REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE                :: A,B
+            
         END MODULE Declaration
                 
 
@@ -10,7 +10,7 @@
             USE Declaration
             IMPLICIT NONE
             
-            !--- solve Ax = B ---!
+            !--- message ---!
             PRINT *, "*********************************"
             PRINT *, "*** Use dgesv to solve Ax = B ***"
             PRINT *, "*********************************"
@@ -30,82 +30,72 @@
 
             
             !--- call lapack subroutine dgesv ---!
-            CALL DGESV( N, NRHS, A, LDA, IPIV, B, LDB, INFO )
-
+            CALL dgesv ( N, NRHS, A, LDA, IPIV, B, LDB, INFO )
 
             
-            !--- write the solution ---!
-            !--- Note: the solution is returned in B and A has been changed ---!  
-            CALL PRINT_SOLUTION( B, N, NRHS)
-            CALL PRINT_INFO( INFO)
+            !--- write the solution ---! 
+            CALL PRINT_SOLUTION
+             
+            !--- write INFO ---!
+            WRITE(*, *) "INFO = ", INFO
             
-            DEALLOCATE(A,IPIV,B)
+            DEALLOCATE(A,B,IPIV)
         END PROGRAM TEMP_dgesv
         
 
 
         
         SUBROUTINE OPEN_FILES
-            !--- obtain the dada of the square matrix A ---!
-            OPEN (unit=11, file='data_dgesv.txt', status='old')
+            !--- obtain the dada of the matrix A ---!
+            OPEN (unit=11, file='file_name_for_data_A', status='old')
             
             !--- obtain the data of right hand side B ---!
-            OPEN (unit=99, file='array_dgesv.txt', status='old')
+            OPEN (unit=22, file='file_name_for_data_B', status='old')
         END SUBROUTINE OPEN_FILES
         
 
 	SUBROUTINE DIMNS_ASSIGNMENT
 	    USE Declaration
 	    !--- obtain inputs ---!
-	    WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of B, LDB = '
-	    READ *, LDB 
-	    WRITE(*, '(A)', ADVANCE = 'NO') 'Input leading dimension of A, LDA = '
-	    READ *, LDA 
-	    WRITE(*, '(A)', ADVANCE = 'NO') 'Input the order of your square matrix. N = '
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input number of columns in B. NRHS = "
+            READ *, NRHS
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input number of columns in matrix A. N >= 0. N = "
 	    READ *, N 
-	    WRITE(*, '(A)', ADVANCE = 'NO') 'Input number of columns in B. NRHS = '
-	    READ *, NRHS 
 
-	    !--- allocate matrix/array ---!
-	    ALLOCATE(A(LDA,N)) 
-	    ALLOCATE(IPIV(N)) 
-	    ALLOCATE(B(LDB,NRHS)) 
+	    LDA = max(1,N)
+	    LDB = max(1,N)
+
+	    !--- allocate arrays ---!
+	    ALLOCATE(A(LDA, N))
+	    ALLOCATE(B(LDB, NRHS))
+	    ALLOCATE(IPIV(N))
 	END SUBROUTINE DIMNS_ASSIGNMENT
 
 
 	SUBROUTINE GET_DATA
 	    USE Declaration
-            !--- read data from file for A ---!
-            READ(11, *) ((A(I,J),J=1,N),I=1,LDA)
-            !--- read data from file for B ---!
-            READ(99,*) ((B(I,J),J=1,NRHS),I=1,LDB)
+	    !--- read data from files ---!
+	    READ(11, *) ((A(I,J),J=1,N),I=1,N)
+
+	    !--- read data from file for B ---!
+	    READ(22, *) ((B(I,J),J=1,NRHS),I=1,LDB)
 	END SUBROUTINE GET_DATA
 
 
-        SUBROUTINE PRINT_SOLUTION( B, N, NRHS )
-            INTEGER             :: N, NRHS, I, J
-            REAL(KIND=8)     :: B (N, NRHS)
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
 
+            !--- Note: the solution is returned in B and A has been changed ---! 
             WRITE(*,*)
             WRITE(*,*) 'SOLUTION: '
-            DO I = 1, N
+            DO I = 1, LDB
                 WRITE(*,11100) ( B( I, J ), J = 1, NRHS )
             END DO
             WRITE(*,*)
                    
             !--- real ---!
-11100       FORMAT(11(:,1X, F6.2))            
+11100       FORMAT(11(:,1X, F8.4))            
 
             !--- complex ---!    
 22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
         END SUBROUTINE PRINT_SOLUTION
-
-
-
-        SUBROUTINE PRINT_INFO( INFO)
-             INTEGER             :: INFO
-             
-             WRITE(*, *) "info = ", INFO
-        END SUBROUTINE PRINT_INFO
-        
-        
