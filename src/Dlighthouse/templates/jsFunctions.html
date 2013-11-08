@@ -1244,11 +1244,35 @@
 				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
 								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
 		}
+		
 		//start loading spinner
 		document.body.appendChild(waitStandby.domNode);
 		dojo.byId("waitScript").style.display = "block";
 		waitStandby.show();
+		
+		// start timer
+		var totalSeconds = 1;
+		var timer=setInterval(updateTime, 1000);	
+		function updateTime() {
+			totalSeconds++;
+			dojo.byId("seconds").innerHTML = pad(totalSeconds%60);
+			dojo.byId("minutes").innerHTML = pad(parseInt(totalSeconds/60));
+		}
+	    
+		function pad(val) {
+			var valString = val + "";
+			if (valString.length < 2) {
+				return "0" + valString;
+			}
+			else {
+				 return valString;
+			}
+		}
+		
 		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
+		
+		// stop timer
+		clearInterval(timer);
 	}
 
 	
