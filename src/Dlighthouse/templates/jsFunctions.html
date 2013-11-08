@@ -1272,8 +1272,10 @@
 		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
 		
 		// stop timer
-		//clearInterval(timer);
-		alert("Hello!");
+		setTimeout(stopUpdating, 3600000);
+		function stopUpdating() {
+			clearInterval(timer);
+		}
 	}
 
 	
