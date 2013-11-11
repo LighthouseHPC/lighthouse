@@ -1251,33 +1251,46 @@
 		waitStandby.show();
 		
 		// start timer
-		var totalSeconds = 1;
-		var timer=setInterval(updateTime, 1000);	
-		function updateTime() {
-			totalSeconds++;
-			dojo.byId("seconds").innerHTML = pad(totalSeconds%60);
-			dojo.byId("minutes").innerHTML = pad(parseInt(totalSeconds/60));
-		}
-	    
-		function pad(val) {
-			var valString = val + "";
-			if (valString.length < 2) {
-				return "0" + valString;
-			}
-			else {
-				 return valString;
-			}
-		}
+		doTimer();
 		
 		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
-		
-		// stop timer
-		setTimeout(stopUpdating, 3600000);
-		function stopUpdating() {
-			clearInterval(timer);
-		}
 	}
 
+
+	
+	// Set up timer
+	var totalSeconds = 1;
+	var timer_is_on = 0;
+	var timer;
+
+	function updateTime() {
+		totalSeconds++;
+		dojo.byId("seconds").innerHTML = pad(totalSeconds%60);
+		dojo.byId("minutes").innerHTML = pad(parseInt(totalSeconds/60));
+		timer=setInterval(updateTime, 1000);
+	}
+    
+	function pad(val) {
+		var valString = val + "";
+		if (valString.length < 2) {
+			return "0" + valString;
+		}
+		else {
+			 return valString;
+		}
+	}
+	
+	function doTimer(){
+	    if (!timer_is_on){
+		timer_is_on=1;
+		updateTime();
+	    }
+	}
+	
+	function stopTimer(){
+	    clearInterval(timer);
+	    timer_is_on=0;
+	}
 	
 	
 	// Called when user clicks the "Clear" button
@@ -1285,8 +1298,12 @@
 		// Replace the contents of input and output panel with empty strings
 		clearKernelEquation();
 		dojo.byId('script_output').value = "";
+		dojo.byId("waitScript").style.display = "none";
+		waitStandby.hide();
+		stopTimer();
 	}
 
+	
 	// Download the best C file
 	function outputDownload(){		
 		var content = dojo.byId('script_output').value;

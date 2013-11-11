@@ -137,5 +137,6 @@ def make_mfile(request, paramProperty):
 
 	dajax.script('dojo.byId("waitScript").style.display = "none"')
 	dajax.script('waitStandby.hide()')
+	dajax.script('stopTimer()')
 		     
 	return dajax.json()
