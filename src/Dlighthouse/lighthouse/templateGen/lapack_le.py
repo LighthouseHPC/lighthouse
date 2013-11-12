@@ -3,7 +3,7 @@ import os, fnmatch, re
 from lighthouse.models.lapack_le import lapack_le_arg, lapack_le_arg_c
 
 fortran_path = './lighthouse/templateGen/fortran/'
-c_path = './lighthouse/templateGen/C/'
+c_path = './lighthouse/templateGen/cpp/'
 
 keyword_list = ['trf', 'trs', 'con', 'tri', 'rfs', 'equ', 'svx']
 
@@ -235,8 +235,8 @@ class generateTemplate(object):
 
 
 """ generate template in C """
-class generateTemplate_C(object):
-    __name__ = 'generateTemplate_C'
+class generateTemplate_cpp(object):
+    __name__ = 'generateTemplate_cpp'
     
     def __init__(self, routineName):
         self.routineName = routineName
