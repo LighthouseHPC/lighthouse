@@ -5,10 +5,11 @@ from dajax.core import Dajax
 import os, glob, zipfile
 from datetime import datetime
 from codeGen.templates import BTOGenerator
-from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
+from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_cpp
 
 
 dir_download = "./static/download/"
+extension_dic = {'fortran': 'f90', 'cpp': 'c'} 
 
 @dajaxice_register
 def createTemplate(request, checked_list, language, time):
@@ -16,30 +17,43 @@ def createTemplate(request, checked_list, language, time):
 	dajax.add_css_class("#template_output", "brush: %s;"%language)
 	file_zip = zipfile.ZipFile(dir_download+"lighthouse_%s.zip"%time, "w")
 	try:
-		if language == 'fortran':
-			makeFile("temp_%s.f90"%checked_list[0].lower())
-			with open(dir_download+'%s.f90'%time, 'w') as outfile:
-				for item in checked_list:
-					item = item.lower()
-					go = generateTemplate(item)
-					go.make_template()
-					name = "./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item
-					file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
-					with open(name,"r") as infile:
-						outfile.write(infile.read())
-			f_output = open(dir_download+"%s.f90"%time,"r")
-		elif language == 'cpp':
-			makeFile("temp_%s.c"%checked_list[0].lower())
-			with open(dir_download+'%s.c'%time, 'w') as outfile:
-				for item in checked_list:
-					item = item.lower()
-					go = generateTemplate_C(item)
-					go.make_template()
-					name = "./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item
-					file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
-					with open(name,"r") as infile:
-						outfile.write(infile.read())
-			f_output = open(dir_download+"%s.c"%time,"r")
+		extension = extension_dic[language]
+		makeFile("temp_%s.%s"%(checked_list[0].lower(), extension))
+		with open(dir_download+'%s.%s'%(time, extension), 'w') as outfile:
+			for item in checked_list:
+				item = item.lower()
+				go = generateTemplate(item)
+				go.make_template()
+				name = "./lighthouse/templateGen/%s/codeTemplates/temp_%s.%s"%(language, item, extension)
+				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+				with open(name,"r") as infile:
+					outfile.write(infile.read())
+		f_output = open(dir_download+"%s.%s"%(time, extension),"r")
+		
+		#if language == 'fortran':
+		#	makeFile("temp_%s.f90"%checked_list[0].lower())
+		#	with open(dir_download+'%s.f90'%time, 'w') as outfile:
+		#		for item in checked_list:
+		#			item = item.lower()
+		#			go = generateTemplate(item)
+		#			go.make_template()
+		#			name = "./lighthouse/templateGen/fortran/codeTemplates/temp_%s.f90"%item
+		#			file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+		#			with open(name,"r") as infile:
+		#				outfile.write(infile.read())
+		#	f_output = open(dir_download+"%s.f90"%time,"r")
+		#elif language == 'cpp':
+		#	makeFile("temp_%s.c"%checked_list[0].lower())
+		#	with open(dir_download+'%s.c'%time, 'w') as outfile:
+		#		for item in checked_list:
+		#			item = item.lower()
+		#			go = generateTemplate_C(item)
+		#			go.make_template()
+		#			name = "./lighthouse/templateGen/C/codeTemplates/temp_%s.c"%item
+		#			file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
+		#			with open(name,"r") as infile:
+		#				outfile.write(infile.read())
+		#	f_output = open(dir_download+"%s.c"%time,"r")
 	
 		file_zip.write(dir_download+"makefile", os.path.basename(dir_download+"makefile"), zipfile.ZIP_DEFLATED)
 		dajax.assign("#template_output", 'innerHTML', f_output.read())
