@@ -8,14 +8,17 @@ from codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
 
 
+dir_download = "./static/download/"
+
 @dajaxice_register
 def createTemplate(request, checked_list, language, time):
 	dajax = Dajax()
 	dajax.add_css_class("#template_output", "brush: %s;"%language)
-	file_zip = zipfile.ZipFile("./static/download/lighthouse_%s.zip"%time, "w")
+	file_zip = zipfile.ZipFile(dir_download+"lighthouse_%s.zip"%time, "w")
 	try:
 		if language == 'fortran':
-			with open('./static/download/%s.f90'%time, 'w') as outfile:
+			makeFile("temp_%s.f90"%checked_list[0].lower())
+			with open(dir_download+'%s.f90'%time, 'w') as outfile:
 				for item in checked_list:
 					item = item.lower()
 					go = generateTemplate(item)
@@ -24,9 +27,10 @@ def createTemplate(request, checked_list, language, time):
 					file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
 					with open(name,"r") as infile:
 						outfile.write(infile.read())
-			f_output = open("./static/download/%s.f90"%time,"r")
+			f_output = open(dir_download+"%s.f90"%time,"r")
 		elif language == 'cpp':
-			with open('./static/download/%s.c'%time, 'w') as outfile:
+			makeFile("temp_%s.c"%checked_list[0].lower())
+			with open(dir_download+'%s.c'%time, 'w') as outfile:
 				for item in checked_list:
 					item = item.lower()
 					go = generateTemplate_C(item)
@@ -35,12 +39,14 @@ def createTemplate(request, checked_list, language, time):
 					file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
 					with open(name,"r") as infile:
 						outfile.write(infile.read())
-			f_output = open("./static/download/%s.c"%time,"r")
+			f_output = open(dir_download+"%s.c"%time,"r")
 	
+		file_zip.write(dir_download+"makefile", os.path.basename(dir_download+"makefile"), zipfile.ZIP_DEFLATED)
 		dajax.assign("#template_output", 'innerHTML', f_output.read())
 		dajax.script('SyntaxHighlighter.highlight()')
 		f_output.close()
 		file_zip.close()
+		os.remove(dir_download+"makefile")
 		
 	except:
 		dajax.assign("#template_output", 'innerHTML', 'Coming soon...')		
@@ -49,16 +55,17 @@ def createTemplate(request, checked_list, language, time):
 	
 
 
-#@dajaxice_register
-#def removeTemplateFile(request):
-#	dajax = Dajax()
-#	fileName = generatedCodeTemplate_dir + request.session.session_key;
-#	if os.path.isfile(fileName + '.c'):
-#		os.remove(fileName + '.c')
-#	elif os.path.isfile(fileName + '.f'):
-#		os.remove(fileName + '.f')
-#
-#	return dajax.json()
+
+def makeFile(file_name):
+	with open(dir_download+'makefile', 'w') as outfile:
+		outfile.write("# This is a simple example of how to compile a program containing a LAPACK routine. \n\n")
+		if ".f90" in file_name:
+			outfile.write("CC=gfortran\nCFLAGS=-llapack -lblas\n\n")	
+		elif ".c" in file_name:
+			outfile.write("CC=gcc\nCFLAGS=-llapack -lblas\n\n")
+		outfile.write("lapackout: %s\n"%file_name)
+		outfile.write("\t$(CC) $(CFLAGS) -o lapackout %s"%file_name)	
+
 
 
 
