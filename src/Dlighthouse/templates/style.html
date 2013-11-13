@@ -408,4 +408,33 @@
 		border-color: lightblue;
 		border-radius: 10px; 
 	}
+	
+	
+	
+	/* Script area buttons */
+	.scriptButton {
+		cursor:pointer; /*forces the cursor to change to a hand when the button is hovered*/
+		padding:2px 5px; /*add some padding to the inside of the button*/
+		background:#35b128; /*the colour of the button*/
+		border:1px solid #33842a; /*required or the default border for the browser will appear*/
+		/*give the button curved corners, alter the size as required*/
+		-moz-border-radius: 8px;
+		-webkit-border-radius: 8px;
+		border-radius: 8px;
+		/*give the button a drop shadow*/
+		-webkit-box-shadow: 0 0 2px rgba(0,0,0, .75);
+		-moz-box-shadow: 0 0 2px rgba(0,0,0, .75);
+		box-shadow: 0 0 2px rgba(0,0,0, .75);
+		/*style the text*/
+		color:#f3f3f3;
+		font-size:1.0em;
+		}
+		/***NOW STYLE THE BUTTON'S HOVER AND FOCUS STATES***/
+		input#gobutton:hover, input#gobutton:focus{
+		background-color :#399630; /*make the background a little darker*/
+		/*reduce the drop shadow size to give a pushed button effect*/
+		-webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+		-moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+		box-shadow: 0 0 1px rgba(0,0,0, .75);
+	}
 </style>

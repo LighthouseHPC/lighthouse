@@ -36,13 +36,13 @@
                     </tr>
                     <tr>
                         <td align="left">
-                            <button type="reset" onclick="clearKernelEquation()";>
+                            <button class="scriptButton" type="reset" onclick="clearKernelEquation()";>
                                 Reset
                             </button>
                         </td>
                         <td align="right">
-                            <button type="submit" name="submitButton" onclick="submitEquation()";>
-                                Submit
+                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation()";>
+                                Check Script
                             </button>
                         </td>
                     </tr>
@@ -51,6 +51,13 @@
                         <td colspan="2">
                             <table id="parameterTable" cellspacing="10">    
                             </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="right">
+                            <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none;" onclick="runScript();">
+                               Generate Code with BTO
+                            </button>
                         </td>
                     </tr>
                 </table>
@@ -67,11 +74,11 @@
     <div id="button-div" style="padding: 2px; margin-top: 10px;">
         <table style="width:100%; margin: 0px auto;">
             <tr style="width:100%;">
-                <td style="text-align:left;">
+<!--                <td style="text-align:left;">
                     <button type="button" name="Submit" id="codeSubmitButton" onclick="runScript();">
                        Create input file
                     </button>
-                </td>
+                </td>-->
                 <td style="text-align:right;">
                     <button type="button" id="clearCode" title="Clear Code" onclick="clearScript();">Clear all
                     </button>
