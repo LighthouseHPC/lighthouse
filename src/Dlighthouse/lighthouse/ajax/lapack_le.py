@@ -5,7 +5,7 @@ from dajax.core import Dajax
 import os, glob, zipfile
 from datetime import datetime
 from codeGen.templates import BTOGenerator
-from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_cpp
+from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
 
 
 dir_download = "./static/download/"
@@ -23,7 +23,7 @@ def createTemplate(request, checked_list, language, time):
 			for item in checked_list:
 				item = item.lower()
 				if language == 'cpp':
-					go = generateTemplate_cpp(item)
+					go = generateTemplate_C(item)
 				else:
 					go = generateTemplate(item)
 				go.make_template()

@@ -235,8 +235,8 @@ class generateTemplate(object):
 
 
 """ generate template in C """
-class generateTemplate_cpp(object):
-    __name__ = 'generateTemplate_cpp'
+class generateTemplate_C(object):
+    __name__ = 'generateTemplate_C'
     
     def __init__(self, routineName):
         self.routineName = routineName
