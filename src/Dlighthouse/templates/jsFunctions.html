@@ -1055,110 +1055,89 @@
 		kernel.push(kernelName);
 		kernel.push(equation);
 		
+		if (equation == 0 || kernelName == 0) {
+			alert("Please complete all fields.")
+		}
 		
-		// separate equations
-		equationList = equation.split("\n");
-		
-		
-		// find the index of '=' in EACH equation
-		for (var i=0; i<equationList.length; i++){
-			if(equationList[i].indexOf('=') == -1)
-			{
-			  alert("No equal sign in equation "+(i+1)+": "+equationList[i]+".");
+		else {
+			// separate equations
+			equationList = equation.split("\n");
+			
+			// find the index of '=' in EACH equation
+			for (var i=0; i<equationList.length; i++){
+				if (equationList[i].indexOf('=') == -1)
+				{
+				  alert("No equal sign in equation "+(i+1)+": "+equationList[i]+".");
+				}
+				else
+					positionEqualArray.push(indexEqual(equationList[i]));
 			}
-			else
+			
+			
+			
+			// find special words in equation and remove them from equation
+			for (var i=0; i<specialWords.length; i++){
+				for (var j=0; j<equationList.length; j++){
+					if (equationList[j].search(specialWords[i]) != -1){
+						if (equationList[j].indexOf(specialWords[i][0]) < positionEqualArray[j]){
+							optionOut.push(specialWords[i]);
+						}
+						else {
+							optionIn.push(specialWords[i]);
+						}
+					equationList[j] = equationList[j].replace(specialWords[i], "");
+					}
+				}
+			}
+			
+			
+			// find the index of '=' in EACH equation
+			positionEqualArray = [];
+			for (var i=0; i<equationList.length; i++){
 				positionEqualArray.push(indexEqual(equationList[i]));
-		}
-		
-		
-		
-		// find special words in equation and remove them from equation
-		for (var i=0; i<specialWords.length; i++){
-			for (var j=0; j<equationList.length; j++){
-				if (equationList[j].search(specialWords[i]) != -1){
-					if (equationList[j].indexOf(specialWords[i][0]) < positionEqualArray[j]){
-						optionOut.push(specialWords[i]);
+			}
+			
+			
+			// seperate the letters in equation
+			var regexLetter = /[a-zA-Z]/;
+			for (var k=0; k<equationList.length; k++){		
+				for (var i=0; i<equationList[k].length; i++){
+					if (regexLetter.test(equationList[k][i]) && i<positionEqualArray[k]){
+						optionOut.push(equationList[k][i]);                              
 					}
-					else {
-						optionIn.push(specialWords[i]);
-					}
-				equationList[j] = equationList[j].replace(specialWords[i], "");
+					if (regexLetter.test(equationList[k][i]) && i>positionEqualArray[k]){
+						optionIn.push(equationList[k][i]);                              
+					}	
 				}
 			}
-		}
+			
+			
+			//remove duplicates in OptionIn and OptionOut
+			optionIn = optionIn.filter(removeElem);		
+			optionOut = optionOut.filter(removeElem);
 		
-		
-		// find the index of '=' in EACH equation
-		positionEqualArray = [];
-		for (var i=0; i<equationList.length; i++){
-			positionEqualArray.push(indexEqual(equationList[i]));
-		}
-		
-		
-		
-		
-		
-		//// find 'transpose'
-		//patt = /.'/g
-		//var transposeArr = [];
-		//while ( (result = patt.exec(equation)) ) {
-		//	transposeArr.push(result);
-		//}		
-		//
-		//for (var i=0; i<transposeArr.length; i++){
-		//	if (transposeArr[i].index < positionEqual){
-		//		optionOut.push(transposeArr[i][0]);
-		//	}
-		//	else {
-		//		optionIn.push(transposeArr[i][0]);
-		//	}
-		//	equation = equation.replace(transposeArr[i], "");
-		//}
-		//
-		//
-		//// find the index of '='
-		//positionEqual = indexEqual(equation);
-		
-		
-		
-		
-		
-		// seperate the letters in equation
-		var regexLetter = /[a-zA-Z]/;
-		for (var k=0; k<equationList.length; k++){		
-			for (var i=0; i<equationList[k].length; i++){
-				if (regexLetter.test(equationList[k][i]) && i<positionEqualArray[k]){
-					optionOut.push(equationList[k][i]);                              
+			
+			// set up optionInOut
+			optionIn.filter(function(element) {
+				if(optionOut.indexOf(element) != -1){
+				    optionInOut.push(element);
+				    optionIn.splice(optionIn.indexOf(element), 1);
+				    optionOut.splice(optionOut.indexOf(element), 1);
 				}
-				if (regexLetter.test(equationList[k][i]) && i>positionEqualArray[k]){
-					optionIn.push(equationList[k][i]);                              
-				}	
-			}
+			});
+			
+			
+			// create arrParameters
+			arrParameters = optionIn.concat(optionOut, optionInOut);
+			
+			
+			// create drop-down lists
+			dojo.empty('parameterTable');
+			dojo.forEach(arrParameters, displayCallback);
+		
+			// show button "generate code with BTO"
+			dojo.byId("codeSubmitButton").style.display = "block";
 		}
-		
-		
-		//remove duplicates in OptionIn and OptionOut
-		optionIn = optionIn.filter(removeElem);		
-		optionOut = optionOut.filter(removeElem);
-	
-		
-		// set up optionInOut
-		optionIn.filter(function(element) {
-			if(optionOut.indexOf(element) != -1){
-			    optionInOut.push(element);
-			    optionIn.splice(optionIn.indexOf(element), 1);
-			    optionOut.splice(optionOut.indexOf(element), 1);
-			}
-		});
-		
-		
-		// create arrParameters
-		arrParameters = optionIn.concat(optionOut, optionInOut);
-		
-		
-		// create drop-down lists
-		dojo.empty('parameterTable');
-		dojo.forEach(arrParameters, displayCallback);
 	}
 	
 	
