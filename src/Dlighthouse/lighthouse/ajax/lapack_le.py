@@ -22,7 +22,10 @@ def createTemplate(request, checked_list, language, time):
 		with open(dir_download+'%s.%s'%(time, extension), 'w') as outfile:
 			for item in checked_list:
 				item = item.lower()
-				go = generateTemplate(item)
+				if language == 'cpp':
+					go = generateTemplate_cpp(item)
+				else:
+					go = generateTemplate(item)
 				go.make_template()
 				name = "./lighthouse/templateGen/%s/codeTemplates/temp_%s.%s"%(language, item, extension)
 				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
