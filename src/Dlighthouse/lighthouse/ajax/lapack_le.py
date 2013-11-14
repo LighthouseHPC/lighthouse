@@ -127,7 +127,7 @@ def make_mfile(request, paramProperty):
 		print 'submitToBTO Exception caught:', str(e)
 		print 'bto.submitToBTO(','%s.m'%paramProperty['kernelName'],')'
 		
-	try: 
+	try:
 		dajax.assign("#script_output", 'innerHTML', output)
 		f = open("%s/static/download/script/%s.m"%(defaultDir, paramProperty['kernelName']),"w")
 		f.write(output)
@@ -141,6 +141,6 @@ def make_mfile(request, paramProperty):
 
 	dajax.script('dojo.byId("waitScript").style.display = "none"')
 	dajax.script('waitStandby.hide()')
-	dajax.script('stopTimer()')
+	#dajax.script('stopTimer()')
 		     
 	return dajax.json()
