@@ -21,256 +21,238 @@
 <div id="question-div">
 
 	<table style="padding:0px; margin:0px; border:0px;">
-
-	<tr>
-		<td>
-			<label for="id_question_prob_0">
-		        <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
-				<b>Which of the following do you wish to compute?</b>
-			</label>
-		</td>
-	</tr>
-
+		<tr>
+			<td>
+				<label for="id_question_prob_0">
+				<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+					<b>Which of the following do you wish to compute?</b>
+				</label>
+			</td>
+		</tr>
 	</table>
-
 	<table style="padding-left:10px; padding-top:10px; border:0px;">
-	
-	<tr>		
-		<td style="width:12px;">
-			1.
-		</td>
-		<td>
-			<label for="id_question_prob_0">
-				<input type="radio" name="question_prob" value="Combine lapack_le_only solve" 
-				id="id_question_prob_0" onclick="disableCheckboxes()"/> 
-				Solve a system of linear equations only
-			</label>
-		</td>
-		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
-				<div dojoType="dijit.TooltipDialog" id="helpLinearEquation" title="Linear Equation">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>		
+			<td style="width:12px;">
+				1.
+			</td>
+			<td>
+				<label for="id_question_prob_0">
+					<input type="radio" name="question_prob" value="Combine lapack_le_only solve" 
+					id="id_question_prob_0" onclick="disableCheckboxes()"/> 
+					Solve a system of linear equations only
+				</label>
+			</td>
+			<td>
+				<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
+					<div dojoType="dijit.TooltipDialog" id="helpLinearEquation" title="Linear Equation">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpLinearEquation').onCancel();
 							</script>
-					</div>
-					<h2>Linear Equation</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/linearEquation.html"></iframe>  		 		
+						</div>
+						<h2>Linear Equation</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/linearEquation.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
-
+			</td>
+		</tr>
 	</table>
-
 	<table style="padding-left:10px; border:0px;">
-
-    <tr>
-    	<td style="width:12px;">
-			2.
-		</td>
-    	<td>
-			<label for="id_question_prob_1">
-				<input type="radio" name="question_prob" value="Computational lapack_le_factor factorization" id="id_question_prob_1" onclick="disableCheckboxes()"/> 
-				Factor a matrix 
-			</label>
-		</td>	
-		<td>
-			<div dojoType="dijit.form.DropDownButton" class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
-				<div dojoType="dijit.TooltipDialog" id="helpFactor" title="Matrix Factorization">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>
+			<td style="width:12px;">
+				2.
+			</td>
+			<td>
+				<label for="id_question_prob_1">
+					<input type="radio" name="question_prob" value="Computational lapack_le_factor factorization" id="id_question_prob_1" onclick="disableCheckboxes()"/> 
+					Factor a matrix 
+				</label>
+			</td>	
+			<td>
+				<div dojoType="dijit.form.DropDownButton" class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
+					<div dojoType="dijit.TooltipDialog" id="helpFactor" title="Matrix Factorization">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpFactor').onCancel();
 							</script>
-					</div>
-					<h2>Matrix Factorization</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="440px" src="{{ MEDIA_URL }}Help/factor.html"></iframe>  		 		
+						</div>
+						<h2>Matrix Factorization</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="440px" src="{{ MEDIA_URL }}Help/factor.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:10px; border:0px;">
-	<tr>
-		<td style="width:12px;">
-			3.
-		</td>
-		<td>
-			<label for="id_question_prob_2">
-				<input type="radio" name="question_prob" value="Computational lapack_le_invert inverse" id="id_question_prob_2" onclick="disableCheckboxes()"/> 
-				Invert a matrix 
-			</label>
-		</td>
-		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
-				<div dojoType="dijit.TooltipDialog" id="helpInverse" title="Matrix Inverse">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>
+			<td style="width:12px;">
+				3.
+			</td>
+			<td>
+				<label for="id_question_prob_2">
+					<input type="radio" name="question_prob" value="Computational lapack_le_invert inverse" id="id_question_prob_2" onclick="disableCheckboxes()"/> 
+					Invert a matrix 
+				</label>
+			</td>
+			<td>
+				<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
+					<div dojoType="dijit.TooltipDialog" id="helpInverse" title="Matrix Inverse">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpInverse').onCancel();
 							</script>
-					</div>
-					<h2>Matrix Inverse</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="160px" src="{{ MEDIA_URL }}Help/inverse.html"></iframe>  		 		
+						</div>
+						<h2>Matrix Inverse</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="160px" src="{{ MEDIA_URL }}Help/inverse.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
-	
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:10px; border:0px;">
-
-	<tr>
-		<td style="width:12px;">
-			4.
-		</td>
-		<td>
-			<label for="id_question_prob_3">
-				<input type="radio" name="question_prob" value="Computational lapack_le_condition_number condition" id="id_question_prob_3" onclick="disableCheckboxes()"/> 
-				Estimate the condition number of a matrix 
-			</label>
-		</td>
-		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
-				<div dojoType="dijit.TooltipDialog" id="helpConditionNumber" title="Condition Number">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>
+			<td style="width:12px;">
+				4.
+			</td>
+			<td>
+				<label for="id_question_prob_3">
+					<input type="radio" name="question_prob" value="Computational lapack_le_condition_number condition" id="id_question_prob_3" onclick="disableCheckboxes()"/> 
+					Estimate the condition number of a matrix 
+				</label>
+			</td>
+			<td>
+				<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
+					<div dojoType="dijit.TooltipDialog" id="helpConditionNumber" title="Condition Number">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpConditionNumber').onCancel();
 							</script>
-					</div>
-					<h2>Condition Number</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="360px" src="{{ MEDIA_URL }}Help/conditionNumber.html"></iframe>  		 		
+						</div>
+						<h2>Condition Number</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="360px" src="{{ MEDIA_URL }}Help/conditionNumber.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
-
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:10px; border:0px;">
-
-	<tr>
-		<td style="width:12px;">
-			5.
-		</td>
-		<td>
-			<label for="id_question_prob_4">
-				<input type="radio" name="question_prob" value="Computational lapack_le_equilibrate equilibrate" id="id_question_prob_4" onclick="disableCheckboxes()"/> 
-				Equilibrate a matrix 
-			</label>
-		</td>
-		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
-				<div dojoType="dijit.TooltipDialog" id="helpEquilibration" title="Equilibration">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>
+			<td style="width:12px;">
+				5.
+			</td>
+			<td>
+				<label for="id_question_prob_4">
+					<input type="radio" name="question_prob" value="Computational lapack_le_equilibrate equilibrate" id="id_question_prob_4" onclick="disableCheckboxes()"/> 
+					Equilibrate a matrix 
+				</label>
+			</td>
+			<td>
+				<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
+					<div dojoType="dijit.TooltipDialog" id="helpEquilibration" title="Equilibration">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpEquilibration').onCancel();
 							</script>
-					</div>
-					<h2>Equilibration</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="250px" src="{{ MEDIA_URL }}Help/equilibration.html"></iframe>  		 		
+						</div>
+						<h2>Equilibration</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="250px" src="{{ MEDIA_URL }}Help/equilibration.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
-
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:10px; border:0px;">
-
-	<tr>
-		<td style="width:12px;">
-			6.
-		</td>
-		<td>
-			<label for="id_question_prob_5">
-				<input type="radio" name="question_prob" value="Computational lapack_le_error_bound error" id="id_question_prob_5" onclick="disableCheckboxes()"/> 
-				Compute forward or backward error bound for the solution to a linear system
-			</label>
-		</td>
-		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
-				<div dojoType="dijit.TooltipDialog" id="helpErrorBound" title="Error Bound">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>
+			<td style="width:12px;">
+				6.
+			</td>
+			<td>
+				<label for="id_question_prob_5">
+					<input type="radio" name="question_prob" value="Computational lapack_le_error_bound error" id="id_question_prob_5" onclick="disableCheckboxes()"/> 
+					Compute forward or backward error bound for the solution to a linear system
+				</label>
+			</td>
+			<td>
+				<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
+					<div dojoType="dijit.TooltipDialog" id="helpErrorBound" title="Error Bound">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpErrorBound').onCancel();
 							</script>
-					</div>
-					<h2>Error Bound</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/errorBound.html"></iframe>  		 		
+						</div>
+						<h2>Error Bound</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/errorBound.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
-
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:10px; border:0px;">
-
-	<tr>
-		<td style="width:12px;">
-			7.
-		</td>
-		<td>
-			<label for="id_question_prob_6">
-				<input type="radio" name="question_prob" value="Computational lapack_le_error_bound refine" id="id_question_prob_6" onclick="disableCheckboxes()"/> 
-				Refine the solution to a linear system
-			</label>
-		</td>
-		<td>
-			<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
-				<div dojoType="dijit.TooltipDialog" id="helpRefine" title="Refine">
-					<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-						dojoType="dijit.form.Button">[Close]
+		<tr>
+			<td style="width:12px;">
+				7.
+			</td>
+			<td>
+				<label for="id_question_prob_6">
+					<input type="radio" name="question_prob" value="Computational lapack_le_error_bound refine" id="id_question_prob_6" onclick="disableCheckboxes()"/> 
+					Refine the solution to a linear system
+				</label>
+			</td>
+			<td>
+				<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+					<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" /></span>
+					<div dojoType="dijit.TooltipDialog" id="helpRefine" title="Refine">
+						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+							dojoType="dijit.form.Button">[Close]
 							<script type="dojo/method" event="onClick">
 								dijit.byId('helpRefine').onCancel();
 							</script>
-					</div>
-					<h2>Solution Refinement</h2>
-					<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
-						<iframe width="500px" height="420px" src="{{ MEDIA_URL }}Help/refine.html"></iframe>  		 		
+						</div>
+						<h2>Solution Refinement</h2>
+						<div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+							<iframe width="500px" height="420px" src="{{ MEDIA_URL }}Help/refine.html"></iframe>  		 		
+						</div>
 					</div>
 				</div>
-			</div>
-		</td>
-	</tr>
-
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:10px; padding-bottom:8px; border:0px;">
-
-	<tr>
-		<td style="width:12px;">
-			8.
-		</td>
-		<td>
-			<label for="id_question_prob_7">
-				<input type="radio" name="question_prob" value="Driver lapack_le_expert" id="id_question_prob_7" onclick="enableCheckboxes()"/>
-				Solve a system of linear equations <b><u>and</u></b> 
-			</label>
-		</td>
-	</tr>
-	
+		<tr>
+			<td style="width:12px;">
+				8.
+			</td>
+			<td>
+				<label for="id_question_prob_7">
+					<input type="radio" name="question_prob" value="Driver lapack_le_expert" id="id_question_prob_7" onclick="enableCheckboxes()"/>
+					Solve a system of linear equations <b><u>and</u></b> 
+				</label>
+			</td>
+		</tr>
 	</table>
 	<table style="padding-left:40px; padding-bottom:10px; margin:0px; border:0px;">
 		<tr>
@@ -307,24 +289,29 @@
 		</tr>
 	</table>
 </div>
-<br/>
+<br>
 <div id="button-div">
-    <table style="width:100%; margin: 0px auto;">
-	<tr style="width:100%;">
-		<td style="text-align:left;">				
-			<button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
-			    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
-			</button>				
-		</td>			
-		<td style="text-align:center;">
-			<div id="tooltip"></div>
-		</td>
-		<td style="text-align:right;">
-			<button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');">
-			    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
-			</button >
-		</td>
-	</tr>
-</table>
+	<table style="width:100%; margin: 0px auto;">
+		<tr style="width:100%;">
+			<td style="text-align:left;">				
+				<button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
+					onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
+					onmouseout="showTooltip('tooltip','');"
+					onclick="return show_confirm()">
+				    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+				</button>				
+			</td>			
+			<td style="text-align:center;">
+				<div id="tooltip"></div>
+			</td>
+			<td style="text-align:right;">
+				<button type="submit" name="Submit" id="submitButton" class="myButton" title="Submit Answer"
+					onmouseover="showTooltip('tooltip', 'Submit', '#009900');"
+					onmouseout="showTooltip('tooltip','');">
+				    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+				</button >
+			</td>
+		</tr>
+	</table>
 </div>
 </form>
