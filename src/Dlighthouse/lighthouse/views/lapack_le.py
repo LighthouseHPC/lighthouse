@@ -1049,7 +1049,12 @@ def keywordResult(request):
 				#print spelling_suggestion
 							
 			
-			context = {'results': results, 'keywordsList': keywordsList, 'common': common}
+			context = {'results': results,
+				   'keywordsList': keywordsList,
+				   'common': common,
+				   'selectedRoutines': request.session['selectedRoutines'],
+				   'notSelectedRoutines': request.session['notSelectedRoutines'], 
+				   }
 			return render_to_response(
 				'lighthouse/lapack_le/keywordResult.html', 
 				{'KeywordTab': True}, 
