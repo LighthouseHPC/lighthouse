@@ -43,16 +43,25 @@
                                 <li><label for="id_models_2"><input type="checkbox" name="models" value="lighthouse.lapack_le_driver" id="id_models_2" /> Driver Routines (Linear Equations)</label></li>
                                 <li><label for="id_models_1"><input type="checkbox" name="models" value="lighthouse.lapack_le_computational" id="id_models_1" /> Computational Routines (Linear Equations)</label></li>       
                         </ul></td>
-                </tr>
-                <tr>
-                        <td colspan="3" style="text-align:center; padding-left: 10px; width: 100%;">
+                </tr>          
+        </table>
+
+
+        <table style="width:100%; margin: 0px auto; padding: 20px;">
+                <tr style="width:100%;">
+			<td style="text-align:left;">				
+				<button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
+					onclick="return show_confirm()">
+                                        <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+				</button>				
+			</td>
+                        <td style="text-align:right;">
                                 <button type="submit" name="Search" id="searchButton" class="myButton" title="Search String"
-                                        style="width: 60px;" onclick="return checkKeyword();">
+                                        style="width: 60px;">
                                         <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
                                 </button >                      
                         </td>
-                </tr>
-                </form>           
+                </tr>                
         </table>
-
+        </form> 
 </div>
