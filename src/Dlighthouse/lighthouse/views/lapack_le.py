@@ -817,8 +817,6 @@ def spell_check(word):
 		word = 'SPsD'
 	elif word.lower() == 'hpsd':
 		word = 'HPsD'		
-	#elif word.lower() in ['gaussian', 'qr']:
-	#	pass
 	else: 	
 		word= correct(word)
 	return word
@@ -1000,12 +998,12 @@ def keywordResult(request):
 		request.session['scriptOutput'] = ""
 		request.session['userScript'] = ""
 	
-	if request.method == 'GET':		
-		form = ModelSearchForm(request.GET)
+	if request.method == 'POST':		
+		form = ModelSearchForm(request.POST)
 		if form.is_valid():
 			answer_class = form.cleaned_data['models']
 			
-			keywords_orig = request.GET['q']
+			keywords_orig = request.POST['q']
 			
 			## Don't split double-quoted words ##
 			keywords_origList = shlex.split(keywords_orig)

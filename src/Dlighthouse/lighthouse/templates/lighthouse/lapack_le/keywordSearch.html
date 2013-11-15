@@ -23,7 +23,8 @@
                                 <b> Please enter a word or phrase to search in the subroutines of <u>Linear Equations</u>: </b>
                         </td>
                 </tr>               
-                <form action="/lapack_le/keyword/" method="get" name="kw_form" id="keyword_form" onsubmit="return validateKeywordForm()">
+                <form action="/lapack_le/keyword/" method="post" name="kw_form" id="keyword_form" onsubmit="return validateKeywordForm()">
+                        {% csrf_token %}
                 <tr>
                         <td>&nbsp;</td>
                         <td colspan="2">
