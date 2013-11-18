@@ -522,66 +522,6 @@
 	}
 
 
-	/*--------------------------------------------------------------------------------- */	
-	/* ------------------------------ For Keyword Search ----------------------------- */
-	/*--------------------------------------------------------------------------------- */
-
-	// Check if any keyword was provided
-	function validateKeywordForm(){				
-		var x=document.forms["keyword_form"]["q"].value;
-		if (x==null || x==""){
-			alert("No strings were entered!");
-		}
-	}	
-
-	
-	// Use jQuery for autocomplete
-	$(function() {
-		var availableTags = [
-			"single real",
-			"single complex",
-			"double real",
-			"double complex",
-			"general",
-			"symmetric",
-			"Hermitian",
-			"SPD",
-			"symmetric positive definite",
-			"HPD",
-			"Hermitian positive definite",
-			"triangular",
-			"SPsD",
-			"symmetric positive semidefinite",
-			"HPsD",
-			"Hermitian positive semidefinite",
-			"full",
-			"band",
-			"packed",
-			"tridiagonal",
-			"RFP",
-			"rectangular full packed",
-			"solve a system of linear equations",
-			"solve a system of linear equations general matrix",
-			"factor a matrix",
-			"matrix factorization",
-			"condition number",
-			"error bounds",
-			"forward error bounds",
-			"backward error bounds",
-			"refine the solution",
-			"refinement",
-			"equilibrate a matrix",
-			"equilibration",
-			"invert a matrix",
-			"Gaussian elimination",
-		];
-		$( "#id_q" ).autocomplete({
-		  source: availableTags
-		});
-	});	
-
-
-
 
 	/*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Selected Routines ---------------------------- */
@@ -1130,5 +1070,67 @@
 		if(content.length > 0)			
 			window.location = '/static/download/script/'+dojo.byId("kernelName").value+'.m';
 	}
+	
 
+
+
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Keyword Search ----------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	// Check if any keyword was provided
+	function validateKeywordForm(){				
+		var x=document.forms["keyword_form"]["q"].value;
+		if (x==null || x==""){
+			alert("No strings were entered!");
+		}
+	}	
+
+	
+	// Use jQuery for autocomplete
+	$(function() {
+		var availableTags = [
+			"single real",
+			"single complex",
+			"double real",
+			"double complex",
+			"general",
+			"symmetric",
+			"Hermitian",
+			"SPD",
+			"symmetric positive definite",
+			"HPD",
+			"Hermitian positive definite",
+			"triangular",
+			"SPsD",
+			"symmetric positive semidefinite",
+			"HPsD",
+			"Hermitian positive semidefinite",
+			"full",
+			"band",
+			"packed",
+			"tridiagonal",
+			"RFP",
+			"rectangular full packed",
+			"solve a system of linear equations",			
+			"factor a matrix",
+			"matrix factorization",
+			"condition number",
+			"error bounds",
+			"forward error bound",
+			"backward error bound",
+			"refine the solution",
+			"refinement",
+			"equilibrate a matrix",
+			"equilibration",
+			"invert a matrix",
+			"Gaussian elimination",
+			"LU factorization",
+			"Cholesky factorization",
+		];
+		$( "#id_q" ).autocomplete({
+		  source: availableTags
+		});
+	});	
 </script>
