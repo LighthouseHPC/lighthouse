@@ -55,7 +55,7 @@ def createTemplate(request, checked_list, language, time):
 
 def makeFile(file_name):
 	with open(dir_download+'makefile', 'w') as outfile:
-		outfile.write("# This is a simple example of how to compile a program containing a LAPACK routine. \n\n")
+		outfile.write("# This is a simple example of how to compile a program containing LAPACK routines. \n\n")
 		if ".f90" in file_name:
 			outfile.write("CC=gfortran\nCFLAGS=-llapack -lblas\n\n")	
 		elif ".c" in file_name:
