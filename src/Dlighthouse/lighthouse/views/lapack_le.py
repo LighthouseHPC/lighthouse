@@ -1055,6 +1055,7 @@ def keywordResult(request):
 				   'selectedRoutines': request.session['selectedRoutines'],
 				   'notSelectedRoutines': request.session['notSelectedRoutines'], 
 				   }
+			
 			return render_to_response(
 				'lighthouse/lapack_le/keywordResult.html', 
 				{'KeywordTab': True}, 
