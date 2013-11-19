@@ -4,7 +4,7 @@ and adapt to different implementation requirements.
 
 The templates support FORTRAN and C. To best utilize the templates, the matrix input format should be of the following form for both FORTRAN and C:
 
-(A) general matrix with full storage
+(1) general matrix with full storage
         eaxmple:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -19,7 +19,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
         
         
         
-(B) general matrix with band storage
+(2) general matrix with band storage
         example:
                 | a11 a12 a13 0.0 |
                 | a21 a22 a23 a24 |
@@ -34,7 +34,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
         
       
         
-(C) general matrix with tridiagonal storage
+(3) general matrix with tridiagonal storage
         example:
                 | a11 a12 0.0 0.0 0.0 |
                 | a21 a22 a23 0.0 0.0 |
@@ -49,7 +49,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
        
         
 
-(D) symmteric matrix with full storage
+(4) symmteric matrix with full storage
         example:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -70,7 +70,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
         
         
-(E) symmteric matrix with packed storage
+(5) symmteric matrix with packed storage
         example:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -85,7 +85,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
 
                             
-(F) Hermitian matrix with full storage
+(6) Hermitian matrix with full storage
         example:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -106,7 +106,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
                 
                 
-(G) Hermitian matrix with packed storage
+(7) Hermitian matrix with packed storage
         example:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -121,7 +121,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
 
                             
-(H) positive definite matrix with full storage
+(8) positive definite matrix with full storage
         example:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -142,7 +142,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
                 
                 
-(I) positive definite matrix with band storage
+(9) positive definite matrix with band storage
         example:
                 | a11 a12 0.0 0.0 |
                 | a21 a22 a23 0.0 |
@@ -163,7 +163,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
                 
                 
-(J) positive definite matrix with tridiagonal storage
+(10) positive definite matrix with tridiagonal storage
         example:
                 | a11 a12 0.0 0.0 0.0 |
                 | a21 a22 a23 0.0 0.0 |
@@ -177,7 +177,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
 
 
 
-(K) positive definite matrix with packed storage
+(11) positive definite matrix with packed storage
         example:
                 | a11 a12 a13 a14 |
                 | a21 a22 a23 a24 |
@@ -192,8 +192,8 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 
                 
                 
-(L) positive definite matrix with packed rectangular full packed storage
-        (1) example (n is even):
+(12) positive definite matrix with packed rectangular full packed storage
+        (A) example (n is even):
                 | a11 a12 a13 a14 a15 a16 |
                 | a21 a22 a23 a24 a25 a26 |
                 | a31 a32 a33 a34 a35 a36 |
@@ -229,7 +229,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                         a12 a22 a66
                         a13 a23 a33
                         
-                 (c) storage format for UPLO = 'L' and TRANSR = 'N':
+                (c) storage format for UPLO = 'L' and TRANSR = 'N':
                         a44 a54 a64
                         a11 a55 a65
                         a21 a22 a66
@@ -243,7 +243,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                         a54 a55 a22 a32 a42 a52 a62
                         a64 a65 a66 a33 a43 a53 a63
                         
-                (b) storage format for UPLO = 'L' and TRANSR = 'T' (or TRANSR = 'C'):
+                (d) storage format for UPLO = 'L' and TRANSR = 'T' (or TRANSR = 'C'):
                         a44 a11 a21 a31 a41 a51 a61
                         a54 a55 a22 a32 a42 a52 a62
                         a64 a65 a66 a33 a43 a53 a63
@@ -255,4 +255,59 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                         a31 a32 a33
                         a41 a42 a43
                         a51 a52 a53
-                        a61 a62 a63                    
+                        a61 a62 a63
+                        
+        (B) example (n is odd):
+                | a11 a12 a13 a14 a15 |
+                | a21 a22 a23 a24 a25 |
+                | a31 a32 a33 a34 a35 |
+                | a41 a42 a43 a44 a45 |
+                | a51 a52 a53 a54 a55 |
+
+                (a) storage format for UPLO = 'U' and TRANSR = 'N':
+                        a13 a14 a15
+                        a23 a24 a25
+                        a33 a34 a35
+                        a11 a44 a45
+                        a12 a22 a55
+                        
+                    input data:
+                        a13 a23 a33 a11 a12
+                        a14 a24 a34 a44 a22
+                        a15 a25 a35 a45 a55
+                        
+                (b) storage format for UPLO = 'U' and TRANSR = 'T' (or TRANSR = 'C'):
+                        a13 a23 a33 a11 a12
+                        a14 a24 a34 a44 a22
+                        a15 a25 a35 a45 a55
+                        
+                    input data:
+                        a13 a14 a15
+                        a23 a24 a25
+                        a33 a34 a35
+                        a11 a44 a45
+                        a12 a22 a55
+                        
+                (c) storage format for UPLO = 'L' and TRANSR = 'N':
+                        a11 a44 a54
+                        a21 a22 a55
+                        a31 a32 a33
+                        a41 a42 a43
+                        a51 a52 a53
+                        
+                    input data:
+                        a11 a21 a31 a41 a51
+                        a44 a22 a32 a42 a52
+                        a54 a55 a33 a43 a53
+                        
+                (d) storage format for UPLO = 'L' and TRANSR = 'T' (or TRANSR = 'C'):
+                        a11 a21 a31 a41 a51
+                        a44 a22 a32 a42 a52
+                        a54 a55 a33 a43 a53
+                        
+                    input data:
+                        a11 a44 a54
+                        a21 a22 a55
+                        a31 a32 a33
+                        a41 a42 a43
+                        a51 a52 a53                        
