@@ -310,4 +310,100 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                         a21 a22 a55
                         a31 a32 a33
                         a41 a42 a43
-                        a51 a52 a53                        
+                        a51 a52 a53
+      
+      
+                        
+(13) positive semidefinite matrix with full storage
+        example:
+                | a11 a12 a13 a14 |
+                | a21 a22 a23 a24 |
+                | a31 a32 a33 a34 |
+                | a41 a42 a43 a44 |
+            
+        input data if UPLO = 'U':
+                a11 a12 a13 a14                                   a11 a12 a13 a14
+                    a22 a23 a24                   or              a22 a23 a24
+                        a33 a34                                   a33 a34
+                            a44                                   a44
+        
+        input data if UPLO = 'L':
+                a11
+                a21 a22
+                a31 a32 a33
+                a41 a42 a43 a44
+                
+                
+                
+(14) triangular matrix with full storage
+        (A) example (UPLO = 'U')
+                | a11 a12 a13 a14 |
+                | 0.0 a22 a23 a24 |
+                | 0.0 0.0 a33 a34 |
+                | 0.0 0.0 0.0 a44 |             
+        
+            input data:
+                a11 a12 a13 a14                                   a11 a12 a13 a14
+                    a22 a23 a24                   or              a22 a23 a24
+                        a33 a34                                   a33 a34
+                            a44                                   a44
+        
+        (B) example (UPLO = 'L')
+                | a11 0.0 0.0 0.0 |
+                | a21 a22 0.0 0.0 |
+                | a31 a32 a33 0.0 |
+                | a41 a42 a43 a44 |
+                
+            input data:
+                a11
+                a21 a22
+                a31 a32 a33
+                a41 a42 a43 a44
+                
+                
+                
+(15) triangular matrix with band storage
+        (A) example (UPLO = 'U')
+                | a11 a12 0.0 0.0 |
+                | 0.0 a22 a23 0.0 |
+                | 0.0 0.0 a33 a34 |
+                | 0.0 0.0 0.0 a44 |             
+        
+            input data:
+                a11 a12
+                a22 a23
+                a33 a34
+                a44
+                
+        (B) example (UPLO = 'L')
+                | a11 0.0 0.0 0.0 |
+                | a21 a22 0.0 0.0 |
+                | 0.0 a32 a33 0.0 |
+                | 0.0 0.0 a43 a44 |
+                
+            input data:
+                a11
+                a21 a22
+                a32 a33
+                a43 a44
+                
+                
+                
+(16) triangular matrix with packed storage
+        (A) example (UPLO = 'U')
+                | a11 a12 a13 a14 |
+                | 0.0 a22 a23 a24 |
+                | 0.0 0.0 a33 a34 |
+                | 0.0 0.0 0.0 a44 |             
+        
+            input data:
+                a11 a12 a22 a13 a23 a33 a14 a24 a34 a44
+        
+        (B) example (UPLO = 'L')
+                | a11 0.0 0.0 0.0 |
+                | a21 a22 0.0 0.0 |
+                | a31 a32 a33 0.0 |
+                | a41 a42 a43 a44 |
+                
+            input data:
+                a11 a21 a31 a41 a22 a32 a42 a33 a43 a44
