@@ -38,6 +38,9 @@ def createTemplate(request, checked_list, language, time):
 		dajax.script('SyntaxHighlighter.highlight()')
 		f_output.close()
 		
+		## write README into the zip file
+		file_zip.write("./lighthouse/templateGen/README", os.path.basename(dir_download+"README"), zipfile.ZIP_DEFLATED)
+		
 		## write makefile into the zip file
 		file_zip.write(dir_download+"makefile", os.path.basename(dir_download+"makefile"), zipfile.ZIP_DEFLATED)
 		file_zip.close()
