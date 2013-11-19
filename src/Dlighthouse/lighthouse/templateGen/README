@@ -201,7 +201,7 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                 | a51 a52 a53 a54 a55 a56 |
                 | a61 a62 a63 a64 a65 a66 |
                 
-                storage format for UPLO = 'U' and TRANSR = 'N':
+                (a) storage format for UPLO = 'U' and TRANSR = 'N':
                         a14 a15 a16
                         a24 a25 a26
                         a34 a35 a36
@@ -210,9 +210,49 @@ The templates support FORTRAN and C. To best utilize the templates, the matrix i
                         a12 a22 a66
                         a13 a23 a33
                         
-                input data:
+                    input data:
                         a14 a24 a34 a44 a11 a12 a13
                         a15 a25 a35 a45 a55 a22 a23
                         a16 a26 a36 a46 a56 a66 a33
                         
-                
+                (b) storage format for UPLO = 'U' and TRANSR = 'T' (or TRANSR = 'C'):
+                        a14 a24 a34 a44 a11 a12 a13
+                        a15 a25 a35 a45 a55 a22 a23
+                        a16 a26 a36 a46 a56 a66 a33
+                        
+                    input data:
+                        a14 a15 a16
+                        a24 a25 a26
+                        a34 a35 a36
+                        a44 a45 a46
+                        a11 a55 a56
+                        a12 a22 a66
+                        a13 a23 a33
+                        
+                 (c) storage format for UPLO = 'L' and TRANSR = 'N':
+                        a44 a54 a64
+                        a11 a55 a65
+                        a21 a22 a66
+                        a31 a32 a33
+                        a41 a42 a43
+                        a51 a52 a53
+                        a61 a62 a63
+                        
+                    input data:
+                        a44 a11 a21 a31 a41 a51 a61
+                        a54 a55 a22 a32 a42 a52 a62
+                        a64 a65 a66 a33 a43 a53 a63
+                        
+                (b) storage format for UPLO = 'L' and TRANSR = 'T' (or TRANSR = 'C'):
+                        a44 a11 a21 a31 a41 a51 a61
+                        a54 a55 a22 a32 a42 a52 a62
+                        a64 a65 a66 a33 a43 a53 a63
+                        
+                    input data:
+                        a44 a54 a64
+                        a11 a55 a65
+                        a21 a22 a66
+                        a31 a32 a33
+                        a41 a42 a43
+                        a51 a52 a53
+                        a61 a62 a63                    
