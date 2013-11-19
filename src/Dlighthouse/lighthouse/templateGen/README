@@ -1,0 +1,78 @@
+Lighthouse LAPACK templates are created to help users quickly learn how to use the LAPACK subroutines. They ensure that the calls to
+the subroutines are constructed correctly and include variable declarations for the arguments. The templates are easy to customize
+and adapt to different implementation requirements.
+
+The templates support FORTRAN and C. To best utilize the templates, the matrix input format must be of the following form for both FORTRAN and C:
+
+(A) general matrix with full storage
+        eaxmple:
+            | a11 a12 a13 a14 |
+            | a21 a22 a23 a24 |
+            | a31 a32 a33 a34 |
+            | a41 a42 a43 a44 |
+            
+        input data:
+            a11 a12 a13 a14
+            a21 a22 a23 a24
+            a31 a32 a33 a34
+            a41 a42 a43 a44
+        
+        
+        
+(B) general matrix with band storage
+        example:
+            | a11 a12 a13 0.0 |
+            | a21 a22 a23 a24 |
+            | a31 a32 a33 a34 |
+            | 0.0 0.0 a43 a44 |
+        
+        input data:
+            a11 a12 a13
+            a21 a22 a23 a24
+            a31 a32 a33 a34
+            a43 a44
+        
+      
+        
+(C) general matrix with tridiagonal storage
+        example:
+            | a11 a12 0.0 0.0 0.0 |
+            | a21 a22 a23 0.0 0.0 |
+            | 0.0 a32 a33 a34 0.0 |
+            | 0.0 0.0 a43 a44 a45 |    
+            | 0.0 0.0 0.0 a54 a55 |
+            
+        input data:
+            a12 a23 a34 a45
+            a11 a22 a33 a44 a55
+            a21 a32 a43 a54
+       
+        
+
+(D) symmteric matrix with full storage
+        example:
+            | a11 a12 a13 a14 |
+            | a21 a22 a23 a24 |
+            | a31 a32 a33 a34 |
+            | a41 a42 a43 a44 |             where aij = aji
+            
+        input data if UPLO = 'U':
+            a11 a12 a13 a14                                   a11 a12 a13 a14
+                a22 a23 a24                   or              a22 a23 a24
+                    a33 a34                                   a33 a34
+                        a44                                   a44
+    
+        input data if UPLO = 'L':
+            a11
+            a21 a22
+            a31 a32 a33
+            a41 a42 a43 a44
+            
+        
+        
+(E) symmteric matrix with packed storage
+        example:
+            | a11 a12 a13 a14 |
+            | a21 a22 a23 a24 |
+            | a31 a32 a33 a34 |
+            | a41 a42 a43 a44 |             where aij = aji
