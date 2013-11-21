@@ -1,70 +1,106 @@
-        MODULE Declaration
-            INTEGER                                                     :: integer_list, I, J
-            CHARACTER(LEN=1)                                            :: character_list
-            REAL(KIND=)                                                 :: real_list, SMLNUM, BIGNUM
-            REAL(kind=8)                                                :: big_small
-            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
-            REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
-            dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
-            dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
-            
-            EXTERNAL big_small
-        END MODULE Declaration
-                
+/*********************************************************************/
+/*                                                                   */
+/*      Equilibrate matrix A using LAPACK subroutine routineName          */
+/*                                                                   */
+/*                   -- Created by the Lighthouse Development Team   */
+/*                                                                   */
+/*********************************************************************/
 
-        PROGRAM TEMP_routineName
-            USE Declaration
-            IMPLICIT NONE
-            
-            !--- message ---!
-            PRINT *, "********************************************"
-            PRINT *, "*** Use routineName to equilibrate matrix A. ***"
-            PRINT *, "********************************************"
-            PRINT *,
- 
- 
-            !--- open files that store data ---!
-            CALL OPEN_FILES
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <complex.h>
+
+#define min(a, b) (((a) < (b)) ? (a) : (b)) 
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
+/**************************** BEGIN CONSTANT SET UP ****************************/
+/*--- input matrix properties ---*/
+define_list
+char_list
+
+/*--- enter file location for matrix A ---*/ 
+#define fileA "path_to_file A"
+/**************************** END CONSTANT SET UP ****************************/
 
 
-            !--- allocate storage ---!
-            CALL DIMNS_ASSIGNMENT
-
-            
-            !--- read data ---!
-            CALL GET_DATA
-        
-        
-            !--- compute smallest/largest safe numbers ---!       
-            SMLNUM = big_small('s')
-            BIGNUM = 1.0/SMLNUM
-            
-            
-            !--- call lapack subroutine routineName ---!
-            CALL routineName routine_parameters
-
-            
-            !--- write the solution ---!
-            CALL PRINT_SOLUTION
-            
-            
-            !--- print scaled matrix ---!
-            CALL MATRIX_SCALING
-            
-             
-            !--- write INFO ---!
-            WRITE(*,*)
-            WRITE(*, *) "INFO = ", INFO
-            
-            DEALLOCATE(ALLOCATE_list)
-        END PROGRAM TEMP_routineName
-        
+/*--- global variables ---*/
+global_list;
+  
+int integer_list, i, j;
+char CMACH = 's';
+dataType SMLNUM, BIGNUM;
+dataType real_list;
+dataType complex complex_list;
+FILE *fptA;
 
 
-        
-        SUBROUTINE OPEN_FILES
-            !--- obtain the dada of the matrix A ---!
-            OPEN (unit=11, file='file_name_for_data_A', status='old')
-            
-        END SUBROUTINE OPEN_FILES
-        
+/*--- external function prototype declaration ---*/
+extern void OPEN_FILE();
+extern void GET_DATA();
+extern void PRINT_SOLUTION();
+extern void SCALED_MATRIX();
+extern double big_small();
+
+
+
+int main(){  
+  /*--- message ---*/
+  printf("******************************************\n");
+  printf("*** Use routineName to equilibrate matrix A ***\n");
+  printf("******************************************\n");
+  printf("\n");
+    
+    
+  /*--- open files that store data ---*/
+  OPEN_FILE();
+
+  
+  /*--- read data ---*/
+  GET_DATA();
+  
+  
+  /*--- compute smallest/largest safe numbers ---*/
+  SMLNUM = big_small(&CMACH);
+  BIGNUM = 1.0/SMLNUM;
+  
+  printf("SMLNUM = %e\n", SMLNUM);
+  printf("BIGNUM = %e\n\n", BIGNUM);
+  
+  
+  /*--- call lapack subroutine routineName, note: ---*/  
+  /*--- (1) all the arguments must be pointers ---*/ 
+  /*--- (2) add an underscore to the routine name ---*/
+  /*--- (3) matrices must be transformed into Fortran vector format ---*/ 
+  routineName_routine_parameters; 
+
+  
+  /*--- print the solution ---*/
+  PRINT_SOLUTION();
+  
+  
+  /*--- write scaled matrix if there is one ---*/
+  SCALED_MATRIX();
+  
+  
+  /*--- close files ---*/
+  fclose(fptA);
+
+  return 0;
+}
+
+
+
+void OPEN_FILE(){
+  fptA = fopen(fileA,"r");
+  if(fptA == NULL){
+    printf("Cannot open %s.\n", fileA);    
+    puts(strerror(errno));
+    exit(EXIT_FAILURE);
+  } 
+}
+
+
+
+void GET_DATA(){

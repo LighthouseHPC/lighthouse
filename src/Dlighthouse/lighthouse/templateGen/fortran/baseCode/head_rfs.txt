@@ -1,66 +1,106 @@
-        MODULE Declaration
-            INTEGER                                                     :: integer_list, I, J
-            CHARACTER(LEN=1)                                            :: character_list
-            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
-            REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
-            dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
-            dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
-            
-        END MODULE Declaration
-                
+/*************************************************************************************************/
+/*                                                                                               */
+/*   Solve the matrix equation A*x=B and estimate error bounds using LAPACK subroutine routineName    */
+/*                                                                                               */
+/*                                              -- Created by the Lighthouse Development Team    */
+/*                                                                                               */
+/*************************************************************************************************/
 
-        PROGRAM TEMP_routineName
-            USE Declaration
-            IMPLICIT NONE
-            
-            !--- message ---!
-            PRINT *, "***************************************************************************************"
-            PRINT *, "*** Use routineName to improve the computed solution to a system of linear equations and ***"
-            print *, "*** provide error bounds and backward error estimates for the solution.             ***"
-            PRINT *, "***************************************************************************************"
-            PRINT *,
- 
- 
-            !--- open files that store data ---!
-            CALL OPEN_FILES
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <complex.h>
 
+#define min(a, b) (((a) < (b)) ? (a) : (b)) 
+#define max(a, b) (((a) > (b)) ? (a) : (b))
 
-            !--- allocate storage ---!
-            CALL DIMNS_ASSIGNMENT
+/**************************** BEGIN CONSTANT SET UP ****************************/
+/*--- input matrix properties ---*/
+define_list
+char_list
 
-            
-            !--- read data ---!
-            CALL GET_DATA
-
-        
-            !--- copy arrays ---!
-            copy_arrays
-            X = B
-            
-            
-            !--- solve AX = B, improve solution, and compute error bounds ---!
-            CALL routineName_trf trf_parameters
-            CALL routineName_trs trs_parameters
-            CALL routineName routine_parameters
-
-            
-            !--- write the solution ---! 
-            CALL PRINT_SOLUTION
-             
-            !--- write INFO ---!
-            WRITE(*, *) "INFO = ", INFO
-            
-            DEALLOCATE(ALLOCATE_list)
-        END PROGRAM TEMP_routineName
-        
+/*--- enter file locations for (1) matrix A and (2) matrix B ---*/ 
+#define fileA "path_to_file A"
+#define fileB "path_to_file B"
+/**************************** END CONSTANT SET UP ****************************/
 
 
-        
-        SUBROUTINE OPEN_FILES
-            !--- obtain the dada of the matrix A ---!
-            OPEN (unit=11, file='file_name_for_data_A', status='old')
-            
-            !--- obtain the data of right hand side B ---!
-            OPEN (unit=22, file='file_name_for_data_B', status='old')
-        END SUBROUTINE OPEN_FILES
-        
+/*--- global variables ---*/
+global_list;
+  
+int integer_list, i, j;
+dataType real_list;
+dataType complex complex_list;
+FILE *fptA, *fptB;
+
+
+/*--- external function prototype declaration ---*/
+extern void OPEN_FILE();
+extern void GET_DATA();
+extern void PRINT_SOLUTION();
+
+
+
+int main(){  
+  /*--- message ---*/
+  printf("***************************************************************\n");
+  printf("*** Use routineName to solve Ax = B and compute the error bounds ***\n");
+  printf("***************************************************************\n");
+  printf("\n");
+    
+    
+  /*--- open files that store data ---*/
+  OPEN_FILE();
+
+  
+  /*--- read data ---*/
+  GET_DATA();
+  
+  
+  /*--- copy arrays ---*/
+  copy_arrays;
+  memcpy(XT, BT, sizeof XT);
+  
+  
+  /*--- call lapack subroutine routineName, note: ---*/  
+  /*--- (1) all the arguments must be pointers ---*/ 
+  /*--- (2) add an underscore to the routine name ---*/
+  /*--- (3) matrices must be transformed into their Fortran vector formats ---*/
+  routineName_trf_trf_parameters;           //matrix A must be factored before calling routineName
+  routineName_trs_trs_parameters;           //solve the system of linear equations
+  routineName_routine_parameters;           //compute the error bounds
+
+  
+  /*--- print the solution ---*/
+  PRINT_SOLUTION();
+  
+  
+  /*--- close files ---*/
+  fclose(fptA);
+  fclose(fptB);
+
+  return 0;
+}
+
+
+
+void OPEN_FILE(){
+  fptA = fopen(fileA,"r");
+  if(fptA == NULL){
+    printf("Cannot open %s.\n", fileA);    
+    puts(strerror(errno));
+    exit(EXIT_FAILURE);
+  }
+
+  fptB = fopen(fileB,"r");
+  if(fptB == NULL){
+    printf("Cannot open %s.\n", fileB);    
+    puts(strerror(errno));
+    exit(EXIT_FAILURE);
+  } 
+}
+
+
+
+void GET_DATA(){
