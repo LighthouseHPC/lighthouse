@@ -58,9 +58,9 @@
         
         SUBROUTINE OPEN_FILES
             !--- obtain the dada of the matrix A ---!
-            OPEN (unit=11, file='file_name_for_data_A', status='old')
+            OPEN (unit=11, file='/path/to/file/of/data_A', status='old')
             
             !--- obtain the data of right hand side B ---!
-            OPEN (unit=22, file='file_name_for_data_B', status='old')
+            OPEN (unit=22, file='/path/to/file/of/data_B', status='old')
         END SUBROUTINE OPEN_FILES
         
