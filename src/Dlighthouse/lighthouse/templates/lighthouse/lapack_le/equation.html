@@ -67,7 +67,10 @@
       <table style="width:100%; margin: 0px auto;">
     <tr style="width:100%;">
       <td style="text-align:left;">       
-        <button type="button" name="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
+        <button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
+		onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
+		onmouseout="showTooltip('tooltip','');"
+		onclick="return show_confirm()">
             <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
         </button>       
       </td>     
@@ -75,7 +78,10 @@
         <div id="tooltip"></div>
       </td>
       <td style="text-align:right;">
-        <button type="submit" name="Submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
+        <button type="submit" name="Submit" id="submitButton" class="myButton" title="Submit Answer"
+		onmouseover="showTooltip('tooltip', 'Submit', '#009900');"
+		onmouseout="showTooltip('tooltip','');"
+		onclick="return checkRadios();">
             <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
         </button >
       </td>
