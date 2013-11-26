@@ -39,7 +39,7 @@
 					</td>
 					<td class="hiddenStuff">
 						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
-						     onclick="dijit.byId('sel_{{ item.id }}').show()"/>
+						     onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')"/>
 					</td>
 					<td class="hiddenStuff">
 						<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
