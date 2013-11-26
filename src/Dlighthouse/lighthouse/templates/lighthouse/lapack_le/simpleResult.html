@@ -53,7 +53,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="dijit.byId('sel_{{ item.id }}').show()">more</button>
+			<button onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -72,7 +72,7 @@
 						<td>{{ item.storageType }}</td>      
 						</tr>
 					</table><br/>
-					<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
+					<iframe id="sel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
 					<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>
@@ -100,7 +100,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="dijit.byId('nsel_{{ item.id }}').show()">more</button>
+			<button onclick="showMore('nsel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="nsel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -119,7 +119,7 @@
 						<td>{{ item.storageType }}</td>      
 						</tr>
 					</table><br/>
-					<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
+					<iframe id="nsel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
 					<button onClick="dijit.byId('nsel_{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>

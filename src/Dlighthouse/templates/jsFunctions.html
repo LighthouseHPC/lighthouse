@@ -189,6 +189,13 @@
 	}
 	
 	
+	// show routine info after clicking on the 'more' button and load iframe 
+	function showMore(selectedID, selectedURL) {
+		document.getElementById(selectedID+"Iframe").src = selectedURL;
+		dijit.byId(selectedID).show()
+		
+	}
+	
 	
 
 	/*--------------------------------------------------------------------------------- */	
@@ -560,13 +567,15 @@
         function generateTemplate(language){
                 var checked_list = [];
                 var time = getDateTime();
-                //alert(time);
+		
                 checked_list = getCheckedRoutines();
                 if (checked_list.length == 0)
                         alert('No boxes were checked!');
 			
-		else	
+		else
+			//document.getElementById("template_output").className = "brush:"+language;
 			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
+			//alert(document.getElementById('template_output').className);
                 return time;
         }
 
