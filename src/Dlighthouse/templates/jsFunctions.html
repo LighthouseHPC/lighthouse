@@ -157,23 +157,23 @@
 
 
 	/* showing/hiding the table in the search result by clicking the image */
-	function show_hide(tblid, show) {
-		if (tbl == document.getElementById(tblid)) {
-			if (null == show) show = tbl.style.display == 'none';
-			tbl.style.display = (show ? '' : 'none');
-		}
-	}
-
-	
-	function HideFrame() {
-		var fr = document.getElementById ("frDocViewer");
-		if(fr.style.display=="none") {
-		   fr.style.display="block";
-		}
-		else {
-		   fr.style.display="none";
-		}
-	}
+	//function show_hide(tblid, show) {
+	//	if (tbl == document.getElementById(tblid)) {
+	//		if (null == show) show = tbl.style.display == 'none';
+	//		tbl.style.display = (show ? '' : 'none');
+	//	}
+	//}
+	//
+	//
+	//function HideFrame() {
+	//	var fr = document.getElementById ("frDocViewer");
+	//	if(fr.style.display=="none") {
+	//	   fr.style.display="block";
+	//	}
+	//	else {
+	//	   fr.style.display="none";
+	//	}
+	//}
 	
 
 	// Check radio buttons in guided search, if none is selected return false, else return true
@@ -189,12 +189,19 @@
 	}
 	
 	
+	
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Search Result ------------------------------- */
+	/*--------------------------------------------------------------------------------- */
+	
 	// show routine info after clicking on the 'more' button and load iframe 
 	function showMore(selectedID, selectedURL) {
 		document.getElementById(selectedID+"Iframe").src = selectedURL;
 		dijit.byId(selectedID).show()
 		
 	}
+	
 	
 	
 
@@ -1125,14 +1132,14 @@
 			"solve a system of linear equations",			
 			"factor a matrix",
 			"condition number",
-			"error bounds",
+			"error bound",
 			"forward error bound",
 			"backward error bound",
 			"refine the solution",
 			"refinement",
 			"equilibrate a matrix",
 			"equilibration",
-			"invert a matrix",
+			"inverse of a matrix",
 			"Gaussian elimination",
 			"LU factorization",
 			"Cholesky factorization",

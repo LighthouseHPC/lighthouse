@@ -138,7 +138,7 @@ class lapack_le_error_boundAdmin(admin.ModelAdmin):
 
 
 
-class lapack_le_invertAdmin(admin.ModelAdmin):
+class lapack_le_inverseAdmin(admin.ModelAdmin):
         list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
         
         list_filter = ['matrixType', 'thePrecision', 'storageType']
@@ -164,7 +164,7 @@ admin.site.register(lapack_le_factor, lapack_le_factorAdmin)
 admin.site.register(lapack_le_solve, lapack_le_solveAdmin)
 admin.site.register(lapack_le_condition_number, lapack_le_condition_numberAdmin)
 admin.site.register(lapack_le_error_bound, lapack_le_error_boundAdmin)
-admin.site.register(lapack_le_invert, lapack_le_invertAdmin)
+admin.site.register(lapack_le_inverse, lapack_le_inverseAdmin)
 admin.site.register(lapack_le_equilibrate, lapack_le_equilibrateAdmin)
 
 

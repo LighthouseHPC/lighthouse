@@ -214,7 +214,7 @@ class lapack_le_error_bound(models.Model):
 
 
 
-class lapack_le_invert(models.Model):
+class lapack_le_inverse(models.Model):
         thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)

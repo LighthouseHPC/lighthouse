@@ -10,7 +10,7 @@ from django.db.models import get_model
 Problem_choices = (
 	('Combine lapack_le_only solve',					'Solve a system of linear equations only'),
 	('Computational lapack_le_factor factorization',			'Factor a matrix'),
-	('Computational lapack_le_invert inverse',				'Invert a matrix'),
+	('Computational lapack_le_inverse inverse',				'Invert a matrix'),
 	('Computational lapack_le_condition_number condition', 			'Estimate the condition number of a matrix'),
 	('Computational lapack_le_equilibrate equilibrate',			'Equilibrate a matrix'),
 	('Computational lapack_le_error_bound error',				'Compute forward or backward error bound for the solution to a linear system'),

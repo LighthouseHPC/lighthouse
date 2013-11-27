@@ -797,7 +797,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite', 'triangular', 'SPsD', 'HPsD', 'symmetric positive semidefinite', 'Hermitian positive semidefinite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal', 'rectangular full packed', 'RFP'],
-		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'invert', 'driver', 'computational', 'solve', 'solution', 'solver'],
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'inverse', 'driver', 'computational', 'solve', 'solution', 'solver'],
 	}
 
 
@@ -833,8 +833,8 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bCh.*?ky fact.*?\b', '\"'+'Cholesky factorization'+'\"', strings)
 	strings = re.sub(r'\bLU decomp.*?\b', '\"'+'LU decomposition'+'\"', strings)
 	strings = re.sub(r'\bequilib.*?\b', 'equilibrate', strings)
-	strings = re.sub(r'\binv.*?t.*?\b', 'invert', strings)
-	strings = re.sub(r'\bverse.*?\b', 'invert', strings)
+	#strings = re.sub(r'\binv.*?t.*?\b', 'invert', strings)
+	strings = re.sub(r'\binvert*?\b', 'inverse', strings)
 	strings = re.sub(r'\bhermitian.*?\b', 'Hermitian', strings)
 	strings = re.sub(r'\bHermitian p.*? def.*?\b', '\"'+'Hermitian positive definite'+'\"', strings)
 	strings = re.sub(r'\bHermitian p.*? semidef.*?\b', '\"'+'Hermitian positive semidefinite'+'\"', strings)
