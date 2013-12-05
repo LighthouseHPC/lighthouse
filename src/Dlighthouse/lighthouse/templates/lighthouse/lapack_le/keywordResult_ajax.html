@@ -1,0 +1,108 @@
+{% load highlight %}
+{% load lighthouse_custom_filters %}
+
+<div id="title-div">
+	<table style="width: 100%; border: 0px solid;">
+		<tr>
+			<td style="text-align:left; padding-left:5px; width:24px;">
+				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+			</td>		
+			<td style="text-align:left">
+				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for
+				<span style="color:blue">
+                                        {% for word in keywordsList %}
+                                                {% if word not in common %}
+							{% if word|contains:" " %}
+								<i><b>"{{ word }}"</b></i>
+							{% else %}
+								<i><b>{{ word }}</b></i>
+							{% endif %}
+                                                {% else %}
+							{% if word|contains:" " %}
+								<b>"{{ word }}"</b>
+							{% else %}
+								<b>{{ word }}</b>
+							{% endif %}
+                                                {% endif %}
+                                        {% endfor %}
+				</span>:
+			</td>
+		</tr>
+	</table>	
+</div>
+
+{% if results %}
+<div id="routineListNode" class="container">
+	{% for item in results %}
+	<div class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
+	     detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
+		<div class="routineName">
+			<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+				<tr>					
+					<td class="hiddenStuff">
+						<input type="checkbox" name="routines"
+						       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
+						       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" />
+						       <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>-->
+					</td>
+					<td style="width: 56px; font-weight: bold;" title="Select and move" onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');">
+						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+					</td>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
+						     onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')"/>
+					</td>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
+						     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+					</td>
+					<td class="hiddenStuff">                                            
+						<img src="{{ MEDIA_URL }}Images/move.png" width="15" height="15" title="Move up and down"
+						     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+					</td>
+				</tr>
+			</table>			
+		</div>
+		<div class="routineInfo" style="margin-bottom: 15px;">
+			{% if item.info %}
+				{% highlight item.info with "item.thePrecision""item.routineName" max_length 500 %}
+			{% else %}
+				{% highlight item.text with "item.thePrecision""item.routineName" max_length 500 %}
+			{% endif %}
+			<button onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
+		</div>
+		<div class="dijitHidden">
+			<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+				<div align="center">
+					<table id="table_main" width="80%" border = "1">
+						<tr>
+						<th>Precision</th>
+						<th>Routine Name</th>
+						<th>Matrix Type</th>
+						<th>Storage</th>
+						</tr>
+						<tr>
+						<td>{{ item.thePrecision|upper }}</td>
+						<td>{{ item.routineName|upper }}</td> 
+						<td>{{ item.matrixType }}</td> 
+						<td>{{ item.storageType }}</td>      
+						</tr>
+					</table><br/>
+					<iframe id="sel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
+					<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+				</div>
+			</div>
+		</div>		
+	</div> 
+	{% endfor %}
+</div>
+
+{% else %}
+<div style="text-align: center">
+	</br></br></br>
+	<p><font size="6">We are sorry!</font></p>
+	<p>The input search words are not in the current search database of Lighthouse.</p>
+</div>
+{% endif %} 
+
+
