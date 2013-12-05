@@ -150,6 +150,9 @@
 				//console.log(dojo.attr(dojo.byId(nameObj[0]), "detail"));
 			}
 		);
+
+		
+
 	});
 
 
@@ -1093,19 +1096,13 @@
 	/*--------------------------------------------------------------------------------- */
 
 	// Check if any keyword was provided
-	function validateKeywordForm() {				
+	function validateKeywordForm(){				
 		var x=document.forms["keyword_form"]["q"].value;
 		if (x==null || x==""){
 			alert("No strings were entered!");
 		}
 	}	
 
-	
-	function displayRefine() {
-		document.getElementById("tab_keywordSubmit").style.display = "none";
-		document.getElementById("tab_refine").style.display = "block";
-		document.getElementById("tab_refineSubmit").style.display = "block";
-	}
 	
 	// Use jQuery for autocomplete
 	$(function() {

@@ -1,5 +1,8 @@
+<!-- ########### Keyword search result: ###########-->
+{% extends "dojango/base.html" %}
 {% load highlight %}
 {% load lighthouse_custom_filters %}
+{% block dojango_content_search_result %}
 
 <div id="title-div">
 	<table style="width: 100%; border: 0px solid;">
@@ -106,3 +109,43 @@
 {% endif %} 
 
 
+{% endblock %}
+
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_simpleSearch %}
+{% include "lighthouse/lapack_le/simpleSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_keywordSearch %}
+{% include "lighthouse/lapack_le/keywordSearch.html" %}
+{% endblock %}
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_advancedSearch %}
+{% include "lighthouse/lapack_le/advancedSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Selected Routines: ###########-->
+{% block dojango_content_selected_routines %}
+{% include "lighthouse/lapack_le/selectedRoutines.html" %}
+<script type="text/javascript">
+	window.onload = function () {
+		dojo.style(dojo.byId('selectedListNode'), "display", "block");
+	}
+</script>
+{% endblock %}
+
+
+<!-- ########### Code Template: ###########-->
+{% block dojango_content_code_template %}
+{% include "lighthouse/lapack_le/codeTemplate.html" %}
+{% endblock %}
+
+<!-- ########### Script Area: ###########-->
+{% block dojango_content_script %}
+{% include "lighthouse/lapack_le/script.html" %}
+{% endblock %}
