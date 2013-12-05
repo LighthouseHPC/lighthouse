@@ -998,7 +998,7 @@ def keywordResult(request):
 		request.session['scriptOutput'] = ""
 		request.session['userScript'] = ""
 	
-	if request.method == 'POST':		
+	if request.method == 'POST' and request.is_ajax():		
 		form = ModelSearchForm(request.POST)
 		if form.is_valid():
 			answer_class = form.cleaned_data['models']
