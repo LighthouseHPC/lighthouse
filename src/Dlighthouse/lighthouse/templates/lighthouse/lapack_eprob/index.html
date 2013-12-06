@@ -1,0 +1,35 @@
+{% extends "dojango/base_eprob.html" %}
+
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_eprob_guidedSearch %}
+{% include "lighthouse/lapack_eprob/guidedsearch.html" %}
+{% endblock %}
+
+{% block dojango_content_eprob_search_result %}
+{% include "lighthouse/lapack_eprob/results.html" %}
+{% endblock %}
+
+
+<!-- ########### Advanced search questions: ###########-->
+{% block dojango_content_eprob_advancedSearch %}
+{% include "lighthouse/lapack_eprob/advancedsearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Keyword search: ###########-->
+{% block dojango_content_eprob_keywordSearch %}
+{% include "lighthouse/lapack_eprob/keywordSearch.html" %}
+{% endblock %}
+
+
+<!-- ########### Selected routines: ###########-->
+{% block dojango_content_eprob_selected_routines %}
+{% include "lighthouse/lapack_eprob/selectedRoutines.html" %}
+{% endblock %}
+
+
+<!-- ########### Code Template: ###########-->
+{% block dojango_content_eprob_code_template %}
+{% include "lighthouse/lapack_eprob/codeTemplate.html" %}
+{% endblock %}

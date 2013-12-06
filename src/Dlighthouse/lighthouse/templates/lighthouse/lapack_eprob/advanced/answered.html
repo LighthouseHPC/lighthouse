@@ -1,0 +1,19 @@
+
+{% for question,answers in eprob_advanced_answered.items %}
+<tr>
+  <th>
+    <label for="id_question_fact">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b> {{ question }} </b>
+    </label>
+  </th>
+  {% for answer in answers %}
+  <ul style="margin-left: 0; padding-left: 20px;">
+      <li style="list-style-type: none; padding-left:-10px;">
+        <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/>
+        {{ answer }}
+    </li>
+  </ul>
+  {% endfor %}
+</tr>
+{% endfor %}

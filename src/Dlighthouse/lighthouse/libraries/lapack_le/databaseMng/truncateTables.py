@@ -25,7 +25,7 @@ cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_arg")
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_arg_c")
 
 
-cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_routineinfo")
+cursor.execute("TRUNCATE TABLE lighthouse_lapack_routineinfo")
 
 conn.commit()
 

@@ -1,0 +1,24 @@
+<form action="/lapack_eprob/" name="frmType" method="post">
+    {% csrf_token %}
+    
+	 <div id="button-div">
+	  <table style="width:100%; margin: 0px auto;">
+	    <tr style="width:100%;">
+	      <td style="text-align:left">
+		      <img src="{{ MEDIA_URL }}Images/face-smile-2.png" width="20" height="20"/>
+	      </td>
+	      <td style="text-align:left; color: #0c387e;">
+		      <b>End of advanced search! Check out the results.</b>
+	      </td>
+	      <td style="text-align:right; width: 75px;">
+	        <div id="tooltip"></div>
+	      </td>       
+	      <td style="text-align:right">
+	        <button type="submit" name="advanced" value="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
+	              <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
+	        </button>      
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+</form>
