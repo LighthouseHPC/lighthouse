@@ -1,0 +1,157 @@
+<script type="text/javascript">
+	var selectedRoutine_session = [];
+	var uncheckedRoutines = [];
+	var allRoutines_session = [];
+	var selectedRoutine = "";
+	var time = '';
+</script>
+
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                <img src="{{ MEDIA_URL }}Images/view-pim-tasks.png" width="32" height="32"/>
+            </td>           
+            <td id="title-cell">
+                    Selected Routines
+            </td>
+        </tr>
+    </table>        
+</div>
+
+<div id="selectedRoutines" name="selectedRoutines">
+	<!--Dropped-items area-->
+	<div style="padding: 10px;">
+		<div id="selectedListNode" class="container2"
+		     style="background: #eee; padding-bottom: 15px; padding-left:30px;
+		     background-image: url(/media/Images/dropRoutine.png); background-repeat: no-repeat; background-position:top;
+		     padding-top: 55px; border: 2px solid #ccc; border-radius: 5px; overflow: hidden; display: none;">
+
+			<table style="width: 100%; position: relative; left: -2px; top: 2px;">
+				<tr>
+				<td>
+				<div id="sel_routineListNode" class="container2" style="padding: 0px;">
+				{% if selectedRoutines %}			
+					{% for item in selectedRoutines %}
+						<script type="text/javascript">
+								allRoutines_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');	
+						</script>
+		
+						{% if item.checkState == "checked" %}
+							<!--generate the selectedRoutine_session array for code generation for the case of no dnd action-->
+							<script type="text/javascript">
+								selectedRoutine_session.push('{{ item.thePrecision }}'+'{{ item.routineName }}');		
+							</script>
+
+						{% endif %}
+
+						{% if item.checkState == "unchecked" %}							
+							<script type="text/javascript">
+								uncheckedRoutines.push('{{ item.thePrecision }}'+'{{ item.routineName }}');				
+							</script>
+						{% endif %}
+
+						<div class="sel_dojoDndItem" id="sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+							<div class="routineName">
+								<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+									<tr id="tr_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="cursor: pointer;">
+										<!--
+										<td id="{{ item.serialNo }}" style="font-weight: bold;">{{ item.serialNo }}.</td>
+										-->
+										<td>
+											<input type="checkbox" name="routines" {% if item.checkState == "checked" %} checked="checked" {% endif %}
+											       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
+											       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
+											       <!--onChange="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>-->
+										</td>
+										<td style="width: 56px; font-weight: bold;" title="Check box to generate template">
+											{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+										</td>										
+										<td>						
+											<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
+											     onclick="dijit.byId('sel_ajax_{{ item.id }}').show()"/>	
+										</td>
+										<td>						
+											<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
+											     onclick="allRoutines_session = removeRoutine('sel_ajax_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+										</td>
+										<td>                                            
+											<img src="{{ MEDIA_URL }}Images/move.png" width="15" height="15" title="Move up and down"
+											     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+                                                                                </td>
+									</tr>
+								</table>											
+							</div>
+							<div class="dijitHidden">
+								<div id="sel_ajax_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+									<div align="center">
+										<table id="table_main" width="80%" border = "1">
+											<tr>
+											<th>Precision</th>
+											<th>Routine Name</th>
+											<th>Matrix Type</th>
+											<th>Storage</th>
+											</tr>
+											<tr>
+											<td>{{ item.thePrecision|upper }}</td>
+											<td>{{ item.routineName|upper }}</td> 
+											<td>{{ item.matrixType }}</td> 
+											<td>{{ item.storageType }}</td>      
+											</tr>
+										</table><br/>
+										<iframe src="{{ MEDIA_URL }}{{ item.url }}" width="750px" height="400px"></iframe><br/></br>
+										<button onClick="dijit.byId('sel_ajax_{{ item.id }}').hide()">Close</button>
+									</div>
+								</div>
+							</div>					
+						</div>
+					{% endfor %}
+				{% endif %}
+				</div><!-- end of class="container2" -->
+				</td>
+				</tr>
+			</table>			
+		</div>			
+	</div>
+
+	<div id="movebuttons" style="width: 50%; background-position:top; margin-left: auto; margin-right: auto; margin-bottom: 10px;
+                border: 1px solid #ccc; border-radius: 10px; overflow: hidden; text-align: center; padding-top:0px; padding-bottom: 0px;
+                display: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; -o-user-select: none;">
+		<table style="text-align: center; width: 100%; margin-left:auto;margin-right:auto">
+			<tr style="text-align: center; width: 100%;">
+				<td id="moveup" style="border: 0px solid #ccc; border-radius: 10px; margin-top: 0px; background: #ccc; cursor:pointer;  width: 60px;"
+				    onClick="allRoutines_session = moveup(selectedRoutine, allRoutines_session);">
+					<label>Move up</label>
+				</td>
+<!--				<td id="movedown" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 5px; background: #ccc; cursor:pointer;  width: 75px;"
+				    onClick="selectedRoutine_session = closeOrderingPanel(selectedRoutine, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines); selectedRoutine = '';">
+					Done
+				</td>-->
+				<td id="movedown" style="border: 0px solid #ccc; border-radius: 10px; margin-top: 0px; background: #ccc; cursor:pointer;  width: 60px;"
+				    onClick="allRoutines_session = movedown(selectedRoutine, allRoutines_session);">
+					<label>Move down</label>
+				</td>
+				
+			</tr>
+		</table>
+	</div>	
+	<div id="button-div" style="padding: 2px; margin-top: 10px;">
+		<table style="width:100%; margin: 0px auto;">
+			<tr style="width:100%;">
+				<td style="text-align:left;">
+					<button type="button" id="clearSelected" class="myButton" title="Clear all selected routines" onclick="clearAllRoutines();">
+						Clear all
+					</button>
+				</td>
+				<td style="text-align:right;">
+					<button type="button" id="fortran_Button" class="myButton" name="fortran" title="Generate code template in Fortran" onclick="time = generateTemplate(this.name);">
+						Fortran template
+					</button>
+					<button type="button" id="c_Button" class="myButton" name="cpp" title="Generate code template in C" onclick="time = generateTemplate(this.name);">
+						C template
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

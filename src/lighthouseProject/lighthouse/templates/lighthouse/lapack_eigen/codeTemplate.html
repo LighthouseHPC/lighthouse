@@ -1,0 +1,52 @@
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                    <img src="{{ MEDIA_URL }}Images/text-x-python.png" width="32" height="32"/>
+            </td>           
+            <td id="title-cell">
+                    Code Template
+            </td>
+        </tr>
+    </table>        
+</div>
+<!--<div id="div-codeTemp" style="padding: 10px; background-color:#eee; margin: 10px; border: 2px solid #ccc; border-radius: 5px;">
+    <textarea readonly="true" name="codeTemplate" rows="15" cols="40"
+              style="border: 0px; vertical-align:text-top;font-family: Courier; font-size: 14px; background-color: #eee; width: 100%; height: 100%;">
+
+    </textarea>
+
+</div>-->
+        <pre id="template_output"  class='brush:fortran;'>
+        </pre>
+
+<div class="dijitHidden">
+    <div id="codeTemp" dojoType="dijit.Dialog" title="Code Template">
+        <div align="center">
+            <div id="codeFrame" align="left" style="background: #eee; width: 640px; height: 400px; font-family: Courier;"></div><br/>
+            <button onClick="dijit.byId('codeTemp').hide()">Close</button>
+        </div>
+    </div>
+</div>  
+
+<div id="button-div">
+    <table style="width:100%; margin: 0px auto;">
+        <tr style="width:100%;">
+            <td style="text-align:left;">
+                <button type="button" id="clearTemplate" title="Clear Template" style="width: 65px;" onmouseover="" onmouseout=""
+                        onclick="clearTemplateArea();">Clear
+                </button>
+            </td>
+<!--            <td style="text-align:right;">
+                <button type="button" id="showTemplate" title="Show Template" style="width: 55px;" onmouseover="" onmouseout=""
+                        onclick="loadCodeTemplate(); dijit.byId('codeTemp').show();">Show
+                </button>
+            </td>-->
+            <td style="text-align:right; width: 80px;">
+                <button type="button" id="downloadTemplate" title="Download Template" style="width: 75px;" onmouseover="" onmouseout=""
+                        onclick="return downloadTemplate();">Download
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
