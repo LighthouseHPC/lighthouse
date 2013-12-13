@@ -1,4 +1,5 @@
 import datetime
+import time
 
 from django.forms import *
 from django.utils import formats
@@ -184,6 +185,8 @@ class Textarea(DojoWidgetMixin, widgets.Textarea):
 
 if DateInput:
     class DateInput(DojoWidgetMixin, widgets.DateInput):
+        manual_format = True
+        format = '%Y-%m-%d' # force to US format (dojo will do the locale-specific formatting)
         dojo_type = 'dijit.form.DateTextBox'
         valid_extra_attrs = [
             'required',
@@ -224,6 +227,7 @@ if TimeInput:
             'min_value',
             'max_value',
         ]
+        manual_format = True
         format = "T%H:%M:%S" # special for dojo: 'T12:12:33'
         
         def __init__(self, attrs=None, format=None):

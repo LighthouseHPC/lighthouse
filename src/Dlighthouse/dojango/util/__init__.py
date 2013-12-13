@@ -2,6 +2,12 @@ import os
 import datetime
 from decimal import Decimal
 
+from django import VERSION as django_version
+if django_version >= (1, 5, 0):
+    import json
+else:
+    from django.utils import simplejson as json
+
 from dojango.conf import settings # using the app-specific settings
 from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.db.models import Model
@@ -9,7 +15,6 @@ from django.db.models import ImageField, FileField
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from django.utils import simplejson as json
 from django.utils.functional import Promise
 
 try:

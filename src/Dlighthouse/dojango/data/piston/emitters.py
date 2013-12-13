@@ -1,6 +1,10 @@
+from django import VERSION as django_version
+if django_version >= (1, 5, 0):
+    import json
+else:
+    from django.utils import simplejson as json
 from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.db.models.query import QuerySet
-from django.utils import simplejson as json
 from piston.emitters import Emitter
 from piston.validate_jsonp import is_valid_jsonp_callback_value
 
