@@ -191,3 +191,9 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
     },
 }
+
+
+
+#Configuration of dojango
+DOJANGO_DOJO_VERSION = "1.8.3"
+DOJANGO_DOJO_THEME = "claro"    #default is "claro" -- "tundra", "soria", "nihilo"

@@ -9,7 +9,7 @@ admin.autodiscover()
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
 
-### satic files
+### static files
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -27,6 +27,9 @@ urlpatterns = patterns('',
     
     ### for dajaxcie
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+    
+    ### for dojango
+    (r'^dojango/', include('dojango.urls')),
 
     ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
     url(r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
