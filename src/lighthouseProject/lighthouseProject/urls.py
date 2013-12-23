@@ -4,6 +4,16 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+
+### Configure dajaxice url
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+dajaxice_autodiscover()
+
+### satic files
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'lighthouseProject.views.home', name='home'),
@@ -14,7 +24,11 @@ urlpatterns = patterns('',
 
     ### Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    
+    ### for dajaxcie
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
     url(r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
-)
+    
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

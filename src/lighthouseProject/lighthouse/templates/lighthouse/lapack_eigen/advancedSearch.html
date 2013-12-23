@@ -1,16 +1,18 @@
-  <div id="title-div">
-      <table id="icon-table">
-          <tr>
-              <td id="icon-cell">
-                  <img src="{{ MEDIA_URL }}Images/advancedSearch.png" width="32" height="32"/>
-              </td>       
-             <td id="title-cell">
-                  Advanced Search
-              </td>
-          </tr>
-      </table>    
-  </div>
-  <br>
+{% load static from staticfiles %}
 
-  {% include "lighthouse/lapack_eigen/advanced/answered.html" %}
-  {% include content_eigen_advanced_form %}
+<div id="title-div">
+    <table id="icon-table">
+        <tr>
+            <td id="icon-cell">
+                <img src={%static "Images/advancedSearch.png" %} width="32" height="32"/>
+            </td>       
+           <td id="title-cell">
+                Advanced Search
+            </td>
+        </tr>
+    </table>    
+</div>
+<br>
+
+{% include "lighthouse/lapack_eigen/advanced/answered.html" %}
+{% include content_eigen_advanced_form %}

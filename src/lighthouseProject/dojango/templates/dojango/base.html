@@ -1,0 +1,82 @@
+{% spaceless %}
+	{% load dojango_base %}
+	{% load dojango_filters %}
+	{% if not DOJANGO %}
+		{# if the context processor did not pass the DOJANGO context, we set it here #}
+		{% set_dojango_context %}
+	{% endif %}
+	
+	{% if not LANGUAGE_CODE %}
+		{% load i18n %}
+		{% get_current_language as LANGUAGE_CODE %}
+		{% get_current_language_bidi as LANGUAGE_BIDI %}
+	{% endif %}
+{% block _dojango_doctype %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% endblock %}
+{% endspaceless %}{% block _dojango_html_start_tag %}
+<html xmlns="http://www.w3.org/1999/xhtml"{% block _dojango_html_lang %}{% endblock %}>
+{% endblock %}
+{% spaceless %}
+	<head>
+		{% block _dojango_meta_content_type %}<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />{% endblock %}{# This must be before any non-english text, i.e. title. http://www.dojotoolkit.org/book/dojo-book-0-9/part-3-programmatic-dijit-and-dojo/i18n/globalization-guidelines/encoding-guideli#textfiles #}
+		{% block _dojango_meta_content_lang %}{% endblock %}
+		<title>{% block dojango_page_title %}{% endblock %}</title>
+		{% block _dojango_dojo_styles %}
+			<style type="text/css">
+				@import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
+				@import "{{ DOJANGO.THEME_CSS_URL }}";
+			</style>
+		{% endblock %}
+		<script type="text/javascript">
+			{# baseUrl setting is needed, if you want to combine a local with a remote build! #}
+			{% block _dojango_dj_config %}
+				var djConfig = {
+					'isDebug':{{ DOJANGO.DEBUG|json }},
+					'parseOnLoad':true,
+					'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
+					{% if not DOJANGO.IS_LOCAL %}
+						,'dojoBlankHtmlUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+						,'dojoIframeHistoryUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+					{% endif %}
+					{% if DOJANGO.VERSION > '1.6' %}
+						,'paths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+					{% else %}{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+						,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+					{% endif %}{% endif %}
+				};
+			{% endblock %}
+		</script>
+	
+		{% block _dojango_post_dj_config %}{# don't use this block, it is used by base_i18n.html #}{% endblock %}
+		
+		{% block dojango_post_dj_config %}{# if you want to manipulate djConfig stuff #}{% endblock %}
+		
+		<script type="text/javascript" src="{{ DOJANGO.DOJO_SRC_FILE }}"></script>
+	
+		{# for a locally built version dojango should already be included #}
+		{% if not DOJANGO.IS_LOCAL_BUILD %}
+			<script type="text/javascript" src="{{ DOJANGO.DOJANGO_SRC_FILE }}"></script>
+		{% endif %}
+	
+		{% block dojango_header_extra %}{% endblock %}
+	</head>
+{% endspaceless %}
+
+{% block dojango_body %}
+	<body class="{{ DOJANGO.THEME }}">
+		{% block dojango_content %}
+		{% endblock %}
+		{% block dojango_require %}
+			<script type="text/javascript">
+				{% for require in DOJANGO.COLLECTOR %}
+					{% spaceless %}
+						dojo.require("{{ require }}");
+					{% endspaceless %}
+				{% endfor %}
+			</script>
+		{% endblock %}
+	</body>
+{% endblock %}
+
+</html>
