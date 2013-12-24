@@ -42,7 +42,7 @@
 			</style>
 		{% endblock %}
                 
-                {% include "style.html" %}               
+                {% include "style/style.html" %}               
                 
 		<script type="text/javascript">
 			{# baseUrl setting is needed, if you want to combine a local with a remote build! #}
@@ -81,7 +81,7 @@
                 {% dajaxice_js_import %}
                 
                 <!-- for dajax prototype -->
-                {% include "dajaxDojo.html" %}
+                {% include "javascript/dajaxDojo.html" %}
                 
                 <!-- for SyntaxHighlighter -->
                 <link href={% static "syntaxhighlighter_3.0.83/styles/shCore.css" %} rel='stylesheet' type='text/css'/>
@@ -159,9 +159,9 @@
                 </div><!-- end of "main" BorderContainer -->
         
         
-                {% include "dojoRequires.html" %}
+                {% include "javascript/dojoRequires.html" %}
         
-                {% include "jsFunctions_eigen.html" %}
+                {% include "javascript/jsFunctions_eigen.html" %}
         
 		{% block dojango_require %}
 			<script type="text/javascript">
