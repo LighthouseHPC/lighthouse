@@ -3,11 +3,9 @@ from django.db.models import Q
 from lighthouse.models.lapack_le import lapack_RoutineInfo
 from collections import OrderedDict
 
-#
-#
-# Define possible choices for forms and database fields
-#
-#
+
+###<<<<< Guided Search >>>>>###
+###--- Define possible choices for forms and database fields ---###
 
 EIGEN_PROBLEM_CHOICES = (
     (u'eval'                 ,u'Eigenproblem'),
@@ -49,11 +47,38 @@ EIGEN_ALGORITHM_CHOICES = (
     (u'mrrr',u'Multiple Relatively Robust Representation'),
 )
 
-#
-#
-# Define the possible fields in the database and in forms
-#
-#
+
+
+###--- Define the model using the fields and choices from above ---###
+
+class lapack_eigen(models.Model):
+    generalized = models.CharField('Generalized', max_length=1, choices=EIGEN_YESNO_CHOICES)
+    problem = models.CharField('Problem Kind', max_length=4, choices=EIGEN_PROBLEM_CHOICES)
+    complex = models.CharField('Complex Numbers', max_length=1, choices=EIGEN_YESNO_CHOICES)
+    matrixType = models.CharField('Matrix Type', max_length=3, choices=EIGEN_MATRIX_CHOICES)
+    storageType = models.CharField('Matrix Storage', max_length=4, choices=EIGEN_STORAGE_CHOICES, blank = True, null = True)
+    schur = models.CharField('Schur Form', max_length=1, choices=EIGEN_YESNO_CHOICES, blank = True, null = True)
+    evaluerange = models.CharField('Range of Eigenvalues', max_length=1, choices=EIGEN_YESNO_CHOICES, blank= True, null = True)
+    algorithm = models.CharField('Algorithm Used', max_length=4, choices=EIGEN_ALGORITHM_CHOICES, blank = True, null = True)
+    balancing = models.CharField('Balancing Transform', max_length=1, choices=EIGEN_YESNO_CHOICES, blank = True, null = True)
+    schurform = models.CharField('Ordered Schur Form', max_length=1, choices=EIGEN_YESNO_CHOICES, blank = True, null = True)
+    queryPrecision = models.CharField('Number Precision', max_length=1, choices=EIGEN_PRECISION_CHOICES)
+    thePrecision = models.CharField('Number Precision', max_length=1)
+    routineName = models.CharField('Routine Name', max_length=8)
+    url = models.URLField('Function URL', blank = True, null = True)
+    info = models.ForeignKey(lapack_RoutineInfo)
+
+    def __unicode__(self):
+        return self.routineName
+
+    class Meta:
+        app_label = 'lighthouse'
+        
+        
+        
+
+
+###--- Define the possible fields in the database and in forms ---##
 
 eigen_fields = OrderedDict([
         ('generalized' , ('Do you need to solve a generalized eigenproblem?', EIGEN_NOYES_CHOICES)),
@@ -70,11 +95,8 @@ eigen_fields = OrderedDict([
     ])
 
 
-#
-#
-# Define the order the questions are asked in the guided search
-#
-#
+
+###--- Define the order the questions are asked in the guided search ---###
 
 eigen_nextform = OrderedDict([
         ('start' , 'generalized'),
@@ -91,11 +113,64 @@ eigen_nextform = OrderedDict([
         ('queryPrecision' , 'finish'),
     ])
 
-#
-#
-# Define the different pages for the advanced search
-#
-#
+
+
+
+
+###--- Help Functions ---###
+
+# return a QuerySet containing the results from a given set of questions
+def getFilteredList(answered_questions = OrderedDict()):
+    db = lapack_eigen.objects.all()
+    Qr = None
+    for field,values in answered_questions.items():
+        q = Q(**{"%s__in" % field: values })
+        if Qr:
+            Qr = Qr & q # or & for filtering
+        else:
+            Qr = q    
+
+    if Qr != None:
+        db = db.filter(Qr)
+    return db
+
+
+# Query the model to find what choices are available for a specific field given a set of results
+def getFilteredChoices(results,field):
+    result = ()
+    possibleResults = results.values_list(field, flat=True).order_by(field).distinct()
+    if field in eigen_fields:
+        label, choices = eigen_fields[field]
+        
+        for shortAns, longAns in choices:
+            if shortAns in possibleResults:
+                result = result + ((shortAns,longAns),)
+    return result
+
+
+# Query the model to find the next field with more than one choice available
+def findNextForm(filtered_list=lapack_eigen.objects.all(),answered=OrderedDict()):
+    field = eigen_nextform['start']
+    while field != 'finish':
+        if field in eigen_fields:
+            if field not in answered:
+                # test to see if it has more than one possible value
+                qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
+                if qnum > 1:
+                    break
+            field = eigen_nextform[field]
+        else:
+            return 'finish'
+    return field
+
+
+
+
+
+
+
+###<<<<< Advanced Search >>>>>###
+###--- Define the different pages for the advanced search ---###
 
 eigen_advanced_landing = (
     'generalized', 
@@ -136,67 +211,10 @@ eigen_advanced_nextform = OrderedDict([
     ('optional', 'finish'),
     ])
 
-#
-#
-# Define the model using the fields and choices from above
-#
-#
 
-class lapack_eigen(models.Model):
-    generalized = models.CharField('Generalized', max_length=1, choices=EIGEN_YESNO_CHOICES)
-    problem = models.CharField('Problem Kind', max_length=4, choices=EIGEN_PROBLEM_CHOICES)
-    complex = models.CharField('Complex Numbers', max_length=1, choices=EIGEN_YESNO_CHOICES)
-    matrixType = models.CharField('Matrix Type', max_length=3, choices=EIGEN_MATRIX_CHOICES)
-    storageType = models.CharField('Matrix Storage', max_length=4, choices=EIGEN_STORAGE_CHOICES, blank = True, null = True)
-    schur = models.CharField('Schur Form', max_length=1, choices=EIGEN_YESNO_CHOICES, blank = True, null = True)
-    evaluerange = models.CharField('Range of Eigenvalues', max_length=1, choices=EIGEN_YESNO_CHOICES, blank= True, null = True)
-    algorithm = models.CharField('Algorithm Used', max_length=4, choices=EIGEN_ALGORITHM_CHOICES, blank = True, null = True)
-    balancing = models.CharField('Balancing Transform', max_length=1, choices=EIGEN_YESNO_CHOICES, blank = True, null = True)
-    schurform = models.CharField('Ordered Schur Form', max_length=1, choices=EIGEN_YESNO_CHOICES, blank = True, null = True)
-    queryPrecision = models.CharField('Number Precision', max_length=1, choices=EIGEN_PRECISION_CHOICES)
-    thePrecision = models.CharField('Number Precision', max_length=1)
-    routineName = models.CharField('Routine Name', max_length=8)
-    url = models.URLField('Function URL', blank = True, null = True)
-    info = models.ForeignKey(lapack_RoutineInfo)
 
-    def __unicode__(self):
-        return self.routineName
 
-    class Meta:
-        app_label = 'lighthouse'
-
-#
-#
-# Helper functions
-#
-#
-
-# return a QuerySet containing the results from a given set of questions
-def getFilteredList(answered_questions = OrderedDict()):
-    db = lapack_eigen.objects.all()
-    Qr = None
-    for field,values in answered_questions.items():
-        q = Q(**{"%s__in" % field: values })
-        if Qr:
-            Qr = Qr & q # or & for filtering
-        else:
-            Qr = q    
-
-    if Qr != None:
-        db = db.filter(Qr)
-    return db
-
-# Query the model to find what choices are available for a specific field given a set of results
-def getFilteredChoices(results,field):
-    result = ()
-    possibleResults = results.values_list(field, flat=True).order_by(field).distinct()
-    if field in eigen_fields:
-        label, choices = eigen_fields[field]
-        
-        for shortAns, longAns in choices:
-            if shortAns in possibleResults:
-                result = result + ((shortAns,longAns),)
-    return result
+###--- Help Functions ---###
 
 # Query the model to find what choices are available for a specific page given a set of results
 def getFilteredChoicesAdvanced(results,field):
@@ -211,20 +229,6 @@ def getFilteredChoicesAdvanced(results,field):
 
     return result
 
-# Query the model to find the next field with more than one choice available
-def findNextForm(filtered_list=lapack_eigen.objects.all(),answered=OrderedDict()):
-    field = eigen_nextform['start']
-    while field != 'finish':
-        if field in eigen_fields:
-            if field not in answered:
-                # test to see if it has more than one possible value
-                qnum = filtered_list.filter().values_list(field, flat=True).distinct().count()
-                if qnum > 1:
-                    break
-            field = eigen_nextform[field]
-        else:
-            return 'finish'
-    return field
 
 # Query the model to find the next page with more than one choice available
 def findNextFormAdvanced(filtered_list=lapack_eigen.objects.all(),answered=OrderedDict()):
