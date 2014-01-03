@@ -35,17 +35,7 @@
 <form action="/lapack_eigen/" name="frmType" method="post">
     {% csrf_token %}
     <div id="question-div"
-    {% for field in guided_form %}
-     <li><label>{{ field.label_tag }}</label> 
-      <ul style="list-style: none;">
-        {% for radio in field %}
-          <li >
-              {{ radio }}
-          </li>
-        {% endfor %}
-        </ul>
-     </li>  
-     {% endfor %}
+      {{  guided_form }}
     </div>
     <br>   
     <div id="button-div">
