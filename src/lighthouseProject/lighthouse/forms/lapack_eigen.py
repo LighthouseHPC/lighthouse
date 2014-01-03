@@ -2,18 +2,30 @@ from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
 
-#
-#
-# Helper function - performs a lookup against eigen_fields and builds a field from that information
-#
-#
 
-def makeFieldRadio(name):
-    if name in eigen_fields:
-    	field_label, field_choices = eigen_fields[name]
-    	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.RadioSelect())
-    else:
-        return forms.ChoiceField(widget=forms.RadioSelect)
+
+###--- Guidede Search Forms: performs a lookup against eigen_fields and builds a field from that information ---###
+
+class GuidedForm(forms.Form):
+    def __init__(self, name , *args, **kwargs):
+        super(GuidedForm, self).__init__(*args, **kwargs)
+        if name in eigen_fields:
+           self.fields[name] = forms.ChoiceField(label = eigen_fields[name][0], choices= eigen_fields[name][1], widget=forms.RadioSelect())
+	else:
+	    self.fields[name] = forms.ChoiceField(widget=forms.RadioSelect)
+
+
+# Filtered guided form - always a subset of GuidedForm() and only contains relevant choices
+class FilteredForm(forms.Form):
+    def __init__(self, name, filtered, *args, **kwargs):
+        super(FilteredForm, self).__init__(*args, **kwargs)
+        self.fields[name] = forms.ChoiceField(label=eigen_fields[name][0],
+                choices=getFilteredChoices(filtered,name), widget=forms.RadioSelect())
+
+
+
+
+###--- Advanced Search Forms ---###
 
 def makeFieldCheckbox(name):
     if name in eigen_fields:        
@@ -22,24 +34,6 @@ def makeFieldCheckbox(name):
     else:
         return forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
-#
-#
-# Form Classes
-#
-#
-
-# Basic guided form - uses all the choices available
-class GuidedForm(forms.Form):
-    def __init__(self, name = 'problem' , *args, **kwargs):
-        super(GuidedForm, self).__init__(*args, **kwargs)
-        self.fields[name] = makeFieldRadio(name)
-
-# Filtered guided form - always a subset of GuidedForm() and only contains relevant choices
-class FilteredForm(forms.Form):
-    def __init__(self, name, filtered, *args, **kwargs):
-        super(FilteredForm, self).__init__(*args, **kwargs)
-        self.fields[name] = forms.ChoiceField(label=eigen_fields[name][0],
-                choices=getFilteredChoices(filtered,name), widget=forms.RadioSelect())
 
 # Advanced form - builds a form with multiple fields using the page definitions
 class AdvancedForm(forms.Form):
