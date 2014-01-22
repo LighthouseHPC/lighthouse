@@ -126,7 +126,7 @@
 	    <table style="width:100%; margin: 0px auto;">
 		<tr style="width:100%;">
 			<td style="text-align:left;">				
-				<button type="button" name="reset" id="resetButton" title="Cancel" onmouseover="showTooltip('tooltip', 'Cancel','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
+				<button type="button" name="reset" id="resetButton" class="myButton" title="Cancel" onmouseover="showTooltip('tooltip', 'Cancel','#cc0000');" onmouseout="showTooltip('tooltip','');" onclick="return show_confirm()">
 			    <!-- <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> -->
 			    Reset
 				</button>				
@@ -136,7 +136,7 @@
 			</td>
 			
 			<td style="text-align:right;">
-				<button id="sub_button" disabled="disabled" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkAnswers();"; >
+				<button id="sub_button" class="myButton" disabled="disabled" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkAnswers();"; >
 				<!--  <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/> -->
 				Submit
 				</button >
