@@ -1,10 +1,8 @@
-{% load static from staticfiles %}
-
 <div id="title-div">
   <table id="icon-table">
     <tr>
       <td id="icon-cell">
-        <img src={%static "Images/guidedSearch.png" %} width="32" height="32"/>
+        <img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
       </td>
       <td id="title-cell">
         Guided Search
@@ -13,48 +11,7 @@
   </table>
 </div>
 <br>
-{% for question, answers in eigen_guided_answered.items %}
-<tr>
-  <th>
-    <label for="id_question_fact">
-      <img src={%static "Images/arrow.png" %} width="8" height="8"/>
-      <b> {{ question }} </b>
-    </label>
-  </th>
-  {% for answer in answers %}
-  <ul style="margin-left: 0; padding-left: 20px;">
-      <li style="list-style-type: none; padding-left:-10px;">
-        <img src={%static "Images/dialog-ok-4.png" %} width="8" height="8"/>
-        {{ answer }}
-    </li>
-  </ul>
-  {% endfor %}
-</tr>
-{% endfor %}
 
-<form action="/lapack_eigen/" name="frmType" method="post">
-    {% csrf_token %}
-    <div id="question-div"
-      {{  guided_form }}
-    </div>
-    <br>   
-    <div id="button-div">
-        <table style="width:100%; margin: 0px auto;">
-          <tr style="width:100%;">
-            <td style="text-align:left;">       
-              <button type="submit" name="guided" value="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
-                  <img src={%static "Images/clear.png" %} width="16" height="16"/> 
-              </button>       
-            </td>     
-            <td style="text-align:center;">
-              <div id="tooltip2"></div>
-            </td>
-            <td style="text-align:right;">
-              <button type="submit" name="guided" value="submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
-                  <img src={%static "Images/dialog-ok-4.png" %} width="16" height="16"/>
-              </button >
-            </td>
-          </tr>
-        </table>
-    </div>
-</form>
+{% include "lighthouse/lapack_eigen/guided/answered.html" %}
+
+{% include content_eigen_guided_form %}
