@@ -41,7 +41,7 @@ from spell.spell import correct
 
 
 
-### ---------------- Define functions------------------ ###
+### ---------------- Define help functions------------------ ###
 #Combine (and) the Q's.
 def combine_Q(aList):
 	query = Q()
@@ -797,7 +797,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite', 'triangular', 'SPsD', 'HPsD', 'symmetric positive semidefinite', 'Hermitian positive semidefinite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal', 'rectangular full packed', 'RFP'],
-		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'inverse', 'driver', 'computational', 'solve', 'solution', 'solver'],
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'inverse', 'driver', 'expert', 'computational', 'solve', 'refine', 'refinement',],
 	}
 
 
@@ -851,31 +851,39 @@ def keyword_handler(strings):
 
 
 
+
 ###------- set up keywords_dictionary to use proper model names--------###
+table_handler2 = {
+	'factorization': 'factor',
+	'condition number': 'condition_number',
+	'error bound': 'error_bound',
+	'refine': 'error_bound',
+	'refinement': 'error_bound',
+}
+
+matrixType_handler2 = {
+	'symmetric positive definite': 'SPD',
+	'Hermitian positive definite': 'HPD',
+	'symmetric positive semidefinite': 'SPsD',
+	'Hermitian positive semidefinite': 'HPsD',
+}
 def keyword_handler2(keywords_dictionary):
 	for i, item in enumerate(keywords_dictionary['table']):
-		if item == 'factorization':
-			keywords_dictionary['table'][i] = item.replace(item, 'factor')
-		if item == 'condition number':
-			keywords_dictionary['table'][i] = item.replace(item, 'condition_number')
-		if item == 'error bound':
-			keywords_dictionary['table'][i] = item.replace(item, 'error_bound')
-		if item in ['solution', 'solve', 'solver'] and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
-			keywords_dictionary['table'][i] = item.replace(item, 'solve')
-		if item == 'solver':
-			keywords_dictionary['table'][i] = item.replace(item, 'solve')
+		if item =='solve' and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
+			keywords_dictionary['table'][i] = 'solve'
+		else:
+			for key, value in table_handler2.iteritems():
+				if item == key:
+					keywords_dictionary['table'][i] = value
+
 	for i, item in enumerate(keywords_dictionary['matrixType']):
-		if item == 'symmetric positive definite':
-			keywords_dictionary['matrixType'][i] = item.replace(item, 'SPD')
-		if item == 'Hermitian positive definite':
-			keywords_dictionary['matrixType'][i] = item.replace(item, 'HPD')
-		if item == 'symmetric positive semidefinite':
-			keywords_dictionary['matrixType'][i] = item.replace(item, 'SPsD')
-		if item == 'Hermitian positive semidefinite':
-			keywords_dictionary['matrixType'][i] = item.replace(item, 'HPsD')
+		for key, value in matrixType_handler2.iteritems():
+			if item == key:
+				keywords_dictionary['matrixType'][i] = value
+
 	for i, item in enumerate(keywords_dictionary['storageType']):
 		if item == 'rectangular full packed':
-			keywords_dictionary['storageType'][i] = item.replace(item, 'RFP')		
+			keywords_dictionary['storageType'][i] = 'RFP'		
 	return keywords_dictionary	
 
 
@@ -886,11 +894,18 @@ def keyword_handler2(keywords_dictionary):
 def kwDictionary_set(keywords_dictionary):
 	### if choosing 'solve', search in both 'simple' and 'solve' ###
 	if len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
-		keywords_dictionary['table'].append('simple')
+		keywords_dictionary['table'] = ['simple']
 		
 	### if choosing 'solve' and other, search in 'expert' ###
-	elif len(keywords_dictionary['table']) > 1 and 'solve' in keywords_dictionary['table']:
+	elif 'driver' in (keywords_dictionary['table']) and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['simple']
+		
+	elif 'computational' in (keywords_dictionary['table']) and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['solve']
+		
+	elif len(keywords_dictionary['table'])>1 and 'solve' in keywords_dictionary['table']:
 		keywords_dictionary['table'] = ['expert']
+		
 	else:
 		pass
 		
@@ -969,7 +984,7 @@ def query_haystack(keywords, answer_class):
 def query_django(keywords_dictionary):
 	results = []
 	for table in keywords_dictionary['table']:
-		print table
+		#print table
 		for combineType in keywords_dictionary['matrix_storage']:
 			for precision in keywords_dictionary['thePrecision']:
 				kwargs = {'matrixType': combineType.split('_')[0],
@@ -1000,9 +1015,17 @@ def keywordResult(request):
 	
 	if request.method == 'POST':		
 		form = ModelSearchForm(request.POST)
+		#print form
+		
 		if form.is_valid():
+			## if driver/computational boxes are checked
 			answer_class = form.cleaned_data['models']
-			
+			print answer_class
+			for item in answer_class:
+				print item.split('_')[-1]
+				
+				
+			## get the keyword
 			keywords_orig = request.POST['q']
 			
 			## Don't split double-quoted words ##
@@ -1020,6 +1043,7 @@ def keywordResult(request):
 			
 			## keywords goes through keyword_handler ##
 			keywords = keyword_handler(keywords)
+			print keywords
 			
 			## final keywordsList, Don't split double-quoted words
 			keywordsList = shlex.split(keywords)
@@ -1035,12 +1059,13 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			print keywords_dictionary
+			#print keywords_dictionary
 			
 			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
 				keywords_dictionary = keyword_handler2(keywords_dictionary)
 				keywords_dictionary = kwDictionary_set(keywords_dictionary)
+				print keywords_dictionary
 				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
@@ -1053,7 +1078,9 @@ def keywordResult(request):
 				   'keywordsList': keywordsList,
 				   'common': common,
 				   'selectedRoutines': request.session['selectedRoutines'],
-				   'notSelectedRoutines': request.session['notSelectedRoutines'], 
+				   #'notSelectedRoutines': request.session['notSelectedRoutines'],
+				   'form': form,
+				   'answer_class': answer_class,
 				   }
 			
 			return render_to_response(
@@ -1162,7 +1189,6 @@ def runScript(request):
 @csrf_exempt
 def update_session(request):
 	if request.is_ajax():
-		
 		selectedRoutineNames = []
 		selectedRoutineList = [{
 			"thePrecision": request.POST.get('precision'),
