@@ -195,8 +195,9 @@
 	// show routine info after clicking on the 'more' button and load iframe 
 	function showMore(selectedID, selectedURL) {
 		document.getElementById(selectedID+"Iframe").src = selectedURL;
-		dijit.byId(selectedID).show()
-		
+		dijit.byId(selectedID).show();
+		console.log(selectedID);
+		console.log(selectedURL);
 	}
 	
 	
@@ -1110,10 +1111,17 @@
 	// Use jQuery for autocomplete
 	$(function() {
 		var availableTags = [
-			"single real",
-			"single complex",
-			"double real",
-			"double complex",
+			//operation type
+			"solve a system of linear equations",			
+			"factor a matrix",
+			"condition number",
+			"error bound",
+			"forward error bound",
+			"backward error bound",
+			"refine the solution",
+			"equilibrate a matrix",
+			"inverse of a matrix",
+			//matrix type
 			"general",
 			"symmetric",
 			"Hermitian",
@@ -1126,31 +1134,70 @@
 			"symmetric positive semidefinite",
 			"HPsD",
 			"Hermitian positive semidefinite",
+			//storage type
 			"full",
 			"band",
 			"packed",
 			"tridiagonal",
 			"RFP",
 			"rectangular full packed",
-			"solve a system of linear equations",			
-			"factor a matrix",
-			"condition number",
-			"error bound",
-			"forward error bound",
-			"backward error bound",
-			"refine the solution",
-			"refinement",
-			"equilibrate a matrix",
-			"equilibration",
-			"inverse of a matrix",
+			//complex/precision
+			"real single",
+			"real double",
+			"complex single",
+			"complex double",
+			//other
 			"Gaussian elimination",
 			"LU factorization",
 			"Cholesky factorization",
 			"transpose",
 			"conjugate transpose",
 		];
-		$( "#id_q" ).autocomplete({
-		  source: availableTags
-		});
+		
+		// ---Autocomplete for single word ---//
+		//$( "#id_q" ).autocomplete({
+		//	source: availableTags
+		//});
+		
+		
+		// ---Autocomplete for multiple words ---//
+		function split( val ) {
+			return val.split( / \s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+	     
+		$( "#id_q" )
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ){
+					event.preventDefault();
+				}
+			})
+			
+			.autocomplete({
+				minLength: 0,
+				source: function( request, response ) {
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter(
+					availableTags, extractLast( request.term ) ) );
+				},	
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( " " );
+					return false;
+				}
+			});
 	});	
 </script>
