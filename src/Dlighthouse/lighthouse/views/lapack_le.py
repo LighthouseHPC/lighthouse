@@ -844,7 +844,7 @@ def keywordResult(request):
 			
 			## keywords goes through keyword_handler ##
 			keywords = keyword_handler(keywords)
-			print keywords
+			#print keywords
 			
 			## final keywordsList, Don't split double-quoted words
 			keywordsList = shlex.split(keywords)
@@ -860,7 +860,7 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			#print keywords_dictionary
+			print keywords_dictionary
 			
 			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
 				print 'use django'
@@ -891,9 +891,9 @@ def keywordResult(request):
 			
 			
 
-def quoted_words(string):
-	matches=re.findall(r'\"(.+?)\"', string)
-	return matches
+#def quoted_words(string):
+#	matches=re.findall(r'\"(.+?)\"', string)
+#	return matches
 	
 
 
@@ -933,6 +933,7 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bpack.*?\b', 'packed', strings)
 	strings = re.sub(r'\brectang.*?\b fu.*? pa.*?\b', '\"'+'rectangular full packed'+'\"', strings)
 	strings = re.sub(r'\gauss.*? elim.*?\b', 'Gaussian elimination', strings)
+	strings = re.sub(r'\conj.*? tra.*?\b', 'conjugate transpose', strings)
 	return strings	
 
 
