@@ -797,7 +797,7 @@ special_words = {
 		'thePrecision': ['single', 'double'],
 		'matrixType': ['general', 'symmetric', 'Hermitian', 'SPD', 'HPD', 'symmetric positive definite', 'Hermitian positive definite', 'triangular', 'SPsD', 'HPsD', 'symmetric positive semidefinite', 'Hermitian positive semidefinite'],
 		'storageType': ['full', 'band', 'packed', 'tridiagonal', 'rectangular full packed', 'RFP'],
-		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'inverse', 'driver', 'expert', 'computational', 'solve', 'refine', 'refinement',],
+		'table': ['factor', 'factorization', 'condition number', 'error bound', 'equilibrate', 'inverse', 'driver', 'expert', 'computational', 'solve', 'refine',],
 	}
 
 
@@ -866,7 +866,7 @@ def keywordResult(request):
 				print 'use django'
 				keywords_dictionary = keyword_handler2(keywords_dictionary)
 				keywords_dictionary = kwDictionary_set(keywords_dictionary)
-				print keywords_dictionary
+				#print keywords_dictionary
 				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
@@ -956,19 +956,35 @@ matrixType_handler2 = {
 	'Hermitian positive semidefinite': 'HPsD',
 }
 def keyword_handler2(keywords_dictionary):
+	## change table name
 	for i, item in enumerate(keywords_dictionary['table']):
-		if item =='solve' and 'linear' in keywords_dictionary['other'] and 'equations' in keywords_dictionary['other']:
-			keywords_dictionary['table'][i] = 'solve'
-		else:
-			for key, value in table_handler2.iteritems():
-				if item == key:
-					keywords_dictionary['table'][i] = value
-
+		for key, value in table_handler2.iteritems():
+			if item == key:
+				keywords_dictionary['table'][i] = value
+				
+	## for 'solve a system of linear equations'
+	if len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['only', 'expert']
+		
+	elif 'driver' in (keywords_dictionary['table']) and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['driver']
+		
+	elif 'computational' in (keywords_dictionary['table']) and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['solve']
+		
+	elif len(keywords_dictionary['table'])>1 and 'solve' in keywords_dictionary['table']:
+		keywords_dictionary['table'] = ['expert']
+		
+	else:
+		pass	
+	
+	## change matrix type name
 	for i, item in enumerate(keywords_dictionary['matrixType']):
 		for key, value in matrixType_handler2.iteritems():
 			if item == key:
 				keywords_dictionary['matrixType'][i] = value
 
+	## change storage type name
 	for i, item in enumerate(keywords_dictionary['storageType']):
 		if item == 'rectangular full packed':
 			keywords_dictionary['storageType'][i] = 'RFP'		
@@ -979,24 +995,7 @@ def keyword_handler2(keywords_dictionary):
 
 
 ###------- set up keywords_dictionary for query_django--------###
-def kwDictionary_set(keywords_dictionary):
-	### if choosing 'solve', search in both 'simple' and 'solve' ###
-	if len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
-		keywords_dictionary['table'] = ['simple']
-		
-	### if choosing 'solve' and other, search in 'expert' ###
-	elif 'driver' in (keywords_dictionary['table']) and 'solve' in keywords_dictionary['table']:
-		keywords_dictionary['table'] = ['simple']
-		
-	elif 'computational' in (keywords_dictionary['table']) and 'solve' in keywords_dictionary['table']:
-		keywords_dictionary['table'] = ['solve']
-		
-	elif len(keywords_dictionary['table'])>1 and 'solve' in keywords_dictionary['table']:
-		keywords_dictionary['table'] = ['expert']
-		
-	else:
-		pass
-		
+def kwDictionary_set(keywords_dictionary):		
 	###***** convert table strings to class *****###
 	for i,value in enumerate(keywords_dictionary['table']):	
 		value = "lapack_le_"+value
