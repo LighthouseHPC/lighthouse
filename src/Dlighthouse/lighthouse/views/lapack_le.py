@@ -824,11 +824,7 @@ def keywordResult(request):
 		
 		if form.is_valid():
 			## if driver/computational boxes are checked
-			answer_class = form.cleaned_data['models']
-			print answer_class
-			for item in answer_class:
-				print item.split('_')[-1]
-				
+			#answer_class = form.cleaned_data['models']
 				
 			## get the keyword
 			keywords_orig = request.POST['q']
@@ -874,9 +870,7 @@ def keywordResult(request):
 				results = query_django(keywords_dictionary)				
 			else:
 				print 'use haystack'
-				results = query_haystack(keywords, answer_class)
-				#spelling_suggestion = sqs.spelling_suggestion()
-				#print spelling_suggestion
+				results = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
 							
 			
 			context = {'results': results,
@@ -884,8 +878,6 @@ def keywordResult(request):
 				   'common': common,
 				   'selectedRoutines': request.session['selectedRoutines'],
 				   #'notSelectedRoutines': request.session['notSelectedRoutines'],
-				   'form': form,
-				   'answer_class': answer_class,
 				   }
 			
 			return render_to_response(
@@ -1060,18 +1052,6 @@ def kwDictionary_set(keywords_dictionary):
 	del keywords_dictionary['dataType']
 	return keywords_dictionary
 
-
-
-
-###-------- haystack search --------###
-def query_haystack(keywords, answer_class):
-	keywords = re.sub('_', ' ', keywords)
-	if answer_class == [] or len(answer_class)==2:
-		## if none of 'search in' boxes is checked, then search in both lapack_le_driver, lapack_le_computational models. ##
-		sqs = SearchQuerySet().models(lapack_le_driver, lapack_le_computational).filter(content=AutoQuery(keywords)).order_by('id')
-	else:
-		sqs = SearchQuerySet().filter(django_ct=answer_class[0]).filter(content=AutoQuery(keywords)).order_by('id')
-	return sqs
 
 
 
