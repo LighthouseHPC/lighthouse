@@ -801,7 +801,103 @@ special_words = {
 	}
 
 
+def keywordResult(request):
+	modelList = []
+	answer = []
+	keywords_dictionary = {}
+	keywords_origList = []
+	keywordsList = []
+	keywords = ""
 
+	try:
+		request.session['selectedRoutines']
+		request.session['scriptOutput']
+		request.session['userScript']	
+	except (NameError,KeyError):
+		request.session['selectedRoutines'] = []
+		request.session['scriptOutput'] = ""
+		request.session['userScript'] = ""
+	
+	if request.method == 'POST':		
+		form = ModelSearchForm(request.POST)
+		#print form
+		
+		if form.is_valid():
+			## if driver/computational boxes are checked
+			answer_class = form.cleaned_data['models']
+			print answer_class
+			for item in answer_class:
+				print item.split('_')[-1]
+				
+				
+			## get the keyword
+			keywords_orig = request.POST['q']
+			
+			## Don't split double-quoted words ##
+			keywords_origList = shlex.split(keywords_orig)
+			
+			## split all words ##
+			keywords_singleList = keywords_orig.split()
+			
+			## spell check ##
+			for i, item in enumerate(keywords_singleList):
+				keywords_singleList[i] = spell_check(item)	
+				
+			## make a string out of keywordsList ##
+			keywords = " ".join(keywords_singleList)
+			
+			## keywords goes through keyword_handler ##
+			keywords = keyword_handler(keywords)
+			print keywords
+			
+			## final keywordsList, Don't split double-quoted words
+			keywordsList = shlex.split(keywords)
+			
+			## find the words that are not corrected ##
+			common = list(set(keywords_origList) & set(keywordsList))
+			#print common
+			
+			
+			###***** make a dictionary for the keywords for django query *****###
+			sumList = []
+			for key in special_words:
+				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
+				sumList += keywords_dictionary[key]
+			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
+			#print keywords_dictionary
+			
+			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
+				print 'use django'
+				keywords_dictionary = keyword_handler2(keywords_dictionary)
+				keywords_dictionary = kwDictionary_set(keywords_dictionary)
+				print keywords_dictionary
+				results = query_django(keywords_dictionary)				
+			else:
+				print 'use haystack'
+				results = query_haystack(keywords, answer_class)
+				#spelling_suggestion = sqs.spelling_suggestion()
+				#print spelling_suggestion
+							
+			
+			context = {'results': results,
+				   'keywordsList': keywordsList,
+				   'common': common,
+				   'selectedRoutines': request.session['selectedRoutines'],
+				   #'notSelectedRoutines': request.session['notSelectedRoutines'],
+				   'form': form,
+				   'answer_class': answer_class,
+				   }
+			
+			return render_to_response(
+				'lighthouse/lapack_le/keywordResult.html', 
+				{'KeywordTab': True}, 
+				context_instance=RequestContext(request, context)
+			)
+		else:
+			HttpResponse("Error!")
+			
+			
+			
 
 def quoted_words(string):
 	matches=re.findall(r'\"(.+?)\"', string)
@@ -996,100 +1092,7 @@ def query_django(keywords_dictionary):
 
 
 
-def keywordResult(request):
-	modelList = []
-	answer = []
-	keywords_dictionary = {}
-	keywords_origList = []
-	keywordsList = []
-	keywords = ""
 
-	try:
-		request.session['selectedRoutines']
-		request.session['scriptOutput']
-		request.session['userScript']	
-	except (NameError,KeyError):
-		request.session['selectedRoutines'] = []
-		request.session['scriptOutput'] = ""
-		request.session['userScript'] = ""
-	
-	if request.method == 'POST':		
-		form = ModelSearchForm(request.POST)
-		#print form
-		
-		if form.is_valid():
-			## if driver/computational boxes are checked
-			answer_class = form.cleaned_data['models']
-			print answer_class
-			for item in answer_class:
-				print item.split('_')[-1]
-				
-				
-			## get the keyword
-			keywords_orig = request.POST['q']
-			
-			## Don't split double-quoted words ##
-			keywords_origList = shlex.split(keywords_orig)
-			
-			## split all words ##
-			keywords_singleList = keywords_orig.split()
-			
-			## spell check ##
-			for i, item in enumerate(keywords_singleList):
-				keywords_singleList[i] = spell_check(item)	
-				
-			## make a string out of keywordsList ##
-			keywords = " ".join(keywords_singleList)
-			
-			## keywords goes through keyword_handler ##
-			keywords = keyword_handler(keywords)
-			print keywords
-			
-			## final keywordsList, Don't split double-quoted words
-			keywordsList = shlex.split(keywords)
-			
-			## find the words that are not corrected ##
-			common = list(set(keywords_origList) & set(keywordsList))
-			#print common
-			
-			
-			###***** make a dictionary for the keywords for django query *****###
-			sumList = []
-			for key in special_words:
-				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
-				sumList += keywords_dictionary[key]
-			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
-			#print keywords_dictionary
-			
-			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
-				print 'use django'
-				keywords_dictionary = keyword_handler2(keywords_dictionary)
-				keywords_dictionary = kwDictionary_set(keywords_dictionary)
-				print keywords_dictionary
-				results = query_django(keywords_dictionary)				
-			else:
-				print 'use haystack'
-				results = query_haystack(keywords, answer_class)
-				#spelling_suggestion = sqs.spelling_suggestion()
-				#print spelling_suggestion
-							
-			
-			context = {'results': results,
-				   'keywordsList': keywordsList,
-				   'common': common,
-				   'selectedRoutines': request.session['selectedRoutines'],
-				   #'notSelectedRoutines': request.session['notSelectedRoutines'],
-				   'form': form,
-				   'answer_class': answer_class,
-				   }
-			
-			return render_to_response(
-				'lighthouse/lapack_le/keywordResult.html', 
-				{'KeywordTab': True}, 
-				context_instance=RequestContext(request, context)
-			)
-		else:
-			HttpResponse("Error!")
 
 
 
