@@ -860,6 +860,9 @@ def keywordResult(request):
 				keywords_dictionary[key] = list(set(keywordsList) & set(special_words[key]))
 				sumList += keywords_dictionary[key]
 			keywords_dictionary['other'] = list(set(keywordsList) - set(sumList))
+			
+			## keep 'transpose' and 'conjugate transpose' only
+			keywords_dictionary['other'] = list(set(['transpose', 'conjugate transpose']) & set(keywords_dictionary['other']))
 			print keywords_dictionary
 			
 			if not any([keywords_dictionary[i] == [] for i in ['table', 'matrixType']]):
@@ -933,7 +936,7 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bpack.*?\b', 'packed', strings)
 	strings = re.sub(r'\brectang.*?\b fu.*? pa.*?\b', '\"'+'rectangular full packed'+'\"', strings)
 	strings = re.sub(r'\gauss.*? elim.*?\b', 'Gaussian elimination', strings)
-	strings = re.sub(r'\conj.*? tra.*?\b', 'conjugate transpose', strings)
+	strings = re.sub(r'\conj.*? tra.*?\b', '\"'+'conjugate transpose'+'\"', strings)
 	return strings	
 
 
@@ -963,6 +966,22 @@ def keyword_handler2(keywords_dictionary):
 			if item == key:
 				keywords_dictionary['table'][i] = value
 				
+	## change matrix type name
+	for i, item in enumerate(keywords_dictionary['matrixType']):
+		for key, value in matrixType_handler2.iteritems():
+			if item == key:
+				keywords_dictionary['matrixType'][i] = value
+
+	## change storage type name
+	for i, item in enumerate(keywords_dictionary['storageType']):
+		if item == 'rectangular full packed':
+			keywords_dictionary['storageType'][i] = 'RFP'
+			
+	## change conjugate transpose to Hermitian_trans
+	for i, item in enumerate(keywords_dictionary['other']):
+		if item == 'conjugate transpose':
+			keywords_dictionary['other'][i] = 'Hermitian_trans'
+				
 	## for 'solve a system of linear equations'
 	if len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
 		keywords_dictionary['table'] = ['only', 'expert']
@@ -979,16 +998,7 @@ def keyword_handler2(keywords_dictionary):
 	else:
 		pass	
 	
-	## change matrix type name
-	for i, item in enumerate(keywords_dictionary['matrixType']):
-		for key, value in matrixType_handler2.iteritems():
-			if item == key:
-				keywords_dictionary['matrixType'][i] = value
-
-	## change storage type name
-	for i, item in enumerate(keywords_dictionary['storageType']):
-		if item == 'rectangular full packed':
-			keywords_dictionary['storageType'][i] = 'RFP'		
+	
 	return keywords_dictionary	
 
 
@@ -1066,7 +1076,10 @@ def query_django(keywords_dictionary):
 				kwargs = {'matrixType': combineType.split('_')[0],
 					'storageType': combineType.split('_')[1],
 					'thePrecision': precision}
-				results += table.objects.filter(**kwargs).order_by('id')
+				if keywords_dictionary['other'] == []:
+					results += table.objects.filter(**kwargs).order_by('id')
+				else:
+					results += table.objects.filter(**kwargs).filter(notes__icontains=keywords_dictionary['other'][0]).order_by('id')
 	return results
 
 
