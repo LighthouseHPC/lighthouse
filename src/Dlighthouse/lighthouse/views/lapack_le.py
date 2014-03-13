@@ -918,7 +918,7 @@ def keyword_handler(strings):
 	strings = re.sub(r'\bli.*? eq.*?\b', 'linear equations', strings)
 	strings = re.sub(r'\blinear equations s.*?ver\b', 'linear equations solver', strings)
 	strings = re.sub(r'\bsys.*? linear eq.*?\b', 'system of linear equations', strings)
-	strings = re.sub(r'\berror b.*?\b', '\"'+'error bound'+'\"', strings)
+	strings = re.sub(r'\berror b.*?\b', '\"'+'error bounds'+'\"', strings)
 	strings = re.sub(r'\bcondition n.*?\b', '\"'+'condition number'+'\"', strings)
 	strings = re.sub(r'\bLU fact.*?\b', '\"'+'LU factorization'+'\"', strings)
 	strings = re.sub(r'\bCh.*?ky fact.*?\b', '\"'+'Cholesky factorization'+'\"', strings)
