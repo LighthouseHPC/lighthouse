@@ -56,7 +56,7 @@
                                         </td>
                                         <td class="hiddenStuff">
                                                 <img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
-                                                     onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')"/>
+                                                     onclick="showMore('sel_{{ item.id }}{{ item.routineName|upper }}', '{{ MEDIA_URL }}{{ item.url }}')"/>
                                         </td>
                                         <td class="hiddenStuff">
                                                 <img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
@@ -75,10 +75,10 @@
                         {% else %}
                                 {% highlight item.text with "item.thePrecision""item.routineName" max_length 500 %}
                         {% endif %}
-                        <button onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
+                        <button onclick="showMore('sel_{{ item.id }}{{ item.routineName|upper }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
                 </div>
                 <div class="dijitHidden">
-                        <div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+                        <div id="sel_{{ item.id }}{{ item.routineName|upper }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
                                 <div align="center">
                                         <table id="table_main" width="80%" border = "1">
                                                 <tr>
@@ -94,8 +94,8 @@
                                                 <td>{{ item.storageType }}</td>      
                                                 </tr>
                                         </table><br/>
-                                        <iframe id="sel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
-                                        <button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+                                        <iframe id="sel_{{ item.id }}{{ item.routineName|upper }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
+                                        <button onClick="dijit.byId('sel_{{ item.id }}{{ item.routineName|upper }}').hide()">Close</button>
                                 </div>
                         </div>
                 </div>          
