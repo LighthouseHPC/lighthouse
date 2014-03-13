@@ -173,13 +173,13 @@ def guidedSearch_equation(request):
 			val_0 = 'transpose'
 			val_1 = 'A<sup>T</sup>X = B'
 			complex_initial_value = 'None'
-			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='trans')
+			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='transpose')
 
 		elif form_Equa.cleaned_data['question_equa'] == unicode('Hermitian_trans'):
 			val_0 = 'Hermitian_trans'
 			val_1 = 'A<sup>H</sup>X = B'
 			complex_initial_value = 'y'	
-			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='Hermitian_trans')
+			request.session['Routines'] = request.session['Routines'].filter(notes__icontains='conjugate transpose')
 
 		else:
 			val_0 = 'original'
@@ -976,11 +976,7 @@ def keyword_handler2(keywords_dictionary):
 	for i, item in enumerate(keywords_dictionary['storageType']):
 		if item == 'rectangular full packed':
 			keywords_dictionary['storageType'][i] = 'RFP'
-			
-	## change conjugate transpose to Hermitian_trans
-	for i, item in enumerate(keywords_dictionary['other']):
-		if item == 'conjugate transpose':
-			keywords_dictionary['other'][i] = 'Hermitian_trans'
+
 				
 	## for 'solve a system of linear equations'
 	if len(keywords_dictionary['table']) == 1 and 'solve' in keywords_dictionary['table']:
