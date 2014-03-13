@@ -1079,7 +1079,8 @@ def query_django(keywords_dictionary):
 				if keywords_dictionary['other'] == []:
 					results += table.objects.filter(**kwargs).order_by('id')
 				else:
-					results += table.objects.filter(**kwargs).filter(notes__icontains=keywords_dictionary['other'][0]).order_by('id')
+					for item in keywords_dictionary['other']:
+						results += table.objects.filter(**kwargs).filter(notes__icontains=item).order_by('id')
 	return results
 
 
