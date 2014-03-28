@@ -2,6 +2,39 @@ from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
 
+
+
+###-------- For Guided Search --------###
+
+Problem_choices = (
+	('standard',			u'Standard eigenproblem'),
+	('generalized', 		u'Generalized eigenproblem'),
+	('sylvester',			u'Sylvester matrix equation'),
+	('svd',				u'Singular value decomposition'),
+)
+
+class problemForm(forms.Form):
+    eigen_prob = forms.ChoiceField(label='Which of the following problems would you like to solve?',
+					      widget=forms.RadioSelect(),
+					      choices=Problem_choices
+					      )    
+
+
+
+yesno_choices = (
+    ('No','No'),
+    ('Yes','Yes'),
+    )
+
+class complexForm(forms.Form):
+    eigen_complex = forms.ChoiceField(label='Does your matrix have any complex numbers',
+					      widget=forms.RadioSelect(),
+					      choices=yesno_choices
+					      )
+
+
+
+
 #
 #
 # Helper function - performs a lookup against eigen_fields and builds a field from that information
