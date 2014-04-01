@@ -14,11 +14,11 @@ import datetime
 
 
 
-def question_answer(form, value, choices):
+def question_and_answer(form, value, choices):
     for field in form:
         question = unicode(field.label)
     for choice in choices:
-        if choice[0] == form.cleaned_data['eigen_prob']:
+        if choice[0] == value:
             answer = choice[1]
     return {question: [answer]}
     
@@ -27,11 +27,12 @@ def question_answer(form, value, choices):
 
 @csrf_exempt
 def guidedSearch_problem(request):
-    request.session['eigen_guided_answered'] = {}
     if request.method == 'POST': # If the form has been submitted...
         form = problemForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
-            request.session['eigen_guided_answered'].update(question_answer(form, form.cleaned_data['eigen_prob'], Problem_choices)) 
+            if 'eigen_guided_answered' in request.session:
+                request.session['eigen_guided_answered'] = OrderedDict()
+            request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], Problem_choices)) #get previous question & answer
             nextForm = complexForm()
             context = {
                         'action': '/lapack_eigen/complex/',
@@ -60,21 +61,60 @@ def guidedSearch_complex(request):
     if request.method == 'POST': 
         form = complexForm(request.POST) 
         if form.is_valid():
-            request.session['eigen_guided_answered'].update(question_answer(form, form.cleaned_data['eigen_complex'], (('No','No'),('Yes','Yes'),))) 
+            request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_complex'], (('real','No'),('complex','Yes'),)))
+            if 'eigen_complex' in request.session:
+                request.session['eigen_complex'] = form.cleaned_data['eigen_complex']
+            nextForm = matrixTypeForm(request)
             context = {
-                        #'action': '/lapack_eigen/matrixType',
-                        'formHTML': "complexForm",
-                        'form': 'invalid',
+                        'action': '/lapack_eigen/matrixType/',
+                        'formHTML': "invalid",
+                        'form': nextForm,
                         'eigen_guided_answered' : request.session['eigen_guided_answered'],
             }
         else:
             print "submission not valid"
     else:
-        form = problemForm() # An unbound form       
+        form = complexForm() # An unbound form       
         context = {
-                    'formHTML': "complexForm",
+                    'action': '/lapack_eigen/complex/',
+                    'formHTML': "invalid",
+                    'form': form,
+                    'eigen_guided_answered' : request.session['eigen_guided_answered'],
         }
     return render_to_response(
         'lighthouse/lapack_eigen/index.html',
         context_instance=RequestContext(request, context)
     )
+
+
+
+@csrf_exempt
+def guidedSearch_matrixType(request):
+    if request.method == 'POST':
+        form = matrixTypeForm(request, request.POST)
+        if form.is_valid():
+            request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_matrixType'], form.fields['eigen_matrixType'].choices))
+            print request.session['eigen_guided_answered']
+            if 'eigen_matrixType' in request.session:
+                request.session['eigen_matrixType'] = form.cleaned_data['eigen_matrixType']
+            nextForm = matrixTypeForm(request)
+            context = {
+                        #'action': '/lapack_eigen/matrixType/',
+                        'formHTML': "invalid",
+                        'form': nextForm,
+                        'eigen_guided_answered' : request.session['eigen_guided_answered'],
+            }
+        else:
+            print "submission not valid"
+    else:
+        form = matrixTypeForm(request) # An unbound form       
+        context = {
+                    'action': '/lapack_eigen/matrixType/',
+                    'formHTML': "invalid",
+                    'form': form,
+                    'eigen_guided_answered' : request.session['eigen_guided_answered'],
+        }
+    return render_to_response(
+        'lighthouse/lapack_eigen/index.html',
+        context_instance=RequestContext(request, context)
+    )    
