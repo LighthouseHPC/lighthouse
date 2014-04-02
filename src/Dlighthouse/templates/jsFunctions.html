@@ -827,9 +827,9 @@
 	var optionInOut = new Array();
 	
 	// arrays for scalar, vector, matrix
-	var optionScalar = ["alpha", "beta", "a", "b"];
-	var optionVector = ["q", , "u", "v", "w", "x", "y", "z"];
-	var optionMatrix = ["A", "B"];
+	var optionScalar = ["alpha", "beta", "[ab]+[0-9]*"];
+	var optionVector = ["[quvwyxz]+[0-9]*"];
+	var optionMatrix = ["[AB]+[0-9]*"];
 
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
@@ -981,14 +981,19 @@
 		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
 		
 		// set up the preselected value for cell2
-		if (optionScalar.indexOf(element) != -1){
+		
+		var reScalar = new RegExp(optionScalar.join("|"), "i");
+		var reVector = new RegExp(optionVector.join("|"), "i");
+		var reMatrix = new RegExp(optionMatrix.join("|"), "i");
+
+		if (element.match(reScalar) != null){
 			dojo.attr("op20_"+index, "selected", "selected");
 		}
-		if (optionVector.indexOf(element) != -1){
+		if (element.match(reVector) != null){
 			dojo.attr("op21_"+index, "selected", "selected");
 			updatecombo('1', "select2"+index, index)
 		}
-		if (optionMatrix.indexOf(element) != -1){
+		if (element.match(reMatrix) != null){
 			dojo.attr("op22_"+index, "selected", "selected");
 			updatecombo('2', "select2"+index, index)
 		}
