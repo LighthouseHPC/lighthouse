@@ -61,6 +61,9 @@ urlpatterns = patterns('',
     ### Link lighthouse/library/petsc/urls.py for guided, advanced, and keyword Searches:
     (r'^lapack_eprob/', include('lighthouse.libraries.lapack_eprob.urls')),
 
+    ### Link lighthouse/library/slepc_eprob/urls.py for guided, advanced, and keyword Searches:
+    (r'^slepc_eprob/', include('lighthouse.libraries.slepc_eprob.urls')),
+
 
 )
 
