@@ -894,17 +894,29 @@
 			
 			
 			// seperate the letters in equation
-			var regexLetter = /[a-zA-Z]/;
-			for (var k=0; k<equationList.length; k++){		
-				for (var i=0; i<equationList[k].length; i++){
-					if (regexLetter.test(equationList[k][i]) && i<positionEqualArray[k]){
-						optionOut.push(equationList[k][i]);                              
+			//var regexLetter = /[a-zA-Z]/;
+			var splitPattern = /[\s()*/%+-]+/g;
+			var eqArray = [];
+			for (var k=0; k<equationList.length; k++){
+				equationList[k] = equationList[k].replace(/\s+/g, ''); 			//remove white spaces first
+				eqArray = equationList[k].split(splitPattern);
+				for (var i=0; i<eqArray.length; i++){	//split string by mathematical operators but not '=' sign
+					if (eqArray[i].indexOf('=') === -1){
+						optionIn.push(eqArray[i]);
 					}
-					if (regexLetter.test(equationList[k][i]) && i>positionEqualArray[k]){
-						optionIn.push(equationList[k][i]);                              
-					}	
+					else {
+						optionOut.push(eqArray[i].split("=")[0]);
+						optionIn.push(eqArray[i].split("=")[1]);
+					}
 				}
 			}
+			
+			//remove empty elements ""	
+			for (var i=0; i<optionIn.length; i++){	//split string by mathematical operators but not '=' sign
+				if (optionIn[i] === ""){ 
+				    optionIn.splice(i, 1);
+				}
+			}							
 			
 			
 			//remove duplicates in OptionIn and OptionOut
