@@ -910,18 +910,20 @@
 				}
 			}
 			
-			//remove empty elements ""	
-			for (var i=0; i<optionIn.length; i++){	//split string by mathematical operators but not '=' sign
-				if (optionIn[i] === ""){ 
-				    optionIn.splice(i, 1);
-				}
-			}							
-			
 			
 			//remove duplicates in OptionIn and OptionOut
 			optionIn = optionIn.filter(removeElem);		
 			optionOut = optionOut.filter(removeElem);
-			//console.log(optionIn);
+			
+
+			//remove empty elements
+			for (var i=0; i<optionIn.length; i++){
+				if (!optionIn[i]){ 
+				    optionIn.splice(i, 1);
+				}
+			}							
+			console.log(optionIn);
+			
 			
 			// set up optionInOut
 			optionIn.filter(function(element) {
