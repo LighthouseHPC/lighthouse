@@ -73,9 +73,8 @@ def makeFile(file_name):
 def make_mfile(request, paramProperty):
 	dajax = Dajax()
 	
-	### set defaultDir = /homes/salin/Lighthouse/lighthouse-taxonomy/src/Dlighthouse
+	### set defaultDir = /homes/salin/Lighthouse/Dlighthouse/
 	defaultDir = os.getcwd()
-        print defaultDir
 
 	### call codeGen.templates.BTOGenerator
 	bto = BTOGenerator()
@@ -132,8 +131,8 @@ def make_mfile(request, paramProperty):
 		print 'bto.submitToBTO(','%s.m'%paramProperty['kernelName'],')'
 		
 	try:
-		print output	
 		dajax.assign("#script_output", 'innerHTML', output)
+		dajax.script('SyntaxHighlighter.highlight()')
 		f = open("%s/static/download/script/%s.m"%(defaultDir, paramProperty['kernelName']),"w")
 		f.write(output)
 		f.close()
