@@ -827,9 +827,9 @@
 	var optionInOut = new Array();
 	
 	// arrays for scalar, vector, matrix
-	var optionScalar = ["alpha", "beta", "[ab]+[0-9]*"];
-	var optionVector = ["[quvwyxz]+[0-9]*"];
-	var optionMatrix = ["[AB]+[0-9]*"];
+	var optionScalar = ["alpha", "beta", "^[^ABCquvwyxz]+[0-9]*"];
+	var optionVector = ["^[quvwyxz]+[0-9]*"];
+	var optionMatrix = ["^[ABC]+[0-9]*"];
 
 	// arrParameters stores the parameters
 	var arrParameters = new Array();
@@ -894,8 +894,7 @@
 			
 			
 			// seperate the letters in equation
-			//var regexLetter = /[a-zA-Z]/;
-			var splitPattern = /[\s()*/%+-]+/g;
+			var splitPattern = /[\s'()*/%+-]+/g;
 			var eqArray = [];
 			for (var k=0; k<equationList.length; k++){
 				equationList[k] = equationList[k].replace(/\s+/g, ''); 			//remove white spaces first
@@ -922,7 +921,7 @@
 			//remove duplicates in OptionIn and OptionOut
 			optionIn = optionIn.filter(removeElem);		
 			optionOut = optionOut.filter(removeElem);
-		
+			//console.log(optionIn);
 			
 			// set up optionInOut
 			optionIn.filter(function(element) {
@@ -982,18 +981,18 @@
 		
 		// set up the preselected value for cell2
 		
-		var reScalar = new RegExp(optionScalar.join("|"), "i");
-		var reVector = new RegExp(optionVector.join("|"), "i");
-		var reMatrix = new RegExp(optionMatrix.join("|"), "i");
-
+		var reScalar = new RegExp(optionScalar.join("|"), "g");
+		var reVector = new RegExp(optionVector.join("|"), "g");
+		var reMatrix = new RegExp(optionMatrix.join("|"), "g");
+		
 		if (element.match(reScalar) != null){
 			dojo.attr("op20_"+index, "selected", "selected");
 		}
-		if (element.match(reVector) != null){
+		else if (element.match(reVector) != null){
 			dojo.attr("op21_"+index, "selected", "selected");
 			updatecombo('1', "select2"+index, index)
 		}
-		if (element.match(reMatrix) != null){
+		else if (element.match(reMatrix) != null){
 			dojo.attr("op22_"+index, "selected", "selected");
 			updatecombo('2', "select2"+index, index)
 		}
