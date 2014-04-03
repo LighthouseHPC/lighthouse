@@ -133,7 +133,7 @@ def make_mfile(request, paramProperty):
 	try:
 		dajax.assign("#script_output", 'innerHTML', output)
 		dajax.script('SyntaxHighlighter.highlight()')
-		f = open("%s/static/download/script/%s.m"%(defaultDir, paramProperty['kernelName']),"w")
+		f = open("%s/static/download/script/%s.c"%(defaultDir, paramProperty['kernelName']),"w")
 		f.write(output)
 		f.close()
 	
