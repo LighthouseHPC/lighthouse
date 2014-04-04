@@ -1098,7 +1098,7 @@
 	
 	// Download the best C file
 	function outputDownload(){
-		if(dojo.byId('script_output').innerHTML && dojo.byId('script_output').innerHTML.search("#include"))			
+		if(dojo.byId('script_output').innerHTML.search("#include"))			
 			window.location = '/static/download/script/'+dojo.byId("kernelName").value+'.c';
 		else
 			alert("Output file does not exist!")
