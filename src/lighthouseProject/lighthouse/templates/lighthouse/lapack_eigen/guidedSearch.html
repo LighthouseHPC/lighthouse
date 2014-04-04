@@ -14,39 +14,10 @@
 </div>
 <br>
 
-{% include "lighthouse/lapack_eigen/guided/answered.html" %}
 
-
-<form action="{{ action }}" name="frmType" method="post">
-{% csrf_token %}
-<div id="question-div">
-{% if formHTML == 'invalid'  %}
-  {{ form }}
-{% else %}  
-  {% with template_name=formHTML|stringformat:"s"|add:".html" %}
-      {% include "lighthouse/lapack_eigen/guided/"|add:template_name %}
-  {% endwith %}
-{% endif %}  
-</div>
-    
-<br>
-<div id="button-div">
-    <table style="width:100%; margin: 0px auto;">
-      <tr style="width:100%;">
-        <td style="text-align:left;">       
-          <button type="submit" name="guided" value="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
-              <img src={%static "Images/clear.png" %} width="16" height="16"/> 
-          </button>       
-        </td>     
-        <td style="text-align:center;">
-          <div id="tooltip2"></div>
-        </td>
-        <td style="text-align:right;">
-          <button type="submit" name="guided" value="submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
-              <img src={%static "Images/dialog-ok-4.png" %} width="16" height="16"/>
-          </button >
-        </td>
-      </tr>
-    </table>
-</div>
-</form>
+{% if content_eigen_guided_form %}
+  {% include "lighthouse/lapack_eigen/guided/answered.html" %}
+  {% include content_eigen_guided_form %}
+{% else %}
+   {% include "lighthouse/lapack_eigen/guided/problemForm.html" %}
+{% endif %}
