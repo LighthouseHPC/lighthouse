@@ -1098,7 +1098,7 @@
 	
 	// Download the best C file
 	function outputDownload(){
-		if(dojo.byId('script_output').innerHTML && !dojo.byId('script_output').innerHTML.search("error"))			
+		if(dojo.byId('script_output').innerHTML && dojo.byId('script_output').innerHTML.search("#include"))			
 			window.location = '/static/download/script/'+dojo.byId("kernelName").value+'.c';
 		else
 			alert("Output file does not exist!")
@@ -1236,7 +1236,7 @@
 		for (var i = 0; i < gLines.length; ++i) {
 		    var h = $(cLines[i]).height();
 		    if (h != stand) {
-			console.log(i);
+			//console.log(i);
 			gLines[i].setAttribute('style', 'height: ' + h + 'px !important;');
 		    }
 		}
@@ -1263,7 +1263,7 @@
 		    for (var i = 0; i < gLines.length; ++i) {
 			var h = $(cLines[i]).height();
 			if (h != stand) {
-			    console.log(i);
+			    //console.log(i);
 			    gLines[i].setAttribute('style', 'height: ' + h + 'px !important;');
 			}
 		    }
