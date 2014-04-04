@@ -922,7 +922,7 @@
 				    optionIn.splice(i, 1);
 				}
 			}							
-			console.log(optionIn);
+			//console.log(optionIn);
 			
 			
 			// set up optionInOut
@@ -1089,7 +1089,7 @@
 	function clearScript(){
 		// Replace the contents of input and output panel with empty strings
 		clearKernelEquation();
-		dojo.byId('script_output').value = "";
+		dojo.byId('script_output').innerHTML = "";
 		dojo.byId("waitScript").style.display = "none";
 		waitStandby.hide();
 		stopTimer();
@@ -1097,10 +1097,11 @@
 
 	
 	// Download the best C file
-	function outputDownload(){		
-		var content = dojo.byId('script_output').value;
-		if(content.length > 0)			
+	function outputDownload(){
+		if(dojo.byId('script_output').innerHTML && !dojo.byId('script_output').innerHTML.search("error"))			
 			window.location = '/static/download/script/'+dojo.byId("kernelName").value+'.c';
+		else
+			alert("Output file does not exist!")
 	}
 	
 
