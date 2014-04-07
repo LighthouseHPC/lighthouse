@@ -19,12 +19,19 @@ def eigen_guidedSearch(request):
     ## handle request.session setup
     if 'eigen_current_tab' not in request.session:
         request.session['eigen_current_tab'] = 'guided'
+        current_tab = request.session['eigen_current_tab']
         
     if 'eigen_guided_current_form' not in request.session:
         request.session['eigen_guided_current_form'] = 'start'
+        formname = 'start'
+    else:
+        formname =request.session['eigen_guided_current_form']
         
     if 'eigen_guided_answered' not in request.session:
         request.session['eigen_guided_answered'] = {}
+        answered_temp = OrderedDict()
+    else:
+        answered_temp = request.session['eigen_guided_answered']
         
     if 'eigen_selectedRoutines' not in request.session:
         request.session['eigen_selectedRoutines'] = []
@@ -35,88 +42,55 @@ def eigen_guidedSearch(request):
         if item['checkState'] == 'checked':
             selectedRoutineNames = selectedRoutineNames + (item['thePrecision']+item['routineName'],)
 
-    context = {
-#        'selectedRoutines': selectedRoutines, 
-        'selectedRoutineNames' : selectedRoutineNames,
-        'content_eigen_keywordSearch' : ''
 
-    }
-    
+    if request.method == 'POST':                                # If the form has been submitted...
+        print request.POST.get('guided')
+        if  request.POST.get('guided') == 'clear':              # if we are at the beginning, reset everything
+            answered_temp = OrderedDict()
+            request.session['eigen_guided_current_form'] = 'problem'
+            clearAnsweredQuestions(request)
+            context = {'selectedRoutineNames' : selectedRoutineNames,}
+        else:  
+            if formname not in ('start', 'finish'):
+                form = GuidedForm(formname, request.POST)       # A form bound to the POST data
+                if form.is_valid():                             # All validation rules pass
+                    answered_temp.update({formname : (form.cleaned_data[formname],)})
+                    results = getFilteredList(answered_temp)
 
-    if request.method == 'POST':        # If the form has been submitted...
-        print request.POST
-        #if "guided" in request.POST:
-        #    request.session['eigen_current_tab'] = 'guided'
-        #    if request.POST.get('guided') == 'clear':       ## if the page was NOT a submission, clear AnsweredQuestions
-        #        clearAnsweredQuestions(request)             
-        #    else:
-        #        if 'eigen_guided_current_form' in request.session:
-        #            formname = request.session['eigen_guided_current_form']
-        #        else:
-        #            formname = 'start'
-        #        if 'eigen_guided_answered' in request.session:
-        #            answered_temp = request.session['eigen_guided_answered']
-        #        else:
-        #            answered_temp = OrderedDict()
-        #    
-        #        # if it was submitted and isn't a clear request
-        #        if request.method == 'POST':
-        #            if request.POST.get('guided') != 'clear':  
-        #                if formname not in ('start', 'finish'):
-        #                    # if it's not the first or last page, check the form
-        #                    # uses GuidedForm instead of FilteredForm for performance
-        #                    form = GuidedForm(formname,request.POST)
-        #                    if form.is_valid():
-        #                         answered_temp.update({formname : (form.cleaned_data[formname],)})
-        #        
-        #        # if we are at the beginning, reset everything
-        #        elif formname == 'start':            
-        #            clearAnsweredQuestions(request)
-        #            answered_temp = OrderedDict()
-        #    
-        #        # find the results and set the context variable
-        #        results = getFilteredList(answered_temp)
-        #        context = {
-        #                'results' : results,
-        #        }
-        #        
-        #        # find the page that should be shown next
-        #        nextform = findNextForm(results,answered_temp)
-        #    
-        #        # update session variables
-        #        request.session['eigen_guided_current_form'] = nextform   
-        #        request.session['eigen_guided_answered'] = answered_temp
-        #        
-        #        answered = findAnsweredQuestions(answered_temp)
-        #        
-        #        if nextform != 'finish':
-        #            # build a list of answered questions and update the context
-        #    
-        #            context.update({'eigen_guided_answered' : answered,
-        #                            'content_eigen_guided_form':'lighthouse/lapack_eigen/guided/questions.html', 
-        #                            'guided_form' : FilteredForm(nextform,results),
-        #                            })
-        #        else:
-        #            context.update({'eigen_guided_answered' : answered,
-        #                            'content_eigen_guided_form':'lighthouse/lapack_eigen/guided/finished.html', 
-        #                            })
-        #        return render_to_response(
-        #            'lighthouse/lapack_eigen/index.html',
-        #            context_instance=RequestContext(request,context)
-        #        )
-
-        return HttpResponse('<h1>Page was found</h1>')
-    
-    else:
-        form = problemForm() # An unbound form
-
+                
+                # find the page that should be shown next
+                nextform = findNextForm(results, answered_temp)
+            
+                # update session variables
+                request.session['eigen_guided_current_form'] = nextform   
+                request.session['eigen_guided_answered'] = answered_temp
+                
+                answered = findAnsweredQuestions(answered_temp)
+                
+                if nextform != 'finish':            
+                    context = {'eigen_guided_answered' : answered,
+                                    'results' : results,
+                                    'content_eigen_guided_form':'lighthouse/lapack_eigen/guided/questions.html', 
+                                    'guided_form' : FilteredForm(nextform,results),
+                                    'selectedRoutineNames' : selectedRoutineNames,
+                                    }
+                else:
+                    context = {'eigen_guided_answered' : answered,
+                                    'results' : results,
+                                    'content_eigen_guided_form':'lighthouse/lapack_eigen/guided/finished.html',
+                                    'selectedRoutineNames' : selectedRoutineNames,
+                                    }
         return render_to_response(
             'lighthouse/lapack_eigen/index.html',
-            context_instance=RequestContext(request, context)
+            context_instance=RequestContext(request,context)
         )
+
    
    
-   
+
+
+
+
    
  
 ###---  clear session variable for guided search answered questions ---###
@@ -374,7 +348,7 @@ def eigen_advancedSearch(request):
             'lighthouse/lapack_eigen/index.html',
             context_instance=RequestContext(request,context)
         )
-    elif current_tab == 'advanced':
+    elif current_tab == 'advanced': 
         clearAnsweredQuestions(request)
         context.update(lapack_eigen_guided_context(request))
         context.update(lapack_eigen_advanced_context(request))
