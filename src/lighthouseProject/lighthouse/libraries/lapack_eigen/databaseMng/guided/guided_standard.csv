@@ -1,0 +1,152 @@
+1,s,syev,no,symmetric,full,no,no,none,none,,457
+2,d,syev,no,symmetric,full,no,no,none,none,,458
+3,s,syevd,no,symmetric,full,no,yes,none,none,,459
+4,d,syevd,no,symmetric,full,no,yes,none,none,,460
+5,s,syevx,no,symmetric,full,yes,no,none,none,,461
+6,d,syevx,no,symmetric,full,yes,no,none,none,,462
+7,s,syevr,no,symmetric,full,yes,yes,none,none,,463
+8,d,syevr,no,symmetric,full,yes,yes,none,none,,464
+9,s,spev,no,symmetric,packed,no,no,none,none,,465
+10,d,spev,no,symmetric,packed,no,no,none,none,,466
+11,s,spevd,no,symmetric,packed,no,yes,none,none,,467
+12,d,spevd,no,symmetric,packed,no,yes,none,none,,468
+13,s,spevx,no,symmetric,packed,yes,no,none,none,,469
+14,d,spevx,no,symmetric,packed,yes,no,none,none,,470
+15,s,spevx,no,symmetric,packed,yes,yes,none,none,,471
+16,d,spevx,no,symmetric,packed,yes,yes,none,none,,472
+17,s,sbev,no,symmetric,band,no,no,none,none,,473
+18,d,sbev,no,symmetric,band,no,no,none,none,,474
+19,s,sbevd,no,symmetric,band,no,yes,none,none,,475
+20,d,sbevd,no,symmetric,band,no,yes,none,none,,476
+21,s,sbevx,no,symmetric,band,yes,no,none,none,,477
+22,d,sbevx,no,symmetric,band,yes,no,none,none,,478
+23,s,sbevx,no,symmetric,band,yes,yes,none,none,,479
+24,d,sbevx,no,symmetric,band,yes,yes,none,none,,480
+25,s,sterf,no,symmetric,tridiagonal,no,no,none,none,,481
+26,d,sterf,no,symmetric,tridiagonal,no,no,none,none,,482
+27,s,stevd,no,symmetric,tridiagonal,no,yes,none,none,recommended,483
+28,d,stevd,no,symmetric,tridiagonal,no,yes,none,none,recommended,484
+29,s,stev,no,symmetric,tridiagonal,no,yes,none,none,,485
+30,d,stev,no,symmetric,tridiagonal,no,yes,none,none,,486
+31,s,stebz,no,symmetric,tridiagonal,yes,no,none,none,,487
+32,d,stebz,no,symmetric,tridiagonal,yes,no,none,none,,488
+33,s,stevr,no,symmetric,tridiagonal,yes,yes,none,none,recommended,489
+34,d,stevr,no,symmetric,tridiagonal,yes,yes,none,none,recommended,490
+35,s,stevx,no,symmetric,tridiagonal,yes,yes,none,none,,491
+36,d,stevx,no,symmetric,tridiagonal,yes,yes,none,none,,492
+37,s,geev,no,general,full,none,none,eigenvectors,no,,493
+38,d,geev,no,general,full,none,none,eigenvectors,no,,494
+39,s,geevx,no,general,full,none,none,eigenvectors,yes,,495
+40,d,geevx,no,general,full,none,none,eigenvectors,yes,,496
+41,s,gees,no,general,full,none,none,schur,no,,497
+42,d,gees,no,general,full,none,none,schur,no,,498
+43,s,geesx,no,general,full,none,none,schur,yes,,499
+44,d,geesx,no,general,full,none,none,schur,yes,,500
+45,s,pteqr,no,SPD,full,no,no,none,none,must use with SSYTRD,501
+46,s,sytrd,no,SPD,full,no,no,none,none,,502
+47,d,pteqr,no,SPD,full,no,no,none,none,must use with DSYTRD,503
+48,d,sytrd,no,SPD,full,no,no,none,none,,504
+49,s,pteqr,no,SPD,full,no,yes,none,none,must use with SSYTRD and SORGTR,505
+50,s,sytrd,no,SPD,full,no,yes,none,none,,506
+51,s,orgtr,no,SPD,full,no,yes,none,none,,507
+52,d,pteqr,no,SPD,full,no,yes,none,none,must use with DSYTRD and DORGTR,508
+53,d,sytrd,no,SPD,full,no,yes,none,none,,509
+54,d,orgtr,no,SPD,full,no,yes,none,none,,510
+55,s,pteqr,no,SPD,packed,no,no,none,none,must use with SSPTRD,511
+56,s,sptrd,no,SPD,packed,no,no,none,none,,512
+57,d,pteqr,no,SPD,packed,no,no,none,none,must use with DSPTRD,513
+58,d,sptrd,no,SPD,packed,no,no,none,none,,514
+59,s,pteqr,no,SPD,packed,no,yes,none,none,must use with SSPTRD and SOPGTR,515
+60,s,sptrd,no,SPD,packed,no,yes,none,none,,516
+61,s,opgtr,no,SPD,packed,no,yes,none,none,,517
+62,d,pteqr,no,SPD,packed,no,yes,none,none,must use with DSPTRD and DOPGTR,518
+63,d,sptrd,no,SPD,packed,no,yes,none,none,,519
+64,d,opgtr,no,SPD,packed,no,yes,none,none,,520
+65,s,pteqr,no,SPD,band,no,no,none,none,must use with SSBTRD,521
+66,s,sbtrd,no,SPD,band,no,no,none,none,,522
+67,d,pteqr,no,SPD,band,no,no,none,none,must use with DSBTRD,523
+68,d,sbtrd,no,SPD,band,no,no,none,none,,524
+69,s,pteqr,no,SPD,band,no,yes,none,none,must use with SSBTRD,525
+70,s,sbtrd,no,SPD,band,no,yes,none,none,,526
+71,d,pteqr,no,SPD,band,no,yes,none,none,must use with DSBTRD,527
+72,d,sbtrd,no,SPD,band,no,yes,none,none,,528
+73,s,pteqr,no,SPD,tridiagonal,no,no,none,none,,529
+74,d,pteqr,no,SPD,tridiagonal,no,no,none,none,,530
+75,s,pteqr,no,SPD,tridiagonal,no,yes,none,none,,531
+76,d,pteqr,no,SPD,tridiagonal,no,yes,none,none,,532
+77,s,hseqr,no,upper Hessenberg,full,none,no,none,none,,533
+78,d,hseqr,no,upper Hessenberg,full,none,no,none,none,,534
+79,s,hseqr,no,upper Hessenberg,full,none,yes,none,none,use with SHSEIN,535
+80,s,hsein,no,upper Hessenberg,full,none,yes,none,none,,536
+81,d,hseqr,no,upper Hessenberg,full,none,yes,none,none,use with DHSEIN,537
+82,d,hsein,no,upper Hessenberg,full,none,yes,none,none,,538
+83,c,heev,yes,Hermitian,full,no,no,none,none,,539
+84,z,heev,yes,Hermitian,full,no,no,none,none,,540
+85,c,heevd,yes,Hermitian,full,no,yes,none,none,,541
+86,z,heevd,yes,Hermitian,full,no,yes,none,none,,542
+87,c,heevx,yes,Hermitian,full,yes,no,none,none,,543
+88,z,heevx,yes,Hermitian,full,yes,no,none,none,,544
+89,c,heevr,yes,Hermitian,full,yes,yes,none,none,,545
+90,z,heevr,yes,Hermitian,full,yes,yes,none,none,,546
+91,c,hpev,yes,Hermitian,packed,no,no,none,none,,547
+92,z,hpev,yes,Hermitian,packed,no,no,none,none,,548
+93,c,hpevd,yes,Hermitian,packed,no,yes,none,none,,549
+94,z,hpevd,yes,Hermitian,packed,no,yes,none,none,,550
+95,c,hpevx,yes,Hermitian,packed,yes,no,none,none,,551
+96,z,hpevx,yes,Hermitian,packed,yes,no,none,none,,552
+97,c,hpevx,yes,Hermitian,packed,yes,yes,none,none,,553
+98,z,hpevx,yes,Hermitian,packed,yes,yes,none,none,,554
+99,c,hbev,yes,Hermitian,band,no,no,none,none,,555
+100,z,hbev,yes,Hermitian,band,no,no,none,none,,556
+101,c,hbevd,yes,Hermitian,band,no,yes,none,none,,557
+102,z,hbevd,yes,Hermitian,band,no,yes,none,none,,558
+103,c,hbevx,yes,Hermitian,band,yes,no,none,none,,559
+104,z,hbevx,yes,Hermitian,band,yes,no,none,none,,560
+105,c,hbevx,yes,Hermitian,band,yes,yes,none,none,,561
+106,z,hbevx,yes,Hermitian,band,yes,yes,none,none,,562
+107,c,geev,yes,general,full,none,none,eigenvectors,no,,563
+108,z,geev,yes,general,full,none,none,eigenvectors,no,,564
+109,c,geevx,yes,general,full,none,none,eigenvectors,yes,,565
+110,z,geevx,yes,general,full,none,none,eigenvectors,yes,,566
+111,c,gees,yes,general,full,none,none,schur,no,,567
+112,z,gees,yes,general,full,none,none,schur,no,,568
+113,c,geesx,yes,general,full,none,none,schur,yes,,569
+114,z,geesx,yes,general,full,none,none,schur,yes,,570
+115,c,pteqr,yes,SPD,full,no,no,none,none,must use with CHETRD,571
+116,c,hetrd,yes,SPD,full,no,no,none,none,,572
+117,z,pteqr,yes,SPD,full,no,no,none,none,must use with ZHETRD,573
+118,z,hetrd,yes,SPD,full,no,no,none,none,,574
+119,c,pteqr,yes,SPD,full,no,yes,none,none,must use with CHETRD and CUNGTR,575
+120,c,hetrd,yes,SPD,full,no,yes,none,none,,576
+121,c,ungtr,yes,SPD,full,no,yes,none,none,,577
+122,z,pteqr,yes,SPD,full,no,yes,none,none,must use with ZHETRD and ZUNGTR,578
+123,z,hetrd,yes,SPD,full,no,yes,none,none,,579
+124,z,ungtr,yes,SPD,full,no,yes,none,none,,580
+125,c,pteqr,yes,SPD,packed,no,no,none,none,must use with CHPTRD,581
+126,c,hptrd,yes,SPD,packed,no,no,none,none,,582
+127,z,pteqr,yes,SPD,packed,no,no,none,none,must use with ZHPTRD,583
+128,z,hptrd,yes,SPD,packed,no,no,none,none,,584
+129,c,pteqr,yes,SPD,packed,no,yes,none,none,must use with CHPTRD and ZUPGTR,585
+130,c,hptrd,yes,SPD,packed,no,yes,none,none,,586
+131,c,upgtr,yes,SPD,packed,no,yes,none,none,,587
+132,z,pteqr,yes,SPD,packed,no,yes,none,none,must use with ZHPTRD and ZUPGTR,588
+133,z,hptrd,yes,SPD,packed,no,yes,none,none,,589
+134,z,upgtr,yes,SPD,packed,no,yes,none,none,,590
+135,c,pteqr,yes,SPD,band,no,no,none,none,must use with CHBTRD,591
+136,c,hbtrd,yes,SPD,band,no,no,none,none,,592
+137,z,pteqr,yes,SPD,band,no,no,none,none,must use with ZHBTRD,593
+138,z,hbtrd,yes,SPD,band,no,no,none,none,,594
+139,c,pteqr,yes,SPD,band,no,yes,none,none,must use with CHBTRD,595
+140,c,hbtrd,yes,SPD,band,no,yes,none,none,,596
+141,z,pteqr,yes,SPD,band,no,yes,none,none,must use with ZHBTRD,597
+142,z,hbtrd,yes,SPD,band,no,yes,none,none,,598
+143,c,pteqr,yes,SPD,tridiagonal,no,no,none,none,,599
+144,z,pteqr,yes,SPD,tridiagonal,no,no,none,none,,600
+145,c,pteqr,yes,SPD,tridiagonal,no,yes,none,none,,601
+146,z,pteqr,yes,SPD,tridiagonal,no,yes,none,none,,602
+147,c,hseqr,yes,upper Hessenberg,full,none,no,none,none,,603
+148,z,hseqr,yes,upper Hessenberg,full,none,no,none,none,,604
+149,c,hseqr,yes,upper Hessenberg,full,none,yes,none,none,use with CHSEIN,605
+150,c,hsein,yes,upper Hessenberg,full,none,yes,none,none,,606
+151,z,hseqr,yes,upper Hessenberg,full,none,yes,none,none,use with ZHSEIN,607
+152,z,hsein,yes,upper Hessenberg,full,none,yes,none,none,,608
