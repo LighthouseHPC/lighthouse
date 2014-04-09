@@ -17,13 +17,14 @@ class EntryAdminForm(forms.ModelForm):
 
 
 """ Driver routines """
-class lapack_eigen_Admin(admin.ModelAdmin):
-	list_display = ('id','routineName', 'generalized', 'problem', 'complex', 'matrixType', 'storageType', 'schur', 'evaluerange', 'algorithm','balancing','schurform','queryPrecision')
-	list_filter = [ 'generalized', 'problem', 'complex', 'matrixType', 'storageType', 'schur', 'evaluerange', 'algorithm','balancing','schurform','queryPrecision']
+class lapack_eigen_standard_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'complexNumber', 'matrixType', 'storageType',
+			'slectedEV', 'eigenvector', 'eigenvector_schur', 'cndNumber', 'notes','info')
+	list_filter = ['complexNumber', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
-	ordering = ('info',)
+	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(lapack_eigen, lapack_eigen_Admin)
+admin.site.register(lapack_eigen_standard, lapack_eigen_standard_Admin)
 
 
