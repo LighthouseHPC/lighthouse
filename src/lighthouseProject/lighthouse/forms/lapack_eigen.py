@@ -5,7 +5,7 @@ from lighthouse.models.lapack_eigen import *
 
 
 ###-------- For Guided Search --------###
-
+##---- problem form ---- ##
 Problem_choices = (
 	('standard',			u'Standard eigenproblem'),
 	('generalized', 		u'Generalized eigenproblem'),
@@ -20,10 +20,10 @@ class problemForm(forms.Form):
 					      )    
 
 
-
+##---- complex form ---- ##
 complex_choices = (
-    ('real',	'No'),
-    ('complex',	'Yes'),
+    ('no',	'No'),
+    ('yes',	'Yes'),
     )
 
 class complexForm(forms.Form):
@@ -33,32 +33,21 @@ class complexForm(forms.Form):
 					      )
 
 
-
-matrixType_real_choices = (
-    ('symmetric',	'Symmetric'),
-    ('rGeneral',	'General'),
-    ('spd',		'Symmetric positive definite (SPD)'),
-    ('rHessenberg',	'Upper Hessenberg')
-)
-
-matrixType_complex_choices = (
-    ('hermitian',	'Hermitian'),
-    ('cGeneral',	'General'),
-    ('hpd',		'Hermitian positive definite (HPD)'),
-    ('cHessenberg',	'Upper Hessenberg')
-)
-
+##---- matrix type form ---- ##
 class matrixTypeForm(forms.Form):
         eigen_matrixType = forms.ChoiceField(label='What is the type of your matrix?', choices=[], widget=forms.RadioSelect())
         def __init__(self, request, *args, **kwargs):
                 super(matrixTypeForm, self).__init__(*args, **kwargs)
-		#print request.session['eigen_complex']
-		if request.session['eigen_complex'] == 'real':
-		    self.fields['eigen_matrixType'].choices = matrixType_real_choices
-		else:
-		    self.fields['eigen_matrixType'].choices = matrixType_complex_choices
-                ##--- order choices by string length ---##
-                self.fields['eigen_matrixType'].choices.sort(key=lambda k:len(k[1]))
-                if len(self.fields['eigen_matrixType'].choices) == 1:
-                        self.fields['eigen_matrixType'].initial = self.fields['eigen_matrixType'].choices[0][1]
+		self.fields['eigen_matrixType'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
 
+
+
+
+##---- storage type form ---- ##
+class storageTypeForm(forms.Form):
+        eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
+        def __init__(self, request, *args, **kwargs):
+                super(storageTypeForm, self).__init__(*args, **kwargs)
+		self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
+		if len(self.fields['eigen_storageType'].choices) == 1:
+                        self.fields['eigen_storageType'].initial = self.fields['eigen_storageType'].choices[0][1]
