@@ -3,6 +3,13 @@ from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
 
 
+noyes_choices = (
+    ('no',	'No'),
+    ('yes',	'Yes'),
+    )
+
+
+
 
 ###-------- For Guided Search --------###
 ##---- problem form ---- ##
@@ -20,20 +27,16 @@ class problemForm(forms.Form):
 					      )    
 
 
-##---- complex form ---- ##
-complex_choices = (
-    ('no',	'No'),
-    ('yes',	'Yes'),
-    )
+##---- complex form ----##
 
 class complexForm(forms.Form):
     eigen_complex = forms.ChoiceField(label='Does your matrix have any complex numbers?',
 					      widget=forms.RadioSelect(),
-					      choices=complex_choices
+					      choices=noyes_choices
 					      )
 
 
-##---- matrix type form ---- ##
+##---- matrix type form ----##
 class matrixTypeForm(forms.Form):
         eigen_matrixType = forms.ChoiceField(label='What is the type of your matrix?', choices=[], widget=forms.RadioSelect())
         def __init__(self, request, *args, **kwargs):
@@ -42,8 +45,7 @@ class matrixTypeForm(forms.Form):
 
 
 
-
-##---- storage type form ---- ##
+##---- storage type form ----##
 class storageTypeForm(forms.Form):
         eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
         def __init__(self, request, *args, **kwargs):
@@ -51,3 +53,12 @@ class storageTypeForm(forms.Form):
 		self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
 		if len(self.fields['eigen_storageType'].choices) == 1:
                         self.fields['eigen_storageType'].initial = self.fields['eigen_storageType'].choices[0][1]
+
+
+
+##--- selected eigenvalue form ---##
+class selectedEVForm(forms.Form):
+    eigen_slectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
+					      widget=forms.RadioSelect(),
+					      choices=noyes_choices
+					      )
