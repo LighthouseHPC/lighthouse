@@ -47,7 +47,7 @@ class lapack_eigen_standard(models.Model):
         complexNumber = models.CharField('Complex Number', max_length=20, choices=NOYES_CHOICES)
         matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
-        slectedEV = models.CharField('Selected Eigenvalues', max_length=20, choices=NOYESNONE_CHOICES)
+        selectedEV = models.CharField('Selected Eigenvalues', max_length=20, choices=NOYESNONE_CHOICES)
         eigenvector = models.CharField('Eigenvectors', max_length=20, choices=NOYESNONE_CHOICES)
         eigenvector_schur = models.CharField('Eigenvectors/Schur', max_length=20, choices=NOYESNONE_CHOICES)
         cndNumber = models.CharField('cndNumber/blance', max_length=20, choices=NOYESNONE_CHOICES)
