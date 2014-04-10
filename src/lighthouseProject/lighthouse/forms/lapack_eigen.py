@@ -4,14 +4,14 @@ from lighthouse.models.lapack_eigen import *
 
 
 noyes_choices = (
-    ('no',	'No'),
-    ('yes',	'Yes'),
+    ('no',	u'No'),
+    ('yes',	u'Yes'),
     )
 
 
 
 
-###-------- For Guided Search --------###
+######-------- For Guided Search --------######
 ##---- problem form ---- ##
 Problem_choices = (
 	('standard',			u'Standard eigenproblem'),
@@ -61,4 +61,28 @@ class selectedEVForm(forms.Form):
     eigen_slectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
 					      widget=forms.RadioSelect(),
 					      choices=noyes_choices
+					      )
+    
+    
+##--- eigenvectors form ---##
+class eigenvectorForm(forms.Form):
+    eigen_eigenvector = forms.ChoiceField(label='Do you need eigenvectors?',
+					      widget=forms.RadioSelect(),
+					      choices=noyes_choices
+					      )
+    
+    
+##--- precision form ---##
+class thePrecisionForm(forms.Form):
+    eigen_thePrecision = forms.ChoiceField(label='Would you like to use single or double precision?',
+					      widget=forms.RadioSelect(),
+					      choices=(('single',	u'single'), ('double',	u'double'))
+					      )
+    
+     
+##--- eigenvectors or Schur form ---##
+class precisionForm(forms.Form):
+    eigen_eigenvector_schur = forms.ChoiceField(label='Would you like eigenvectors or Schur forms/Schur vectors?',
+					      widget=forms.RadioSelect(),
+					      choices=(('eigenvectors', u'eigenvectors'), ('schur', u'Schur form and Schur vectors'))
 					      )
