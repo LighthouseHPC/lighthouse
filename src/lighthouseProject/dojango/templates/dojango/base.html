@@ -29,20 +29,56 @@
 
 {% spaceless %}
 	<head>
-		{% block _dojango_meta_content_type %}<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />{% endblock %}{# This must be before any non-english text, i.e. title. http://www.dojotoolkit.org/book/dojo-book-0-9/part-3-programmatic-dijit-and-dojo/i18n/globalization-guidelines/encoding-guideli#textfiles #}
+		{% block _dojango_meta_content_type %}
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		{% endblock %}
+		
+		{# This must be before any non-english text, i.e. title. http://www.dojotoolkit.org/book/dojo-book-0-9/part-3-programmatic-dijit-and-dojo/i18n/globalization-guidelines/encoding-guideli#textfiles #}
 		{% block _dojango_meta_content_lang %}{% endblock %}
                 
 		<title>{% block dojango_page_title %}{% endblock %}</title>
-                <link rel="shortcut icon" href={% static "Images/favicon.png" %}/>
+                
+		<link rel="shortcut icon" href={% static "Images/favicon.png" %}/>
+		<link rel="stylesheet" type="text/css" href={% static "style/dndDefault.css" %} />
+		
+               <!--SYNTAX HIGHLIGHTER BEGINS-->
+                <link href='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/styles/shCore.css' rel='stylesheet' type='text/css'/>
+                <link href='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/styles/shThemeEclipse.css' rel='stylesheet' type='text/css'/>
+<style type="text/css">
+  .syntaxhighlighter { 
+     overflow-y: scroll  !important; 
+     overflow-x: auto !important; 
+  }
+</style>
+                <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shCore.js' type='text/javascript'></script>
+                <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shBrushFortran.js' type='text/javascript'></script>
+                <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shBrushCpp.js' type='text/javascript'></script>
+                <script language="javascript" type="text/javascript">
+                        SyntaxHighlighter.defaults['toolbar'] = false;
+                        SyntaxHighlighter.config.bloggerMode = false;
+                        //SyntaxHighlighter.all();                
+                </script>
+                <!--SYNTAX HIGHLIGHTER ENDS-->
+		
+		
                 
 		{% block _dojango_dojo_styles %}
 			<style type="text/css">
 				@import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
 				@import "{{ DOJANGO.THEME_CSS_URL }}";
+				@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/resources/dnd.css");
 			</style>
 		{% endblock %}
                 
-                {% include "style/style.html" %}               
+                <!-- for jQuery -->
+                <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+                <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+                <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		
+		
+		
+                {% include "style/style.html" %}
+		
                 
 		<script type="text/javascript">
 			{# baseUrl setting is needed, if you want to combine a local with a remote build! #}
