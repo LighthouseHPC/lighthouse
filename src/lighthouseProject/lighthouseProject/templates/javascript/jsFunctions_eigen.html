@@ -209,11 +209,12 @@
 
     
     /* Ask for confirmation when user clicks on Restart Search button */
-    function show_confirm(){
-        var restart = "";
-        restart = confirm("Are you sure you start the search over?");
-        return restart;       
-    }
+	function show_confirm(){
+		var restart = "";
+		restart = confirm("Are you sure you want to start over the search?");
+		if(restart)
+			window.location = "/lapack_eigen/";	
+	}
 
     /* Clear all routines from selected routines area */
     function clearAllRoutines(){
