@@ -28,7 +28,6 @@ class problemForm(forms.Form):
 
 
 ##---- complex form ----##
-
 class complexNumberForm(forms.Form):
     eigen_complexNumber = forms.ChoiceField(label='Does your matrix have any complex numbers?',
 					      widget=forms.RadioSelect(),
@@ -74,11 +73,20 @@ class eigenvectorForm(forms.Form):
     
      
 ##--- eigenvectors or Schur form ---##
-class eigenvector_schurForm(forms.Form):
-    eigen_eigenvector_schur = forms.ChoiceField(label='Would you like eigenvectors or Schur forms/vectors?',
+class schurForm(forms.Form):
+    eigen_schur = forms.ChoiceField(label='In addition to eigenvalues, do you need other properties such as Schur form, Schur vectors, and sorted eigenvalues?',
 					      widget=forms.RadioSelect(),
-					      choices=(('eigenvectors', u'eigenvectors'), ('schur', u'Schur form and Schur vectors'))
+					      choices=noyes_choices
 					      )
+    
+    
+##--- condition number form ---##
+class cndNumberForm(forms.Form):
+    eigen_cndNumber = forms.ChoiceField(label='Do you need a reciprocal condition number for the eigenvalues?',
+					      widget=forms.RadioSelect(),
+					      choices=noyes_choices
+					      )
+    
     
     
 ##--- precision form ---##
