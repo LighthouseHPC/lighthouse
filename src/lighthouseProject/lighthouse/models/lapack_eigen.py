@@ -18,6 +18,7 @@ MATRIX_CHOICES = (
         (u'triangular', u'triangular'),
         (u'SPsD', u'SPsD'),
         (u'HPsD', u'HPsD'),
+        (u'upper Hessenberg', u'upper Hessenberg')
         )
 
 STORAGE_CHOICES = (
