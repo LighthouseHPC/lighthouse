@@ -34,14 +34,14 @@
 34,d,stevr,no,symmetric,tridiagonal,yes,yes,none,none,recommended,486
 35,s,stevx,no,symmetric,tridiagonal,yes,yes,none,none,,487
 36,d,stevx,no,symmetric,tridiagonal,yes,yes,none,none,,488
-37,s,geev,no,general,full,none,none,eigenvectors,no,,489
-38,d,geev,no,general,full,none,none,eigenvectors,no,,490
-39,s,geevx,no,general,full,none,none,eigenvectors,yes,,491
-40,d,geevx,no,general,full,none,none,eigenvectors,yes,,492
-41,s,gees,no,general,full,none,none,schur,no,,493
-42,d,gees,no,general,full,none,none,schur,no,,494
-43,s,geesx,no,general,full,none,none,schur,yes,,495
-44,d,geesx,no,general,full,none,none,schur,yes,,496
+37,s,geev,no,general,full,none,yes,no,no,,489
+38,d,geev,no,general,full,none,yes,no,no,,490
+39,s,geevx,no,general,full,none,yes,no,yes,,491
+40,d,geevx,no,general,full,none,yes,no,yes,,492
+41,s,gees,no,general,full,none,no,yes,no,,493
+42,d,gees,no,general,full,none,no,yes,no,,494
+43,s,geesx,no,general,full,none,no,yes,yes,,495
+44,d,geesx,no,general,full,none,no,yes,yes,,496
 45,s,pteqr,no,SPD,full,no,no,none,none,must use with SSYTRD,497
 46,s,sytrd,no,SPD,full,no,no,none,none,,498
 47,d,pteqr,no,SPD,full,no,no,none,none,must use with DSYTRD,499
@@ -104,14 +104,14 @@
 104,z,hbevx,yes,Hermitian,band,yes,no,none,none,,531
 105,c,hbevx,yes,Hermitian,band,yes,yes,none,none,,530
 106,z,hbevx,yes,Hermitian,band,yes,yes,none,none,,531
-107,c,geev,yes,general,full,none,none,eigenvectors,no,,532
-108,z,geev,yes,general,full,none,none,eigenvectors,no,,533
-109,c,geevx,yes,general,full,none,none,eigenvectors,yes,,534
-110,z,geevx,yes,general,full,none,none,eigenvectors,yes,,535
-111,c,gees,yes,general,full,none,none,schur,no,,536
-112,z,gees,yes,general,full,none,none,schur,no,,537
-113,c,geesx,yes,general,full,none,none,schur,yes,,538
-114,z,geesx,yes,general,full,none,none,schur,yes,,539
+107,c,geev,yes,general,full,none,yes,no,no,,532
+108,z,geev,yes,general,full,none,yes,no,no,,533
+109,c,geevx,yes,general,full,none,yes,no,yes,,534
+110,z,geevx,yes,general,full,none,yes,no,yes,,535
+111,c,gees,yes,general,full,none,no,yes,no,,536
+112,z,gees,yes,general,full,none,no,yes,no,,537
+113,c,geesx,yes,general,full,none,no,yes,yes,,538
+114,z,geesx,yes,general,full,none,no,yes,yes,,539
 115,c,pteqr,yes,SPD,full,no,no,none,none,must use with CHETRD,540
 116,c,hetrd,yes,SPD,full,no,no,none,none,,541
 117,z,pteqr,yes,SPD,full,no,no,none,none,must use with ZHETRD,542

@@ -19,7 +19,7 @@ class EntryAdminForm(forms.ModelForm):
 """ Driver routines """
 class lapack_eigen_standard_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'complexNumber', 'matrixType', 'storageType',
-			'selectedEV', 'eigenvector', 'eigenvector_schur', 'cndNumber')
+			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
 	list_filter = ['complexNumber', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
