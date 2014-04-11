@@ -40,17 +40,23 @@ NOYESNONE_CHOICES = (
 )
 
 
+EVSCHUR_CHOICES = (
+        (u'eigenvectors', u'eigenvectors'),
+        (u'schur', u'schur'),
+        (u'none', u'none'),
+)
+
 ###--- for guided search -- Standard Eigenproblem ---###
 class lapack_eigen_standard(models.Model):
-        thePrecision = models.CharField('Precision', max_length=20, choices=PRECISION_CHOICES)
+        thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
-        complexNumber = models.CharField('Complex Number', max_length=20, choices=NOYES_CHOICES)
-        matrixType = models.CharField('Matrix Type', max_length=20, choices=MATRIX_CHOICES)
+        complexNumber = models.CharField('Complex Number', max_length=10, choices=NOYES_CHOICES)
+        matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
-        selectedEV = models.CharField('Selected Eigenvalues', max_length=20, choices=NOYESNONE_CHOICES)
-        eigenvector = models.CharField('Eigenvectors', max_length=20, choices=NOYESNONE_CHOICES)
-        eigenvector_schur = models.CharField('Eigenvectors/Schur', max_length=20, choices=NOYESNONE_CHOICES)
-        cndNumber = models.CharField('cndNumber/blance', max_length=20, choices=NOYESNONE_CHOICES)
+        selectedEV = models.CharField('Selected Eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
+        eigenvector = models.CharField('Eigenvectors', max_length=10, choices=NOYESNONE_CHOICES)
+        eigenvector_schur = models.CharField('Eigenvectors/Schur', max_length=30, choices=EVSCHUR_CHOICES)
+        cndNumber = models.CharField('cndNumber/blance', max_length=10, choices=NOYESNONE_CHOICES)
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
