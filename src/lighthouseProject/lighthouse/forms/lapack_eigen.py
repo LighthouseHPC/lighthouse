@@ -57,7 +57,7 @@ class storageTypeForm(forms.Form):
 
 ##--- selected eigenvalue form ---##
 class selectedEVForm(forms.Form):
-    eigen_slectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
+    eigen_selectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
 					      widget=forms.RadioSelect(),
 					      choices=noyes_choices
 					      )
