@@ -2,7 +2,7 @@ import csv, urllib
 import glob
 import MySQLdb
 import os
-dirDlighthouse = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+dirlighthouseProject = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
 currentDir = os.getcwd()
 
 
@@ -18,7 +18,7 @@ def file_name(precision, name, i):
 
 ### open url.csv (must be windows comma separated format)
 ### url.csv stores precision, routine name, and url.
-reader = csv.reader(open(dirDlighthouse+"/media/Doxygen/url.csv"))
+reader = csv.reader(open(dirlighthouseProject+"/lighthouseProject/static/Doxygen/url.csv"))
 
 
 
