@@ -37,31 +37,31 @@ class complexNumberForm(forms.Form):
 
 ##---- matrix type form ----##
 class matrixTypeForm(forms.Form):
-        eigen_matrixType = forms.ChoiceField(label='What is the type of your matrix?', choices=[], widget=forms.RadioSelect())
-        def __init__(self, request, *args, **kwargs):
-                super(matrixTypeForm, self).__init__(*args, **kwargs)
-		self.fields['eigen_matrixType'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
+    eigen_matrixType = forms.ChoiceField(label='What is the type of your matrix?', choices=[], widget=forms.RadioSelect())
+    def __init__(self, request, *args, **kwargs):
+	super(matrixTypeForm, self).__init__(*args, **kwargs)
+	self.fields['eigen_matrixType'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
 
 
 
 ##---- storage type form ----##
 class storageTypeForm(forms.Form):
-        eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
-        def __init__(self, request, *args, **kwargs):
-                super(storageTypeForm, self).__init__(*args, **kwargs)
-		self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
-		if len(self.fields['eigen_storageType'].choices) == 1:
-                        self.fields['eigen_storageType'].initial = self.fields['eigen_storageType'].choices[0][1]
+    eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
+    def __init__(self, request, *args, **kwargs):
+	super(storageTypeForm, self).__init__(*args, **kwargs)
+	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
+	if len(self.fields['eigen_storageType'].choices) == 1:
+		self.fields['eigen_storageType'].initial = self.fields['eigen_storageType'].choices[0][1]
 
 
 
 ##--- selected eigenvalue form ---##
 class selectedEVForm(forms.Form):
     eigen_selectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
-					      widget=forms.RadioSelect(),
-					      choices=noyes_choices
-					      )
-    
+					 widget=forms.RadioSelect(),
+					 choices=noyes_choices)
+
+
     
 ##--- eigenvectors form ---##
 class eigenvectorForm(forms.Form):
