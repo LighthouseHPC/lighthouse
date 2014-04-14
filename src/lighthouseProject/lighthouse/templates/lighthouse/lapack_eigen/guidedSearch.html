@@ -25,6 +25,7 @@
 {% else %}  
   {% with template_name=formHTML|stringformat:"s"|add:".html" %}
       {% include "lighthouse/lapack_eigen/guided/"|add:template_name %}
+      <br>
   {% endwith %}
 {% endif %}  
 </div>
