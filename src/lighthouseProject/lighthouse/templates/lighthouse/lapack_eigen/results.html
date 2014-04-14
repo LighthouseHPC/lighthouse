@@ -77,8 +77,8 @@
 						       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
 						       <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
 					</td>
-					<td style="width: 56px; font-weight: bold;" title="Check box to generate template">
-						{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+					<td style="font-weight: bold;" title="Check box to generate template">
+						{{ item.thePrecision|upper }}{{ item.routineName|upper }} {% if item.notes %} ( {{item.notes }}) {% endif %}
 					</td>
 					<td class="hiddenStuff">
 						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
