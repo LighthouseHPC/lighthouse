@@ -15,15 +15,15 @@ cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_condition_number")
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_equilibrate")
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_error_bound")
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_factor")
-cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_invert")      
+cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_inverse")      
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_solve")
 
 
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_only")
 
 
-cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg")
-cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg_c")
+#cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg")
+#cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_le_arg_c")
 
 
 cursor.execute("DROP TABLE IF EXISTS lighthouse_lapack_routineinfo")

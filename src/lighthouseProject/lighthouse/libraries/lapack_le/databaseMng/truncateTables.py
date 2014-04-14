@@ -15,7 +15,7 @@ cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_condition_number")
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_equilibrate")
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_error_bound")
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_factor")
-cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_invert")      
+cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_inverse")      
 cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_solve")
 
 

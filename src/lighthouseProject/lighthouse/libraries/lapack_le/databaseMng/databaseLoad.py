@@ -19,7 +19,7 @@ os.chdir("../")
 ### load data to
 ### lapack_le_linearequation_computational, lapack_le_linearequation_factor
 ### lapack_le_linearequation_solve, lapack_le_linearequation_condition_number
-### lapack_le_linearequation_error_bound, lapack_le_linearequation_invert
+### lapack_le_linearequation_error_bound, lapack_le_linearequation_inverse
 ### lapack_le_linearequation_equilibrate
 os.chdir("Computational")
 os.system('python load_data.py')
