@@ -37,47 +37,21 @@
 		{% block _dojango_meta_content_lang %}{% endblock %}
                 
 		<title>{% block dojango_page_title %}{% endblock %}</title>
-                
 		<link rel="shortcut icon" href={% static "Images/favicon.png" %}/>
+		
+		
+		<!-- STYLE BEGINS -->
+		{% include "style/style.html" %}
 		<link rel="stylesheet" type="text/css" href={% static "style/dndDefault.css" %} />
 		
-               <!--SYNTAX HIGHLIGHTER BEGINS-->
-                <link href='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/styles/shCore.css' rel='stylesheet' type='text/css'/>
-                <link href='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/styles/shThemeEclipse.css' rel='stylesheet' type='text/css'/>
-<style type="text/css">
-  .syntaxhighlighter { 
-     overflow-y: scroll  !important; 
-     overflow-x: auto !important; 
-  }
-</style>
-                <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shCore.js' type='text/javascript'></script>
-                <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shBrushFortran.js' type='text/javascript'></script>
-                <script src='{{ MEDIA_URL }}syntaxhighlighter_3.0.83/scripts/shBrushCpp.js' type='text/javascript'></script>
-                <script language="javascript" type="text/javascript">
-                        SyntaxHighlighter.defaults['toolbar'] = false;
-                        SyntaxHighlighter.config.bloggerMode = false;
-                        //SyntaxHighlighter.all();                
-                </script>
-                <!--SYNTAX HIGHLIGHTER ENDS-->
-		
-		
-                
 		{% block _dojango_dojo_styles %}
 			<style type="text/css">
 				@import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
 				@import "{{ DOJANGO.THEME_CSS_URL }}";
-				@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/resources/dnd.css");
+				@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/resources/dnd.css");
 			</style>
 		{% endblock %}
-                
-                <!-- for jQuery -->
-                <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-                <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-                <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-		
-		
-		
-                {% include "style/style.html" %}
+		<!-- STYLE ENDS -->
 		
                 
 		<script type="text/javascript">
@@ -112,28 +86,39 @@
 		{% endif %}
 	
 		{% block dojango_header_extra %}{% endblock %}
+
+		<script>
+		    require(["dojo/parser", "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
+			     "dijit/layout/TabContainer", "dijit/layout/AccordionContainer", "dijit/layout/AccordionPane"
+			    ]);
+		</script>
                 
                 <!--import dajaxice javascript-->
                 {% dajaxice_js_import %}
+
                 
                 <!-- for dajax prototype -->
                 {% include "javascript/dajaxDojo.html" %}
-                
-                <!-- for SyntaxHighlighter -->
-<!--                <link href={% static "syntaxhighlighter_3.0.83/styles/shCore.css" %} rel='stylesheet' type='text/css'/>
-                <link href={% static "syntaxhighlighter_3.0.83/styles/shThemeDefault.css" %} rel='stylesheet' type='text/css'/>
+
+		
+               <!--for syntaxhighlighter -->
+                <link href={% static "syntaxhighlighter_3.0.83/styles/shCore.css" %} rel='stylesheet' type='text/css'/>
+                <link href={% static "syntaxhighlighter_3.0.83/styles/shThemeEclipse.css" %} rel='stylesheet' type='text/css'/>
                 <script src={% static "syntaxhighlighter_3.0.83/scripts/shCore.js" %} type='text/javascript'></script>
                 <script src={% static "syntaxhighlighter_3.0.83/scripts/shBrushFortran.js" %} type='text/javascript'></script>
                 <script src={% static "syntaxhighlighter_3.0.83/scripts/shBrushCpp.js" %} type='text/javascript'></script>
                 <script language="javascript" type="text/javascript">
-                        SyntaxHighlighter.config.bloggerMode = true;
-                        SyntaxHighlighter.all();
-                </script>-->
+                        SyntaxHighlighter.defaults['toolbar'] = false;
+                        SyntaxHighlighter.config.bloggerMode = false;
+                        //SyntaxHighlighter.all();                
+                </script>
+
                 
                 <!-- for jQuery -->
                 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
                 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-                <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
+                <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+                
 	</head>
 {% endspaceless %}
 
@@ -146,28 +131,26 @@
                                 <br><br>
                                 Please wait while the page loads...
                         </div>
-                </div>
-        
-                <!-- "main" BorderContainer just contains page title and another BorderContainer -->
-                <div id="main" dojoType="dijit.layout.BorderContainer">
-                <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">
-        
-                        <img src={% static "Images/NewHeader.png" %}/>
+                </div>        
+                <!-- "main" BorderContainer just contains page title and another BorderContainer -->	
+                <div id="main" data-dojo-type="dijit/layout/BorderContainer">
+			<div id="header" data-dojo-type="dijit/layout/ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">       
+				<img src={% static "Images/NewHeader.png" %}/>
                                 <div style="float:right; padding-top: 7px;">
                                         {% if user.is_authenticated %}                            
-                                                <div style="text-align:right; color:#808080;">
-                                                        <table>
-                                                                <tr>
-                                                                        <td>Welcome, {{ user.username }}!</td>
-                                                                </tr>
-                                                                <tr>
-                                                                <!--<a href="/accounts/logout/"><img src={% static "Images/logout.png" %}/></a>-->        
-                                                                        <td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;
-                                                                            <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
-                                                                        </td>
-                                                                </tr>
-                                                        </table>        
-                                                </div>
+						<div style="text-align:right; color:#808080;">
+							<table>
+								<tr>
+									<td>Welcome, {{ user.username }}!</td>
+								</tr>
+								<tr>
+								<!--<a href="/accounts/logout/"><img src={% static "Images/logout.png" %}/></a>-->        
+									<td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;
+									    <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
+									</td>
+								</tr>
+							</table>        
+						</div>
                                         {% else %}
                                                 <div>
                                                         <table>
@@ -183,20 +166,14 @@
                                                 </div>                                
                                         {% endif %}
                                 </div>
-                         </div>
-        
+                         </div>        
                         <!-- "mainSplit" BorderContainer has all the real content -->
-                        <div dojoType="dijit.layout.BorderContainer" liveSplitters="false"
+                        <div data-dojo-type="dijit/layout/BorderContainer" liveSplitters="false"
                                 design="sidebar" region="center" id="mainSplit">
-				
-				{% block BorderContainer %}{% endblock %}
-                               
+				{% block BorderContainer %}{% endblock %}                               
                         </div> <!-- end of "mainSplit" BorderContainer -->
                 </div><!-- end of "main" BorderContainer -->
-        
-        
-                {% include "javascript/dojoRequires.html" %}
-        
+                
                 {% include "javascript/jsFunctions_eigen.html" %}
         
 <!--		{% block dojango_require %}
