@@ -13,7 +13,9 @@ from lighthouse.forms.lapack_eigen import *
 import datetime
 
 
+######--------- Guided Search --------- ######
 
+## help function
 def question_and_answer(form, value, choices):
     for field in form:
         question = unicode(field.label)
@@ -23,11 +25,7 @@ def question_and_answer(form, value, choices):
     return {question: [answer]}
     
 
-
-
-
-######--------- Guided Search --------- ######
-
+## ------------------------- show question order for different matrix types -----------------------------------------------##
 #standardForm_order = {
 #    'symmetric':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
 #    'Hermitian':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
@@ -36,10 +34,11 @@ def question_and_answer(form, value, choices):
 #    'upper Hessenberg': ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
 #    'general':          ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm'],
 #    }
+## ------------------------------------------------------------------------------------------------------------------------##
 
 
 
-
+## index page
 def guidedSearch_index(request):
     request.session['eigen_guided_answered'] = OrderedDict()
     request.session['eigen_complexNumber'] = ''
@@ -50,14 +49,11 @@ def guidedSearch_index(request):
                 'eigen_guided_answered' : '',
                 'results' : 'start'
     }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
-
+## 'problem' question answered
 @csrf_exempt
 def guidedSearch_problem(request):
     form = problemForm(request.POST or None)              #handle GET and POST in the same view 
@@ -65,8 +61,7 @@ def guidedSearch_problem(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], Problem_choices)) #get previous question & answer
         modelName = 'lapack_eigen_'+form.cleaned_data['eigen_prob']
         request.session['Routines'] = get_model('lighthouse',modelName).objects.all()    
-        nextForm = complexNumberForm()
-
+        nextForm = complexNumberForm()        
         context = {
                     'action': '/lapack_eigen/complexNumber/',
                     'formHTML': "invalid",
@@ -83,15 +78,11 @@ def guidedSearch_problem(request):
                     'eigen_guided_answered' : '',
                     'results' : 'start'
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
-
-
+## 'complex number' question answered
 @csrf_exempt
 def guidedSearch_complexNumber(request):
     form = complexNumberForm(request.POST or None) 
@@ -104,8 +95,7 @@ def guidedSearch_complexNumber(request):
         else:
             request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['c', 'z']})
             
-        nextForm = matrixTypeForm(request)
-        
+        nextForm = matrixTypeForm(request)        
         context = {
                     'action': '/lapack_eigen/matrixType/',
                     'formHTML': "invalid",
@@ -114,7 +104,7 @@ def guidedSearch_complexNumber(request):
                     'results' : request.session['Routines']
         }
     else:
-        form = complexNumberForm() # An unbound form       
+        form = complexNumberForm()    
         context = {
                     'action': '/lapack_eigen/complexNumber/',
                     'formHTML': "invalid",
@@ -122,15 +112,12 @@ def guidedSearch_complexNumber(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
 
-
+## 'matrix type' question answered
 @csrf_exempt
 def guidedSearch_matrixType(request):
     form = matrixTypeForm(request, request.POST or None)
@@ -138,8 +125,7 @@ def guidedSearch_matrixType(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_matrixType'], form.fields['eigen_matrixType'].choices))
         request.session['eigen_matrixType'] = form.cleaned_data['eigen_matrixType']
         request.session['Routines'] = request.session['Routines'].filter(matrixType=form.cleaned_data['eigen_matrixType'])       
-        nextForm = storageTypeForm(request)
-       
+        nextForm = storageTypeForm(request)       
         context = {
                     'action': '/lapack_eigen/storageType/',
                     'formHTML': "invalid",
@@ -148,7 +134,7 @@ def guidedSearch_matrixType(request):
                     'results' : request.session['Routines']
         }
     else:
-        form = matrixTypeForm(request) # An unbound form       
+        form = matrixTypeForm(request)     
         context = {
                     'action': '/lapack_eigen/matrixType/',
                     'formHTML': "invalid",
@@ -156,15 +142,12 @@ def guidedSearch_matrixType(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
 
-
+## 'storage type' question answered
 @csrf_exempt
 def guidedSearch_storageType(request):
     form = storageTypeForm(request, request.POST or None)
@@ -172,7 +155,7 @@ def guidedSearch_storageType(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_storageType'], form.fields['eigen_storageType'].choices))
         request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
         request.session['Routines'] = request.session['Routines'].filter(storageType=form.cleaned_data['eigen_storageType'])
-        
+       
         if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
             nextForm = selectedEVForm()
             action = '/lapack_eigen/selectedEV/'
@@ -187,7 +170,7 @@ def guidedSearch_storageType(request):
                     'results' : request.session['Routines']
         }
     else:
-        form = storageTypeForm(request) # An unbound form       
+        form = storageTypeForm(request)       
         context = {
                     'action': '/lapack_eigen/storageType/',
                     'formHTML': "invalid",
@@ -195,33 +178,29 @@ def guidedSearch_storageType(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
 
+## 'selected eigenvalues' question answered 
 @csrf_exempt
 def guidedSearch_selectedEV(request):
     form = selectedEVForm(request.POST or None)
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_selectedEV'], form.fields['eigen_selectedEV'].choices))
         request.session['eigen_selectedEVForm'] = form.cleaned_data['eigen_selectedEV']
-        request.session['Routines'] = request.session['Routines'].filter(selectedEV=form.cleaned_data['eigen_selectedEV'])
-        
+        request.session['Routines'] = request.session['Routines'].filter(selectedEV=form.cleaned_data['eigen_selectedEV'])   
         nextForm = eigenvectorForm()
-        action = '/lapack_eigen/eigenvector/'            
         context = {
-                    'action': action,
+                    'action': '/lapack_eigen/eigenvector/',
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
     else:
-        form = selectedEVFormForm() # An unbound form       
+        form = selectedEVFormForm()      
         context = {
                     'action': '/lapack_eigen/selectedEVForm/',
                     'formHTML': "invalid",
@@ -229,13 +208,12 @@ def guidedSearch_selectedEV(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
+
+## 'eigenvectors' question answered
 @csrf_exempt
 def guidedSearch_eigenvector(request):
     form = eigenvectorForm(request.POST or None) 
@@ -252,8 +230,7 @@ def guidedSearch_eigenvector(request):
             action = '/lapack_eigen/cndNumber/'            
         else:        
             nextForm = thePrecisionForm()
-            action = '/lapack_eigen/thePrecision/'
-            
+            action = '/lapack_eigen/thePrecision/'            
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -262,7 +239,7 @@ def guidedSearch_eigenvector(request):
                     'results' : request.session['Routines']
         }
     else:
-        form = eigenvectorForm() # An unbound form       
+        form = eigenvectorForm()    
         context = {
                     'action': '/lapack_eigen/eigenvector/',
                     'formHTML': "invalid",
@@ -270,32 +247,29 @@ def guidedSearch_eigenvector(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
+
+## 'Schur form/vectors' question answered
 @csrf_exempt
 def guidedSearch_schur(request):
     form = schurForm(request.POST or None)
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_schur'], form.fields['eigen_schur'].choices))
         request.session['eigen_schurForm'] = form.cleaned_data['eigen_schur']
-        request.session['Routines'] = request.session['Routines'].filter(schur=form.cleaned_data['eigen_schur'])
-        
-        nextForm = cndNumberForm()
-        action = '/lapack_eigen/cndNumber/'            
+        request.session['Routines'] = request.session['Routines'].filter(schur=form.cleaned_data['eigen_schur'])       
+        nextForm = cndNumberForm()           
         context = {
-                    'action': action,
+                    'action': '/lapack_eigen/cndNumber/',
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
     else:
-        form = schurForm() # An unbound form       
+        form = schurForm()        
         context = {
                     'action': '/lapack_eigen/schur/',
                     'formHTML': "invalid",
@@ -303,33 +277,29 @@ def guidedSearch_schur(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
 
+## 'condition number' question answered
 @csrf_exempt
 def guidedSearch_cndNumber(request):
     form = cndNumberForm(request.POST or None)
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_cndNumber'], form.fields['eigen_cndNumber'].choices))
         request.session['eigen_cndNumberForm'] = form.cleaned_data['eigen_cndNumber']
-        request.session['Routines'] = request.session['Routines'].filter(cndNumber=form.cleaned_data['eigen_cndNumber'])
-        
-        nextForm = thePrecisionForm()
-        action = '/lapack_eigen/thePrecision/'            
+        request.session['Routines'] = request.session['Routines'].filter(cndNumber=form.cleaned_data['eigen_cndNumber'])        
+        nextForm = thePrecisionForm()        
         context = {
-                    'action': action,
+                    'action': '/lapack_eigen/thePrecision/',
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
     else:
-        form = cndNumberForm() # An unbound form       
+        form = cndNumberForm()       
         context = {
                     'action': '/lapack_eigen/cndNumber/',
                     'formHTML': "invalid",
@@ -337,15 +307,12 @@ def guidedSearch_cndNumber(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
 
 
 
-
+## 'precision' question answered
 @csrf_exempt
 def guidedSearch_thePrecision(request):
     form = thePrecisionForm(request.POST or None) 
@@ -360,15 +327,14 @@ def guidedSearch_thePrecision(request):
         elif request.session['eigen_complexNumber'] == 'yes' and request.session['eigen_thePrecisionForm'] == 'single':
             request.session['Routines'] = request.session['Routines'].filter(thePrecision='c')
         else:
-            request.session['Routines'] = request.session['Routines'].filter(thePrecision='z')
-                  
+            request.session['Routines'] = request.session['Routines'].filter(thePrecision='z')                  
         context = {
                     'formHTML': "invalid",
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
     else:
-        form = thePrecisionForm() # An unbound form       
+        form = thePrecisionForm()
         context = {
                     'action': '/lapack_eigen/thePrecision/',
                     'formHTML': "invalid",
@@ -376,7 +342,4 @@ def guidedSearch_thePrecision(request):
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
-    return render_to_response(
-        'lighthouse/lapack_eigen/index.html',
-        context_instance=RequestContext(request, context)
-    )
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
