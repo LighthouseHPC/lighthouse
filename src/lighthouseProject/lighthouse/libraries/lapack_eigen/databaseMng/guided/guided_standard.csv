@@ -1,160 +1,160 @@
-1,s,syev,no,symmetric,full,no,no,none,none,,457
-2,d,syev,no,symmetric,full,no,no,none,none,,458
-3,s,syevd,no,symmetric,full,no,yes,none,none,,459
-4,d,syevd,no,symmetric,full,no,yes,none,none,,460
-5,s,syevx,no,symmetric,full,yes,no,none,none,,461
-6,d,syevx,no,symmetric,full,yes,no,none,none,,462
-7,s,syevr,no,symmetric,full,yes,yes,none,none,,463
-8,d,syevr,no,symmetric,full,yes,yes,none,none,,464
-9,s,spev,no,symmetric,packed,no,no,none,none,,465
-10,d,spev,no,symmetric,packed,no,no,none,none,,466
-11,s,spevd,no,symmetric,packed,no,yes,none,none,,467
-12,d,spevd,no,symmetric,packed,no,yes,none,none,,468
-13,s,spevx,no,symmetric,packed,yes,no,none,none,,469
-14,d,spevx,no,symmetric,packed,yes,no,none,none,,470
-15,s,spevx,no,symmetric,packed,yes,yes,none,none,,469
-16,d,spevx,no,symmetric,packed,yes,yes,none,none,,470
-17,s,sbev,no,symmetric,band,no,no,none,none,,471
-18,d,sbev,no,symmetric,band,no,no,none,none,,472
-19,s,sbevd,no,symmetric,band,no,yes,none,none,,473
-20,d,sbevd,no,symmetric,band,no,yes,none,none,,474
-21,s,sbevx,no,symmetric,band,yes,no,none,none,,475
-22,d,sbevx,no,symmetric,band,yes,no,none,none,,476
-23,s,sbevx,no,symmetric,band,yes,yes,none,none,,475
-24,d,sbevx,no,symmetric,band,yes,yes,none,none,,476
-25,s,sterf,no,symmetric,tridiagonal,no,no,none,none,,477
-26,d,sterf,no,symmetric,tridiagonal,no,no,none,none,,478
-27,s,stevd,no,symmetric,tridiagonal,no,yes,none,none,recommended,479
-28,d,stevd,no,symmetric,tridiagonal,no,yes,none,none,recommended,480
-29,s,stev,no,symmetric,tridiagonal,no,yes,none,none,,481
-30,d,stev,no,symmetric,tridiagonal,no,yes,none,none,,482
-31,s,stebz,no,symmetric,tridiagonal,yes,no,none,none,,483
-32,d,stebz,no,symmetric,tridiagonal,yes,no,none,none,,484
-33,s,stevr,no,symmetric,tridiagonal,yes,yes,none,none,recommended,485
-34,d,stevr,no,symmetric,tridiagonal,yes,yes,none,none,recommended,486
-35,s,stevx,no,symmetric,tridiagonal,yes,yes,none,none,,487
-36,d,stevx,no,symmetric,tridiagonal,yes,yes,none,none,,488
-37,s,geev,no,general,full,none,yes,no,no,,489
-38,d,geev,no,general,full,none,yes,no,no,,490
-39,s,geevx,no,general,full,none,yes,no,yes,,491
-40,d,geevx,no,general,full,none,yes,no,yes,,492
-41,s,geev,no,general,full,none,no,no,no,,489
-42,d,geev,no,general,full,none,no,no,no,,490
-43,s,geevx,no,general,full,none,no,no,yes,,491
-44,d,geevx,no,general,full,none,no,no,yes,,492
-45,s,gees,no,general,full,none,no,yes,no,,493
-46,d,gees,no,general,full,none,no,yes,no,,494
-47,s,geesx,no,general,full,none,no,yes,yes,,495
-48,d,geesx,no,general,full,none,no,yes,yes,,496
-49,s,pteqr,no,SPD,full,none,no,none,none,to be usedd with SSYTRD,497
-50,s,sytrd,no,SPD,full,none,no,none,none,,498
-51,d,pteqr,no,SPD,full,none,no,none,none,to be usedd with DSYTRD,499
-52,d,sytrd,no,SPD,full,none,no,none,none,,500
-53,s,pteqr,no,SPD,full,none,yes,none,none,to be usedd with SSYTRD and SORGTR,497
-54,s,sytrd,no,SPD,full,none,yes,none,none,,498
-55,s,orgtr,no,SPD,full,none,yes,none,none,,501
-56,d,pteqr,no,SPD,full,none,yes,none,none,to be usedd with DSYTRD and DORGTR,499
-57,d,sytrd,no,SPD,full,none,yes,none,none,,500
-58,d,orgtr,no,SPD,full,none,yes,none,none,,502
-59,s,pteqr,no,SPD,packed,none,no,none,none,to be usedd with SSPTRD,497
-60,s,sptrd,no,SPD,packed,none,no,none,none,,503
-61,d,pteqr,no,SPD,packed,none,no,none,none,to be usedd with DSPTRD,499
-62,d,sptrd,no,SPD,packed,none,no,none,none,,504
-63,s,pteqr,no,SPD,packed,none,yes,none,none,to be usedd with SSPTRD and SOPGTR,497
-64,s,sptrd,no,SPD,packed,none,yes,none,none,,503
-65,s,opgtr,no,SPD,packed,none,yes,none,none,,505
-66,d,pteqr,no,SPD,packed,none,yes,none,none,to be usedd with DSPTRD and DOPGTR,499
-67,d,sptrd,no,SPD,packed,none,yes,none,none,,504
-68,d,opgtr,no,SPD,packed,none,yes,none,none,,506
-69,s,pteqr,no,SPD,band,none,no,none,none,to be usedd with SSBTRD,497
-70,s,sbtrd,no,SPD,band,none,no,none,none,,507
-71,d,pteqr,no,SPD,band,none,no,none,none,to be usedd with DSBTRD,499
-72,d,sbtrd,no,SPD,band,none,no,none,none,,508
-73,s,pteqr,no,SPD,band,none,yes,none,none,to be usedd with SSBTRD,497
-74,s,sbtrd,no,SPD,band,none,yes,none,none,,507
-75,d,pteqr,no,SPD,band,none,yes,none,none,to be usedd with DSBTRD,499
-76,d,sbtrd,no,SPD,band,none,yes,none,none,,508
-77,s,pteqr,no,SPD,tridiagonal,none,no,none,none,,497
-78,d,pteqr,no,SPD,tridiagonal,none,no,none,none,,499
-79,s,pteqr,no,SPD,tridiagonal,none,yes,none,none,,497
-80,d,pteqr,no,SPD,tridiagonal,none,yes,none,none,,499
-81,s,hseqr,no,upper Hessenberg,full,none,no,none,none,,509
-82,d,hseqr,no,upper Hessenberg,full,none,no,none,none,,510
-83,s,hseqr,no,upper Hessenberg,full,none,yes,none,none,to be used with SHSEIN,509
-84,s,hsein,no,upper Hessenberg,full,none,yes,none,none,,536
-85,d,hseqr,no,upper Hessenberg,full,none,yes,none,none,to be used with DHSEIN,510
-86,d,hsein,no,upper Hessenberg,full,none,yes,none,none,,511
-87,c,heev,yes,Hermitian,full,no,no,none,none,,512
-88,z,heev,yes,Hermitian,full,no,no,none,none,,513
-89,c,heevd,yes,Hermitian,full,no,yes,none,none,,514
-90,z,heevd,yes,Hermitian,full,no,yes,none,none,,515
-91,c,heevx,yes,Hermitian,full,yes,no,none,none,,516
-92,z,heevx,yes,Hermitian,full,yes,no,none,none,,517
-93,c,heevr,yes,Hermitian,full,yes,yes,none,none,,518
-94,z,heevr,yes,Hermitian,full,yes,yes,none,none,,519
-95,c,hpev,yes,Hermitian,packed,no,no,none,none,,520
-96,z,hpev,yes,Hermitian,packed,no,no,none,none,,521
-97,c,hpevd,yes,Hermitian,packed,no,yes,none,none,,522
-98,z,hpevd,yes,Hermitian,packed,no,yes,none,none,,523
-99,c,hpevx,yes,Hermitian,packed,yes,no,none,none,,524
-100,z,hpevx,yes,Hermitian,packed,yes,no,none,none,,525
-101,c,hpevx,yes,Hermitian,packed,yes,yes,none,none,,524
-102,z,hpevx,yes,Hermitian,packed,yes,yes,none,none,,525
-103,c,hbev,yes,Hermitian,band,no,no,none,none,,526
-104,z,hbev,yes,Hermitian,band,no,no,none,none,,527
-105,c,hbevd,yes,Hermitian,band,no,yes,none,none,,528
-106,z,hbevd,yes,Hermitian,band,no,yes,none,none,,529
-107,c,hbevx,yes,Hermitian,band,yes,no,none,none,,530
-108,z,hbevx,yes,Hermitian,band,yes,no,none,none,,531
-109,c,hbevx,yes,Hermitian,band,yes,yes,none,none,,530
-110,z,hbevx,yes,Hermitian,band,yes,yes,none,none,,531
-111,c,geev,yes,general,full,none,yes,no,no,,532
-112,z,geev,yes,general,full,none,yes,no,no,,533
-113,c,geevx,yes,general,full,none,yes,no,yes,,534
-114,z,geevx,yes,general,full,none,yes,no,yes,,535
-115,c,geev,yes,general,full,none,no,no,no,,532
-116,z,geev,yes,general,full,none,no,no,no,,533
-117,c,geevx,yes,general,full,none,no,no,yes,,534
-118,z,geevx,yes,general,full,none,no,no,yes,,535
-119,c,gees,yes,general,full,none,no,yes,no,,536
-120,z,gees,yes,general,full,none,no,yes,no,,537
-121,c,geesx,yes,general,full,none,no,yes,yes,,538
-122,z,geesx,yes,general,full,none,no,yes,yes,,539
-123,c,pteqr,yes,HPD,full,none,no,none,none,to be usedd with CHETRD,540
-124,c,hetrd,yes,HPD,full,none,no,none,none,,541
-125,z,pteqr,yes,HPD,full,none,no,none,none,to be usedd with ZHETRD,542
-126,z,hetrd,yes,HPD,full,none,no,none,none,,543
-127,c,pteqr,yes,HPD,full,none,yes,none,none,to be usedd with CHETRD and CUNGTR,540
-128,c,hetrd,yes,HPD,full,none,yes,none,none,,541
-129,c,ungtr,yes,HPD,full,none,yes,none,none,,544
-130,z,pteqr,yes,HPD,full,none,yes,none,none,to be usedd with ZHETRD and ZUNGTR,542
-131,z,hetrd,yes,HPD,full,none,yes,none,none,,543
-132,z,ungtr,yes,HPD,full,none,yes,none,none,,545
-133,c,pteqr,yes,HPD,packed,none,no,none,none,to be usedd with CHPTRD,540
-134,c,hptrd,yes,HPD,packed,none,no,none,none,,546
-135,z,pteqr,yes,HPD,packed,none,no,none,none,to be usedd with ZHPTRD,542
-136,z,hptrd,yes,HPD,packed,none,no,none,none,,547
-137,c,pteqr,yes,HPD,packed,none,yes,none,none,to be usedd with CHPTRD and ZUPGTR,540
-138,c,hptrd,yes,HPD,packed,none,yes,none,none,,546
-139,c,upgtr,yes,HPD,packed,none,yes,none,none,,548
-140,z,pteqr,yes,HPD,packed,none,yes,none,none,to be usedd with ZHPTRD and ZUPGTR,542
-141,z,hptrd,yes,HPD,packed,none,yes,none,none,,547
-142,z,upgtr,yes,HPD,packed,none,yes,none,none,,549
-143,c,pteqr,yes,HPD,band,none,no,none,none,to be usedd with CHBTRD,540
-144,c,hbtrd,yes,HPD,band,none,no,none,none,,550
-145,z,pteqr,yes,HPD,band,none,no,none,none,to be usedd with ZHBTRD,542
-146,z,hbtrd,yes,HPD,band,none,no,none,none,,551
-147,c,pteqr,yes,HPD,band,none,yes,none,none,to be usedd with CHBTRD,540
-148,c,hbtrd,yes,HPD,band,none,yes,none,none,,550
-149,z,pteqr,yes,HPD,band,none,yes,none,none,to be usedd with ZHBTRD,542
-150,z,hbtrd,yes,HPD,band,none,yes,none,none,,551
-151,c,pteqr,yes,HPD,tridiagonal,none,no,none,none,,540
-152,z,pteqr,yes,HPD,tridiagonal,none,no,none,none,,542
-153,c,pteqr,yes,HPD,tridiagonal,none,yes,none,none,,540
-154,z,pteqr,yes,HPD,tridiagonal,none,yes,none,none,,542
-155,c,hseqr,yes,upper Hessenberg,full,none,no,none,none,,552
-156,z,hseqr,yes,upper Hessenberg,full,none,no,none,none,,553
-157,c,hseqr,yes,upper Hessenberg,full,none,yes,none,none,to be used with CHSEIN,552
-158,c,hsein,yes,upper Hessenberg,full,none,yes,none,none,,554
-159,z,hseqr,yes,upper Hessenberg,full,none,yes,none,none,to be used with ZHSEIN,553
-160,z,hsein,yes,upper Hessenberg,full,none,yes,none,none,,555
+1,s,syev,symmetric,full,no,no,none,none,,457
+2,d,syev,symmetric,full,no,no,none,none,,458
+3,s,syevd,symmetric,full,no,yes,none,none,,459
+4,d,syevd,symmetric,full,no,yes,none,none,,460
+5,s,syevx,symmetric,full,yes,no,none,none,,461
+6,d,syevx,symmetric,full,yes,no,none,none,,462
+7,s,syevr,symmetric,full,yes,yes,none,none,,463
+8,d,syevr,symmetric,full,yes,yes,none,none,,464
+9,s,spev,symmetric,packed,no,no,none,none,,465
+10,d,spev,symmetric,packed,no,no,none,none,,466
+11,s,spevd,symmetric,packed,no,yes,none,none,,467
+12,d,spevd,symmetric,packed,no,yes,none,none,,468
+13,s,spevx,symmetric,packed,yes,no,none,none,,469
+14,d,spevx,symmetric,packed,yes,no,none,none,,470
+15,s,spevx,symmetric,packed,yes,yes,none,none,,469
+16,d,spevx,symmetric,packed,yes,yes,none,none,,470
+17,s,sbev,symmetric,band,no,no,none,none,,471
+18,d,sbev,symmetric,band,no,no,none,none,,472
+19,s,sbevd,symmetric,band,no,yes,none,none,,473
+20,d,sbevd,symmetric,band,no,yes,none,none,,474
+21,s,sbevx,symmetric,band,yes,no,none,none,,475
+22,d,sbevx,symmetric,band,yes,no,none,none,,476
+23,s,sbevx,symmetric,band,yes,yes,none,none,,475
+24,d,sbevx,symmetric,band,yes,yes,none,none,,476
+25,s,sterf,symmetric,tridiagonal,no,no,none,none,,477
+26,d,sterf,symmetric,tridiagonal,no,no,none,none,,478
+27,s,stevd,symmetric,tridiagonal,no,yes,none,none,recommended,479
+28,d,stevd,symmetric,tridiagonal,no,yes,none,none,recommended,480
+29,s,stev,symmetric,tridiagonal,no,yes,none,none,,481
+30,d,stev,symmetric,tridiagonal,no,yes,none,none,,482
+31,s,stebz,symmetric,tridiagonal,yes,no,none,none,,483
+32,d,stebz,symmetric,tridiagonal,yes,no,none,none,,484
+33,s,stevr,symmetric,tridiagonal,yes,yes,none,none,recommended,485
+34,d,stevr,symmetric,tridiagonal,yes,yes,none,none,recommended,486
+35,s,stevx,symmetric,tridiagonal,yes,yes,none,none,,487
+36,d,stevx,symmetric,tridiagonal,yes,yes,none,none,,488
+37,s,geev,general,full,none,yes,no,no,,489
+38,d,geev,general,full,none,yes,no,no,,490
+39,s,geevx,general,full,none,yes,no,yes,,491
+40,d,geevx,general,full,none,yes,no,yes,,492
+41,s,geev,general,full,none,no,no,no,,489
+42,d,geev,general,full,none,no,no,no,,490
+43,s,geevx,general,full,none,no,no,yes,,491
+44,d,geevx,general,full,none,no,no,yes,,492
+45,s,gees,general,full,none,no,yes,no,,493
+46,d,gees,general,full,none,no,yes,no,,494
+47,s,geesx,general,full,none,no,yes,yes,,495
+48,d,geesx,general,full,none,no,yes,yes,,496
+49,s,pteqr,SPD,full,none,no,none,none,to be usedd with SSYTRD,497
+50,s,sytrd,SPD,full,none,no,none,none,,498
+51,d,pteqr,SPD,full,none,no,none,none,to be usedd with DSYTRD,499
+52,d,sytrd,SPD,full,none,no,none,none,,500
+53,s,pteqr,SPD,full,none,yes,none,none,to be usedd with SSYTRD and SORGTR,497
+54,s,sytrd,SPD,full,none,yes,none,none,,498
+55,s,orgtr,SPD,full,none,yes,none,none,,501
+56,d,pteqr,SPD,full,none,yes,none,none,to be usedd with DSYTRD and DORGTR,499
+57,d,sytrd,SPD,full,none,yes,none,none,,500
+58,d,orgtr,SPD,full,none,yes,none,none,,502
+59,s,pteqr,SPD,packed,none,no,none,none,to be usedd with SSPTRD,497
+60,s,sptrd,SPD,packed,none,no,none,none,,503
+61,d,pteqr,SPD,packed,none,no,none,none,to be usedd with DSPTRD,499
+62,d,sptrd,SPD,packed,none,no,none,none,,504
+63,s,pteqr,SPD,packed,none,yes,none,none,to be usedd with SSPTRD and SOPGTR,497
+64,s,sptrd,SPD,packed,none,yes,none,none,,503
+65,s,opgtr,SPD,packed,none,yes,none,none,,505
+66,d,pteqr,SPD,packed,none,yes,none,none,to be usedd with DSPTRD and DOPGTR,499
+67,d,sptrd,SPD,packed,none,yes,none,none,,504
+68,d,opgtr,SPD,packed,none,yes,none,none,,506
+69,s,pteqr,SPD,band,none,no,none,none,to be usedd with SSBTRD,497
+70,s,sbtrd,SPD,band,none,no,none,none,,507
+71,d,pteqr,SPD,band,none,no,none,none,to be usedd with DSBTRD,499
+72,d,sbtrd,SPD,band,none,no,none,none,,508
+73,s,pteqr,SPD,band,none,yes,none,none,to be usedd with SSBTRD,497
+74,s,sbtrd,SPD,band,none,yes,none,none,,507
+75,d,pteqr,SPD,band,none,yes,none,none,to be usedd with DSBTRD,499
+76,d,sbtrd,SPD,band,none,yes,none,none,,508
+77,s,pteqr,SPD,tridiagonal,none,no,none,none,,497
+78,d,pteqr,SPD,tridiagonal,none,no,none,none,,499
+79,s,pteqr,SPD,tridiagonal,none,yes,none,none,,497
+80,d,pteqr,SPD,tridiagonal,none,yes,none,none,,499
+81,s,hseqr,upper Hessenberg,full,none,no,none,none,,509
+82,d,hseqr,upper Hessenberg,full,none,no,none,none,,510
+83,s,hseqr,upper Hessenberg,full,none,yes,none,none,to be used with SHSEIN,509
+84,s,hsein,upper Hessenberg,full,none,yes,none,none,,536
+85,d,hseqr,upper Hessenberg,full,none,yes,none,none,to be used with DHSEIN,510
+86,d,hsein,upper Hessenberg,full,none,yes,none,none,,511
+87,c,heev,Hermitian,full,no,no,none,none,,512
+88,z,heev,Hermitian,full,no,no,none,none,,513
+89,c,heevd,Hermitian,full,no,yes,none,none,,514
+90,z,heevd,Hermitian,full,no,yes,none,none,,515
+91,c,heevx,Hermitian,full,yes,no,none,none,,516
+92,z,heevx,Hermitian,full,yes,no,none,none,,517
+93,c,heevr,Hermitian,full,yes,yes,none,none,,518
+94,z,heevr,Hermitian,full,yes,yes,none,none,,519
+95,c,hpev,Hermitian,packed,no,no,none,none,,520
+96,z,hpev,Hermitian,packed,no,no,none,none,,521
+97,c,hpevd,Hermitian,packed,no,yes,none,none,,522
+98,z,hpevd,Hermitian,packed,no,yes,none,none,,523
+99,c,hpevx,Hermitian,packed,yes,no,none,none,,524
+100,z,hpevx,Hermitian,packed,yes,no,none,none,,525
+101,c,hpevx,Hermitian,packed,yes,yes,none,none,,524
+102,z,hpevx,Hermitian,packed,yes,yes,none,none,,525
+103,c,hbev,Hermitian,band,no,no,none,none,,526
+104,z,hbev,Hermitian,band,no,no,none,none,,527
+105,c,hbevd,Hermitian,band,no,yes,none,none,,528
+106,z,hbevd,Hermitian,band,no,yes,none,none,,529
+107,c,hbevx,Hermitian,band,yes,no,none,none,,530
+108,z,hbevx,Hermitian,band,yes,no,none,none,,531
+109,c,hbevx,Hermitian,band,yes,yes,none,none,,530
+110,z,hbevx,Hermitian,band,yes,yes,none,none,,531
+111,c,geev,general,full,none,yes,no,no,,532
+112,z,geev,general,full,none,yes,no,no,,533
+113,c,geevx,general,full,none,yes,no,yes,,534
+114,z,geevx,general,full,none,yes,no,yes,,535
+115,c,geev,general,full,none,no,no,no,,532
+116,z,geev,general,full,none,no,no,no,,533
+117,c,geevx,general,full,none,no,no,yes,,534
+118,z,geevx,general,full,none,no,no,yes,,535
+119,c,gees,general,full,none,no,yes,no,,536
+120,z,gees,general,full,none,no,yes,no,,537
+121,c,geesx,general,full,none,no,yes,yes,,538
+122,z,geesx,general,full,none,no,yes,yes,,539
+123,c,pteqr,HPD,full,none,no,none,none,to be usedd with CHETRD,540
+124,c,hetrd,HPD,full,none,no,none,none,,541
+125,z,pteqr,HPD,full,none,no,none,none,to be usedd with ZHETRD,542
+126,z,hetrd,HPD,full,none,no,none,none,,543
+127,c,pteqr,HPD,full,none,yes,none,none,to be usedd with CHETRD and CUNGTR,540
+128,c,hetrd,HPD,full,none,yes,none,none,,541
+129,c,ungtr,HPD,full,none,yes,none,none,,544
+130,z,pteqr,HPD,full,none,yes,none,none,to be usedd with ZHETRD and ZUNGTR,542
+131,z,hetrd,HPD,full,none,yes,none,none,,543
+132,z,ungtr,HPD,full,none,yes,none,none,,545
+133,c,pteqr,HPD,packed,none,no,none,none,to be usedd with CHPTRD,540
+134,c,hptrd,HPD,packed,none,no,none,none,,546
+135,z,pteqr,HPD,packed,none,no,none,none,to be usedd with ZHPTRD,542
+136,z,hptrd,HPD,packed,none,no,none,none,,547
+137,c,pteqr,HPD,packed,none,yes,none,none,to be usedd with CHPTRD and ZUPGTR,540
+138,c,hptrd,HPD,packed,none,yes,none,none,,546
+139,c,upgtr,HPD,packed,none,yes,none,none,,548
+140,z,pteqr,HPD,packed,none,yes,none,none,to be usedd with ZHPTRD and ZUPGTR,542
+141,z,hptrd,HPD,packed,none,yes,none,none,,547
+142,z,upgtr,HPD,packed,none,yes,none,none,,549
+143,c,pteqr,HPD,band,none,no,none,none,to be usedd with CHBTRD,540
+144,c,hbtrd,HPD,band,none,no,none,none,,550
+145,z,pteqr,HPD,band,none,no,none,none,to be usedd with ZHBTRD,542
+146,z,hbtrd,HPD,band,none,no,none,none,,551
+147,c,pteqr,HPD,band,none,yes,none,none,to be usedd with CHBTRD,540
+148,c,hbtrd,HPD,band,none,yes,none,none,,550
+149,z,pteqr,HPD,band,none,yes,none,none,to be usedd with ZHBTRD,542
+150,z,hbtrd,HPD,band,none,yes,none,none,,551
+151,c,pteqr,HPD,tridiagonal,none,no,none,none,,540
+152,z,pteqr,HPD,tridiagonal,none,no,none,none,,542
+153,c,pteqr,HPD,tridiagonal,none,yes,none,none,,540
+154,z,pteqr,HPD,tridiagonal,none,yes,none,none,,542
+155,c,hseqr,upper Hessenberg,full,none,no,none,none,,552
+156,z,hseqr,upper Hessenberg,full,none,no,none,none,,553
+157,c,hseqr,upper Hessenberg,full,none,yes,none,none,to be used with CHSEIN,552
+158,c,hsein,upper Hessenberg,full,none,yes,none,none,,554
+159,z,hseqr,upper Hessenberg,full,none,yes,none,none,to be used with ZHSEIN,553
+160,z,hsein,upper Hessenberg,full,none,yes,none,none,,555

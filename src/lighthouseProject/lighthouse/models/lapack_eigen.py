@@ -47,7 +47,6 @@ NOYESNONE_CHOICES = (
 class lapack_eigen_standard(models.Model):
         thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
-        complexNumber = models.CharField('Complex Number', max_length=10, choices=NOYES_CHOICES)
         matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
         selectedEV = models.CharField('Selected Eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
