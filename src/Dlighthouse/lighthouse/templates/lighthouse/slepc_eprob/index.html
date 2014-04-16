@@ -1,7 +1,13 @@
+{% extends "dojango/base_slepc.html" %}
 
 
-
-<!-- ########### Simple search questions: ###########-->
-
+<!-- ########### Guided search questions: ###########-->
+{% block dojango_content_guidedSearch %}
 {% include "lighthouse/slepc_eprob/guidedSearch.html" %}
+{% endblock %}
 
+
+<!-- ########### Guided search result: ###########-->
+{% block dojango_content_guided_result %}
+{% include "lighthouse/slepc_eprob/guidedResult.html" %}
+{% endblock %}
