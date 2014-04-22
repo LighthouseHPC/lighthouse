@@ -50,6 +50,8 @@ class storageTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
+	if (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal') in self.fields['eigen_storageType'].choices:
+	    self.fields['eigen_storageType'].choices.remove((u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'))
 	if len(self.fields['eigen_storageType'].choices) == 1:
 		self.fields['eigen_storageType'].initial = self.fields['eigen_storageType'].choices[0][1]
 

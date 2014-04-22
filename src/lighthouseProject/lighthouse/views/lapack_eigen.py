@@ -154,7 +154,7 @@ def guidedSearch_storageType(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_storageType'], form.fields['eigen_storageType'].choices))
         request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
-        request.session['Routines'] = request.session['Routines'].filter(storageType=form.cleaned_data['eigen_storageType'])
+        request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])
        
         if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
             nextForm = selectedEVForm()
@@ -220,7 +220,7 @@ def guidedSearch_eigenvector(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_eigenvector'], form.fields['eigen_eigenvector'].choices))
         request.session['eigen_eigenvectorForm'] = form.cleaned_data['eigen_eigenvector']
-        request.session['Routines'] = request.session['Routines'].filter(eigenvector=form.cleaned_data['eigen_eigenvector'])
+        request.session['Routines'] = request.session['Routines'].filter(eigenvector__icontains=form.cleaned_data['eigen_eigenvector'])
         
         if request.session['eigen_matrixType'] == 'general' and request.session['eigen_eigenvectorForm'] == 'no':
             nextForm = schurForm()

@@ -27,6 +27,7 @@ STORAGE_CHOICES = (
         (u'packed', u'packed'),
         (u'tridiagonal', u'tridiagonal'),
         (u'RFP', u'RFP'),
+        (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'),
 )
 
 NOYES_CHOICES = (
@@ -41,6 +42,11 @@ NOYESNONE_CHOICES = (
 )
 
 
+NOYESBOTH_CHOICES = (
+        (u'no', u'no'),
+        (u'yes', u'yes'),
+        (u'no/yes', u'no/yes'), 
+)
 
 
 ###--- for guided search -- Standard Eigenproblem ---###
@@ -48,9 +54,9 @@ class lapack_eigen_standard(models.Model):
         thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=30, choices=STORAGE_CHOICES)
+        storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)
         selectedEV = models.CharField('Selected Eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
-        eigenvector = models.CharField('Eigenvectors', max_length=10, choices=NOYES_CHOICES)
+        eigenvector = models.CharField('Eigenvectors', max_length=10, choices=NOYESBOTH_CHOICES)
         schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
         cndNumber = models.CharField('cndNumber/blance', max_length=10, choices=NOYESNONE_CHOICES)
         notes = models.CharField('Notes', max_length=225)
