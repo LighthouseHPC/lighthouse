@@ -18,6 +18,10 @@ nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'guided_standard.cs
                                     lighthouse_lapack_eigen_standard  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 
 
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'guided_generalized.csv' INTO TABLE \
+                                    lighthouse_lapack_eigen_generalized  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
+
+
 
 
 myDB.commit()
