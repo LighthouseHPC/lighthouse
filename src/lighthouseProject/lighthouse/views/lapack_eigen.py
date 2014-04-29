@@ -59,8 +59,9 @@ def guidedSearch_problem(request):
     form = problemForm(request.POST or None)              #handle GET and POST in the same view 
     if form.is_valid(): # All validation rules pass
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], Problem_choices)) #get previous question & answer
-        modelName = 'lapack_eigen_'+form.cleaned_data['eigen_prob']
-        request.session['Routines'] = get_model('lighthouse',modelName).objects.all()    
+        modelName = 'lapack_'+form.cleaned_data['eigen_prob'].split('_')[0]
+        standard_generalized = form.cleaned_data['eigen_prob'].split('_')[1]
+        request.session['Routines'] = get_model('lighthouse', modelName).objects.filter(standardGeneralized=standard_generalized)    
         nextForm = complexNumberForm()        
         context = {
                     'action': '/lapack_eigen/complexNumber/',

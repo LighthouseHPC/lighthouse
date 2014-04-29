@@ -14,10 +14,12 @@ noyes_choices = (
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
 Problem_choices = (
-	('standard',			u'Standard eigenproblem'),
-	('generalized', 		u'Generalized eigenproblem'),
-	('sylvester',			u'Sylvester matrix equation'),
-	('svd',				u'Singular value decomposition'),
+	('eigen_standard',			u'Standard eigenproblem'),
+	('sylvester_standard',			u'Standard Sylvester equation'),
+	('svd_standard',			u'Standard Singular value decomposition'),
+	('eigen_generalized', 			u'Generalized eigenproblem'),
+	('sylvester_generalized',		u'Generalized Sylvester equation'),
+	('svd_generalized',			u'Generalized Singular value decomposition'),
 )
 
 class problemForm(forms.Form):

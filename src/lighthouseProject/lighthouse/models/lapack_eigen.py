@@ -9,6 +9,14 @@ PRECISION_CHOICES = (
         (u'z', u'z(complex double)'),
 )
 
+
+
+STANDARD_CHOICES = (
+        (u'standard', u'standard'),
+        (u'generalized', u'generalized'), 
+)
+
+
 MATRIX_CHOICES = (
         (u'general', u'general'), 
         (u'symmetric', u'symmetric'), 
@@ -49,22 +57,28 @@ NOYESBOTH_CHOICES = (
 )
 
 
+
+
+
+
+
 ###---------------- for guided search ----------------###
 ###--- Standard Eigenproblem ---###
-class lapack_eigen_standard(models.Model):
+class lapack_eigen(models.Model):
         thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
+        standardGeneralized = models.CharField('Standard/Generalized', max_length=20, choices=STANDARD_CHOICES)
         matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)
         selectedEV = models.CharField('Selected Eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
         eigenvector = models.CharField('Eigenvectors', max_length=10, choices=NOYESBOTH_CHOICES)
         schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
-        cndNumber = models.CharField('cndNumber/blance', max_length=10, choices=NOYESNONE_CHOICES)
+        cndNumber = models.CharField('cndNumber/balance', max_length=10, choices=NOYESNONE_CHOICES)
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
         class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+                list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.matrixType
@@ -76,24 +90,24 @@ class lapack_eigen_standard(models.Model):
                 
                 
 ###--- generalized Eigenproblem ---###
-class lapack_eigen_generalized(models.Model):
-        thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
-        routineName = models.CharField('Routine Name', max_length=30)
-        matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
-        storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)
-        selectedEV = models.CharField('Selected Eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
-        eigenvector = models.CharField('Eigenvectors', max_length=10, choices=NOYESBOTH_CHOICES)
-        schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
-        cndNumber = models.CharField('cndNumber/blance', max_length=10, choices=NOYESNONE_CHOICES)
-        notes = models.CharField('Notes', max_length=225)
-        info = models.ForeignKey(lapack_RoutineInfo)
-
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
-
-        def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
-        class Meta:
-                app_label = 'lighthouse'
+#class lapack_eigen_generalized(models.Model):
+#        thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
+#        routineName = models.CharField('Routine Name', max_length=30)
+#        matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
+#        storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)
+#        selectedEV = models.CharField('Selected Eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
+#        eigenvector = models.CharField('Eigenvectors', max_length=10, choices=NOYESBOTH_CHOICES)
+#        schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
+#        cndNumber = models.CharField('cndNumber/blance', max_length=10, choices=NOYESNONE_CHOICES)
+#        notes = models.CharField('Notes', max_length=225)
+#        info = models.ForeignKey(lapack_RoutineInfo)
+#
+#        class Admin:
+#                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+#
+#        def __unicode__(self):
+#                return self.matrixType
+#                return self.storageType
+#        
+#        class Meta:
+#                app_label = 'lighthouse'
