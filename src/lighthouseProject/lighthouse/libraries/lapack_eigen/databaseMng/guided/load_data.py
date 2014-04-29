@@ -14,12 +14,12 @@ cursor = myDB.cursor()
 ##### (2) MySQL storage engine must be set = MyISAM (old), not InnoDB (default) #####
 ##### -------------------------------------------------------------------------#####
 
-nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'guided_eigen.csv' INTO TABLE \
-                                    lighthouse_lapack_eigen  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
+#nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'guided_eigen.csv' INTO TABLE \
+#                                    lighthouse_lapack_eigen  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 
 
-#nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'guided_generalized.csv' INTO TABLE \
-#                                    lighthouse_lapack_eigen_generalized  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
+nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE 'guided_sylvester.csv' INTO TABLE \
+                                    lighthouse_lapack_sylvester  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'")
 
 
 
