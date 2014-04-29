@@ -1,0 +1,51 @@
+   CLA_PORCOND_C Computes the infinity norm condition number of
+   op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector
+Arguments:
+\param[in] UPLO
+         UPLO is CHARACTER*1
+      = 'U':  Upper triangle of A is stored;
+      = 'L':  Lower triangle of A is stored.
+\param[in] N
+         N is INTEGER
+    The number of linear equations, i.e., the order of the
+    matrix A.  N >= 0.
+\param[in] A
+         A is COMPLEX array, dimension (LDA,N)
+    On entry, the N-by-N matrix A
+\param[in] LDA
+         LDA is INTEGER
+    The leading dimension of the array A.  LDA >= max(1,N).
+\param[in] AF
+         AF is COMPLEX array, dimension (LDAF,N)
+    The triangular factor U or L from the Cholesky factorization
+    A = U**H*U or A = L*L**H, as computed by CPOTRF.
+\param[in] LDAF
+         LDAF is INTEGER
+    The leading dimension of the array AF.  LDAF >= max(1,N).
+\param[in] C
+         C is REAL array, dimension (N)
+    The vector C in the formula op(A) * inv(diag(C)).
+\param[in] CAPPLY
+         CAPPLY is LOGICAL
+    If .TRUE. then access the vector C in the formula above.
+\param[out] INFO
+         INFO is INTEGER
+      = 0:  Successful exit.
+    i > 0:  The ith argument is invalid.
+\param[in] WORK
+         WORK is COMPLEX array, dimension (2*N).
+    Workspace.
+\param[in] RWORK
+         RWORK is REAL array, dimension (N).
+    Workspace.
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date September 2012
+\ingroup complexPOcomputational
+   REAL FUNCTION CLA_PORCOND_C( UPLO, N, A, LDA, AF, LDAF, C, CAPPLY,
+  $                             INFO, WORK, RWORK )
+-- LAPACK computational routine (version 3.4.2) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --
