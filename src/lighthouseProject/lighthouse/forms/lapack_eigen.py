@@ -16,10 +16,10 @@ noyes_choices = (
 Problem_choices = (
 	('eigen_standard',			u'Standard eigenproblem'),
 	('sylvester_standard',			u'Standard Sylvester equation'),
-	('svd_standard',			u'Standard Singular value decomposition'),
+	('svd_standard',			u'Standard singular value decomposition'),
 	('eigen_generalized', 			u'Generalized eigenproblem'),
 	('sylvester_generalized',		u'Generalized Sylvester equation'),
-	('svd_generalized',			u'Generalized Singular value decomposition'),
+	('svd_generalized',			u'Generalized singular value decomposition'),
 )
 
 class problemForm(forms.Form):
@@ -43,6 +43,8 @@ class matrixTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(matrixTypeForm, self).__init__(*args, **kwargs)
 	self.fields['eigen_matrixType'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
+	if len(self.fields['eigen_matrixType'].choices) == 1:
+		self.fields['eigen_matrixType'].initial = self.fields['eigen_matrixType'].choices[0][1]
 
 
 
