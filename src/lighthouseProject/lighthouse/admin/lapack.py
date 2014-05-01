@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django import forms
 
-from lighthouse.models.lapack_eigen import * 
+from lighthouse.models.lapack_eigen import *
+from lighthouse.models.lapack_svd import *
+from lighthouse.models.lapack_sylvester import * 
 
 
 
@@ -16,26 +18,25 @@ class EntryAdminForm(forms.ModelForm):
 		#model = 'lapack_RoutineInfo'
 
 
-""" standard eigenproblems """
-class lapack_eigen_standard_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
+""" eigenproblem """
+class lapack_eigen_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType',
 			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
 	list_filter = ['thePrecision', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(lapack_eigen_standard, lapack_eigen_standard_Admin)
+admin.site.register(lapack_eigen, lapack_eigen_Admin)
 
 
 
-""" generalized eigenproblems """
-class lapack_eigen_generalized_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
-			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
+""" Sylvester """
+class lapack_sylvester_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType')
 	list_filter = ['thePrecision', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(lapack_eigen_generalized, lapack_eigen_generalized_Admin)
+admin.site.register(lapack_sylvester, lapack_sylvester_Admin)
