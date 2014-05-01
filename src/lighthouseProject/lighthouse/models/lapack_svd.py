@@ -1,12 +1,12 @@
 from django.db import models
 from lighthouse.models.choiceDict import *
-from lighthouse.models.lapack_routineInfo import lapack_RoutineInfo
+from lighthouse.models.lapack_le import lapack_RoutineInfo
 
 
 
 ###---------------- for guided search ----------------###
-###--- Eigenproblem ---###
-class lapack_eigen(models.Model):
+###--- SVD ---###
+class lapack_svd(models.Model):
         thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         standardGeneralized = models.CharField('Standard/Generalized', max_length=20, choices=STANDARD_CHOICES)
@@ -28,6 +28,3 @@ class lapack_eigen(models.Model):
         
         class Meta:
                 app_label = 'lighthouse'
-                
-                
-                

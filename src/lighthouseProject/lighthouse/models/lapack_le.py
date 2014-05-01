@@ -1,50 +1,6 @@
 from django.db import models
-
-
-PRECISION_CHOICES = (
-	(u's', u's(single)'), 
-	(u'd', u'd(double)'), 
-	(u'c', u'c(complex)'), 
-	(u'z', u'z(complex double)'),
-)
-
-MATRIX_CHOICES = (
-	(u'general', u'general'), 
-	(u'symmetric', u'symmetric'), 
-	(u'Hermitian', u'Hermitian'), 
-	(u'SPD', u'SPD'),
-	(u'HPD', u'HPD'),
-	(u'triangular', u'triangular'),
-	(u'SPsD', u'SPsD'),
-	(u'HPsD', u'HPsD'),
-	)
-
-STORAGE_CHOICES = (
-	(u'full', u'full'),
-	(u'band', u'band'),
-	(u'packed', u'packed'),
-	(u'tridiagonal', u'tridiagonal'),
-	(u'RFP', u'RFP'),
-)  	
-
-
-
-
-""" for routine information """
-class lapack_RoutineInfo(models.Model):
-	routine = models.CharField('Routine', max_length=30)
-	info = models.TextField('Information', blank=True, null=True)
-
-	def __unicode__(self):
-		return self.info
-
-	class Meta:
-		app_label = 'lighthouse'
-
-
-
-
-
+from lighthouse.models.choiceDict import *
+from lighthouse.models.lapack_routineInfo import lapack_RoutineInfo
 
 
 
