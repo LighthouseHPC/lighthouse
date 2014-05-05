@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from lighthouse.forms.lapack_eigen import *
-#from lighthouse.models.lapack_eigen import *
+from lighthouse.models.lapack_eigen import lapack_eigen
 
 import datetime
 
@@ -26,7 +26,7 @@ def question_and_answer(form, value, choices):
     
 
 ## ------------------------- show question order for different matrix types -----------------------------------------------##
-#standardForm_order = {
+#eigenForm_order = {
 #    'symmetric':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
 #    'Hermitian':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
 #    'SPD':              ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
@@ -59,9 +59,8 @@ def guidedSearch_problem(request):
     form = problemForm(request.POST or None)              #handle GET and POST in the same view 
     if form.is_valid(): # All validation rules pass
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], Problem_choices)) #get previous question & answer
-        modelName = 'lapack_'+form.cleaned_data['eigen_prob'].split('_')[0]
-        standard_generalized = form.cleaned_data['eigen_prob'].split('_')[1]
-        request.session['Routines'] = get_model('lighthouse', modelName).objects.filter(standardGeneralized=standard_generalized)    
+        problem = form.cleaned_data['eigen_prob'][6:]
+        request.session['Routines'] = lapack_eigen.objects.filter(problem=problem)    
         nextForm = complexNumberForm()        
         context = {
                     'action': '/lapack_eigen/complexNumber/',
@@ -156,7 +155,7 @@ def guidedSearch_storageType(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_storageType'], form.fields['eigen_storageType'].choices))
         request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
         request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])
-       
+        
         if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
             nextForm = selectedEVForm()
             action = '/lapack_eigen/selectedEV/'
