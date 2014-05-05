@@ -22,7 +22,7 @@ class EntryAdminForm(forms.ModelForm):
 class lapack_eigen_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'standardGeneralized', 'matrixType', 'storageType',
 			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
-	list_filter = ['thePrecision', 'matrixType', 'storageType',]
+	list_filter = ['problem', 'standardGeneralized', 'thePrecision', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	raw_id_fields = ('info',)

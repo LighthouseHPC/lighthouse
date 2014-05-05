@@ -90,10 +90,7 @@ def guidedSearch_complexNumber(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_complexNumber'], (('no','No'),('yes','Yes'),)))    
         request.session['eigen_complexNumber'] = form.cleaned_data['eigen_complexNumber']
 
-        if form.cleaned_data['eigen_complexNumber'] == 'no':
-            request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['s', 'd']})
-        else:
-            request.session['Routines'] = request.session['Routines'].filter(**{'thePrecision__in': ['c', 'z']})
+        request.session['Routines'] = request.session['Routines'].filter(complexNumber = form.cleaned_data['eigen_complexNumber'])
             
         nextForm = matrixTypeForm(request)        
         context = {
