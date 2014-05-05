@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from lighthouse.forms.lapack_eigen import *
 from lighthouse.models.lapack_eigen import lapack_eigen
+from lighthouse.models.choiceDict import *
 
 import datetime
 
@@ -56,14 +57,14 @@ def guidedSearch_index(request):
 ## 'problem' question answered
 @csrf_exempt
 def guidedSearch_problem(request):
-    form = problemForm(request.POST or None)              #handle GET and POST in the same view 
+    form = problemForm(request.POST or None)              #handle GET and POST in the same view
+    print form
     if form.is_valid(): # All validation rules pass
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], Problem_choices)) #get previous question & answer
-        problem = form.cleaned_data['eigen_prob'][6:]
-        request.session['Routines'] = lapack_eigen.objects.filter(problem=problem)    
-        nextForm = complexNumberForm()        
+        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], EIGENPROBLEM_CHOICES)) #get previous question & answer
+        request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])    
+        nextForm = standardGeneralizedForm()        
         context = {
-                    'action': '/lapack_eigen/complexNumber/',
+                    'action': '/lapack_eigen/standardGeneralized/',
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -82,12 +83,41 @@ def guidedSearch_problem(request):
 
 
 
+@csrf_exempt
+def guidedSearch_standardGeneralized(request):
+    form = standardGeneralizedForm(request.POST or None)              #handle GET and POST in the same view 
+    if form.is_valid(): # All validation rules pass
+        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_standardGeneralized'], STANDARD_CHOICES)) #get previous question & answer
+        request.session['eigen_standardGeneralized'] = form.cleaned_data['eigen_standardGeneralized']
+        request.session['Routines'] = request.session['Routines'].filter(standardGeneralized = form.cleaned_data['eigen_standardGeneralized'])    
+        nextForm = complexNumberForm()        
+        context = {
+                    'action': '/lapack_eigen/complexNumber/',
+                    'formHTML': "invalid",
+                    'form': nextForm,
+                    'eigen_guided_answered' : request.session['eigen_guided_answered'],
+                    'results' : request.session['Routines']
+        }
+    else:       
+        form = standardGeneralizedForm() # An unbound form       
+        context = {
+                    'action': '/lapack_eigen/standardGeneralized/',
+                    'formHTML': "invalid",
+                    'form': nextForm,
+                    'eigen_guided_answered' : '',
+                    'results' : 'start'
+        }
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
+
+
+
+
 ## 'complex number' question answered
 @csrf_exempt
 def guidedSearch_complexNumber(request):
     form = complexNumberForm(request.POST or None) 
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_complexNumber'], (('no','No'),('yes','Yes'),)))    
+        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_complexNumber'], (('no','no'),('yes','yes'),)))    
         request.session['eigen_complexNumber'] = form.cleaned_data['eigen_complexNumber']
 
         request.session['Routines'] = request.session['Routines'].filter(complexNumber = form.cleaned_data['eigen_complexNumber'])

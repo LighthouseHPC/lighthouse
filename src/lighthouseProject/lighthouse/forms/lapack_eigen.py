@@ -1,39 +1,24 @@
 from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
-
-
-noyes_choices = (
-    ('no',	u'No'),
-    ('yes',	u'Yes'),
-    )
-
+from lighthouse.models.choiceDict import *
 
 
 
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
-Problem_choices = (
-	(u'eigen_eigen',				u'solve an eigenproblem'),
-	(u'eigen_Hessenberg',				u'reduce a matrix to upper Hessenberg form'),
-	(u'eigen_cndNumber_of_evtrs',			u'estimate condition numbers of eigenvectors'),
-	(u'eigen_balance',				u'balance matrix to improve eigenvalue accuracy'),
-)
-
 class problemForm(forms.Form):
     eigen_prob = forms.ChoiceField(label='Which of the following problems would you like to compute?',
 					      widget=forms.RadioSelect(),
-					      choices=Problem_choices
+					      choices=EIGENPROBLEM_CHOICES
 					      )    
 
 
 ##---- standard/generalized form ---##
-class stdGnrlzedForm(forms.Form):
-    eigen_stdGnrlzed = forms.ChoiceField(label='Is the problem standard or generalized?',
+class standardGeneralizedForm(forms.Form):
+    eigen_standardGeneralized = forms.ChoiceField(label='Is the problem standard or generalized?',
 					      widget=forms.RadioSelect(),
-					      choices=( (u'standard',			u'standard'),
-							(u'generalized', 		u'generalized'),
-					      )
+					      choices=STANDARD_CHOICES,
 					)
     
     
@@ -41,7 +26,7 @@ class stdGnrlzedForm(forms.Form):
 class complexNumberForm(forms.Form):
     eigen_complexNumber = forms.ChoiceField(label='Does your matrix have any complex numbers?',
 					      widget=forms.RadioSelect(),
-					      choices=noyes_choices
+					      choices=NOYES_CHOICES
 					      )
 
 
@@ -82,7 +67,7 @@ class storageTypeForm(forms.Form):
 class selectedEVForm(forms.Form):
     eigen_selectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
 					 widget=forms.RadioSelect(),
-					 choices=noyes_choices)
+					 choices=NOYES_CHOICES)
 
 
     
@@ -90,7 +75,7 @@ class selectedEVForm(forms.Form):
 class eigenvectorForm(forms.Form):
     eigen_eigenvector = forms.ChoiceField(label='Do you need eigenvectors?',
 					      widget=forms.RadioSelect(),
-					      choices=noyes_choices
+					      choices=NOYES_CHOICES
 					      )
     
     
@@ -100,7 +85,7 @@ class eigenvectorForm(forms.Form):
 class cndN_eigenvectorForm(forms.Form):
     eigen_cndN_eigenvector = forms.ChoiceField(label='Would you like to compute the reciprocal condition numbers for the eigenvectors?',
 					      widget=forms.RadioSelect(),
-					      choices=noyes_choices
+					      choices=NOYES_CHOICES
 					      )
     
     
@@ -109,7 +94,7 @@ class cndN_eigenvectorForm(forms.Form):
 class schurForm(forms.Form):
     eigen_schur = forms.ChoiceField(label='In addition to eigenvalues, do you need other properties such as Schur form, Schur vectors, and sorted eigenvalues?',
 					      widget=forms.RadioSelect(),
-					      choices=noyes_choices
+					      choices=NOYES_CHOICES
 					      )
     
     
@@ -117,7 +102,7 @@ class schurForm(forms.Form):
 class cndNumberForm(forms.Form):
     eigen_cndNumber = forms.ChoiceField(label='Do you need a balancing transformation or a reciprocal condition number?',
 					      widget=forms.RadioSelect(),
-					      choices=noyes_choices
+					      choices=NOYES_CHOICES
 					      )
     
     
@@ -126,5 +111,5 @@ class cndNumberForm(forms.Form):
 class thePrecisionForm(forms.Form):
     eigen_thePrecision = forms.ChoiceField(label='Would you like to use single or double precision?',
 					      widget=forms.RadioSelect(),
-					      choices=(('single',	u'single'), ('double',	u'double'))
+					      choices=PRECISION_CHOICES
 					      )

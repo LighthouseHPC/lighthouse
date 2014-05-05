@@ -10,7 +10,7 @@ class lapack_eigen(models.Model):
         thePrecision = models.CharField('Precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('Routine Name', max_length=30)
         complexNumber = models.CharField('Complex Number', max_length=10, choices=NOYES_CHOICES)
-        problem = models.CharField('Problem Type', max_length=20, choices=PROBLEM_CHOICES)
+        problem = models.CharField('Problem Type', max_length=20, choices=EIGENPROBLEM_CHOICES)
         standardGeneralized = models.CharField('Standard/Generalized', max_length=20, choices=STANDARD_CHOICES)
         matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)

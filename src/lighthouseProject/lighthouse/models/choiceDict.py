@@ -1,16 +1,17 @@
 PRECISION_CHOICES = (
-        (u's',                          u's(single)'), 
-        (u'd',                          u'd(double)'), 
-        (u'c',                          u'c(complex)'), 
-        (u'z',                          u'z(complex double)'),
+        (u's',                          u'single'), 
+        (u'd',                          u'double'), 
+        (u'c',                          u'complex'), 
+        (u'z',                          u'complex double'),
 )
 
-PROBLEM_CHOICES = (
-        (u'eigen',                      u'eigen'),
-        (u'Hessenberg',                 u'Hessenberg'),
-        (u'cndNumber_of_evtrs',         u'condition numbers of eigenvectors'),
-        (u'balance',                    u'balance'),
+EIGENPROBLEM_CHOICES = (
+	(u'eigen',				u'solve an eigenproblem'),
+	(u'Hessenberg',				u'reduce a matrix to upper Hessenberg form'),
+	(u'cndNumber_of_evtrs',			u'estimate condition numbers of eigenvectors'),
+	(u'balance',				u'balance matrix to improve eigenvalue accuracy'),
 )
+
 
 
 STANDARD_CHOICES = (
