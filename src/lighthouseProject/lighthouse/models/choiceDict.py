@@ -1,51 +1,59 @@
 PRECISION_CHOICES = (
-        (u's', u's(single)'), 
-        (u'd', u'd(double)'), 
-        (u'c', u'c(complex)'), 
-        (u'z', u'z(complex double)'),
+        (u's',                          u's(single)'), 
+        (u'd',                          u'd(double)'), 
+        (u'c',                          u'c(complex)'), 
+        (u'z',                          u'z(complex double)'),
 )
 
+PROBLEM_CHOICES = (
+        (u'eigen',                      u'eigen'),
+        (u'Hessenberg',                 u'Hessenberg'),
+        (u'cndNumber_of_evtrs',         u'condition numbers of eigenvectors'),
+        (u'balance',                    u'balance'),
+)
+
+
 STANDARD_CHOICES = (
-        (u'standard', u'standard'),
-        (u'generalized', u'generalized'), 
+        (u'standard',                   u'standard'),
+        (u'generalized',                u'generalized'), 
 )
 
 MATRIX_CHOICES = (
-        (u'general', u'general'), 
-        (u'symmetric', u'symmetric'), 
-        (u'Hermitian', u'Hermitian'), 
-        (u'SPD', u'SPD'),
-        (u'HPD', u'HPD'),
-        (u'triangular', u'triangular'),
-        (u'SPsD', u'SPsD'),
-        (u'HPsD', u'HPsD'),
-        (u'upper Hessenberg', u'upper Hessenberg'),
-        (u'upper quasi-triangular', u'upper quasi-triangular'),
+        (u'general',                    u'general'), 
+        (u'symmetric',                  u'symmetric'), 
+        (u'Hermitian',                  u'Hermitian'), 
+        (u'SPD',                        u'SPD'),
+        (u'HPD',                        u'HPD'),
+        (u'triangular',                 u'triangular'),
+        (u'SPsD',                       u'SPsD'),
+        (u'HPsD',                       u'HPsD'),
+        (u'upper Hessenberg',           u'upper Hessenberg'),
+        (u'block upper triangular',     u'block upper triangular'),
         )
 
 STORAGE_CHOICES = (
-        (u'full', u'full'),
-        (u'band', u'band'),
-        (u'packed', u'packed'),
-        (u'tridiagonal', u'tridiagonal'),
-        (u'RFP', u'RFP'),
+        (u'full',                       u'full'),
+        (u'band',                       u'band'),
+        (u'packed',                     u'packed'),
+        (u'tridiagonal',                u'tridiagonal'),
+        (u'RFP',                        u'RFP'),
         (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'),
 )
 
 NOYES_CHOICES = (
-        (u'no', u'no'),
-        (u'yes', u'yes'),    
+        (u'no',         u'no'),
+        (u'yes',        u'yes'),    
 )
 
 NOYESNONE_CHOICES = (
-        (u'no', u'no'),
-        (u'yes', u'yes'),
-        (u'none', u'none'), 
+        (u'no',         u'no'),
+        (u'yes',        u'yes'),
+        (u'none',       u'none'), 
 )
 
 
 NOYESBOTH_CHOICES = (
-        (u'no', u'no'),
-        (u'yes', u'yes'),
-        (u'no/yes', u'no/yes'), 
+        (u'no',         u'no'),
+        (u'yes',        u'yes'),
+        (u'no/yes',     u'no/yes'), 
 )

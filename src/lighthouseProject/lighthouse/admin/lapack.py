@@ -20,7 +20,7 @@ class EntryAdminForm(forms.ModelForm):
 
 """ eigenproblem """
 class lapack_eigen_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType',
+	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'standardGeneralized', 'matrixType', 'storageType',
 			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
 	list_filter = ['thePrecision', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
@@ -32,11 +32,11 @@ admin.site.register(lapack_eigen, lapack_eigen_Admin)
 
 
 """ Sylvester """
-class lapack_sylvester_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType')
-	list_filter = ['thePrecision', 'matrixType', 'storageType',]
-	search_fields = ['routineName',]
-	ordering = ('id',)
-	raw_id_fields = ('info',)
-
-admin.site.register(lapack_sylvester, lapack_sylvester_Admin)
+#class lapack_sylvester_Admin(admin.ModelAdmin):
+#	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType')
+#	list_filter = ['thePrecision', 'matrixType', 'storageType',]
+#	search_fields = ['routineName',]
+#	ordering = ('id',)
+#	raw_id_fields = ('info',)
+#
+#admin.site.register(lapack_sylvester, lapack_sylvester_Admin)

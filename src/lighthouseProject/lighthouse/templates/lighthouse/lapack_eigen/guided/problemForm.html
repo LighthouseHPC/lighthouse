@@ -8,7 +8,7 @@
                 <td>
                         <label for="id_eigen_prob_0">
                         <img src={%static "Images/arrow.png" %} width="8" height="8"/>
-                                <b>Which of the following problems would you like to solve?</b>
+                                <b>Which of the following problems would you like to compute?</b>
                         </label>
                 </td>
             </tr>
@@ -20,8 +20,8 @@
             </td>
             <td>
                 <label for="id_eigen_prob_0">
-                    <input type="radio" id="id_eigen_prob_0" value="eigen_standard" name="eigen_prob" />
-                    standard eigenproblem 
+                    <input type="radio" id="id_eigen_prob_0" value="eigen_eigen" name="eigen_prob" />
+                    solve an eigenproblem 
                 </label>
             </td>
 <!--            <td>
@@ -48,8 +48,8 @@
             </td>
             <td>
                 <label for="id_eigen_prob_1">
-                    <input type="radio" id="id_eigen_prob_1" value="sylvester_standard" name="eigen_prob" />
-                    standard Sylvester equation 
+                    <input type="radio" id="id_eigen_prob_1" value="eigen_Hessenberg" name="eigen_prob" />
+                    reduce a matrix to upper Hessenberg form 
                 </label>
             </td>
             <td>
@@ -62,44 +62,43 @@
             </td>
             <td>
                 <label for="id_eigen_prob_2">
-                    <input type="radio" id="id_eigen_prob_2" value="svd_standard" name="eigen_prob" />
-                    standard singular value decomposition 
+                    <input type="radio" id="id_eigen_prob_2" value="eigen_cndNumber_of_evtrs" name="eigen_prob" />
+                    estimate condition numbers of eigenvectors 
                 </label>
             </td>
             <td>
                 <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
             </td>
         </tr>
-        <tr>
         <tr>
             <td>
                 4.
             </td>
             <td>
                 <label for="id_eigen_prob_3">
-                    <input type="radio" id="id_eigen_prob_3" value="eigen_generalized" name="eigen_prob" />
-                    generalized eigenproblem 
+                    <input type="radio" id="id_eigen_prob_3" value="eigen_balance" name="eigen_prob" />
+                    balance matrix to improve eigenvalue accuracy 
                 </label>
             </td>
             <td>
                 <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
             </td>
         </tr>
-        <tr>
+<!--        <tr>
             <td>
                 5.
             </td>
             <td>
                 <label for="id_eigen_prob_4">
-                    <input type="radio" id="id_eigen_prob_4" value="sylvester_generalized" name="eigen_prob" />
-                    generalized Sylvester equation
+                    <input type="radio" id="id_eigen_prob_4" value="balance" name="eigen_prob" />
+                    balance matrix to improve eigenvalue accuracy
                 </label>
             </td>
             <td>
                 <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
             </td>
-        </tr>
-        <tr>
+        </tr>-->
+<!--        <tr>
             <td>
                 6.
             </td>
@@ -112,5 +111,5 @@
             <td>
                 <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
             </td>
-        </tr>
+        </tr>-->
     </table>
