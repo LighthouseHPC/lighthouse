@@ -5,7 +5,7 @@ import socket
 
 
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 
@@ -262,3 +262,6 @@ import logging
 #logging.basicConfig(level=logging.DEBUG)
 
 
+#Configuration of dojango
+DOJANGO_DOJO_VERSION = "1.7.2"
+DOJANGO_DOJO_THEME = "claro"    #default is "claro" -- "tundra", "soria", "nihilo"
