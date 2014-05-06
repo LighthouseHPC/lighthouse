@@ -1,0 +1,70 @@
+{% load static from staticfiles %}
+
+<table style="padding:0px; margin:0px; border:0px;">
+        <tr>
+            <td>
+                    <label for="id_question_prob_0">
+                    <img src={%static "Images/arrow.png" %} width="8" height="8"/>
+                            <b>Which of the following problems would you like to solve?</b>
+                    </label>
+            </td>
+        </tr>
+</table>
+<table style="padding-left:10px; padding-top:10px; border:0px;">
+    <tr>
+        <td>
+            1.
+        </td>
+        <td>
+            <label for="id_question_prob_0">
+                <input type="radio" id="id_question_prob_0" value="driver lapeck_eigen_standard standard" name="question_prob" />
+                Standard Eigenproblem
+            </label>
+        </td>
+        <td>
+            <!--<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">-->
+                <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
+                    <!--<div dojoType="dijit.TooltipDialog" id="helpLinearEquation" title="Linear Equation">-->
+<!--                                <div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+                                    dojoType="dijit.form.Button">[Close]
+                                    <script type="dojo/method" event="onClick">
+                                            dijit.byId('helpLinearEquation').onCancel();
+                                    </script>
+                            </div>-->
+<!--                                <h2>Linear Equation</h2>-->
+<!--                                <div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+                                    <!--<iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/linearEquation.html"></iframe> --> 		 		
+                            <!--</div>-->
+                    <!--</div>-->
+            <!--</div>-->
+        </td>
+    </tr>
+    <tr>
+        <td>
+            2.
+        </td>
+        <td>
+            <label for="id_question_prob_1">
+                <input type="radio" id="id_question_prob_1" value="driver lapack_eigen_generalized generalized" name="question_prob" />
+                Generalized Eigenproblem
+            </label>
+        </td>
+        <td>
+            <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            3.
+        </td>
+        <td>
+            <label for="id_question_prob_2">
+                <input type="radio" id="id_question_prob_2" value="driver lapack_svd svd" name="question_prob" />
+                Singular Value Decomposition
+            </label>
+        </td>
+        <td>
+            <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
+        </td>
+    </tr>
+</table>

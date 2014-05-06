@@ -1,0 +1,60 @@
+<!-- ########### Keyword search form: ###########-->
+{% load static from staticfiles %}
+
+<div id="title-div">
+        <table id="icon-table">
+                <tr>
+                        <td id="icon-cell">
+                                <img src={%static "Images/keywordSearch.png" %} width="32" height="32"/>
+                        </td>           
+                        <td id="title-cell">
+                                Keyword Search 
+                        </td>
+                </tr>
+        </table>        
+</div>
+<br>
+<div id="button-div" >
+        <table  border="0" cellspacing="10" id="icon-table" style="margin-left: 10px; padding-top: 0px;">
+                <tr>
+                        <td style="padding-top:5px; padding-bottom:5px;">
+                                <img src={%static "Images/arrow.png" %} width="8" height="8"/>
+                        </td>
+                        <td  label for="id_q" colspan="2" >
+                                <b> Please enter a word or phrase: </b>
+                        </td>
+                </tr>               
+                <form action="/lapack_eprob/keyword/" method="get" name="kw_form" id="keyword_form">
+                <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                                <input type="text" size="60"
+                                        onKeyUp="findIt(kwtbArrValue,kwtbArrText,sel,kwtb)"
+                                        autocomplete="off"
+                                        style="border:solid 1px black; font-family: Tahoma; font-size: 15px;"
+                                        name="q"
+                                        id="id_q"
+                                        value= "{{ request.GET.q }}"/>
+                        </td>
+                </tr>
+
+                <tr>
+                        <td>&nbsp;</td>
+                        <th><label for="id_models_0"><b>Search in (optional):</b></label></th>
+                        <td><ul>
+                                <li><label for="id_models_2"><input type="checkbox" name="models" value="lighthouse.lapack_eprob_driver" id="id_models_2" /> Driver Routines (Linear Equations)</label></li>
+                                <li><label for="id_models_1"><input type="checkbox" name="models" value="lighthouse.lapack_eprob_computational" id="id_models_1" /> Computational Routines (Linear Equations)</label></li>       
+                        </ul></td>
+                </tr>
+                <tr>
+                        <td colspan="3" style="text-align:center; padding-left: 10px; width: 100%;">
+                                <button type="submit" name="keyword" value="search" id="searchButton" title="Search String"
+                                        style="width: 60px;" onclick="return checkKeyword();">
+                                        <img src={%static "Images/dialog-ok-4.png" %} width="16" height="16"/>
+                                </button >                      
+                        </td>
+                </tr>
+                </form>           
+        </table>
+
+</div>

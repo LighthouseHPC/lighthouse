@@ -1,0 +1,23 @@
+{% load static from staticfiles %}
+
+<div id="title-div">
+  <table id="icon-table">
+    <tr>
+      <td id="icon-cell">
+        <img src={%static "Images/guidedSearch.png" %} width="32" height="32"/>
+      </td>
+      <td id="title-cell">
+        Guided Search
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+
+{% if content_eigen_guided_form %}
+  {% include "lighthouse/lapack_eigen/guided/answered.html" %}
+  {% include content_eigen_guided_form %}
+{% else %}
+   {% include "lighthouse/lapack_eigen/guided/problemForm.html" %}
+{% endif %}

@@ -1,0 +1,40 @@
+{% load static from staticfiles %}
+
+<form action="/lapack_eigen/" name="frmType" method="post">
+    {% csrf_token %}
+    <div id="question-div"
+    {% for field in guided_form %}
+     <li><label>{{ field.label_tag }}</label> 
+      <ul style="list-style: none;">
+        {% for radio in field %}
+          <li >
+              {{ radio }}
+          </li>
+        {% endfor %}
+        </ul>
+     </li>  
+     {% endfor %}
+    </div>
+
+    <br>
+      
+    <div id="button-div">
+        <table style="width:100%; margin: 0px auto;">
+          <tr style="width:100%;">
+            <td style="text-align:left;">       
+              <button type="submit" name="guided" value="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
+                  <img src={%static "Images/clear.png" %} width="16" height="16"/> 
+              </button>       
+            </td>     
+            <td style="text-align:center;">
+              <div id="tooltip2"></div>
+            </td>
+            <td style="text-align:right;">
+              <button type="submit" name="guided" value="submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
+                  <img src={%static "Images/dialog-ok-4.png" %} width="16" height="16"/>
+              </button >
+            </td>
+          </tr>
+        </table>
+    </div>
+</form>
