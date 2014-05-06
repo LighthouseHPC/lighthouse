@@ -47,7 +47,6 @@ def question_and_answer(form, value, choices):
 ## index page
 def guidedSearch_index(request):
     request.session['eigen_guided_answered'] = OrderedDict()
-    request.session['eigen_complexNumber'] = ''
     context = {
                 'action': '/lapack_eigen/problem/',
                 'formHTML': "problemForm",
@@ -67,11 +66,11 @@ def guidedSearch_problem(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], EIGENPROBLEM_CHOICES)) #get previous question & answer
         request.session['eigen_problem'] = form.cleaned_data['eigen_prob']
         request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])    
-        nextForm = standardGeneralizedForm()        
+               
         context = {
                     'action': '/lapack_eigen/standardGeneralized/',
-                    'formHTML': "invalid",
-                    'form': nextForm,
+                    'formHTML': "standardGeneralizedForm",
+                    'form': "invalid",
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
