@@ -17,6 +17,7 @@
 {% include "lighthouse/lapack_eigen/guided/answered.html" %}
 
 
+{% if action %}
 <form action="{{ action }}" name="frmType" method="post">
 {% csrf_token %}
 <div id="question-div">
@@ -28,7 +29,8 @@
       <br>
   {% endwith %}
 {% endif %}  
-</div>  
+</div>
+{% endif %}
 <br>
   
   
