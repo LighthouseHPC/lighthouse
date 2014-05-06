@@ -52,18 +52,26 @@ urlpatterns = patterns('',
     ### Link forum/urls.py for blog:
     (r'^forum/', include('forum.urls')),
     
+    
+    ###----------------- for LAPACK -----------------------###
     ### Link lighthouse/library/lapack_le/urls.py for guided, advanced, and keyword Searches:
     (r'^lapack_le/', include('lighthouse.libraries.lapack_le.urls')),
 
+    ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
+    url(r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
+
+    ### Link lighthouse/library/lapack_eprob/urls.py for guided, advanced, and keyword Searches:
+    (r'^lapack_eprob/', include('lighthouse.libraries.lapack_eprob.urls')),
+    
+
+    ###----------------- for PETSc -----------------------###
     ### Link lighthouse/library/petsc/urls.py for guided, advanced, and keyword Searches:
     (r'^petsc/', include('lighthouse.libraries.petsc_le.urls')),
 
-    ### Link lighthouse/library/petsc/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack_eprob/', include('lighthouse.libraries.lapack_eprob.urls')),
-
+    
+    ###----------------- for SLEPc -----------------------###
     ### Link lighthouse/library/slepc_eprob/urls.py for guided, advanced, and keyword Searches:
     (r'^slepc_eprob/', include('lighthouse.libraries.slepc_eprob.urls')),
-
 
 )
 
