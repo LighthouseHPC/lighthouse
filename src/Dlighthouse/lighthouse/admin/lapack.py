@@ -2,8 +2,8 @@ from django.contrib import admin
 from django import forms
 
 from lighthouse.models.lapack_eigen import *
-from lighthouse.models.lapack_svd import *
-from lighthouse.models.lapack_sylvester import * 
+#from lighthouse.models.lapack_svd import *
+#from lighthouse.models.lapack_sylvester import * 
 
 
 
