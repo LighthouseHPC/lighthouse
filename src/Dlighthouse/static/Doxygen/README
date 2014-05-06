@@ -1,0 +1,19 @@
+Instruction for creating Doxygen html lapack docs:
+
+(1) check lapack update and enter new data to lighthouseProject/static/Doxygen/url.csv if there are changes
+
+(2) copy the docs (fortran files) from http://www.netlib.org/lapack/lapack_routine/ to lighthouseProject/static/Doxygen/lapack/
+	(a) run copyDocs.py
+	(b) enter the begin/end id numbers for which the docs will be generated
+	(c) when finished, "Completed copying documentation files to Doxygen!" is displayed
+
+(3) open Doxygen in Application
+
+(4) go to Doxygen -> file, open lighthouseProject/static/Doxygen/Doxyfile, which stores the setting for lapack doxygen
+
+(5) click 'Run'
+
+(6) results are saved in lighthouseProject/static/Doxygen/docs/
+
+
+Note: url.csv is also used for creating routine info in /lighthouse/libraries/lapack_le/databaseMng/RoutineInfo/    
