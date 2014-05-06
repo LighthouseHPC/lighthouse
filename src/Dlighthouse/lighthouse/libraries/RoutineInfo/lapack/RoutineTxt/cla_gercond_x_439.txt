@@ -1,0 +1,56 @@
+
+   CLA_GERCOND_X computes the infinity norm condition number of
+   op(A) * diag(X) where X is a COMPLEX vector.
+Arguments:
+\param[in] TRANS
+         TRANS is CHARACTER*1
+    Specifies the form of the system of equations:
+      = 'N':  A * X = B     (No transpose)
+      = 'T':  A**T * X = B  (Transpose)
+      = 'C':  A**H * X = B  (Conjugate Transpose = Transpose)
+\param[in] N
+         N is INTEGER
+    The number of linear equations, i.e., the order of the
+    matrix A.  N >= 0.
+\param[in] A
+         A is COMPLEX array, dimension (LDA,N)
+    On entry, the N-by-N matrix A.
+\param[in] LDA
+         LDA is INTEGER
+    The leading dimension of the array A.  LDA >= max(1,N).
+\param[in] AF
+         AF is COMPLEX array, dimension (LDAF,N)
+    The factors L and U from the factorization
+    A = P*L*U as computed by CGETRF.
+\param[in] LDAF
+         LDAF is INTEGER
+    The leading dimension of the array AF.  LDAF >= max(1,N).
+\param[in] IPIV
+         IPIV is INTEGER array, dimension (N)
+    The pivot indices from the factorization A = P*L*U
+    as computed by CGETRF; row i of the matrix was interchanged
+    with row IPIV(i).
+\param[in] X
+         X is COMPLEX array, dimension (N)
+    The vector X in the formula op(A) * diag(X).
+\param[out] INFO
+         INFO is INTEGER
+      = 0:  Successful exit.
+    i > 0:  The ith argument is invalid.
+\param[in] WORK
+         WORK is COMPLEX array, dimension (2*N).
+    Workspace.
+\param[in] RWORK
+         RWORK is REAL array, dimension (N).
+    Workspace.
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date September 2012
+\ingroup complexGEcomputational
+   REAL FUNCTION CLA_GERCOND_X( TRANS, N, A, LDA, AF, LDAF, IPIV, X,
+  $                             INFO, WORK, RWORK )
+-- LAPACK computational routine (version 3.4.2) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --
