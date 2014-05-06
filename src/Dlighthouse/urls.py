@@ -58,7 +58,7 @@ urlpatterns = patterns('',
     (r'^lapack_le/', include('lighthouse.libraries.lapack_le.urls')),
 
     ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
-    url(r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
+    (r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
 
     ### Link lighthouse/library/lapack_eprob/urls.py for guided, advanced, and keyword Searches:
     (r'^lapack_eprob/', include('lighthouse.libraries.lapack_eprob.urls')),
