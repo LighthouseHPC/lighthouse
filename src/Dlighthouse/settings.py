@@ -263,5 +263,5 @@ import logging
 
 
 #Configuration of dojango
-DOJANGO_DOJO_VERSION = "1.7.2"
-DOJANGO_DOJO_THEME = "claro"    #default is "claro" -- "tundra", "soria", "nihilo"
+#DOJANGO_DOJO_VERSION = "1.7.2"
+#DOJANGO_DOJO_THEME = "claro"    #default is "claro" -- "tundra", "soria", "nihilo"
