@@ -5,6 +5,13 @@ PRECISION_CHOICES = (
         (u'z',                          u'complex double'),
 )
 
+
+SINGLEDOUBLE_CHOICES = (
+        (u'single',                          u'single'), 
+        (u'double',                          u'double'),        
+)
+
+
 EIGENPROBLEM_CHOICES = (
 	(u'eigen',				u'solve an eigenproblem'),
 	(u'Hessenberg',				u'reduce a matrix to upper Hessenberg form'),
@@ -13,11 +20,11 @@ EIGENPROBLEM_CHOICES = (
 )
 
 
-
 STANDARD_CHOICES = (
         (u'standard',                   u'standard'),
         (u'generalized',                u'generalized'), 
 )
+
 
 MATRIX_CHOICES = (
         (u'general',                    u'general'), 
@@ -32,6 +39,7 @@ MATRIX_CHOICES = (
         (u'block upper triangular',     u'block upper triangular'),
         )
 
+
 STORAGE_CHOICES = (
         (u'full',                       u'full'),
         (u'band',                       u'band'),
@@ -41,10 +49,12 @@ STORAGE_CHOICES = (
         (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'),
 )
 
+
 NOYES_CHOICES = (
         (u'no',         u'no'),
         (u'yes',        u'yes'),    
 )
+
 
 NOYESNONE_CHOICES = (
         (u'no',         u'no'),

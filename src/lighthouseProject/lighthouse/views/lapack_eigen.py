@@ -26,7 +26,7 @@ def question_and_answer(form, value, choices):
     return {question: [answer]}
     
 
-## ------------------------- show question order for different matrix types -----------------------------------------------##
+## ------------------------- show question order for different problem types -----------------------------------------------##
 #eigenForm_order = {
 #    'symmetric':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
 #    'Hermitian':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
@@ -35,6 +35,11 @@ def question_and_answer(form, value, choices):
 #    'upper Hessenberg': ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
 #    'general':          ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm'],
 #    }
+
+
+#HessenbergForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'thePrecision']
+#balanceForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'thePrecision']
+#conditionNumberForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'thePrecision']
 ## ------------------------------------------------------------------------------------------------------------------------##
 
 
@@ -58,9 +63,9 @@ def guidedSearch_index(request):
 @csrf_exempt
 def guidedSearch_problem(request):
     form = problemForm(request.POST or None)              #handle GET and POST in the same view
-    print form
     if form.is_valid(): # All validation rules pass
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], EIGENPROBLEM_CHOICES)) #get previous question & answer
+        request.session['eigen_problem'] = form.cleaned_data['eigen_prob']
         request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])    
         nextForm = standardGeneralizedForm()        
         context = {
@@ -83,6 +88,7 @@ def guidedSearch_problem(request):
 
 
 
+## 'standard/generalized' question answered
 @csrf_exempt
 def guidedSearch_standardGeneralized(request):
     form = standardGeneralizedForm(request.POST or None)              #handle GET and POST in the same view 
@@ -151,10 +157,16 @@ def guidedSearch_matrixType(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_matrixType'], form.fields['eigen_matrixType'].choices))
         request.session['eigen_matrixType'] = form.cleaned_data['eigen_matrixType']
-        request.session['Routines'] = request.session['Routines'].filter(matrixType=form.cleaned_data['eigen_matrixType'])       
-        nextForm = storageTypeForm(request)       
+        request.session['Routines'] = request.session['Routines'].filter(matrixType=form.cleaned_data['eigen_matrixType'])
+        
+        if request.session['eigen_problem'] == 'cndNumber_of_evtrs':
+            nextForm = thePrecisionForm()
+            action = '/lapack_eigen/thePrecision/'
+        else:
+            nextForm = storageTypeForm(request)
+            action = '/lapack_eigen/storageType/'
         context = {
-                    'action': '/lapack_eigen/storageType/',
+                    'action': action,
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -181,14 +193,19 @@ def guidedSearch_storageType(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_storageType'], form.fields['eigen_storageType'].choices))
         request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
-        request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])
+        request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])    
         
-        if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
-            nextForm = selectedEVForm()
-            action = '/lapack_eigen/selectedEV/'
+        if request.session['eigen_problem'] in ['Hessenberg', 'balance']:
+            nextForm = thePrecisionForm()
+            action = '/lapack_eigen/thePrecision/'
+            
         else:
-            nextForm = eigenvectorForm()
-            action = '/lapack_eigen/eigenvector/'            
+            if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
+                nextForm = selectedEVForm()
+                action = '/lapack_eigen/selectedEV/'
+            else:
+                nextForm = eigenvectorForm()
+                action = '/lapack_eigen/eigenvector/'            
         context = {
                     'action': action,
                     'formHTML': "invalid",

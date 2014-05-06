@@ -111,5 +111,5 @@ class cndNumberForm(forms.Form):
 class thePrecisionForm(forms.Form):
     eigen_thePrecision = forms.ChoiceField(label='Would you like to use single or double precision?',
 					      widget=forms.RadioSelect(),
-					      choices=PRECISION_CHOICES
+					      choices=SINGLEDOUBLE_CHOICES
 					      )
