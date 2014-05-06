@@ -1,0 +1,66 @@
+{% extends "dojango/base.html" %}
+
+{% block dojango_page_title %}Lighthouse - LAPACK Eigen{% endblock %}
+
+{% block BorderContainer %}
+        <div data-dojo-type="dijit/layout/TabContainer" duration="200"
+                minSize="100" style="width: 550px;" id="leftTab"
+                region="leading" splitter="true">
+                <!-- Guided Search-->
+                <div data-dojo-type="dijit/layout/ContentPane" title="Guided Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                        {% block dojango_content_eigen_guidedSearch %}{% endblock %}
+                </div><!-- end Guided Search -->
+
+                <!--  Advanced Search -->
+                <div data-dojo-type="dijit/layout/ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
+                        {% block dojango_content_eigen_advancedSearch %}{% endblock %}
+                </div><!-- end Advanced Search -->
+
+                <!--  General Search -->
+                <div data-dojo-type="dijit/layout/ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
+                        {% block dojango_content_eigen_keywordSearch %}{% endblock %}
+                </div><!-- end Keyword Search -->
+        </div><!-- end TabsContainer -->
+
+
+        <!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
+        <div data-dojo-type="dijit/layout/TabContainer" region="center" id="topTabs">
+                <!-- first upper tab ==> Search Result -->
+                <div id="tab1" data-dojo-type="dijit/layout/ContentPane" title="Search Result" selected="false" style="padding:10px; display:none;">
+                        {% block dojango_content_eigen_search_result %}{% endblock %}        
+                </div><!-- end:first upper tab -->
+                
+            <!-- remove the script tab -->
+              
+      </div><!-- end of region="center" TabContainer -->
+
+
+        <!-- bottom right tabs -->
+        <div data-dojo-type="dijit/layout/TabContainer" id="bottomTabs"
+                tabPosition="top" selectedChild="btab1"
+                region="bottom" splitter="true" style="height:55%">
+                <!-- btab 1 ==> work area -->
+                <div id="btab1" data-dojo-type="dijit/layout/ContentPane" title="Work Area" style="padding:0px;">
+                        <div data-dojo-type="dijit/layout/SplitContainer" orientation="horizontal"
+                                sizerWidth="5" activeSizing="true"
+                                style="border: 0px solid #bfbfbf; float: left; width: 100%; height: 100%;">
+                                <!-- for selected routines -->
+                                <div data-dojo-type="dijit/layout/ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">                                                        
+                                        {% block dojango_content_eigen_selected_routines %}{% endblock %}
+                                </div><!-- end selected routines -->
+                               
+                                <!-- for code template -->
+                                <div data-dojo-type="dijit/layout/ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
+                                        {% block dojango_content_eigen_code_template %}{% endblock %}
+                                </div><!-- end code templae -->        
+                        </div><!-- SplitContainer -->
+                </div><!-- end btab1 -->
+
+                <!-- btab2 ==> authors -->
+                <div id="btab2" data-dojo-type="dijit/layout/ContentPane" title="Authors" style="padding:20px;">
+                        <span  id="themeData"></span>
+                </div><!-- end btab2 -->
+        </div><!-- end Bottom TabContainer -->
+{% endblock %}
+
+</html>
