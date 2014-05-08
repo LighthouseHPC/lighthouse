@@ -3,16 +3,23 @@ from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
 from lighthouse.models.choiceDict import *
 
-#####------- Allow disabling options in a select widget ----------#####
+#####------- Allow disabling options in a RadioSelect widget ----------#####
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 
-
 class CustomRadioRenderer(forms.widgets.RadioFieldRenderer):
     def render(self):
-        """Outputs a <ul> for this set of radio fields."""
-        return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li id="%s">%s</li>'
-            % ('radio-%s'%w.index, force_unicode(w) ) for w in self]))
+        """ Disable some radio buttons based on disableList """
+	if self.disable == []:
+	    return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>' % force_unicode(w) for w in self]))
+	else:
+	    midList = []
+	    for x, wid in enumerate(self):
+		if self.disable[x] == True:
+		    wid.attrs['disabled'] = True
+		midList.append(wid)
+	    return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>' % w for w in midList]))
+
 
 class CustomRadioSelect(forms.widgets.RadioSelect):
     renderer = CustomRadioRenderer
@@ -74,8 +81,13 @@ class storageTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
+	disableList = []
+	
+	##--- remove the choice full/packed/band/tridiagonal ---##
 	if (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal') in self.fields['eigen_storageType'].choices:
 	    self.fields['eigen_storageType'].choices.remove((u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'))
+	    
+	##--- if there is only one choice, show the others but disable them ---##
 	if len(self.fields['eigen_storageType'].choices) == 1:
 	    selected = self.fields['eigen_storageType'].choices[0][1]
 	    self.fields['eigen_storageType'].choices = (
@@ -84,14 +96,15 @@ class storageTypeForm(forms.Form):
 		(u'packed',                     u'packed'),
 		)
 	    self.fields['eigen_storageType'].initial = selected
-	#    for item in self.fields['eigen_storageType'].choices:
-	#	if item[1] != selected:
-	#	    print item
-	#	    item = item + ({'disabled': True},)
-	#	    print item
-
-	    self.fields['eigen_storageType'].widget.renderer.actives = [True, False]
+	    for item in self.fields['eigen_storageType'].choices:
+		if item[1] != selected:
+		    disableList.append(True)
+		else:
+		    disableList.append(False)
+		    
+	self.fields['eigen_storageType'].widget.renderer.disable = disableList
 	    
+
 	    
 
 ##--- selected eigenvalue form ---##
