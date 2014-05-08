@@ -38,8 +38,8 @@ def question_and_answer(form, value, choices):
 
 
 #HessenbergForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'thePrecision']
-#balanceForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'thePrecision']
 #conditionNumberForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'thePrecision']
+#balanceForm_order = ['standardGeneralized', 'complexNumber', 'storageType', 'thePrecision']
 ## ------------------------------------------------------------------------------------------------------------------------##
 
 
@@ -127,9 +127,14 @@ def guidedSearch_complexNumber(request):
 
         request.session['Routines'] = request.session['Routines'].filter(complexNumber = form.cleaned_data['eigen_complexNumber'])
             
-        nextForm = matrixTypeForm(request)        
+        if request.session['eigen_problem'] == 'balance':
+            nextForm = storageTypeForm(request)
+            action = '/lapack_eigen/storageType/'
+        else:
+            nextForm = matrixTypeForm(request)
+            action = '/lapack_eigen/matrixType/'
         context = {
-                    'action': '/lapack_eigen/matrixType/',
+                    'action': action,
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],

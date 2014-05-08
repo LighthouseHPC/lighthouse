@@ -144,7 +144,7 @@ class schurForm(forms.Form):
     
 ##--- condition number form ---##
 class cndNumberForm(forms.Form):
-    eigen_cndNumber = forms.ChoiceField(label='Do you need a balancing transformation or a reciprocal condition number?',
+    eigen_cndNumber = forms.ChoiceField(label='Do you need a balancing transformation and/or a reciprocal condition number?',
 					      widget=forms.RadioSelect(),
 					      choices=NOYES_CHOICES
 					      )
