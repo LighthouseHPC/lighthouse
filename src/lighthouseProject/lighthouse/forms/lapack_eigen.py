@@ -3,7 +3,25 @@ from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
 from lighthouse.models.choiceDict import *
 
+#####------- Allow disabling options in a select widget ----------#####
+from django.utils.safestring import mark_safe
+from django.utils.encoding import force_unicode
 
+
+class CustomRadioRenderer(forms.widgets.RadioFieldRenderer):
+    def render(self):
+        """Outputs a <ul> for this set of radio fields."""
+        return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li id="%s">%s</li>'
+            % ('radio-%s'%w.index, force_unicode(w) ) for w in self]))
+
+class CustomRadioSelect(forms.widgets.RadioSelect):
+    renderer = CustomRadioRenderer
+    
+    
+    
+    
+    
+    
 
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
@@ -52,16 +70,29 @@ class matrixTypeForm(forms.Form):
 
 ##---- storage type form ----##
 class storageTypeForm(forms.Form):
-    eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
+    eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=CustomRadioSelect())
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
 	if (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal') in self.fields['eigen_storageType'].choices:
 	    self.fields['eigen_storageType'].choices.remove((u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'))
 	if len(self.fields['eigen_storageType'].choices) == 1:
-		self.fields['eigen_storageType'].initial = self.fields['eigen_storageType'].choices[0][1]
+	    selected = self.fields['eigen_storageType'].choices[0][1]
+	    self.fields['eigen_storageType'].choices = (
+		(u'full',                       u'full'),
+		(u'band',                       u'band'),
+		(u'packed',                     u'packed'),
+		)
+	    self.fields['eigen_storageType'].initial = selected
+	#    for item in self.fields['eigen_storageType'].choices:
+	#	if item[1] != selected:
+	#	    print item
+	#	    item = item + ({'disabled': True},)
+	#	    print item
 
-
+	    self.fields['eigen_storageType'].widget.renderer.actives = [True, False]
+	    
+	    
 
 ##--- selected eigenvalue form ---##
 class selectedEVForm(forms.Form):
