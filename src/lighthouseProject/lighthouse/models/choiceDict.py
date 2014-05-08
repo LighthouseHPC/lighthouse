@@ -13,10 +13,10 @@ SINGLEDOUBLE_CHOICES = (
 
 
 EIGENPROBLEM_CHOICES = (
-	(u'eigen',				u'solve an eigenproblem'),
-	(u'Hessenberg',				u'reduce a matrix to upper Hessenberg form'),
-	(u'cndNumber_of_evtrs',			u'estimate condition numbers of eigenvectors'),
-	(u'balance',				u'balance matrix to improve eigenvalue accuracy'),
+	(u'eigen',				u'Solve an eigenproblem'),
+	(u'Hessenberg',				u'Reduce a matrix to upper Hessenberg form'),
+	(u'cndNumber_of_evtrs',			u'Estimate condition numbers of eigenvectors'),
+	(u'balance',				u'Balance matrix to improve eigenvalue accuracy'),
 )
 
 
