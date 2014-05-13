@@ -85,7 +85,7 @@ EIGENPROBLEM_CHOICES = (
 
 
 #####----------- for LAPACK SVD routines -------------#####
-EIGENPROBLEM_CHOICES = (
+SVD_CHOICES = (
 	(u'svd',				u'Computes singular value decomposition (SVD)'),
 	(u'bidiagonal',				u'Reduce a matrix to bidiagonal form'),
 )
