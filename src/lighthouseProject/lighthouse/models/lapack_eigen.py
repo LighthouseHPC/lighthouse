@@ -1,5 +1,5 @@
 from django.db import models
-from lighthouse.models.choiceDict import *
+from lighthouse.models.lapack_choiceDict import *
 from lighthouse.models.lapack_routineInfo import lapack_RoutineInfo
 
 

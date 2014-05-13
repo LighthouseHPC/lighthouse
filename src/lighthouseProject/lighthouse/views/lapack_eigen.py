@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from lighthouse.forms.lapack_eigen import *
 from lighthouse.models.lapack_eigen import lapack_eigen
-from lighthouse.models.choiceDict import *
+from lighthouse.models.lapack_choiceDict import *
 
 import datetime
 

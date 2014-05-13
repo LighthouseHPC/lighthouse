@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
-from lighthouse.models.choiceDict import *
+from lighthouse.models.lapack_choiceDict import *
 
 #####------- Allow disabling options in a RadioSelect widget ----------#####
 from django.utils.safestring import mark_safe
