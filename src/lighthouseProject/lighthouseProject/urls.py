@@ -32,6 +32,6 @@ urlpatterns = patterns('',
     (r'^dojango/', include('dojango.urls')),
 
     ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
-    url(r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
+    url(r'^lapack_eigen/', include('lighthouse.urls.lapack_eigen')),
     
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
