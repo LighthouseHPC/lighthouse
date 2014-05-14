@@ -248,7 +248,7 @@ def guidedSearch_selectedEV(request):
                     'results' : request.session['Routines']
         }
     else:
-        form = selectedEVFormForm()      
+        form = selectedEVForm()      
         context = {
                     'action': '/lapack_eigen/selectedEVForm/',
                     'formHTML': "invalid",
