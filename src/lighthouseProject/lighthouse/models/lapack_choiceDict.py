@@ -75,7 +75,7 @@ STANDARD_CHOICES = (
 
 #####----------- for LAPACK eigen routines -------------#####
 EIGENPROBLEM_CHOICES = (
-	(u'eigen',				u'Solve an eigenproblem'),
+	(u'eigen',				u'Solve an eigenproblem (i.e., diagonalize a matrix for eigenvalues/eigenvectors)'),
 	(u'Hessenberg',				u'Reduce a matrix to upper Hessenberg form'),
 	(u'cndNumber_of_evtrs',			u'Estimate condition numbers of eigenvectors'),
 	(u'balance',				u'Balance a general matrix to improve eigenvalue accuracy'),
@@ -86,6 +86,6 @@ EIGENPROBLEM_CHOICES = (
 
 #####----------- for LAPACK SVD routines -------------#####
 SVD_CHOICES = (
-	(u'svd',				u'Computes singular value decomposition (SVD)'),
+	(u'svd',				u'Computes singular value decomposition (SVD) of a matrix'),
 	(u'bidiagonal',				u'Reduce a matrix to bidiagonal form'),
 )
