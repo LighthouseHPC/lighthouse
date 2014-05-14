@@ -31,7 +31,8 @@ urlpatterns = patterns('',
     ### for dojango
     (r'^dojango/', include('dojango.urls')),
 
-    ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
+    ### for LAPACK routines -- link lighthouse/urls/lapack_*.py:
     url(r'^lapack_eigen/', include('lighthouse.urls.lapack_eigen')),
+    url(r'^lapack_svd/', include('lighthouse.urls.lapack_svd')),
     
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
