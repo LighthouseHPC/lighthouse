@@ -76,7 +76,7 @@ STANDARD_CHOICES = (
 
 #####----------- for LAPACK eigen routines -------------#####
 EIGENPROBLEM_CHOICES = (
-	(u'eigen',				u'Solve an eigenproblem (i.e., diagonalize a matrix for eigenvalues/eigenvectors)'),
+	(u'eigen',				u'Solve an eigenproblem (e.g. diagonalize a matrix to find eigenvalues)'),
 	(u'Hessenberg',				u'Reduce a matrix to upper Hessenberg form'),
 	(u'cndNumber_of_evtrs',			u'Estimate condition numbers of eigenvectors'),
 	(u'balance',				u'Balance a general matrix to improve eigenvalue accuracy'),
