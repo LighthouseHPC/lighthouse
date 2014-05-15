@@ -34,9 +34,11 @@ class LhServer(ForkingTCPServer, BTO_Server):
 
 HOST = 'localhost'
 PORT = 9999
+BTOdir = '/home/cookjj/bto'
+#BTOdir = '/homes/salin/Lighthouse/BTOServer/bto'
 USER = ['salin']
-req_id = strftime('%H-%M-%S',gmtime())
-BTOdir = '/homes/salin/Lighthouse/BTOServer/bto'
+req_id = strftime('%H-%M-%S', gmtime())
 
-svr = LhServer((HOST, PORT), LhRequestHandler,BTOdir, USER ,req_id)
+svr = LhServer((HOST, PORT), LhRequestHandler, BTOdir, USER, req_id)
 svr.serve_forever()
+

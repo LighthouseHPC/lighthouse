@@ -9,8 +9,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 
-# setting branches for deploying Django to the production server
-#if socket.gethostname() == 'cookie.mcs.anl.gov':
+### setting branches for deploying Django to the production server
+#if socket.gethostname() == 'lighthouse2.mcs.anl.gov':
 #    DEBUG = TEMPLATE_DEBUG = True
 #else:
 #    DEBUG = TEMPLATE_DEBUG = False
@@ -262,3 +262,6 @@ import logging
 #logging.basicConfig(level=logging.DEBUG)
 
 
+#Configuration of dojango
+#DOJANGO_DOJO_VERSION = "1.7.2"
+#DOJANGO_DOJO_THEME = "claro"    #default is "claro" -- "tundra", "soria", "nihilo"

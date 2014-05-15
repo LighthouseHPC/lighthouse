@@ -6,7 +6,7 @@ from utils import change_workdir, remove_workdir
 
 ########################################################################
 class BTO_Server(BaseServer):
-    
+
     def __init__(self, btodir, u ,r , btoblas='./bin/btoblas'):
         self.legal_options = '-e'
         self.legal_longoptions = ''
@@ -17,7 +17,7 @@ class BTO_Server(BaseServer):
 
 
 class BTORequestHandler(BaseServer):
-    
+
     def __init__(self, legal_options, legal_longoptions, u,r, btodir, btoblas):
         self.legal_options = legal_options
         self.legal_longoptions = legal_longoptions
@@ -50,7 +50,7 @@ class BTORequestHandler(BaseServer):
             files = self.recv_files(nfiles)
             filename = files[0]
 
-	    ###---- change dir to bto/ in order to execute ./bin/btiblas
+	    ###---- change dir to bto/ in order to execute ./bin/btoblas
             os.chdir(self.bto_dir)
             #print "Current folder is:", os.getcwd()			#/homes/salin/Lighthouse/BTOServer/bto
 	    #print ".m file location:", workdir + '/' +filename 	#/tmp/salin_xx-xx-xx/DGEM.m
@@ -79,10 +79,17 @@ class BTORequestHandler(BaseServer):
 	    else:
 		print "%s is not yet removed." %workdir
 
+	    ### delete bto's .dot files generated during run
+	    nolock = True
+	    if(nolock):
+	        os.chdir(self.bto_dir)
+	        dotfiles = glob.glob("*.dot")
+	        for dot in dotfiles:
+	            os.remove(dot)
 
     
 class BTO_Client(BaseClient):
-        
+
     def submit_request(self, host, port, user, options,file1):
         files = [file1]
-        BaseClient.submit_request(self, host, port, user, options, files)       
+        BaseClient.submit_request(self, host, port, user, options, files)
