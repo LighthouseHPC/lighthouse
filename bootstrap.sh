@@ -15,7 +15,7 @@ echo "Using python $pythonexec2"
 echo "Installing Whoosh"
 sudo $pythonexec "whoosh==2.5.5"
 echo "Installing Haystack"
-sudo $pythonexec "django-haystack==2.1.1"
+sudo $pythonexec "django-haystack==2.1"
 echo "Installing Dajaxice"
 sudo $pythonexec django_dajaxice
 echo "Installing Dajax"
