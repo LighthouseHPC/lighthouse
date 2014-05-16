@@ -28,16 +28,17 @@ def question_and_answer(form, value, choices):
 
 ## ------------------------- show question order for different problem types -----------------------------------------------##
 #eigenForm_order = {
-#    'symmetric':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'Hermitian':        ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'SPD':              ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'HPD':              ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],    
-#    'upper Hessenberg': ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'general':          ['complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm'],
+#    'symmetric':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
+#    'Hermitian':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
+#    'SPD':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
+#    'HPD':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],    
+#    'upper Hessenberg': ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
+#    'general':          ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm'],
 #    }
 
 
 #HessenbergForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'thePrecision']
+#generalized_to_standard_order = ['complexNumber', 'matrixType', 'storageType', 'thePrecision']
 #conditionNumberForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'thePrecision']
 #balanceForm_order = ['standardGeneralized', 'complexNumber', 'storageType', 'thePrecision']
 ## ------------------------------------------------------------------------------------------------------------------------##
@@ -65,12 +66,23 @@ def guidedSearch_problem(request):
     if form.is_valid(): # All validation rules pass
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], EIGENPROBLEM_CHOICES)) #get previous question & answer
         request.session['eigen_problem'] = form.cleaned_data['eigen_prob']
-        request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])    
+        request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])
+        
+        if request.session['eigen_problem'] == 'generalized_to_standard':
+            nextForm = complexNumberForm()
+            action = '/lapack_eigen/complexNumber/'
+            formHTML = "invalid"
+            form = nextForm
+        else:
+            nextForm = standardGeneralizedForm()
+            action = '/lapack_eigen/standardGeneralized/'
+            formHTML = 'standardGeneralizedForm'
+            form = "invalid"
                
         context = {
-                    'action': '/lapack_eigen/standardGeneralized/',
-                    'formHTML': "standardGeneralizedForm",
-                    'form': "invalid",
+                    'action': action,
+                    'formHTML': formHTML,
+                    'form': form,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
@@ -199,7 +211,7 @@ def guidedSearch_storageType(request):
         request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
         request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])    
         
-        if request.session['eigen_problem'] in ['Hessenberg', 'balance']:
+        if request.session['eigen_problem'] in ['Hessenberg', 'generalized_to_standard', 'balance']:
             nextForm = thePrecisionForm()
             action = '/lapack_eigen/thePrecision/'
             

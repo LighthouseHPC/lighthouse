@@ -60,8 +60,8 @@
         </td>
         <td>
             <label for="id_eigen_prob_2">
-                <input type="radio" id="id_eigen_prob_2" value="cndNumber_of_evtrs" name="eigen_prob" />
-                Estimate condition numbers of eigenvectors 
+                <input type="radio" id="id_eigen_prob_2" value="generalized_to_standard" name="eigen_prob" />
+                Reduce a generalized eigenproblem to standard form
             </label>
         </td>
         <td>
@@ -74,7 +74,21 @@
         </td>
         <td>
             <label for="id_eigen_prob_3">
-                <input type="radio" id="id_eigen_prob_3" value="balance" name="eigen_prob" />
+                <input type="radio" id="id_eigen_prob_3" value="cndNumber_of_evtrs" name="eigen_prob" />
+                Estimate condition numbers of eigenvectors 
+            </label>
+        </td>
+        <td>
+            <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            5.
+        </td>
+        <td>
+            <label for="id_eigen_prob_4">
+                <input type="radio" id="id_eigen_prob_4" value="balance" name="eigen_prob" />
                 Balance a <em>general</em> matrix to improve eigenvalue accuracy 
             </label>
         </td>
@@ -82,20 +96,7 @@
             <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
         </td>
     </tr>
-<!--        <tr>
-        <td>
-            5.
-        </td>
-        <td>
-            <label for="id_eigen_prob_4">
-                <input type="radio" id="id_eigen_prob_4" value="balance" name="eigen_prob" />
-                balance matrix to improve eigenvalue accuracy
-            </label>
-        </td>
-        <td>
-            <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
-        </td>
-    </tr>-->
+
 <!--        <tr>
         <td>
             6.

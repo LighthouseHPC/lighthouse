@@ -11,6 +11,8 @@ MATRIX_CHOICES = (
         (u'HPsD',                       	u'HPsD'),
         (u'upper Hessenberg',           	u'upper Hessenberg'),
         (u'block upper triangular',     	u'block upper triangular'),
+	(u'symmetric-definite',			u'symmetric-definite'),
+	(u'Hermitian-definite',			u'Hermitian-definite'),
         )
 
 
@@ -78,6 +80,7 @@ STANDARD_CHOICES = (
 EIGENPROBLEM_CHOICES = (
 	(u'eigen',				u'Solve an eigenproblem (e.g. diagonalize a matrix to find eigenvalues)'),
 	(u'Hessenberg',				u'Reduce a matrix to upper Hessenberg form'),
+	(u'generalized_to_standard',		u'Reduce a generalized eigenproblem to standard form'),
 	(u'cndNumber_of_evtrs',			u'Estimate condition numbers of eigenvectors'),
 	(u'balance',				u'Balance a general matrix to improve eigenvalue accuracy'),
 )
