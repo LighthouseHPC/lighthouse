@@ -173,6 +173,7 @@ INSTALLED_APPS = (
     'haystack',
     'dojango',
     'taggit',
+    'django_extensions',
     
     #For dajax
     'dajaxice',

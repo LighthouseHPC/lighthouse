@@ -1,13 +1,19 @@
 #!/bin/bash
 
+dj_root = "/Applications"
+
+if [ "$(uname)" == "Linux" ]; then
+    dj_root = "/opt" # django installed here by default
+fi
+
 pythonexec=easy_install
 pythonexec2=python
-dsversion=`ls /Applications | grep djangostack | sed -e 's|djangostack-\(.*\)/|\1|'`
-echo "Checking for python in /Applications/$dsversion/python/bin"
-if [ -e /Applications/$dsversion/python/bin/easy_install ]; then 
-  # Using djangostack
-  pythonexec=/Applications/$dsversion/python/bin/easy_install
-  pythonexec2=/Applications/$dsversion/python/bin/python
+dsversion=`ls $dj_root | grep djangostack | sed -e 's|djangostack-\(.*\)/|\1|'`
+echo "Checking for python in $dj_root/$dsversion/python/bin"
+if [ -e $dj_root/$dsversion/python/bin/easy_install ]; then 
+  # Using djangostack executables
+  pythonexec=$dj_root/$dsversion/python/bin/easy_install
+  pythonexec2=$dj_root/$dsversion/python/bin/python
 fi
 
 echo "Using python $pythonexec2"
@@ -22,6 +28,11 @@ echo "Installing Dajax"
 sudo $pythonexec django_dajax
 echo "Installing django_taggit"
 sudo $pythonexec django_taggit
+echo "Installing django-extensions"
+sudo $pythonexec django-extensions
+
+echo "(Please run manage.py syncdb to seed database if necessary.)"
+echo "(Run src/Dlighthouse/lighthouse/libraries/lapack_le/databaseMng/databaseLoad.py if necessary.)"
 
 # No longer needed for now (while using the sqlite3 db for demo purposes)
 #echo ""; echo "--------------------------------------------------------"; 
