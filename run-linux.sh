@@ -46,7 +46,7 @@ checkCmd() {
 }
 
 # Linux install path for djangostack
-appRoot=/opt
+appRoot=~
 
 pythonexec=python
 
