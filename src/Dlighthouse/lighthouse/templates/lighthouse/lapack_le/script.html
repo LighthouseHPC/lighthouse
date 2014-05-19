@@ -47,14 +47,28 @@
                                     missingMessage="Ooops!  You forgot your equation!" /> -->                           
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>
+                            <label for="scriptEqApplication"><strong>(Optional) What will you use this for?:</strong>
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="scriptEqApplication" required="true" name="scriptEqApplication"
+                                      cols="30" rows="4"></textarea>
+                        </td>
+                    </tr>
+
+
+
                     <tr>
                         <td align="left">
-                            <button class="scriptButton" type="reset" onclick="clearKernelEquation()";>
+                            <button class="scriptButton" type="reset" onclick="clearKernelEquation();">
                                 Reset
                             </button>
                         </td>
                         <td align="right">
-                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation()";>
+                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation();">
                                 Check Script
                             </button>
                         </td>
@@ -68,7 +82,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="right">
-                            <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none;" onclick="runScript();">
+                            <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none" onclick="runScript();">
                                Generate Code with BTO
                             </button>
                         </td>
@@ -76,7 +90,7 @@
                 </table>
             </td>
             <td valign="top">
-                <pre id="script_output" class="brush:cpp;"></pre>
+                <pre id="script_output" class="brush:cpp"></pre>
             </td>
         </tr>
     </table>

@@ -131,7 +131,9 @@ def make_mfile(request, paramProperty):
 		print 'bto.submitToBTO(','%s.m'%paramProperty['kernelName'],')'
 		
 	try:
-		dajax.assign("#script_output", 'innerHTML', output)
+		outputls = output.replace("<", "&lt;")
+		outputls = outputls.replace(">", "&gt;")
+		dajax.assign("#script_output", 'innerHTML', outputls)
 		dajax.script('SyntaxHighlighter.highlight()')
 		f = open("%s/static/download/script/%s.c"%(defaultDir, paramProperty['kernelName']),"w")
 		f.write(output)
