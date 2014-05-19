@@ -16,7 +16,7 @@ import datetime
 
 ######--------- Guided Search --------- ######
 
-## help function
+## help functions
 def question_and_answer(form, value, choices):
     for field in form:
         question = unicode(field.label)
@@ -26,6 +26,22 @@ def question_and_answer(form, value, choices):
     return {question: [answer]}
     
 
+
+
+def find_next_form(current_form, request):
+    form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm',)
+                  #'eigenvectorForm', 'cndN_eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm')
+    
+    current_index = form_order.index(current_form)
+    next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() != 0)
+    next_form = getattr(sys.modules[__name__], form_order[next_index])()
+    print next_form
+    
+    
+
+        
+    
+    
 ## ------------------------- show question order for different problem types -----------------------------------------------##
 #eigenForm_order = {
 #    'symmetric':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
@@ -67,6 +83,8 @@ def guidedSearch_problem(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], EIGENPROBLEM_CHOICES)) #get previous question & answer
         request.session['eigen_problem'] = form.cleaned_data['eigen_prob']
         request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])
+         
+        find_next_form(type(form).__name__, request)
         
         if request.session['eigen_problem'] == 'generalized_to_standard':
             nextForm = complexNumberForm()
