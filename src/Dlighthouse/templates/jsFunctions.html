@@ -859,13 +859,13 @@
 			equationList = equation.split("\n");
 			
 			// find the index of '=' in EACH equation
-			for (var i=0; i<equationList.length; i++){
-				if (equationList[i].indexOf('=') == -1)
-				{
-				  alert("No equal sign in equation "+(i+1)+": "+equationList[i]+".");
-				}
-				else
-					positionEqualArray.push(indexEqual(equationList[i]));
+			for (var i=0; i < equationList.length; i++){
+                if (/\S/.test(equationList[i])) { // added check to skip blank/whitespace lines
+			    	if (equationList[i].indexOf('=') == -1) {
+    				  alert("No equal sign in equation "+(i+1)+": "+equationList[i]+".");
+	        		} else
+				    	positionEqualArray.push(indexEqual(equationList[i]));
+                }
 			}
 			
 			
