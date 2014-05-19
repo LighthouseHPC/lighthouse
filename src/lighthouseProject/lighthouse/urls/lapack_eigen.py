@@ -13,7 +13,7 @@ urlpatterns = patterns('lighthouse.views.lapack_eigen',
     url(r'^eigenvector/$', "guidedSearch_eigenvector", name="guidedSearch_eigenvector"),
     url(r'^schur/$', "guidedSearch_schur", name="guidedSearch_schur"),
     url(r'^cndNumber/$', "guidedSearch_cndNumber", name="guidedSearch_cndNumber"),
-    url(r'^thePrecision/$', "guidedSearch_thePrecision", name="guidedSearch_thePrecision"),
+    url(r'^singleDouble/$', "guidedSearch_singleDouble", name="guidedSearch_singleDouble"),
 
     #url(r'^clear_session/$', "eigen_clear_session"),  
     #url(r'^update_session/$', "eigen_update_session"),

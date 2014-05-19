@@ -123,16 +123,6 @@ class eigenvectorForm(forms.Form):
 					      )
     
     
-     
-     
-##--- condition numbers for eigenvectors form ---##
-class cndN_eigenvectorForm(forms.Form):
-    eigen_cndN_eigenvector = forms.ChoiceField(label='Would you like to compute the reciprocal condition numbers for the eigenvectors?',
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
-    
-    
          
 ##--- eigenvectors or Schur form ---##
 class schurForm(forms.Form):
@@ -152,8 +142,8 @@ class cndNumberForm(forms.Form):
     
     
 ##--- precision form ---##
-class thePrecisionForm(forms.Form):
-    eigen_thePrecision = forms.ChoiceField(label='Would you like to use single or double precision?',
+class singleDoubleForm(forms.Form):
+    eigen_singleDouble = forms.ChoiceField(label='Would you like to use single or double precision?',
 					      widget=forms.RadioSelect(),
 					      choices=SINGLEDOUBLE_CHOICES
 					      )

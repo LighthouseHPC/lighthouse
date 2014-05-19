@@ -29,8 +29,8 @@ def question_and_answer(form, value, choices):
 
 
 def find_next_form(current_form, request):
-    form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm',)
-                  #'eigenvectorForm', 'cndN_eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm')
+    form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm',
+                  'selectedEVForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm')
     
     current_index = form_order.index(current_form)
     next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() != 0)
@@ -44,19 +44,19 @@ def find_next_form(current_form, request):
     
 ## ------------------------- show question order for different problem types -----------------------------------------------##
 #eigenForm_order = {
-#    'symmetric':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'Hermitian':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'SPD':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'HPD':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],    
-#    'upper Hessenberg': ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'thePrecisionForm'],
-#    'general':          ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'thePrecisionForm'],
+#    'symmetric':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'singleDoubleForm'],
+#    'Hermitian':        ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'singleDoubleForm'],
+#    'SPD':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'singleDoubleForm'],
+#    'HPD':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'singleDoubleForm'],    
+#    'upper Hessenberg': ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'singleDoubleForm'],
+#    'general':          ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm'],
 #    }
 
 
-#HessenbergForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'thePrecision']
-#generalized_to_standard_order = ['complexNumber', 'matrixType', 'storageType', 'thePrecision']
-#conditionNumberForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'thePrecision']
-#balanceForm_order = ['standardGeneralized', 'complexNumber', 'storageType', 'thePrecision']
+#HessenbergForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'singleDouble']
+#generalized_to_standard_order = ['complexNumber', 'matrixType', 'storageType', 'singleDouble']
+#conditionNumberForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'singleDouble']
+#balanceForm_order = ['standardGeneralized', 'complexNumber', 'storageType', 'singleDouble']
 ## ------------------------------------------------------------------------------------------------------------------------##
 
 
@@ -194,8 +194,8 @@ def guidedSearch_matrixType(request):
         request.session['Routines'] = request.session['Routines'].filter(matrixType=form.cleaned_data['eigen_matrixType'])
         
         if request.session['eigen_problem'] == 'cndNumber_of_evtrs':
-            nextForm = thePrecisionForm()
-            action = '/lapack_eigen/thePrecision/'
+            nextForm = singleDoubleForm()
+            action = '/lapack_eigen/singleDouble/'
         else:
             nextForm = storageTypeForm(request)
             action = '/lapack_eigen/storageType/'
@@ -230,8 +230,8 @@ def guidedSearch_storageType(request):
         request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])    
         
         if request.session['eigen_problem'] in ['Hessenberg', 'generalized_to_standard', 'balance']:
-            nextForm = thePrecisionForm()
-            action = '/lapack_eigen/thePrecision/'
+            nextForm = singleDoubleForm()
+            action = '/lapack_eigen/singleDouble/'
             
         else:
             if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
@@ -307,8 +307,8 @@ def guidedSearch_eigenvector(request):
             nextForm = cndNumberForm()
             action = '/lapack_eigen/cndNumber/'            
         else:        
-            nextForm = thePrecisionForm()
-            action = '/lapack_eigen/thePrecision/'            
+            nextForm = singleDoubleForm()
+            action = '/lapack_eigen/singleDouble/'            
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -368,9 +368,9 @@ def guidedSearch_cndNumber(request):
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_cndNumber'], form.fields['eigen_cndNumber'].choices))
         request.session['eigen_cndNumberForm'] = form.cleaned_data['eigen_cndNumber']
         request.session['Routines'] = request.session['Routines'].filter(cndNumber=form.cleaned_data['eigen_cndNumber'])        
-        nextForm = thePrecisionForm()        
+        nextForm = singleDoubleForm()        
         context = {
-                    'action': '/lapack_eigen/thePrecision/',
+                    'action': '/lapack_eigen/singleDouble/',
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -392,20 +392,12 @@ def guidedSearch_cndNumber(request):
 
 ## 'precision' question answered
 @csrf_exempt
-def guidedSearch_thePrecision(request):
-    form = thePrecisionForm(request.POST or None) 
+def guidedSearch_singleDouble(request):
+    form = singleDoubleForm(request.POST or None) 
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_thePrecision'], form.fields['eigen_thePrecision'].choices))
-        request.session['eigen_thePrecisionForm'] = form.cleaned_data['eigen_thePrecision']
-        
-        if request.session['eigen_complexNumber'] == 'no' and request.session['eigen_thePrecisionForm'] == 'single':
-            request.session['Routines'] = request.session['Routines'].filter(thePrecision='s')
-        elif request.session['eigen_complexNumber'] == 'no' and request.session['eigen_thePrecisionForm'] == 'double':
-            request.session['Routines'] = request.session['Routines'].filter(thePrecision='d')
-        elif request.session['eigen_complexNumber'] == 'yes' and request.session['eigen_thePrecisionForm'] == 'single':
-            request.session['Routines'] = request.session['Routines'].filter(thePrecision='c')
-        else:
-            request.session['Routines'] = request.session['Routines'].filter(thePrecision='z')
+        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_singleDouble'], form.fields['eigen_singleDouble'].choices))
+        request.session['eigen_singleDoubleForm'] = form.cleaned_data['eigen_singleDouble']
+        request.session['Routines'] = request.session['Routines'].filter(singleDouble=form.cleaned_data['eigen_singleDouble'])
             
         context = {                             ### not pass 'action' to end the form
                     'formHTML': "invalid",
@@ -413,9 +405,9 @@ def guidedSearch_thePrecision(request):
                     'results' : request.session['Routines']
         }
     else:
-        form = thePrecisionForm()
+        form = singleDoubleForm()
         context = {
-                    'action': '/lapack_eigen/thePrecision/',
+                    'action': '/lapack_eigen/singleDouble/',
                     'formHTML': "invalid",
                     'form': form,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
