@@ -33,7 +33,7 @@ class CustomRadioSelect(forms.widgets.RadioSelect):
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
 class problemForm(forms.Form):
-    eigen_prob = forms.ChoiceField(label='Which of the following problems would you like to compute?',
+    eigen_problem = forms.ChoiceField(label='Which of the following problems would you like to compute?',
 					      widget=forms.RadioSelect(),
 					      choices=EIGENPROBLEM_CHOICES
 					      )    

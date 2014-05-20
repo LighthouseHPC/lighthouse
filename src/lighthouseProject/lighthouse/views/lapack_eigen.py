@@ -32,18 +32,18 @@ def find_next_form(current_form, request):
     form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm',
                   'selectedEVForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm')
     
-    current_index = form_order.index(current_form)
-    
+    current_index = form_order.index(current_form)   
     next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
+    nextForm_name = form_order[next_index]
     
-    if form_order[next_index] in['matrixTypeForm', 'storageTypeForm',]:
-        next_form = getattr(sys.modules[__name__], form_order[next_index])(request)
+    if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
+        next_form = getattr(sys.modules[__name__], nextForm_name)(request)
     else:
-        next_form = getattr(sys.modules[__name__], form_order[next_index])()
+        next_form = getattr(sys.modules[__name__], nextForm_name)()
         
-    action = '/lapack_eigen/'+form_order[next_index][:-4]+'/'
+    action = '/lapack_eigen/'+nextForm_name[:-4]+'/'
         
-    return {'action': action, 'nextForm': next_form}
+    return {'action': action, 'nextForm_name': nextForm_name, 'nextForm': next_form}
     
 ## ------------------------- show question order for different problem types -----------------------------------------------##
 #eigenForm_order = {
@@ -70,6 +70,7 @@ def find_next_form(current_form, request):
 ## index page
 def guidedSearch_index(request):
     request.session['eigen_guided_answered'] = OrderedDict()
+    request.session['currentForm_name'] = 'problemForm'
     context = {
                 'action': '/lapack_eigen/problem/',
                 'formHTML': "problemForm",
@@ -84,25 +85,22 @@ def guidedSearch_index(request):
 ## 'problem' question answered
 @csrf_exempt
 def guidedSearch_problem(request):
-    form = problemForm(request.POST or None)              #handle GET and POST in the same view
+    #form = problemForm(request.POST or None)              #handle GET and POST in the same view
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
     if form.is_valid(): # All validation rules pass
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_prob'], EIGENPROBLEM_CHOICES)) #get previous question & answer
-        request.session['eigen_problem'] = form.cleaned_data['eigen_prob']
-        request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])
+        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_problem'], EIGENPROBLEM_CHOICES)) #get previous question & answer
+        request.session['eigen_problem'] = form.cleaned_data['eigen_problem']
+        request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_problem'])
          
         action = find_next_form(type(form).__name__, request)['action']
         nextForm = find_next_form(type(form).__name__, request)['nextForm']
         
+        request.session['currentForm_name'] = find_next_form(type(form).__name__, request)['nextForm_name']
+        
         if request.session['eigen_problem'] == 'generalized_to_standard':
-        #    nextForm = complexNumberForm()
-        #    action = '/lapack_eigen/complexNumber/'
             formHTML = "invalid"
-        #    form = nextForm
         else:
-        #    nextForm = standardGeneralizedForm()
-        #    action = '/lapack_eigen/standardGeneralized/'
             formHTML = 'standardGeneralizedForm'
-        #    form = "invalid"
                
         context = {
                     'action': action,
@@ -127,7 +125,8 @@ def guidedSearch_problem(request):
 ## 'standard/generalized' question answered
 @csrf_exempt
 def guidedSearch_standardGeneralized(request):
-    form = standardGeneralizedForm(request.POST or None)              #handle GET and POST in the same view 
+    #form = standardGeneralizedForm(request.POST or None)              #handle GET and POST in the same view
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
     if form.is_valid(): # All validation rules pass
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_standardGeneralized'], STANDARD_CHOICES)) #get previous question & answer
         request.session['eigen_standardGeneralized'] = form.cleaned_data['eigen_standardGeneralized']
