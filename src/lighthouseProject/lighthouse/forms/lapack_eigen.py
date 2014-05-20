@@ -83,9 +83,15 @@ class storageTypeForm(forms.Form):
 	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
 	disableList = []
 	
-	##--- remove the choice full/packed/band/tridiagonal ---##
+	##--- handle the choice full/packed/band/tridiagonal ---##
 	if (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal') in self.fields['eigen_storageType'].choices:
+	    for item in 'full/packed/band/tridiagonal'.split('/'):
+		self.fields['eigen_storageType'].choices = self.fields['eigen_storageType'].choices+ [(item.decode('unicode-escape'), item.decode('unicode-escape')),]
 	    self.fields['eigen_storageType'].choices.remove((u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'))
+	    self.fields['eigen_storageType'].choices = list(set(self.fields['eigen_storageType'].choices))
+	    
+	##--- order choices by string length ---##
+	self.fields['eigen_storageType'].choices.sort(key=lambda k:len(k[1]))
 	    
 	##--- if there is only one choice, show the others but disable them ---##
 	if len(self.fields['eigen_storageType'].choices) == 1:
