@@ -33,14 +33,17 @@ def find_next_form(current_form, request):
                   'selectedEVForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm')
     
     current_index = form_order.index(current_form)
-    next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() != 0)
-    next_form = getattr(sys.modules[__name__], form_order[next_index])()
-    print next_form
     
+    next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
     
-
+    if form_order[next_index] in['matrixTypeForm', 'storageTypeForm',]:
+        next_form = getattr(sys.modules[__name__], form_order[next_index])(request)
+    else:
+        next_form = getattr(sys.modules[__name__], form_order[next_index])()
         
-    
+    action = '/lapack_eigen/'+form_order[next_index][:-4]+'/'
+        
+    return {'action': action, 'nextForm': next_form}
     
 ## ------------------------- show question order for different problem types -----------------------------------------------##
 #eigenForm_order = {
@@ -58,6 +61,9 @@ def find_next_form(current_form, request):
 #conditionNumberForm_order = ['standardGeneralized', 'complexNumber', 'matrixType', 'singleDouble']
 #balanceForm_order = ['standardGeneralized', 'complexNumber', 'storageType', 'singleDouble']
 ## ------------------------------------------------------------------------------------------------------------------------##
+
+
+
 
 
 
@@ -84,23 +90,24 @@ def guidedSearch_problem(request):
         request.session['eigen_problem'] = form.cleaned_data['eigen_prob']
         request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_prob'])
          
-        find_next_form(type(form).__name__, request)
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
         
         if request.session['eigen_problem'] == 'generalized_to_standard':
-            nextForm = complexNumberForm()
-            action = '/lapack_eigen/complexNumber/'
+        #    nextForm = complexNumberForm()
+        #    action = '/lapack_eigen/complexNumber/'
             formHTML = "invalid"
-            form = nextForm
+        #    form = nextForm
         else:
-            nextForm = standardGeneralizedForm()
-            action = '/lapack_eigen/standardGeneralized/'
+        #    nextForm = standardGeneralizedForm()
+        #    action = '/lapack_eigen/standardGeneralized/'
             formHTML = 'standardGeneralizedForm'
-            form = "invalid"
+        #    form = "invalid"
                
         context = {
                     'action': action,
                     'formHTML': formHTML,
-                    'form': form,
+                    'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
@@ -124,10 +131,14 @@ def guidedSearch_standardGeneralized(request):
     if form.is_valid(): # All validation rules pass
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_standardGeneralized'], STANDARD_CHOICES)) #get previous question & answer
         request.session['eigen_standardGeneralized'] = form.cleaned_data['eigen_standardGeneralized']
-        request.session['Routines'] = request.session['Routines'].filter(standardGeneralized = form.cleaned_data['eigen_standardGeneralized'])    
-        nextForm = complexNumberForm()        
+        request.session['Routines'] = request.session['Routines'].filter(standardGeneralized = form.cleaned_data['eigen_standardGeneralized'])
+        
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        #nextForm = complexNumberForm()        
         context = {
-                    'action': '/lapack_eigen/complexNumber/',
+                    'action': action,
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -154,15 +165,19 @@ def guidedSearch_complexNumber(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_complexNumber'], (('no','no'),('yes','yes'),)))    
         request.session['eigen_complexNumber'] = form.cleaned_data['eigen_complexNumber']
-
         request.session['Routines'] = request.session['Routines'].filter(complexNumber = form.cleaned_data['eigen_complexNumber'])
-            
-        if request.session['eigen_problem'] == 'balance':
-            nextForm = storageTypeForm(request)
-            action = '/lapack_eigen/storageType/'
-        else:
-            nextForm = matrixTypeForm(request)
-            action = '/lapack_eigen/matrixType/'
+
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        #find_next_form(type(form).__name__, request)
+        #    
+        #if request.session['eigen_problem'] == 'balance':
+        #    nextForm = storageTypeForm(request)
+        #    action = '/lapack_eigen/storageType/'
+        #else:
+        #    nextForm = matrixTypeForm(request)
+        #    action = '/lapack_eigen/matrixType/'
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -193,12 +208,17 @@ def guidedSearch_matrixType(request):
         request.session['eigen_matrixType'] = form.cleaned_data['eigen_matrixType']
         request.session['Routines'] = request.session['Routines'].filter(matrixType=form.cleaned_data['eigen_matrixType'])
         
-        if request.session['eigen_problem'] == 'cndNumber_of_evtrs':
-            nextForm = singleDoubleForm()
-            action = '/lapack_eigen/singleDouble/'
-        else:
-            nextForm = storageTypeForm(request)
-            action = '/lapack_eigen/storageType/'
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        #find_next_form(type(form).__name__, request)
+        #
+        #if request.session['eigen_problem'] == 'cndNumber_of_evtrs':
+        #    nextForm = singleDoubleForm()
+        #    action = '/lapack_eigen/singleDouble/'
+        #else:
+        #    nextForm = storageTypeForm(request)
+        #    action = '/lapack_eigen/storageType/'
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -227,19 +247,25 @@ def guidedSearch_storageType(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_storageType'], form.fields['eigen_storageType'].choices))
         request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
-        request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])    
+        request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])
         
-        if request.session['eigen_problem'] in ['Hessenberg', 'generalized_to_standard', 'balance']:
-            nextForm = singleDoubleForm()
-            action = '/lapack_eigen/singleDouble/'
-            
-        else:
-            if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
-                nextForm = selectedEVForm()
-                action = '/lapack_eigen/selectedEV/'
-            else:
-                nextForm = eigenvectorForm()
-                action = '/lapack_eigen/eigenvector/'            
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        
+        #find_next_form(type(form).__name__, request)
+        #
+        #if request.session['eigen_problem'] in ['Hessenberg', 'generalized_to_standard', 'balance']:
+        #    nextForm = singleDoubleForm()
+        #    action = '/lapack_eigen/singleDouble/'
+        #    
+        #else:
+        #    if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
+        #        nextForm = selectedEVForm()
+        #        action = '/lapack_eigen/selectedEV/'
+        #    else:
+        #        nextForm = eigenvectorForm()
+        #        action = '/lapack_eigen/eigenvector/'            
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -268,10 +294,17 @@ def guidedSearch_selectedEV(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_selectedEV'], form.fields['eigen_selectedEV'].choices))
         request.session['eigen_selectedEVForm'] = form.cleaned_data['eigen_selectedEV']
-        request.session['Routines'] = request.session['Routines'].filter(selectedEV=form.cleaned_data['eigen_selectedEV'])   
-        nextForm = eigenvectorForm()
+        request.session['Routines'] = request.session['Routines'].filter(selectedEV=form.cleaned_data['eigen_selectedEV'])
+        
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        
+        #find_next_form(type(form).__name__, request)
+        #
+        #nextForm = eigenvectorForm()
         context = {
-                    'action': '/lapack_eigen/eigenvector/',
+                    'action': action,
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -337,10 +370,17 @@ def guidedSearch_schur(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_schur'], form.fields['eigen_schur'].choices))
         request.session['eigen_schurForm'] = form.cleaned_data['eigen_schur']
-        request.session['Routines'] = request.session['Routines'].filter(schur=form.cleaned_data['eigen_schur'])       
-        nextForm = cndNumberForm()           
+        request.session['Routines'] = request.session['Routines'].filter(schur=form.cleaned_data['eigen_schur'])
+        
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        
+        #find_next_form(type(form).__name__, request)
+        #
+        #nextForm = cndNumberForm()           
         context = {
-                    'action': '/lapack_eigen/cndNumber/',
+                    'action': action,
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -367,10 +407,16 @@ def guidedSearch_cndNumber(request):
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_cndNumber'], form.fields['eigen_cndNumber'].choices))
         request.session['eigen_cndNumberForm'] = form.cleaned_data['eigen_cndNumber']
-        request.session['Routines'] = request.session['Routines'].filter(cndNumber=form.cleaned_data['eigen_cndNumber'])        
-        nextForm = singleDoubleForm()        
+        request.session['Routines'] = request.session['Routines'].filter(cndNumber=form.cleaned_data['eigen_cndNumber'])
+
+        action = find_next_form(type(form).__name__, request)['action']
+        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        
+        #find_next_form(type(form).__name__, request)
+        #
+        #nextForm = singleDoubleForm()        
         context = {
-                    'action': '/lapack_eigen/singleDouble/',
+                    'action': action,
                     'formHTML': "invalid",
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
