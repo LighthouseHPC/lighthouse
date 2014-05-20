@@ -84,23 +84,30 @@ def guidedSearch_index(request):
 
 ## 'problem' question answered
 @csrf_exempt
-def guidedSearch_problem(request):
-    #form = problemForm(request.POST or None)              #handle GET and POST in the same view
-    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
-    if form.is_valid(): # All validation rules pass
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_problem'], EIGENPROBLEM_CHOICES)) #get previous question & answer
-        request.session['eigen_problem'] = form.cleaned_data['eigen_problem']
-        request.session['Routines'] = lapack_eigen.objects.filter(problem=form.cleaned_data['eigen_problem'])
+def guidedSearch_problem(request):             
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)   #handle GET and POST in the same view
+    if form.is_valid():  # All validation rules pass
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
+        
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = lapack_eigen.objects.filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
+        
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
          
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name
         
-        request.session['currentForm_name'] = find_next_form(type(form).__name__, request)['nextForm_name']
-        
-        if request.session['eigen_problem'] == 'generalized_to_standard':
+        if request.session['eigen_problem'] in ['generalized_to_standard']:
             formHTML = "invalid"
         else:
-            formHTML = 'standardGeneralizedForm'
+            formHTML = nextForm_name
                
         context = {
                     'action': action,
@@ -125,17 +132,24 @@ def guidedSearch_problem(request):
 ## 'standard/generalized' question answered
 @csrf_exempt
 def guidedSearch_standardGeneralized(request):
-    #form = standardGeneralizedForm(request.POST or None)              #handle GET and POST in the same view
     form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
     if form.is_valid(): # All validation rules pass
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_standardGeneralized'], STANDARD_CHOICES)) #get previous question & answer
-        request.session['eigen_standardGeneralized'] = form.cleaned_data['eigen_standardGeneralized']
-        request.session['Routines'] = request.session['Routines'].filter(standardGeneralized = form.cleaned_data['eigen_standardGeneralized'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
         
-        #nextForm = complexNumberForm()        
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name       
         context = {
                     'action': action,
                     'formHTML': "invalid",
