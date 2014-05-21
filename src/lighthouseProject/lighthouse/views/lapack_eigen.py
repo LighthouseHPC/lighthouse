@@ -71,6 +71,7 @@ def find_next_form(current_form, request):
 def guidedSearch_index(request):
     request.session['eigen_guided_answered'] = OrderedDict()
     request.session['currentForm_name'] = 'problemForm'
+    request.session['Routines'] = lapack_eigen.objects.all()
     context = {
                 'action': '/lapack_eigen/problem/',
                 'formHTML': "problemForm",
@@ -93,7 +94,7 @@ def guidedSearch_problem(request):
         choices = form.fields[formField_name].choices
         
         request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
-        request.session['Routines'] = lapack_eigen.objects.filter(**{noForm_name: value})   #search
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
         request.session[formField_name] = value
         
         dict_nextQuestion = find_next_form(type(form).__name__, request)  
@@ -174,23 +175,24 @@ def guidedSearch_standardGeneralized(request):
 ## 'complex number' question answered
 @csrf_exempt
 def guidedSearch_complexNumber(request):
-    form = complexNumberForm(request.POST or None) 
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None) 
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_complexNumber'], (('no','no'),('yes','yes'),)))    
-        request.session['eigen_complexNumber'] = form.cleaned_data['eigen_complexNumber']
-        request.session['Routines'] = request.session['Routines'].filter(complexNumber = form.cleaned_data['eigen_complexNumber'])
-
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        #find_next_form(type(form).__name__, request)
-        #    
-        #if request.session['eigen_problem'] == 'balance':
-        #    nextForm = storageTypeForm(request)
-        #    action = '/lapack_eigen/storageType/'
-        #else:
-        #    nextForm = matrixTypeForm(request)
-        #    action = '/lapack_eigen/matrixType/'
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
+        
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -215,23 +217,24 @@ def guidedSearch_complexNumber(request):
 ## 'matrix type' question answered
 @csrf_exempt
 def guidedSearch_matrixType(request):
-    form = matrixTypeForm(request, request.POST or None)
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.POST or None)
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_matrixType'], form.fields['eigen_matrixType'].choices))
-        request.session['eigen_matrixType'] = form.cleaned_data['eigen_matrixType']
-        request.session['Routines'] = request.session['Routines'].filter(matrixType=form.cleaned_data['eigen_matrixType'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
         
-        #find_next_form(type(form).__name__, request)
-        #
-        #if request.session['eigen_problem'] == 'cndNumber_of_evtrs':
-        #    nextForm = singleDoubleForm()
-        #    action = '/lapack_eigen/singleDouble/'
-        #else:
-        #    nextForm = storageTypeForm(request)
-        #    action = '/lapack_eigen/storageType/'
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -256,29 +259,24 @@ def guidedSearch_matrixType(request):
 ## 'storage type' question answered
 @csrf_exempt
 def guidedSearch_storageType(request):
-    form = storageTypeForm(request, request.POST or None)
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.POST or None)
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_storageType'], form.fields['eigen_storageType'].choices))
-        request.session['eigen_storageType'] = form.cleaned_data['eigen_storageType']
-        request.session['Routines'] = request.session['Routines'].filter(storageType__icontains=form.cleaned_data['eigen_storageType'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
         
-        
-        #find_next_form(type(form).__name__, request)
-        #
-        #if request.session['eigen_problem'] in ['Hessenberg', 'generalized_to_standard', 'balance']:
-        #    nextForm = singleDoubleForm()
-        #    action = '/lapack_eigen/singleDouble/'
-        #    
-        #else:
-        #    if request.session['eigen_matrixType'] in ['symmetric', 'Hermitian']:
-        #        nextForm = selectedEVForm()
-        #        action = '/lapack_eigen/selectedEV/'
-        #    else:
-        #        nextForm = eigenvectorForm()
-        #        action = '/lapack_eigen/eigenvector/'            
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name         
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -303,19 +301,24 @@ def guidedSearch_storageType(request):
 ## 'selected eigenvalues' question answered 
 @csrf_exempt
 def guidedSearch_selectedEV(request):
-    form = selectedEVForm(request.POST or None)
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_selectedEV'], form.fields['eigen_selectedEV'].choices))
-        request.session['eigen_selectedEVForm'] = form.cleaned_data['eigen_selectedEV']
-        request.session['Routines'] = request.session['Routines'].filter(selectedEV=form.cleaned_data['eigen_selectedEV'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
         
-        
-        #find_next_form(type(form).__name__, request)
-        #
-        #nextForm = eigenvectorForm()
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -340,7 +343,7 @@ def guidedSearch_selectedEV(request):
 ## 'eigenvectors' question answered
 @csrf_exempt
 def guidedSearch_eigenvector(request):
-    form = eigenvectorForm(request.POST or None) 
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None) 
     if form.is_valid():
         request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_eigenvector'], form.fields['eigen_eigenvector'].choices))
         request.session['eigen_eigenvectorForm'] = form.cleaned_data['eigen_eigenvector']
