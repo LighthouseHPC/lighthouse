@@ -34,7 +34,7 @@ class LhServer(ForkingTCPServer, BTO_Server):
 
 HOST = 'localhost'
 PORT = 9999
-BTOdir = '/home/cookjj/bto'
+BTOdir = '/home/cookjj/bto/bto/'
 #BTOdir = '/homes/salin/Lighthouse/BTOServer/bto'
 USER = ['salin']
 req_id = strftime('%H-%M-%S', gmtime())

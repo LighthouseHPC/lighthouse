@@ -6,10 +6,15 @@ from utils import change_workdir, remove_workdir
 
 ########################################################################
 class BTO_Server(BaseServer):
-
+    
     def __init__(self, btodir, u ,r , btoblas='./bin/btoblas'):
-        self.legal_options = '-e'
-        self.legal_longoptions = ''
+        self.legal_options = 'ae:cmt:r:s:'
+        self.legal_longoptions = ['precision=', 'empirical_off',
+            'correctness', 'use_model', 'threshold=',
+            'level1=', 'level2=', 'test_param=', 'search=',
+            'ga_timelimit=', 'empirical_reps=', 'delete_tmp',
+            'ga_popsize=', 'ga_nomaxfuse', 'ga_noglobalthread',
+            'ga_exthread']
         self.bto_dir = btodir
         self.users = u
         self.req_id = r
@@ -17,7 +22,7 @@ class BTO_Server(BaseServer):
 
 
 class BTORequestHandler(BaseServer):
-
+    
     def __init__(self, legal_options, legal_longoptions, u,r, btodir, btoblas):
         self.legal_options = legal_options
         self.legal_longoptions = legal_longoptions
@@ -31,65 +36,82 @@ class BTORequestHandler(BaseServer):
         ###---- create userid+"_"+self.req_id and name it baseworkdir
         baseworkdir = self.users[0]+'_'+ self.req_id
         #print baseworkdir                  #salin_xx-xx-xx
-	os.mkdir(baseworkdir)
+        os.mkdir(baseworkdir)
         try:
+            print "check user"
             userid  = self.check_user(self.recv_header1())
+            print "check options"
             options = self.check_options(self.recv_header1())
-	    nfiles  = int(self.recv_header1())
+            print "receive n files"
+            nfiles  = int(self.recv_header1())
         except:
+            print "Exception!"
             with open(baseworkdir+'/errors.x', 'w') as f:
                 f.write('An error occurred while the BTO server was receiving the input file.')
             self.send_header1(1)
             self.send_files([baseworkdir+'/errors.x'])
             return None
-	else:
+        else:
             ###---- set /tmp/userid+"_"+self.req_id to be workdir
             os.chdir(baseworkdir)
             workdir = os.getcwd()
-            #print workdir			#/tmp/salin_xx-xx-xx
+
+            #print workdir                      #/tmp/salin_xx-xx-xx
             files = self.recv_files(nfiles)
             filename = files[0]
 
-	    ###---- change dir to bto/ in order to execute ./bin/btoblas
+            ###---- change dir to bto/ in order to execute ./bin/btiblas
             os.chdir(self.bto_dir)
-            #print "Current folder is:", os.getcwd()			#/homes/salin/Lighthouse/BTOServer/bto
-	    #print ".m file location:", workdir + '/' +filename 	#/tmp/salin_xx-xx-xx/DGEM.m
+            #print "Current folder is:", os.getcwd()                    #/homes/salin/Lighthouse/BTOServer/bto
+            #print ".m file location:", workdir + '/' +filename         #/tmp/salin_xx-xx-xx/DGEM.m
             try:
-            	call([self.bto_blas, workdir + '/' +filename])
-            except:
-            	self.send_error("Failed to execute ./bin/btoblas %s" %workdir+ "/" +filename)
-	    else:
-		###---- go back to /tmp/salin_xx-xx-xx to check if the c files are generated
-            	os.chdir(workdir)
-            	cfiles = glob.glob('*.c')
-            	if(len(cfiles) == 1): 
-                	self.send_header1(1)
-                	self.send_files(cfiles)
-            	else:
-                	with open(baseworkdir+'errors.x', 'w') as f:
-                    		f.write('The BTO server was unable to compile and generate an output file')
-                	self.send_header1(1)
-                	self.send_files([baseworkdir+'errors.x'])
+                # BTO's option makes it necessary to pass a 2 'word' arg
+                # for --level1 or --level2, e.g.
+                # --level1 "thread 2:12:2"
+                # so we omit the space in our options (in templates.py)
+                # in order to validate, then add the space here
+                options_list = options.split()
+                opt_list = []
+                for opt in options_list:
+                    if 'thread' in opt:
+                        opt = opt[:6] + ' ' + opt[6:]
+                        print opt
+                    if 'cache' in opt:
+                        opt = opt[:5] + ' ' + opt[5:]
+                    opt_list = opt_list + [opt]
+                options_list = opt_list
 
-	finally:
-	    ###---- delete the /tmp/userid+"_"+self.req_id/ folder
+                argv = [self.bto_blas, workdir + '/' + filename]
+                argv = argv + options_list
+                call(argv)
+
+            except OSError, e:
+                print e
+                self.send_error("Failed to execute ./bin/btoblas %s" %workdir+ "/" +filename)
+            else:
+                ###---- go back to /tmp/salin_xx-xx-xx to check if the c files are generated
+                os.chdir(workdir)
+                cfiles = glob.glob('*.c')
+                if(len(cfiles) == 1): 
+                    self.send_header1(1)
+                    self.send_files(cfiles)
+                else:
+                    with open(baseworkdir+'errors.x', 'w') as f:
+                        f.write('The BTO server was unable to compile and generate an output file')
+                    self.send_header1(1)
+                    self.send_files([baseworkdir+'errors.x'])
+        finally:
+            ###---- delete the /tmp/userid+"_"+self.req_id/ folder
             shutil.rmtree(workdir)
-	    if os.path.exists(workdir) == False:
-		print "%s is removed successfully!" %workdir
-	    else:
-		print "%s is not yet removed." %workdir
-
-	    ### delete bto's .dot files generated during run
-	    nolock = True
-	    if(nolock):
-	        os.chdir(self.bto_dir)
-	        dotfiles = glob.glob("*.dot")
-	        for dot in dotfiles:
-	            os.remove(dot)
+            if os.path.exists(workdir) == False:
+                print "%s is removed successfully!" %workdir
+            else:
+                print "%s is not yet removed." %workdir
 
     
 class BTO_Client(BaseClient):
-
+        
     def submit_request(self, host, port, user, options,file1):
         files = [file1]
         BaseClient.submit_request(self, host, port, user, options, files)
+
