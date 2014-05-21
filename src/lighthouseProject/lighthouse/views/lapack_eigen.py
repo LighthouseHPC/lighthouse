@@ -32,16 +32,24 @@ def find_next_form(current_form, request):
     form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm',
                   'selectedEVForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm')
     
-    current_index = form_order.index(current_form)   
-    next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
-    nextForm_name = form_order[next_index]
-    
-    if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
-        next_form = getattr(sys.modules[__name__], nextForm_name)(request)
-    else:
-        next_form = getattr(sys.modules[__name__], nextForm_name)()
-        
-    action = '/lapack_eigen/'+nextForm_name[:-4]+'/'
+    if 'matrixType' in request.session and 'eigenvector' in request.session:
+        if request.session['matrixType'] == 'general' and request.session['eigenvector'] == 'no':
+            action = '/lapack_eigen/schur/'
+            nextForm_name = 'Schur'
+            next_form = schurForm()
+        elif equest.session['matrixType'] == 'general' and request.session['eigenvector'] == 'yes':
+            action = '/lapack_eigen/schur/'
+            nextForm_name = 'cndNumber'
+            next_form = cndNumberForm()
+    else:   
+        current_index = form_order.index(current_form)   
+        next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
+        nextForm_name = form_order[next_index]       
+        if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
+            next_form = getattr(sys.modules[__name__], nextForm_name)(request)
+        else:
+            next_form = getattr(sys.modules[__name__], nextForm_name)()        
+        action = '/lapack_eigen/'+nextForm_name[:-4]+'/'
         
     return {'action': action, 'nextForm_name': nextForm_name, 'nextForm': next_form}
     
@@ -94,7 +102,9 @@ def guidedSearch_problem(request):
         choices = form.fields[formField_name].choices
         
         request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
-        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        lookup = "%s__contains" % noForm_name
+        query = {lookup : value}
+        request.session['Routines'] = request.session['Routines'].filter(**query)   #search
         request.session[formField_name] = value
         
         dict_nextQuestion = find_next_form(type(form).__name__, request)  
@@ -103,7 +113,7 @@ def guidedSearch_problem(request):
         nextForm_name = dict_nextQuestion['nextForm_name']
         nextForm = dict_nextQuestion['nextForm']
             
-        request.session['currentForm_name'] = nextForm_name
+        request.session['currentForm_name'] = nextForm_name 
         
         if request.session['eigen_problem'] in ['generalized_to_standard']:
             formHTML = "invalid"
@@ -183,7 +193,9 @@ def guidedSearch_complexNumber(request):
         choices = form.fields[formField_name].choices
         
         request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
-        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        lookup = "%s__contains" % noForm_name
+        query = {lookup : value}
+        request.session['Routines'] = request.session['Routines'].filter(**query)   #search
         request.session[formField_name] = value
         
         dict_nextQuestion = find_next_form(type(form).__name__, request)  
@@ -192,7 +204,7 @@ def guidedSearch_complexNumber(request):
         nextForm_name = dict_nextQuestion['nextForm_name']
         nextForm = dict_nextQuestion['nextForm']
             
-        request.session['currentForm_name'] = nextForm_name
+        request.session['currentForm_name'] = nextForm_name 
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -345,19 +357,24 @@ def guidedSearch_selectedEV(request):
 def guidedSearch_eigenvector(request):
     form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None) 
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_eigenvector'], form.fields['eigen_eigenvector'].choices))
-        request.session['eigen_eigenvectorForm'] = form.cleaned_data['eigen_eigenvector']
-        request.session['Routines'] = request.session['Routines'].filter(eigenvector__icontains=form.cleaned_data['eigen_eigenvector'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        if request.session['eigen_matrixType'] == 'general' and request.session['eigen_eigenvectorForm'] == 'no':
-            nextForm = schurForm()
-            action = '/lapack_eigen/schur/'
-        elif request.session['eigen_matrixType'] == 'general' and request.session['eigen_eigenvectorForm'] == 'yes':
-            nextForm = cndNumberForm()
-            action = '/lapack_eigen/cndNumber/'            
-        else:        
-            nextForm = singleDoubleForm()
-            action = '/lapack_eigen/singleDouble/'            
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        lookup = "%s__contains" % noForm_name
+        query = {lookup : value}
+        request.session['Routines'] = request.session['Routines'].filter(**query)   #search
+        request.session[formField_name] = value
+        
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name            
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -382,19 +399,23 @@ def guidedSearch_eigenvector(request):
 ## 'Schur form/vectors' question answered
 @csrf_exempt
 def guidedSearch_schur(request):
-    form = schurForm(request.POST or None)
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_schur'], form.fields['eigen_schur'].choices))
-        request.session['eigen_schurForm'] = form.cleaned_data['eigen_schur']
-        request.session['Routines'] = request.session['Routines'].filter(schur=form.cleaned_data['eigen_schur'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
         
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
-        
-        
-        #find_next_form(type(form).__name__, request)
-        #
-        #nextForm = cndNumberForm()           
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name            
         context = {
                     'action': action,
                     'formHTML': "invalid",
@@ -419,18 +440,24 @@ def guidedSearch_schur(request):
 ## 'condition number' question answered
 @csrf_exempt
 def guidedSearch_cndNumber(request):
-    form = cndNumberForm(request.POST or None)
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None)
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_cndNumber'], form.fields['eigen_cndNumber'].choices))
-        request.session['eigen_cndNumberForm'] = form.cleaned_data['eigen_cndNumber']
-        request.session['Routines'] = request.session['Routines'].filter(cndNumber=form.cleaned_data['eigen_cndNumber'])
-
-        action = find_next_form(type(form).__name__, request)['action']
-        nextForm = find_next_form(type(form).__name__, request)['nextForm']
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
         
-        #find_next_form(type(form).__name__, request)
-        #
-        #nextForm = singleDoubleForm()        
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
+        
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name        
         context = {
                     'action': action,
                     'formHTML': "invalid",
