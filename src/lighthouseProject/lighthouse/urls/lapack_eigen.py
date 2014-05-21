@@ -4,6 +4,8 @@ from django.conf import settings
 
 urlpatterns = patterns('lighthouse.views.lapack_eigen',
     url(r'^$', "guidedSearch_index", name="guidedSearch_index"),
+    url(r'^index/$', "guidedSearch_index", name="guidedSearch_index"),
+    url(r'^guidedSearch/$', "guidedSearch", name="guidedSearch"),
     url(r'^problem/$', "guidedSearch_problem", name="guidedSearch_problem"),
     url(r'^standardGeneralized/$', "guidedSearch_standardGeneralized", name="guidedSearch_standardGeneralized"),
     url(r'^complexNumber/$', "guidedSearch_complexNumber", name="guidedSearch_complexNumber"),

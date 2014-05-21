@@ -18,8 +18,8 @@
 
 
 {% if action %}
-<form action="{{ action }}" name="frmType" method="post">
-{% csrf_token %}
+<form action="{{ action }}" name="frmType" method="get">
+<!--{% csrf_token %}-->
 <div id="question-div">
 {% if formHTML == 'invalid'  %}
   {{ form }}
