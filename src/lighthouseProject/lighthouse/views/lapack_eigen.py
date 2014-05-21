@@ -42,14 +42,22 @@ def find_next_form(current_form, request):
             nextForm_name = 'cndNumber'
             next_form = cndNumberForm()
     else:   
-        current_index = form_order.index(current_form)   
-        next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
-        nextForm_name = form_order[next_index]       
-        if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
-            next_form = getattr(sys.modules[__name__], nextForm_name)(request)
-        else:
-            next_form = getattr(sys.modules[__name__], nextForm_name)()        
-        action = '/lapack_eigen/'+nextForm_name[:-4]+'/'
+        current_index = form_order.index(current_form)
+        try:
+            next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
+            nextForm_name = form_order[next_index]
+            if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
+                next_form = getattr(sys.modules[__name__], nextForm_name)(request)
+            else:
+                next_form = getattr(sys.modules[__name__], nextForm_name)()        
+            action = '/lapack_eigen/'+nextForm_name[:-4]+'/'
+        except Exception as e:
+            print type(e)
+            print "e.message: ", e.message
+            print "e.args: ", e.args
+            action = ""
+            nextForm_name = ""        
+            next_form = ""
         
     return {'action': action, 'nextForm_name': nextForm_name, 'nextForm': next_form}
     
@@ -482,14 +490,29 @@ def guidedSearch_cndNumber(request):
 ## 'precision' question answered
 @csrf_exempt
 def guidedSearch_singleDouble(request):
-    form = singleDoubleForm(request.POST or None) 
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.POST or None) 
     if form.is_valid():
-        request.session['eigen_guided_answered'].update(question_and_answer(form, form.cleaned_data['eigen_singleDouble'], form.fields['eigen_singleDouble'].choices))
-        request.session['eigen_singleDoubleForm'] = form.cleaned_data['eigen_singleDouble']
-        request.session['Routines'] = request.session['Routines'].filter(singleDouble=form.cleaned_data['eigen_singleDouble'])
+        noForm_name = request.session['currentForm_name'][:-4]
+        formField_name = 'eigen_'+noForm_name
+        value = form.cleaned_data[formField_name]
+        choices = form.fields[formField_name].choices
+        
+        request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices)) #get previous question & answer
+        request.session['Routines'] = request.session['Routines'].filter(**{noForm_name: value})   #search
+        request.session[formField_name] = value
+        
+        dict_nextQuestion = find_next_form(type(form).__name__, request)  
+         
+        action = dict_nextQuestion['action']
+        nextForm_name = dict_nextQuestion['nextForm_name']
+        nextForm = dict_nextQuestion['nextForm']
+            
+        request.session['currentForm_name'] = nextForm_name
             
         context = {                             ### not pass 'action' to end the form
+                    'action': action,
                     'formHTML': "invalid",
+                    'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
         }
