@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     ### For dojango
-    #(r'^dojango/', include('dojango.urls')),
+    (r'^dojango/', include('dojango.urls')),
 
     ### For Haystack
     #(r'^search/', include('haystack.urls')),
@@ -52,26 +52,21 @@ urlpatterns = patterns('',
     ### Link forum/urls.py for blog:
     (r'^forum/', include('forum.urls')),
     
-    
     ###----------------- for LAPACK -----------------------###
-    ### Link lighthouse/library/lapack_le/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack_le/', include('lighthouse.libraries.lapack_le.urls')),
-
-    ### Link lighthouse/library/lapack_eigen/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack_eigen/', include('lighthouse.libraries.lapack_eigen.urls')),
-
-    ### Link lighthouse/library/lapack_eprob/urls.py for guided, advanced, and keyword Searches:
-    (r'^lapack_eprob/', include('lighthouse.libraries.lapack_eprob.urls')),
-    
+    ### for LAPACK routines -- link lighthouse/urls/lapack_*.py:
+    url(r'^lapack_le/', include('lighthouse.urls.lapack_le')),
+    url(r'^lapack_eigen/', include('lighthouse.urls.lapack_eigen')),
+    url(r'^lapack_svd/', include('lighthouse.urls.lapack_svd')),
+    url(r'^lapack_eprob/', include('lighthouse.urls.lapack_eprob')),
 
     ###----------------- for PETSc -----------------------###
-    ### Link lighthouse/library/petsc/urls.py for guided, advanced, and keyword Searches:
-    (r'^petsc/', include('lighthouse.libraries.petsc_le.urls')),
+    ### for PETSc routines -- link lighthouse/urls/lapack_*.py:
+    url(r'^petsc/', include('lighthouse.urls.petsc_le')),
 
-    
     ###----------------- for SLEPc -----------------------###
-    ### Link lighthouse/library/slepc_eprob/urls.py for guided, advanced, and keyword Searches:
-    (r'^slepc_eprob/', include('lighthouse.libraries.slepc_eprob.urls')),
+    ### for SLEPc routines -- link lighthouse/urls/lapack_*.py:
+    url(r'^slepc_eprob/', include('lighthouse.urls.slepc_eprob'))
+
 
 )
 
