@@ -1,0 +1,47 @@
+ZHPTRS solves a system of linear equations A*X = B with a complex
+Hermitian matrix A stored in packed format using the factorization
+A = U*D*U**H or A = L*D*L**H computed by ZHPTRF.
+Arguments:
+\param[in] UPLO
+         UPLO is CHARACTER*1
+         Specifies whether the details of the factorization are stored
+         as an upper or lower triangular matrix.
+         = 'U':  Upper triangular, form is A = U*D*U**H;
+         = 'L':  Lower triangular, form is A = L*D*L**H.
+\param[in] N
+         N is INTEGER
+         The order of the matrix A.  N >= 0.
+\param[in] NRHS
+         NRHS is INTEGER
+         The number of right hand sides, i.e., the number of columns
+         of the matrix B.  NRHS >= 0.
+\param[in] AP
+         AP is COMPLEX*16 array, dimension (N*(N+1)/2)
+         The block diagonal matrix D and the multipliers used to
+         obtain the factor U or L as computed by ZHPTRF, stored as a
+         packed triangular matrix.
+\param[in] IPIV
+         IPIV is INTEGER array, dimension (N)
+         Details of the interchanges and the block structure of D
+         as determined by ZHPTRF.
+\param[in,out] B
+         B is COMPLEX*16 array, dimension (LDB,NRHS)
+         On entry, the right hand side matrix B.
+         On exit, the solution matrix X.
+\param[in] LDB
+         LDB is INTEGER
+         The leading dimension of the array B.  LDB >= max(1,N).
+\param[out] INFO
+         INFO is INTEGER
+         = 0:  successful exit
+         < 0: if INFO = -i, the i-th argument had an illegal value
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date November 2011
+\ingroup complex16OTHERcomputational
+   SUBROUTINE ZHPTRS( UPLO, N, NRHS, AP, IPIV, B, LDB, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --
