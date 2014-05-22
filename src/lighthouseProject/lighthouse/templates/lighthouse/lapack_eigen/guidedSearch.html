@@ -17,25 +17,28 @@
 {% include "lighthouse/lapack_eigen/guided/answered.html" %}
 
 
+
+{% if form %}
 <form action="/lapack_eigen/guidedSearch/" name="frmType" method="get">
-<!--{% csrf_token %}-->
 <div id="question-div">
-{% if formHTML == 'invalid'  %}
-  {{ form }}
-{% else %}  
-  {% with template_name=formHTML|stringformat:"s"|add:".html" %}
-      {% include "lighthouse/lapack_eigen/guided/"|add:template_name %}
-      <br>
-  {% endwith %}
-{% endif %}  
+  <!--if formHTML = 'invalid', use form; otherwise, use the HTML file in lighthouse/lapack_eigen/guided/-->
+  {% if formHTML == 'invalid'  %}
+    {{ form }}
+  {% else %}  
+    {% with template_name=formHTML|stringformat:"s"|add:".html" %}
+        {% include "lighthouse/lapack_eigen/guided/"|add:template_name %}
+        <br>
+    {% endwith %}
+  {% endif %}  
 </div>
+{% endif %}
 <br>
   
   
 <div id="button-div">
   <table style="width:100%; margin: 0px auto;">
     <tr style="width:100%;">
-    {% if form == "" %}
+    {% if not form %}
       <td style="text-align:left">
 	      <img src={%static "Images/face-smile-2.png" %} width="20" height="20"/>
       </td>
