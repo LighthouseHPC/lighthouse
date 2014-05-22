@@ -17,6 +17,10 @@ import datetime
 ######--------- Guided Search --------- ######
 ##############################################
 
+form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm',
+                'selectedEVForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm')
+
+
 ### help functions
 def question_and_answer(form, value, choices):
     for field in form:
@@ -29,44 +33,43 @@ def question_and_answer(form, value, choices):
 
 
 
-def find_next_form(current_form, request):
-    form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm',
-                  'selectedEVForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm')
-    
+def find_nextForm(current_form, request):
     ## eigen problem for "general matrix" is special at the eigenvector question
-    if 'matrixType' in request.session and 'eigenvector' in request.session:
-        if request.session['matrixType'] == 'general' and request.session['eigenvector'] == 'no':
-            nextForm_name = 'Schur'
-            next_form = schurForm()
-        elif equest.session['matrixType'] == 'general' and request.session['eigenvector'] == 'yes':
-            nextForm_name = 'cndNumber'
-            next_form = cndNumberForm()
+    if request.session['eigen_matrixType'] == 'general' and request.session['eigen_eigenvector'] == 'yes' and request.session['eigen_cndNumber'] == '':
+        nextForm_name = 'cndNumberForm'
+        nextForm = cndNumberForm()
     else:   
         current_index = form_order.index(current_form)
         nextForm_name = ""        
-        next_form = ""
+        nextForm = ""
         try:
             next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
             nextForm_name = form_order[next_index]
             if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
-                next_form = getattr(sys.modules[__name__], nextForm_name)(request)
+                nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
             else:
-                next_form = getattr(sys.modules[__name__], nextForm_name)()        
+                nextForm = getattr(sys.modules[__name__], nextForm_name)()        
         except Exception as e:          ## the end of the guided search, etc.
             print type(e)
             print "e.message: ", e.message
             print "e.args: ", e.args
     
-    return {'nextForm_name': nextForm_name, 'nextForm': next_form}
+    return {'nextForm_name': nextForm_name, 'nextForm': nextForm}
     
 
 
 
 ### start guided search views
 def guidedSearch_index(request):
-    request.session['eigen_guided_answered'] = OrderedDict()
+    ## set up session keys and values
+    for item in form_order:
+        key = 'eigen_'+item[:-4]
+        request.session[key] = ''    
     request.session['currentForm_name'] = 'problemForm'
     request.session['Routines'] = lapack_eigen.objects.all()
+    request.session['eigen_guided_answered'] = OrderedDict()
+    
+    ## for template
     context = {
                 'formHTML': "problemForm",
                 'form': "invalid",
@@ -98,11 +101,11 @@ def guidedSearch(request):
         query = {lookup : value}
         request.session['Routines'] = request.session['Routines'].filter(**query)
         
-        ## generate a session for current question/answer
+        ## generate a session for current question/answer -->request.session[eigen_currentQuestion] = answer
         request.session[formField_name] = value
         
         ## set up next form for next question
-        dict_nextQuestion = find_next_form(type(form).__name__, request)           
+        dict_nextQuestion = find_nextForm(type(form).__name__, request)           
         nextForm_name = dict_nextQuestion['nextForm_name']
         nextForm = dict_nextQuestion['nextForm']
         
@@ -121,32 +124,27 @@ def guidedSearch(request):
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
                     'results' : request.session['Routines']
-        }
+                    }
+        return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
     else:       
-        form = problemForm() # An unbound form       
-        context = {
-                    'formHTML': "problemForm",
-                    'form': "invalid",
-                    'eigen_guided_answered' : '',
-                    'results' : 'start'
-        }
-    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
+        return guidedSearch_index(request)
+    
 
 
 
-## ------------------------- Note: question order for different problem types in the guided search ------------------------##
+### ------------------------- Note: question order for different problem types in the guided search ------------------------###
 #(1) eigen problem 
-#    (a)'symmetric':            ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'singleDoubleForm'],
-#    (b)'Hermitian':            ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'selectedEVForm', 'eigenvectorForm', 'singleDoubleForm'],
-#    (c)'SPD':                  ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'singleDoubleForm'],
-#    (d)'HPD':                  ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'singleDoubleForm'],    
-#    (e)'upper Hessenberg':     ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'singleDoubleForm'],
-#    (f)'general':              ['standardGeneralized', 'complexNumber', 'matrixTypeForm', 'storageTypeForm', 'eigenvectorForm', 'schurForm', 'cndNumberForm', 'singleDoubleForm'],   
-#(2) upper Hessenberg:          ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'singleDouble']
-#(3) generalized_to_standard:   ['complexNumber', 'matrixType', 'storageType', 'singleDouble']
-#(4) conditionNumber:           ['standardGeneralized', 'complexNumber', 'matrixType', 'singleDouble']
-#(5) balance:                   ['standardGeneralized', 'complexNumber', 'storageType', 'singleDouble']
-## ------------------------------------------------------------------------------------------------------------------------##
+#    (a)'symmetric':            ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'selectedEV', 'eigenvector',                      'singleDouble']
+#    (b)'Hermitian':            ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType', 'selectedEV', 'eigenvector',                      'singleDouble']
+#    (c)'SPD':                  ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType',               'eigenvector',                      'singleDouble']
+#    (d)'HPD':                  ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType',               'eigenvector',                      'singleDouble']    
+#    (e)'upper Hessenberg':     ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType',               'eigenvector',                      'singleDouble']
+#    (f)'general':              ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType',               'eigenvector', 'schur', 'cndNumber','singleDouble']   
+#(2) upper Hessenberg:          ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType',                                                   'singleDouble']
+#(3) generalized_to_standard:   [                       'complexNumber', 'matrixType', 'storageType',                                                   'singleDouble']
+#(4) conditionNumber:           ['standardGeneralized', 'complexNumber', 'matrixType',                                                                  'singleDouble']
+#(5) balance:                   ['standardGeneralized', 'complexNumber',               'storageType',                                                   'singleDouble']
+### ------------------------------------------------------------------------------------------------------------------------###
 
 
 
