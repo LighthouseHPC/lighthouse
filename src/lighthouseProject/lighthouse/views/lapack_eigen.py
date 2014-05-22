@@ -33,23 +33,25 @@ def question_and_answer(form, value, choices):
 
 
 
-def find_nextForm(current_form, request):
+def find_nextForm(currentForm_name, request):
     ## eigen problem for "general matrix" is special at the eigenvector question
     if request.session['eigen_matrixType'] == 'general' and request.session['eigen_eigenvector'] == 'yes' and request.session['eigen_cndNumber'] == '':
         nextForm_name = 'cndNumberForm'
         nextForm = cndNumberForm()
     else:   
-        current_index = form_order.index(current_form)
+        current_index = form_order.index(currentForm_name)
         nextForm_name = ""        
         nextForm = ""
         try:
+            ## search for 'none' and return the first column that has zero to be the next question/form
             next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
             nextForm_name = form_order[next_index]
             if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
                 nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
             else:
-                nextForm = getattr(sys.modules[__name__], nextForm_name)()        
-        except Exception as e:          ## the end of the guided search, etc.
+                nextForm = getattr(sys.modules[__name__], nextForm_name)()
+        ## the end of the guided search or other errors
+        except Exception as e:          
             print type(e)
             print "e.message: ", e.message
             print "e.args: ", e.args
@@ -69,7 +71,7 @@ def guidedSearch_index(request):
     request.session['Routines'] = lapack_eigen.objects.all()
     request.session['eigen_guided_answered'] = OrderedDict()
     
-    ## for template
+    ## get ready for the template
     context = {
                 'formHTML': "problemForm",
                 'form': "invalid",
@@ -82,7 +84,7 @@ def guidedSearch_index(request):
 
 
 def guidedSearch(request):
-    ## distinguish forms that take 2 arguments and that take 1 argument.
+    ## distinguish forms that take 2 arguments from forms that take 1 argument
     if request.session['currentForm_name'] in ['matrixTypeForm', 'storageTypeForm']:
         form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.GET or None)   #handle GET and POST in the same view
     else:
@@ -96,7 +98,7 @@ def guidedSearch(request):
         choices = form.fields[formField_name].choices        
         request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices))
         
-        ## do search based on the answer
+        ## do search based on user's response
         lookup = "%s__contains" % current_question
         query = {lookup : value}
         request.session['Routines'] = request.session['Routines'].filter(**query)
@@ -104,8 +106,8 @@ def guidedSearch(request):
         ## generate a session for current question/answer -->request.session[eigen_currentQuestion] = answer
         request.session[formField_name] = value
         
-        ## set up next form for next question
-        dict_nextQuestion = find_nextForm(type(form).__name__, request)           
+        ## call function find_nextForm to set up next form for next question
+        dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
         nextForm_name = dict_nextQuestion['nextForm_name']
         nextForm = dict_nextQuestion['nextForm']
         
