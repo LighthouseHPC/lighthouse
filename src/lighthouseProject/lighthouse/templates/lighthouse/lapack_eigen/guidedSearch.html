@@ -17,8 +17,7 @@
 {% include "lighthouse/lapack_eigen/guided/answered.html" %}
 
 
-{% if action %}
-<form action="{{ action }}" name="frmType" method="get">
+<form action="/lapack_eigen/guidedSearch/" name="frmType" method="get">
 <!--{% csrf_token %}-->
 <div id="question-div">
 {% if formHTML == 'invalid'  %}
@@ -30,14 +29,13 @@
   {% endwith %}
 {% endif %}  
 </div>
-{% endif %}
 <br>
   
   
 <div id="button-div">
   <table style="width:100%; margin: 0px auto;">
     <tr style="width:100%;">
-    {% if not action %}
+    {% if form == "" %}
       <td style="text-align:left">
 	      <img src={%static "Images/face-smile-2.png" %} width="20" height="20"/>
       </td>

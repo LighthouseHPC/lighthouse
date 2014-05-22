@@ -15,8 +15,7 @@ import datetime
 
 
 ######--------- Guided Search --------- ######
-
-## help functions
+### help functions
 def question_and_answer(form, value, choices):
     for field in form:
         question = unicode(field.label)
@@ -34,11 +33,9 @@ def find_next_form(current_form, request):
     
     if 'matrixType' in request.session and 'eigenvector' in request.session:
         if request.session['matrixType'] == 'general' and request.session['eigenvector'] == 'no':
-            #action = '/lapack_eigen/schur/'
             nextForm_name = 'Schur'
             next_form = schurForm()
         elif equest.session['matrixType'] == 'general' and request.session['eigenvector'] == 'yes':
-            #action = '/lapack_eigen/schur/'
             nextForm_name = 'cndNumber'
             next_form = cndNumberForm()
     else:   
@@ -50,7 +47,6 @@ def find_next_form(current_form, request):
                 next_form = getattr(sys.modules[__name__], nextForm_name)(request)
             else:
                 next_form = getattr(sys.modules[__name__], nextForm_name)()        
-            #action = '/lapack_eigen/'+nextForm_name[:-4]+'/'
         except Exception as e:
             print type(e)
             print "e.message: ", e.message
@@ -64,13 +60,12 @@ def find_next_form(current_form, request):
 
 
 
-## index page
+### index page
 def guidedSearch_index(request):
     request.session['eigen_guided_answered'] = OrderedDict()
     request.session['currentForm_name'] = 'problemForm'
     request.session['Routines'] = lapack_eigen.objects.all()
     context = {
-                'action': '/lapack_eigen/guidedSearch/',
                 'formHTML': "problemForm",
                 'form': "invalid",
                 'eigen_guided_answered' : '',
@@ -80,14 +75,14 @@ def guidedSearch_index(request):
 
 
 
-## questions answered
+### questions answered
 def guidedSearch(request):
     if request.session['currentForm_name'] in ['matrixTypeForm', 'storageTypeForm']:
         form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.GET or None)   #handle GET and POST in the same view
     else:
         form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.GET or None)
         
-    if form.is_valid():  # All validation rules pass
+    if form.is_valid(): 
         noForm_name = request.session['currentForm_name'][:-4]
         formField_name = 'eigen_'+noForm_name
         value = form.cleaned_data[formField_name]
@@ -101,19 +96,19 @@ def guidedSearch(request):
         
         dict_nextQuestion = find_next_form(type(form).__name__, request)  
          
-        #action = dict_nextQuestion['action']
         nextForm_name = dict_nextQuestion['nextForm_name']
         nextForm = dict_nextQuestion['nextForm']
             
         request.session['currentForm_name'] = nextForm_name 
         
+        
+        ## decide whether or not to use the HTML files for the form (if help buttons are needed, use HTML files)
         if nextForm_name in ["standardGeneralizedForm"]:
             formHTML = nextForm_name
         else:
             formHTML = "invalid"
                
         context = {
-                    'action': '/lapack_eigen/guidedSearch/',
                     'formHTML': formHTML,
                     'form': nextForm,
                     'eigen_guided_answered' : request.session['eigen_guided_answered'],
@@ -122,7 +117,6 @@ def guidedSearch(request):
     else:       
         form = problemForm() # An unbound form       
         context = {
-                    'action': '/lapack_eigen/guidedSearch/',
                     'formHTML': "problemForm",
                     'form': "invalid",
                     'eigen_guided_answered' : '',
