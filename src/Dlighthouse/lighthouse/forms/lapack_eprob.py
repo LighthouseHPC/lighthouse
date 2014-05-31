@@ -2,8 +2,32 @@ from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_eprob import *
 
+#
+#
+# Helper function - performs a lookup against eprob_fields and builds a field from that information
+#
+#
 
-###--- Form Classes ---###
+def makeFieldRadio(name):
+    if name in eprob_fields:
+    	field_label, field_choices = eprob_fields[name]
+    	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.RadioSelect())
+    else:
+        return forms.ChoiceField(widget=forms.RadioSelect)
+
+def makeFieldCheckbox(name):
+    if name in eprob_fields:        
+    	field_label, field_choices = eprob_fields[name]
+    	return forms.MultipleChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple()
+, required = False)
+    else:
+        return forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
+
+#
+#
+# Form Classes
+#
+#
 
 # Basic guided form - uses all the choices available
 class GuidedForm(forms.Form):
@@ -31,31 +55,5 @@ class AdvancedFilteredForm(forms.Form):
         super(AdvancedFilteredForm, self).__init__(*args, **kwargs)
         formslist = getFilteredChoicesAdvanced(filtered, name)
         for formname,field_label,field_choices in formslist:
-            self.fields[formname] = forms.MultipleChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple(), required = False)
-
-
-
-
-
-
-###--- Helper function - performs a lookup against eprob_fields and builds a field from that information ---###
-
-def makeFieldRadio(name):
-    if name in eprob_fields:
-    	field_label, field_choices = eprob_fields[name]
-    	return forms.ChoiceField(label=field_label, choices=field_choices, widget=forms.RadioSelect())
-    else:
-        return forms.ChoiceField(widget=forms.RadioSelect)
-
-def makeFieldCheckbox(name):
-    if name in eprob_fields:        
-    	field_label, field_choices = eprob_fields[name]
-    	return forms.MultipleChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple(), required = False)
-    else:
-        return forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
-    
-    
-    
-    
-    
-    
+            self.fields[formname] = forms.MultipleChoiceField(label=field_label, choices=field_choices, widget=forms.Che
+ckboxSelectMultiple(), required = False)
