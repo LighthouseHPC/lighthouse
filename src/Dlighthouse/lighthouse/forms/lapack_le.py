@@ -5,7 +5,7 @@ from django.db.models import get_model
 
 
 
-### ---------------- for simple search ---------------- ###
+### ---------------- for guided search ---------------- ###
 
 Problem_choices = (
 	('Combine lapack_le_only solve',					'Solve a system of linear equations only'),

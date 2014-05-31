@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_eigen import *
-from lighthouse.models.choiceDict import *
+from lighthouse.models.lapack_choiceDict import *
 
 #####------- Allow disabling options in a RadioSelect widget ----------#####
 from django.utils.safestring import mark_safe
@@ -33,7 +33,7 @@ class CustomRadioSelect(forms.widgets.RadioSelect):
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
 class problemForm(forms.Form):
-    eigen_prob = forms.ChoiceField(label='Which of the following problems would you like to compute?',
+    eigen_problem = forms.ChoiceField(label='Which of the following problems would you like to compute?',
 					      widget=forms.RadioSelect(),
 					      choices=EIGENPROBLEM_CHOICES
 					      )    
@@ -83,9 +83,15 @@ class storageTypeForm(forms.Form):
 	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
 	disableList = []
 	
-	##--- remove the choice full/packed/band/tridiagonal ---##
+	##--- handle the choice full/packed/band/tridiagonal ---##
 	if (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal') in self.fields['eigen_storageType'].choices:
+	    for item in 'full/packed/band/tridiagonal'.split('/'):
+		self.fields['eigen_storageType'].choices = self.fields['eigen_storageType'].choices+ [(item.decode('unicode-escape'), item.decode('unicode-escape')),]
 	    self.fields['eigen_storageType'].choices.remove((u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'))
+	    self.fields['eigen_storageType'].choices = list(set(self.fields['eigen_storageType'].choices))
+	    
+	##--- order choices by string length ---##
+	self.fields['eigen_storageType'].choices.sort(key=lambda k:len(k[1]))
 	    
 	##--- if there is only one choice, show the others but disable them ---##
 	if len(self.fields['eigen_storageType'].choices) == 1:
@@ -123,16 +129,6 @@ class eigenvectorForm(forms.Form):
 					      )
     
     
-     
-     
-##--- condition numbers for eigenvectors form ---##
-class cndN_eigenvectorForm(forms.Form):
-    eigen_cndN_eigenvector = forms.ChoiceField(label='Would you like to compute the reciprocal condition numbers for the eigenvectors?',
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
-    
-    
          
 ##--- eigenvectors or Schur form ---##
 class schurForm(forms.Form):
@@ -152,8 +148,8 @@ class cndNumberForm(forms.Form):
     
     
 ##--- precision form ---##
-class thePrecisionForm(forms.Form):
-    eigen_thePrecision = forms.ChoiceField(label='Would you like to use single or double precision?',
+class singleDoubleForm(forms.Form):
+    eigen_singleDouble = forms.ChoiceField(label='Would you like to use single or double precision?',
 					      widget=forms.RadioSelect(),
 					      choices=SINGLEDOUBLE_CHOICES
 					      )

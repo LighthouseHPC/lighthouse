@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import forms
 
+from lighthouse.models.lapack_le import *
 from lighthouse.models.lapack_eigen import *
 #from lighthouse.models.lapack_svd import *
 #from lighthouse.models.lapack_sylvester import * 
@@ -18,7 +19,205 @@ class EntryAdminForm(forms.ModelForm):
 		#model = 'lapack_RoutineInfo'
 
 
-""" eigenproblem """
+######---------------------- lapack routine information -----------------------######
+class lapack_RoutineInfoAdmin(admin.ModelAdmin):
+        list_display = ('id', 'routine')
+        ordering = ('id',)
+        search_fields = ['routine']
+        form = EntryAdminForm
+
+admin.site.register(lapack_RoutineInfo, lapack_RoutineInfoAdmin)
+
+
+
+
+
+
+######---------------------- linear solvers -----------------------######
+""" Driver routines """
+class lapack_le_simpleAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+        
+
+
+
+class lapack_le_expertAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_driverAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+
+admin.site.register(lapack_le_simple, lapack_le_simpleAdmin)
+admin.site.register(lapack_le_expert, lapack_le_expertAdmin)
+admin.site.register(lapack_le_driver, lapack_le_driverAdmin)
+
+
+
+
+
+
+
+""" Computational routines """
+class lapack_le_computationalAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+
+class lapack_le_factorAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_solveAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_condition_numberAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_error_boundAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_inverseAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+
+class lapack_le_equilibrateAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+
+admin.site.register(lapack_le_computational, lapack_le_computationalAdmin)
+admin.site.register(lapack_le_factor, lapack_le_factorAdmin)
+admin.site.register(lapack_le_solve, lapack_le_solveAdmin)
+admin.site.register(lapack_le_condition_number, lapack_le_condition_numberAdmin)
+admin.site.register(lapack_le_error_bound, lapack_le_error_boundAdmin)
+admin.site.register(lapack_le_inverse, lapack_le_inverseAdmin)
+admin.site.register(lapack_le_equilibrate, lapack_le_equilibrateAdmin)
+
+
+
+
+
+
+""" Combine """
+class lapack_le_onlyAdmin(admin.ModelAdmin):
+        list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'url', 'notes')
+        
+        list_filter = ['matrixType', 'thePrecision', 'storageType']
+        search_fields = ['routineName', 'notes']
+        ordering = ('id',)
+        raw_id_fields = ('info',)
+
+
+admin.site.register(lapack_le_only, lapack_le_onlyAdmin)
+
+
+
+
+
+
+""" Arguments """
+class lapack_le_argAdmin(admin.ModelAdmin):
+        list_display = ('id', 'routineName', 'param_all', 'param_in', 'param_out', 'param_inout',
+                        'matrix', 'array_1d_real', 'array_1d', 'array_1d_int', 'char', 'integers', 'reals',
+                        'LDA_condition', 'allocate_list', 'allocate', 'readData', 'readData_L', 'other')
+        
+        #list_filter = ['matrix']
+        search_fileds = ['routineName']
+        ordering = ('id',)
+        
+        
+admin.site.register(lapack_le_arg, lapack_le_argAdmin)
+
+
+
+class lapack_le_arg_cAdmin(admin.ModelAdmin):
+        list_display = ('id', 'routineName', 'param', 'define', 'char', 'global_var', 'integers', 'array_real',
+                        'array_complex', 'other')
+        
+        #list_filter = ['matrix']
+        search_fileds = ['routineName']
+        ordering = ('id',)
+        
+        
+admin.site.register(lapack_le_arg_c, lapack_le_arg_cAdmin)
+
+
+
+
+
+######----------------------- eigenproblem -----------------------######
 class lapack_eigen_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'standardGeneralized', 'matrixType', 'storageType',
 			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
@@ -31,7 +230,24 @@ admin.site.register(lapack_eigen, lapack_eigen_Admin)
 
 
 
-""" Sylvester """
+
+
+######----------------------- svd -----------------------######
+#class lapack_svd_Admin(admin.ModelAdmin):
+#	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'standardGeneralized', 'matrixType', 'storageType',
+#			'singularValues', 'singularVectors')
+#	list_filter = ['problem', 'standardGeneralized', 'thePrecision', 'matrixType', 'storageType',]
+#	search_fields = ['routineName',]
+#	ordering = ('id',)
+#	raw_id_fields = ('info',)
+#
+#admin.site.register(lapack_svd, lapack_svd_Admin)
+
+
+
+
+
+######----------------------- Sylvester -----------------------######
 #class lapack_sylvester_Admin(admin.ModelAdmin):
 #	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType')
 #	list_filter = ['thePrecision', 'matrixType', 'storageType',]
