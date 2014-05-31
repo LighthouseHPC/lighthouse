@@ -4,7 +4,7 @@
 <table style="padding:0px; margin:0px; border:0px;">
         <tr>
             <td>
-                    <label for="id_eigen_prob_0">
+                    <label for="id_eigen_problem_0">
                     <img src={%static "Images/arrow.png" %} width="8" height="8"/>
                             <b>Which of the following problems would you like to compute?</b>
                     </label>
@@ -17,8 +17,8 @@
             1.
         </td>
         <td>
-            <label for="id_eigen_prob_0">
-                <input type="radio" id="id_eigen_prob_0" value="eigen" name="eigen_prob" />
+            <label for="id_eigen_problem_0">
+                <input type="radio" id="id_eigen_problem_0" value="eigen" name="eigen_problem" />
                 Solve an eigenproblem (e.g., diagonalize a matrix to find eigenvalues)
             </label>
         </td>
@@ -45,8 +45,8 @@
             2.
         </td>
         <td>
-            <label for="id_eigen_prob_1">
-                <input type="radio" id="id_eigen_prob_1" value="Hessenberg" name="eigen_prob" />
+            <label for="id_eigen_problem_1">
+                <input type="radio" id="id_eigen_problem_1" value="Hessenberg" name="eigen_problem" />
                 Reduce a matrix to upper Hessenberg form 
             </label>
         </td>
@@ -59,9 +59,9 @@
             3.
         </td>
         <td>
-            <label for="id_eigen_prob_2">
-                <input type="radio" id="id_eigen_prob_2" value="cndNumber_of_evtrs" name="eigen_prob" />
-                Estimate condition numbers of eigenvectors 
+            <label for="id_eigen_problem_2">
+                <input type="radio" id="id_eigen_problem_2" value="generalized_to_standard" name="eigen_problem" />
+                Reduce a generalized eigenproblem to standard form
             </label>
         </td>
         <td>
@@ -73,8 +73,22 @@
             4.
         </td>
         <td>
-            <label for="id_eigen_prob_3">
-                <input type="radio" id="id_eigen_prob_3" value="balance" name="eigen_prob" />
+            <label for="id_eigen_problem_3">
+                <input type="radio" id="id_eigen_problem_3" value="cndNumber_of_evtrs" name="eigen_problem" />
+                Estimate condition numbers of eigenvectors 
+            </label>
+        </td>
+        <td>
+            <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            5.
+        </td>
+        <td>
+            <label for="id_eigen_problem_4">
+                <input type="radio" id="id_eigen_problem_4" value="balance" name="eigen_problem" />
                 Balance a <em>general</em> matrix to improve eigenvalue accuracy 
             </label>
         </td>
@@ -82,27 +96,14 @@
             <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
         </td>
     </tr>
-<!--        <tr>
-        <td>
-            5.
-        </td>
-        <td>
-            <label for="id_eigen_prob_4">
-                <input type="radio" id="id_eigen_prob_4" value="balance" name="eigen_prob" />
-                balance matrix to improve eigenvalue accuracy
-            </label>
-        </td>
-        <td>
-            <span><img src={%static "Images/question.png" %} width="16" height="16"/></span>
-        </td>
-    </tr>-->
+
 <!--        <tr>
         <td>
             6.
         </td>
         <td>
-            <label for="id_eigen_prob_5">
-                <input type="radio" id="id_eigen_prob_5" value="svd_generalized" name="eigen_prob" />
+            <label for="id_eigen_problem_5">
+                <input type="radio" id="id_eigen_problem_5" value="svd_generalized" name="eigen_problem" />
                 generalized singular value decomposition
             </label>
         </td>
