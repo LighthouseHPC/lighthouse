@@ -55,5 +55,4 @@ class AdvancedFilteredForm(forms.Form):
         super(AdvancedFilteredForm, self).__init__(*args, **kwargs)
         formslist = getFilteredChoicesAdvanced(filtered, name)
         for formname,field_label,field_choices in formslist:
-            self.fields[formname] = forms.MultipleChoiceField(label=field_label, choices=field_choices, widget=forms.Che
-ckboxSelectMultiple(), required = False)
+            self.fields[formname] = forms.MultipleChoiceField(label=field_label, choices=field_choices, widget=forms.CheckboxSelectMultiple(), required = False)
