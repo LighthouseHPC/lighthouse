@@ -3,8 +3,11 @@ from django.db.models import Q
 from lighthouse.models.lapack_le import lapack_RoutineInfo
 from collections import OrderedDict
 
-
-###--- Define possible choices for forms and database fields ---###
+#
+#
+# Define possible choices for forms and database fields
+#
+#
 
 EPROB_PROBLEM_CHOICES = (
     (u'eval'                 ,u'Eigenproblem'),
@@ -46,40 +49,11 @@ EPROB_ALGORITHM_CHOICES = (
     (u'mrrr',u'Multiple Relatively Robust Representation'),
 )
 
-
-
-###--- Define the model using the fields and choices from above ---###
-
-class lapack_eprob(models.Model):
-    generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
-    problem = models.CharField('Problem Kind', max_length=4, choices=EPROB_PROBLEM_CHOICES)
-    complex = models.CharField('Complex Numbers', max_length=1, choices=EPROB_YESNO_CHOICES)
-    matrixType = models.CharField('Matrix Type', max_length=3, choices=EPROB_MATRIX_CHOICES)
-    storageType = models.CharField('Matrix Storage', max_length=4, choices=EPROB_STORAGE_CHOICES, blank = True, null = True)
-    schur = models.CharField('Schur Form', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = True)
-    evaluerange = models.CharField('Range of Eigenvalues', max_length=1, choices=EPROB_YESNO_CHOICES, blank= True, null = True)
-    algorithm = models.CharField('Algorithm Used', max_length=4, choices=EPROB_ALGORITHM_CHOICES, blank = True, null = True)
-    balancing = models.CharField('Balancing Transform', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = True)
-    schurform = models.CharField('Ordered Schur Form', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = True)
-    queryPrecision = models.CharField('Number Precision', max_length=1, choices=EPROB_PRECISION_CHOICES)
-    thePrecision = models.CharField('Number Precision', max_length=1)
-    routineName = models.CharField('Routine Name', max_length=8)
-    url = models.URLField('Function URL', blank = True, null = True)
-    info = models.ForeignKey(lapack_RoutineInfo)
-
-    def __unicode__(self):
-        return self.routineName
-
-    class Meta:
-        app_label = 'lighthouse'
-
-
-
-
-
-
-
-###--- Define the possible fields in the database and in forms ---###
+#
+#
+# Define the possible fields in the database and in forms
+#
+#
 
 eprob_fields = OrderedDict([
         ('generalized' , ('Do you need to solve a generalized eigenproblem?', EPROB_NOYES_CHOICES)),
@@ -96,8 +70,11 @@ eprob_fields = OrderedDict([
     ])
 
 
-
-###--- Define the order the questions are asked in the guided search ---###
+#
+#
+# Define the order the questions are asked in the guided search
+#
+#
 
 eprob_nextform = OrderedDict([
         ('start' , 'generalized'),
@@ -114,11 +91,90 @@ eprob_nextform = OrderedDict([
         ('queryPrecision' , 'finish'),
     ])
 
+#
+#
+# Define the different pages for the advanced search
+#
+#
 
+eprob_advanced_landing = (
+    'generalized', 
+    'problem'
+    )
 
+eprob_advanced_questions = (
+    'complex' , 
+    'matrixType',
+    'storageType',
+    'queryPrecision',
+    'schur',
+)
 
+eprob_advanced_optional = (
+    'algorithm',
+    'evaluerange',
+    'balancing',
+    'schurform',
+)
 
-###--- Helper functions for views ---###
+eprob_advanced_forms = OrderedDict([
+    ('landing', eprob_advanced_landing),
+    ('questions', eprob_advanced_questions),
+    ('optional', eprob_advanced_optional),
+    ])
+
+#
+#
+# Define the order the pages go in for the advanced search
+#
+#
+
+eprob_advanced_nextform = OrderedDict([
+    ('start', 'landing'),
+    ('landing', 'questions'),
+    ('questions', 'optional'),
+    ('optional', 'finish'),
+    ])
+
+#
+#
+# Define the model using the fields and choices from above
+#
+#
+
+class lapack_eprob(models.Model):
+    generalized = models.CharField('Generalized', max_length=1, choices=EPROB_YESNO_CHOICES)
+    problem = models.CharField('Problem Kind', max_length=4, choices=EPROB_PROBLEM_CHOICES)
+    complex = models.CharField('Complex Numbers', max_length=1, choices=EPROB_YESNO_CHOICES)
+    matrixType = models.CharField('Matrix Type', max_length=3, choices=EPROB_MATRIX_CHOICES)
+    storageType = models.CharField('Matrix Storage', max_length=4, choices=EPROB_STORAGE_CHOICES, blank = True, null = T
+rue)
+    schur = models.CharField('Schur Form', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = True)
+    evaluerange = models.CharField('Range of Eigenvalues', max_length=1, choices=EPROB_YESNO_CHOICES, blank= True, null 
+= True)
+    algorithm = models.CharField('Algorithm Used', max_length=4, choices=EPROB_ALGORITHM_CHOICES, blank = True, null = T
+rue)
+    balancing = models.CharField('Balancing Transform', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = 
+True)
+    schurform = models.CharField('Ordered Schur Form', max_length=1, choices=EPROB_YESNO_CHOICES, blank = True, null = T
+rue)
+    queryPrecision = models.CharField('Number Precision', max_length=1, choices=EPROB_PRECISION_CHOICES)
+    thePrecision = models.CharField('Number Precision', max_length=1)
+    routineName = models.CharField('Routine Name', max_length=8)
+    url = models.URLField('Function URL', blank = True, null = True)
+    info = models.ForeignKey(lapack_RoutineInfo)
+
+    def __unicode__(self):
+        return self.routineName
+
+    class Meta:
+        app_label = 'lighthouse'
+
+#
+#
+# Helper functions
+#
+#
 
 # return a QuerySet containing the results from a given set of questions
 def getFilteredList(answered_questions = OrderedDict()):
@@ -197,55 +253,3 @@ def findNextFormAdvanced(filtered_list=lapack_eprob.objects.all(),answered=Order
             # go to the next page
             temp = eprob_advanced_nextform[temp]
         return 'finish'
-    
-    
-    
-    
-    
-
-
-
-#
-#
-# Define the different pages for the advanced search
-#
-#
-
-eprob_advanced_landing = (
-    'generalized', 
-    'problem'
-    )
-
-eprob_advanced_questions = (
-    'complex' , 
-    'matrixType',
-    'storageType',
-    'queryPrecision',
-    'schur',
-)
-
-eprob_advanced_optional = (
-    'algorithm',
-    'evaluerange',
-    'balancing',
-    'schurform',
-)
-
-eprob_advanced_forms = OrderedDict([
-    ('landing', eprob_advanced_landing),
-    ('questions', eprob_advanced_questions),
-    ('optional', eprob_advanced_optional),
-    ])
-
-#
-#
-# Define the order the pages go in for the advanced search
-#
-#
-
-eprob_advanced_nextform = OrderedDict([
-    ('start', 'landing'),
-    ('landing', 'questions'),
-    ('questions', 'optional'),
-    ('optional', 'finish'),
-    ])
