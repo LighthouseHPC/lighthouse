@@ -325,7 +325,8 @@ def eprob_update_session(request):
                 if selectedRoutineList[0]['checkState'] == 'checked':
                     request.session['eprob_selectedRoutines'][counter]['checkState'] = 'checked'
                 if selectedRoutineList[0]['checkState'] == 'unchecked':
-                    request.session['eprob_selectedRoutines'][counter]['checkState'] = 'unchecked'                            
+                    request.session['eprob_selectedRoutines'][counter]['checkState'] = 'unchecked'                      
+      
             counter += 1
 
         if match == -1: # The routine does not exist in request.session['selectedRoutines'], so add it
@@ -343,5 +344,3 @@ def eprob_update_session(request):
         return HttpResponse(selectedRoutineNames)
     else:
         return HttpResponse('only AJAX requests are allowed!')
-
-
