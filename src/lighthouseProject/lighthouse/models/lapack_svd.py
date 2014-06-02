@@ -14,11 +14,12 @@ class lapack_svd(models.Model):
         matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)
         singularVectors = models.CharField('singular vectors', max_length=10, choices=NOYESBOTH_CHOICES)
+        singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
         class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType', 'info')
+                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.matrixType
