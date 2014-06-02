@@ -31,8 +31,36 @@ urlpatterns = patterns('',
     ### for dojango
     (r'^dojango/', include('dojango.urls')),
 
+    ### Go to the login page
+    #(r'^$', 'django.contrib.auth.views.login'),
+    #(r'^index/$', 'django.contrib.auth.views.login'),
+    
+    ### Link registration/backends/default/urls.py for normal account registration:
+    #(r'^accounts/', include('registration.backends.default.urls')),
+    
+    ### Link emailRegistartion/urls.py to use email as username:
+    #(r'^accounts/', include('emailRegistration.urls')),
+
+    ### Link blog/urls.py for blog:
+    #(r'^blog/', include('blog.urls')),
+
+    ### Link forum/urls.py for blog:
+    #(r'^forum/', include('forum.urls')),
+    
+    
+    ###----------------- for LAPACK -----------------------###
     ### for LAPACK routines -- link lighthouse/urls/lapack_*.py:
+    #url(r'^lapack_le/', include('lighthouse.urls.lapack_le')),
     url(r'^lapack_eigen/', include('lighthouse.urls.lapack_eigen')),
     url(r'^lapack_svd/', include('lighthouse.urls.lapack_svd')),
+    #url(r'^lapack_eprob/', include('lighthouse.urls.lapack_eprob')),
+
+    ###----------------- for PETSc -----------------------###
+    ### for PETSc routines -- link lighthouse/urls/lapack_*.py:
+    #url(r'^petsc/', include('lighthouse.urls.petsc_le')),
+
+    ###----------------- for SLEPc -----------------------###
+    ### for SLEPc routines -- link lighthouse/urls/lapack_*.py:
+    #url(r'^slepc_eprob/', include('lighthouse.urls.slepc_eprob'))
     
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
