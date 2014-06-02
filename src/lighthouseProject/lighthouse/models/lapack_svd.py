@@ -13,7 +13,6 @@ class lapack_svd(models.Model):
         problem = models.CharField('Problem Type', max_length=20, choices=SVD_CHOICES)
         matrixType = models.CharField('Matrix Type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('Storage', max_length=60, choices=STORAGE_CHOICES)
-        singularValues = models.CharField('Singular Values', max_length=10, choices=NOYESNONE_CHOICES)
         singularVectors = models.CharField('singular vectors', max_length=10, choices=NOYESBOTH_CHOICES)
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
