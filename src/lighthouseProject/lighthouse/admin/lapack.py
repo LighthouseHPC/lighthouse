@@ -35,9 +35,9 @@ admin.site.register(lapack_eigen, lapack_eigen_Admin)
 
 """ svd """
 class lapack_svd_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'standardGeneralized', 'matrixType', 'storageType',
+	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'matrixType', 'storageType',
 			'singularValues', 'singularVectors')
-	list_filter = ['problem', 'standardGeneralized', 'thePrecision', 'matrixType', 'storageType',]
+	list_filter = ['problem', 'thePrecision', 'matrixType', 'storageType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	raw_id_fields = ('info',)
