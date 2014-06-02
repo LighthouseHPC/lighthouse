@@ -2,27 +2,28 @@ from django import forms
 from django.db.models import get_model
 from lighthouse.models.lapack_svd import *
 from lighthouse.models.lapack_choiceDict import *
+from lighthouse.forms.lapack_eigen import CustomRadioSelect
 
 #####------- Allow disabling options in a RadioSelect widget ----------#####
-from django.utils.safestring import mark_safe
-from django.utils.encoding import force_unicode
-
-class CustomRadioRenderer(forms.widgets.RadioFieldRenderer):
-    def render(self):
-        """ Disable some radio buttons based on disableList """
-	if self.disable == []:
-	    return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>' % force_unicode(w) for w in self]))
-	else:
-	    midList = []
-	    for x, wid in enumerate(self):
-		if self.disable[x] == True:
-		    wid.attrs['disabled'] = True
-		midList.append(wid)
-	    return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>' % w for w in midList]))
-
-
-class CustomRadioSelect(forms.widgets.RadioSelect):
-    renderer = CustomRadioRenderer
+#from django.utils.safestring import mark_safe
+#from django.utils.encoding import force_unicode
+#
+#class CustomRadioRenderer(forms.widgets.RadioFieldRenderer):
+#    def render(self):
+#        """ Disable some radio buttons based on disableList """
+#	if self.disable == []:
+#	    return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>' % force_unicode(w) for w in self]))
+#	else:
+#	    midList = []
+#	    for x, wid in enumerate(self):
+#		if self.disable[x] == True:
+#		    wid.attrs['disabled'] = True
+#		midList.append(wid)
+#	    return mark_safe(u'<ul>\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>' % w for w in midList]))
+#
+#
+#class CustomRadioSelect(forms.widgets.RadioSelect):
+#    renderer = CustomRadioRenderer
     
     
     
@@ -33,19 +34,12 @@ class CustomRadioSelect(forms.widgets.RadioSelect):
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
 class problemForm(forms.Form):
-    svd_prob = forms.ChoiceField(label='Which of the following problems would you like to compute?',
+    svd_problem = forms.ChoiceField(label='Which of the following problems about singular value decomposition (SVD) would you like to solve?',
 					      widget=forms.RadioSelect(),
 					      choices=SVD_CHOICES
 					      )    
 
 
-##---- standard/generalized form ---##
-class standardGeneralizedForm(forms.Form):
-    svd_standardGeneralized = forms.ChoiceField(label='Is the problem standard or generalized?',
-					      widget=forms.RadioSelect(),
-					      choices=STANDARD_CHOICES,
-					)
-    
     
 ##---- complex form ----##
 class complexNumberForm(forms.Form):
@@ -100,55 +94,43 @@ class storageTypeForm(forms.Form):
 	self.fields['svd_storageType'].widget.renderer.disable = disableList
 	    
 
-	    
-
-##--- selected svdvalue form ---##
-class selectedEVForm(forms.Form):
-    svd_selectedEV = forms.ChoiceField(label='Do you only need svdvalues within a specific range?',
-					 widget=forms.RadioSelect(),
-					 choices=NOYES_CHOICES)
-
 
     
 ##--- svdvectors form ---##
-class svdvectorForm(forms.Form):
-    svd_svdvector = forms.ChoiceField(label='Do you need svdvectors?',
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
-    
-    
-     
-     
-##--- condition numbers for svdvectors form ---##
-class cndN_svdvectorForm(forms.Form):
-    svd_cndN_svdvector = forms.ChoiceField(label='Would you like to compute the reciprocal condition numbers for the svdvectors?',
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
-    
-    
-         
-##--- svdvectors or Schur form ---##
-class schurForm(forms.Form):
-    svd_schur = forms.ChoiceField(label='In addition to svdvalues, do you need other properties such as Schur form, Schur vectors, and sorted svdvalues?',
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
+class singularVectorsForm(forms.Form):
+    svd_singularVectors = forms.ChoiceField(label='Do you need the singular vectors?',
+						widget=forms.RadioSelect(),
+						choices=NOYES_CHOICES)
+#    def __init__(self, request, *args, **kwargs):
+#	super(singularVectorsForm, self).__init__(*args, **kwargs)
+#	self.fields['svd_singularVectors'].choices = request.session['Routines'].values_list('singularVectors', 'singularVectors').distinct()
+#	disableList = []
+#	##--- if there is only one choice, show the others but disable them ---##
+#	if len(self.fields['svd_singularVectors'].choices) == 1:
+#	    selected = self.fields['svd_singularVectors'].choices[0][1]
+#	    self.fields['svd_singularVectors'].choices = NOYES_CHOICES
+#	    self.fields['svd_singularVectors'].initial = selected
+#	    for item in self.fields['svd_singularVectors'].choices:
+#		if item[1] != selected:
+#		    disableList.append(True)
+#		else:
+#		    disableList.append(False)
+#		    
+#	self.fields['svd_singularVectors'].widget.renderer.disable = disableList
     
     
 ##--- condition number form ---##
-class cndNumberForm(forms.Form):
-    svd_cndNumber = forms.ChoiceField(label='Do you need a balancing transformation and/or a reciprocal condition number?',
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
+#class cndNumberForm(forms.Form):
+#    svd_cndNumber = forms.ChoiceField(label='Do you need a balancing transformation and/or a reciprocal condition number?',
+#					      widget=forms.RadioSelect(),
+#					      choices=NOYES_CHOICES
+#					      )
     
     
     
 ##--- precision form ---##
-class thePrecisionForm(forms.Form):
-    svd_thePrecision = forms.ChoiceField(label='Would you like to use single or double precision?',
-					      widget=forms.RadioSelect(),
-					      choices=SINGLEDOUBLE_CHOICES
-					      )
+class singleDoubleForm(forms.Form):
+    svd_singleDouble = forms.ChoiceField(label='Would you like to use single or double precision?',
+                                              widget=forms.RadioSelect(),
+                                              choices=SINGLEDOUBLE_CHOICES
+                                              )
