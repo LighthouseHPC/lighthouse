@@ -118,7 +118,8 @@ def guidedSearch(request):
                     'results' : request.session['Routines']
                     }
         return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
-    else:       
+    else:
+        print "not valid"
         return guidedSearch_index(request)
     
 
