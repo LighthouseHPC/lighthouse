@@ -19,7 +19,7 @@ import datetime
 ##############################################
 
 form_order = ('problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm')
-
+form_2arguments = ['matrixTypeForm', 'storageTypeForm', 'singularVectorsForm']
 
 ### help functions
 def find_nextForm(currentForm_name, request):   
@@ -27,7 +27,7 @@ def find_nextForm(currentForm_name, request):
     nextForm_name = ""        
     nextForm = ""
     
-    ## skip matrixTypeForm if solving the problem of svd_standard or bidiagonal
+    ## skip matrixTypeForm if problem is svd_standard or bidiagonal
     if request.session['svd_problem'] in ['svd_standard', 'bidiagonal'] and request.session['svd_complexNumber'] != '' and request.session['svd_storageType'] == '':
         nextForm_name = 'storageTypeForm'
         nextForm = storageTypeForm(request)
@@ -36,7 +36,7 @@ def find_nextForm(currentForm_name, request):
             ## search for 'none' and return the first column that has zero to be the next question/form
             next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
             nextForm_name = form_order[next_index]
-            if nextForm_name in['matrixTypeForm', 'storageTypeForm',]:
+            if nextForm_name in form_2arguments:
                 nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
             else:
                 nextForm = getattr(sys.modules[__name__], nextForm_name)()
@@ -75,7 +75,7 @@ def guidedSearch_index(request):
 
 def guidedSearch(request):
     ## distinguish forms that take 2 arguments from forms that take 1 argument
-    if request.session['currentForm_name'] in ['matrixTypeForm', 'storageTypeForm']:
+    if request.session['currentForm_name'] in form_2arguments:
         form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.GET or None)   #handle GET and POST in the same view
     else:
         form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.GET or None)
