@@ -1,5 +1,6 @@
 import os, os.path
 import glob, shutil
+import re
 from subprocess import call
 from Base import BaseServer,BaseClient
 from utils import change_workdir, remove_workdir
@@ -68,17 +69,24 @@ class BTORequestHandler(BaseServer):
                 # BTO's option makes it necessary to pass a 2 'word' arg
                 # for --level1 or --level2, e.g.
                 # --level1 "thread 2:12:2"
-                # so we omit the space in our options (in templates.py)
+                # so we omit the space in our user supplied options (in templates.py)
                 # in order to validate, then add the space here
+                # after detecting by regex
                 options_list = options.split()
-                opt_list = []
+                opt_list = [] #temporary
                 for opt in options_list:
-                    if 'thread' in opt:
+                    p = re.compile('^thread')
+                    m = p.match(opt)
+                    if m:
                         opt = opt[:6] + ' ' + opt[6:]
-                        print opt
-                    if 'cache' in opt:
+
+                    p = re.compile('^cache')
+                    m = p.match(opt)
+                    if m:
                         opt = opt[:5] + ' ' + opt[5:]
+
                     opt_list = opt_list + [opt]
+
                 options_list = opt_list
 
                 argv = [self.bto_blas, workdir + '/' + filename]
