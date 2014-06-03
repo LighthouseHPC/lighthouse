@@ -9,7 +9,7 @@ from lighthouse.forms.lapack_eigen import CustomRadioSelect
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
 class problemForm(forms.Form):
-    svd_problem = forms.ChoiceField(label='Which of the following problems about singular value decomposition (SVD) would you like to solve?',
+    svd_problem = forms.ChoiceField(label='Which of the following problems about singular value decomposition (SVD) do you have?',
 					      widget=forms.RadioSelect(),
 					      choices=SVD_CHOICES
 					      )    
