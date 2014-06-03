@@ -59,3 +59,12 @@ os.chdir(database_path)
 os.chdir(database_path+"/lapack_eigen/guided")
 os.system('python load_data.py')
 os.chdir(database_path)
+
+
+
+##### ------------ for LAPACK_svd tables ---------------- #####
+### load data to table
+### lapack_svd
+os.chdir(database_path+"/lapack_svd/guided")
+os.system('python load_data.py')
+os.chdir(database_path)
