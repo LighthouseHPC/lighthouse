@@ -47,7 +47,7 @@ class slepc_RoutineInfo(models.Model):
 	info = models.TextField('Information', blank=True, null=True)
 
 	def __unicode__(self):
-		return self.info
+		return unicode(self.info)
 	class Meta:
 		app_label = 'lighthouse'		
 
@@ -81,8 +81,8 @@ class slepc_Hermitian(models.Model):
 		list_display = ('id', 'thePrecision', 'isComplex','sizeLL','sizeUL','numProcessorsLL','numProcessorsUL' ,'spectrumType' , 'nEigenValuesLL', 'nEigenValuesUL' , 'toleranceLL','toleranceUL', 'routineName', 'info')
 
 	def __unicode__(self):
-		return self.spectrumType
-		return self.routineName
+		return unicode(self.spectrumType)
+		return unicode(self.routineName)
 	
 	class Meta:
 		app_label = 'lighthouse'
@@ -109,8 +109,8 @@ class slepc_NonHermitian(models.Model):
 		list_display = ('id', 'thePrecision', 'isComplex','sizeLL','sizeUL','numProcessorsLL','numProcessorsUL' ,'spectrumType' , 'nEigenValuesLL', 'nEigenValuesUL' , 'toleranceLL','toleranceUL', 'routineName', 'info')
 
 	def __unicode__(self):
-		return self.spectrumType
-		return self.routineName
+		return unicode(self.spectrumType)
+		return unicode(self.routineName)
 	
 	class Meta:
 		app_label = 'lighthouse'
