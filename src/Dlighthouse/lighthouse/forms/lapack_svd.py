@@ -79,7 +79,7 @@ class singularVectorsForm(forms.Form):
 	self.fields['svd_singularVectors'].choices = request.session['Routines'].values_list('singularVectors', 'singularVectors').distinct()
 	disableList = []
 	##--- if there is only one choice, show the others but disable them ---##
-	if len(self.fields['svd_singularVectors'].choices) == 1 and self.fields['svd_singularVectors'].choices != 'no/yes':
+	if len(self.fields['svd_singularVectors'].choices) == 1 and self.fields['svd_singularVectors'].choices != [(u'no/yes', u'no/yes')]:
 	    selected = self.fields['svd_singularVectors'].choices[0][1]
 	    self.fields['svd_singularVectors'].choices = NOYES_CHOICES
 	    self.fields['svd_singularVectors'].initial = selected
