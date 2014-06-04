@@ -38,7 +38,7 @@ cursor.execute("TRUNCATE TABLE lighthouse_lapack_svd")
 
 
 ##### ------------ for LAPACK routine information table ---------------- #####
-cursor.execute("TRUNCATE TABLE lighthouse_lapack_le_routineinfo")
+cursor.execute("TRUNCATE TABLE lighthouse_lapack_routineinfo")
 
 conn.commit()
 
