@@ -19,7 +19,9 @@ import datetime
 ##############################################
 
 form_order = ('problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm')
-form_2arguments = ['matrixTypeForm', 'storageTypeForm', 'singularVectorsForm']
+
+form_2arguments = ['matrixTypeForm', 'storageTypeForm', 'singularVectorsForm']      ## forms that require two arguments
+
 
 ### help functions
 def find_nextForm(currentForm_name, request):   

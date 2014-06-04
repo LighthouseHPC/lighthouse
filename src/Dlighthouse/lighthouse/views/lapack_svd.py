@@ -19,7 +19,9 @@ import datetime
 ##############################################
 
 form_order = ('problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm')
-form_2arguments = ['matrixTypeForm', 'storageTypeForm', 'singularVectorsForm']
+
+form_2arguments = ['matrixTypeForm', 'storageTypeForm', 'singularVectorsForm']      ## forms that require two arguments
+
 
 ### help functions
 def find_nextForm(currentForm_name, request):   
@@ -118,8 +120,7 @@ def guidedSearch(request):
                     'results' : request.session['Routines']
                     }
         return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
-    else:
-        print "not valid"
+    else:       
         return guidedSearch_index(request)
     
 
