@@ -1,0 +1,59 @@
+   ZLA_GERCOND_C computes the infinity norm condition number of
+   op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
+Arguments:
+\param[in] TRANS
+         TRANS is CHARACTER*1
+    Specifies the form of the system of equations:
+      = 'N':  A * X = B     (No transpose)
+      = 'T':  A**T * X = B  (Transpose)
+      = 'C':  A**H * X = B  (Conjugate Transpose = Transpose)
+\param[in] N
+         N is INTEGER
+    The number of linear equations, i.e., the order of the
+    matrix A.  N >= 0.
+\param[in] A
+         A is COMPLEX*16 array, dimension (LDA,N)
+    On entry, the N-by-N matrix A
+\param[in] LDA
+         LDA is INTEGER
+    The leading dimension of the array A.  LDA >= max(1,N).
+\param[in] AF
+         AF is COMPLEX*16 array, dimension (LDAF,N)
+    The factors L and U from the factorization
+    A = P*L*U as computed by ZGETRF.
+\param[in] LDAF
+         LDAF is INTEGER
+    The leading dimension of the array AF.  LDAF >= max(1,N).
+\param[in] IPIV
+         IPIV is INTEGER array, dimension (N)
+    The pivot indices from the factorization A = P*L*U
+    as computed by ZGETRF; row i of the matrix was interchanged
+    with row IPIV(i).
+\param[in] C
+         C is DOUBLE PRECISION array, dimension (N)
+    The vector C in the formula op(A) * inv(diag(C)).
+\param[in] CAPPLY
+         CAPPLY is LOGICAL
+    If .TRUE. then access the vector C in the formula above.
+\param[out] INFO
+         INFO is INTEGER
+      = 0:  Successful exit.
+    i > 0:  The ith argument is invalid.
+\param[in] WORK
+         WORK is COMPLEX*16 array, dimension (2*N).
+    Workspace.
+\param[in] RWORK
+         RWORK is DOUBLE PRECISION array, dimension (N).
+    Workspace.
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date September 2012
+\ingroup complex16GEcomputational
+   DOUBLE PRECISION FUNCTION ZLA_GERCOND_C( TRANS, N, A, LDA, AF, 
+  $                                         LDAF, IPIV, C, CAPPLY,
+  $                                         INFO, WORK, RWORK )
+-- LAPACK computational routine (version 3.4.2) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

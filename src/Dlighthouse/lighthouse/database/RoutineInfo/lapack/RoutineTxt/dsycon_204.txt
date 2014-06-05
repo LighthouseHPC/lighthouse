@@ -1,0 +1,53 @@
+DSYCON estimates the reciprocal of the condition number (in the
+1-norm) of a real symmetric matrix A using the factorization
+A = U*D*U**T or A = L*D*L**T computed by DSYTRF.
+An estimate is obtained for norm(inv(A)), and the reciprocal of the
+condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+Arguments:
+\param[in] UPLO
+         UPLO is CHARACTER*1
+         Specifies whether the details of the factorization are stored
+         as an upper or lower triangular matrix.
+         = 'U':  Upper triangular, form is A = U*D*U**T;
+         = 'L':  Lower triangular, form is A = L*D*L**T.
+\param[in] N
+         N is INTEGER
+         The order of the matrix A.  N >= 0.
+\param[in] A
+         A is DOUBLE PRECISION array, dimension (LDA,N)
+         The block diagonal matrix D and the multipliers used to
+         obtain the factor U or L as computed by DSYTRF.
+\param[in] LDA
+         LDA is INTEGER
+         The leading dimension of the array A.  LDA >= max(1,N).
+\param[in] IPIV
+         IPIV is INTEGER array, dimension (N)
+         Details of the interchanges and the block structure of D
+         as determined by DSYTRF.
+\param[in] ANORM
+         ANORM is DOUBLE PRECISION
+         The 1-norm of the original matrix A.
+\param[out] RCOND
+         RCOND is DOUBLE PRECISION
+         The reciprocal of the condition number of the matrix A,
+         computed as RCOND = 1/(ANORM * AINVNM), where AINVNM is an
+         estimate of the 1-norm of inv(A) computed in this routine.
+\param[out] WORK
+         WORK is DOUBLE PRECISION array, dimension (2*N)
+\param[out] IWORK
+         IWORK is INTEGER array, dimension (N)
+\param[out] INFO
+         INFO is INTEGER
+         = 0:  successful exit
+         < 0:  if INFO = -i, the i-th argument had an illegal value
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date November 2011
+\ingroup doubleSYcomputational
+   SUBROUTINE DSYCON( UPLO, N, A, LDA, IPIV, ANORM, RCOND, WORK,
+  $                   IWORK, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --
