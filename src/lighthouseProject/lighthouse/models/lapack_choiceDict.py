@@ -13,6 +13,7 @@ MATRIX_CHOICES = (
         (u'block upper triangular',     	u'block upper triangular'),
 	(u'symmetric-definite',			u'symmetric-definite'),
 	(u'Hermitian-definite',			u'Hermitian-definite'),
+	(u'upper quasi-triangular',		u'upper quasi-triangular'),
         )
 
 
