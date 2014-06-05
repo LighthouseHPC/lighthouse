@@ -41,21 +41,19 @@
                             </label>
                         </td>
                         <td>
-                            <TEXTAREA id="scriptEquation" required="true" name="scriptEquation"
-                                      cols="30" rows="5" placeHolder="One equation per line"></TEXTAREA>
-<!--                            <input type="text" required="true" name="scriptEquation" id="scriptEquation" placeholder="Enter your equation" 
-                                    missingMessage="Ooops!  You forgot your equation!" /> -->                           
+                            <textarea id="scriptEquation" required="true" name="scriptEquation"
+                                      cols="30" rows="5" placeHolder="One equation per line"></textarea>
                         </td>
                     </tr>
 
                     <tr>
                         <td align="left">
-                            <button class="scriptButton" type="reset" onclick="clearKernelEquation();">
+                            <button class="scriptButton" type="reset" onclick="clearKernelEquation()">
                                 Clear
                             </button>
                         </td>
                         <td align="right">
-                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation();">
+                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation()">
                                 Check Script
                             </button>
                         </td>
@@ -69,7 +67,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="right">
-                            <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none" onclick="runScript();">
+                            <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none" onclick="runScript()">
                                Generate Code with BTO
                             </button>
                         </td>
@@ -85,11 +83,11 @@
 
 <!--loading spinner for the script area-->
 <div id="waitScript" align="center" style="display: none;">
-    <p class="sansserif"><font color="#FE642E"><b>This may take a LONG time.<br>
+    <p class="sansserif"><font color="#FE642E"><b>Working. This may take a LONG time.<br>
     Do not navigate away.<br></b></font></p>
     <!--<label id="minutes">00</label>:<label id="seconds">00</label>-->
 </div>
 <div jsId="waitStandby" dojoType="dojox.widget.Standby" target="waitScript" color="transparent">
 </div>        
-<!--end loading pinnner-->
+<!--end loading spinner-->
 

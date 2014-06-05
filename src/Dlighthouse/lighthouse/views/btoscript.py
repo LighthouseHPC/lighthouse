@@ -10,8 +10,15 @@ from django.template import RequestContext
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the BTO script code generation index.")
+    context = {
+        'scriptCode': request.session['userScript'], 
+        'scriptOutput': request.session['scriptOutput'],
+    }
 
+    return render_to_response(
+        'lighthouse/btoscript/index.html', 
+        context_instance = RequestContext(request, context)
+     )
 
 
 ###---------------- Script ------------------###
