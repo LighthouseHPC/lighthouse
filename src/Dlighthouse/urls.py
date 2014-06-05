@@ -65,8 +65,11 @@ urlpatterns = patterns('',
 
     ###----------------- for SLEPc -----------------------###
     ### for SLEPc routines -- link lighthouse/urls/lapack_*.py:
-    url(r'^slepc_eprob/', include('lighthouse.urls.slepc_eprob'))
+    url(r'^slepc_eprob/', include('lighthouse.urls.slepc_eprob')),
 
+    ###----------------- for BTO script ------------------###
+    ### ###
+    url(r'^btoscript/', include('lighthouse.urls.btoscript'))
 
 )
 

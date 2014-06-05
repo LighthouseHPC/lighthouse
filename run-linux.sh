@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-if [ "x$1" != "x" ]; then port=$1; else port=8000; fi
+port=${1:-8000}
 
 checkCmd() {
     # The first (required) argument is the type of failure, e.g., "FAIL", "XFAIL", "BROKEN"
