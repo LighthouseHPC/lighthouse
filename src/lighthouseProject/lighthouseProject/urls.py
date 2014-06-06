@@ -53,6 +53,7 @@ urlpatterns = patterns('',
     #url(r'^lapack_le/', include('lighthouse.urls.lapack_le')),
     url(r'^lapack_eigen/', include('lighthouse.urls.lapack_eigen')),
     url(r'^lapack_svd/', include('lighthouse.urls.lapack_svd')),
+    url(r'^lapack_sylvester/', include('lighthouse.urls.lapack_sylvester')),
     #url(r'^lapack_eprob/', include('lighthouse.urls.lapack_eprob')),
 
     ###----------------- for PETSc -----------------------###
