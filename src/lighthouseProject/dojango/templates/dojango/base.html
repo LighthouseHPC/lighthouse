@@ -37,7 +37,7 @@
 		{% block _dojango_meta_content_lang %}{% endblock %}
                 
 		<title>{% block dojango_page_title %}{% endblock %}</title>
-		<link rel="shortcut icon" href={% static "Images/favicon.png" %}/>
+		<link rel="shortcut icon" href={% static "images/favicon.png" %}/>
 		
 		
 		<!-- STYLE BEGINS -->
@@ -127,7 +127,7 @@
                 <!-- basic preloader: -->
                 <div id="loader">
                         <div id="loaderInner">
-                                <img src={% static "Images/loadingSquare.gif" %}/>
+                                <img src={% static "images/loadingSquare.gif" %}/>
                                 <br><br>
                                 Please wait while the page loads...
                         </div>
@@ -135,7 +135,7 @@
                 <!-- "main" BorderContainer just contains page title and another BorderContainer -->	
                 <div id="main" data-dojo-type="dijit/layout/BorderContainer">
 			<div id="header" data-dojo-type="dijit/layout/ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">       
-				<img src={% static "Images/NewHeader.png" %}/>
+				<img src={% static "images/NewHeader.png" %}/>
                                 <div style="float:right; padding-top: 7px;">
                                         {% if user.is_authenticated %}                            
 						<div style="text-align:right; color:#808080;">
@@ -144,7 +144,7 @@
 									<td>Welcome, {{ user.username }}!</td>
 								</tr>
 								<tr>
-								<!--<a href="/accounts/logout/"><img src={% static "Images/logout.png" %}/></a>-->        
+								<!--<a href="/accounts/logout/"><img src={% static "images/logout.png" %}/></a>-->        
 									<td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;
 									    <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
 									</td>
@@ -156,7 +156,7 @@
                                                         <table>
                                                                 <tr>
                                                                         <td>
-                                                                                <a href="/accounts/logout/"><img src={% static "Images/logout.png" %}/></a>
+                                                                                <a href="/accounts/logout/"><img src={% static "images/logout.png" %}/></a>
                                                                         </td>          
                                                                         <td>
                                                                                 <a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
