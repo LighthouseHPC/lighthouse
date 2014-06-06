@@ -1,0 +1,49 @@
+CSYTRS solves a system of linear equations A*X = B with a complex
+symmetric matrix A using the factorization A = U*D*U**T or
+A = L*D*L**T computed by CSYTRF.
+Arguments:
+\param[in] UPLO
+         UPLO is CHARACTER*1
+         Specifies whether the details of the factorization are stored
+         as an upper or lower triangular matrix.
+         = 'U':  Upper triangular, form is A = U*D*U**T;
+         = 'L':  Lower triangular, form is A = L*D*L**T.
+\param[in] N
+         N is INTEGER
+         The order of the matrix A.  N >= 0.
+\param[in] NRHS
+         NRHS is INTEGER
+         The number of right hand sides, i.e., the number of columns
+         of the matrix B.  NRHS >= 0.
+\param[in] A
+         A is COMPLEX array, dimension (LDA,N)
+         The block diagonal matrix D and the multipliers used to
+         obtain the factor U or L as computed by CSYTRF.
+\param[in] LDA
+         LDA is INTEGER
+         The leading dimension of the array A.  LDA >= max(1,N).
+\param[in] IPIV
+         IPIV is INTEGER array, dimension (N)
+         Details of the interchanges and the block structure of D
+         as determined by CSYTRF.
+\param[in,out] B
+         B is COMPLEX array, dimension (LDB,NRHS)
+         On entry, the right hand side matrix B.
+         On exit, the solution matrix X.
+\param[in] LDB
+         LDB is INTEGER
+         The leading dimension of the array B.  LDB >= max(1,N).
+\param[out] INFO
+         INFO is INTEGER
+         = 0:  successful exit
+         < 0:  if INFO = -i, the i-th argument had an illegal value
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date November 2011
+\ingroup complexSYcomputational
+   SUBROUTINE CSYTRS( UPLO, N, NRHS, A, LDA, IPIV, B, LDB, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

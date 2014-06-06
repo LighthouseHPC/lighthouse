@@ -1,0 +1,63 @@
+DGBCON estimates the reciprocal of the condition number of a real
+general band matrix A, in either the 1-norm or the infinity-norm,
+using the LU factorization computed by DGBTRF.
+An estimate is obtained for norm(inv(A)), and the reciprocal of the
+condition number is computed as
+   RCOND = 1 / ( norm(A) * norm(inv(A)) ).
+Arguments:
+\param[in] NORM
+         NORM is CHARACTER*1
+         Specifies whether the 1-norm condition number or the
+         infinity-norm condition number is required:
+         = '1' or 'O':  1-norm;
+         = 'I':         Infinity-norm.
+\param[in] N
+         N is INTEGER
+         The order of the matrix A.  N >= 0.
+\param[in] KL
+         KL is INTEGER
+         The number of subdiagonals within the band of A.  KL >= 0.
+\param[in] KU
+         KU is INTEGER
+         The number of superdiagonals within the band of A.  KU >= 0.
+\param[in] AB
+         AB is DOUBLE PRECISION array, dimension (LDAB,N)
+         Details of the LU factorization of the band matrix A, as
+         computed by DGBTRF.  U is stored as an upper triangular band
+         matrix with KL+KU superdiagonals in rows 1 to KL+KU+1, and
+         the multipliers used during the factorization are stored in
+         rows KL+KU+2 to 2*KL+KU+1.
+\param[in] LDAB
+         LDAB is INTEGER
+         The leading dimension of the array AB.  LDAB >= 2*KL+KU+1.
+\param[in] IPIV
+         IPIV is INTEGER array, dimension (N)
+         The pivot indices; for 1 <= i <= N, row i of the matrix was
+         interchanged with row IPIV(i).
+\param[in] ANORM
+         ANORM is DOUBLE PRECISION
+         If NORM = '1' or 'O', the 1-norm of the original matrix A.
+         If NORM = 'I', the infinity-norm of the original matrix A.
+\param[out] RCOND
+         RCOND is DOUBLE PRECISION
+         The reciprocal of the condition number of the matrix A,
+         computed as RCOND = 1/(norm(A) * norm(inv(A))).
+\param[out] WORK
+         WORK is DOUBLE PRECISION array, dimension (3*N)
+\param[out] IWORK
+         IWORK is INTEGER array, dimension (N)
+\param[out] INFO
+         INFO is INTEGER
+         = 0:  successful exit
+         < 0: if INFO = -i, the i-th argument had an illegal value
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date November 2011
+\ingroup doubleGBcomputational
+   SUBROUTINE DGBCON( NORM, N, KL, KU, AB, LDAB, IPIV, ANORM, RCOND,
+  $                   WORK, IWORK, INFO )
+-- LAPACK computational routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --

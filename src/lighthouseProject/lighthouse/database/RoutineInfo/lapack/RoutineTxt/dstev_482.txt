@@ -1,0 +1,49 @@
+DSTEV computes all eigenvalues and, optionally, eigenvectors of a
+real symmetric tridiagonal matrix A.
+Arguments:
+\param[in] JOBZ
+         JOBZ is CHARACTER*1
+         = 'N':  Compute eigenvalues only;
+         = 'V':  Compute eigenvalues and eigenvectors.
+\param[in] N
+         N is INTEGER
+         The order of the matrix.  N >= 0.
+\param[in,out] D
+         D is DOUBLE PRECISION array, dimension (N)
+         On entry, the n diagonal elements of the tridiagonal matrix
+         A.
+         On exit, if INFO = 0, the eigenvalues in ascending order.
+\param[in,out] E
+         E is DOUBLE PRECISION array, dimension (N-1)
+         On entry, the (n-1) subdiagonal elements of the tridiagonal
+         matrix A, stored in elements 1 to N-1 of E.
+         On exit, the contents of E are destroyed.
+\param[out] Z
+         Z is DOUBLE PRECISION array, dimension (LDZ, N)
+         If JOBZ = 'V', then if INFO = 0, Z contains the orthonormal
+         eigenvectors of the matrix A, with the i-th column of Z
+         holding the eigenvector associated with D(i).
+         If JOBZ = 'N', then Z is not referenced.
+\param[in] LDZ
+         LDZ is INTEGER
+         The leading dimension of the array Z.  LDZ >= 1, and if
+         JOBZ = 'V', LDZ >= max(1,N).
+\param[out] WORK
+         WORK is DOUBLE PRECISION array, dimension (max(1,2*N-2))
+         If JOBZ = 'N', WORK is not referenced.
+\param[out] INFO
+         INFO is INTEGER
+         = 0:  successful exit
+         < 0:  if INFO = -i, the i-th argument had an illegal value
+         > 0:  if INFO = i, the algorithm failed to converge; i
+               off-diagonal elements of E did not converge to zero.
+Authors:
+\author Univ. of Tennessee 
+\author Univ. of California Berkeley 
+\author Univ. of Colorado Denver 
+\author NAG Ltd. 
+\date November 2011
+\ingroup doubleOTHEReigen
+   SUBROUTINE DSTEV( JOBZ, N, D, E, Z, LDZ, WORK, INFO )
+-- LAPACK driver routine (version 3.4.0) --
+-- LAPACK is a software package provided by Univ. of Tennessee,    --
