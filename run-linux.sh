@@ -1,6 +1,15 @@
 #!/bin/bash 
 
-port=${1:-8000}
+# Make sure executed from djangostack env
+if [[ $PATH != *djangostack* ]]
+then
+  echo "ERROR: Please run ./use_djangostack from your installation of"
+  echo "       djangostack in this shell before running the bootstrap!"
+  echo "Exiting."
+  exit 1  
+fi
+
+port=${1:-8000} # default port is 8000 if argv[1] not given
 
 checkCmd() {
     # The first (required) argument is the type of failure, e.g., "FAIL", "XFAIL", "BROKEN"
@@ -45,21 +54,9 @@ checkCmd() {
     fi
 }
 
-# Linux install path for djangostack
-appRoot=~
-
 pythonexec=python
 
-dsversion=`ls $appRoot | grep djangostack | sed -e 's|djangostack-\(.*\)/|\1|'`
-
-if [ -e $appRoot/$dsversion/python/bin/python ]; then 
-  # Using djangostack
-  pythonexec=$appRoot/$dsversion/python/bin/python
-fi
-echo $pythonexec
-
 pwd=`pwd`
-haystack_whoosh_path="HAYSTACK_WHOOSH_PATH = '""$pwd""/src/Dlighthouse/index.whoosh'"
 
 checkCmd "FAIL" "cd src/Dlighthouse" "Could not find the Lighthouse directiony (src/Dlighthouse)" "src/Dlighthouse"
 

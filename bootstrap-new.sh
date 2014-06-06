@@ -4,7 +4,8 @@
 if [[ $PATH != *djangostack* ]]
 then
   echo "ERROR: Please run ./use_djangostack from your installation of"
-  echo "       djangostack before running the bootstrap! Exiting."
+  echo "       djangostack in this shell before running the bootstrap!"
+  echo "Exiting."
   exit 1  
 fi
 
