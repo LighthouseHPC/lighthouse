@@ -3,7 +3,7 @@ from django import forms
 
 from lighthouse.models.lapack_eigen import *
 from lighthouse.models.lapack_svd import *
-#from lighthouse.models.lapack_sylvester import * 
+from lighthouse.models.lapack_sylvester import * 
 
 
 
@@ -48,11 +48,11 @@ admin.site.register(lapack_svd, lapack_svd_Admin)
 
 
 """ Sylvester """
-#class lapack_sylvester_Admin(admin.ModelAdmin):
-#	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType')
-#	list_filter = ['thePrecision', 'matrixType', 'storageType',]
-#	search_fields = ['routineName',]
-#	ordering = ('id',)
-#	raw_id_fields = ('info',)
-#
-#admin.site.register(lapack_sylvester, lapack_sylvester_Admin)
+class lapack_sylvester_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized','matrixType', 'storageType', 'singleDouble')
+	list_filter = ['thePrecision', 'standardGeneralized', 'singleDouble',]
+	search_fields = ['routineName',]
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+admin.site.register(lapack_sylvester, lapack_sylvester_Admin)
