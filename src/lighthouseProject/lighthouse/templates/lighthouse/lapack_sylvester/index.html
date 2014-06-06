@@ -1,0 +1,11 @@
+{% extends "dojango/base_sylvester.html" %}
+
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_sylvester_guidedSearch %}
+{% include "lighthouse/lapack_sylvester/guidedSearch.html" %}
+{% endblock %}
+
+{% block dojango_content_sylvester_search_result %}
+{% include "lighthouse/lapack_sylvester/results.html" %}
+{% endblock %}
