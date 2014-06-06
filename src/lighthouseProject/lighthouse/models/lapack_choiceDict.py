@@ -67,7 +67,7 @@ NOYESBOTH_CHOICES = (
 
 
 
-#####----------- for LAPACK eigen, svd routines -------------#####
+#####----------- for LAPACK eigen, Sylvester routines -------------#####
 STANDARD_CHOICES = (
         (u'standard',                   	u'standard'),
         (u'generalized',                	u'generalized'), 
@@ -95,3 +95,6 @@ SVD_CHOICES = (
 	(u'svd_generalized',			u'Computing the generalized SVD of a matrix'),
 	(u'bidiagonal',				u'Reducing a general matrix to bidiagonal form'),
 )
+
+
+
