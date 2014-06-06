@@ -29,23 +29,23 @@ urlpatterns = patterns('',
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
     
     ### for dojango
-    (r'^dojango/', include('dojango.urls')),
+    url(r'^dojango/', include('dojango.urls')),
 
     ### Go to the login page
     #(r'^$', 'django.contrib.auth.views.login'),
-    #(r'^index/$', 'django.contrib.auth.views.login'),
+    url(r'^index/$', 'django.contrib.auth.views.login'),
     
     ### Link registration/backends/default/urls.py for normal account registration:
-    #(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     
     ### Link emailRegistartion/urls.py to use email as username:
-    #(r'^accounts/', include('emailRegistration.urls')),
+    url(r'^accounts/', include('emailRegistration.urls')),
 
     ### Link blog/urls.py for blog:
-    #(r'^blog/', include('blog.urls')),
+    url(r'^blog/', include('blog.urls')),
 
     ### Link forum/urls.py for blog:
-    #(r'^forum/', include('forum.urls')),
+    url(r'^forum/', include('forum.urls')),
     
     
     ###----------------- for LAPACK -----------------------###
