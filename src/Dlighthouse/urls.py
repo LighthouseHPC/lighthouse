@@ -50,7 +50,7 @@ urlpatterns = patterns('',
     
     ###----------------- for LAPACK -----------------------###
     ### for LAPACK routines -- link lighthouse/urls/lapack_*.py:
-    #url(r'^lapack_le/', include('lighthouse.urls.lapack_le')),
+    url(r'^lapack_le/', include('lighthouse.urls.lapack_le')),
     url(r'^lapack_eigen/', include('lighthouse.urls.lapack_eigen')),
     url(r'^lapack_svd/', include('lighthouse.urls.lapack_svd')),
     url(r'^lapack_sylvester/', include('lighthouse.urls.lapack_sylvester')),
@@ -58,10 +58,10 @@ urlpatterns = patterns('',
 
     ###----------------- for PETSc -----------------------###
     ### for PETSc routines -- link lighthouse/urls/lapack_*.py:
-    #url(r'^petsc/', include('lighthouse.urls.petsc_le')),
+    url(r'^petsc/', include('lighthouse.urls.petsc_le')),
 
     ###----------------- for SLEPc -----------------------###
     ### for SLEPc routines -- link lighthouse/urls/lapack_*.py:
-    #url(r'^slepc_eprob/', include('lighthouse.urls.slepc_eprob'))
+    url(r'^slepc_eprob/', include('lighthouse.urls.slepc_eprob'))
     
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
