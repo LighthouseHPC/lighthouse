@@ -5,7 +5,7 @@ os.sys.path.insert(0,parentdir)
 from BTOServer.MatrixParser.matrixparser import MParser
 from BTOServer.BTOClient.BTO import BTO_Client
 from subprocess import call
-from utils import remove_workdir
+from BTOServer.BTOClient.utils import remove_workdir
 
 class BTOGenerator(object):
   def __init__(self):
