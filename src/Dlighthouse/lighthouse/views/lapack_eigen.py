@@ -22,6 +22,8 @@ form_order = ('problemForm', 'standardGeneralizedForm', 'complexNumberForm', 'ma
 
 form_2arguments = ['matrixTypeForm', 'storageTypeForm']     ## forms that require two arguments
 
+form_HTML = ['standardGeneralizedForm']        ## forms with HTML format
+
 
 ### help functions
 def question_and_answer(form, value, choices):
@@ -117,7 +119,7 @@ def guidedSearch(request):
         request.session['currentForm_name'] = nextForm_name 
         
         ## decide whether or not to use form HTML files (if help buttons are needed, use HTML file instead of form)
-        if nextForm_name in ["standardGeneralizedForm"]:
+        if nextForm_name in form_HTML:
             formHTML = nextForm_name
         else:
             formHTML = "invalid"
