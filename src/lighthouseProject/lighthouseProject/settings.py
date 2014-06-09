@@ -18,10 +18,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shark',
+        'NAME': 'lighthousedb',
         'HOST': '/Applications/djangostack-1.4.10-0/mysql/tmp/mysql.sock',
         'PORT': '3306',
-        'USER': 'root',
+        'USER': 'lighthouse',
         'PASSWORD': 'yellow1234'
     }
 }
