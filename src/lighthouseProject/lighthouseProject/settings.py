@@ -135,9 +135,20 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+
+    ###----- for django-registration -----###
+    'registration',
+    
+    ###----- for lighthouse -----###
     'lighthouse',
+    
+    ###----- for dojango -----###    
     'dojango',
+    
+    ###----- for haystack -----###
     'haystack',
+    
+    ###----- for dajaxice and dajax -----###
     'dajaxice',
     'dajax',
 )

@@ -32,14 +32,14 @@ urlpatterns = patterns('',
     (r'^dojango/', include('dojango.urls')),
 
     ### Go to the login page
-    #(r'^$', 'django.contrib.auth.views.login'),
-    #(r'^index/$', 'django.contrib.auth.views.login'),
+    (r'^$', 'django.contrib.auth.views.login'),
+    (r'^index/$', 'django.contrib.auth.views.login'),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
     
     ### Link emailRegistartion/urls.py to use email as username:
-    #(r'^accounts/', include('emailRegistration.urls')),
+    (r'^accounts/', include('emailRegistration.urls')),
 
     ### Link blog/urls.py for blog:
     #(r'^blog/', include('blog.urls')),

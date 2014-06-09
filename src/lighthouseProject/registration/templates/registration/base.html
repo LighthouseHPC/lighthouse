@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <style rel="stylesheet">
+
+      html{
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;   
+
+        background: url(/static/images/bg.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;   
+      }
+
+      body{
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;            
+      }
+
+      #titlediv {
+        text-align: center;         
+        background-color: #246b8f;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin: 0px auto;        
+        font: 35px Tahoma, "Trebuchet MS", Verdana, sans-serif;
+        color: #fff;
+      }
+
+      #subtitlediv {
+        text-align: center;         
+        background-color: #3399cc;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        margin: 0px auto;
+        font: 25px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+      }
+
+      #maindiv {         
+        font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;        
+        width: 400px;
+        margin: 0px auto;
+        border: 2px solid #ccc;
+        background-color: #eee; 
+        padding: 10px 10px 15px 10px;
+        border-radius: 15px;
+        text-align: center;        
+      }
+
+      #formtitle {         
+        font: 18px Tahoma, "Trebuchet MS", Verdana, sans-serif;
+        text-align: center;
+        color: #000;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #ddd;
+        width: 400px;
+        border-radius: 7px;
+        margin: 0px auto;      
+      }
+
+      #formdiv{
+        text-align: left;        
+        width:100%;
+        height:100%;
+        margin: 0px auto;
+        padding-top: 10px;
+      }
+
+      #buttondiv{
+        text-align: center;      
+        width:100%; 
+        height:100%; 
+        margin: 0px auto;
+        padding-top: 10px;
+      }
+
+      th{
+        text-align: right;
+        vertical-align: top;
+      }
+
+      td{
+        vertical-align: top;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+      }
+
+      span{
+        color: #555;
+      }      
+            
+    </style>
+    <title>{% block title %}Tagging Exploration{% endblock %}</title>
+</head>
+
+<body>
+    <div id="titlediv">Lighthouse</div>
+    <div id="subtitlediv">Taxonomy</div>
+    {% block content %}{% endblock %}
+</body>
+</html>
