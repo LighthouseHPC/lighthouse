@@ -12,8 +12,6 @@ from django.template.loader import render_to_string
 #---- for method = 'post' ---#
 from django.views.decorators.csrf import csrf_exempt
 
-from codeGen.templates import BTOGenerator
-
 from haystack.forms import ModelSearchForm
 from haystack.inputs import AutoQuery, Exact, Clean
 from haystack.views import SearchView
@@ -1148,30 +1146,6 @@ def filterSelectedRoutines3(request, routines):
 
 
 
-
-
-
-
-###---------------- Script ------------------###
-
-@csrf_exempt
-def runScript(request):
-	
-	code = request.POST.get('scriptCode')
-
-	if code == "":
-		request.session['userScript'] = ""
-		request.session['scriptOutput'] = ""
-		output = ""
-	else:
-		bto = BTOGenerator()
-		output = bto.generateCode(str(code))		
-		request.session['userScript'] = code
-		request.session['scriptOutput'] = output
-
-	request.session.modified = True
-
-	return HttpResponse(output)
 
 
 

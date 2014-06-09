@@ -4,7 +4,7 @@ from dajaxice.core import dajaxice_functions
 from dajax.core import Dajax
 import os, glob, zipfile
 from datetime import datetime
-from codeGen.templates import BTOGenerator
+from lighthouse.codeGen.templates import BTOGenerator
 from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
 
 
