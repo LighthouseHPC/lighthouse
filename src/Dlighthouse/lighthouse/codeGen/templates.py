@@ -60,13 +60,13 @@ class BTOGenerator(object):
 #      else:
 #          return 'Syntax Errors\n', '\n'.join(mparser.lex.errors)
 
-  def submitToBTO(self, filename):
+  def submitToBTO(self, filename, btoArgs):
       client = BTO_Client()
       host = 'localhost'
       port = 9999
       user = 'salin'
       #no need to split up options string
-      options = '--level1 cache64:512:8'#thread2:12:2' # cache64:512:8
+      options = btoArgs #'--level1 cache64:512:8'#thread2:12:2' # cache64:512:8
       filename = str(filename)
 
       try:

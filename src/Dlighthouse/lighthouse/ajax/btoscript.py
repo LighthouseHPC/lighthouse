@@ -64,9 +64,11 @@ def make_mfile(request, paramProperty):
 	f.write('   %s\n'%paramProperty['equation'])
 	f.write('}')
 	f.close()
-	
+
+	btoArgs = paramProperty['btoArgs'];
+
 	try:
-		output = bto.submitToBTO('%s.m'%paramProperty['kernelName'])
+		output = bto.submitToBTO('%s.m'%paramProperty['kernelName'], btoArgs)
 
 	except Exception, e:
 		print 'submitToBTO Exception caught:', str(e)

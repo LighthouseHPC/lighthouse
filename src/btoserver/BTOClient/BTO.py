@@ -36,12 +36,12 @@ class BTORequestHandler(BaseServer):
         
     def bto_handle(self):
         ### Acquire lock on BTO in order to manage *.dot files and resource
-        ### If it is locked, sleep rand[1,5] seconds before retrying acq.
+        ### If it is locked, sleep random seconds before retrying acq.
         print "Acquiring lock on BTO..."
         cwd = os.getcwd()
         while os.path.exists('./bto.lock'):
             print "Busy, retrying in a few seconds."
-            time.sleep(random.randint(1,5))
+            time.sleep(random.randint(5,15))
         if os.path.exists('./bto.lock') == False:
             open('./bto.lock', 'a').close(); # touch lock file
             print "Lock acquired."

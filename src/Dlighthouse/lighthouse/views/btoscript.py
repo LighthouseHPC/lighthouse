@@ -19,6 +19,10 @@ def index(request):
      )
 
 
+def args(request):
+    return render_to_response('lighthouse/btoscript/args.txt')
+
+
 ###---------------- Script ------------------###
 
 @csrf_exempt

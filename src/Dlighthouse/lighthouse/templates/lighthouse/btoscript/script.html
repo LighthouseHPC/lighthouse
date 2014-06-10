@@ -66,6 +66,16 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>
+                            <label for="btoArgs"><strong><a href="./args">Commandline args to pass to BTO</a>:</strong></label>
+                        </td>
+                        <td>
+                            <input id="btoArgs" dojoType="dijit.form.ValidationTextBox"
+                                   type="text" required="true" name="btoArgs" value="--level1 thread2:12:2"
+                                   missingMessage="Please enter commandline args for BTO compiler." />                            
+                        </td>
+                    </tr>  
+<tr>
                         <td colspan="2" align="right">
                             <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none" onclick="runScript()">
                                Generate Code with BTO

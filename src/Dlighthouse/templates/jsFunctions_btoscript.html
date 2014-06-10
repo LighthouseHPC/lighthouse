@@ -849,6 +849,7 @@
 		var kernelName = dojo.byId("kernelName").value;
 		kernel.push(kernelName);
 		kernel.push(equation);
+        kernel.push(dojo.byId("btoArgs").value);
 		
 		if (equation == 0 || kernelName == 0) {
 			alert("Please complete all fields.")
@@ -1024,7 +1025,7 @@
 	
 	// Called when user submits some script
 	function runScript(){
-		var paramProperty = {'kernelName': kernel[0], 'equation': kernel[1]};
+		var paramProperty = {'kernelName': kernel[0], 'equation': kernel[1], 'btoArgs': kernel[2]};
 		for (var i=0; i<arrParameters.length; i++){
 			var selectId_1 = 'select1_'+i;
 			var selectId_2 = 'select2_'+i;
