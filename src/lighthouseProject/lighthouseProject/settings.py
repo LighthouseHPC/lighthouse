@@ -22,7 +22,10 @@ DATABASES = {
         'HOST': '/Applications/djangostack-1.4.10-0/mysql/tmp/mysql.sock',
         'PORT': '3306',
         'USER': 'lighthouse',
-        'PASSWORD': 'yellow1234'
+        'PASSWORD': 'yellow1234',
+        'OPTIONS': {
+                    "init_command": "SET storage_engine=MyISAM",
+                }
     }
 }
 
