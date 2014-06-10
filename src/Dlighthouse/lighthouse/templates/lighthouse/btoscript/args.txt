@@ -1,0 +1,84 @@
+<pre>
+Below is the output of btoblas --help
+For a simple test of the system, try the following:
+--level1 thread2:12:2
+
+-----
+$ ./btoblas --help
+
+USAGE: btoblas matlab_input_file.m [options]
+
+Options:
+  -a [ --precision ] arg (=double)      Set precision type for generated output
+                                        [float|double]
+                                          double is default
+  -e [ --empirical_off ]                Disable empirical testing.  Empirical 
+                                        testing
+                                        is enabled by default.
+  -c [ --correctness ]                  Enable correctness testing.  
+                                        Correctness testing
+                                        is disabled by default.  Enabling 
+                                        requires a BLAS library
+                                        to be present.  (Set path in top level 
+                                        make.inc. See 
+                                        documentation for further details
+  -m [ --use_model ]                    Enable the analytic model when testing 
+                                        kernels. If set the compiler will use a
+                                        memory model to help with optimization 
+                                        choices.  Not recommended for most 
+                                        users. 
+  -t [ --threshold ] arg (=0.01)        This parameter controls how much 
+                                        empirical testing is performed. For 
+                                        example, the default of 0.01 says that 
+                                        empirical testing will be performed on 
+                                        any version that is predicted to be 
+                                        within %1 the performance of the best 
+                                        predicted version.  A value of 1 will 
+                                        rank all versions. A value of 0 will 
+                                        select only the best version. Only used
+                                        if use_model is on.
+  --level1 arg                          Choose thread or cache tiling for outer
+                                        level, and input parameter search 
+                                        range. Example "thread2:12:2" or 
+                                        "cache64:512:8".
+  --level2 arg                          Choose thread or cache tiling for inner
+                                        level, and input parameter search 
+                                        range. Example "thread2:12:2" or 
+                                        "cache64:512:8".
+  -r [ --test_param ] arg (=3000:3000:1)
+                                        Set parameters for empirical and 
+                                        correctness tests as
+                                        start:stop:step
+  -s [ --search ] arg (=ga)             select the search strategy:
+                                          [ga|ex|random|orthogonal|debug|thread
+                                        ] 
+                                            ga is the default 
+                                         ga: genetic algorithm 
+                                          orthogonal: search one parameter 
+                                                      completely first, then 
+                                                      search next.  For example
+                                                      find best fusion, and 
+                                                      then find best partition 
+                                                      strategy
+                                          random: randomly search the space
+                                          exhaustive: exhaustively search the 
+                                                      space (very long run 
+                                                      times)
+                                        thread: thread search only 
+                                        debug: use the versions specified in 
+                                        debug.txt 
+                                        
+  --ga_timelimit arg (=10)              Specifies the number of GA versions to 
+                                        be tested
+  --empirical_reps arg (=5)             the number of empirical test 
+                                        repetitions for each point
+  --delete_tmp                          delete *_tmp directory without 
+                                        prompting
+  --ga_popsize arg (=10)                population size
+  --ga_nomaxfuse                        genetic algorithm without max fuse
+  --ga_noglobalthread                   genetic algorithm without global thread
+                                        search
+  --ga_exthread                         genetic algorithm with additional 
+                                        exhaustive thread search
+
+</pre>
