@@ -1,0 +1,31 @@
+{% extends 'forum/fbase.html' %}
+{% load highlight %}
+
+
+{% block content %}
+    {% if query %}
+        <h3>{{ page.object_list|length }} of {{ page.paginator.count }} results for "<i>{{ request.GET.q }}</i>"
+            on page {{ page.number }} of {{ page.paginator.num_pages }}:</h3>
+        <ul>
+        {% for result in page.object_list %}
+            <li><p><a href="/forum/thread/{{ result.object.thread.id }}#{{ result.object.created }}">{{ result.object.title }},</a>
+                &nbsp;
+                <span style="font-family:verdana;color:grey;font-size:10px;">{{ result.object.created }}</span></p>
+            </li>
+            
+            {% empty %}
+                <p>No results found.</p>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    {% if page.has_previous or page.has_next %}
+        <div>
+            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+            |
+            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}

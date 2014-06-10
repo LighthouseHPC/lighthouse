@@ -1,0 +1,46 @@
+{% extends "blog/bbase.html" %}
+
+
+{% block content %}
+    <div>
+        <!-- Posts  -->
+        <ul>
+            {% for post in posts %}
+                <h3 class="title" style="font-family:arial;">{{ post.title }}<hr></h3>
+                <ul>
+                    <div class="time"  style="font-family:verdana;color:grey;font-size:12px;">{{ post.created }}</div>
+                    <div class="body">{{ post.body|linebreaks }}</div>
+                    <div class="commentlink" style="text-align:right; margin-right: 50px;">
+                        <!--<a href="{% url blog.views.post post.pk %}">Comments</a>-->
+                        <!-- The above is used in older version of Django, for v1.3, use the following -->
+                        <!-- the variable {{ post.id }} is the argument pk in the veiw post(request, pk) -->
+                        <a style="text-decoration: none" href="/blog/{{ post.id }}/">Comments ({{ post.comment_set.count }})</a>
+                    </div>
+                    
+                </ul>
+            {% endfor %}
+        </ul>
+        <br><br><br>
+
+        <!-- Next/Prev page links  -->
+        {% if posts.object_list and posts.paginator.num_pages > 1 %}
+        <div class="pagination" style="text-align:center;">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a style="text-decoration: none" href= "?page={{ posts.previous_page_number }}">newer entries &lt;&lt; </a>
+                {% endif %}
+
+                <span class="current">
+                    &nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+                </span>
+
+                {% if posts.has_next %}
+                    <a style="text-decoration: none" href="?page={{ posts.next_page_number }}"> &gt;&gt; older entries</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

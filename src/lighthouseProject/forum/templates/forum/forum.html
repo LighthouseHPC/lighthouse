@@ -1,0 +1,66 @@
+{% extends "forum/fbase.html" %}
+
+{% block content %}
+</br></br>
+<form action="{% url forumPost 'new_thread' pk %}" method="post">
+    {% csrf_token %}
+    <button>
+        Start New Topic
+    </button>
+</form>
+<div>
+    <table id="hor-zebra", border="0">
+        <thead>
+            <tr>
+                <th scope="col">Topics</th>
+                <th scope="col">Replies</th>
+                <th scope="col">Last post</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for thread in threads.object_list %}
+            <tr class="{% if forloop.counter|divisibleby:2 %}even{% endif %}">
+                <td>
+                    <div class="title">
+                        <a style="text-decoration: none" href="{% url thread thread.pk %}">{{ thread.title }}</a>
+                    </div>
+                </td>
+                <td>
+                    {{ thread.num_replies }}
+                </td>
+                <td >
+                    {{ thread.last_post.short }}</br>
+                    <span style="font-family:verdana;color:grey;font-size:10px;">{{ thread.last_post.short_time }}</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!-- Next/Prev page links  -->
+{% if threads.object_list and threads.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if threads.has_previous %}
+            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ threads.number }} of {{ threads.paginator.num_pages }}
+        </span>
+
+        {% if threads.has_next %}
+            <a href="?page={{ threads.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+<form action="{% url forumPost 'new_thread' pk %}" method="post">
+    {% csrf_token %}
+    <button>
+        Start New Topic
+    </button>
+</form>
+</br>
+{% endblock %}

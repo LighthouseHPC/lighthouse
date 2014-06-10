@@ -1,0 +1,58 @@
+{% extends "forum/fbase.html" %}
+
+{% block content %}
+    <h4>{{ title }}</h4>
+    
+    <form dojoType="dijit.form.Form" method="post" action="{{ action }}">{% csrf_token %}
+        <table border="0" height="80%"  cellspacing="10">
+            <!--for starting a new tread (question)-->
+            {% if not subject %}
+            <tr>
+                <th align="left" style="width: 10%">
+                    <label for="id_title">Title:</label>
+                </th>
+                <td align="left">
+                    <input id="id_title" type="text" style="width: 99%" name="title" maxlength="60"
+                            dojoType="myValidationTextarea" required="true"/>
+                </td>
+            </tr>
+            <!--for creating a new post (reply to a thread)-->
+            {% else %}
+            <tr>
+                <th align="left" style="width: 10%">
+                    <label for="id_title">Subject:</label>
+                </th>
+                <td align="left">
+                    <input id="id_title" type="text" style="width: 99%" name="title" value="{{ subject }}" maxlength="60"
+                            dojoType="myValidationTextarea" required="true"/>
+                </td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th align="left">
+                    <label for="id_body">Body:</label>
+                </th>
+            </tr>    
+            <tr>
+                <td colspan="2" >
+                    <textarea id="id_body" name="body" rows="40" cols="70"
+                              dojoType="myValidationTextarea" required="true"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <button dojoType="dijit.form.Button" type="button" onnclick="JavaScript:history.back();">
+                        Cancel
+                    </button>
+                    <button dojoType="dijit.form.Button" type="submit">
+                        Submit
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+        
+{% endblock %}
+
+
