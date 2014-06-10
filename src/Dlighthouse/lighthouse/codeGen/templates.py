@@ -1,10 +1,12 @@
 import os, glob
-parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 os.sys.path.insert(0,parentdir)
 #print parentdir			#/homes/salin/Lighthouse
+from subprocess import call
+
+
 from BTOServer.MatrixParser.matrixparser import MParser
 from BTOServer.BTOClient.BTO import BTO_Client
-from subprocess import call
 from BTOServer.BTOClient.utils import remove_workdir
 
 class BTOGenerator(object):
@@ -64,7 +66,7 @@ class BTOGenerator(object):
       port = 9999
       user = 'salin'
       #no need to split up options string
-      options = '--level1 thread2:12:2' # cache64:512:8
+      options = '--level1 cache64:512:8'#thread2:12:2' # cache64:512:8
       filename = str(filename)
 
       try:

@@ -1,10 +1,9 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
-
 from django.shortcuts import render_to_response, redirect, render
 from django.template import RequestContext
 
+from lighthouse.codeGen.templates import BTOGenerator
 
 
 
