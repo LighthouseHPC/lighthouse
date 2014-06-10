@@ -142,6 +142,11 @@ INSTALLED_APPS = (
     ###----- for django-registration -----###
     'registration',
     
+    
+    ###----- for blog and forum, etc. -----###
+    'forum',
+    'blog',
+
     ###----- for lighthouse -----###
     'lighthouse',
     
