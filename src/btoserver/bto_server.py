@@ -34,11 +34,16 @@ class LhServer(ForkingTCPServer, BTO_Server):
 
 HOST = 'localhost'
 PORT = 9999
+
+# Directory containing the ./bin dir holding bto compiler executable
+# on the server machine.
 BTOdir = '/home/cookjj/bto/bto/'
 #BTOdir = '/homes/salin/Lighthouse/BTOServer/bto'
-USER = ['salin']
-req_id = strftime('%H-%M-%S', gmtime())
 
-svr = LhServer((HOST, PORT), LhRequestHandler, BTOdir, USER, req_id)
+# Allowed Users
+USER = ['salin', 'cookjj']
+req_id = strftime('%H-%M-%S' gmtime())
+
+svr = LhServer((HOST PORT), LhRequestHandler, BTOdir, USER, req_id)
 svr.serve_forever()
 

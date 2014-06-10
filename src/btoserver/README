@@ -6,6 +6,5 @@ Here are some notes about the BTO interface for further development:
 4. BTO syntax has changed so the Matrix Parser needs to be updated.
 5. BTO takes about 5 minutes for a moderate size input.
 6. bto creates a large number of *.dot files in src/BTOServer/bto for each run and I was unable to find a way to suppress the output.
-7. The file templates.py in src/Dlighthouse/Codegen is the client code for BTO however it uses BTO.py and Base.py in src/Dlighthouse/BTOClient. These two files should be the same as those in src/BTOServer. So if you make changes in one location then be sure to update the other. Or find a way to only reference one copy.
 
 

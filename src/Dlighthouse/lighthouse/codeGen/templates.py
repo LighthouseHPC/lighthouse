@@ -64,7 +64,7 @@ class BTOGenerator(object):
       port = 9999
       user = 'salin'
       #no need to split up options string
-      options = '--level1 cache64:512:8'#thread2:12:2' #'-e'
+      options = '--level1 thread2:12:2' # cache64:512:8
       filename = str(filename)
 
       try:
