@@ -3,16 +3,12 @@
 {% block title %}Logged out{% endblock %}
 
 {% block content %}
-	</br></br>
-	<div id="maindiv">
-        <div id="formtitle">
-            You've been logged out!
-        </div>        
-        <div id="formdiv">
-        	<p>
-            Thank you for using Lighthouse LAPACK Search Engine. <br>
-            You can <a href="{% url auth_login %}">log in</a> again.
-        	</p>
+        <div style="font-family: sans-serif; font-size: 16px;">
+            <h3>You've been logged out!</h3>
+	    <br>
+            <p>Thank you for using Lighthouse Taxonomy. </p>
+	    <p>Login again <a STYLE="text-decoration: none" href="{% url auth_login %}">here</a>.</p>
+
         </div>        
     </div>    
 {% endblock %}
