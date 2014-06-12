@@ -3,61 +3,36 @@
 {% block title %}Lighthouse login{% endblock %}
 
 {% block content %}
-  </br>
-  <div id="maindiv">
-    <div id="formtitle">
-      <b>Welcome!</b>
-    </div>
-    {% if form.errors %}
-    <div style="color:red; font-weight: bold; text-align:center; padding-top: 10px;">     
-      Invalid e-mail/password!
-    </div>
-    {% endif %}
-    <div id="formdiv">
-      <form method="post" action="?next={{ next|default:"/" }}">
-           {% csrf_token %}
-           <table style="margin: 0px auto; width: 275px;">
-                <tr>
-                    <th><label for="id_username">E-mail:</label><!--{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}--></th>
-                    <td>{{ form.username }}</td>
-                </tr>
-                <tr>
-                    <th><label for="id_password">Password:</label><!--{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}--></th>
-                    <td>{{ form.password }}</br>
-                        <a href="{% url auth_password_reset %}" style="text-decoration: none; color: #444;">
-                          Forget your password?
-                        </a>
-                    </td>
-                </tr>
-            </table>
-            <div id="buttondiv">
-            {% if next %}
-                <input type="hidden" name="next" value="{{ next }}" />
-            {% else %}
-                <input type="hidden" name="next" value="{% url guidedSearch_index %}" />
-            {% endif %}
-            </div>
-    </div>
-    <div style="text-align: center; color: #000; padding-top: 5px; padding-bottom: 5px;
-                background-color: #ddd; width: 400px; border-radius: 7px; margin: 0px auto; ">
-      <table align="center">
-        <tr>
-          <td style="padding: 10px;">
-            <input type="submit" style="font-size: medium; border: 0px; border-radius: 7px; width:70px; height: 40px;
-                    box-shadow: 2px 2px 2px #bbb; cursor:pointer;"
-                    value="Login" />
-      </form>
-          </td>
-          <td style="padding: 10px;">
-              <button type="button" style="border: 0px; font-size: small; color: white; text-shadow: 1px 1px 1px #000; box-shadow: 2px 2px 2px #bbb;
-                      background-color: blue; border-radius: 7px; height: 40px; cursor:pointer;"
-                      onclick="window.location = '/lapack_eigen/'" >
-                      Try it out as a guest
-              </button>   
-          </td>
-        </tr>
-      </table>
-      <p><a href="{% url registration_register %}" style="text-decoration: none">Not a member yet?  Sign up now!</a></p>
-    </div>
-  </div>
+	    <div class="login-card">
+		<h1>LOGIN</h1><br>
+		<form method="post" action="?next={{ next|default:"/" }}">
+		    {% csrf_token %}
+		    <input id="id_username" type="text" name="username" placeholder="E-mail Address" />
+		    <input id="id_password" type="password" name="password" placeholder="Password"/>
+		    {% if form.errors %}
+			<div style="color:red; font-weight: bold; text-align:center; padding-top: 10px;">     
+			  Invalid e-mail/password!
+			</div>
+		    {% endif %}
+		    <input type="submit" name="login" class="login login-submit" value="Login">
+		    <div id="buttondiv">
+			{% if next %}
+			    <input type="hidden" name="next" value="{{ next }}" />
+			{% else %}
+			    <input type="hidden" name="next" value="{% url lapack_le %}" />
+			{% endif %}
+		    </div>
+		</form>
+		<div class="login-help">
+		    <a href="{% url registration_register %}">Register</a>
+		    <span style="color: grey;">&#9830</span>
+		    <a href="{% url auth_password_reset %}">Forgot Password</a>
+		</div>
+		</br>
+		<div>
+		    <button type="button" class="try-out" onclick="window.location = '/lapack_le/'" >
+			    Try out as a guest
+		    </button>			
+		</div>
+	    </div>
 {% endblock %}

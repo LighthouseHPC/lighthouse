@@ -1,37 +1,35 @@
 {% extends "registration/base.html" %}
 
-{% block title %}Registration registration{% endblock %}
+{% block title %}Lighthouse registration{% endblock %}
 
 {% block content %}
-    </br></br>
-    <div id="maindiv">
-        <div id="formtitle">
-            Registration Form
-        </div>
+    <div class="login-card">
+	<h1>REGISTRATION</h1><br>
         <form action="." method="post">
         <div id="formdiv">
             {% csrf_token %}
-            <table style="margin: 0px auto; width: 300px;">
-                {{ form }}
-            </table>
+                <input id="id_email" type="text" class="required" name="email" maxlength="75" placeholder="E-mail"/>
+                <input id="id_password1" type="password" class="required" name="password1" placeholder="Password"/>
+                <input id="id_password2" type="password" class="required" name="password2" placeholder="Password (again)"/>
         </div>
         <div id="buttondiv">
-            <table align="center">
+            <table>
                 <tr>
                     <td>
-                        <input type="submit" value="Create account" />
-                        <input type="hidden" name="next" value="{{ next }}" />
-                        </form>
+                        <input type="submit" class="login login-submit" value="Create account" />
+                        <input type="hidden" name="next" class="login login-submit" value="{{ next }}" />
+        </form>
                     </td>
                     <td>
                         <form>
-                           <input type="submit" value="Reset form" />
+                           <input type="submit" class="try-out" value="Reset form" />
                        </form>                       
                     </td>
                 </tr>
             </table>
-            </br>
-            <a href="{% url auth_login %}" style="text-decoration: none">Already a member? Log in!</a>
+            <div>
+                <a href="{% url auth_login %}">Already a member? Log in!</a>
+            </div>
         </div>
     </div>  
 {% endblock %}

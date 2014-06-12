@@ -3,7 +3,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Lighthouse Taxonomy</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href={%static "style/logDefault.css" %} rel="stylesheet" type="text/css" />
     <title>{% block title %}{% endblock %}</title>
@@ -17,9 +16,9 @@
     </div>
     <div id="menu">
 	<ul>
-	    <li><a href="http://www.free-css.com/">About</a></li>
-	    <li><a href="http://www.free-css.com/">Forum</a></li>
-	    <li><a href="http://www.free-css.com/">Blog</a></li>
+	    <li><a href="{% url registration_register %}">About</a></li>
+	    <li><a href="{% url forumList %}">Forum</a></li>
+	    <li><a href="{% url blogindex %}">Blog</a></li>
 	    <li><a href="http://www.free-css.com/">Contact</a></li>
 	</ul>
     </div>
@@ -30,7 +29,7 @@
     </div>
     <div id="footer">
       <p id="legal">Copyright &copy; 2014 The Lighthouse Taxonomy. All Rights Reserved.</p>
-      <p id="links"><a href="http://www.free-css.com/">Privacy Policy</a> | <a href="http://www.free-css.com/">Terms of Use</a></p>
+      <p id="links"><a href="">Privacy Policy</a> | <a href="">Terms of Use</a></p>
     </div>
 </body>
 </html>
