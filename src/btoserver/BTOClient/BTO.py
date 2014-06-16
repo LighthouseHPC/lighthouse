@@ -3,7 +3,8 @@ import glob, shutil
 import re
 import random
 import time
-from subprocess import call
+import subprocess
+from subprocess import call, check_output, CalledProcessError
 from Base import BaseServer,BaseClient
 from utils import change_workdir, remove_workdir
 
@@ -11,13 +12,13 @@ from utils import change_workdir, remove_workdir
 class BTO_Server(BaseServer):
     
     def __init__(self, btodir, u ,r , btoblas='./bin/btoblas'):
-        self.legal_options = 'ae:cmt:r:s:'
+        self.legal_options = 'ae:cmt:r:s:pb:'
         self.legal_longoptions = ['precision=', 'empirical_off',
             'correctness', 'use_model', 'threshold=',
             'level1=', 'level2=', 'test_param=', 'search=',
             'ga_timelimit=', 'empirical_reps=', 'delete_tmp',
             'ga_popsize=', 'ga_nomaxfuse', 'ga_noglobalthread',
-            'ga_exthread']
+            'ga_exthread', 'partition_off', 'backend=']
         self.bto_dir = btodir
         self.users = u
         self.req_id = r
@@ -37,7 +38,7 @@ class BTORequestHandler(BaseServer):
     def bto_handle(self):
         ### Acquire lock on BTO in order to manage *.dot files and resource
         ### If it is locked, sleep random seconds before retrying acq.
-        print "Acquiring lock on BTO..."
+        print "\nAcquiring lock on BTO..."
         cwd = os.getcwd()
         while os.path.exists('./bto.lock'):
             print "Busy, retrying in a few seconds."
@@ -46,29 +47,30 @@ class BTORequestHandler(BaseServer):
             open('./bto.lock', 'a').close(); # touch lock file
             print "Lock acquired."
 
+        static_options = '--delete_tmp '
         os.chdir('/tmp')
         ###---- create userid+"_"+self.req_id and name it baseworkdir
         baseworkdir = self.users[0]+'_'+ self.req_id
         #print baseworkdir                  #salin_xx-xx-xx
         os.mkdir(baseworkdir)
+        workdir = os.path.abspath(os.path.join('/tmp', baseworkdir))
         try:
-            print "check user"
             userid  = self.check_user(self.recv_header1())
-            print "check options"
-            options = self.check_options(self.recv_header1())
-            print "receive n files"
+            options = static_options + self.check_options(self.recv_header1())
             nfiles  = int(self.recv_header1())
-        except:
-            print "Exception!"
+        except Exception, e:
+            print "Exception! ", e
             with open(baseworkdir+'/errors.x', 'w') as f:
                 f.write('An error occurred while the BTO server was receiving the input file.')
-            self.send_header1(1)
-            self.send_files([baseworkdir+'/errors.x'])
-            return None
+            try:
+                self.send_header1(1)
+                self.send_files([baseworkdir+'/errors.x'])
+                return None
+            except IOError, e:
+                print e.strerror
         else:
             ###---- set /tmp/userid+"_"+self.req_id to be workdir
             os.chdir(baseworkdir)
-            workdir = os.getcwd()
 
             #print workdir                      #/tmp/salin_xx-xx-xx
             files = self.recv_files(nfiles)
@@ -84,7 +86,7 @@ class BTORequestHandler(BaseServer):
                 # --level1 "thread 2:12:2"
                 # so we omit the space in our user supplied options (in templates.py)
                 # in order to validate, then add the space here
-                # after detecting by regex
+                # after detecting the relevant arg by regex
                 options_list = options.split()
                 opt_list = [] #temporary
                 for opt in options_list:
@@ -104,12 +106,21 @@ class BTORequestHandler(BaseServer):
 
                 argv = [self.bto_blas, workdir + '/' + filename]
                 argv = argv + options_list
-                call(argv)
 
-            except OSError, e:
+                bto_out = check_output(argv, stderr=subprocess.STDOUT)
+
+            except CalledProcessError, e:
+                print "---Begin output from BTO---"
+                print e.output
+                print "---END output from BTO ---"
+                print " "
+                bto_err = str(e)
                 print e
-                self.send_error("Failed to execute ./bin/btoblas %s" %workdir+ "/" +filename)
+#                self.send_error("Failed to execute ./bin/btoblas %s" %workdir+ "/" +filename)
             else:
+                print "---Begin output from BTO---"
+                print bto_out
+                print "---END output from BTO ---"
                 ###---- go back to /tmp/salin_xx-xx-xx to check if the c files are generated
                 os.chdir(workdir)
                 cfiles = glob.glob('*.c')
@@ -148,5 +159,5 @@ class BTO_Client(BaseClient):
         
     def submit_request(self, host, port, user, options,file1):
         files = [file1]
-        BaseClient.submit_request(self, host, port, user, options, files)
+        return BaseClient.submit_request(self, host, port, user, options, files)
 
