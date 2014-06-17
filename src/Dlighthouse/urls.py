@@ -11,6 +11,9 @@ from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+### Straight to template
+from django.views.generic import TemplateView
+
 
 urlpatterns = patterns('',
     ### Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
@@ -34,11 +37,14 @@ urlpatterns = patterns('',
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
     ### Use the files in the templates dirctory
-    (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),
+    (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),  
+
+    ### Go to home page
+    url(r'^$', TemplateView.as_view(template_name='home.html'), name="home"),
+    url(r'^index/$', TemplateView.as_view(template_name='home.html'), name="home"),
     
     ### Go to the login page
-    (r'^$', 'django.contrib.auth.views.login'),
-    (r'^index/$', 'django.contrib.auth.views.login'),
+    (r'^login/$', 'django.contrib.auth.views.login'),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
