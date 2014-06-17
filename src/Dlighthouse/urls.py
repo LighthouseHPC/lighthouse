@@ -38,13 +38,13 @@ urlpatterns = patterns('',
     
     ### Use the files in the templates dirctory
     (r'^templates/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.TEMPLATE_ROOT}),  
-
-    ### Go to home page
-    url(r'^$', TemplateView.as_view(template_name='home.html'), name="home"),
-    url(r'^index/$', TemplateView.as_view(template_name='home.html'), name="home"),
     
     ### Go to the login page
-    (r'^login/$', 'django.contrib.auth.views.login'),
+    url(r'^$', 'django.contrib.auth.views.login', name="login"),
+    url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
+
+    ### Go to home page
+    url(r'^index/$', TemplateView.as_view(template_name='home.html'), name="home"),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
