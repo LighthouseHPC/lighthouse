@@ -1,12 +1,10 @@
-{% load static from staticfiles %}
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}Lighthouse Forum{% endblock %}</title>
-    <link rel="shortcut icon" href={%static "images/favicon.png" %}/>
-    <link rel="stylesheet" type="text/css" href={%static "style/forumstyle.css" %} media="screen" />
+    <link rel="shortcut icon" href="/media/Images/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/static/forumstyle.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
         djConfig="parseOnLoad: true">
@@ -20,7 +18,7 @@
 	<!-- "main" BorderContainer just contains page title and another BorderContainer -->
         <div style="height:57px; padding-left:8px; border-top:6px; border-left: 1px; border-right: 1px; border-bottom:1px; border-style:solid; background:#fff; border-color:#c9dcfa;">
 
-		<img src={%static "images/forum_header.png" %}/>
+		<img src="/media/Images/forum_header.png"/>
 		<div style="float:right; padding-top: 13px; padding-right: 5px; font:11.5px sans-serif;">
 			{% if user.is_authenticated %}                            
 				<div style="text-align:right; color:#808080;">
@@ -41,7 +39,7 @@
 					<table>
 						<tr>
 							<td>
-								<a href="/accounts/logout/"><img src={%static "images/logout.png" %}/></a>
+								<a href="/accounts/logout/"><img src="/media/Images/logout.png"/></a>
 							</td>          
 							<td>
 								<a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
@@ -56,10 +54,7 @@
 	{% block nav-global %}
 	<ul>
 	    <li><a href="/index/">Home</a></li>
-            <li><a href="{% url blogindex %}">Blog</a></li>	   
-	    <li><a href="{% url forumList %}">Forum</a></li>
-	    <li><a href="{% url guidedSearch_index %}">Lapack</a></li>
-
+	    <li><a href="{% url blogindex %}">Blog</a></li>
 	    {% if user.is_staff %}
 	    <li><a href="{% url admin:index %}">Admin</a></li>
 	    <li><a href="{% url admin:blog_post_add %}">Add post</a></li>

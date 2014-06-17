@@ -20,9 +20,7 @@
 		</br></br></br>
 		<ul>
 			<li><a href="/index/">Home</a></li>
-			<li><a href="{% url blogindex %}">Blog</a></li>
 			<li><a href="{% url forumList %}">Forum</a></li>
-			<li><a href="{% url lapack_le %}">Lapack</a></li>
 			{% if user.is_staff %}
 			<li><a href="{% url admin:index %}">Admin</a></li>
 			<li><a href="{% url admin:blog_post_add %}">Add post</a></li>
