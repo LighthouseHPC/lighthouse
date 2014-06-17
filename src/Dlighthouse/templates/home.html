@@ -1,0 +1,130 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Lighthouse Home</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<link href={%static "style/home.css" %} rel="stylesheet" type="text/css" media="screen" />
+		
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.3/dijit/themes/claro/claro.css" media="screen" />		
+		<script>dojoConfig = {async: true, parseOnLoad: true}</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script>
+		
+		<script>
+			require(["dojo/parser", "dijit/TitlePane"]);
+		</script>
+	</head>
+	<body class="claro">
+		<!-- start header -->
+		<div id="header">
+			<div id="logo">
+				<h1>Lighthouse <span>Taxonomy</span></h1>
+		<!--		<p>By Free CSS Templates</p>-->
+			</div>
+	<!--		<div id="menu">
+				<ul>
+					<li class="current_page_item"><a href="#">Homepage</a></li>
+					<li><a href="#">Products</a></li>
+					<li><a href="#">Services</a></li>
+					<li><a href="#">About Us</a></li>
+					<li><a href="#">Contact Us</a></li>
+				</ul>
+			</div>-->
+		</div>
+		<!-- end header -->
+		<!-- start page -->
+		<div id="page">
+			<!-- start content -->
+			<div id="content">
+				<div class="post greenbox">
+					<div class="title">
+						<h1>About</h1>
+					</div>
+					<div class="entry"> <!--<img src="images/bg.jpg" alt="" width="220" height="120" class="left" />-->
+						<p>Lighthouse is a framework for creating, maintaining, and using a taxonomy of available
+						software that can be used to build highly-optimized matrix algebra computations.
+						The taxonomy will provide an organized anthology of software components and programming
+						tools needed for that task. The taxonomy will serve as a guide to practitioners seeking to
+						learn what is available for their programming tasks, how to use it, and how the various parts
+						fit together. It will build upon and improve existing collections of numerical software,
+						adding tools for the tuning of matrix algebra computations.</p>
+	
+						<p>We are developing an initial set of tools that operate in conjunction with this taxonomy.
+						In particular, we will provide an interface that takes a high-level description of a matrix
+						algebra computation and produces a customizable code template using the software in the taxonomy.
+						The template will aid the developer at all steps of the process--from the initial construction of
+						Basic Linear Algebra Subprogram (BLAS)-based codes through the full optimization of that code.
+						Initially, the tools will accept a MATLAB prototype and produce optimized Fortran or C.
+						Finally, we will advance the state-of-the-art in tuning tools by improving some of the tools
+						included in the taxonomy, broadening their ranges of functionality in terms of problem domains
+						and languages.</p>
+					</div>
+					<div class="btm">
+						<div class="l">
+							<div class="r">
+								<p class="meta"><!--<a href="#" class="more">Read More</a> &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments (33)</a>--></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="two-columns">
+					<div class="columnA">
+						<div class="title red">
+							<h2>Dense Matrix</h2>
+						</div>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'LAPACK'" open="true" style="width: 300px; margin-left: 10px;">			
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_le %}">Linear system problems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_eigen %}">Eigenvalue problems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_svd %}">Singular Value Decomposition (SVD) problems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_sylvester %}">Sylvester matrix equations</a></li>
+							</ul>	    
+						</div> 
+					</div>
+					<div class="columnB">
+						<div class="title blue">
+							<h2>Sparse Matrix</h2>
+						</div>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'PETSc'" open="true" style="width: 300px; margin-left: 10px;">
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url petsc %}">Linear system problems</a></li>
+							</ul>
+						</div>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'SLEPc'" open="true" style="width: 300px; margin-left: 10px;">
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url slepc_eprob %}">Eigenvalue problems</a></li>
+							</ul>
+						</div> 
+					</div>
+					<div class="btm">&nbsp;</div>
+				</div>
+			</div>
+			<!-- end content -->
+			<!-- start sidebar -->
+			<div id="sidebar">
+				<ul>
+					<li>
+						<h2>Updates</h2>
+						<ul>
+							<li><a href="#">a</a></li>
+							<li><a href="#">b</a></li>
+							<li><a href="#">c</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- end sidebar -->
+		</div>
+		<!-- end page -->
+		<div style="clear: both;">&nbsp;</div>
+		<!--<div id="footer">-->
+		<!--	<p>&copy;2007 All Rights Reserved. &nbsp;&bull;&nbsp; Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>-->
+		<!--</div>-->
+		<!--<div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a>-->
+		<!--</div>-->
+	</body>
+</html>
