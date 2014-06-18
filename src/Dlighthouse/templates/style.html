@@ -22,7 +22,8 @@
                 width: 5px                
         }
 	
-	
+
+
         /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
         #loader {
                 padding:0;
@@ -57,6 +58,82 @@
                 height:1px;
         }
 	
+	
+	
+	/* headers */
+	#header {
+		position: relative;
+		width: 100%;
+		height: 4%;
+		padding-top: 10px;
+		background: url(/static/images/headerbg.png) repeat-x;
+	}
+	#header h1#logo-text a {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		font: bold 56px 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-serif;
+		letter-spacing: -3px;
+		text-decoration: none;
+		color: #fff;
+		
+		/* change the values of top and left to adjust the position of the logo*/
+		top: 58px; left: 55px;	
+	}
+	#header p#slogan {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		font: bold 15px 'Trebuchet MS', 'Helvetica Neue', Arial, Sans-serif;
+		color: #D6EBAB;
+		letter-spacing: -0.5px;
+		
+		/* change the values of top and left to adjust the position of the slogan*/
+		top: 122px; left: 135px;		
+	}
+
+	
+
+	/* navigation bar */
+	#navcontainer {
+		float:right;
+	}
+	ul#navlist {
+		margin-left: 0;
+		padding-left: 0;
+		padding-right: 40px;
+		white-space: nowrap;
+	}
+	#navlist li {
+		display: inline;
+		list-style-type: none;
+		padding:0 0 0 1px;
+		float:left;
+	}
+	#navlist a {
+		padding:90px 10px 10px 10px;
+		color: #696969;
+		text-transform:uppercase;
+		text-decoration:none;
+		font-size:14px;
+		font-weight:bold;
+	}
+	#navlist a:hover {
+		background:#FFA500;
+		text-shadow:none;
+		color:#ffffff;
+		border-radius:0 0 5px 5px;
+		box-shadow: 0 3px #8B4513;
+	}
+	#navlist #active a {
+		background:#18bbff;
+		text-shadow:none;
+		color:#ffffff;
+		border-radius:0 0 5px 5px;
+		box-shadow: 0 3px #8B4513;
+	}
+
+
 	
         /* for custom menu buttons, do not appear to have any effect */
         .myCustomTheme .dijitButtonNode {
@@ -518,5 +595,6 @@
 	/* Add Line Wrapping to SyntaxHighlighter */
 	body .syntaxhighlighter .line {
 	    white-space: pre-wrap !important;
-	}    
+	}
+
 </style>
