@@ -199,7 +199,13 @@ class BaseServer(BaseMessage):
 # output : -
 # return : string options      
     def check_options(self,options):
-        optlist,files = getopt.getopt(options.split(),self.legal_options,self.legal_longoptions)
+        try:
+            optlist, files = getopt.getopt(options.split(), self.legal_options, self.legal_longoptions)
+        except getopt.GetoptError, e:
+            bad = '-' + e.opt
+            options = string.replace(options, bad, '')
+            return self.check_options(options)
+
         files = map(path_clt2svr,files)
         options = []
         for o,a in optlist:
