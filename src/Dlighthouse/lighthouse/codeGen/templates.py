@@ -66,16 +66,18 @@ class BTOGenerator(object):
       port = 9999
       user = 'salin'
       #no need to split up options string
-      options = btoArgs #'--level1 cache64:512:8'#thread2:12:2' # cache64:512:8
+      options = btoArgs
       filename = str(filename)
 
+      Output = ''
       try:
           client.submit_request(host, port, user, options, filename)
       except:
           remove_workdir('lighthouse_temp')
           os.getenv("HOME")
-          return 'An error has occurred receiving the output file.'
-          
+#          Output = 'An error has occurred receiving the output file.'
+
+      os.chdir('/tmp/lighthouse_temp')
       if 'errors.x' in glob.glob('*'):
           outputFile = 'errors.x'
       elif filename[:-2]+'.c' in glob.glob('*'):
@@ -83,12 +85,13 @@ class BTOGenerator(object):
       else:
           remove_workdir('lighthouse_temp')
           os.getenv("HOME")
-          return 'Unable to locate correct output file'
+          return 'Unable to locate correct output file.'
           
-      Output = ''
+#      Output = ''
       with open(outputFile, 'r') as f:
           for line in f:
               Output = Output + line
      
       remove_workdir('lighthouse_temp')
       return Output
+

@@ -3,6 +3,9 @@ Below is the output of btoblas --help
 For a simple test of the system, try the following:
 --level1 thread2:12:2
 
+Immutable default args:
+--delete_tmp
+
 -----
 $ ./btoblas --help
 
@@ -10,11 +13,9 @@ USAGE: btoblas matlab_input_file.m [options]
 
 Options:
   -a [ --precision ] arg (=double)      Set precision type for generated output
-                                        [float|double]
-                                          double is default
+                                        [float|double] double is default
   -e [ --empirical_off ]                Disable empirical testing.  Empirical 
-                                        testing
-                                        is enabled by default.
+                                        testing is enabled by default.
   -c [ --correctness ]                  Enable correctness testing.  
                                         Correctness testing
                                         is disabled by default.  Enabling 
@@ -80,5 +81,12 @@ Options:
                                         search
   --ga_exthread                         genetic algorithm with additional 
                                         exhaustive thread search
+-----
+Other args not mentioned in r911 help text:
+
+    -p [ --partition_off ]              Disable partitioning
+    -b [ --backend ] (=ptr)             [noptr] for VLA C code (not made available
+                                            in Lighthouse).
+
 
 </pre>

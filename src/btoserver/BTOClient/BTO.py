@@ -12,13 +12,13 @@ from utils import change_workdir, remove_workdir
 class BTO_Server(BaseServer):
     
     def __init__(self, btodir, u ,r , btoblas='./bin/btoblas'):
-        self.legal_options = 'ae:cmt:r:s:pb:'
+        self.legal_options = 'aecmt:r:s:p'
         self.legal_longoptions = ['precision=', 'empirical_off',
             'correctness', 'use_model', 'threshold=',
             'level1=', 'level2=', 'test_param=', 'search=',
             'ga_timelimit=', 'empirical_reps=', 'delete_tmp',
             'ga_popsize=', 'ga_nomaxfuse', 'ga_noglobalthread',
-            'ga_exthread', 'partition_off', 'backend=']
+            'ga_exthread', 'partition_off']
         self.bto_dir = btodir
         self.users = u
         self.req_id = r
@@ -54,6 +54,11 @@ class BTORequestHandler(BaseServer):
         #print baseworkdir                  #salin_xx-xx-xx
         os.mkdir(baseworkdir)
         workdir = os.path.abspath(os.path.join('/tmp', baseworkdir))
+
+
+        with open('/tmp/lighthouse_temp' + '/errors.x', 'w') as f:
+            f.write('Failure')
+
         try:
             userid  = self.check_user(self.recv_header1())
             options = static_options + self.check_options(self.recv_header1())
@@ -106,16 +111,19 @@ class BTORequestHandler(BaseServer):
 
                 argv = [self.bto_blas, workdir + '/' + filename]
                 argv = argv + options_list
-
+                print argv
                 bto_out = check_output(argv, stderr=subprocess.STDOUT)
+                #call(argv)
 
             except CalledProcessError, e:
+                bto_out = e.output
                 print "---Begin output from BTO---"
-                print e.output
+                print bto_out
                 print "---END output from BTO ---"
                 print " "
                 bto_err = str(e)
-                print e
+                print bto_err
+                #with open(basework
 #                self.send_error("Failed to execute ./bin/btoblas %s" %workdir+ "/" +filename)
             else:
                 print "---Begin output from BTO---"
@@ -125,13 +133,17 @@ class BTORequestHandler(BaseServer):
                 os.chdir(workdir)
                 cfiles = glob.glob('*.c')
                 if(len(cfiles) == 1): 
+                    print 'Sending C file.'
                     self.send_header1(1)
                     self.send_files(cfiles)
                 else:
-                    with open(baseworkdir+'errors.x', 'w') as f:
-                        f.write('The BTO server was unable to compile and generate an output file')
+                    with open(workdir+'/errors.x', 'w') as f:
+                        f.write('The BTO server was unable to compile and generate an output file.')
+                        f.write('Generated call to bto:')
+                        f.write(str(argv))
+                        f.write(bto_out)
                     self.send_header1(1)
-                    self.send_files([baseworkdir+'errors.x'])
+                    self.send_files([workdir+'/errors.x'])
         finally:
             ###---- delete the /tmp/userid+"_"+self.req_id/ folder
             shutil.rmtree(workdir)
