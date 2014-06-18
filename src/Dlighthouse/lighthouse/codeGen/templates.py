@@ -87,11 +87,11 @@ class BTOGenerator(object):
           os.getenv("HOME")
           return 'Unable to locate correct output file.'
           
-#      Output = ''
       with open(outputFile, 'r') as f:
           for line in f:
               Output = Output + line
-     
+      Output = Output + '\n'
+
       remove_workdir('lighthouse_temp')
       return Output
 
