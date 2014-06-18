@@ -163,9 +163,8 @@
 
         <!-- "main" BorderContainer just contains page title and another BorderContainer -->
         <div id="main" dojoType="dijit.layout.BorderContainer">
-        <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">
-
-    		<img src="{{ MEDIA_URL }}Images/NewHeader.png"/>
+                <div id="header" dojoType="dijit.layout.ContentPane" region="top">
+                        <a href="{% url home %}" title=""><img src="{{ MEDIA_URL }}Images/NewHeader.png"/></a>
 			<div style="float:right; padding-top: 7px;">
 				{% if user.is_authenticated %}                            
 					<div style="text-align:right; color:#808080;">
@@ -196,12 +195,20 @@
 					</div>                                
 				{% endif %}
 			</div>
+                        <!-- navigation starts-->	
+                        <div id="navcontainer">
+                            <ul id="navlist">
+
+                                        <li><a href="{% url home %}">Home</a></li>
+                                        <li><a href="{% url forumList %}">Forum</a></li>
+                                        <li><a href="{% url blogindex %}">Blog</a></li>
+                                        <li><a href="">Contact</a></li>	
+                                </ul>
+                        </div><!-- navigation ends-->
 		 </div>
 
                 <!-- "mainSplit" BorderContainer has all the real content -->
-                <div dojoType="dijit.layout.BorderContainer" liveSplitters="false"
-                        design="sidebar" region="center" id="mainSplit">
-
+                <div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar" region="center" id="mainSplit">
                         <div dojoType="dijit.layout.TabContainer" duration="200"
                                 minSize="100" style="width: 550px;" id="leftTab"
                                 region="leading" splitter="true">
@@ -229,6 +236,10 @@
                                         {% block dojango_content_search_result %}{% endblock %}        
                                 </div><!-- end:first upper tab -->
 
+                                <!-- second tab ==> script area -->
+                                <div id="tab2" dojoType="dijit.layout.ContentPane" title="Script" selected="{{ ScriptTab|default:"false" }}" style="padding:10px; height:45%;">
+                                        {% block dojango_content_script %}{% endblock %}
+                                </div><!-- end second tab -->
                         </div><!-- end of region="center" TabContainer -->
 
 
