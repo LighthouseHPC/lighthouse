@@ -45,6 +45,7 @@ urlpatterns = patterns('',
 
     ### Go to home page
     url(r'^index/$', TemplateView.as_view(template_name='home.html'), name="home"),
+    url(r'^home/$', TemplateView.as_view(template_name='home.html'), name="home"),
     
     ### Link registration/backends/default/urls.py for normal account registration:
     #(r'^accounts/', include('registration.backends.default.urls')),
