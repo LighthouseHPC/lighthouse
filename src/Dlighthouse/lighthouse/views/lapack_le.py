@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 #---- for method = 'post' ---#
 from django.views.decorators.csrf import csrf_exempt
 
+from codeGen.templates import BTOGenerator
+
 from haystack.forms import ModelSearchForm
 from haystack.inputs import AutoQuery, Exact, Clean
 from haystack.views import SearchView
@@ -143,7 +145,7 @@ def guidedSearch_problem(request):
 		
 		#import pdb; pdb.set_trace()
                 return render_to_response(
-                	'lighthouse/lapack_le/problem.html', 
+                	'lighthouse/lapack_le/guided/problem.html', 
                 	context_instance=RequestContext(request, context)
                 )        
 
@@ -203,7 +205,7 @@ def guidedSearch_equation(request):
 			'scriptOutput': request.session['scriptOutput'],
 		}					
 		return render_to_response(
-			'lighthouse/lapack_le/equation.html', 
+			'lighthouse/lapack_le/guided/equation.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -221,7 +223,7 @@ def guidedSearch_equation(request):
 			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/problem.html', 
+			'lighthouse/lapack_le/guided/problem.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -267,7 +269,7 @@ def guidedSearch_equation(request):
 #			'scriptOutput': request.session['scriptOutput'],
 #		}					
 #		return render_to_response(
-#			'lighthouse/lapack_le/factor.html', 
+#			'lighthouse/lapack_le/guided/factor.html', 
 #			context_instance=RequestContext(request, context)
 #		)
 #
@@ -284,7 +286,7 @@ def guidedSearch_equation(request):
 #			'scriptOutput': request.session['scriptOutput'],
 #		}
 #		return render_to_response(
-#			'lighthouse/lapack_le/equation.html', 
+#			'lighthouse/lapack_le/guided/equation.html', 
 #			context_instance=RequestContext(request, context)
 #		)
 
@@ -325,7 +327,7 @@ def guidedSearch_complex(request):
 		}
 		
 		return render_to_response(
-			'lighthouse/lapack_le/complex.html', 
+			'lighthouse/lapack_le/guided/complex.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -341,7 +343,7 @@ def guidedSearch_complex(request):
 				'results': request.session['Routines']
 			}		
 			return render_to_response(
-				'lighthouse/lapack_le/problem.html', 
+				'lighthouse/lapack_le/guided/problem.html', 
 				context_instance=RequestContext(request, context)
 			)
 		else:
@@ -356,7 +358,7 @@ def guidedSearch_complex(request):
 				'scriptOutput': request.session['scriptOutput'],
 			}
         	return render_to_response(
-        		'lighthouse/lapack_le/equation.html', 
+        		'lighthouse/lapack_le/guided/equation.html', 
         		context_instance=RequestContext(request, context)
         	)
 
@@ -390,7 +392,7 @@ def guidedSearch_matrixtype(request):
 					'scriptOutput': request.session['scriptOutput'],
 				}
 				return render_to_response(
-					'lighthouse/lapack_le/matrixtype.html', 
+					'lighthouse/lapack_le/guided/matrixtype.html', 
 					context_instance=RequestContext(request, context)
 				) 
 
@@ -409,7 +411,7 @@ def guidedSearch_matrixtype(request):
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/complex.html', 
+			'lighthouse/lapack_le/guided/complex.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -445,7 +447,7 @@ def guidedSearch_storage(request):
 					'scriptOutput': request.session['scriptOutput'],
 				}
 				return render_to_response(
-					'lighthouse/lapack_le/storagetype.html', 
+					'lighthouse/lapack_le/guided/storagetype.html', 
 					context_instance=RequestContext(request, context)
 				)
 
@@ -465,7 +467,7 @@ def guidedSearch_storage(request):
 			'selectedRoutines': request.session['selectedRoutines']
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/matrixtype.html', 
+			'lighthouse/lapack_le/guided/matrixtype.html', 
 			context_instance=RequestContext(request, context)
 		)   
 
@@ -512,7 +514,7 @@ def guidedSearch_precision(request):
 			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/precision.html', 
+			'lighthouse/lapack_le/guided/precision.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -532,7 +534,7 @@ def guidedSearch_precision(request):
 			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/storagetype.html', 
+			'lighthouse/lapack_le/guided/storagetype.html', 
 			context_instance=RequestContext(request, context)
 		)
 
@@ -625,7 +627,7 @@ def advancedForm(request):
 			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/advancedForm.html', 
+			'lighthouse/lapack_le/advanced/advancedForm.html', 
 			{'AdvancedTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -639,7 +641,7 @@ def advancedForm(request):
 			'scriptOutput': request.session['scriptOutput'],
 		}
 		return render_to_response(
-			'lighthouse/lapack_le/advancedSearch.html', 
+			'lighthouse/lapack_le/advanced/advancedSearch.html', 
 			{'AdvancedTab': True}, 
 			context_instance=RequestContext(request, context)
 		)
@@ -773,7 +775,7 @@ def advancedResult(request):
 	}	
 
 	return render_to_response(
-		'lighthouse/lapack_le/advancedResult.html', 
+		'lighthouse/lapack_le/advanced/advancedResult.html', 
 		{'AdvancedTab': True}, 
 		context_instance=RequestContext(request, context)
 	)
@@ -782,7 +784,7 @@ def advancedResult(request):
 #   		form = AdvancedForm()	
 #    		context = {'form': form}
 
-#    		return render_to_response('lighthouse/lapack_le/advanced_search.html', context_instance=RequestContext(request, context))
+#    		return render_to_response('lighthouse/lapack_le/advanced/advanced_search.html', context_instance=RequestContext(request, context))
 
 
 
@@ -1146,6 +1148,30 @@ def filterSelectedRoutines3(request, routines):
 
 
 
+
+
+
+
+###---------------- Script ------------------###
+
+@csrf_exempt
+def runScript(request):
+	
+	code = request.POST.get('scriptCode')
+
+	if code == "":
+		request.session['userScript'] = ""
+		request.session['scriptOutput'] = ""
+		output = ""
+	else:
+		bto = BTOGenerator()
+		output = bto.generateCode(str(code))		
+		request.session['userScript'] = code
+		request.session['scriptOutput'] = output
+
+	request.session.modified = True
+
+	return HttpResponse(output)
 
 
 
