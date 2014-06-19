@@ -42,16 +42,29 @@
                         </td>
                         <td>
                             <TEXTAREA id="scriptEquation" required="true" name="scriptEquation"
-                                      cols="30" rows="5" placeHolder="One equation per line"></TEXTAREA>
+                                      cols=30 rows=5 placeHolder="One equation per line"></TEXTAREA>
 <!--                            <input type="text" required="true" name="scriptEquation" id="scriptEquation" placeholder="Enter your equation" 
                                     missingMessage="Ooops!  You forgot your equation!" /> -->                           
                         </td>
                     </tr>
 
                     <tr>
+                        <td>
+                            <label for="scriptEqApplication"><strong>(Optional) What will you use this for?:</strong>
+                            </label>
+                        </td>
+                        <td>
+                            <textarea id="scriptEqApplication" required="true" name="scriptEqApplication"
+                                      cols="30" rows="4"></textarea>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
                         <td align="left">
                             <button class="scriptButton" type="reset" onclick="clearKernelEquation();">
-                                Clear
+                                Reset
                             </button>
                         </td>
                         <td align="right">
@@ -85,7 +98,7 @@
 
 <!--loading spinner for the script area-->
 <div id="waitScript" align="center" style="display: none;">
-    <p class="sansserif"><font color="#FE642E"><b>This may take a LONG time.<br>
+    <p class="sansserif"><font color="#FE642E"><b>This may take up to 20 minutes.<br>
     Do not navigate away.<br></b></font></p>
     <!--<label id="minutes">00</label>:<label id="seconds">00</label>-->
 </div>
