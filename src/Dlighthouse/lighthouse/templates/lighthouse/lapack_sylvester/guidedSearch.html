@@ -52,21 +52,21 @@
         <button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
                 onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
                 onmouseout="showTooltip('tooltip','');"
-                onclick="return show_confirm()">
+                onclick="show_confirm('/lapack_sylvester/')">
               <img src={%static "images/clear.png" %} width="16" height="16"/> 
         </button>      
       </td>
     {% else %}
       <td style="text-align:left;">       
         <button type="submit" name="guided" value="clear" id="clearButton" title="Clear Search" class="myButton"
-                onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');"
-                onmouseout="showTooltip('tooltip2','');"
-                onclick="return show_confirm()">
+                onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
+                onmouseout="showTooltip('tooltip','');"
+                onclick="show_confirm('/lapack_sylvester/')">
             <img src={%static "images/clear.png" %} width="16" height="16"/> 
         </button>       
       </td>
       <td style="text-align:center;">
-        <div id="tooltip2"></div>
+        <div id="tooltip"></div>
       </td>
       <td style="text-align:right;">
         <button type="submit" name="guided" value="submit" id="submitButton" title="Submit Answer" class="myButton"
