@@ -242,11 +242,11 @@
 
 
 	/* Ask for confirmation when user clicks on Restart Search button */
-	function show_confirm(){
-		var restart = "";
-		restart = confirm("Are you sure you want to start over the search?");
-		if(restart)
-			window.location = "/lapack_le/";	
+	function show_confirm(link_q1){
+	var answer = confirm("Are you sure you want to start over the search?")
+		if (answer){
+			window.location = link_q1;
+		}	
 	}
 
 
