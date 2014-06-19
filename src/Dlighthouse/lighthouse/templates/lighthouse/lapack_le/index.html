@@ -2,20 +2,20 @@
 
 
 <!-- ########### Simple search questions: ###########-->
-{% block dojango_content_simpleSearch %}
-{% include "lighthouse/lapack_le/simpleSearch.html" %}
+{% block dojango_content_guidedSearch %}
+{% include "lighthouse/lapack_le/guided/guidedSearch.html" %}
 {% endblock %}
 
 
 <!-- ########### Simple search result: ###########-->
 {% block dojango_content_search_result %}
-{% include "lighthouse/lapack_le/simpleResult.html" %}
+{% include "lighthouse/lapack_le/guided/guidedResult.html" %}
 {% endblock %}
 
 
 <!-- ########### Advanced search questions: ###########-->
 {% block dojango_content_advancedSearch %}
-{% include "lighthouse/lapack_le/advancedSearch.html" %}
+{% include "lighthouse/lapack_le/advanced/advancedSearch.html" %}
 {% endblock %}
 
 
