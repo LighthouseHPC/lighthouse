@@ -1,11 +1,11 @@
-{% extends "dojango/base_eigen.html" %}
+{% extends "dojango/base_lapack.html" %}
 
 
 <!-- ########### Simple search questions: ###########-->
-{% block dojango_content_eigen_guidedSearch %}
+{% block dojango_content_guidedSearch %}
 {% include "lighthouse/lapack_eigen/guidedSearch.html" %}
 {% endblock %}
 
-{% block dojango_content_eigen_search_result %}
+{% block dojango_content_search_result %}
 {% include "lighthouse/lapack_eigen/results.html" %}
 {% endblock %}
