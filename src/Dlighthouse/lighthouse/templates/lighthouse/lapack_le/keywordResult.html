@@ -1,5 +1,5 @@
 <!-- ########### Keyword search result: ###########-->
-{% extends "dojango/base.html" %}
+{% extends "dojango/base_lapack.html" %}
 {% load highlight %}
 {% load lighthouse_custom_filters %}
 
@@ -117,14 +117,14 @@
 
 <!-- ########### Simple search questions: ###########-->
 {% block dojango_content_simpleSearch %}
-{% include "lighthouse/lapack_le/simpleSearch.html" %}
+{% include "lighthouse/lapack_le/guided/guidedSearch.html" %}
 {% endblock %}
 
 
 
 <!-- ########### Advanced search: ###########-->
 {% block dojango_content_advancedSearch %}
-{% include "lighthouse/lapack_le/advancedSearch.html" %}
+{% include "lighthouse/lapack_le/advanced/advancedSearch.html" %}
 {% endblock %}
 
 
