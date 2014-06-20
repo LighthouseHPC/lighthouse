@@ -9,7 +9,7 @@ from lighthouse.forms.lapack_eigen import CustomRadioSelect
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
 class standardGeneralizedForm(forms.Form):
-    sylvester_standardGeneralized = forms.ChoiceField(label='Would you like to solve a standard or generalized Sylverster matrix equation?',
+    sylvester_standardGeneralized = forms.ChoiceField(label='Would you like to solve a standard or generalized Sylvester matrix equation?',
 					      widget=forms.RadioSelect(),
 					      choices=STANDARD_CHOICES
 					      )    
