@@ -165,7 +165,6 @@ class BTORequestHandler(BaseServer):
             message = 'BTO failed to generate a unique C file, or exited\n'
             message = message + 'with error and return status 0.\n'
             message = message + "---BEGIN output from btoblas---\n"
-
             trunc = ''
             if(len(bto_out) > 1024*80):
                 i = 0
