@@ -1,3 +1,6 @@
+from django.utils.safestring import mark_safe
+
+
 #####----------- for all LAPACK routines -------------#####
 MATRIX_CHOICES = (
         (u'general',                    	u'general'), 
@@ -98,3 +101,9 @@ SVD_CHOICES = (
 
 
 
+
+#####----------- for LAPACK Sylvester routines -------------#####
+SYLVESTER_CHOICES = (
+	(u'standard',				mark_safe('Standard ( <i>op(A)*X &#177 X*op(B) = C</i> )')),
+	(u'generalized',			mark_safe('Generalized ( <i>A*R &#8722 L*B = &#945C</i> and <i>D*R &#8722 L*E = &#945F</i> )')),
+)
