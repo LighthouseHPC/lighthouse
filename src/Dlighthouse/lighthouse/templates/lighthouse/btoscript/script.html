@@ -1,26 +1,5 @@
 <div style="width:100%;">
-    <table style="width:100%; height:180px; border: 2px solid #aaa;">
-        <tr style="width:100%; height:20px;" >
-            <td style="font-weight: bold;">
-                <font size="2">&nbsp; Input</font>
-            </td>
-            <td style="font-weight: bold;">            
-                <table style="width:100%; margin: 0px auto;">
-                    <tr style="width:100%;">
-                        <td style="text-align:left;">
-                            <font size="2">Output</font>
-                        </td>
-                        <td style="text-align:right; padding: 0px;">
-                            <button type="button" id="clearCode" class="myButton" title="Clear Code" onclick="clearScript();">Clear all
-                            </button>
-                            <button type="button" id="downloadCode" class="myButton" title="Download Code" onclick="return outputDownload();">
-                                Download output file
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+    <table style="width:100%; height:180px; border: 0px;">
         <tr>
             <td valign="top" bgcolor="#FAF8CC";>                                        
                 <table cellspacing="20" >
@@ -67,9 +46,12 @@
                     <tr>
                         <td>
                             <label for="btoArgs"><strong><a href="./args">Commandline args to pass to BTO</a>:</strong></label>
+                            <!--<input type="text" id="btoArgs" name="btoArgs" value="level1thread2:12:2" />-->
                         </td>
-                    </td>
                     </tr><tr>
+
+
+
                         <td>
                             <label for="searchtype"><strong>Search type</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
@@ -92,15 +74,16 @@
                             <input type="radio" id="search_rand" name="search_type" value="3" />&nbsp;Random<br />
                             <input type="radio" id="search_ortho" name="search_type" value="4" />&nbsp;Orthogonal<br />
                             <input type="radio" id="search_thread" name="search_type" value="5" />&nbsp;Thread Search<br />
-                        <td>
+                        </td>
                     </tr><tr>
                         <td>
                             <label for="precision"><strong>Precision</strong></label><br />
                             <input type="radio" id="precision_double" name="precision" value="1" checked />&nbsp;Double<br />
                             <input type="radio" id="precision_float"  name="precision" value="2" />&nbsp;Float<br />
-                        <td>
+                        </td>
                     </tr><tr>
                         <td>
+                            <input type="checkbox" id="correctness" name="correctness" value="1" />
                             <label for="correctness"><strong>Correctness testing</strong></label>
                              <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -116,8 +99,7 @@
 							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoCorrectness.html"></iframe>  		 		
 						            </div>
 					            </div>
-				            </div><br />
-                            <input type="checkbox" id="correctness" name="correctness" value="1" />&nbsp;Enable<br />
+				            </div>
                         </td>
                     </tr><tr>
                         <td>
@@ -136,12 +118,13 @@
 							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoTestingSize.html"></iframe>  		 		
 						            </div>
 					            </div>
-				            </div><br />
+				            </div>
                             <input type="text" id="test_param" name="test_param" value="3000:3000:1">&nbsp;start:stop:step
                         </td>
                     </tr><tr>
                         <td>
-                            <label for="analyticmem"><strong>Analytic memory model</strong></label>
+                           <input type="checkbox" id="analyticmem" name="analyticmem" value="1" />
+                           <label for="analyticmem"><strong>Use Analytic memory model</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
 		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOanalytic">
@@ -156,16 +139,52 @@
 							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoAnalytic.html"></iframe>  		 		
 						            </div>
 					            </div>
-				            </div><br />
-                            <input type="checkbox" id="analyticmem" name="analyticmem" value="1" />&nbsp;Enable<br />
-                            <input type="text" id="threshold" name="threshold" value="0.01" disable >&nbsp;Threshold<br />
-                        <td>
+				            </div>
+                        </td>
                     </tr><tr>
                         <td>
-                            <label for="level1"><strong>Thread or cache tiling</strong></label><br />
+                            <label for="threshold"><strong>Threshold</strong></label>
+                            <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+        	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
+		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOthreshold">
+        						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+		        					dojoType="dijit.form.Button">[Close]
+				        			<script type="dojo/method" event="onClick">
+						        		dijit.byId('helpBTOthreshold').onCancel();
+							        </script>
+						        </div>
+						            <h2>Threshold</h2>
+						            <div id="helpText_btoThreshold" style="background-color:#FFFFD6;">
+							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoThreshold.html"></iframe>  		 		
+						            </div>
+					            </div>
+				            </div><br />
+                            <input type="text" id="threshold" name="threshold" value="0.01" disable >&nbsp;Threshold
+                        </td>
+                    </tr><tr>
+                        <td>
+                            <label for="level1"><strong>Thread or cache tiling</strong></label>
+                            <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+        	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
+		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOtiling">
+        						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+		        					dojoType="dijit.form.Button">[Close]
+				        			<script type="dojo/method" event="onClick">
+						        		dijit.byId('helpBTOtiling').onCancel();
+							        </script>
+						        </div>
+						            <h2>Tiling</h2>
+						            <div id="helpText_btoTiling" style="background-color:#FFFFD6;">
+							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoTiling.html"></iframe>  		 		
+						            </div>
+					            </div>
+				            </div><br />
+
                             <input type="text" id="level1" name="level1" value="thread 2:12:2">&nbsp;Level 1 (outer)<br />
                             <input type="text" id="level2" name="level2" value="">&nbsp;Level 2 (inner)<br />
-                        <td>
+
+
+                        </td>
                     </tr><tr>
                         <td colspan="2" align="right">
                             <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none" onclick="runScript()">
@@ -175,9 +194,6 @@
                     </tr>
                     </form>
                 </table>
-            </td>
-            <td valign="top">
-                <pre id="script_output" class="brush:cpp"></pre>
             </td>
         </tr>
     </table>

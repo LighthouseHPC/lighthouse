@@ -153,13 +153,7 @@
 {% block dojango_body %}
 <body class="{{ DOJANGO.THEME }}">
         <!-- basic preloader: -->
-        <div id="loader">
-                <div id="loaderInner">
-                        <img src="{{ MEDIA_URL }}Images/loadingSquare.gif"/>
-			<br><br>
-                        Please wait while the page loads...
-                </div>
-        </div>
+        <div id="loader"></div>
 
         <!-- "main" BorderContainer just contains page title and another BorderContainer -->
         <div id="main" dojoType="dijit.layout.BorderContainer">
@@ -210,7 +204,7 @@
                 <!-- "mainSplit" BorderContainer has all the real content -->
                 <div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar" region="center" id="mainSplit">
                         <div dojoType="dijit.layout.TabContainer" duration="200"
-                                minSize="100" style="width: 550px;" id="leftTab"
+                                minSize="100" style="width: 60%;" id="leftTab"
                                 region="leading" splitter="true">
                                 <!-- Guided Search-->
                                 <div dojoType="dijit.layout.ContentPane" title="Setup" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
@@ -222,9 +216,9 @@
 
                         <!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
                         <div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
-                                <!-- first upper tab ==> Search Result -->
-                                <div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result" selected="false" style="padding:10px; display:none;">
-                                        {% block dojango_content_search_result %}{% endblock %}        
+                                <!-- first upper tab ==> Results -->
+                                <div id="tab1" dojoType="dijit.layout.ContentPane" title="Output" selected="false" style="padding:10px; display:none;">
+                                        {% block dojango_content_script_output %}{% endblock %}        
                                 </div><!-- end:first upper tab -->
                         </div><!-- end of region="center" TabContainer -->
 

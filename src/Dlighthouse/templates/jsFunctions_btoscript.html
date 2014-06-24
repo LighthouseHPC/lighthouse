@@ -849,7 +849,7 @@
 		var kernelName = dojo.byId("kernelName").value;
 		kernel.push(kernelName);
 		kernel.push(equation);
-        kernel.push("");//dojo.byId("btoArgs").value);
+        kernel.push( dojo.byId("btoArgs").value );
 		
 		if (equation == 0 || kernelName == 0) {
 			alert("Please complete all fields.")
