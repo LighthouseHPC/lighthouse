@@ -45,7 +45,6 @@ class storageTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['svd_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
-	print self.fields['svd_storageType'].choices
     	
 	##--- if bidiagonal/band in the choices, break it into 'bidiagonal' and 'band' ---##
 	if (u'bidiagonal/band', u'bidiagonal/band') in self.fields['svd_storageType'].choices:
@@ -61,27 +60,19 @@ class storageTypeForm(forms.Form):
     
 ##--- svdvectors form ---##
 class singularVectorsForm(forms.Form):
-    svd_singularVectors = forms.ChoiceField(label='Do you need the singular vectors?', choices=NOYES_CHOICES, widget=CustomRadioSelect())
+    svd_singularVectors = forms.ChoiceField(label='Do you need the singular vectors?', choices=NOYES_CHOICES, widget=forms.RadioSelect())
     def __init__(self, request, *args, **kwargs):
 	super(singularVectorsForm, self).__init__(*args, **kwargs)
 	self.fields['svd_singularVectors'].choices = request.session['Routines'].values_list('singularVectors', 'singularVectors').distinct()
-	disableList = []
+	
+	##--- if 'no/yes' is in teh choices, break it into 'no' and 'yes' ---##
+	if (u'no/yes', u'no/yes') in self.fields['svd_singularVectors'].choices:
+	    self.fields['svd_singularVectors'].choices = [(u'no', u'no'), (u'yes', u'yes')]
+	    
 	##--- if there is only one choice, show the others but disable them ---##
 	if len(self.fields['svd_singularVectors'].choices) == 1 and self.fields['svd_singularVectors'].choices != [(u'no/yes', u'no/yes')]:
 	    selected = self.fields['svd_singularVectors'].choices[0][1]
-	    self.fields['svd_singularVectors'].choices = NOYES_CHOICES
 	    self.fields['svd_singularVectors'].initial = selected
-	    
-	    for item in self.fields['svd_singularVectors'].choices:
-		if item[1] != selected:
-		    disableList.append(True)
-		else:
-		    disableList.append(False)
-	else:
-	    self.fields['svd_singularVectors'].choices = NOYES_CHOICES
-		    
-	self.fields['svd_singularVectors'].widget.renderer.disable = disableList
-    
     
 
     
