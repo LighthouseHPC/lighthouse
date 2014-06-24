@@ -94,9 +94,9 @@ EIGENPROBLEM_CHOICES = (
 
 #####----------- for LAPACK SVD routines -------------#####
 SVD_CHOICES = (
-	(u'svd_standard',			u'Computing the SVD of a general matrix'),
-	(u'svd_generalized',			u'Computing the generalized SVD of a matrix'),
-	(u'bidiagonal',				u'Reducing a general matrix to bidiagonal form'),
+	(u'svd_standard',			mark_safe('Computing the SVD of a <em>general</em> matrix')),
+	(u'svd_generalized',			mark_safe('Computing the generalized SVD of a matrix in <em>full</em> storage')),
+	(u'bidiagonal',				mark_safe('Reducing a <em>general</em> matrix to bidiagonal form')),
 )
 
 

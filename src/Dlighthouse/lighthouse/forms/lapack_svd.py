@@ -33,8 +33,6 @@ class matrixTypeForm(forms.Form):
 	    
 	##--- order choices by string length ---##
 	self.fields['svd_matrixType'].choices.sort(key=lambda k:len(k[1]))
-	if len(self.fields['svd_matrixType'].choices) == 1:
-		self.fields['svd_matrixType'].initial = self.fields['svd_matrixType'].choices[0][1]
 
 
 
@@ -50,11 +48,6 @@ class storageTypeForm(forms.Form):
 	if (u'bidiagonal/band', u'bidiagonal/band') in self.fields['svd_storageType'].choices:
 	    self.fields['svd_storageType'].choices = [(u'full', u'full'), (u'band', u'band'), (u'bidiagonal', u'bidiagonal')]
 	    
-	##--- if there is only one choice, show the others but disable them ---##
-	if len(self.fields['svd_storageType'].choices) == 1:
-	    selected = self.fields['svd_storageType'].choices[0][1]
-	    self.fields['svd_storageType'].initial = selected
-	    
 
 
     
@@ -69,10 +62,12 @@ class singularVectorsForm(forms.Form):
 	if (u'no/yes', u'no/yes') in self.fields['svd_singularVectors'].choices:
 	    self.fields['svd_singularVectors'].choices = [(u'no', u'no'), (u'yes', u'yes')]
 	    
-	##--- if there is only one choice, show the others but disable them ---##
-	if len(self.fields['svd_singularVectors'].choices) == 1 and self.fields['svd_singularVectors'].choices != [(u'no/yes', u'no/yes')]:
-	    selected = self.fields['svd_singularVectors'].choices[0][1]
-	    self.fields['svd_singularVectors'].initial = selected
+	##--- if there is only one option and it is 'no', offer the option to stop the search ---##
+	if self.fields['svd_singularVectors'].choices == [(u'no', u'no')]:
+	    self.fields['svd_singularVectors'].label = 'The subroutines do not provide singular vectors for your choices. Do you wish to continue the search?'
+	    self.fields['svd_singularVectors'].choices = [(u'no', u'Yes, continue'), (u'stop', u'No, stop the search')]
+	    
+	    
     
 
     
