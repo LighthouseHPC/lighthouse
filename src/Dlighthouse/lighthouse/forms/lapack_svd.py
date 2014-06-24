@@ -30,7 +30,7 @@ class matrixTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(matrixTypeForm, self).__init__(*args, **kwargs)
 	self.fields['svd_matrixType'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
-
+	    
 	##--- order choices by string length ---##
 	self.fields['svd_matrixType'].choices.sort(key=lambda k:len(k[1]))
 	if len(self.fields['svd_matrixType'].choices) == 1:
@@ -41,32 +41,20 @@ class matrixTypeForm(forms.Form):
 
 ##---- storage type form ----##
 class storageTypeForm(forms.Form):
-    svd_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=CustomRadioSelect())
+    svd_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['svd_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
-	disableList = []
-	
-	##--- remove the choice full/packed/band/tridiagonal ---##
+	print self.fields['svd_storageType'].choices
+    	
+	##--- if bidiagonal/band in the choices, break it into 'bidiagonal' and 'band' ---##
 	if (u'bidiagonal/band', u'bidiagonal/band') in self.fields['svd_storageType'].choices:
-	    self.fields['svd_storageType'].choices.remove((u'bidiagonal/band', u'bidiagonal/band'))
+	    self.fields['svd_storageType'].choices = [(u'full', u'full'), (u'band', u'band'), (u'bidiagonal', u'bidiagonal')]
 	    
 	##--- if there is only one choice, show the others but disable them ---##
 	if len(self.fields['svd_storageType'].choices) == 1:
 	    selected = self.fields['svd_storageType'].choices[0][1]
-	    self.fields['svd_storageType'].choices = (
-		(u'full',                       u'full'),
-		(u'band',                       u'band'),
-		(u'packed',                     u'packed'),
-		)
 	    self.fields['svd_storageType'].initial = selected
-	    for item in self.fields['svd_storageType'].choices:
-		if item[1] != selected:
-		    disableList.append(True)
-		else:
-		    disableList.append(False)
-		    
-	self.fields['svd_storageType'].widget.renderer.disable = disableList
 	    
 
 
@@ -83,6 +71,7 @@ class singularVectorsForm(forms.Form):
 	    selected = self.fields['svd_singularVectors'].choices[0][1]
 	    self.fields['svd_singularVectors'].choices = NOYES_CHOICES
 	    self.fields['svd_singularVectors'].initial = selected
+	    
 	    for item in self.fields['svd_singularVectors'].choices:
 		if item[1] != selected:
 		    disableList.append(True)
