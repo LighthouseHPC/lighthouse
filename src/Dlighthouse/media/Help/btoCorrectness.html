@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+    </head>
+    <body>
+        <p>
+            Enable correctness testing. Correctness testing is disabled by default.
+            Enabling requires a BLAS library (libblas) on BTO-executing server.
+            When enabled, the input program is converted to a set of very naive BLAS calls which BTO
+            results are compared to. This requires having and working BLAS with cblas entry points.
+        </p><p>
+            N.B. <b>For best results, setting the testing size parameters is recommended if correctness testing is enabled.</b>
+            It is specified as 3000:3000:1 by default. See section <i>Testing Size</i> for more info.
+        </p><p>
+            When the correctness tester is turned on, it analyzes the same subset as the (default) empirical tester.
+            This can be modified using the <i>Threshold</i> setting.
+        </p>
+    </body>
+</html>
+

@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 #---- for method = 'post' ---#
 from django.views.decorators.csrf import csrf_exempt
 
-from codeGen.templates import BTOGenerator
+from lighthouse.codeGen.templates import BTOGenerator
 
 from haystack.forms import ModelSearchForm
 from haystack.inputs import AutoQuery, Exact, Clean

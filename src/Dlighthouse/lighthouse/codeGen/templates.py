@@ -66,7 +66,7 @@ class BTOGenerator(object):
       port = 9999
       user = 'salin'
       #no need to split up options string
-      options = btoArgs
+      options =  '-e -m' #temporarily... #btoArgs
       filename = str(filename)
 
       Output = ''
