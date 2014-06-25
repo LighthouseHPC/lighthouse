@@ -8,9 +8,17 @@ from lighthouse.codeGen.templates import BTOGenerator
 
 
 def index(request):
+    userSc = request.session['userScript']
+    scrOut = request.session['scriptOutput']
+
+    if not userSc:
+        userSc = ''
+    if not scrOut:
+        scrOut = ''
+
     context = {
-        'scriptCode': request.session['userScript'], 
-        'scriptOutput': request.session['scriptOutput'],
+        'scriptCode'  : userSc,
+        'scriptOutput': scrOut,
     }
 
     return render_to_response(
