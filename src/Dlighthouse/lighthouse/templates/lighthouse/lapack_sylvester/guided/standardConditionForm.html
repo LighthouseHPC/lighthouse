@@ -3,37 +3,21 @@
 
 <table style="padding:0px; margin:0px; border:0px;">
         <tr>
-            <td>
+                <td>
                         <label for="id_sylvester_standardCondition_0">
                                 <img src={%static "images/arrow.png" %} width="8" height="8"/>
                                 <b>LAPACK only supports matrices A and B of upper quasi-triangular type in full storage.
                                     Do you wish to continue the search?</b>
                                 <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
                         </label>
-            </td>
+                </td>
         </tr>
-</table>
-<table style="padding-left:10px; padding-top:10px; border:0px;">
-    <tr>
-        <td>
-            1.
-        </td>
-        <td>
-            <label for="id_sylvester_standardCondition_0">
-                <input type="radio" id="id_sylvester_standardCondition_0" value="no" name="sylvester_standardCondition" />
-                no
-            </label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            2.
-        </td>
-        <td>
-            <label for="id_sylvester_standardCondition_1">
-                <input type="radio" id="id_sylvester_standardCondition_1" value="yes" name="sylvester_standardCondition" />
-                yes
-            </label>
-        </td>
-    </tr>
+        <tr>
+                <td>
+                        <ul>
+                                <li><label for="id_sylvester_standardCondition_0"><input type="radio" id="id_sylvester_standardCondition_0" value="no" name="sylvester_standardCondition" /> no</label></li>
+                                <li><label for="id_sylvester_standardCondition_1"><input type="radio" id="id_sylvester_standardCondition_1" value="yes" name="sylvester_standardCondition" /> yes</label></li>
+                        </ul>
+                </td>
+        </tr>
 </table>
