@@ -64,7 +64,7 @@ class singularVectorsForm(forms.Form):
 	    
 	##--- if there is only one option and it is 'no', offer the option to stop the search ---##
 	if self.fields['svd_singularVectors'].choices == [(u'no', u'no')]:
-	    self.fields['svd_singularVectors'].label = 'The subroutines do not provide singular vectors for your choices. Do you wish to continue the search?'
+	    self.fields['svd_singularVectors'].label = 'Given your selections, the LAPACK subroutines do not provide singular vectors for your problem. Do you wish to continue the search?'
 	    self.fields['svd_singularVectors'].choices = [(u'no', u'Yes, continue'), (u'stop', u'No, stop the search')]
 	    
 	    
