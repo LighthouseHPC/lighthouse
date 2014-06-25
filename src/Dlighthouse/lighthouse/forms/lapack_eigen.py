@@ -70,14 +70,18 @@ class matrixTypeForm(forms.Form):
 	##--- order choices by string length ---##
 	self.fields['eigen_matrixType'].choices.sort(key=lambda k:len(k[1]))
 	if len(self.fields['eigen_matrixType'].choices) == 1:
-		self.fields['eigen_matrixType'].initial = self.fields['eigen_matrixType'].choices[0][1]
+	    selected = self.fields['eigen_matrixType'].choices[0][1]
+	    self.fields['eigen_matrixType'].label = 'Given your selections, the LAPACK subroutines only support %s matrices. Do you wish to continue the search?'%selected
+	    self.fields['eigen_matrixType'].choices = (
+		(selected,                       u'yes, continue'),
+		(u'stop',                        u'no, stop the search'),)
 
 
 
 
 ##---- storage type form ----##
 class storageTypeForm(forms.Form):
-    eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=CustomRadioSelect())
+    eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
@@ -96,28 +100,62 @@ class storageTypeForm(forms.Form):
 	##--- if there is only one choice, show the others but disable them ---##
 	if len(self.fields['eigen_storageType'].choices) == 1:
 	    selected = self.fields['eigen_storageType'].choices[0][1]
+	    self.fields['eigen_storageType'].label = 'Given your selections, the LAPACK subroutines only support %s storage matrices. Do you wish to continue the search?'%selected
 	    self.fields['eigen_storageType'].choices = (
-		(u'full',                       u'full'),
-		(u'band',                       u'band'),
-		(u'packed',                     u'packed'),
-		)
-	    self.fields['eigen_storageType'].initial = selected
-	    for item in self.fields['eigen_storageType'].choices:
-		if item[1] != selected:
-		    disableList.append(True)
-		else:
-		    disableList.append(False)
-		    
-	self.fields['eigen_storageType'].widget.renderer.disable = disableList
+		(selected,                       u'yes, continue'),
+		(u'stop',                        u'no, stop the search'),)
 	    
 
-	    
+
+
+##---- storage type form with disableb buttons --> NOT used----##
+#class storageTypeForm(forms.Form):
+#    eigen_storageType = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=CustomRadioSelect())
+#    def __init__(self, request, *args, **kwargs):
+#	super(storageTypeForm, self).__init__(*args, **kwargs)
+#	self.fields['eigen_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
+#	disableList = []
+#	
+#	##--- handle the choice full/packed/band/tridiagonal ---##
+#	if (u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal') in self.fields['eigen_storageType'].choices:
+#	    for item in 'full/packed/band/tridiagonal'.split('/'):
+#		self.fields['eigen_storageType'].choices = self.fields['eigen_storageType'].choices+ [(item.decode('unicode-escape'), item.decode('unicode-escape')),]
+#	    self.fields['eigen_storageType'].choices.remove((u'full/packed/band/tridiagonal', u'full/packed/band/tridiagonal'))
+#	    self.fields['eigen_storageType'].choices = list(set(self.fields['eigen_storageType'].choices))
+#	    
+#	##--- order choices by string length ---##
+#	self.fields['eigen_storageType'].choices.sort(key=lambda k:len(k[1]))
+#	    
+#	##--- if there is only one choice, show the others but disable them ---##
+#	if len(self.fields['eigen_storageType'].choices) == 1:
+#	    selected = self.fields['eigen_storageType'].choices[0][1]
+#	    self.fields['eigen_storageType'].choices = (
+#		(u'full',                       u'full'),
+#		(u'band',                       u'band'),
+#		(u'packed',                     u'packed'),
+#		)
+#	    self.fields['eigen_storageType'].initial = selected
+#	    for item in self.fields['eigen_storageType'].choices:
+#		if item[1] != selected:
+#		    disableList.append(True)
+#		else:
+#		    disableList.append(False)
+#		    
+#	self.fields['eigen_storageType'].widget.renderer.disable = disableList
+#	
+	
+	
+	
+	
+	
 
 ##--- selected eigenvalue form ---##
 class selectedEVForm(forms.Form):
     eigen_selectedEV = forms.ChoiceField(label='Do you only need eigenvalues within a specific range?',
 					 widget=forms.RadioSelect(),
 					 choices=NOYES_CHOICES)
+#    if len(self.fields['eigen_selectedEV'].choices) == 1:
+#	selected = self.fields['eigen_selectedEV'].choices[0][1]
 
 
     

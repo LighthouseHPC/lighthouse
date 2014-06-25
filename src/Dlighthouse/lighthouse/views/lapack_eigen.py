@@ -38,10 +38,15 @@ def question_and_answer(form, value, choices):
 
 
 def find_nextForm(currentForm_name, request):
-    ## eigen problem for "general matrix" is special at the eigenvector question
+    ## eigen problem for "general matrix" is special when the answer to the eigenvector question is 'yes'
+    ## the next question in this case is cndNumberForm
     if request.session['eigen_matrixType'] == 'general' and request.session['eigen_eigenvector'] == 'yes' and request.session['eigen_cndNumber'] == '':
         nextForm_name = 'cndNumberForm'
         nextForm = cndNumberForm()
+    ## skip matrixTypeForm and storageTypeForm for 'Balance a general matrix to improve eigenvalue accuracy'
+    elif request.session['eigen_problem'] == 'balance' and request.session['eigen_complexNumber'] != '' and request.session['eigen_singleDouble'] == '':
+        nextForm_name = 'singleDoubleForm'
+        nextForm = singleDoubleForm()
     else:   
         current_index = form_order.index(currentForm_name)
         nextForm_name = ""        
@@ -101,37 +106,41 @@ def guidedSearch(request):
         value = form.cleaned_data[formField_name]
         choices = form.fields[formField_name].choices        
         request.session['eigen_guided_answered'].update(question_and_answer(form, value, choices))
-        
-        ## do search based on user's response
-        lookup = "%s__contains" % current_question
-        query = {lookup : value}
-        request.session['Routines'] = request.session['Routines'].filter(**query)
-        
-        ## generate a session for current question/answer -->request.session[eigen_currentQuestion] = answer
-        request.session[formField_name] = value
-        
-        ## call function find_nextForm to set up next form for next question
-        dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
-        nextForm_name = dict_nextQuestion['nextForm_name']
-        nextForm = dict_nextQuestion['nextForm']
-        
-        ## make next form current for request.session['currentForm_name']
-        request.session['currentForm_name'] = nextForm_name 
-        
-        ## decide whether or not to use form HTML files (if help buttons are needed, use HTML file instead of form)
-        if nextForm_name in form_HTML:
-            formHTML = nextForm_name
-        else:
-            formHTML = "invalid"
-        
-        ## get ready for the template       
-        context = {
-                    'formHTML': formHTML,
-                    'form': nextForm,
-                    'eigen_guided_answered' : request.session['eigen_guided_answered'],
-                    'results' : request.session['Routines']
-                    }
-        return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
+ 
+        ## if user chooses to stop the search, start over; otherwise, perform the search
+        if value == 'stop':
+            return guidedSearch_index(request)
+        else:        
+            ## do search based on user's response
+            lookup = "%s__contains" % current_question
+            query = {lookup : value}
+            request.session['Routines'] = request.session['Routines'].filter(**query)
+            
+            ## generate a session for current question/answer -->request.session[eigen_currentQuestion] = answer
+            request.session[formField_name] = value
+            
+            ## call function find_nextForm to set up next form for next question
+            dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
+            nextForm_name = dict_nextQuestion['nextForm_name']
+            nextForm = dict_nextQuestion['nextForm']
+            
+            ## make next form current for request.session['currentForm_name']
+            request.session['currentForm_name'] = nextForm_name 
+            
+            ## decide whether or not to use form HTML files (if help buttons are needed, use HTML file instead of form)
+            if nextForm_name in form_HTML:
+                formHTML = nextForm_name
+            else:
+                formHTML = "invalid"
+            
+            ## get ready for the template       
+            context = {
+                        'formHTML': formHTML,
+                        'form': nextForm,
+                        'eigen_guided_answered' : request.session['eigen_guided_answered'],
+                        'results' : request.session['Routines']
+                        }
+            return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
     else:       
         return guidedSearch_index(request)
     
@@ -149,7 +158,7 @@ def guidedSearch(request):
 #(2) upper Hessenberg:          ['standardGeneralized', 'complexNumber', 'matrixType', 'storageType',                                                   'singleDouble']
 #(3) generalized_to_standard:   [                       'complexNumber', 'matrixType', 'storageType',                                                   'singleDouble']
 #(4) conditionNumber:           ['standardGeneralized', 'complexNumber', 'matrixType',                                                                  'singleDouble']
-#(5) balance:                   ['standardGeneralized', 'complexNumber',               'storageType',                                                   'singleDouble']
+#(5) balance:                   ['standardGeneralized', 'complexNumber',                                                                                'singleDouble']
 ### ------------------------------------------------------------------------------------------------------------------------###
 
 

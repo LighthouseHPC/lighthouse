@@ -86,7 +86,7 @@ EIGENPROBLEM_CHOICES = (
 	(u'Hessenberg',				u'Reduce a matrix to upper Hessenberg form'),
 	(u'generalized_to_standard',		u'Reduce a generalized eigenproblem to standard form'),
 	(u'cndNumber_of_evtrs',			u'Estimate condition numbers of eigenvectors'),
-	(u'balance',				u'Balance a general matrix to improve eigenvalue accuracy'),
+	(u'balance',				mark_safe(u'Balance a <em>general</em> matrix to improve eigenvalue accuracy')),
 )
 
 
