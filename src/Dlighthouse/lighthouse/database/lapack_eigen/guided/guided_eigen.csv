@@ -98,24 +98,24 @@
 98,c,hsein,eigen,standard,yes,upper Hessenberg,full,none,yes,none,none,single,use after CHSEQR,554
 99,z,hseqr,eigen,standard,yes,upper Hessenberg,full,none,no/yes,none,none,double,,553
 100,z,hsein,eigen,standard,yes,upper Hessenberg,full,none,yes,none,none,double,use after ZHSEQR,555
-101,s,sygv,eigen,generalized,no,symmetric,full,No,no/yes,none,none,single,,556
-102,d,sygv,eigen,generalized,no,symmetric,full,No,no/yes,none,none,double,,557
-103,s,sygvd,eigen,generalized,no,symmetric,full,No,yes,none,none,single,faster while more memory is required,558
-104,d,sygvd,eigen,generalized,no,symmetric,full,No,yes,none,none,double,faster while more memory is required,559
-105,s,sygvx,eigen,generalized,no,symmetric,full,Yes,no/yes,none,none,single,,560
-106,d,sygvx,eigen,generalized,no,symmetric,full,Yes,no/yes,none,none,double,,561
-107,s,spgv,eigen,generalized,no,symmetric,packed,No,no/yes,none,none,single,,562
-108,d,spgv,eigen,generalized,no,symmetric,packed,No,no/yes,none,none,double,,563
-109,s,spgvd,eigen,generalized,no,symmetric,packed,No,yes,none,none,single,faster while more memory is required,564
-110,d,spgvd,eigen,generalized,no,symmetric,packed,No,yes,none,none,double,faster while more memory is required,565
-111,s,spgvx,eigen,generalized,no,symmetric,packed,Yes,no/yes,none,none,single,,566
-112,d,spgvx,eigen,generalized,no,symmetric,packed,Yes,no/yes,none,none,double,,567
-113,s,sbgv,eigen,generalized,no,symmetric,band,No,no/yes,none,none,single,,568
-114,d,sbgv,eigen,generalized,no,symmetric,band,No,no/yes,none,none,double,,569
-115,s,sbgvd,eigen,generalized,no,symmetric,band,No,yes,none,none,single,faster while more memory is required,570
-116,d,sbgvd,eigen,generalized,no,symmetric,band,No,yes,none,none,double,faster while more memory is required,571
-117,s,sbgvx,eigen,generalized,no,symmetric,band,Yes,no/yes,none,none,single,,572
-118,d,sbgvx,eigen,generalized,no,symmetric,band,Yes,no/yes,none,none,double,,573
+101,s,sygv,eigen,generalized,no,symmetric,full,no,no/yes,none,none,single,,556
+102,d,sygv,eigen,generalized,no,symmetric,full,no,no/yes,none,none,double,,557
+103,s,sygvd,eigen,generalized,no,symmetric,full,no,yes,none,none,single,faster while more memory is required,558
+104,d,sygvd,eigen,generalized,no,symmetric,full,no,yes,none,none,double,faster while more memory is required,559
+105,s,sygvx,eigen,generalized,no,symmetric,full,yes,no/yes,none,none,single,,560
+106,d,sygvx,eigen,generalized,no,symmetric,full,yes,no/yes,none,none,double,,561
+107,s,spgv,eigen,generalized,no,symmetric,packed,no,no/yes,none,none,single,,562
+108,d,spgv,eigen,generalized,no,symmetric,packed,no,no/yes,none,none,double,,563
+109,s,spgvd,eigen,generalized,no,symmetric,packed,no,yes,none,none,single,faster while more memory is required,564
+110,d,spgvd,eigen,generalized,no,symmetric,packed,no,yes,none,none,double,faster while more memory is required,565
+111,s,spgvx,eigen,generalized,no,symmetric,packed,yes,no/yes,none,none,single,,566
+112,d,spgvx,eigen,generalized,no,symmetric,packed,yes,no/yes,none,none,double,,567
+113,s,sbgv,eigen,generalized,no,symmetric,band,no,no/yes,none,none,single,,568
+114,d,sbgv,eigen,generalized,no,symmetric,band,no,no/yes,none,none,double,,569
+115,s,sbgvd,eigen,generalized,no,symmetric,band,no,yes,none,none,single,faster while more memory is required,570
+116,d,sbgvd,eigen,generalized,no,symmetric,band,no,yes,none,none,double,faster while more memory is required,571
+117,s,sbgvx,eigen,generalized,no,symmetric,band,yes,no/yes,none,none,single,,572
+118,d,sbgvx,eigen,generalized,no,symmetric,band,yes,no/yes,none,none,double,,573
 119,s,ggev,eigen,generalized,no,general,full,none,no/yes,no,no,single,,574
 120,d,ggev,eigen,generalized,no,general,full,none,no/yes,no,no,double,,575
 121,s,ggevx,eigen,generalized,no,general,full,none,no/yes,no,yes,single,,576
@@ -124,24 +124,24 @@
 124,d,gges,eigen,generalized,no,general,full,none,no,yes,no,double,,579
 125,s,ggesx,eigen,generalized,no,general,full,none,no,yes,yes,single,,580
 126,d,ggesx,eigen,generalized,no,general,full,none,no,yes,yes,double,,581
-127,c,hegv,eigen,generalized,yes,Hermitian,full,No,no/yes,none,none,single,,582
-128,z,hegv,eigen,generalized,yes,Hermitian,full,No,no/yes,none,none,double,,583
-129,c,hegvd,eigen,generalized,yes,Hermitian,full,No,yes,none,none,single,faster while more memory is required,584
-130,z,hegvd,eigen,generalized,yes,Hermitian,full,No,yes,none,none,double,faster while more memory is required,585
-131,c,hegvx,eigen,generalized,yes,Hermitian,full,Yes,no/yes,none,none,single,,586
-132,z,hegvx,eigen,generalized,yes,Hermitian,full,Yes,no/yes,none,none,double,,587
-133,c,hpgv,eigen,generalized,yes,Hermitian,packed,No,no/yes,none,none,single,,588
-134,z,hpgv,eigen,generalized,yes,Hermitian,packed,No,no/yes,none,none,double,,589
-135,c,hpgvd,eigen,generalized,yes,Hermitian,packed,No,yes,none,none,single,faster while more memory is required,590
-136,z,hpgvd,eigen,generalized,yes,Hermitian,packed,No,yes,none,none,double,faster while more memory is required,591
-137,c,hpgvx,eigen,generalized,yes,Hermitian,packed,Yes,no/yes,none,none,single,,592
-138,z,hpgvx,eigen,generalized,yes,Hermitian,packed,Yes,no/yes,none,none,double,,593
-139,c,hbgv,eigen,generalized,yes,Hermitian,band,No,no/yes,none,none,single,,594
-140,z,hbgv,eigen,generalized,yes,Hermitian,band,No,no/yes,none,none,double,,595
-141,c,hbgvd,eigen,generalized,yes,Hermitian,band,No,yes,none,none,single,faster while more memory is required,596
-142,z,hbgvd,eigen,generalized,yes,Hermitian,band,No,yes,none,none,double,faster while more memory is required,597
-143,c,hbgvx,eigen,generalized,yes,Hermitian,band,Yes,no/yes,none,none,single,,598
-144,z,hbgvx,eigen,generalized,yes,Hermitian,band,Yes,no/yes,none,none,double,,599
+127,c,hegv,eigen,generalized,yes,Hermitian,full,no,no/yes,none,none,single,,582
+128,z,hegv,eigen,generalized,yes,Hermitian,full,no,no/yes,none,none,double,,583
+129,c,hegvd,eigen,generalized,yes,Hermitian,full,no,yes,none,none,single,faster while more memory is required,584
+130,z,hegvd,eigen,generalized,yes,Hermitian,full,no,yes,none,none,double,faster while more memory is required,585
+131,c,hegvx,eigen,generalized,yes,Hermitian,full,yes,no/yes,none,none,single,,586
+132,z,hegvx,eigen,generalized,yes,Hermitian,full,yes,no/yes,none,none,double,,587
+133,c,hpgv,eigen,generalized,yes,Hermitian,packed,no,no/yes,none,none,single,,588
+134,z,hpgv,eigen,generalized,yes,Hermitian,packed,no,no/yes,none,none,double,,589
+135,c,hpgvd,eigen,generalized,yes,Hermitian,packed,no,yes,none,none,single,faster while more memory is required,590
+136,z,hpgvd,eigen,generalized,yes,Hermitian,packed,no,yes,none,none,double,faster while more memory is required,591
+137,c,hpgvx,eigen,generalized,yes,Hermitian,packed,yes,no/yes,none,none,single,,592
+138,z,hpgvx,eigen,generalized,yes,Hermitian,packed,yes,no/yes,none,none,double,,593
+139,c,hbgv,eigen,generalized,yes,Hermitian,band,no,no/yes,none,none,single,,594
+140,z,hbgv,eigen,generalized,yes,Hermitian,band,no,no/yes,none,none,double,,595
+141,c,hbgvd,eigen,generalized,yes,Hermitian,band,no,yes,none,none,single,faster while more memory is required,596
+142,z,hbgvd,eigen,generalized,yes,Hermitian,band,no,yes,none,none,double,faster while more memory is required,597
+143,c,hbgvx,eigen,generalized,yes,Hermitian,band,yes,no/yes,none,none,single,,598
+144,z,hbgvx,eigen,generalized,yes,Hermitian,band,yes,no/yes,none,none,double,,599
 145,c,ggev,eigen,generalized,yes,general,full,none,no/yes,no,no,single,,600
 146,z,ggev,eigen,generalized,yes,general,full,none,no/yes,no,no,double,,601
 147,c,ggevx,eigen,generalized,yes,general,full,none,no/yes,no,yes,single,,602
