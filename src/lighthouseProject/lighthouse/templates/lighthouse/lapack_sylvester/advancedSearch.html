@@ -1,0 +1,95 @@
+{% load static from staticfiles %}
+
+<div id="title-div">
+  <table id="icon-table">
+      <tr>
+	  <td id="icon-cell">
+	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	  </td>       
+	 <td id="title-cell">
+	      Advanced Search
+	  </td>
+      </tr>
+  </table>    
+</div>
+<br>
+<table>
+  <tr>
+    <th>
+      Problem Type
+    </th>
+    <th>
+      Standard Sylvester matrix equation
+    </th>
+    <th>
+      Generalized Sylvester matrix equation
+    </th>
+  </tr>
+  <tr>
+    <th>
+      Equation 
+    </th>
+    <td>
+      <i>op(A)*X &#177 X*op(B) = C</i>.
+    </td>
+    <td>
+      <i>A*R &#8722 L*B = &#945C</i></br><i>D*R &#8722 L*E = &#945F</i>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Requirements for real matrices 
+    </th>
+    <td>
+      matrices A and B must be upper quasi-triangular
+    </td>
+    <td>
+      matrices A and B must be upper quasi-triangular; matrices D and E are upper triangular
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Requirements for complex matrices 
+    </th>
+    <td>
+      matrices A and B must be upper triangular
+    </td>
+    <td>
+      matrices A, B, D and E are upper triangular
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Complex Numbers
+    </th>
+    <td>
+      <ul>
+	<li><label for="id_standard_complexNumber_0"><input type="checkbox" name="standard_complexNumber" value="no" id="id_standard_complexNumber_0" /> no</label></li>
+	<li><label for="id_standard_complexNumber_1"><input type="checkbox" name="standard_complexNumber" value="yes" id="id_standard_complexNumber_1" /> yes</label></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+	<li><label for="id_generalized_complexNumber_0"><input type="checkbox" name="generalized_complexNumber" value="no" id="id_generalized_complexNumber_0" /> no</label></li>
+	<li><label for="id_generalized_complexNumber_1"><input type="checkbox" name="generalized_complexNumber" value="yes" id="id_generalized_complexNumber_1" /> yes</label></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Precision
+    </th>
+    <td>
+      <ul>
+	<li><label for="id_standard_singleDouble_0"><input type="checkbox" name="standard_singleDouble" value="single" id="id_standard_singleDouble_0" /> single</label></li>
+	<li><label for="id_standard_singleDouble_1"><input type="checkbox" name="standard_singleDouble" value="double" id="id_standard_singleDouble_1" /> double</label></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><label for="id_generalized_singleDouble_0"><input type="checkbox" name="generalized_singleDouble" value="single" id="id_generalized_singleDouble_0" /> single</label></li>
+	<li><label for="id_generalized_singleDouble_1"><input type="checkbox" name="generalized_singleDouble" value="double" id="id_generalized_singleDouble_1" /> double</label></li>
+      </ul>
+    </td>
+  </tr>
+</table>  
