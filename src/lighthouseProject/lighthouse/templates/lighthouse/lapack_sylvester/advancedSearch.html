@@ -13,9 +13,20 @@
   </table>    
 </div>
 <br>
-<table>
+<form name="advanced" action="/lapack_le/advanced/result/" name="frmProb" method="post">
+	{% csrf_token %}	
+
+<table id='ver-zebra'>
+
+<!-- Colgroup -->
+<colgroup>
+	<col class="vzebra-odd">
+	<col class="vzebra-even">
+	<col class="vzebra-odd">
+	<col class="vzebra-even">
+</colgroup>
   <tr>
-    <th>
+    <th scope="col">
       Problem Type
     </th>
     <th>
@@ -44,7 +55,7 @@
       matrices A and B must be upper quasi-triangular
     </td>
     <td>
-      matrices A and B must be upper quasi-triangular; matrices D and E are upper triangular
+      matrices A and B must be upper quasi-triangular, and matrices D and E upper triangular
     </td>
   </tr>
   <tr>
@@ -55,7 +66,7 @@
       matrices A and B must be upper triangular
     </td>
     <td>
-      matrices A, B, D and E are upper triangular
+      matrices A, B, D and E must be upper triangular
     </td>
   </tr>
   <tr>
@@ -93,3 +104,50 @@
     </td>
   </tr>
 </table>  
+
+<div id="button-div">
+  <table style="width:100%; margin: 0px auto;">
+    <tr style="width:100%;">
+    {% if not form %}
+      <td style="text-align:left">
+	      <img src={%static "images/face-smile-2.png" %} width="20" height="20"/>
+      </td>
+      <td style="text-align:left; color: #0c387e;">
+	      <b>End of guided search! Check out the result.</b>
+      </td>
+      <td style="text-align:right; width: 75px;">
+        <div id="tooltip"></div>
+      </td>       
+      <td style="text-align:right">
+        <button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
+                onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
+                onmouseout="showTooltip('tooltip','');"
+                onclick="show_confirm('/lapack_sylvester/')">
+              <img src={%static "images/clear.png" %} width="16" height="16"/> 
+        </button>      
+      </td>
+    {% else %}
+      <td style="text-align:left;">       
+        <button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
+                onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
+                onmouseout="showTooltip('tooltip','');"
+                onclick="show_confirm('/lapack_sylvester/')">
+            <img src={%static "images/clear.png" %} width="16" height="16"/> 
+        </button>       
+      </td>
+      <td style="text-align:center;">
+        <div id="tooltip"></div>
+      </td>
+      <td style="text-align:right;">
+        <button type="submit" name="guided" value="submit" id="submitButton" title="Submit Answer" class="myButton"
+                onmouseover="showTooltip('tooltip', 'Submit', '#009900');"
+                onmouseout="showTooltip('tooltip','');"
+                onclick="return checkRadios();">
+            <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+        </button >
+      </td>
+    {% endif %}
+    </tr>
+  </table>
+</div>
+</form>
