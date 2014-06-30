@@ -10,7 +10,11 @@
 
 <!-- ########### Guided search form: ###########-->
 {% block dojango_content_advancedSearch %}
-{% include "lighthouse/lapack_sylvester/advanced/advancedSearch.html" %}
+    {% if form_checked %}
+        {% include "lighthouse/lapack_sylvester/advanced/advancedSearch_submitted.html" %}
+    {% else %}
+        {% include "lighthouse/lapack_sylvester/advanced/advancedSearch.html" %}
+    {% endif %}
 {% endblock %}
 
 

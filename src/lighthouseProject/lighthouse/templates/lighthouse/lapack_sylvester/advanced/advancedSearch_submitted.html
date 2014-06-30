@@ -1,0 +1,143 @@
+{% load static from staticfiles %}
+
+<div id="title-div">
+  <table id="icon-table">
+      <tr>
+	  <td id="icon-cell">
+	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	  </td>       
+	 <td id="title-cell">
+	      Advanced Search
+	  </td>
+      </tr>
+  </table>    
+</div>
+<br>
+<form name="advanced" action="/lapack_sylvester/advancedSearch/" name="frmProb" method="post">
+	{% csrf_token %}	
+
+  <table id='ver-zebra'>
+  
+  <!-- Colgroup -->
+  <colgroup>
+	  <col class="vzebra-odd">
+	  <col class="vzebra-even">
+	  <col class="vzebra-odd">
+	  <col class="vzebra-even">
+  </colgroup>
+    <tr>
+      <th scope="col">
+	Problem Type
+      </th>
+      <th>
+	Standard Sylvester matrix equation
+      </th>
+      <th>
+	Generalized Sylvester matrix equation
+      </th>
+    </tr>
+    <tr>
+      <th>
+	Equation 
+      </th>
+      <td>
+	<i>op(A)*X &#177 X*op(B) = &#945C</i>.
+      </td>
+      <td>
+	<i>A*R &#8722 L*B = &#945C</i></br><i>D*R &#8722 L*E = &#945F</i>
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Description 
+      </th>
+      <td>
+	<i>op(A) = A</i>, <i>A<sup>T</sup></i> or <i>A<sup>H</sup></i> (for <i>A</i> with complex entries); <i>&#945</i> is an output scale factor 
+      </td>
+      <td>
+	<i>R</i> and <i>L</i> are unknown m-by-n matrices; <i>&#945</i> is an output scale factor
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Requirements for real matrices 
+      </th>
+      <td>
+	matrices <i>A</i> and <i>B</i> must be upper quasi-triangular
+      </td>
+      <td>
+	matrices <i>A</i> and <i>B</i> must be upper quasi-triangular, and matrices <i>D</i> and <i>E</i> upper triangular
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Requirements for complex matrices 
+      </th>
+      <td>
+	matrices <i>A</i> and <i>B</i> must be upper triangular
+      </td>
+      <td>
+	matrices <i>A</i>, <i>B</i>, <i>D</i> and <i>E</i> must be upper triangular
+      </td>
+    </tr>
+<!--    <tr>
+      <th>
+	Complex numbers
+      </th>
+      <td>
+	<ul>
+	  <li><label for="id_standard_complexNumber_0"><input type="checkbox" name="standard_complexNumber" value="no" id="id_standard_complexNumber_0" /> no</label></li>
+	  <li><label for="id_standard_complexNumber_1"><input type="checkbox" name="standard_complexNumber" value="yes" id="id_standard_complexNumber_1" /> yes</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul>
+	  <li><label for="id_generalized_complexNumber_0"><input type="checkbox" name="generalized_complexNumber" value="no" id="id_generalized_complexNumber_0" /> no</label></li>
+	  <li><label for="id_generalized_complexNumber_1"><input type="checkbox" name="generalized_complexNumber" value="yes" id="id_generalized_complexNumber_1" /> yes</label></li>
+	</ul>
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Precision
+      </th>
+      <td>
+	<ul>
+	  <li><label for="id_standard_singleDouble_0"><input type="checkbox" name="standard_singleDouble" value="single" id="id_standard_singleDouble_0" /> single</label></li>
+	  <li><label for="id_standard_singleDouble_1"><input type="checkbox" name="standard_singleDouble" value="double" id="id_standard_singleDouble_1" /> double</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul>
+	  <li><label for="id_generalized_singleDouble_0"><input type="checkbox" name="generalized_singleDouble" value="single" id="id_generalized_singleDouble_0" /> single</label></li>
+	  <li><label for="id_generalized_singleDouble_1"><input type="checkbox" name="generalized_singleDouble" value="double" id="id_generalized_singleDouble_1" /> double</label></li>
+	</ul>
+      </td>
+    </tr>-->
+  </table>  
+  
+  <div id="button-div">
+    <table style="width:100%; margin: 0px auto;">
+      <tr style="width:100%;">
+	<td style="text-align:left;">       
+	  <button type="button" name="clear" id="clearButton_advanced" class="myButton" title="Clear Search"
+		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
+		  onmouseout="showTooltip('tooltip_advanced','');"
+		  onclick="show_confirm('/lapack_sylvester/')">
+	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
+	  </button>       
+	</td>
+	<td style="text-align:center;">
+	  <div id="tooltip_advanced"></div>
+	</td>
+	<td style="text-align:right;">
+	  <button type="submit" name="guided" value="submit" id="submitButton_advanced" title="Submit Answer" class="myButton"
+		  onmouseover="showTooltip('tooltip_advanced', 'Submit', '#009900');"
+		  onmouseout="showTooltip('tooltip_advanced','');">
+	      <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+	  </button >
+	</td>
+      </tr>
+    </table>
+  </div>
+</form>
