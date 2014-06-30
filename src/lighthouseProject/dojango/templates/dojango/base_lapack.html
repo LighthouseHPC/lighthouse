@@ -186,17 +186,17 @@
                                 minSize="100" style="width: 550px;" id="leftTab"
                                 region="leading" splitter="true">
                                 <!-- Guided Search-->
-                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ guidedTab|default:"false" }}" style="padding:10px;">        
                                         {% block dojango_content_guidedSearch %}{% endblock %}
                                 </div><!-- end Guided Search -->
 
                                 <!--  Advanced Search -->
-                                <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
+                                <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ advancedTab|default:"false" }}" style="padding:10px;">
                                         {% block dojango_content_advancedSearch %}{% endblock %}
                                 </div><!-- end Advanced Search -->
 
                                 <!--  Keyword Search -->
-                                <div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
+                                <div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ keywordTab|default:"false" }}" style="padding:10px;">
                                         {% block dojango_content_keywordSearch %}{% endblock %}
                                 </div><!-- end Keyword Search -->
                         </div><!-- end TabsContainer -->
