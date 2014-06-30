@@ -8,20 +8,16 @@
 
 
 
-<!-- ########### Guided search form: ###########-->
+<!-- ########### advanced search form: ###########-->
 {% block dojango_content_advancedSearch %}
-    {% if form_checked %}
-        {% include "lighthouse/lapack_sylvester/advanced/advancedSearch_submitted.html" %}
-    {% else %}
-        {% include "lighthouse/lapack_sylvester/advanced/advancedSearch.html" %}
-    {% endif %}
+{% include "lighthouse/lapack_sylvester/advanced/advancedSearch.html" %}
 {% endblock %}
 
 
 
 <!-- ########### Search results: ###########-->
 {% block dojango_content_search_result %}
-    {% if form_checked %}
+    {% if form_submitted %}
         {% include "lighthouse/lapack_sylvester/resultsAdvanced.html" %}
     {% else %}
         {% include "lighthouse/lapack_sylvester/results.html" %}

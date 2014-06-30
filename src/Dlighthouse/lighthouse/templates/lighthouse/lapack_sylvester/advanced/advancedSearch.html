@@ -80,6 +80,30 @@
 	matrices <i>A</i>, <i>B</i>, <i>D</i> and <i>E</i> must be upper triangular
       </td>
     </tr>
+    {% if form_submitted %}
+    <tr>
+      <th>
+	Complex numbers
+      </th>
+      <td>
+	{{ form_submitted.standard_complexNumber }}
+      </td>
+      <td>
+	{{ form_submitted.generalized_complexNumber }}
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Precision
+      </th>
+      <td>
+	{{ form_submitted.standard_singleDouble }}
+      </td>
+      <td>
+	{{ form_submitted.generalized_singleDouble }}
+      </td>
+    </tr>      
+    {% else %}
     <tr>
       <th>
 	Complex numbers
@@ -114,6 +138,7 @@
 	</ul>
       </td>
     </tr>
+    {% endif %}
   </table>  
   
   <div id="button-div">
