@@ -3,19 +3,23 @@
 
 <!-- ########### Guided search questions: ###########-->
 {% block dojango_content_guidedSearch %}
-{% include "lighthouse/lapack_sylvester/guidedSearch.html" %}
+{% include "lighthouse/lapack_sylvester/guided/guidedSearch.html" %}
 {% endblock %}
 
 
 
 <!-- ########### Guided search form: ###########-->
 {% block dojango_content_advancedSearch %}
-{% include "lighthouse/lapack_sylvester/advancedSearch.html" %}
+{% include "lighthouse/lapack_sylvester/advanced/advancedSearch.html" %}
 {% endblock %}
 
 
 
 <!-- ########### Search results: ###########-->
 {% block dojango_content_search_result %}
-{% include "lighthouse/lapack_sylvester/results.html" %}
+    {% if form_checked %}
+        {% include "lighthouse/lapack_sylvester/resultsAdvanced.html" %}
+    {% else %}
+        {% include "lighthouse/lapack_sylvester/results.html" %}
+    {% endif %}
 {% endblock %}
