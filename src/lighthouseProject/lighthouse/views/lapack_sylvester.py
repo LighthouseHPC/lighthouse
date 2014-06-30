@@ -19,8 +19,8 @@ import datetime
 ##############################################
 
 
-form_order_standard = ('standardGeneralizedForm', 'standardConditionForm', 'complexNumberForm', 'singleDoubleForm')         ## form order for standard Sylvester equation
-form_order_generalized = ('standardGeneralizedForm', 'generalizedConditionForm', 'complexNumberForm', 'singleDoubleForm')   ## form order for generalized Sylvester equation
+form_order_standard = ('standardGeneralizedForm', 'complexNumberForm', 'standardConditionForm', 'singleDoubleForm')         ## form order for standard Sylvester equation
+form_order_generalized = ('standardGeneralizedForm', 'complexNumberForm', 'generalizedConditionForm', 'singleDoubleForm')   ## form order for generalized Sylvester equation
 
 form_HTML = ['standardGeneralizedForm', 'standardConditionForm', 'generalizedConditionForm']                                ## forms with HTML format
 
@@ -65,7 +65,7 @@ def guidedSearch_index(request):
                 'formHTML': "standardGeneralizedForm",
                 'form': "invalid",
                 'sylvester_guided_answered' : '',
-                'results' : 'start'
+                'results' : 'start',
     }
     return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
 
