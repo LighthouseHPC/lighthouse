@@ -6,5 +6,5 @@ urlpatterns = patterns('lighthouse.views.lapack_sylvester',
     url(r'^$', "guidedSearch_index", name="lapack_sylvester"),
     url(r'^index/$', "guidedSearch_index", name="lapack_sylvester"),
     url(r'^guidedSearch/$', "guidedSearch", name="lapack_sylvester_guidedSearch"),
-    url(r'^advancedSearch/$', "advancedSearch", name="lapack_sylvester_advancedSearch"),
+    #url(r'^advancedSearch/$', "advancedSearch", name="lapack_sylvester_advancedSearch"),
 )
