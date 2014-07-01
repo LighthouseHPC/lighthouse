@@ -137,3 +137,43 @@ def guidedSearch(request):
 ##############################################
 ######-------- Advanced Search -------- ######
 ##############################################
+def advancedSearch(request):
+    standardDict = {'complexNumber':[], 'singleDouble':[]}
+    generalizedDict = {'complexNumber':[], 'singleDouble':[]}
+    request.session['Routines'] = []
+    form = advancedForm(request.POST or None) 
+    if form.is_valid():
+        standardDict['complexNumber'] = form.cleaned_data['standard_complexNumber']
+        standardDict['singleDouble'] = form.cleaned_data['standard_singleDouble']
+        generalizedDict['complexNumber'] = form.cleaned_data['generalized_complexNumber']
+        generalizedDict['singleDouble'] = form.cleaned_data['generalized_singleDouble']
+        
+        for item1 in standardDict['complexNumber']:
+            for item2 in standardDict['singleDouble']:
+                kwargs = {
+                    'standardGeneralized': 'standard',
+                    'complexNumber': item1,
+                    'singleDouble': item2,
+                }
+                request.session['Routines'].extend(lapack_sylvester.objects.filter(**kwargs))
+                
+        for item1 in generalizedDict['complexNumber']:
+            for item2 in generalizedDict['singleDouble']:
+                kwargs = {
+                    'standardGeneralized': 'generalized',
+                    'complexNumber': item1,
+                    'singleDouble': item2,
+                }
+                request.session['Routines'].extend(lapack_sylvester.objects.filter(**kwargs))
+ 
+        for item in request.session['Routines']:
+            print item.thePrecision+item.routineName
+            
+        context = {
+            'form_submitted': form,
+            'results': request.session['Routines'],
+            'advancedTab': True,
+        }
+        return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
+    else:
+        return HttpResponse("Invalid form!")
