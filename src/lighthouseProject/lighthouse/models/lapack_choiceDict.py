@@ -107,3 +107,28 @@ SYLVESTER_CHOICES = (
 	(u'standard',				mark_safe('Standard ( <i>op(A)*X &#177 X*op(B) = C</i> )')),
 	(u'generalized',			mark_safe('Generalized ( <i>A*R &#8722 L*B = &#945C</i> and <i>D*R &#8722 L*E = &#945F</i> )')),
 )
+
+
+standard_NOYES_CHOICES = (
+	(u'standard_complexNumber_no',			u'no'),
+	(u'standard_complexNumber_yes',			u'yes'),
+)
+
+
+standard_singleDouble_CHOICES = (
+        (u'standard_singleDouble_single',       	u'single'), 
+        (u'standard_singleDouble_double',       	u'double'), 	
+)
+
+
+generalized_NOYES_CHOICES = (
+	(u'generalized_complexNumber_no',		u'no'),
+	(u'generalized_complexNumber_yes',		u'yes'),
+)
+
+
+generalized_singleDouble_CHOICES = (
+        (u'generalized_singleDouble_single',       	u'single'), 
+        (u'generalized_singleDouble_double',       	u'double'), 	
+)
+

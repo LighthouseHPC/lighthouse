@@ -15,7 +15,15 @@ class standardGeneralizedForm(forms.Form):
 					      )    
 
 
-
+    
+##---- complex form ----##
+class complexNumberForm(forms.Form):
+    sylvester_complexNumber = forms.ChoiceField(label='Does your matrix have any complex numbers?',
+					      widget=forms.RadioSelect(),
+					      choices=NOYES_CHOICES
+					      )
+    
+    
 
 ##---- condition form --- ##
 class standardConditionForm(forms.Form):
@@ -28,16 +36,6 @@ class standardConditionForm(forms.Form):
 
 class generalizedConditionForm(forms.Form):
     sylvester_generalizedCondition = forms.ChoiceField(label=mark_safe('LAPACK only supports matrices A and D of upper quasi-triangular type in full storage, and matrices B and E of upper triangular type in full storage. Do you wish to continue the search?'),
-					      widget=forms.RadioSelect(),
-					      choices=NOYES_CHOICES
-					      )
-
-
-
-    
-##---- complex form ----##
-class complexNumberForm(forms.Form):
-    sylvester_complexNumber = forms.ChoiceField(label='Does your matrix have any complex numbers?',
 					      widget=forms.RadioSelect(),
 					      choices=NOYES_CHOICES
 					      )
@@ -107,3 +105,14 @@ class singleDoubleForm(forms.Form):
                                               widget=forms.RadioSelect(),
                                               choices=SINGLEDOUBLE_CHOICES
                                               )
+    
+    
+    
+    
+######-------- For Advanced Search --------######
+class advancedForm(forms.Form):
+    standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=standard_NOYES_CHOICES)
+    standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=standard_singleDouble_CHOICES)
+    generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=generalized_NOYES_CHOICES)
+    generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=generalized_singleDouble_CHOICES)    
+                                            
