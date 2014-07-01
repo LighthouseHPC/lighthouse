@@ -213,7 +213,7 @@
                                 minSize="100" style="width: 550px;" id="leftTab"
                                 region="leading" splitter="true">
                                 <!-- Guided Search-->
-                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ GuidedTab|default:"false" }}" style="padding:10px;">        
                                         {% block dojango_content_guidedSearch %}{% endblock %}
                                 </div><!-- end Guided Search -->
 

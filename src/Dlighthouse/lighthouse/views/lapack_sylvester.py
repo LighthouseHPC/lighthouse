@@ -172,7 +172,7 @@ def advancedSearch(request):
         context = {
             'form_submitted': form,
             'results': request.session['Routines'],
-            'advancedTab': True,
+            'AdvancedTab': True,
         }
         return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
     else:
