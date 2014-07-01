@@ -14,7 +14,11 @@
 </div>
 <br>
 <form name="advanced" action="/lapack_sylvester/advancedSearch/" name="frmProb" method="post">
-	{% csrf_token %}	
+	{% csrf_token %}
+  <div style="padding-left:10px;">
+	  <img src={%static "images/arrow.png" %} width="8" height="8"/>			
+	  <b>Please check <i>at least</i> <u>one</u> box in each cell.</b>
+  </div>
 
   <table id='ver-zebra'>
   
