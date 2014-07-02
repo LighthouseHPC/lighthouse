@@ -143,11 +143,15 @@ def advancedSearch(request):
     request.session['Routines'] = []
     form = advancedForm(request.POST or None) 
     if form.is_valid():
+        ## get standard data
         standardDict['complexNumber'] = form.cleaned_data['standard_complexNumber']
         standardDict['singleDouble'] = form.cleaned_data['standard_singleDouble']
+        
+        ## get generalized data
         generalizedDict['complexNumber'] = form.cleaned_data['generalized_complexNumber']
         generalizedDict['singleDouble'] = form.cleaned_data['generalized_singleDouble']
         
+        ## search for standard routines
         for item1 in standardDict['complexNumber']:
             for item2 in standardDict['singleDouble']:
                 kwargs = {
@@ -156,7 +160,8 @@ def advancedSearch(request):
                     'singleDouble': item2,
                 }
                 request.session['Routines'].extend(lapack_sylvester.objects.filter(**kwargs))
-                
+        
+        ## search for generalized routines        
         for item1 in generalizedDict['complexNumber']:
             for item2 in generalizedDict['singleDouble']:
                 kwargs = {
@@ -165,15 +170,16 @@ def advancedSearch(request):
                     'singleDouble': item2,
                 }
                 request.session['Routines'].extend(lapack_sylvester.objects.filter(**kwargs))
- 
-        for item in request.session['Routines']:
-            print item.thePrecision+item.routineName
-            
+        
+        ## context includes guided search form    
         context = {
             'form_submitted': form,
             'results': request.session['Routines'],
             'AdvancedTab': True,
+            'formHTML': "standardGeneralizedForm",
+            'form': "invalid",
+            'sylvester_guided_answered' : '',
         }
         return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
     else:
-        return HttpResponse("Invalid form!")
+        return guidedSearch_index(request)
