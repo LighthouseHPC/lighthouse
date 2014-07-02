@@ -27,7 +27,7 @@ class complexNumberForm(forms.Form):
 
 ##---- condition form --- ##
 class standardConditionForm(forms.Form):
-    sylvester_standardCondition = forms.ChoiceField(label=mark_safe('LAPACK only supports matrices A and B of upper quasi-triangular type in full storage. Do you wish to continue the search?'),
+    sylvester_standardCondition = forms.ChoiceField(label=mark_safe('LAPACK only supports upper quasi-triangular matrices A and B in full storage. Do you wish to continue the search?'),
 					      widget=forms.RadioSelect(),
 					      choices=NOYES_CHOICES
 					      )
@@ -35,7 +35,7 @@ class standardConditionForm(forms.Form):
 
 
 class generalizedConditionForm(forms.Form):
-    sylvester_generalizedCondition = forms.ChoiceField(label=mark_safe('LAPACK only supports matrices A and D of upper quasi-triangular type in full storage, and matrices B and E of upper triangular type in full storage. Do you wish to continue the search?'),
+    sylvester_generalizedCondition = forms.ChoiceField(label=mark_safe('LAPACK only supports upper quasi-triangular matrices A and D in full storage, and upper triangular matrices B and E in full storage. Do you wish to continue the search?'),
 					      widget=forms.RadioSelect(),
 					      choices=NOYES_CHOICES
 					      )
