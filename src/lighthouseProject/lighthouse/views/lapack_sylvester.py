@@ -1,5 +1,6 @@
 import string, types, sys, os, StringIO, re, shlex, json, zipfile
 from collections import OrderedDict
+from itertools import chain
 from django.contrib.auth.decorators import login_required
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse, HttpResponseNotFound
@@ -47,18 +48,23 @@ def find_nextForm(currentForm_name, request):
     return {'nextForm_name': nextForm_name, 'nextForm': nextForm}
     
 
+### set up initial sessions
+def sessionSetup(request):
+    for item in ['standardGeneralizedForm', 'standardConditionForm', 'generalizedConditionForm', 'complexNumberForm', 'singleDoubleForm']:
+        key = 'sylvester_'+item[:-4]
+        request.session[key] = ''
+    request.session['currentForm_name'] = 'standardGeneralizedForm'
+    request.session['Results'] = lapack_sylvester.objects.all()
+    request.session['sylvester_guided_answered'] = OrderedDict()
+    request.session['form_order'] = []
+
+
 
 
 ### start guided search views
 def guidedSearch_index(request):
     # set up session keys and values
-    for item in ['standardGeneralizedForm', 'standardConditionForm', 'generalizedConditionForm', 'complexNumberForm', 'singleDoubleForm']:
-        key = 'sylvester_'+item[:-4]
-        request.session[key] = ''
-    request.session['currentForm_name'] = 'standardGeneralizedForm'
-    request.session['Routines'] = lapack_sylvester.objects.all()
-    request.session['sylvester_guided_answered'] = OrderedDict()
-    request.session['form_order'] = []
+    sessionSetup(request)
     
     ## get ready for the template
     context = {
@@ -101,7 +107,7 @@ def guidedSearch(request):
             if request.session['currentForm_name'] not in ['standardConditionForm', 'generalizedConditionForm']:
                 lookup = "%s__contains" % current_question
                 query = {lookup : value}
-                request.session['Routines'] = request.session['Routines'].filter(**query)
+                request.session['Results'] = request.session['Results'].filter(**query)
             
             ## call function find_nextForm to set up next form for next question
             dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
@@ -122,7 +128,7 @@ def guidedSearch(request):
                         'formHTML': formHTML,
                         'form': nextForm,
                         'sylvester_guided_answered' : request.session['sylvester_guided_answered'],
-                        'results' : request.session['Routines']
+                        'results' : request.session['Results']
                         }
             return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
     else:       
@@ -140,7 +146,7 @@ def guidedSearch(request):
 def advancedSearch(request):
     standardDict = {'complexNumber':[], 'singleDouble':[]}
     generalizedDict = {'complexNumber':[], 'singleDouble':[]}
-    request.session['Routines'] = []
+    request.session['advancedResults'] = []
     form = advancedForm(request.POST or None) 
     if form.is_valid():
         ## get standard data
@@ -159,7 +165,7 @@ def advancedSearch(request):
                     'complexNumber': item1,
                     'singleDouble': item2,
                 }
-                request.session['Routines'].extend(lapack_sylvester.objects.filter(**kwargs))
+                request.session['advancedResults'].extend(lapack_sylvester.objects.filter(**kwargs))
         
         ## search for generalized routines        
         for item1 in generalizedDict['complexNumber']:
@@ -169,12 +175,15 @@ def advancedSearch(request):
                     'complexNumber': item1,
                     'singleDouble': item2,
                 }
-                request.session['Routines'].extend(lapack_sylvester.objects.filter(**kwargs))
+                request.session['advancedResults'].extend(lapack_sylvester.objects.filter(**kwargs))
+        
+        ## be ready for switching to guided search
+        sessionSetup(request)
         
         ## context includes guided search form    
         context = {
             'form_submitted': form,
-            'results': request.session['Routines'],
+            'results': request.session['advancedResults'],
             'AdvancedTab': True,
             'formHTML': "standardGeneralizedForm",
             'form': "invalid",
