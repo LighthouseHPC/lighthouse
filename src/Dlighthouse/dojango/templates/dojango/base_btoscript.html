@@ -206,10 +206,15 @@
                         <div dojoType="dijit.layout.TabContainer" duration="200"
                                 minSize="100" style="width: 60%;" id="leftTab"
                                 region="leading" splitter="true">
-                                <!-- Guided Search-->
-                                <div dojoType="dijit.layout.ContentPane" title="Setup" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                <!-- Script setup area -->
+                                <div dojoType="dijit.layout.ContentPane" title="Setup" selected="true" style="padding:10px;">        
                                         {% block dojango_content_script %}{% endblock %}
-                                </div><!-- end Guided Search -->
+                                </div><!-- end Script setup area -->
+
+                                <!-- about BTO tab -->
+                                <div dojoType="dijit.layout.ContentPane" title="About BTO" style="padding:10px;">        
+                                        {% block dojango_content_aboutBTO %}{% endblock %}
+                                </div><!-- end about BTO tab -->
 
                         </div><!-- end TabsContainer -->
 
