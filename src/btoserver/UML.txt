@@ -1,0 +1,12 @@
+// UML to be generated on http://www.yuml.me/diagram/scruffy/class/draw
+
+[BaseMessage]^-[BaseServer]
+[BaseMessage]^-[BaseClient]
+[BaseClient]^-[BTOClient]
+[BaseServer]^-[BTO_Server]
+[BaseServer]^-[BTORequestHandler]
+[BTO_Server]^-[LhServer]
+[ForkingTCPServer]^-[LhServer]
+[BTORequestHandler]^-[LhRequestHandler]
+[StreamRequestHandler]^-[LhRequestHandler]
+
