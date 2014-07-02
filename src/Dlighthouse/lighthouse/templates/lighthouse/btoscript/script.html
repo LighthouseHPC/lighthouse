@@ -1,7 +1,7 @@
 <div style="width:100%;">
     <table style="width:100%; height:180px; border: 0px;">
         <tr>
-            <td valign="top" bgcolor="#FAF8CC";>                                        
+            <td valign="top" bgcolor="#ebf5ff";>
                 <table cellspacing="20" >
                     <form dojoType="dijit.form.Form" id="scriptForm" name="scriptform" action="" method="POST">
                     <tr>
@@ -26,34 +26,14 @@
                     </tr>
 
                     <tr>
-                        <td align="left">
-                            <button class="scriptButton" type="reset" onclick="clearKernelEquation()">
-                                Clear
-                            </button>
-                        </td>
-                        <td align="right">
-                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation()">
-                                Check Script
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <table id="parameterTable" cellspacing="10">    
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
                         <td>
                             <label for="btoArgs"><strong><a href="./args">Commandline args to pass to BTO</a>:</strong></label>
-                            <!--<input type="text" id="btoArgs" name="btoArgs" value="level1thread2:12:2" />-->
                         </td>
                     </tr><tr>
 
 
-
                         <td>
-                            <label for="searchtype"><strong>Search type</strong></label>
+                            <label for="search_type"><strong>Search type</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
 		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOsearchType">
@@ -73,17 +53,35 @@
                             <input type="radio" id="search_ex" name="search_type" value="2" />&nbsp;Exhaustive (very long running time)<br />
                             <input type="radio" id="search_rand" name="search_type" value="3" />&nbsp;Random<br />
                             <input type="radio" id="search_ortho" name="search_type" value="4" />&nbsp;Orthogonal<br />
-                            <input type="radio" id="search_thread" name="search_type" value="5" />&nbsp;Thread Search<br />
+                            <input type="radio" id="search_thread" name="search_type" value="5" />&nbsp;Thread Search
                         </td>
-                    </tr><tr>
                         <td>
                             <label for="precision"><strong>Precision</strong></label><br />
                             <input type="radio" id="precision_double" name="precision" value="1" checked />&nbsp;Double<br />
-                            <input type="radio" id="precision_float"  name="precision" value="2" />&nbsp;Float<br />
+                            <input type="radio" id="precision_float"  name="precision" value="2" />&nbsp;Float
                         </td>
                     </tr><tr>
                         <td>
-                            <input type="checkbox" id="correctness" name="correctness" value="1" />
+                           <input type="checkbox" id="analyticmem" name="analyticmem" />
+                           <label for="analyticmem"><strong>Use Analytic memory model</strong></label>
+                            <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+        	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
+		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOanalytic">
+        						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+		        					dojoType="dijit.form.Button">[Close]
+				        			<script type="dojo/method" event="onClick">
+						        		dijit.byId('helpBTOanalytic').onCancel();
+							        </script>
+						        </div>
+						            <h2>Analytic Memory Model</h2>
+						            <div id="helpText_btoAnalytic" style="background-color:#FFFFD6;">
+							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoAnalytic.html"></iframe>  		 		
+						            </div>
+					            </div>
+				            </div>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="correctness" name="correctness" />
                             <label for="correctness"><strong>Correctness testing</strong></label>
                              <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -103,7 +101,7 @@
                         </td>
                     </tr><tr>
                         <td>
-                            <label for="testingSize"><strong>Testing size</strong></label>
+                            <label for="testingSize"><strong>Testing size</strong> (start:stop:step)</label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
 		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOtestingSize">
@@ -118,30 +116,9 @@
 							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoTestingSize.html"></iframe>  		 		
 						            </div>
 					            </div>
-				            </div>
-                            <input type="text" id="test_param" name="test_param" value="3000:3000:1">&nbsp;start:stop:step
+				            </div><br />
+                            <input type="text" id="test_param" name="test_param" value="3000:3000:1" />
                         </td>
-                    </tr><tr>
-                        <td>
-                           <input type="checkbox" id="analyticmem" name="analyticmem" value="1" />
-                           <label for="analyticmem"><strong>Use Analytic memory model</strong></label>
-                            <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
-        	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
-		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOanalytic">
-        						<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-		        					dojoType="dijit.form.Button">[Close]
-				        			<script type="dojo/method" event="onClick">
-						        		dijit.byId('helpBTOanalytic').onCancel();
-							        </script>
-						        </div>
-						            <h2>Analytic Memory Model</h2>
-						            <div id="helpText_btoAnalytic" style="background-color:#FFFFD6;">
-							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoAnalytic.html"></iframe>  		 		
-						            </div>
-					            </div>
-				            </div>
-                        </td>
-                    </tr><tr>
                         <td>
                             <label for="threshold"><strong>Threshold</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
@@ -159,7 +136,7 @@
 						            </div>
 					            </div>
 				            </div><br />
-                            <input type="text" id="threshold" name="threshold" value="0.01" disable >&nbsp;Threshold
+                            <input type="text" id="threshold" name="threshold" value="0.01" />
                         </td>
                     </tr><tr>
                         <td>
@@ -186,6 +163,21 @@
 
                         </td>
                     </tr><tr>
+                        <td align="left">
+                            <button class="scriptButton" type="reset" onclick="clearKernelEquation()">
+                                Reset
+                            </button>
+                            <button class="scriptButton" type="submit" name="submitButton" onclick="submitEquation()">
+                                Check Script
+                            </button>
+                        </td>
+                    </tr><tr>
+                        <td colspan="2">
+                            <table id="parameterTable" cellspacing="10">    
+                            </table>
+                        </td>
+                    </tr>
+<tr>
                         <td colspan="2" align="right">
                             <button class="scriptButton" type="button" name="Submit" id="codeSubmitButton" style="display:none" onclick="runScript()">
                                Generate Code with BTO

@@ -203,6 +203,7 @@ class BaseServer(BaseMessage):
             optlist, files = getopt.getopt(options.split(), self.legal_options, self.legal_longoptions)
         except getopt.GetoptError, e:
             bad = '-' + e.opt
+            print "Bad option '%s' caught in check_options." %e.opt
             options = string.replace(options, bad, '')
             return self.check_options(options)
 

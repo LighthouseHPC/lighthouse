@@ -849,10 +849,79 @@
 		var kernelName = dojo.byId("kernelName").value;
 		kernel.push(kernelName);
 		kernel.push(equation);
-        kernel.push( dojo.byId("btoArgs").value );
-		
+
+        // .section Process bto options form
+        var szArgs = "-s";
+        var opt = null;
+
+        opt = dojo.byId("search_ga");
+        if(opt.checked == true) {
+            szArgs += " ga";
+        }
+        opt = dojo.byId("search_ex");
+        if(opt.checked == true) {
+            szArgs += " ex";
+        }
+        opt = dojo.byId("search_rand");
+        if(opt.checked == true) {
+            szArgs += " random";
+        }
+        opt = dojo.byId("search_ortho");
+        if(opt.checked == true) {
+            szArgs += " orthogonal"; } opt = dojo.byId("search_thread");
+        if(opt.checked == true) {
+            szArgs += " thread";
+        }
+
+        // double is compiler default, no need to process it
+        opt = dojo.byId("precision_float");
+        if(opt.checked) {
+          szArgs += " -a float";
+        }
+ 
+        opt = dojo.byId("analyticmem");
+        if(opt.checked) {
+            szArgs += " -m";
+        }
+
+        opt = dojo.byId("correctness");
+        if(opt.checked) {
+            szArgs += " -c";
+        }
+
+
+        opt = dojo.byId("test_param").value;
+        if(opt != "" && opt != "3000:3000:1") {
+            szArgs += " -r ";
+            szArgs += opt;
+        }
+
+        opt = dojo.byId("threshold").value;
+        if(opt != "" && opt != 0.01) {
+            if(opt < 0.001 || opt > 1.0)
+                alert("threshold value must be on (0,1]");
+            szArgs += " -t ";
+            szArgs += opt;
+        }
+
+        opt = dojo.byId("level1").value;
+        if(opt != "") {
+            szArgs += " --level1 ";
+            szArgs += opt.replace(/\s/g, ''); // strip spaces temporarily from arg value
+        }
+
+        opt = dojo.byId("level2").value;
+        if(opt != "") {
+            szArgs += " --level2 ";
+            szArgs += opt.replace(/\s/g, '');
+        }
+
+        kernel.push(szArgs);
+        // done processing BTO args
+
+        // basic sanity check
 		if (equation == 0 || kernelName == 0) {
-			alert("Please complete all fields.")
+			alert("Please complete both Equation and Kernel Name fields.")
 		}
 		
 		else {
@@ -1024,7 +1093,7 @@
 	
 	
 	// Called when user submits some script
-	function runScript(){
+	function runScript() {
 		var paramProperty = {'kernelName': kernel[0], 'equation': kernel[1], 'btoArgs': kernel[2]};
 		for (var i=0; i<arrParameters.length; i++){
 			var selectId_1 = 'select1_'+i;
