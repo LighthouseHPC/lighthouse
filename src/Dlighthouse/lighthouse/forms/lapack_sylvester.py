@@ -66,7 +66,7 @@ class generalizedConditionForm(forms.Form):
 #		(u'upper quasi-triangular',		u'upper quasi-triangular'),
 #		)	    
 #	for item in self.fields['sylvester_matrixType'].choices:
-#	    if item[1] != u'upper quasi-triangular':
+#	    if item[1] != u'upper quasi-triangular':5
 #		disableList.append(True)
 #	    else:
 #		disableList.append(False)
@@ -111,8 +111,10 @@ class singleDoubleForm(forms.Form):
     
 ######-------- For Advanced Search --------######
 class advancedForm(forms.Form):
+    standard_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
     standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    generalized_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
     generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    
                                             
