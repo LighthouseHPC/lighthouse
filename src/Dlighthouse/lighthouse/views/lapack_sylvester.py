@@ -62,7 +62,7 @@ def sessionSetup(request):
 
 
 ### start guided search views
-def guidedSearch_index(request):
+def index(request):
     # set up session keys and values
     sessionSetup(request)
     
@@ -101,7 +101,7 @@ def guidedSearch(request):
 
         
         if request.session['sylvester_standardCondition'] == 'no' or request.session['sylvester_generalizedCondition'] == 'no':         ## stop search
-            return guidedSearch_index(request)
+            return index(request)
         else:
             ## do search based on user's response (no search needed for 'standardConditionForm', 'generalizedConditionForm')
             if request.session['currentForm_name'] not in ['standardConditionForm', 'generalizedConditionForm']:
@@ -132,7 +132,7 @@ def guidedSearch(request):
                         }
             return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
     else:       
-        return guidedSearch_index(request)
+        return index(request)
     
 
 
@@ -148,47 +148,47 @@ def advancedSearch(request):
     generalizedDict = {'complexNumber':[], 'singleDouble':[]}
     request.session['advancedResults'] = []
     form = advancedForm(request.POST or None) 
-    if form.is_valid():
-        ## get standard data
-        standardDict['complexNumber'] = form.cleaned_data['standard_complexNumber']
-        standardDict['singleDouble'] = form.cleaned_data['standard_singleDouble']
-        
-        ## get generalized data
-        generalizedDict['complexNumber'] = form.cleaned_data['generalized_complexNumber']
-        generalizedDict['singleDouble'] = form.cleaned_data['generalized_singleDouble']
-        
-        ## search for standard routines
-        for item1 in standardDict['complexNumber']:
-            for item2 in standardDict['singleDouble']:
-                kwargs = {
-                    'standardGeneralized': 'standard',
-                    'complexNumber': item1,
-                    'singleDouble': item2,
-                }
-                request.session['advancedResults'].extend(lapack_sylvester.objects.filter(**kwargs))
-        
-        ## search for generalized routines        
-        for item1 in generalizedDict['complexNumber']:
-            for item2 in generalizedDict['singleDouble']:
-                kwargs = {
-                    'standardGeneralized': 'generalized',
-                    'complexNumber': item1,
-                    'singleDouble': item2,
-                }
-                request.session['advancedResults'].extend(lapack_sylvester.objects.filter(**kwargs))
-        
-        ## be ready for switching to guided search
-        sessionSetup(request)
-        
-        ## context includes guided search form    
-        context = {
-            'form_submitted': form,
-            'results': request.session['advancedResults'],
-            'AdvancedTab': True,
-            'formHTML': "standardGeneralizedForm",
-            'form': "invalid",
-            'sylvester_guided_answered' : '',
-        }
-        return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
-    else:
-        return guidedSearch_index(request)
+
+    ## get standard data
+    standardDict['complexNumber'] = form['standard_complexNumber'].value()
+    standardDict['singleDouble'] = form['standard_singleDouble'].value()
+    
+    ## get generalized data
+    generalizedDict['complexNumber'] = form['generalized_complexNumber'].value()
+    generalizedDict['singleDouble'] = form['generalized_singleDouble'].value()
+    
+    
+    ## search for standard routines
+    for item1 in standardDict['complexNumber']:
+        for item2 in standardDict['singleDouble']:
+            kwargs = {
+                'standardGeneralized': 'standard',
+                'complexNumber': item1,
+                'singleDouble': item2,
+            }
+            request.session['advancedResults'].extend(lapack_sylvester.objects.filter(**kwargs))
+    
+    ## search for generalized routines        
+    for item1 in generalizedDict['complexNumber']:
+        for item2 in generalizedDict['singleDouble']:
+            print item1, item2
+            #kwargs = {
+            #    'standardGeneralized': 'generalized',
+            #    'complexNumber': item1,
+            #    'singleDouble': item2,
+            #}
+            #request.session['advancedResults'].extend(lapack_sylvester.objects.filter(**kwargs))
+    
+    ## be ready for switching to guided search
+    sessionSetup(request)
+    
+    ## context includes guided search form    
+    context = {
+        'form_submitted': form,
+        'results': request.session['advancedResults'],
+        'AdvancedTab': True,
+        'formHTML': "standardGeneralizedForm",
+        'form': "invalid",
+        'sylvester_guided_answered' : '',
+    }
+    return render_to_response('lighthouse/lapack_sylvester/index.html', context_instance=RequestContext(request, context))
