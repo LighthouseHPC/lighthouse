@@ -1,12 +1,16 @@
 // UML to be generated on http://www.yuml.me/diagram/scruffy/class/draw
+// Site does not seem to allow for adding class members in this diagram for some reason
+
 
 [BaseMessage]^-[BaseServer]
 [BaseMessage]^-[BaseClient]
-[BaseClient]^-[BTOClient]
+[BaseClient]^-[BTO_Client{bg:tomato}]
 [BaseServer]^-[BTO_Server]
 [BaseServer]^-[BTORequestHandler]
 [BTO_Server]^-[LhServer]
-[ForkingTCPServer]^-[LhServer]
+[socketserver.\nForkingTCPServer{bg:green}]^-[LhServer{bg:tomato}]
 [BTORequestHandler]^-[LhRequestHandler]
-[StreamRequestHandler]^-[LhRequestHandler]
+[socketserver.\nStreamRequestHandler{bg:green}]^-[LhRequestHandler]
+
+[note: Red: API classes\nGreen: python std lib{bg:wheat}]
 

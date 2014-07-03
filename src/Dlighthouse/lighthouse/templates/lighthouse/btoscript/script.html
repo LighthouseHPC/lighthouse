@@ -32,7 +32,7 @@
                     </tr><tr>
 
 
-                        <td>
+                        <td valign="top">
                             <label for="search_type"><strong>Search type</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -49,19 +49,33 @@
 						            </div>
 					            </div>
 				            </div><br />
-                            <input type="radio" id="search_ga" name="search_type" value="1" checked />&nbsp;Genetic Algorithm<br />
-                            <input type="radio" id="search_ex" name="search_type" value="2" />&nbsp;Exhaustive (very long running time)<br />
-                            <input type="radio" id="search_rand" name="search_type" value="3" />&nbsp;Random<br />
-                            <input type="radio" id="search_ortho" name="search_type" value="4" />&nbsp;Orthogonal<br />
-                            <input type="radio" id="search_thread" name="search_type" value="5" />&nbsp;Thread Search
+                            <input type="radio" id="search_ga" name="search_type" value="1" checked onClick="javascript:show_ga_opts();" />&nbsp;<label for="search_ga">Genetic Algorithm (GA)</label><br />
+                            <input type="radio" id="search_ex" name="search_type" value="2" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_ex">Exhaustive (very long running time)</label><br />
+                            <input type="radio" id="search_rand" name="search_type" value="3" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_rand">Random</label><br />
+                            <input type="radio" id="search_ortho" name="search_type" value="4" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_ortho">Orthogonal</label><br />
+                            <input type="radio" id="search_thread" name="search_type" value="5" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_thread">Thread Search</label>
+                        </td><td valign="top">
+                            <span id="ga_specific">
+                                <strong><i>Genetic Algorithm-specific options</i>:</strong><br />
+                                <input type="checkbox" id="ga_nomaxfuse" />&nbsp;<label for="ga_nomaxfuse">Disable maximum loop fusion</label><br />
+                                <input type="checkbox" id="ga_noglobalthread" />&nbsp;<label for="ga_noglobalthread">Disable global Thread search</label><br />
+                                <input type="checkbox" id="ga_exthread" />&nbsp;<label for="ga_exthread">Additional Exhaustive search</label><br />
+                                <input type="text" id="ga_timelimit" value="10" style="width:3em;" />&nbsp;<label for="ga_timelimit">Time limit per version</label><br />
+                                <input type="text" id="ga_popsize" value="10" style="width:3em;" />&nbsp;<label for="ga_popsize">Population size</label><br />
+
+                            </span>
                         </td>
-                        <td>
+                    </tr><tr>
+                        <td valign="top">
+                            <label for="emp_reps"><b>Repetitions for empirical tests</b></label><br />
+                            <input type="text" id="emp_reps" value="5" style="width:3em;" />
+                        </td><td valign="top">
                             <label for="precision"><strong>Precision</strong></label><br />
                             <input type="radio" id="precision_double" name="precision" value="1" checked />&nbsp;Double<br />
                             <input type="radio" id="precision_float"  name="precision" value="2" />&nbsp;Float
                         </td>
                     </tr><tr>
-                        <td>
+                        <td valign="top">
                            <input type="checkbox" id="analyticmem" name="analyticmem" />
                            <label for="analyticmem"><strong>Use Analytic memory model</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
@@ -78,9 +92,8 @@
 							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoAnalytic.html"></iframe>  		 		
 						            </div>
 					            </div>
-				            </div>
-                        </td>
-                        <td>
+				            </div><br />
+
                             <input type="checkbox" id="correctness" name="correctness" />
                             <label for="correctness"><strong>Correctness testing</strong></label>
                              <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
@@ -97,10 +110,12 @@
 							            <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/btoCorrectness.html"></iframe>  		 		
 						            </div>
 					            </div>
-				            </div>
+				            </div><br />
+
+                            <input type="checkbox" id="nopartition" />
+                            <label for="nopartition"><strong>Disable matrix partitioning</strong></label>
                         </td>
-                    </tr><tr>
-                        <td>
+                        <td valign="top">
                             <label for="testingSize"><strong>Testing size</strong> (start:stop:step)</label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -118,8 +133,7 @@
 					            </div>
 				            </div><br />
                             <input type="text" id="test_param" name="test_param" value="3000:3000:1" />
-                        </td>
-                        <td>
+                        <br />
                             <label for="threshold"><strong>Threshold</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -139,7 +153,7 @@
                             <input type="text" id="threshold" name="threshold" value="0.01" />
                         </td>
                     </tr><tr>
-                        <td>
+                        <td valign="top">
                             <label for="level1"><strong>Thread or cache tiling</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -173,6 +187,7 @@
                         </td>
                     </tr><tr>
                         <td colspan="2">
+                            <span id="verify" style="display:none;"><b><i>Please verify the following variable types before submitting. (This parser is not yet perfect!)</i></b></span>
                             <table id="parameterTable" cellspacing="10">    
                             </table>
                         </td>

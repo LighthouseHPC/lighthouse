@@ -817,6 +817,19 @@
 	}
 	
 	
+
+    function show_ga_opts() {
+        var spec = dojo.byId("ga_specific");
+        spec.style.display = "block";
+    }
+
+    function hide_ga_opts() {
+        var spec = dojo.byId("ga_specific");
+        spec.style.display = "none";
+    }
+
+
+
 	
 	//*--- for Submit Equation & kernel name fields---*
 	var specialWords = ['alpha', 'beta'];
@@ -851,13 +864,41 @@
 		kernel.push(equation);
 
         // .section Process bto options form
-        var szArgs = "-s";
+        var szArgs = "--search";
         var opt = null;
 
         opt = dojo.byId("search_ga");
         if(opt.checked == true) {
             szArgs += " ga";
+
+            opt = dojo.byId("ga_nomaxfuse");
+            if(opt.checked == true) {
+                szArgs += " --ga_nomaxfuse";
+            }
+
+            opt = dojo.byId("ga_noglobalthread");
+            if(opt.checked == true) {
+                szArgs += " --ga_noglobalthread";
+            }
+
+            opt = dojo.byId("ga_exthread");
+            if(opt.checked == true) {
+                szArgs += " --ga_exthread";
+            }
+
+            opt = dojo.byId("ga_timelimit").value;
+            if(opt != "" && opt != "10") {
+                szArgs += " --ga_timelimit ";
+                szArgs += opt;
+            }
+
+            opt = dojo.byId("ga_popsize").value;
+            if(opt != "" && opt != "10") {
+                szArgs += " --ga_popsize ";
+                szArgs += opt;
+            }
         }
+
         opt = dojo.byId("search_ex");
         if(opt.checked == true) {
             szArgs += " ex";
@@ -873,26 +914,36 @@
             szArgs += " thread";
         }
 
+        opt = dojo.byId("emp_reps").value;
+        if(opt != "" && opt != "5") {
+            szArgs += " --empirical_reps ";
+            szArgs += opt;
+        }
+
         // double is compiler default, no need to process it
         opt = dojo.byId("precision_float");
         if(opt.checked) {
-          szArgs += " -a float";
+          szArgs += " --precision float";
         }
  
         opt = dojo.byId("analyticmem");
         if(opt.checked) {
-            szArgs += " -m";
+            szArgs += " --use_model";
         }
 
         opt = dojo.byId("correctness");
         if(opt.checked) {
-            szArgs += " -c";
+            szArgs += " --correctness";
         }
 
+        opt = dojo.byId("nopartition");
+        if(opt.checked) {
+            szArgs += " --partition_off";
+        }
 
         opt = dojo.byId("test_param").value;
         if(opt != "" && opt != "3000:3000:1") {
-            szArgs += " -r ";
+            szArgs += " --test_param ";
             szArgs += opt;
         }
 
@@ -917,6 +968,8 @@
         }
 
         kernel.push(szArgs);
+        szArgs = szArgs.replace(/--/g, '\n--');
+        dojo.byId("infoArgs").innerHTML = "<i>Submitted with args</i>: <pre>" + szArgs + "</pre>";
         // done processing BTO args
 
         // basic sanity check
@@ -1014,6 +1067,7 @@
 			dojo.forEach(arrParameters, displayCallback);
 		
 			// show button "generate code with BTO"
+			dojo.byId("verify").style.display = "block";
 			dojo.byId("codeSubmitButton").style.display = "block";
 		}
 	}
