@@ -903,19 +903,24 @@
         if(opt.checked == true) {
             szArgs += " ex";
         }
+
         opt = dojo.byId("search_rand");
         if(opt.checked == true) {
             szArgs += " random";
         }
+
         opt = dojo.byId("search_ortho");
         if(opt.checked == true) {
-            szArgs += " orthogonal"; } opt = dojo.byId("search_thread");
+            szArgs += " orthogonal";
+        }
+
+        opt = dojo.byId("search_thread");
         if(opt.checked == true) {
             szArgs += " thread";
         }
 
         opt = dojo.byId("emp_reps").value;
-        if(opt != "" && opt != "5") {
+        if(opt != "" && opt != "5") { // no need to submit the default value
             szArgs += " --empirical_reps ";
             szArgs += opt;
         }
@@ -959,16 +964,17 @@
         if(opt != "") {
             szArgs += " --level1 ";
             szArgs += opt.replace(/\s/g, ''); // strip spaces temporarily from arg value
-        }
+        } // requisite spaces are added back into argv after bto utils python checks final validity
+          // (spaces in an arg value trips up the python options checker routine)
 
         opt = dojo.byId("level2").value;
         if(opt != "") {
             szArgs += " --level2 ";
-            szArgs += opt.replace(/\s/g, '');
+            szArgs += opt.replace(/\s/g, ''); // same as above here
         }
 
         kernel.push(szArgs);
-        szArgs = szArgs.replace(/--/g, '\n--');
+        szArgs = szArgs.replace(/--/g, '\n--'); // throw some newlines in for the page display of args
         dojo.byId("infoArgs").innerHTML = "<i>Submitted with args</i>: <pre>" + szArgs + "</pre>";
         // done processing BTO args
 
@@ -977,7 +983,7 @@
 			alert("Please complete both Equation and Kernel Name fields.")
 		}
 		
-		else {
+		else { // fields are filled in
 			// separate equations
 			equationList = equation.split("\n");
 			
@@ -1132,7 +1138,7 @@
 		var selections ="";
 		var options = [[],
 				['column', 'row'],
-				['column', 'row', 'general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
+				['row', 'column', 'general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
 		if (parseInt(option) == 0){
 			dojo.empty("cell3"+index);
 		}
@@ -1214,7 +1220,9 @@
 		// Replace the contents of input and output panel with empty strings
 		clearKernelEquation();
 		dojo.byId('script_output').innerHTML = "";
+        dojo.byId('infoArgs').innerHTML = "";
 		dojo.byId("waitScript").style.display = "none";
+        dojo.byId('verify').style.display = "none";
 		waitStandby.hide();
 		stopTimer();
 	}
@@ -1406,3 +1414,4 @@
 	$(window).resize(function(){lineWrap()});
 
 </script>
+

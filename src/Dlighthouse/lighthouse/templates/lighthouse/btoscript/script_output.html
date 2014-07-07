@@ -20,6 +20,18 @@
         <span id="infoArgs"></span>
     </td>
 </tr><tr>
+    <td>
+<!--loading spinner for the script area-->
+<div id="waitScript" align="center" style="display: none;">
+    <span>
+    <p class="sansserif"><font color="#FE642E"><b>Working. This may take a LONG time.<br>
+    Do not navigate away.</b></font></p></span>
+    <!--<label id="minutes">00</label>:<label id="seconds">00</label>-->
+    <span jsId="waitStandby" dojoType="dojox.widget.Standby" target="waitScript" color="transparent"></span>
+</div>
+<!--end loading spinner-->
+    </td>
+</tr><tr>
             <td valign="top">
                 <pre id="script_output" class="brush:cpp"></pre>
             </td>
