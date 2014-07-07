@@ -1030,7 +1030,6 @@
 			for (var k = 0; k < equationList.length; k++) { // loop on equation line
 				equationList[k] = equationList[k].replace(/\s+/g, ''); 			//remove white spaces first
 				eqArray = equationList[k].split(splitPattern);
-                alert(eqArray);
 
                 // loop on variable letter name within eq line
                 // begin from RHS so as to avoid in/out errors
@@ -1056,7 +1055,6 @@
 				}
 			}
 			
-			
 			//remove duplicates in OptionIn and OptionOut
 			optionIn = optionIn.filter(removeElem);		
 			optionOut = optionOut.filter(removeElem);
@@ -1075,13 +1073,21 @@
 			}
 
 			// set up optionInOut
-			optionIn.filter(function(element) {
-				if(optionOut.indexOf(element) != -1){
-				    optionInOut.push(element);
-				    optionIn.splice(optionIn.indexOf(element), 1);
-				    optionOut.splice(optionOut.indexOf(element), 1);
+			optionIn.filter(function(e) {
+                // if element exists in both IN and OUT, add to InOut 
+				if(!(optionOut.indexOf(e) === -1)) {
+				    optionInOut.push(e);
 				}
 			});
+
+            // now for each InOut element, remove it from In, Out
+            optionInOut.filter(function(e) {
+                if(!(optionIn.indexOf(e) === -1))
+                    optionIn.splice(optionIn.indexOf(e), 1);
+
+                if(!(optionOut.indexOf(e) === -1))
+                    optionOut.splice(optionOut.indexOf(e), 1);
+            });
 			
 			
 			// create arrParameters
