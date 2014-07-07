@@ -12,21 +12,21 @@ class slepc_RoutineInfoAdmin(admin.ModelAdmin):
 admin.site.register(slepc_RoutineInfo, slepc_RoutineInfoAdmin)
 
 
-class slepc_HermitianAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'isComplex','sizeLL','sizeUL','numProcessorsLL','numProcessorsUL' ,'spectrumType' , 'nEigenValuesLL', 'nEigenValuesUL' , 'toleranceLL','toleranceUL','routineName')
-	list_filter = [ 'routineName','spectrumType']
+class slepc_treeLeftAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'isComplex','sizeLL','sizeUL','numProcessorsLL','numProcessorsUL' ,'spectrumType' , 'probType', 'nEigenValuesLL', 'nEigenValuesUL' , 'toleranceLL','toleranceUL', 'isBinary', 'perfIndex', 'routineName', 'info')
+	list_filter = [ 'routineName','spectrumType', 'probType', 'isBinary', 'isComplex']
 	search_fields = ['routineName', 'spectrumType']
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(slepc_Hermitian, slepc_HermitianAdmin)
+admin.site.register(slepc_treeLeft, slepc_treeLeftAdmin)
 
-class slepc_NonHermitianAdmin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'isComplex','sizeLL','sizeUL','numProcessorsLL','numProcessorsUL' ,'spectrumType' , 'nEigenValuesLL', 'nEigenValuesUL' , 'toleranceLL','toleranceUL','routineName')
-	list_filter = [ 'routineName','spectrumType']
+class slepc_treeRightAdmin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'isComplex','sizeLL','sizeUL','numProcessorsLL','numProcessorsUL' ,'spectrumType' , 'probType', 'nEigenValuesLL', 'nEigenValuesUL' , 'toleranceLL','toleranceUL', 'isBinary', 'perfIndex', 'routineName', 'info')
+	list_filter = [ 'routineName','spectrumType', 'probType', 'isBinary', 'isComplex']
 	search_fields = ['routineName', 'spectrumType']
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(slepc_NonHermitian, slepc_NonHermitianAdmin)
+admin.site.register(slepc_treeRight, slepc_treeRightAdmin)
 

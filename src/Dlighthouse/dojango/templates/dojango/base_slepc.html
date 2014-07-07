@@ -196,14 +196,14 @@
                                 </div><!-- end Guided Search -->
 
                                 <!--  Advanced Search -->
-                                <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
+                                <!--<div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
                                         
-                                </div><!-- end Advanced Search -->
+                                </div>--><!-- end Advanced Search -->
 
                                 <!--  General Search -->
-                                <div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
+                                <!--<div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
                                         
-                                </div><!-- end Keyword Search -->
+                                </div>--><!-- end Keyword Search -->
                         </div><!-- end TabsContainer -->
 
 
@@ -230,12 +230,28 @@
                                                 style="border: 0px solid #bfbfbf; float: left; width: 100%; height: 100%;">
                                                 <!-- for selected routines -->
                                                 <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">                                                        
-                                                        
+                                                        {% block dojango_content_workarea %}{% endblock %}
                                                 </div><!-- end selected routines -->
                                                
                                                 <!-- for code template -->
-                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
-                                                        
+                                                <!--<div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
+-->
+
+						<div dojoType="dijit.layout.TabContainer" duration="200"
+                                		minSize="10" style="width: 50px;" id="bottomrightTab"
+                                		region="leading" splitter="false">
+                                		<!-- code-->
+                                		<div dojoType="dijit.layout.ContentPane" title="Code template" 							 style="padding:10px;">        				
+                                        		{% block dojango_content_code %}{% endblock %}
+                                		</div><!-- end code -->
+
+                                		<!--  Script -->
+                                		<div dojoType="dijit.layout.ContentPane" title="Script"  
+						style="padding:10px;">
+                                        		{% block dojango_content_script %}{% endblock %}
+                                		</div><!-- end Script -->
+
+                                
                                                 </div><!-- end code templae -->        
                                         </div><!-- SplitContainer -->
                                 </div><!-- end btab1 -->
@@ -252,7 +268,7 @@
 
         {% include "dojoRequires.html" %}
 
-        {% include "jsFunctions_eprob.html" %}
+        {% include "jsFunctions_slepc.html" %}
 
         {% block dojango_require %}
                 <script type="text/javascript">
@@ -262,7 +278,7 @@
                                 {% endspaceless %}
                         {% endfor %}            
                 </script>
-        {% endblock %}
+        {% endblock %}	
 </body>
 {% endblock %}
 

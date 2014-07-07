@@ -1,0 +1,90 @@
+<script type="text/javascript">
+	/* Loading themeTester */
+	//var loadingEl = dojo.byId("loaderInner");
+	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
+
+	dojo.ready( function() {
+	
+		
+		// this is just a list of 'official' dijit themes, you can use
+		// ?theme=String for 'un-supported' themes, too. (eg: yours)
+		
+		
+		
+		/* for parser time info */
+		var start = new Date().getTime();
+		dojo.parser.parse(dojo.byId('container'));
+		console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
+					
+		//dojo.byId('loaderInner').innerHTML += " done.";
+		
+		setTimeout( function hideLoader() {
+			var loader = dojo.byId('loader');
+			dojo.fadeOut({
+				node: loader,
+				duration:500,
+				onEnd: function() {
+					loader.style.display = "none";
+				}
+			}).play();
+		}, 250);
+		
+			
+		
+		/* create dnd Sources */
+		var source1 = new dojo.dnd.Source("routineListNode");
+		var source2 = new dojo.dnd.Target("selectedListNode");		
+
+		/* update Django session for selected routines through javascript*/
+		dojo.connect( source1, "onDndDrop", 
+			function(source, nodes, copy, target){
+				//console.log("cookie predrop:", dojo.cookie("nameList"));
+				var cookieToArray = [];
+				if (dojo.cookie("nameList") != null){
+					cookieToArray = dojo.cookie("nameList").split(',');
+				}
+
+				for( i=0; i < nodes.length; i++){
+					item = this.getItem(nodes[i].id);
+					liId = nodes[i].id;
+				
+					
+					var detail = dojo.attr(dojo.byId(liId), "detail")
+					var routineName = detail.split("_")[0];
+
+					allRoutines_session.push(routineName);
+					
+
+					//alert(detail);
+					
+					
+					/* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
+					dojo.xhrPost( {
+						url: "/slepc_eprob/update_session/",
+						content: {
+							routineName: routineName,
+							},
+						load: function(response){
+							//selectedRoutineNames = response.split(',');
+							console.log(response);
+						    },
+						error: function(){
+						    console.log("error");
+						    }
+					});
+
+
+				}
+
+			}
+		);
+	});
+
+    function generateSlepCCode(){ 
+	window.location = '/slepc_eprob/generateCode/';
+
+        
+    }        
+
+
+</script>
