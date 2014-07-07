@@ -157,7 +157,9 @@ class BTORequestHandler(BaseServer):
         cfiles = glob.glob('*.c')
         if(len(cfiles) == 1):
             print 'Adding details to C file.'
-            prepend_line(cfiles[0], '// ' + str(argv))
+#            prepend_line(cfiles[0], ' */')
+            prepend_line(cfiles[0], str(argv))
+#            prepend_line(cfiles[0], '/* Generated with args:')
             print 'Sending C file.'
             self.send_header1(1)
             self.send_files(cfiles)
@@ -166,12 +168,13 @@ class BTORequestHandler(BaseServer):
             message = message + 'with error and return status 0.\n'
             message = message + "---BEGIN output from btoblas---\n"
             trunc = ''
-            if(len(bto_out) > 1024*80):
+            if(len(bto_out) > 1024*80): # bytes
+                message = message + 'TRUNCATING LONG OUTPUT!\n'
                 i = 0
                 for line in bto_out:
                     trunc = trunc + line
                     i = i + 1
-                    if(i > 128*80):
+                    if(i > 128): #lines
                         break;
                 message = message + 'TRUNCATING LONG OUTPUT!\n'
             message = message + trunc + '\n'
