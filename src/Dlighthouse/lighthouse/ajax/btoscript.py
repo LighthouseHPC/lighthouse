@@ -46,13 +46,6 @@ def make_mfile(request, paramProperty):
 			f.write('%s, '% (item))
 		f.write('%s \n'%inArray[-1])
 		
-	if outArray:
-		f.write('out\n')
-		f.write('  ')
-		for item in outArray[:-1]:
-			f.write('%s, '% (item))
-		f.write('%s \n'%outArray[-1])
-		
 	if inoutArray:
 		f.write('inout\n')
 		f.write('  ')
@@ -60,6 +53,13 @@ def make_mfile(request, paramProperty):
 			f.write('%s, '% (item))
 		f.write('%s \n'%inoutArray[-1])
 		
+	if outArray:
+		f.write('out\n')
+		f.write('  ')
+		for item in outArray[:-1]:
+			f.write('%s, '% (item))
+		f.write('%s \n'%outArray[-1])
+
 	f.write('{\n')
 	f.write('   %s\n'%paramProperty['equation'])
 	f.write('}')

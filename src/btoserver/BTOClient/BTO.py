@@ -124,7 +124,7 @@ class BTORequestHandler(BaseServer):
         argv = [self.bto_blas, workdir + '/' + filename]
         argv = argv + options_list
 
-        ###---- change dir to bto/ in order to execute ./bin/btiblas
+        ###---- change dir to bto/ in order to execute ./bin/btoblas
         os.chdir(self.bto_dir)
         #print "Current folder is:", os.getcwd()                    #/homes/salin/Lighthouse/BTOServer/bto
         #print ".m file location:", workdir + '/' +filename         #/tmp/salin_xx-xx-xx/DGEM.m
