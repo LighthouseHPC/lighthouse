@@ -1030,9 +1030,11 @@
 			for (var k = 0; k < equationList.length; k++) { // loop on equation line
 				equationList[k] = equationList[k].replace(/\s+/g, ''); 			//remove white spaces first
 				eqArray = equationList[k].split(splitPattern);
+                alert(eqArray);
 
                 // loop on variable letter name within eq line
-				for (var i = 0; i < eqArray.length; i++) {	//split string by mathematical operators but not '=' sign
+                // begin from RHS so as to avoid in/out errors
+				for (var i = eqArray.length - 1; i >= 0; i--) {	//split string by mathematical operators but not '=' sign
 					if (eqArray[i].indexOf('=') === -1) {
                         var v = eqArray[i];
                         if(optionOut.indexOf(v) === -1) { // only add as 'In' if not previously 'Out'
@@ -1043,8 +1045,11 @@
                         left  = eqArray[i].split("=")[0];
                         right = eqArray[i].split("=")[1];
 
-                        if(optionOut.indexOf(right) === -1) { // only add as 'In' if not previously 'Out'
-                            optionIn.push(right);
+                        // right can be empty, e.g. in "p = (A*r)"
+                        if(right != null) {
+                            if(optionOut.indexOf(right) === -1) { // only add as 'In' if not previously 'Out'
+                                optionIn.push(right);
+                            }
                         }
                         optionOut.push(left); // must occur after RHS processing
 					}
@@ -1058,14 +1063,17 @@
 			
 
 			//remove empty elements
-			for (var i=0; i<optionIn.length; i++){
-				if (!optionIn[i]){ 
+			for (var i = 0; i < optionIn.length; i++) {
+				if (!optionIn[i]) {
 				    optionIn.splice(i, 1);
 				}
-			}							
-			//console.log(optionIn);
-			
-			
+			}
+			for (var i = 0; i < optionOut.length; i++) {
+				if (!optionOut[i]) {
+				    optionOut.splice(i, 1);
+				}
+			}
+
 			// set up optionInOut
 			optionIn.filter(function(element) {
 				if(optionOut.indexOf(element) != -1){
