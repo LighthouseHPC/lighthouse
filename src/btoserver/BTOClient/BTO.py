@@ -53,12 +53,18 @@ class BTORequestHandler(BaseServer):
 
 
         # nested function
-        def report_err(Errors):
+        def report_err(Errors, mfile = ''):
             os.chdir(workdir)
             fn = 'errors.x'
             print 'Generating errors file %s' %fn
             with open(fn, 'w') as f:
                 f.write(Errors)
+                f.write("Generated .m file used in call:\n")
+                if mfile != '':
+                    with open(mfile, 'r') as mf:
+                        for line in mf:
+                            f.write(line)
+
             try:
                 self.send_header1(1)
                 self.send_files([fn])
@@ -71,6 +77,9 @@ class BTORequestHandler(BaseServer):
             release_lock(cwd)
 
         print workdir
+
+
+
 
         try:
             userid  = self.check_user(self.recv_header1())
@@ -141,10 +150,10 @@ class BTORequestHandler(BaseServer):
             bto_out = bto_out + '---BEGIN output from btoblas---\n'
             bto_out = bto_out + e.output
             bto_out = bto_out + '--- END  output from btoblas---\n\n'
-            bto_out = bto_out + str(e)
+            bto_out = bto_out + str(e) + '\n\n'
 
             print bto_out
-            report_err(bto_out)
+            report_err(bto_out, filename)
             leave()
             return None
 
@@ -157,15 +166,19 @@ class BTORequestHandler(BaseServer):
         cfiles = glob.glob('*.c')
         if(len(cfiles) == 1):
             print 'Adding details to C file.'
-#            prepend_line(cfiles[0], ' */')
-            prepend_line(cfiles[0], str(argv))
-#            prepend_line(cfiles[0], '/* Generated with args:')
+
+            prepend_line(cfiles[0], ' */')
+            for line in reversed(open(filename).readlines()):
+                prepend_line(cfiles[0], line);
+            prepend_line(cfiles[0], ' * Using .m file:')
+            prepend_line(cfiles[0], ' * ' + str(argv))
+            prepend_line(cfiles[0], '/* Generated with args:')
             print 'Sending C file.'
             self.send_header1(1)
             self.send_files(cfiles)
         else:
-            message = 'BTO failed to generate a unique C file, or exited\n'
-            message = message + 'with error and return status 0.\n'
+            message = 'BTO failed to generate a unique C file, or exited '
+            message = message + 'with error but return status 0.\n'
             message = message + "---BEGIN output from btoblas---\n"
             trunc = ''
             if(len(bto_out) > 1024*80): # bytes
@@ -177,9 +190,11 @@ class BTORequestHandler(BaseServer):
                     if(i > 128): #lines
                         break;
                 message = message + 'TRUNCATING LONG OUTPUT!\n'
-            message = message + trunc + '\n'
+                message = message + trunc + '\n'
+            else:
+                message = message + bto_out
             message = message + "--- END  output from btoblas---\n\n"
-            report_err(message)
+            report_err(message, filename)
 
         leave()
         return None;

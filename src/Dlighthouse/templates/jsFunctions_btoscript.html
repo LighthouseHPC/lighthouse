@@ -890,12 +890,20 @@
 
             opt = dojo.byId("ga_timelimit").value;
             if(opt != "" && opt != "10") {
+                if(opt < 1) {
+                    alert("Please use a positive integral value for GA time limit.");
+                    return 0;
+                }
                 szArgs += " --ga_timelimit ";
                 szArgs += opt;
             }
 
             opt = dojo.byId("ga_popsize").value;
             if(opt != "" && opt != "10") {
+                if(opt < 1) {
+                    alert("Please use a positive integral value for GA population size.");
+                    return 0;
+                }
                 szArgs += " --ga_popsize ";
                 szArgs += opt;
             }
@@ -923,6 +931,10 @@
 
         opt = dojo.byId("emp_reps").value;
         if(opt != "" && opt != "5") { // no need to submit the default value
+            if(opt < 1) {
+                alert("Please use a positive integral value for empirical repetitions.");
+                return 0;
+            }
             szArgs += " --empirical_reps ";
             szArgs += opt;
         }
@@ -950,14 +962,21 @@
 
         opt = dojo.byId("test_param").value;
         if(opt != "" && opt != "3000:3000:1") {
+            sizes = opt.split(':');
+            if(sizes[2] < 1) {
+                alert("Please use a positive, integer value for step size in Testing size.");
+                return 0;
+            }
             szArgs += " --test_param ";
             szArgs += opt;
         }
 
         opt = dojo.byId("threshold").value;
         if(opt != "" && opt != 0.01) {
-            if(opt < 0.001 || opt > 1.0)
+            if(opt < 0.001 || opt > 1.0) {
                 alert("threshold value must be on (0,1]");
+                return 0;
+            }
             szArgs += " -t ";
             szArgs += opt;
         }
@@ -977,12 +996,13 @@
 
         kernel.push(szArgs);
         szArgs = szArgs.replace(/--/g, '\n--'); // throw some newlines in for the page display of args
-        dojo.byId("infoArgs").innerHTML = "<i>Submitted with args</i>: <pre>" + szArgs + "</pre>";
+        dojo.byId("infoArgs").innerHTML = "<i>Submitting with args</i>: <pre>" + szArgs + "</pre>";
         // done processing BTO args
 
         // basic sanity check
 		if (equation == 0 || kernelName == 0) {
 			alert("Please complete both Equation and Kernel Name fields.")
+            return 0;
 		}
 		
 		else { // fields are filled in
