@@ -31,27 +31,35 @@
 	  if(document.getElementById("id_standard_search_1").checked){
 	    var complexNumber_check1 = dojo.query('INPUT[name=standard_complexNumber]').filter(function(n){return n.checked;}).length;
 	    var singleDouble_check1 = dojo.query('INPUT[name=standard_singleDouble]').filter(function(n){return n.checked;}).length;
-	    if (complexNumber_check1 == 0){
-		alert("Check at least one box in the Complex Number cell in the Standard column");
+	    if (complexNumber_check1 == 0 && singleDouble_check1 > 0){
+		alert("Check at least one box in the Complex Number cell in Standard Sylvester column.");
 		return false;
 	    }
-	    if (singleDouble_check1 == 0){
-		alert("Check at least one box in the Precision cell in the Standard column");
+	    else if (singleDouble_check1 == 0 && complexNumber_check1 > 0){
+		alert("Check at least one box in the Precision cell in Standard Sylvester column.");
 		return false;
-	    }	    
+	    }
+	    else if (singleDouble_check1 == 0 && complexNumber_check1 == 0){
+		alert("Check at least one box in the Complex Number and Precision cells in Standard Sylvester column.");
+		return false;
+	    }	
 	  }
 	  ////check whether "Complex numbers" and "Precision" are checked for Generalized
 	  if(document.getElementById("id_generalized_search_1").checked){
 	    var complexNumber_check2 = dojo.query('INPUT[name=generalized_complexNumber]').filter(function(n){return n.checked;}).length;
 	    var singleDouble_check2 = dojo.query('INPUT[name=generalized_singleDouble]').filter(function(n){return n.checked;}).length;
-	    if (complexNumber_check2 == 0){
-		alert("Check at least one box in the Complex Number cell in the Generalized column");
+	    if (complexNumber_check2 == 0 && singleDouble_check2 > 0){
+		alert("Check at least one box in the Complex Number cell in the Generalized Sylvester column.");
 		return false;
 	    }
-	    if (singleDouble_check2 == 0){
-		alert("Check at least one box in the Precision cell in the Generalized column");
+	    else if (singleDouble_check2 == 0 && complexNumber_check2 > 0){
+		alert("Check at least one box in the Precision cell in the Generalized Sylvester column.");
 		return false;
-	    }	    
+	    }
+	    else if (singleDouble_check2 == 0 && complexNumber_check2 == 0){
+		alert("Check at least one box in the Complex Number and Precision cells in the Generalized Sylvester column.");
+		return false;
+	    }
 	  }	  
       }
   </script>
