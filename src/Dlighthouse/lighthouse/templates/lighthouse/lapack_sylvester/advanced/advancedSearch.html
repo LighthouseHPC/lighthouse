@@ -13,8 +13,48 @@
   </table>    
 </div>
 <br>
-<form name="advanced" action="/lapack_sylvester/advancedSearch/" name="frmProb" method="post">
-	{% csrf_token %}
+<script>
+    require(["dojo/parser", "dijit/form/Form", "dijit/form/Button"]);
+</script>
+<form id="myFormThree" name="advanced" action="/lapack_sylvester/advancedSearch/" name="frmProb" method="post"
+      data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
+      onSubmit="return formValid();">
+  {% csrf_token %}
+  <script>
+      function formValid(){
+	  ////check whether radio buttons are checked
+	  if (document.getElementById("id_standard_search_1").checked == false && document.getElementById("id_generalized_search_1").checked == false) {
+	    alert("Select at least one category to search in.");
+	    return false;
+	  }
+	  ////check whether "Complex numbers" and "Precision" are checked for Standard
+	  if(document.getElementById("id_standard_search_1").checked){
+	    var complexNumber_check1 = dojo.query('INPUT[name=standard_complexNumber]').filter(function(n){return n.checked;}).length;
+	    var singleDouble_check1 = dojo.query('INPUT[name=standard_singleDouble]').filter(function(n){return n.checked;}).length;
+	    if (complexNumber_check1 == 0){
+		alert("Check at least one box in the Complex Number cell in the Standard column");
+		return false;
+	    }
+	    if (singleDouble_check1 == 0){
+		alert("Check at least one box in the Precision cell in the Standard column");
+		return false;
+	    }	    
+	  }
+	  ////check whether "Complex numbers" and "Precision" are checked for Generalized
+	  if(document.getElementById("id_generalized_search_1").checked){
+	    var complexNumber_check2 = dojo.query('INPUT[name=generalized_complexNumber]').filter(function(n){return n.checked;}).length;
+	    var singleDouble_check2 = dojo.query('INPUT[name=generalized_singleDouble]').filter(function(n){return n.checked;}).length;
+	    if (complexNumber_check2 == 0){
+		alert("Check at least one box in the Complex Number cell in the Generalized column");
+		return false;
+	    }
+	    if (singleDouble_check2 == 0){
+		alert("Check at least one box in the Precision cell in the Generalized column");
+		return false;
+	    }	    
+	  }	  
+      }
+  </script>
   <table id='ver-zebra'>
   <!-- Colgroup -->
   <colgroup>
@@ -48,7 +88,8 @@
       {% else %}
       <td>
 	<ul>
-	  <li><label for="id_standard_search_0"><input type="radio" id="id_standard_search_0" value="no" name="standard_search" /> no</label></li>
+	  <li>
+	    <label for="id_standard_search_0"><input type="radio" id="id_standard_search_0" value="no" name="standard_search" /> no</label></li>
 	  <li><label for="id_standard_search_1"><input type="radio" id="id_standard_search_1" value="yes" name="standard_search" /> yes</label></li>	
 	</ul>
       </td>
