@@ -14,7 +14,7 @@
 </div>
 <br>
 <script>
-    require(["dojo/parser", "dijit/form/Form", "dijit/form/Button"]);
+    require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/Dialog"]);
 </script>
 <form id="myFormThree" name="advanced" action="/lapack_sylvester/advancedSearch/" name="frmProb" method="post"
       data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
@@ -137,11 +137,35 @@
       </th>
       <td>
 	matrices <i>A</i> and <i>B</i> must be upper quasi-triangular
-	<span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	<div onClick="dialog_uqTri_real.show();">
+	    <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	</div>
+	<div data-dojo-type="dijit/Dialog" data-dojo-id="dialog_uqTri_real" title="Real upper quasi-triangular matrix">
+	    <div class="dijitDialogPaneContentArea">
+		<iframe width="500px" height="420px" src={%static "help/lapack/sylvester/upper_quasi_triangular_real.html" %}></iframe>
+	    </div>
+	    <div class="dijitDialogPaneActionBar">
+		<button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="onClick:function(){dialog_uqTri_real.hide();}">
+		  Close
+		</button>
+	    </div>
+	</div>
       </td>
       <td>
 	matrices <i>A</i> and <i>B</i> must be upper quasi-triangular, and matrices <i>D</i> and <i>E</i> must be upper triangular
-	<span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	<div onClick="dialog_uTri_real.show();">
+	    <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	</div>
+	<div data-dojo-type="dijit/Dialog" data-dojo-id="dialog_uTri_real" title="Real upper triangular matrix">
+	    <div class="dijitDialogPaneContentArea">
+		<iframe width="500px" height="420px" src={%static "help/lapack/sylvester/upper_triangular_real.html" %}></iframe>
+	    </div>
+	    <div class="dijitDialogPaneActionBar">
+		<button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="onClick:function(){dialog_uTri_real.hide();}">
+		  Close
+		</button>
+	    </div>
+	</div>	
       </td>
     </tr>
     <tr>
