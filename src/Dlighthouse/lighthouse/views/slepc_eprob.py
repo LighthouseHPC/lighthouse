@@ -32,7 +32,7 @@ def slepc_eprob(request):
     context = {
                 'form'     : request.session['form'],
                 'results'  : request.session['results'],
-                'message'  : request.session['message'],
+                #'message'  : request.session['message'],
 		'routineSelected':request.session['routineSelected'] 
     }
 
@@ -71,7 +71,7 @@ def generateTemplate(request):
 	  		'form': request.session['form'],
 			'results'  : request.session['results'],
 			'routineSelected':request.session['routineSelected'],
-	  		'message': request.session['message'], # debug purpose use
+	  		#'message': request.session['message'], # debug purpose use
 			'code': code,
 			'script':script, # Have not added makefile check if needed
 		  }
