@@ -1,0 +1,789 @@
+  1  if Spectrum in {2 4} then node 2 elseif Spectrum in {1 3 5 6} then node 3 else krylovschur
+  2  if ProbType=1 then node 4 elseif ProbType=3 then node 5 else NoConvergence
+  3  if Spectrum in {1 3} then node 6 elseif Spectrum in {5 6} then node 7 else krylovschur
+  4  if Bnary=0 then node 8 elseif Bnary=1 then node 9 else NoConvergence
+  5  if Spectrum=2 then node 10 elseif Spectrum=4 then node 11 else krylovschur
+  6  if Bnary=0 then node 12 elseif Bnary=1 then node 13 else krylovschur
+  7  if Real=0 then node 14 elseif Real=1 then node 15 else arnoldi
+  8  if Rank=1 then node 16 elseif Rank=2 then node 17 else lanczos
+  9  if Rank=1 then node 18 elseif Rank in {2 3} then node 19 else NoConvergence
+ 10  if Size<839 then node 20 elseif Size>=839 then node 21 else NoConvergence
+ 11  if Rank=1 then node 22 elseif Rank=2 then node 23 else krylovschur
+ 12  if ProbType=1 then node 24 elseif ProbType=3 then node 25 else krylovschur
+ 13  if Rank=1 then node 26 elseif Rank in {2 3} then node 27 else NoConvergence
+ 14  if Size<237736 then node 28 elseif Size>=237736 then node 29 else arnoldi
+ 15  if Size<19847.5 then node 30 elseif Size>=19847.5 then node 31 else krylovschur
+ 16  if NoOfEigvalues<3.5 then node 32 elseif NoOfEigvalues>=3.5 then node 33 else lanczos
+ 17  if NoOfEigvalues<3.5 then node 34 elseif NoOfEigvalues>=3.5 then node 35 else lanczos
+ 18  class = NoConvergence
+ 19  if Tolerance<5.0005e-05 then node 36 elseif Tolerance>=5.0005e-05 then node 37 else krylovschur
+ 20  if Processors<1.5 then node 38 elseif Processors>=1.5 then node 39 else krylovschur
+ 21  if Size<30987.5 then node 40 elseif Size>=30987.5 then node 41 else NoConvergence
+ 22  if NoOfEigvalues<1.5 then node 42 elseif NoOfEigvalues>=1.5 then node 43 else krylovschur
+ 23  if Processors<18 then node 44 elseif Processors>=18 then node 45 else arnoldi
+ 24  if NoOfEigvalues<3.5 then node 46 elseif NoOfEigvalues>=3.5 then node 47 else krylovschur
+ 25  if Size<30987.5 then node 48 elseif Size>=30987.5 then node 49 else krylovschur
+ 26  if Size<149402 then node 50 elseif Size>=149402 then node 51 else NoConvergence
+ 27  if Rank=2 then node 52 elseif Rank=3 then node 53 else krylovschur
+ 28  if NoOfEigvalues<1.5 then node 54 elseif NoOfEigvalues>=1.5 then node 55 else arnoldi
+ 29  if NoOfEigvalues<3.5 then node 56 elseif NoOfEigvalues>=3.5 then node 57 else arnoldi
+ 30  if Tolerance<5.0005e-05 then node 58 elseif Tolerance>=5.0005e-05 then node 59 else arnoldi
+ 31  if NoOfEigvalues<7.5 then node 60 elseif NoOfEigvalues>=7.5 then node 61 else krylovschur
+ 32  if Size<1599.5 then node 62 elseif Size>=1599.5 then node 63 else lanczos
+ 33  if Tolerance<5.0005e-05 then node 64 elseif Tolerance>=5.0005e-05 then node 65 else NoConvergence
+ 34  if NoOfEigvalues<1.5 then node 66 elseif NoOfEigvalues>=1.5 then node 67 else jd
+ 35  if Size<25786 then node 68 elseif Size>=25786 then node 69 else lanczos
+ 36  if Spectrum=2 then node 70 elseif Spectrum=4 then node 71 else krylovschur
+ 37  if Spectrum=2 then node 72 elseif Spectrum=4 then node 73 else krylovschur
+ 38  if NoOfEigvalues<3.5 then node 74 elseif NoOfEigvalues>=3.5 then node 75 else krylovschur
+ 39  class = krylovschur
+ 40  class = NoConvergence
+ 41  if Size<125888 then node 76 elseif Size>=125888 then node 77 else NoConvergence
+ 42  if Tolerance<5.0005e-05 then node 78 elseif Tolerance>=5.0005e-05 then node 79 else krylovschur
+ 43  if Real=0 then node 80 elseif Real=1 then node 81 else krylovschur
+ 44  if NoOfEigvalues<3.5 then node 82 elseif NoOfEigvalues>=3.5 then node 83 else krylovschur
+ 45  if NoOfEigvalues<1.5 then node 84 elseif NoOfEigvalues>=1.5 then node 85 else arnoldi
+ 46  if Processors<6 then node 86 elseif Processors>=6 then node 87 else krylovschur
+ 47  if NoOfEigvalues<7.5 then node 88 elseif NoOfEigvalues>=7.5 then node 89 else krylovschur
+ 48  if NoOfEigvalues<1.5 then node 90 elseif NoOfEigvalues>=1.5 then node 91 else krylovschur
+ 49  if Size<125888 then node 92 elseif Size>=125888 then node 93 else krylovschur
+ 50  if NoOfEigvalues<1.5 then node 94 elseif NoOfEigvalues>=1.5 then node 95 else NoConvergence
+ 51  if Tolerance<5.0005e-05 then node 96 elseif Tolerance>=5.0005e-05 then node 97 else jd
+ 52  if Tolerance<5.05e-09 then node 98 elseif Tolerance>=5.05e-09 then node 99 else krylovschur
+ 53  class = krylovschur
+ 54  if Tolerance<5.0005e-05 then node 100 elseif Tolerance>=5.0005e-05 then node 101 else arnoldi
+ 55  if NoOfEigvalues<7.5 then node 102 elseif NoOfEigvalues>=7.5 then node 103 else arnoldi
+ 56  if Spectrum=5 then node 104 elseif Spectrum=6 then node 105 else arnoldi
+ 57  class = krylovschur
+ 58  if Rank=2 then node 106 elseif Rank in {1 3} then node 107 else arnoldi
+ 59  if NoOfEigvalues<3.5 then node 108 elseif NoOfEigvalues>=3.5 then node 109 else krylovschur
+ 60  if Spectrum=5 then node 110 elseif Spectrum=6 then node 111 else krylovschur
+ 61  if Rank=1 then node 112 elseif Rank=2 then node 113 else krylovschur
+ 62  class = lanczos
+ 63  if Tolerance<5.05e-09 then node 114 elseif Tolerance>=5.05e-09 then node 115 else lanczos
+ 64  if Size<696 then node 116 elseif Size>=696 then node 117 else NoConvergence
+ 65  if Size<25786 then node 118 elseif Size>=25786 then node 119 else lanczos
+ 66  if Processors<3 then node 120 elseif Processors>=3 then node 121 else gd
+ 67  class = jd
+ 68  if Size<696 then node 122 elseif Size>=696 then node 123 else lanczos
+ 69  if Size<93823 then node 124 elseif Size>=93823 then node 125 else lanczos
+ 70  if Size<22204 then node 126 elseif Size>=22204 then node 127 else krylovschur
+ 71  if NoOfEigvalues<7.5 then node 128 elseif NoOfEigvalues>=7.5 then node 129 else krylovschur
+ 72  if Size<22204 then node 130 elseif Size>=22204 then node 131 else krylovschur
+ 73  if Rank=2 then node 132 elseif Rank=3 then node 133 else arnoldi
+ 74  class = jd
+ 75  class = krylovschur
+ 76  class = jd
+ 77  if Rank=1 then node 134 elseif Rank=2 then node 135 else NoConvergence
+ 78  if Processors<10 then node 136 elseif Processors>=10 then node 137 else krylovschur
+ 79  if Size<839 then node 138 elseif Size>=839 then node 139 else krylovschur
+ 80  class = krylovschur
+ 81  if NoOfEigvalues<3.5 then node 140 elseif NoOfEigvalues>=3.5 then node 141 else krylovschur
+ 82  if Size<839 then node 142 elseif Size>=839 then node 143 else krylovschur
+ 83  class = arnoldi
+ 84  class = arnoldi
+ 85  class = krylovschur
+ 86  if Rank=2 then node 144 elseif Rank in {1 3} then node 145 else lanczos
+ 87  if Size<25786 then node 146 elseif Size>=25786 then node 147 else krylovschur
+ 88  if Size<93823 then node 148 elseif Size>=93823 then node 149 else krylovschur
+ 89  if Real=0 then node 150 elseif Real=1 then node 151 else krylovschur
+ 90  if Size<839 then node 152 elseif Size>=839 then node 153 else krylovschur
+ 91  if Rank=1 then node 154 elseif Rank=2 then node 155 else krylovschur
+ 92  if Spectrum=1 then node 156 elseif Spectrum=3 then node 157 else jd
+ 93  if Rank=1 then node 158 elseif Rank=2 then node 159 else krylovschur
+ 94  if Tolerance<5.0005e-05 then node 160 elseif Tolerance>=5.0005e-05 then node 161 else NoConvergence
+ 95  class = NoConvergence
+ 96  class = jd
+ 97  if NoOfEigvalues<1.5 then node 162 elseif NoOfEigvalues>=1.5 then node 163 else jd
+ 98  if NoOfEigvalues<3.5 then node 164 elseif NoOfEigvalues>=3.5 then node 165 else krylovschur
+ 99  if NoOfEigvalues<3.5 then node 166 elseif NoOfEigvalues>=3.5 then node 167 else arnoldi
+100  class = arnoldi
+101  if Size<11979 then node 168 elseif Size>=11979 then node 169 else arnoldi
+102  class = arnoldi
+103  if Size<11979 then node 170 elseif Size>=11979 then node 171 else arnoldi
+104  if NoOfEigvalues<1.5 then node 172 elseif NoOfEigvalues>=1.5 then node 173 else arnoldi
+105  class = NoConvergence
+106  if NoOfEigvalues<1.5 then node 174 elseif NoOfEigvalues>=1.5 then node 175 else arnoldi
+107  if NoOfEigvalues<3.5 then node 176 elseif NoOfEigvalues>=3.5 then node 177 else NoConvergence
+108  if Spectrum=5 then node 178 elseif Spectrum=6 then node 179 else krylovschur
+109  if Spectrum=5 then node 180 elseif Spectrum=6 then node 181 else krylovschur
+110  if NoOfEigvalues<1.5 then node 182 elseif NoOfEigvalues>=1.5 then node 183 else krylovschur
+111  if NoOfEigvalues<1.5 then node 184 elseif NoOfEigvalues>=1.5 then node 185 else krylovschur
+112  class = krylovschur
+113  class = jd
+114  if Size<25786 then node 186 elseif Size>=25786 then node 187 else NoConvergence
+115  if Size<25786 then node 188 elseif Size>=25786 then node 189 else lanczos
+116  if Processors<72 then node 190 elseif Processors>=72 then node 191 else jd
+117  if Size<25786 then node 192 elseif Size>=25786 then node 193 else NoConvergence
+118  if Size<1599.5 then node 194 elseif Size>=1599.5 then node 195 else lanczos
+119  if Size<93823 then node 196 elseif Size>=93823 then node 197 else NoConvergence
+120  class = gd
+121  if Tolerance<5.0005e-05 then node 198 elseif Tolerance>=5.0005e-05 then node 199 else jd
+122  if NoOfEigvalues<7.5 then node 200 elseif NoOfEigvalues>=7.5 then node 201 else lanczos
+123  class = lanczos
+124  if NoOfEigvalues<7.5 then node 202 elseif NoOfEigvalues>=7.5 then node 203 else jd
+125  class = lanczos
+126  if NoOfEigvalues<3.5 then node 204 elseif NoOfEigvalues>=3.5 then node 205 else krylovschur
+127  class = krylovschur
+128  if NoOfEigvalues<3.5 then node 206 elseif NoOfEigvalues>=3.5 then node 207 else krylovschur
+129  class = krylovschur
+130  if NoOfEigvalues<3.5 then node 208 elseif NoOfEigvalues>=3.5 then node 209 else krylovschur
+131  class = krylovschur
+132  if Size<22204 then node 210 elseif Size>=22204 then node 211 else arnoldi
+133  class = krylovschur
+134  class = NoConvergence
+135  class = krylovschur
+136  if Size<12420 then node 212 elseif Size>=12420 then node 213 else krylovschur
+137  class = krylovschur
+138  class = krylovschur
+139  if Processors<18 then node 214 elseif Processors>=18 then node 215 else arnoldi
+140  if Tolerance<5.0005e-05 then node 216 elseif Tolerance>=5.0005e-05 then node 217 else krylovschur
+141  if Processors<36 then node 218 elseif Processors>=36 then node 219 else krylovschur
+142  class = arnoldi
+143  if Size<237736 then node 220 elseif Size>=237736 then node 221 else krylovschur
+144  if Real=0 then node 222 elseif Real=1 then node 223 else krylovschur
+145  if Size<3359.5 then node 224 elseif Size>=3359.5 then node 225 else lanczos
+146  if Rank=3 then node 226 elseif Rank in {1 2 4} then node 227 else krylovschur
+147  if Rank=1 then node 228 elseif Rank in {2 3} then node 229 else krylovschur
+148  if Size<3359.5 then node 230 elseif Size>=3359.5 then node 231 else krylovschur
+149  class = krylovschur
+150  if Rank=1 then node 232 elseif Rank=2 then node 233 else krylovschur
+151  if Tolerance<5.05e-09 then node 234 elseif Tolerance>=5.05e-09 then node 235 else krylovschur
+152  class = krylovschur
+153  if Processors<18 then node 236 elseif Processors>=18 then node 237 else krylovschur
+154  if Real=0 then node 238 elseif Real=1 then node 239 else krylovschur
+155  if Processors<3 then node 240 elseif Processors>=3 then node 241 else krylovschur
+156  if NoOfEigvalues<7.5 then node 242 elseif NoOfEigvalues>=7.5 then node 243 else krylovschur
+157  class = jd
+158  class = krylovschur
+159  class = arnoldi
+160  class = NoConvergence
+161  if Spectrum=1 then node 244 elseif Spectrum=3 then node 245 else NoConvergence
+162  class = krylovschur
+163  if NoOfEigvalues<3.5 then node 246 elseif NoOfEigvalues>=3.5 then node 247 else jd
+164  class = krylovschur
+165  if Spectrum=1 then node 248 elseif Spectrum=3 then node 249 else krylovschur
+166  if Size<149402 then node 250 elseif Size>=149402 then node 251 else arnoldi
+167  if Size<22204 then node 252 elseif Size>=22204 then node 253 else krylovschur
+168  if Processors<144 then node 254 elseif Processors>=144 then node 255 else krylovschur
+169  class = arnoldi
+170  if Spectrum=5 then node 256 elseif Spectrum=6 then node 257 else arnoldi
+171  if Size<118460 then node 258 elseif Size>=118460 then node 259 else arnoldi
+172  class = arnoldi
+173  if Processors<30 then node 260 elseif Processors>=30 then node 261 else arnoldi
+174  class = jd
+175  class = arnoldi
+176  if Spectrum=5 then node 262 elseif Spectrum=6 then node 263 else arnoldi
+177  if Rank=1 then node 264 elseif Rank=3 then node 265 else NoConvergence
+178  if NoOfEigvalues<1.5 then node 266 elseif NoOfEigvalues>=1.5 then node 267 else krylovschur
+179  class = krylovschur
+180  if NoOfEigvalues<7.5 then node 268 elseif NoOfEigvalues>=7.5 then node 269 else jd
+181  class = krylovschur
+182  if Tolerance<5.05e-09 then node 270 elseif Tolerance>=5.05e-09 then node 271 else krylovschur
+183  if Tolerance<5.0005e-05 then node 272 elseif Tolerance>=5.0005e-05 then node 273 else jd
+184  if Tolerance<5.0005e-05 then node 274 elseif Tolerance>=5.0005e-05 then node 275 else arnoldi
+185  if Tolerance<5.0005e-05 then node 276 elseif Tolerance>=5.0005e-05 then node 277 else krylovschur
+186  if NoOfEigvalues<1.5 then node 278 elseif NoOfEigvalues>=1.5 then node 279 else NoConvergence
+187  if Size<93823 then node 280 elseif Size>=93823 then node 281 else NoConvergence
+188  if Size<3359.5 then node 282 elseif Size>=3359.5 then node 283 else lanczos
+189  if Size<93823 then node 284 elseif Size>=93823 then node 285 else lanczos
+190  if Tolerance<5.05e-09 then node 286 elseif Tolerance>=5.05e-09 then node 287 else jd
+191  if NoOfEigvalues<7.5 then node 288 elseif NoOfEigvalues>=7.5 then node 289 else NoConvergence
+192  class = NoConvergence
+193  if Size<93823 then node 290 elseif Size>=93823 then node 291 else NoConvergence
+194  if NoOfEigvalues<7.5 then node 292 elseif NoOfEigvalues>=7.5 then node 293 else lanczos
+195  if Size<3359.5 then node 294 elseif Size>=3359.5 then node 295 else lanczos
+196  class = gd
+197  class = NoConvergence
+198  if Processors<18 then node 296 elseif Processors>=18 then node 297 else gd
+199  class = jd
+200  class = lanczos
+201  class = jd
+202  class = jd
+203  if Processors<6 then node 298 elseif Processors>=6 then node 299 else gd
+204  class = krylovschur
+205  if Processors<10 then node 300 elseif Processors>=10 then node 301 else krylovschur
+206  if Size<22204 then node 302 elseif Size>=22204 then node 303 else krylovschur
+207  if Tolerance<5.05e-09 then node 304 elseif Tolerance>=5.05e-09 then node 305 else arnoldi
+208  if NoOfEigvalues<1.5 then node 306 elseif NoOfEigvalues>=1.5 then node 307 else krylovschur
+209  class = krylovschur
+210  if NoOfEigvalues<7.5 then node 308 elseif NoOfEigvalues>=7.5 then node 309 else krylovschur
+211  class = arnoldi
+212  class = krylovschur
+213  if Size<30987.5 then node 310 elseif Size>=30987.5 then node 311 else krylovschur
+214  if Size<125888 then node 312 elseif Size>=125888 then node 313 else arnoldi
+215  class = krylovschur
+216  class = krylovschur
+217  if Size<19847.5 then node 314 elseif Size>=19847.5 then node 315 else arnoldi
+218  class = krylovschur
+219  if NoOfEigvalues<7.5 then node 316 elseif NoOfEigvalues>=7.5 then node 317 else krylovschur
+220  if NoOfEigvalues<1.5 then node 318 elseif NoOfEigvalues>=1.5 then node 319 else krylovschur
+221  class = arnoldi
+222  if Size<93823 then node 320 elseif Size>=93823 then node 321 else krylovschur
+223  if Tolerance<5.05e-09 then node 322 elseif Tolerance>=5.05e-09 then node 323 else arnoldi
+224  if Processors<3 then node 324 elseif Processors>=3 then node 325 else lanczos
+225  if NoOfEigvalues<1.5 then node 326 elseif NoOfEigvalues>=1.5 then node 327 else lanczos
+226  if Tolerance<5.05e-09 then node 328 elseif Tolerance>=5.05e-09 then node 329 else lanczos
+227  if Size<1599.5 then node 330 elseif Size>=1599.5 then node 331 else krylovschur
+228  if NoOfEigvalues<1.5 then node 332 elseif NoOfEigvalues>=1.5 then node 333 else lanczos
+229  if NoOfEigvalues<1.5 then node 334 elseif NoOfEigvalues>=1.5 then node 335 else krylovschur
+230  if Tolerance<5.0005e-05 then node 336 elseif Tolerance>=5.0005e-05 then node 337 else krylovschur
+231  if Processors<18 then node 338 elseif Processors>=18 then node 339 else lanczos
+232  if Processors<6 then node 340 elseif Processors>=6 then node 341 else krylovschur
+233  if Tolerance<5.0005e-05 then node 342 elseif Tolerance>=5.0005e-05 then node 343 else lanczos
+234  class = arnoldi
+235  if Tolerance<5.0005e-05 then node 344 elseif Tolerance>=5.0005e-05 then node 345 else krylovschur
+236  if Size<12420 then node 346 elseif Size>=12420 then node 347 else arnoldi
+237  if Size<12420 then node 348 elseif Size>=12420 then node 349 else krylovschur
+238  class = krylovschur
+239  if NoOfEigvalues<3.5 then node 350 elseif NoOfEigvalues>=3.5 then node 351 else krylovschur
+240  class = krylovschur
+241  if Tolerance<5.05e-09 then node 352 elseif Tolerance>=5.05e-09 then node 353 else arnoldi
+242  if NoOfEigvalues<1.5 then node 354 elseif NoOfEigvalues>=1.5 then node 355 else krylovschur
+243  class = krylovschur
+244  if Size<22204 then node 356 elseif Size>=22204 then node 357 else arnoldi
+245  class = NoConvergence
+246  class = jd
+247  class = arnoldi
+248  if Size<22204 then node 358 elseif Size>=22204 then node 359 else arnoldi
+249  if NoOfEigvalues<7.5 then node 360 elseif NoOfEigvalues>=7.5 then node 361 else krylovschur
+250  if Tolerance<5.0005e-05 then node 362 elseif Tolerance>=5.0005e-05 then node 363 else arnoldi
+251  class = gd
+252  if Spectrum=1 then node 364 elseif Spectrum=3 then node 365 else krylovschur
+253  if Size<149402 then node 366 elseif Size>=149402 then node 367 else arnoldi
+254  class = krylovschur
+255  class = arnoldi
+256  class = arnoldi
+257  if Tolerance<5.0005e-05 then node 368 elseif Tolerance>=5.0005e-05 then node 369 else arnoldi
+258  class = arnoldi
+259  if Processors<6 then node 370 elseif Processors>=6 then node 371 else arnoldi
+260  class = arnoldi
+261  if Rank=1 then node 372 elseif Rank=2 then node 373 else arnoldi
+262  if Processors<36 then node 374 elseif Processors>=36 then node 375 else arnoldi
+263  if Tolerance<5.05e-09 then node 376 elseif Tolerance>=5.05e-09 then node 377 else arnoldi
+264  if NoOfEigvalues<7.5 then node 378 elseif NoOfEigvalues>=7.5 then node 379 else NoConvergence
+265  class = jd
+266  if Processors<36 then node 380 elseif Processors>=36 then node 381 else krylovschur
+267  class = krylovschur
+268  class = jd
+269  class = arnoldi
+270  class = arnoldi
+271  if Rank=1 then node 382 elseif Rank=2 then node 383 else krylovschur
+272  if NoOfEigvalues<3.5 then node 384 elseif NoOfEigvalues>=3.5 then node 385 else jd
+273  class = jd
+274  if Tolerance<5.05e-09 then node 386 elseif Tolerance>=5.05e-09 then node 387 else arnoldi
+275  class = krylovschur
+276  class = krylovschur
+277  if NoOfEigvalues<3.5 then node 388 elseif NoOfEigvalues>=3.5 then node 389 else arnoldi
+278  class = NoConvergence
+279  if Size<3359.5 then node 390 elseif Size>=3359.5 then node 391 else NoConvergence
+280  if Processors<36 then node 392 elseif Processors>=36 then node 393 else jd
+281  class = NoConvergence
+282  if Tolerance<5.0005e-05 then node 394 elseif Tolerance>=5.0005e-05 then node 395 else lanczos
+283  class = lanczos
+284  if Processors<18 then node 396 elseif Processors>=18 then node 397 else gd
+285  class = lanczos
+286  if Processors<10 then node 398 elseif Processors>=10 then node 399 else jd
+287  class = jd
+288  class = NoConvergence
+289  class = krylovschur
+290  if Processors<36 then node 400 elseif Processors>=36 then node 401 else jd
+291  class = NoConvergence
+292  class = lanczos
+293  if Size<696 then node 402 elseif Size>=696 then node 403 else lanczos
+294  class = NoConvergence
+295  class = lanczos
+296  class = gd
+297  class = jd
+298  class = jd
+299  class = gd
+300  class = krylovschur
+301  class = arnoldi
+302  if Processors<6 then node 404 elseif Processors>=6 then node 405 else krylovschur
+303  class = krylovschur
+304  class = krylovschur
+305  class = arnoldi
+306  class = krylovschur
+307  class = arnoldi
+308  if Processors<10 then node 406 elseif Processors>=10 then node 407 else krylovschur
+309  class = arnoldi
+310  class = arnoldi
+311  class = krylovschur
+312  class = arnoldi
+313  class = krylovschur
+314  class = arnoldi
+315  class = krylovschur
+316  class = arnoldi
+317  class = krylovschur
+318  class = krylovschur
+319  class = arnoldi
+320  if Processors<3 then node 408 elseif Processors>=3 then node 409 else krylovschur
+321  class = lanczos
+322  class = arnoldi
+323  class = krylovschur
+324  if Size<696 then node 410 elseif Size>=696 then node 411 else lanczos
+325  if Rank=1 then node 412 elseif Rank=3 then node 413 else lanczos
+326  if Size<25786 then node 414 elseif Size>=25786 then node 415 else lanczos
+327  if Size<93823 then node 416 elseif Size>=93823 then node 417 else lanczos
+328  if Processors<72 then node 418 elseif Processors>=72 then node 419 else krylovschur
+329  class = lanczos
+330  if Rank=1 then node 420 elseif Rank=2 then node 421 else krylovschur
+331  if NoOfEigvalues<1.5 then node 422 elseif NoOfEigvalues>=1.5 then node 423 else krylovschur
+332  if Processors<72 then node 424 elseif Processors>=72 then node 425 else lanczos
+333  if Processors<10 then node 426 elseif Processors>=10 then node 427 else krylovschur
+334  if Spectrum=1 then node 428 elseif Spectrum=3 then node 429 else arnoldi
+335  if Size<93823 then node 430 elseif Size>=93823 then node 431 else krylovschur
+336  if Rank=1 then node 432 elseif Rank=2 then node 433 else krylovschur
+337  if Size<1599.5 then node 434 elseif Size>=1599.5 then node 435 else krylovschur
+338  if Rank in {1 2} then node 436 elseif Rank=3 then node 437 else lanczos
+339  if Rank in {1 2} then node 438 elseif Rank=3 then node 439 else krylovschur
+340  if Tolerance<5.0005e-05 then node 440 elseif Tolerance>=5.0005e-05 then node 441 else krylovschur
+341  class = krylovschur
+342  class = lanczos
+343  class = krylovschur
+344  class = krylovschur
+345  if Processors<3 then node 442 elseif Processors>=3 then node 443 else krylovschur
+346  if Tolerance<5.0005e-05 then node 444 elseif Tolerance>=5.0005e-05 then node 445 else krylovschur
+347  if Rank=1 then node 446 elseif Rank=2 then node 447 else arnoldi
+348  if Processors<72 then node 448 elseif Processors>=72 then node 449 else krylovschur
+349  class = krylovschur
+350  if Tolerance<5.0005e-05 then node 450 elseif Tolerance>=5.0005e-05 then node 451 else krylovschur
+351  class = krylovschur
+352  class = krylovschur
+353  if Spectrum=1 then node 452 elseif Spectrum=3 then node 453 else arnoldi
+354  if Tolerance<5.0005e-05 then node 454 elseif Tolerance>=5.0005e-05 then node 455 else krylovschur
+355  if NoOfEigvalues<3.5 then node 456 elseif NoOfEigvalues>=3.5 then node 457 else jd
+356  class = power
+357  class = arnoldi
+358  class = arnoldi
+359  if Processors<1.5 then node 458 elseif Processors>=1.5 then node 459 else krylovschur
+360  if Processors<72 then node 460 elseif Processors>=72 then node 461 else arnoldi
+361  if Processors<144 then node 462 elseif Processors>=144 then node 463 else krylovschur
+362  if Processors<144 then node 464 elseif Processors>=144 then node 465 else arnoldi
+363  if Spectrum=1 then node 466 elseif Spectrum=3 then node 467 else arnoldi
+364  class = krylovschur
+365  if Tolerance<5.0005e-05 then node 468 elseif Tolerance>=5.0005e-05 then node 469 else krylovschur
+366  if Spectrum=1 then node 470 elseif Spectrum=3 then node 471 else arnoldi
+367  if Spectrum=1 then node 472 elseif Spectrum=3 then node 473 else jd
+368  if Processors<3 then node 474 elseif Processors>=3 then node 475 else arnoldi
+369  class = arnoldi
+370  class = arnoldi
+371  if Processors<10 then node 476 elseif Processors>=10 then node 477 else arnoldi
+372  class = krylovschur
+373  class = arnoldi
+374  if Processors<18 then node 478 elseif Processors>=18 then node 479 else jd
+375  class = arnoldi
+376  if Processors<36 then node 480 elseif Processors>=36 then node 481 else arnoldi
+377  class = arnoldi
+378  if Spectrum=5 then node 482 elseif Spectrum=6 then node 483 else NoConvergence
+379  class = NoConvergence
+380  if Rank=1 then node 484 elseif Rank=2 then node 485 else arnoldi
+381  class = krylovschur
+382  class = krylovschur
+383  class = arnoldi
+384  if Rank=1 then node 486 elseif Rank=2 then node 487 else jd
+385  class = krylovschur
+386  if Rank=1 then node 488 elseif Rank=2 then node 489 else arnoldi
+387  class = arnoldi
+388  class = krylovschur
+389  class = arnoldi
+390  class = NoConvergence
+391  if Processors<18 then node 490 elseif Processors>=18 then node 491 else lanczos
+392  class = jd
+393  class = gd
+394  class = NoConvergence
+395  class = lanczos
+396  if Processors<1.5 then node 492 elseif Processors>=1.5 then node 493 else gd
+397  class = gd
+398  if NoOfEigvalues<7.5 then node 494 elseif NoOfEigvalues>=7.5 then node 495 else krylovschur
+399  class = jd
+400  class = jd
+401  if NoOfEigvalues<7.5 then node 496 elseif NoOfEigvalues>=7.5 then node 497 else gd
+402  if Processors<72 then node 498 elseif Processors>=72 then node 499 else jd
+403  class = lanczos
+404  class = krylovschur
+405  if Rank=2 then node 500 elseif Rank=3 then node 501 else arnoldi
+406  class = krylovschur
+407  class = arnoldi
+408  if Tolerance<5.0005e-05 then node 502 elseif Tolerance>=5.0005e-05 then node 503 else krylovschur
+409  if Tolerance<5.05e-09 then node 504 elseif Tolerance>=5.05e-09 then node 505 else krylovschur
+410  if Spectrum=1 then node 506 elseif Spectrum=3 then node 507 else lanczos
+411  if Tolerance<5.0005e-05 then node 508 elseif Tolerance>=5.0005e-05 then node 509 else lanczos
+412  if Size<696 then node 510 elseif Size>=696 then node 511 else krylovschur
+413  class = lanczos
+414  if Spectrum=1 then node 512 elseif Spectrum=3 then node 513 else lanczos
+415  if Rank=1 then node 514 elseif Rank=3 then node 515 else lanczos
+416  class = lanczos
+417  if Tolerance<5.05e-09 then node 516 elseif Tolerance>=5.05e-09 then node 517 else lanczos
+418  class = krylovschur
+419  class = arnoldi
+420  if NoOfEigvalues<1.5 then node 518 elseif NoOfEigvalues>=1.5 then node 519 else arnoldi
+421  if Tolerance<5.0005e-05 then node 520 elseif Tolerance>=5.0005e-05 then node 521 else krylovschur
+422  if Tolerance<5.0005e-05 then node 522 elseif Tolerance>=5.0005e-05 then node 523 else krylovschur
+423  if Size<3359.5 then node 524 elseif Size>=3359.5 then node 525 else krylovschur
+424  class = lanczos
+425  if Tolerance<5.0005e-05 then node 526 elseif Tolerance>=5.0005e-05 then node 527 else krylovschur
+426  class = lanczos
+427  if Size<93823 then node 528 elseif Size>=93823 then node 529 else krylovschur
+428  if Processors<18 then node 530 elseif Processors>=18 then node 531 else arnoldi
+429  if Processors<144 then node 532 elseif Processors>=144 then node 533 else krylovschur
+430  class = krylovschur
+431  if Processors<18 then node 534 elseif Processors>=18 then node 535 else krylovschur
+432  if Real=0 then node 536 elseif Real=1 then node 537 else krylovschur
+433  if Size<1599.5 then node 538 elseif Size>=1599.5 then node 539 else arnoldi
+434  if Size<696 then node 540 elseif Size>=696 then node 541 else arnoldi
+435  if Processors<3 then node 542 elseif Processors>=3 then node 543 else krylovschur
+436  if Processors<6 then node 544 elseif Processors>=6 then node 545 else lanczos
+437  class = krylovschur
+438  if Size<25786 then node 546 elseif Size>=25786 then node 547 else krylovschur
+439  class = arnoldi
+440  class = krylovschur
+441  if Size<3359.5 then node 548 elseif Size>=3359.5 then node 549 else krylovschur
+442  class = lanczos
+443  if Rank=1 then node 550 elseif Rank=2 then node 551 else krylovschur
+444  if Rank=1 then node 552 elseif Rank=2 then node 553 else krylovschur
+445  if Rank=1 then node 554 elseif Rank=2 then node 555 else arnoldi
+446  if Spectrum=1 then node 556 elseif Spectrum=3 then node 557 else arnoldi
+447  class = krylovschur
+448  if Rank=1 then node 558 elseif Rank=2 then node 559 else krylovschur
+449  class = arnoldi
+450  class = krylovschur
+451  if Processors<10 then node 560 elseif Processors>=10 then node 561 else arnoldi
+452  class = arnoldi
+453  if Processors<6 then node 562 elseif Processors>=6 then node 563 else arnoldi
+454  if Rank=1 then node 564 elseif Rank=2 then node 565 else krylovschur
+455  class = krylovschur
+456  if Rank=1 then node 566 elseif Rank=2 then node 567 else jd
+457  if Tolerance<5.0005e-05 then node 568 elseif Tolerance>=5.0005e-05 then node 569 else krylovschur
+458  class = krylovschur
+459  if Processors<3 then node 570 elseif Processors>=3 then node 571 else arnoldi
+460  if Processors<6 then node 572 elseif Processors>=6 then node 573 else arnoldi
+461  class = krylovschur
+462  class = krylovschur
+463  class = arnoldi
+464  if NoOfEigvalues<1.5 then node 574 elseif NoOfEigvalues>=1.5 then node 575 else arnoldi
+465  class = krylovschur
+466  if Size<22204 then node 576 elseif Size>=22204 then node 577 else arnoldi
+467  class = arnoldi
+468  class = krylovschur
+469  if NoOfEigvalues<7.5 then node 578 elseif NoOfEigvalues>=7.5 then node 579 else arnoldi
+470  if Tolerance<5.0005e-05 then node 580 elseif Tolerance>=5.0005e-05 then node 581 else arnoldi
+471  if Tolerance<5.0005e-05 then node 582 elseif Tolerance>=5.0005e-05 then node 583 else krylovschur
+472  class = jd
+473  class = krylovschur
+474  class = arnoldi
+475  if Processors<18 then node 584 elseif Processors>=18 then node 585 else gd
+476  if Rank=1 then node 586 elseif Rank=2 then node 587 else arnoldi
+477  class = arnoldi
+478  if Processors<6 then node 588 elseif Processors>=6 then node 589 else jd
+479  class = NoConvergence
+480  class = arnoldi
+481  class = NoConvergence
+482  if Processors<36 then node 590 elseif Processors>=36 then node 591 else NoConvergence
+483  class = NoConvergence
+484  class = arnoldi
+485  class = krylovschur
+486  class = jd
+487  class = krylovschur
+488  class = arnoldi
+489  class = krylovschur
+490  class = NoConvergence
+491  class = lanczos
+492  class = jd
+493  if Processors<10 then node 592 elseif Processors>=10 then node 593 else gd
+494  class = jd
+495  class = krylovschur
+496  if Tolerance<5.05e-09 then node 594 elseif Tolerance>=5.05e-09 then node 595 else gd
+497  class = gd
+498  class = jd
+499  class = krylovschur
+500  class = arnoldi
+501  class = krylovschur
+502  if NoOfEigvalues<1.5 then node 596 elseif NoOfEigvalues>=1.5 then node 597 else krylovschur
+503  class = krylovschur
+504  class = krylovschur
+505  if Size<1015.5 then node 598 elseif Size>=1015.5 then node 599 else lanczos
+506  if Processors<1.5 then node 600 elseif Processors>=1.5 then node 601 else lanczos
+507  if Rank=1 then node 602 elseif Rank=3 then node 603 else lanczos
+508  if Real=0 then node 604 elseif Real=1 then node 605 else lanczos
+509  class = lanczos
+510  if Tolerance<5.0005e-05 then node 606 elseif Tolerance>=5.0005e-05 then node 607 else arnoldi
+511  if Real=0 then node 608 elseif Real=1 then node 609 else krylovschur
+512  class = power
+513  class = lanczos
+514  class = lanczos
+515  class = arnoldi
+516  class = krylovschur
+517  class = lanczos
+518  if Processors<10 then node 610 elseif Processors>=10 then node 611 else arnoldi
+519  if Size<696 then node 612 elseif Size>=696 then node 613 else lanczos
+520  if Spectrum=1 then node 614 elseif Spectrum=3 then node 615 else krylovschur
+521  if Processors<18 then node 616 elseif Processors>=18 then node 617 else krylovschur
+522  if Tolerance<5.05e-09 then node 618 elseif Tolerance>=5.05e-09 then node 619 else krylovschur
+523  if Processors<10 then node 620 elseif Processors>=10 then node 621 else krylovschur
+524  class = krylovschur
+525  if Tolerance<5.05e-09 then node 622 elseif Tolerance>=5.05e-09 then node 623 else krylovschur
+526  class = lanczos
+527  class = krylovschur
+528  class = krylovschur
+529  if Tolerance<5.05e-09 then node 624 elseif Tolerance>=5.05e-09 then node 625 else krylovschur
+530  class = arnoldi
+531  if Processors<72 then node 626 elseif Processors>=72 then node 627 else arnoldi
+532  if Rank=2 then node 628 elseif Rank=3 then node 629 else krylovschur
+533  class = krylovschur
+534  class = arnoldi
+535  if Rank=2 then node 630 elseif Rank=3 then node 631 else krylovschur
+536  class = krylovschur
+537  if Processors<72 then node 632 elseif Processors>=72 then node 633 else krylovschur
+538  class = arnoldi
+539  class = krylovschur
+540  if Rank=1 then node 634 elseif Rank=2 then node 635 else arnoldi
+541  if Processors<6 then node 636 elseif Processors>=6 then node 637 else krylovschur
+542  class = lanczos
+543  class = krylovschur
+544  class = lanczos
+545  if Size<25786 then node 638 elseif Size>=25786 then node 639 else lanczos
+546  if Tolerance<5.0005e-05 then node 640 elseif Tolerance>=5.0005e-05 then node 641 else krylovschur
+547  if Rank=1 then node 642 elseif Rank=2 then node 643 else krylovschur
+548  class = krylovschur
+549  if Size<93823 then node 644 elseif Size>=93823 then node 645 else lanczos
+550  class = krylovschur
+551  class = lanczos
+552  if Spectrum=1 then node 646 elseif Spectrum=3 then node 647 else krylovschur
+553  class = arnoldi
+554  class = arnoldi
+555  class = krylovschur
+556  class = arnoldi
+557  if Processors<3 then node 648 elseif Processors>=3 then node 649 else arnoldi
+558  if Tolerance<5.0005e-05 then node 650 elseif Tolerance>=5.0005e-05 then node 651 else krylovschur
+559  class = arnoldi
+560  class = arnoldi
+561  class = krylovschur
+562  class = krylovschur
+563  class = arnoldi
+564  if Processors<3 then node 652 elseif Processors>=3 then node 653 else arnoldi
+565  class = krylovschur
+566  class = jd
+567  class = krylovschur
+568  class = krylovschur
+569  class = jd
+570  class = arnoldi
+571  if Processors<6 then node 654 elseif Processors>=6 then node 655 else krylovschur
+572  class = krylovschur
+573  class = arnoldi
+574  if Size<22204 then node 656 elseif Size>=22204 then node 657 else arnoldi
+575  if Spectrum=1 then node 658 elseif Spectrum=3 then node 659 else arnoldi
+576  class = krylovschur
+577  class = arnoldi
+578  class = arnoldi
+579  class = krylovschur
+580  class = arnoldi
+581  if NoOfEigvalues<7.5 then node 660 elseif NoOfEigvalues>=7.5 then node 661 else arnoldi
+582  class = krylovschur
+583  if NoOfEigvalues<7.5 then node 662 elseif NoOfEigvalues>=7.5 then node 663 else arnoldi
+584  class = arnoldi
+585  class = gd
+586  class = NoConvergence
+587  class = arnoldi
+588  class = jd
+589  class = arnoldi
+590  class = NoConvergence
+591  class = krylovschur
+592  if Tolerance<5.0005e-05 then node 664 elseif Tolerance>=5.0005e-05 then node 665 else gd
+593  class = gd
+594  class = jd
+595  class = gd
+596  class = krylovschur
+597  class = lanczos
+598  class = arnoldi
+599  if Tolerance<5.0005e-05 then node 666 elseif Tolerance>=5.0005e-05 then node 667 else lanczos
+600  class = power
+601  class = lanczos
+602  class = lanczos
+603  class = arnoldi
+604  class = lanczos
+605  if Tolerance<5.05e-09 then node 668 elseif Tolerance>=5.05e-09 then node 669 else krylovschur
+606  class = arnoldi
+607  class = krylovschur
+608  if NoOfEigvalues<1.5 then node 670 elseif NoOfEigvalues>=1.5 then node 671 else krylovschur
+609  if Tolerance<5.05e-09 then node 672 elseif Tolerance>=5.05e-09 then node 673 else lanczos
+610  class = krylovschur
+611  if Processors<36 then node 674 elseif Processors>=36 then node 675 else arnoldi
+612  if Tolerance<5.0005e-05 then node 676 elseif Tolerance>=5.0005e-05 then node 677 else lanczos
+613  if Processors<10 then node 678 elseif Processors>=10 then node 679 else arnoldi
+614  if Tolerance<5.05e-09 then node 680 elseif Tolerance>=5.05e-09 then node 681 else krylovschur
+615  if Processors<18 then node 682 elseif Processors>=18 then node 683 else krylovschur
+616  if Size<696 then node 684 elseif Size>=696 then node 685 else krylovschur
+617  class = krylovschur
+618  if Size<3359.5 then node 686 elseif Size>=3359.5 then node 687 else krylovschur
+619  if Size<3359.5 then node 688 elseif Size>=3359.5 then node 689 else lanczos
+620  class = krylovschur
+621  if Size<3359.5 then node 690 elseif Size>=3359.5 then node 691 else arnoldi
+622  if Processors<10 then node 692 elseif Processors>=10 then node 693 else krylovschur
+623  if Rank=1 then node 694 elseif Rank in {2 4} then node 695 else krylovschur
+624  class = krylovschur
+625  if Processors<18 then node 696 elseif Processors>=18 then node 697 else lanczos
+626  if Processors<36 then node 698 elseif Processors>=36 then node 699 else arnoldi
+627  if Tolerance<5.05e-09 then node 700 elseif Tolerance>=5.05e-09 then node 701 else arnoldi
+628  if Tolerance<5.05e-09 then node 702 elseif Tolerance>=5.05e-09 then node 703 else krylovschur
+629  if Tolerance<5.05e-09 then node 704 elseif Tolerance>=5.05e-09 then node 705 else krylovschur
+630  if Processors<36 then node 706 elseif Processors>=36 then node 707 else arnoldi
+631  if Processors<144 then node 708 elseif Processors>=144 then node 709 else krylovschur
+632  class = krylovschur
+633  class = arnoldi
+634  if Processors<1.5 then node 710 elseif Processors>=1.5 then node 711 else arnoldi
+635  if Processors<16 then node 712 elseif Processors>=16 then node 713 else krylovschur
+636  class = lanczos
+637  if Rank=1 then node 714 elseif Rank in {2 3} then node 715 else arnoldi
+638  if Tolerance<5.0005e-05 then node 716 elseif Tolerance>=5.0005e-05 then node 717 else lanczos
+639  class = lanczos
+640  if Rank=1 then node 718 elseif Rank=2 then node 719 else krylovschur
+641  if Rank=1 then node 720 elseif Rank=2 then node 721 else krylovschur
+642  class = krylovschur
+643  class = lanczos
+644  class = lanczos
+645  class = krylovschur
+646  class = krylovschur
+647  if Processors<3 then node 722 elseif Processors>=3 then node 723 else krylovschur
+648  class = arnoldi
+649  class = krylovschur
+650  class = krylovschur
+651  class = arnoldi
+652  class = arnoldi
+653  class = krylovschur
+654  class = krylovschur
+655  if Processors<72 then node 724 elseif Processors>=72 then node 725 else arnoldi
+656  if Spectrum=1 then node 726 elseif Spectrum=3 then node 727 else arnoldi
+657  class = arnoldi
+658  if Size<22204 then node 728 elseif Size>=22204 then node 729 else arnoldi
+659  if Size<22204 then node 730 elseif Size>=22204 then node 731 else krylovschur
+660  class = krylovschur
+661  class = arnoldi
+662  class = arnoldi
+663  class = krylovschur
+664  class = gd
+665  if Processors<3 then node 732 elseif Processors>=3 then node 733 else jd
+666  class = lanczos
+667  class = krylovschur
+668  class = krylovschur
+669  class = lanczos
+670  class = lanczos
+671  class = krylovschur
+672  class = krylovschur
+673  class = lanczos
+674  class = arnoldi
+675  if Size<696 then node 734 elseif Size>=696 then node 735 else arnoldi
+676  class = lanczos
+677  class = arnoldi
+678  class = lanczos
+679  if Processors<36 then node 736 elseif Processors>=36 then node 737 else arnoldi
+680  if Processors<10 then node 738 elseif Processors>=10 then node 739 else krylovschur
+681  class = krylovschur
+682  if NoOfEigvalues<1.5 then node 740 elseif NoOfEigvalues>=1.5 then node 741 else krylovschur
+683  if Processors<144 then node 742 elseif Processors>=144 then node 743 else krylovschur
+684  class = arnoldi
+685  class = krylovschur
+686  if Rank=1 then node 744 elseif Rank=2 then node 745 else lanczos
+687  if Rank=1 then node 746 elseif Rank=2 then node 747 else krylovschur
+688  if Rank=1 then node 748 elseif Rank=2 then node 749 else krylovschur
+689  if Rank=1 then node 750 elseif Rank=2 then node 751 else lanczos
+690  if Rank=1 then node 752 elseif Rank=2 then node 753 else arnoldi
+691  if Spectrum=1 then node 754 elseif Spectrum=3 then node 755 else arnoldi
+692  class = lanczos
+693  if Rank=1 then node 756 elseif Rank=2 then node 757 else krylovschur
+694  if Processors<18 then node 758 elseif Processors>=18 then node 759 else arnoldi
+695  if Processors<144 then node 760 elseif Processors>=144 then node 761 else krylovschur
+696  class = lanczos
+697  class = arnoldi
+698  class = arnoldi
+699  class = krylovschur
+700  class = krylovschur
+701  class = arnoldi
+702  class = krylovschur
+703  if Processors<18 then node 762 elseif Processors>=18 then node 763 else arnoldi
+704  class = arnoldi
+705  class = krylovschur
+706  class = arnoldi
+707  if Tolerance<5.0005e-05 then node 764 elseif Tolerance>=5.0005e-05 then node 765 else arnoldi
+708  class = krylovschur
+709  class = lanczos
+710  class = krylovschur
+711  class = arnoldi
+712  class = arnoldi
+713  class = krylovschur
+714  class = arnoldi
+715  if Processors<144 then node 766 elseif Processors>=144 then node 767 else krylovschur
+716  if Rank=1 then node 768 elseif Rank=2 then node 769 else lanczos
+717  class = arnoldi
+718  if Processors<36 then node 770 elseif Processors>=36 then node 771 else krylovschur
+719  if Processors<36 then node 772 elseif Processors>=36 then node 773 else lanczos
+720  class = arnoldi
+721  class = krylovschur
+722  class = krylovschur
+723  class = arnoldi
+724  class = arnoldi
+725  class = krylovschur
+726  class = krylovschur
+727  class = arnoldi
+728  class = krylovschur
+729  class = arnoldi
+730  class = arnoldi
+731  class = krylovschur
+732  class = jd
+733  class = gd
+734  if Tolerance<5.05e-09 then node 774 elseif Tolerance>=5.05e-09 then node 775 else arnoldi
+735  if Processors<144 then node 776 elseif Processors>=144 then node 777 else arnoldi
+736  class = arnoldi
+737  if Spectrum=1 then node 778 elseif Spectrum=3 then node 779 else krylovschur
+738  class = arnoldi
+739  if Processors<144 then node 780 elseif Processors>=144 then node 781 else krylovschur
+740  class = lanczos
+741  class = krylovschur
+742  if NoOfEigvalues<1.5 then node 782 elseif NoOfEigvalues>=1.5 then node 783 else krylovschur
+743  class = arnoldi
+744  if Processors<10 then node 784 elseif Processors>=10 then node 785 else arnoldi
+745  if Processors<72 then node 786 elseif Processors>=72 then node 787 else krylovschur
+746  class = krylovschur
+747  class = arnoldi
+748  class = krylovschur
+749  class = arnoldi
+750  class = lanczos
+751  class = power
+752  class = krylovschur
+753  class = arnoldi
+754  class = power
+755  class = krylovschur
+756  class = krylovschur
+757  class = arnoldi
+758  class = krylovschur
+759  class = arnoldi
+760  class = krylovschur
+761  class = arnoldi
+762  class = krylovschur
+763  class = arnoldi
+764  class = krylovschur
+765  class = arnoldi
+766  if Processors<72 then node 788 elseif Processors>=72 then node 789 else krylovschur
+767  class = lanczos
+768  class = lanczos
+769  class = krylovschur
+770  class = lanczos
+771  class = krylovschur
+772  class = krylovschur
+773  class = lanczos
+774  class = krylovschur
+775  class = arnoldi
+776  class = krylovschur
+777  class = arnoldi
+778  class = arnoldi
+779  class = krylovschur
+780  class = krylovschur
+781  class = lanczos
+782  class = arnoldi
+783  class = krylovschur
+784  class = lanczos
+785  class = arnoldi
+786  class = krylovschur
+787  class = lanczos
+788  class = krylovschur
+789  class = arnoldi

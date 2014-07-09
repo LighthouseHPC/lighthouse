@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Code to flatten a decision tree into sql data base files
-# Reads file DTreeAll.txt
+# Reads file DTreeComplete.txt
 # Outputs files slepc_hermitian.sql, slepc_nonhermitian.sql
 
 import re
@@ -9,7 +9,7 @@ import copy
 
 # rowid global row position in dtree
 rowid=1
-CurrentDB = 'lighthouse_slepc_hermitian';
+CurrentDB = 'lighthouse_slepc_treeLeft';
 
 class Comparison:# an Enumerator
     LT, GTE, E, IN = range(4)
@@ -31,39 +31,48 @@ class DataLimits:
 
 class slepc_row:
 	def __init__(self):
-		self.precision = 's';
+		self.precision = 'd';
 		self.isComplex = 0
         	self.size = DataLimits()
 		self.numProcessors = DataLimits()
+		self.probType=[1,3]
 		self.spectrumType = []
 		self.nEigenValues = DataLimits()
 		self.tolerance=DataLimits()
 		self.routineName = 'krylovschur'
+		self.binary=0
+		self.perfIndex=[]
 
 	def setProperty(self,prop,value, comp=Comparison.E):
 		if 'Real' in prop: self.isComplex=int(value);
 		elif 'Size' in prop: self.size.setLimits(comp, float(value));
 		elif 'Proc' in prop: self.numProcessors.setLimits(comp, float(value));
 		elif 'Spectrum' in prop: self.spectrumType = value; 
+		elif 'ProbType' in prop: self.probType = value; 
 		elif 'NoOfE' in prop: self.nEigenValues.setLimits(comp, float(value));
 		elif 'Tol' in prop: self.tolerance.setLimits(comp, float(value));
 		elif 'Solver' in prop: self.routineName=value;
+		elif 'Bnary' in prop: self.binary=int(value);
+		elif 'Rank' in prop: self.perfIndex = value; 
 
 	def printRow(self, outputFile):
 		global rowid
 		global CurrentDB
-		outputFile.write('INSERT INTO {0} VALUES ({1},\'{2}\',\'{3}\',{4},{5},{6},{7},\'{8}\',{9},{10},{11},{12},\'{13}\',\'{14}\',\'{15}\',{16});\n'.format(\
+		outputFile.write('INSERT INTO {0} VALUES ({1},\'{2}\',\'{3}\',{4},{5},{6},{7},\'{8}\',\'{9}\',{10},{11},{12},{13},\'{14}\',\'{15}\',\'{16}\',\'{17}\',{18});\n'.format(\
 		CurrentDB,\
 		rowid,\
 		self.precision,\
-		GetComplex(self.isComplex),\
+		GetYesNo(self.isComplex),\
 		self.size.lowerLimit,self.size.upperLimit,\
 		self.numProcessors.lowerLimit,self.numProcessors.upperLimit,\
 		",".join(map(str, self.spectrumType)),\
+		",".join(map(str, self.probType)),\
 		self.nEigenValues.lowerLimit,self.nEigenValues.upperLimit,\
 		self.tolerance.lowerLimit,self.tolerance.upperLimit,\
+		GetYesNo(self.binary),\
+		",".join(map(str, self.perfIndex)),\
 		self.routineName,\
-		'www.checkWhichUrl.com',\
+		#'www.checkWhichUrl.com',\
 		CurrentDB,\
 		GetRoutineNumber(self.routineName)
 		))
@@ -71,9 +80,11 @@ class slepc_row:
 		rowid=rowid+1
 
 #This function used just for printing
-def GetComplex(isComplex):
-	if(isComplex): return 'y';
-	else: return 'n';	
+def GetYesNo(iValue):
+	if(iValue): return 'y';
+	else: return 'n';
+
+	
 	
 #This function used just for printing
 def GetRoutineNumber(rName):
@@ -131,25 +142,51 @@ def DepthFirstSearch(lines, index, row, outputFile):
 	DepthFirstSearch(lines,int(node2)-1,row2,outputFile);
 	
 
-
-
-
 #read file get all lines
-Inputfilename='DTreeAll.txt'
+Inputfilename='DTreeComplete.txt'
 lines = [line.strip() for line in open(Inputfilename)]
 
-#For hermitian set DB name , filename and start from row 1
+
+#splitting the first line and saving first property
+line=lines[0];
+obj = re.search(r'if (.*) then node (.*) elseif (.*) then node (.*) else (.*)',line)
+
+###########
+# LEFT TREE
+###########
+
+#set left database , DB name , filename and start from row 1
 rowid=1
-row1 = slepc_row();
-outputFile = open("slepc_hermitian.sql", "wb")
-CurrentDB = 'lighthouse_slepc_hermitian'
+row = slepc_row();
+outputFile = open("slepc_treeleft.sql", "wb")
+CurrentDB = 'lighthouse_slepc_treeleft'
+
+# set property value for the left
+propValue1 = obj.group(1)
+node1 = obj.group(2)
+row1 = UpdatePropValue(propValue1,row)
+
+#run recursive dfs
 DepthFirstSearch(lines,1,row1,outputFile);
 outputFile.close();
 
-#For non-hermitian set DB name , filename and start from row 2
+###########
+# RIGHT TREE
+###########
+
+# set right DB name , filename and start from row 2
 rowid=1
-row1 = slepc_row();
-outputFile = open("slepc_nonhermitian.sql", "wb")
-CurrentDB = 'lighthouse_slepc_nonhermitian'
-DepthFirstSearch(lines,2,row1,outputFile);
+row = slepc_row();
+outputFile = open("slepc_treeright.sql", "wb")
+CurrentDB = 'lighthouse_slepc_treeright'
+
+# set property value for the right
+propValue2 = obj.group(3)
+node2 = obj.group(4)
+row2 = UpdatePropValue(propValue2,row)
+
+#run recursive dfs
+DepthFirstSearch(lines,2,row2,outputFile);
 outputFile.close();
+
+
