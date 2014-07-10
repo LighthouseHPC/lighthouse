@@ -17,6 +17,9 @@ MATRIX_CHOICES = (
 	(u'symmetric-definite',			u'symmetric-definite'),
 	(u'Hermitian-definite',			u'Hermitian-definite'),
 	(u'upper quasi-triangular',		u'upper quasi-triangular'),
+	(u'bidiagonal',                 	u'bidiagonal'),
+	(u'orthogonal',				u'orthogonal'),
+	(u'unitary',				u'unitary'),
         )
 
 
@@ -25,10 +28,8 @@ STORAGE_CHOICES = (
         (u'band',                       	u'band'),
         (u'packed',                     	u'packed'),
         (u'tridiagonal',                	u'tridiagonal'),
-        (u'bidiagonal',                 	u'bidiagonal'),
         (u'RFP',                        	u'RFP'),
         (u'full/packed/band/tridiagonal', 	u'full/packed/band/tridiagonal'),
-        (u'bidiagonal/band',			u'bidiagonal/band'),
 )
 
 
@@ -107,3 +108,4 @@ SYLVESTER_CHOICES = (
 	(u'standard',				mark_safe('Standard ( <i>op(A)*X &#177 X*op(B) = C</i> )')),
 	(u'generalized',			mark_safe('Generalized ( <i>A*R &#8722 L*B = &#945C</i> and <i>D*R &#8722 L*E = &#945F</i> )')),
 )
+
