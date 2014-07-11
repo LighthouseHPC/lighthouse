@@ -18,8 +18,7 @@ import datetime
 ######--------- Guided Search --------- ######
 ##############################################
 
-form_order = ('problemForm', 'complexNumberForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm')
-form_order_generalized = ('problemForm', 'complexNumberForm', 'matrixTypeForm', 'singularVectorsForm', 'singleDoubleForm')
+form_order = ('problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm')
 
 form_2arguments = ['matrixTypeForm', 'storageTypeForm', 'singularVectorsForm']      ## forms that require two arguments
 
@@ -28,13 +27,12 @@ form_HTML = ['standardGeneralizedForm']        ## forms with HTML format
 
 ### help functions
 def find_nextForm(currentForm_name, request):   
-    current_index = request.session['form_order'].index(currentForm_name)
-    nextForm_name = ""        
+    current_index = form_order.index(currentForm_name)
     nextForm = ""
     try:
-        ## search for 'none' and return the first column that has zero to be the next question/form
-        next_index = next(i for i in range(current_index+1, len(request.session['form_order'])) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
-        nextForm_name = request.session['form_order'][next_index]
+        ## count the number of distinct values in the filed and return the first column that has 2 or more distinct values to be the next question/form
+        next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].values(form_order[i][:-4]).distinct().count() > 1)
+        nextForm_name = form_order[next_index]
         if nextForm_name in form_2arguments:
             nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
         else:
@@ -59,7 +57,6 @@ def guidedSearch_index(request):
     request.session['currentForm_name'] = 'problemForm'
     request.session['Routines'] = lapack_svd.objects.all()
     request.session['svd_guided_answered'] = OrderedDict()
-    request.session['form_order'] = form_order
     
     ## get ready for the template
     context = {
@@ -73,11 +70,7 @@ def guidedSearch_index(request):
 
 
 
-def guidedSearch(request):
-    ## decide which form order to use
-    if request.session['svd_problem'] in ['svd_generalized']:
-        request.session['form_order'] = form_order_generalized
-        
+def guidedSearch(request):        
     ## distinguish forms that take 2 arguments from forms that take 1 argument
     if request.session['currentForm_name'] in form_2arguments:
         form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.GET or None)   #handle GET and POST in the same view

@@ -30,10 +30,9 @@ class matrixTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(matrixTypeForm, self).__init__(*args, **kwargs)
 	self.fields['svd_matrixType'].choices = request.session['Routines'].values_list('matrixType', 'matrixType').distinct()
-	    
+
 	##--- order choices by string length ---##
 	self.fields['svd_matrixType'].choices.sort(key=lambda k:len(k[1]))
-
 
 
 
@@ -43,10 +42,6 @@ class storageTypeForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
 	super(storageTypeForm, self).__init__(*args, **kwargs)
 	self.fields['svd_storageType'].choices = request.session['Routines'].values_list('storageType', 'storageType').distinct()
-    	
-	##--- if bidiagonal/band in the choices, break it into 'bidiagonal' and 'band' ---##
-	if (u'bidiagonal/band', u'bidiagonal/band') in self.fields['svd_storageType'].choices:
-	    self.fields['svd_storageType'].choices = [(u'full', u'full'), (u'band', u'band'), (u'bidiagonal', u'bidiagonal')]
 	    
 
 
