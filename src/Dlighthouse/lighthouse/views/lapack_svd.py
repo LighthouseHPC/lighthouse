@@ -98,9 +98,13 @@ def guidedSearch(request):
             request.session[formField_name] = value
             
             ## call function find_nextForm to set up next form for next question
-            dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
-            nextForm_name = dict_nextQuestion['nextForm_name']
-            nextForm = dict_nextQuestion['nextForm']
+            if request.session['currentForm_name'] == 'singleDoubleForm':
+                nextForm = ''
+                nextForm_name = ''
+            else:
+                dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
+                nextForm_name = dict_nextQuestion['nextForm_name']
+                nextForm = dict_nextQuestion['nextForm']
             
             ## make next form current for request.session['currentForm_name']
             request.session['currentForm_name'] = nextForm_name 
