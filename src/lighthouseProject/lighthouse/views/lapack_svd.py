@@ -37,7 +37,6 @@ def find_nextForm(currentForm_name, request):
             nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
         else:
             nextForm = getattr(sys.modules[__name__], nextForm_name)()
-    ## the end of the guided search or other errors
     except Exception as e:          
         print type(e)
         print "e.message: ", e.message
@@ -99,8 +98,8 @@ def guidedSearch(request):
             
             ## call function find_nextForm to set up next form for next question
             if request.session['currentForm_name'] == 'singleDoubleForm':
-                nextForm = ''
                 nextForm_name = ''
+                nextForm = ''
             else:
                 dict_nextQuestion = find_nextForm(request.session['currentForm_name'], request)           
                 nextForm_name = dict_nextQuestion['nextForm_name']
