@@ -46,7 +46,7 @@
 						            </div>
 					            </div>
 				            </div><br />
-                            <input type="radio" id="search_ga" name="search_type" value="1" checked onClick="javascript:show_ga_opts();" />&nbsp;<label for="search_ga">Genetic Algorithm (GA)</label><br />
+                            <input type="radio" id="search_ga" name="search_type" value="1" checked onClick="javascript:show_ga_opts();" />&nbsp;<label for="search_ga">Genetic Algorithm (recommended)</label><br />
                             <input type="radio" id="search_ex" name="search_type" value="2" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_ex">Exhaustive (very long running time)</label><br />
                             <input type="radio" id="search_rand" name="search_type" value="3" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_rand">Random</label><br />
                             <input type="radio" id="search_ortho" name="search_type" value="4" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_ortho">Orthogonal</label><br />
@@ -73,7 +73,7 @@
                         </td>
                     </tr><tr>
                         <td valign="top">
-                           <input type="checkbox" id="analyticmem" name="analyticmem" />
+<!--                           <input type="checkbox" id="analyticmem" name="analyticmem" />
                            <label for="analyticmem"><strong>Use Analytic memory model</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
@@ -90,7 +90,7 @@
 						            </div>
 					            </div>
 				            </div><br />
-
+-->
                             <input type="checkbox" id="correctness" name="correctness" />
                             <label for="correctness"><strong>Correctness testing</strong></label>
                              <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
@@ -109,8 +109,9 @@
 					            </div>
 				            </div><br />
 
-                            <input type="checkbox" id="nopartition" />
+<!--                            <input type="checkbox" id="nopartition" />
                             <label for="nopartition"><strong>Disable matrix partitioning</strong></label>
+-->
                         </td>
                         <td valign="top">
                             <label for="testingSize"><strong>Testing size</strong> (start:stop:step)</label>
@@ -131,7 +132,7 @@
 				            </div><br />
                             <input type="text" id="test_param" name="test_param" value="3000:3000:1" />
                         <br />
-                            <label for="threshold"><strong>Threshold</strong></label>
+<!--                            <label for="threshold"><strong>Threshold</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
 		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOthreshold">
@@ -147,11 +148,11 @@
 						            </div>
 					            </div>
 				            </div><br />
-                            <input type="text" id="threshold" name="threshold" value="0.01" />
+                            <input type="text" id="threshold" name="threshold" value="0.01" /> -->
                         </td>
                     </tr><tr>
                         <td valign="top" colspan="2">
-                            <label for="level1"><strong>Thread or cache tiling</strong></label>
+                            <label for="level1"><strong>Thread and cache tiling</strong></label>
                             <div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
         	    				<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
 		    	        		<div dojoType="dijit.TooltipDialog" id="helpBTOtiling">
@@ -168,7 +169,7 @@
 					            </div>
 				            </div><br />
 
-                            <input type="text" id="level1" name="level1" value="thread 2:12:2">&nbsp;Level 1 (outer)<br />
+                            <input type="text" id="level1" name="level1" value="thread 2:8:2">&nbsp;Level 1 (outer/primary)<br />
                             <input type="text" id="level2" name="level2" value="">&nbsp;Level 2 (inner)<br />
 
 

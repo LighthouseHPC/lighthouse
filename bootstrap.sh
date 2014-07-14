@@ -27,9 +27,9 @@ echo "Installing django-extensions"
 sudo $pythonexec django-extensions
 
 echo " "
-echo "(Please run djangopythonpath/python manage.py syncdb to seed database if necessary.)"
+echo "(Please run djangopythonpath/python manage.py syncdb to seed database as necessary.)"
 echo " "
-echo "(Run djangopythonpath/python databaseLoad.py in src/Dlighthouse/lighthouse/libraries/lapack_le/databaseMng/ if necessary.)"
+echo "(Run djangopythonpath/python databaseLoad.py in src/Dlighthouse/lighthouse/database/lapack_le/databaseMng/ as necessary.)"
 
 # No longer needed for now (while using the sqlite3 db for demo purposes)
 #echo ""; echo "--------------------------------------------------------"; 

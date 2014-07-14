@@ -72,13 +72,11 @@ class BTORequestHandler(BaseServer):
                 print str(e)
 
         # nested function
-        def leave():
+        def leave(pid = 0):
             clean_workdir(workdir)
-            release_lock(cwd)
+            release_lock(cwd, pid)
 
-        print workdir
-
-
+        print "Workdir: %s" %workdir
 
 
         try:
@@ -137,13 +135,15 @@ class BTORequestHandler(BaseServer):
         os.chdir(self.bto_dir)
         #print "Current folder is:", os.getcwd()                    #/homes/salin/Lighthouse/BTOServer/bto
         #print ".m file location:", workdir + '/' +filename         #/tmp/salin_xx-xx-xx/DGEM.m
+
+### old version
         try:
             # The actual call to the executable.
             # Note that exceptions raised here (i.e., nonzero return)
             # will prevent bto_out from being assigned anything, so
             # we must check with the exception obj for that text.
-            bto_out = check_output(argv, stderr=subprocess.STDOUT)
-            #call(argv) # for immediate unsaved output
+#            bto_out = check_output(argv, stderr=subprocess.STDOUT)
+            pass #tempo
         except CalledProcessError, e:
             bto_out = 'The BTO server was unable to compile and generate an output file.\n'
             bto_out = bto_out + str(argv) + '\n'
@@ -157,7 +157,45 @@ class BTORequestHandler(BaseServer):
             leave()
             return None
 
-        # Exit status normal
+### new version
+        bto_out = ''
+        ret = None
+        pid = 0
+        try:
+            bto_stdout = open(workdir + '/stdout.txt', 'w')
+            proc = subprocess.Popen(argv, stdout=bto_stdout, stderr=bto_stdout)
+            proc.communicate()
+
+            pid = proc.pid
+            ret = proc.returncode
+            with open(cwd + '/bto.lock', 'a') as pidfile:
+                pidfile.write(str(proc.pid) + '\n')
+
+        except OSError, e:
+            bto_out = 'The BTO server was unable to compile and generate an output file.\n'
+            bto_out = bto_out + 'Args: ' + str(argv) + '\n'
+            bto_out = bto_out + 'Exception: ' + str(e) + '\n'
+            bto_out = bto_out + 'Return status: %d' %proc.returncode
+            bto_out = bto_out + '---BEGIN output from btoblas---\n'
+            with open(workdir + '/stdout.txt', 'r') as f:
+                for line in f:
+                    bto_out = bto_out + line
+            bto_out = bto_out + '--- END  output from btoblas---\n\n'
+
+            bto_stdout.close()
+            print bto_out
+            report_err(bto_out, filename)
+            leave(pid)
+            return None
+
+        else:
+            with open(workdir + '/stdout.txt', 'r') as f:
+                for line in f:
+                    bto_out = bto_out + line
+            bto_out = bto_out + 'Return status for %d: %d' %(pid, proc.returncode)
+            bto_stdout.close()
+
+        # with exit status normal
         print bto_out
         print str(argv)
 
@@ -167,12 +205,12 @@ class BTORequestHandler(BaseServer):
         if(len(cfiles) == 1):
             print 'Adding details to C file.'
 
-            prepend_line(cfiles[0], ' */')
             for line in reversed(open(filename).readlines()):
-                prepend_line(cfiles[0], line);
-            prepend_line(cfiles[0], ' * Using .m file:')
-            prepend_line(cfiles[0], ' * ' + str(argv))
-            prepend_line(cfiles[0], '/* Generated with args:')
+                prepend_line(cfiles[0], '// ' + line);
+            prepend_line(cfiles[0], '// Using .m file:')
+            prepend_line(cfiles[0], '// ' + str(argv))
+            prepend_line(cfiles[0], '// Generated with args:')
+
             print 'Sending C file.'
             self.send_header1(1)
             self.send_files(cfiles)
@@ -196,7 +234,7 @@ class BTORequestHandler(BaseServer):
             message = message + "--- END  output from btoblas---\n\n"
             report_err(message, filename)
 
-        leave()
+        leave(pid)
         return None;
     ### END bto_handle ###
 
@@ -219,7 +257,7 @@ def clean_workdir(workdir):
         print "%s is not yet removed." %workdir
 
 
-def acquire_lock(cwd):
+def acquire_lock_old(cwd):
     os.chdir(cwd)
     while os.path.exists('./bto.lock'):
         randtime = random.randint(3,15)
@@ -229,15 +267,56 @@ def acquire_lock(cwd):
         open('./bto.lock', 'w').close(); # touch lock file
 
 
-def release_lock(cwd):
+def acquire_lock(cwd):
+    os.chdir(cwd)
+    pids = []
+    ret = 0
+
+    if os.path.exists('./bto.lock') == False:
+        open('./bto.lock', 'w').close(); # touch lock file
+
+    while ret == 0:
+        with open('./bto.lock', 'r') as f:
+            for line in f:
+                pids.append(line)
+                print line
+        if pids == []:
+            ret = 1
+
+        for p in pids:
+            print p
+            check = os.popen("ps --pid %s" %p);
+            out = check.read()
+            ret = check.close()
+            if(ret == 0): # if pid found to be running...
+                if not "btoblas" in out:
+                    print "Rogue pid %s" %p
+                    continue # avoid non-bto matching procs
+                randtime = random.randint(3,10)
+                print "Busy, retrying in %d seconds." %randtime
+                time.sleep(randtime)
+                break     # ...take a 'break' (go check others)
+
+
+def release_lock(cwd, pid = 0):
     print "Releasing lock..."
     os.chdir(cwd)
-    if os.path.exists('./bto.lock') == False:
-        print "Error in releasing lock on BTO (race condition)!"
+    if not os.path.exists('./bto.lock'):
+        return
     else:
-        os.remove('./bto.lock');
-        print "Lock released."
+        if pid == 0:
+            return 
 
+        locktxt = []
+        with open('./bto.lock', 'r') as f:
+            for line in f:
+                if not str(pid) in line:
+                    locktxt.append(line)
+
+        with open('./bto.lock', 'w') as f:
+            for line in locktxt:
+                f.write(line)
+        print "Lock released."
 
 
 

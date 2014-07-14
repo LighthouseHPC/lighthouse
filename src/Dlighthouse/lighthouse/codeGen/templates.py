@@ -75,7 +75,6 @@ class BTOGenerator(object):
       except:
           remove_workdir('lighthouse_temp')
           os.getenv("HOME")
-#          Output = 'An error has occurred receiving the output file.'
 
       os.chdir('/tmp/lighthouse_temp')
       if 'errors.x' in glob.glob('*'):

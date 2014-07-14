@@ -944,22 +944,22 @@
         if(opt.checked) {
           szArgs += " --precision float";
         }
- 
+/* 
         opt = dojo.byId("analyticmem");
         if(opt.checked) {
             szArgs += " --use_model";
         }
-
+*/
         opt = dojo.byId("correctness");
         if(opt.checked) {
             szArgs += " --correctness";
         }
 
-        opt = dojo.byId("nopartition");
+/*        opt = dojo.byId("nopartition");
         if(opt.checked) {
             szArgs += " --partition_off";
         }
-
+*/
         opt = dojo.byId("test_param").value;
         if(opt != "" && opt != "3000:3000:1") {
             sizes = opt.split(':');
@@ -970,7 +970,7 @@
             szArgs += " --test_param ";
             szArgs += opt;
         }
-
+/*
         opt = dojo.byId("threshold").value;
         if(opt != "" && opt != 0.01) {
             if(opt < 0.001 || opt > 1.0) {
@@ -980,7 +980,7 @@
             szArgs += " -t ";
             szArgs += opt;
         }
-
+*/
         opt = dojo.byId("level1").value;
         if(opt != "") {
             szArgs += " --level1 ";
@@ -1186,7 +1186,7 @@
 		var selections ="";
 		var options = [[],
 				['column', 'row'],
-				['row', 'column', 'general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
+				['column', 'row', 'general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
 		if (parseInt(option) == 0){
 			dojo.empty("cell3"+index);
 		}

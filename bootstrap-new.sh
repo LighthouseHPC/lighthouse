@@ -28,7 +28,7 @@ echo "Installing django-extensions"
 $pythonexec django-extensions
 
 echo " "
-echo "(Please run 'python manage.py syncdb' to seed database if necessary.)"
+echo "(Please run 'python manage.py syncdb' from src/Dlighthouse to seed database as necessary.)"
 echo " "
-echo "(Then run 'python databaseLoad.py' from src/Dlighthouse/lighthouse/database/lapack_le/databaseMng/ if necessary.)"
+echo "(Then run 'python databaseLoad.py' from src/Dlighthouse/lighthouse/database/lapack_le/databaseMng/ as necessary.)"
 
