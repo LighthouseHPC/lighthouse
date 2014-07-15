@@ -86,7 +86,7 @@ def guidedSearch(request):
         
         ## if user chooses to stop the search, start over; otherwise, perform the search
         if value == 'stop':
-            return guidedSearch_index(request)
+            return index(request)
         else:
             ## do search based on user's response
             lookup = "%s__contains" % current_question
@@ -123,7 +123,7 @@ def guidedSearch(request):
                         }
             return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
     else:       
-        return guidedSearch_index(request)
+        return index(request)
     
 
 
