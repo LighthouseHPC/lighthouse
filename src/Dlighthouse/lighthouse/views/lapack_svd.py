@@ -48,7 +48,7 @@ def find_nextForm(currentForm_name, request):
 
 
 ### start guided search views
-def guidedSearch_index(request):
+def index(request):
     ## set up session keys and values
     for item in ['problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm']:
         key = 'svd_'+item[:-4]
@@ -134,3 +134,4 @@ def guidedSearch(request):
 ##############################################
 ######-------- Advanced Search -------- ######
 ##############################################
+#def advancedSearch(request):
