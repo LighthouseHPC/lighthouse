@@ -2,6 +2,12 @@ from django.utils.safestring import mark_safe
 
 
 #####----------- for all LAPACK routines -------------#####
+DRIVERCOMPUT_CHOICES = (
+	(u'driver',                    		u'driver'),
+	(u'computational',                    	u'computational'),
+)
+
+
 MATRIX_CHOICES = (
         (u'general',                    	u'general'), 
         (u'symmetric',                  	u'symmetric'), 
@@ -98,6 +104,25 @@ SVD_CHOICES = (
 	(u'svd_standard',			mark_safe('Computing the SVD of a matrix')),
 	(u'svd_generalized',			mark_safe('Computing the generalized SVD of a matrix in <em>full</em> storage')),
 	(u'bidiagonal',				mark_safe('Reducing a <em>general</em> matrix to bidiagonal form')),
+)
+
+
+FUNCTION_CHOICES = (
+	(u'svd',				u'svd'),
+	(u'reduceBid',				u'reduce to bidiagonal form'),
+	(u'generateQ',				mark_safe('generate <i>Q</i>')),
+	(u'multiplyByQ',			mark_safe('multiplies an arbitrary matrix by <i>Q</i>')),
+	(u'svdBid',				u'svd of a bidiagonal matrix'),
+	(u'reduceUpTr',				mark_safe('simultaneously reduce matrices <i>A</i> and <i>B</i> to upper triangular form')),
+	(u'svdUpTr',				mark_safe('svd of upper triangular matrices <i>A</i> and <i>B</i>')),
+)
+
+
+METHOD_CHOICES = (
+	(u'simple',				u'simple'),
+	(u'divide-and-conquer',			u'divide and conquer'),
+	(u'jacobi',				u'jacobi'),
+	(u'none',				u'none'),
 )
 
 
