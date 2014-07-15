@@ -44,6 +44,15 @@ class lapack_svd_Admin(admin.ModelAdmin):
 admin.site.register(lapack_svd, lapack_svd_Admin)
 
 
+class lapack_svd_advanced_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'driverComput', 'standardGeneralized', 'matrixType', 'storageType', 'singularVectors')
+	list_filter = ['thePrecision', 'driverComput', 'standardGeneralized',]
+	search_fields = ['routineName',]
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+admin.site.register(lapack_svd_advanced, lapack_svd_advanced_Admin)
+
 
 
 
