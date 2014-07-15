@@ -94,6 +94,13 @@ class advancedSearchForm(forms.Form):
     ##--- for computational standard ---##
     computational_standard_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
     computational_standard_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
+    computational_standard_method = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(),
+					    choices=(
+						(u'QR',				u'QR algorithm'),
+						(u'divide-and-conquer',		u'divide and conquer'),
+						)
+					    )
     computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_matrixType = forms.MultipleChoiceField(
 					    widget=forms.CheckboxSelectMultiple(),

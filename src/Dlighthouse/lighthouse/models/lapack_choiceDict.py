@@ -108,7 +108,7 @@ SVD_CHOICES = (
 
 
 FUNCTION_STANDARD_CHOICES = (
-	(u'reduceBid',				u'reduce to bidiagonal form'),
+	(u'reduceBid',				u'reduce a general matrix to bidiagonal form'),
 	(u'generateQ',				mark_safe('generate <i>Q</i>')),
 	(u'multiplyByQ',			mark_safe('multiplies an arbitrary matrix by <i>Q</i>')),
 	(u'svdBid',				u'svd of a bidiagonal matrix'),
@@ -124,7 +124,7 @@ FUNCTION_GENERALIZED_CHOICES = (
 FUNCTION_CHOICES = ((u'svd',	u'svd'),)+FUNCTION_STANDARD_CHOICES + FUNCTION_GENERALIZED_CHOICES
 
 METHOD_CHOICES = (
-	(u'simple',				u'simple'),
+	(u'QR',					u'QR algorithm'),
 	(u'divide-and-conquer',			u'divide and conquer'),
 	(u'jacobi',				u'jacobi'),
 )
