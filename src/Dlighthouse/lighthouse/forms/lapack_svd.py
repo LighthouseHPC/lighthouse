@@ -73,3 +73,55 @@ class singleDoubleForm(forms.Form):
                                               widget=forms.RadioSelect(),
                                               choices=SINGLEDOUBLE_CHOICES
                                               )
+    
+    
+    
+    
+######-------- For advanced Search --------######
+class advancedSearchForm(forms.Form):
+    ##--- for driver standard ---##
+    driver_standard_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
+    driver_standard_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
+    driver_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+    ##--- for driver generalized ---##
+    driver_generalized_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
+    driver_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+    ##--- for computational standard ---##
+    computational_standard_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
+    computational_standard_function = forms.MultipleChoiceField(choices=FUNCTION_STANDARD_CHOICES)
+    computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_standard_matrixType = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(),
+					    choices=(
+						(u'general',                    u'general'),
+						(u'bidiagonal',                 u'bidiagonal'),
+						(u'orthogonal',			u'orthogonal'),
+						(u'unitary',			u'unitary'),
+						)
+					    )
+    computational_standard_storageType = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(),
+					    choices=(
+						(u'full',                       u'full'),
+						(u'band',                       u'band'),
+						)
+					    )
+    computational_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+    ##--- for computational generalized ---##
+    computational_generalized_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
+    computational_generalized_function = forms.MultipleChoiceField(choices=FUNCTION_GENERALIZED_CHOICES)
+    computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_matrixType = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(),
+					    choices=(
+						(u'general',                    u'general'),
+						(u'upper triangular',           u'upper triangular'),
+						)
+					    )
+    computational_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    

@@ -107,22 +107,26 @@ SVD_CHOICES = (
 )
 
 
-FUNCTION_CHOICES = (
-	(u'svd',				u'svd'),
+FUNCTION_STANDARD_CHOICES = (
 	(u'reduceBid',				u'reduce to bidiagonal form'),
 	(u'generateQ',				mark_safe('generate <i>Q</i>')),
 	(u'multiplyByQ',			mark_safe('multiplies an arbitrary matrix by <i>Q</i>')),
 	(u'svdBid',				u'svd of a bidiagonal matrix'),
+)
+
+
+FUNCTION_GENERALIZED_CHOICES = (
 	(u'reduceUpTr',				mark_safe('simultaneously reduce matrices <i>A</i> and <i>B</i> to upper triangular form')),
 	(u'svdUpTr',				mark_safe('svd of upper triangular matrices <i>A</i> and <i>B</i>')),
 )
 
 
+FUNCTION_CHOICES = ((u'svd',	u'svd'),)+FUNCTION_STANDARD_CHOICES + FUNCTION_GENERALIZED_CHOICES
+
 METHOD_CHOICES = (
 	(u'simple',				u'simple'),
 	(u'divide-and-conquer',			u'divide and conquer'),
 	(u'jacobi',				u'jacobi'),
-	(u'none',				u'none'),
 )
 
 
