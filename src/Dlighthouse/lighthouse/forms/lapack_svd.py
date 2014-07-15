@@ -89,6 +89,7 @@ class advancedSearchForm(forms.Form):
     ##--- for driver generalized ---##
     driver_generalized_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
     driver_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
     ##--- for computational standard ---##
@@ -109,10 +110,12 @@ class advancedSearchForm(forms.Form):
 						(u'band',                       u'band'),
 						)
 					    )
+    computational_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
     ##--- for computational generalized ---##
     computational_generalized_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
     computational_generalized_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
     computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    
