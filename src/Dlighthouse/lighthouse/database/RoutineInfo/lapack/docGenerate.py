@@ -17,7 +17,7 @@ def file_name(precision, name, i):
 
 ### open url.csv (must be windows comma separated format)
 ### url.csv stores precision, routine name, and url.
-reader = csv.reader(open(dirlighthouseProject+"/lighthouseProject/static/Doxygen/url.csv"))
+reader = csv.reader(open(dirlighthouseProject+"/static/Doxygen/url.csv"))
 
 
 
