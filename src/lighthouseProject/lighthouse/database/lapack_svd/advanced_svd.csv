@@ -1,46 +1,46 @@
-1,s,gesvd,driver,standard,svd,simple,no,general,full,no/yes,465
-2,d,gesvd,driver,standard,svd,simple,no,general,full,no/yes,466
-3,c,gesvd,driver,standard,svd,simple,yes,general,full,no/yes,467
-4,z,gesvd,driver,standard,svd,simple,yes,general,full,no/yes,468
-5,s,gesdd,driver,standard,svd,divide-and-conquer,no,general,full,yes,469
-6,d,gesdd,driver,standard,svd,divide-and-conquer,no,general,full,yes,470
-7,c,gesdd,driver,standard,svd,divide-and-conquer,yes,general,full,yes,471
-8,z,gesdd,driver,standard,svd,divide-and-conquer,yes,general,full,yes,472
-9,s,gejsv,driver,standard,svd,jacobi,no,general,full,yes,473
-10,d,gejsv,driver,standard,svd,jacobi,no,general,full,yes,474
-11,s,gesvj,driver,standard,svd,jacobi,no,general,full,yes,475
-12,d,gesvj,driver,standard,svd,jacobi,no,general,full,yes,476
-13,s,ggsvd,driver,generalized,svd,simple,no,general,full,no/yes,477
-14,d,ggsvd,driver,generalized,svd,simple,no,general,full,no/yes,478
-15,c,ggsvd,driver,generalized,svd,simple,yes,general,full,no/yes,479
-16,z,ggsvd,driver,generalized,svd,simple,yes,general,full,no/yes,480
-17,s,gebrd,computational,standard,reduceBid,none,no,general,full,none,481
-18,d,gebrd,computational,standard,reduceBid,none,no,general,full,none,482
-19,c,gebrd,computational,standard,reduceBid,none,yes,general,full,none,483
-20,z,gebrd,computational,standard,reduceBid,none,yes,general,full,none,484
-21,s,gbbrd,computational,standard,reduceBid,none,no,general,band,none,485
-22,d,gbbrd,computational,standard,reduceBid,none,no,general,band,none,486
-23,c,gbbrd,computational,standard,reduceBid,none,yes,general,band,none,487
-24,z,gbbrd,computational,standard,reduceBid,none,yes,general,band,none,488
-25,s,orgbr,computational,standard,generateQ,none,no,orthogonal,full,none,489
-26,d,orgbr,computational,standard,generateQ,none,no,orthogonal,full,none,490
-27,c,ungbr,computational,standard,generateQ,none,yes,unitary,full,none,491
-28,z,ungbr,computational,standard,generateQ,none,yes,unitary,full,none,492
-29,s,ormbr,computational,standard,multiplyByQ,none,no,orthogonal,full,none,493
-30,d,ormbr,computational,standard,multiplyByQ,none,no,orthogonal,full,none,494
-31,c,unmbr,computational,standard,multiplyByQ,none,yes,unitary,full,none,495
-32,z,unmbr,computational,standard,multiplyByQ,none,yes,unitary,full,none,496
-33,s,bdsqr,computational,standard,svdBid,none,no,bidiagonal,full,no,497
-34,d,bdsqr,computational,standard,svdBid,none,no,bidiagonal,full,no,498
-35,c,bdsqr,computational,standard,svdBid,none,yes,bidiagonal,full,no,499
-36,z,bdsqr,computational,standard,svdBid,none,yes,bidiagonal,full,no,500
-37,s,bdsdc,computational,standard,svdBid,divide-and-conquer,no,bidiagonal,full,yes,501
-38,d,bdsdc,computational,standard,svdBid,divide-and-conquer,no,bidiagonal,full,yes,502
-39,s,ggsvp,computational,generalized,reduceUpTr,none,no,general,full,none,503
-40,d,ggsvp,computational,generalized,reduceUpTr,none,no,general,full,none,504
-41,c,ggsvp,computational,generalized,reduceUpTr,none,yes,general,full,none,505
-42,z,ggsvp,computational,generalized,reduceUpTr,none,yes,general,full,none,506
-43,s,tgsja,computational,generalized,svdUpTr,none,no,upper triangular,full,no/yes,507
-44,d,tgsja,computational,generalized,svdUpTr,none,no,upper triangular,full,no/yes,508
-45,c,tgsja,computational,generalized,svdUpTr,none,yes,upper triangular,full,no/yes,509
-46,z,tgsja,computational,generalized,svdUpTr,none,yes,upper triangular,full,no/yes,510
+1,s,gesvd,driver,standard,svd,simple,no,general,full,no/yes,single,465
+2,d,gesvd,driver,standard,svd,simple,no,general,full,no/yes,double,466
+3,c,gesvd,driver,standard,svd,simple,yes,general,full,no/yes,single,467
+4,z,gesvd,driver,standard,svd,simple,yes,general,full,no/yes,double,468
+5,s,gesdd,driver,standard,svd,divide-and-conquer,no,general,full,yes,single,469
+6,d,gesdd,driver,standard,svd,divide-and-conquer,no,general,full,yes,double,470
+7,c,gesdd,driver,standard,svd,divide-and-conquer,yes,general,full,yes,single,471
+8,z,gesdd,driver,standard,svd,divide-and-conquer,yes,general,full,yes,double,472
+9,s,gejsv,driver,standard,svd,jacobi,no,general,full,yes,single,473
+10,d,gejsv,driver,standard,svd,jacobi,no,general,full,yes,double,474
+11,s,gesvj,driver,standard,svd,jacobi,no,general,full,yes,single,475
+12,d,gesvj,driver,standard,svd,jacobi,no,general,full,yes,double,476
+13,s,ggsvd,driver,generalized,svd,simple,no,general,full,no/yes,single,477
+14,d,ggsvd,driver,generalized,svd,simple,no,general,full,no/yes,double,478
+15,c,ggsvd,driver,generalized,svd,simple,yes,general,full,no/yes,single,479
+16,z,ggsvd,driver,generalized,svd,simple,yes,general,full,no/yes,double,480
+17,s,gebrd,computational,standard,reduceBid,none,no,general,full,none,single,481
+18,d,gebrd,computational,standard,reduceBid,none,no,general,full,none,double,482
+19,c,gebrd,computational,standard,reduceBid,none,yes,general,full,none,single,483
+20,z,gebrd,computational,standard,reduceBid,none,yes,general,full,none,double,484
+21,s,gbbrd,computational,standard,reduceBid,none,no,general,band,none,single,485
+22,d,gbbrd,computational,standard,reduceBid,none,no,general,band,none,double,486
+23,c,gbbrd,computational,standard,reduceBid,none,yes,general,band,none,single,487
+24,z,gbbrd,computational,standard,reduceBid,none,yes,general,band,none,double,488
+25,s,orgbr,computational,standard,generateQ,none,no,orthogonal,full,none,single,489
+26,d,orgbr,computational,standard,generateQ,none,no,orthogonal,full,none,double,490
+27,c,ungbr,computational,standard,generateQ,none,yes,unitary,full,none,single,491
+28,z,ungbr,computational,standard,generateQ,none,yes,unitary,full,none,double,492
+29,s,ormbr,computational,standard,multiplyByQ,none,no,orthogonal,full,none,single,493
+30,d,ormbr,computational,standard,multiplyByQ,none,no,orthogonal,full,none,double,494
+31,c,unmbr,computational,standard,multiplyByQ,none,yes,unitary,full,none,single,495
+32,z,unmbr,computational,standard,multiplyByQ,none,yes,unitary,full,none,double,496
+33,s,bdsqr,computational,standard,svdBid,none,no,bidiagonal,full,no,single,497
+34,d,bdsqr,computational,standard,svdBid,none,no,bidiagonal,full,no,double,498
+35,c,bdsqr,computational,standard,svdBid,none,yes,bidiagonal,full,no,single,499
+36,z,bdsqr,computational,standard,svdBid,none,yes,bidiagonal,full,no,double,500
+37,s,bdsdc,computational,standard,svdBid,divide-and-conquer,no,bidiagonal,full,yes,single,501
+38,d,bdsdc,computational,standard,svdBid,divide-and-conquer,no,bidiagonal,full,yes,double,502
+39,s,ggsvp,computational,generalized,reduceUpTr,none,no,general,full,none,single,503
+40,d,ggsvp,computational,generalized,reduceUpTr,none,no,general,full,none,double,504
+41,c,ggsvp,computational,generalized,reduceUpTr,none,yes,general,full,none,single,505
+42,z,ggsvp,computational,generalized,reduceUpTr,none,yes,general,full,none,double,506
+43,s,tgsja,computational,generalized,svdUpTr,none,no,upper triangular,full,no/yes,single,507
+44,d,tgsja,computational,generalized,svdUpTr,none,no,upper triangular,full,no/yes,double,508
+45,c,tgsja,computational,generalized,svdUpTr,none,yes,upper triangular,full,no/yes,single,509
+46,z,tgsja,computational,generalized,svdUpTr,none,yes,upper triangular,full,no/yes,double,510
