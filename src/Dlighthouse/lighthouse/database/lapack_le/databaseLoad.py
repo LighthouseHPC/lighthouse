@@ -3,12 +3,6 @@
 import os
 currentDir = os.getcwd()
 
-### load data to lapack_le_routineinfo table
-os.chdir("RoutineInfo")
-os.system('python load_data.py')
-os.chdir("../")
-
-
 ### load data to
 ### lapack_le_linearequation_simple, lapack_le_linearequation_expert, lapack_le_linearequation_driver
 os.chdir("Driver")
@@ -35,6 +29,6 @@ os.chdir("../")
 
 ### load data to
 ### lapack_le_arg
-os.chdir("Arguments")
-os.system('python load_data.py')
-os.chdir("../")
+#os.chdir("Arguments")
+#os.system('python load_data.py')
+#os.chdir("../")
