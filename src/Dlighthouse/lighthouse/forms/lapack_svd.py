@@ -102,15 +102,6 @@ class advancedSearchForm(forms.Form):
 						)
 					    )
     computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    computational_standard_matrixType = forms.MultipleChoiceField(
-					    widget=forms.CheckboxSelectMultiple(),
-					    choices=(
-						(u'general',                    u'general'),
-						(u'bidiagonal',                 u'bidiagonal'),
-						(u'orthogonal',			u'orthogonal'),
-						(u'unitary',			u'unitary'),
-						)
-					    )
     computational_standard_storageType = forms.MultipleChoiceField(
 					    widget=forms.CheckboxSelectMultiple(),
 					    choices=(
@@ -124,11 +115,4 @@ class advancedSearchForm(forms.Form):
     computational_generalized_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)
     computational_generalized_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
     computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    computational_generalized_matrixType = forms.MultipleChoiceField(
-					    widget=forms.CheckboxSelectMultiple(),
-					    choices=(
-						(u'general',                    u'general'),
-						(u'upper triangular',           u'upper triangular'),
-						)
-					    )
     computational_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    
