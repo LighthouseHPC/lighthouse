@@ -43,3 +43,13 @@ class lapack_svd_advanced(models.Model):
         singularVectors = models.CharField('Singular vectors', max_length=10, choices=NOYESBOTH_CHOICES)
         singleDouble = models.CharField('Single/Double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         info = models.ForeignKey(lapack_RoutineInfo)
+        
+        class Admin:
+                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+        def __unicode__(self):
+                return self.matrixType
+                return self.storageType
+        
+        class Meta:
+                app_label = 'lighthouse'
