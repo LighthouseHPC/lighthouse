@@ -78,6 +78,14 @@ class singleDoubleForm(forms.Form):
     
     
 ######-------- For advanced Search --------######
+class advancedSearchMenuForm(forms.Form):
+    advancedSearchMenu = forms.MultipleChoiceField(
+	label = "Which of the following routine categories would you like to search?",
+	widget=forms.CheckboxSelectMultiple(),
+	choices=MENU_CHOICES
+	)
+    
+    
 class advancedSearchForm(forms.Form):
     ##--- for driver standard ---##
     driver_standard_search = forms.ChoiceField(widget=forms.RadioSelect, choices=NOYES_CHOICES)

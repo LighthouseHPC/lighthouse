@@ -107,17 +107,25 @@ SVD_CHOICES = (
 )
 
 
+MENU_CHOICES = (
+	(u'driver_standard',			u'Driver standard SVD routines'),
+	(u'driver_generalized',			u'Driver generalized SVD routines'),
+	(u'computational_standard',		u'Computational standard SVD routines'),
+	(u'computational_generalized',		u'Computational generalized SVD routines'),
+)
+
+
 FUNCTION_STANDARD_CHOICES = (
 	(u'reduceBid',				u'reduce a general matrix to bidiagonal form'),
 	(u'generateQ',				mark_safe('generate <i>Q</i>')),
 	(u'multiplyByQ',			mark_safe('multiply an arbitrary matrix by <i>Q</i>')),
-	(u'svdBid',				u'compute the svd of a bidiagonal matrix'),
+	(u'svdBid',				u'compute the SVD of a bidiagonal matrix'),
 )
 
 
 FUNCTION_GENERALIZED_CHOICES = (
 	(u'reduceUpTr',				mark_safe('simultaneously reduce general matrices <i>A</i> and <i>B</i> to upper triangular form')),
-	(u'svdUpTr',				mark_safe('compute the svd of upper triangular matrices <i>A</i> and <i>B</i>')),
+	(u'svdUpTr',				mark_safe('compute the SVD of upper triangular matrices <i>A</i> and <i>B</i>')),
 )
 
 

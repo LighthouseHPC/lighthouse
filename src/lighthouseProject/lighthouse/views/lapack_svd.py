@@ -56,13 +56,15 @@ def index(request):
     request.session['currentForm_name'] = 'problemForm'
     request.session['Routines'] = lapack_svd.objects.all()
     request.session['svd_guided_answered'] = OrderedDict()
+    request.session['advancedResults'] = []
     
     ## get ready for the template
     context = {
                 'formHTML': "problemForm",
                 'form': "invalid",
                 'svd_guided_answered' : '',
-                'results' : 'start'
+                'results' : 'start',
+                'advancedSearchMenuForm': advancedSearchMenuForm(),
     }
     return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
 
@@ -134,4 +136,25 @@ def guidedSearch(request):
 ##############################################
 ######-------- Advanced Search -------- ######
 ##############################################
-#def advancedSearch(request):
+def advancedForm(request):
+    form = advancedSearchMenuForm(request.POST or None)
+    if form.is_valid():
+        ## context includes guided search form    
+        context = {
+            'AdvancedTab': True,
+            'results': 'start',
+            'formHTML': "problemForm",
+            'form': "invalid",
+            'svd_guided_answered' : '',
+        }
+        return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
+    
+    else:
+        HttpResponse("<b>something is wrong!</b>")
+        
+        
+        
+        
+        
+def advancedSearch(request):
+    return HttpResponse("<b>Work on advanced search!</b>")
