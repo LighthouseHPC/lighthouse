@@ -110,14 +110,14 @@ SVD_CHOICES = (
 FUNCTION_STANDARD_CHOICES = (
 	(u'reduceBid',				u'reduce a general matrix to bidiagonal form'),
 	(u'generateQ',				mark_safe('generate <i>Q</i>')),
-	(u'multiplyByQ',			mark_safe('multiplies an arbitrary matrix by <i>Q</i>')),
-	(u'svdBid',				u'svd of a bidiagonal matrix'),
+	(u'multiplyByQ',			mark_safe('multiply an arbitrary matrix by <i>Q</i>')),
+	(u'svdBid',				u'compute the svd of a bidiagonal matrix'),
 )
 
 
 FUNCTION_GENERALIZED_CHOICES = (
-	(u'reduceUpTr',				mark_safe('simultaneously reduce matrices <i>A</i> and <i>B</i> to upper triangular form')),
-	(u'svdUpTr',				mark_safe('svd of upper triangular matrices <i>A</i> and <i>B</i>')),
+	(u'reduceUpTr',				mark_safe('simultaneously reduce general matrices <i>A</i> and <i>B</i> to upper triangular form')),
+	(u'svdUpTr',				mark_safe('compute the svd of upper triangular matrices <i>A</i> and <i>B</i>')),
 )
 
 
@@ -126,7 +126,7 @@ FUNCTION_CHOICES = ((u'svd',	u'svd'),)+FUNCTION_STANDARD_CHOICES + FUNCTION_GENE
 METHOD_CHOICES = (
 	(u'QR',					u'QR algorithm'),
 	(u'divide-and-conquer',			u'divide and conquer'),
-	(u'jacobi',				u'jacobi'),
+	(u'jacobi',				u'Jacobi'),
 )
 
 

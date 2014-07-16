@@ -1,0 +1,356 @@
+{% load static from staticfiles %}
+
+<div id="title-div">
+  <table id="icon-table">
+      <tr>
+	  <td id="icon-cell">
+	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	  </td>       
+	 <td id="title-cell">
+	      Advanced Search
+	  </td>
+      </tr>
+  </table>    
+</div>
+<br>
+<script>
+    require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/Dialog"]);
+</script>
+<form id="myFormThree" name="advanced" action="/lapack_svd/advancedSearch/" name="frmProb" method="post"
+      data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
+      onSubmit="return formValid();">
+  {% csrf_token %}
+  <script>
+      function formValid(){
+	  ////check whether radio buttons are checked
+	  if (document.getElementById("id_driver_standard_search_1").checked == false && document.getElementById("id_driver_generalized_search_1").checked == false) {
+	    alert("Select at least one category to search in.");
+	    return false;
+	  }
+	  ////check whether "Complex numbers" and "Precision" are checked for Standard
+	  if(document.getElementById("id_driver_standard_search_1").checked){
+	    var complexNumber_check1 = dojo.query('INPUT[name=standard_complexNumber]').filter(function(n){return n.checked;}).length;
+	    var singleDouble_check1 = dojo.query('INPUT[name=standard_singleDouble]').filter(function(n){return n.checked;}).length;
+	    if (complexNumber_check1 == 0 && singleDouble_check1 > 0){
+		alert("Check at least one box in the Complex Number cell in Standard Sylvester column.");
+		return false;
+	    }
+	    else if (singleDouble_check1 == 0 && complexNumber_check1 > 0){
+		alert("Check at least one box in the Precision cell in Standard Sylvester column.");
+		return false;
+	    }
+	    else if (singleDouble_check1 == 0 && complexNumber_check1 == 0){
+		alert("Check at least one box in the Complex Number and Precision cells in Standard Sylvester column.");
+		return false;
+	    }	
+	  }
+	  ////check whether "Complex numbers" and "Precision" are checked for Generalized
+	  if(document.getElementById("id_driver_generalized_search_1").checked){
+	    var complexNumber_check2 = dojo.query('INPUT[name=generalized_complexNumber]').filter(function(n){return n.checked;}).length;
+	    var singleDouble_check2 = dojo.query('INPUT[name=generalized_singleDouble]').filter(function(n){return n.checked;}).length;
+	    if (complexNumber_check2 == 0 && singleDouble_check2 > 0){
+		alert("Check at least one box in the Complex Number cell in the Generalized Sylvester column.");
+		return false;
+	    }
+	    else if (singleDouble_check2 == 0 && complexNumber_check2 > 0){
+		alert("Check at least one box in the Precision cell in the Generalized Sylvester column.");
+		return false;
+	    }
+	    else if (singleDouble_check2 == 0 && complexNumber_check2 == 0){
+		alert("Check at least one box in the Complex Number and Precision cells in the Generalized Sylvester column.");
+		return false;
+	    }
+	  }	  
+      }
+  </script>
+  <table id='ver-zebra'>
+  <!-- Colgroup -->
+  <colgroup>
+	  <col class="vzebra-odd">
+	  <col class="vzebra-even">
+	  <col class="vzebra-odd">
+	  <col class="vzebra-even">
+	  <col class="vzebra-odd">
+	  <col class="vzebra-even">
+	  <col class="vzebra-odd">
+  </colgroup>
+    <tr>
+      <th>Routine category</th>
+      <th colspan="2" style="text-align: center;">Driver</th>
+      <th colspan="2" style="text-align: center;">Computational</th>
+    </tr>
+    <tr>
+      <th scope="col">
+	Standard/Generalized
+      </th>
+      <th style="text-align: center;">
+	Standard
+      </th>
+      <th style="text-align: center;">
+	Generalized
+      </th>
+      <th style="text-align: center;">
+	Standard
+      </th>
+      <th style="text-align: center;">
+	Generalized
+      </th>
+    </tr>
+    <tr>
+      <th>
+	Search in this category 
+      </th>
+      {% if form_submitted %}
+	<td>
+	  {{ form_submitted.driver_standard_search }}
+	</td>
+	<td>
+	  {{ form_submitted.driver_generalized_search }}
+	</td>
+	<td>
+	  {{ form_submitted.driver_standard_search }}
+	</td>
+	<td>
+	  {{ form_submitted.driver_generalized_search }}
+	</td>
+      {% else %}
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_standard_search_0"><input type="radio" id="id_driver_standard_search_0" value="no" name="driver_standard_search" /> no</label></li>
+	  <li><label for="id_driver_standard_search_1"><input type="radio" id="id_driver_standard_search_1" value="yes" name="driver_standard_search" /> yes</label></li>	
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_generalized_search_0"><input type="radio" id="id_driver_generalized_search_0" value="no" name="driver_generalized_search" /> no</label></li>
+	  <li><label for="id_driver_generalized_search_1"><input type="radio" id="id_driver_generalized_search_1" value="yes" name="driver_generalized_search" /> yes</label></li>	
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_search_0"><input type="radio" id="id_computational_standard_search_0" value="no" name="computational_standard_search" /> no</label></li>
+	  <li><label for="id_computational_standard_search_1"><input type="radio" id="id_computational_standard_search_1" value="yes" name="computational_standard_search" /> yes</label></li>	
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_generalized_search_0"><input type="radio" id="id_computational_generalized_search_0" value="no" name="computational_generalized_search" /> no</label></li>
+	  <li><label for="id_computational_generalized_search_1"><input type="radio" id="id_computational_generalized_search_1" value="yes" name="computational_generalized_search" /> yes</label></li>	
+	</ul>
+      </td>
+      {% endif %}
+    </tr>
+    <tr>
+      <th>
+	Operation 
+      </th>
+      <td>
+	compute SVD
+      </td>
+      <td>
+	compute SVD
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_function_0"><input type="checkbox" name="computational_standard_function" value="reduceBid" id="id_computational_standard_function_0" /> reduce a general matrix to bidiagonal form</label></li>
+	  <li><label for="id_computational_standard_function_1"><input type="checkbox" name="computational_standard_function" value="generateQ" id="id_computational_standard_function_1" /> generate <i>Q</i></label></li>
+	  <li><label for="id_computational_standard_function_2"><input type="checkbox" name="computational_standard_function" value="multiplyByQ" id="id_computational_standard_function_2" /> multiply an arbitrary matrix by <i>Q</i></label></li>
+	  <li><label for="id_computational_standard_function_3"><input type="checkbox" name="computational_standard_function" value="svdBid" id="id_computational_standard_function_3" /> compute the svd of a bidiagonal matrix</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_generalized_function_0"><input type="checkbox" name="computational_generalized_function" value="reduceUpTr" id="id_computational_generalized_function_0" /> simultaneously reduce general matrices <i>A</i> and <i>B</i> to upper triangular form</label></li>
+	  <li><label for="id_computational_generalized_function_1"><input type="checkbox" name="computational_generalized_function" value="svdUpTr" id="id_computational_generalized_function_1" /> compute the svd of upper triangular matrices <i>A</i> and <i>B</i></label></li>
+	</ul>
+      </td>      
+    </tr>
+    {% if form_submitted %}
+    <tr>
+      <th>
+	Complex numbers
+      </th>
+      <td>
+	{{ form_submitted.standard_complexNumber }}
+      </td>
+      <td>
+	{{ form_submitted.generalized_complexNumber }}
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Precision
+      </th>
+      <td>
+	{{ form_submitted.standard_singleDouble }}
+      </td>
+      <td>
+	{{ form_submitted.generalized_singleDouble }}
+      </td>
+      <td>
+	{{ form_submitted.standard_singleDouble }}
+      </td>
+      <td>
+	{{ form_submitted.generalized_singleDouble }}
+      </td>
+    </tr>      
+    {% else %}
+    <tr>
+      <th>
+	Complex numbers
+      </th>
+	<td>
+	  <ul class="a">
+	    <li><label for="id_driver_standard_complexNumber_0"><input type="checkbox" name="driver_standard_complexNumber" value="no" id="id_driver_standard_complexNumber_0" /> no</label></li>
+	    <li><label for="id_driver_standard_complexNumber_1"><input type="checkbox" name="driver_standard_complexNumber" value="yes" id="id_driver_standard_complexNumber_1" /> yes</label></li>
+	  </ul>
+	</td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_generalized_complexNumber_0"><input type="checkbox" name="driver_generalized_complexNumber" value="no" id="id_driver_generalized_complexNumber_0" /> no</label></li>
+	  <li><label for="id_driver_generalized_complexNumber_1"><input type="checkbox" name="driver_generalized_complexNumber" value="yes" id="id_driver_generalized_complexNumber_1" /> yes</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_complexNumber_0"><input type="checkbox" name="computational_standard_complexNumber" value="no" id="id_computational_standard_complexNumber_0" /> no</label></li>
+	  <li><label for="id_computational_standard_complexNumber_1"><input type="checkbox" name="computational_standard_complexNumber" value="yes" id="id_computational_standard_complexNumber_1" /> yes</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_generalized_complexNumber_0"><input type="checkbox" name="computational_generalized_complexNumber" value="no" id="id_computational_generalized_complexNumber_0" /> no</label></li>
+	  <li><label for="id_computational_generalized_complexNumber_1"><input type="checkbox" name="computational_generalized_complexNumber" value="yes" id="id_computational_generalized_complexNumber_1" /> yes</label></li>
+	</ul>
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Storage type
+      </th>
+      <td>
+	full
+      </td>
+      <td>
+	full
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_storageType_0"><input type="checkbox" name="computational_standard_storageType" value="full" id="id_computational_standard_storageType_0" /> full</label></li>
+	  <li><label for="id_computational_standard_storageType_1"><input type="checkbox" name="computational_standard_storageType" value="band" id="id_computational_standard_storageType_1" /> band</label></li>
+	</ul>
+      </td>
+      <td>
+	full
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Method of SVD
+      </th>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_standard_method_0"><input type="checkbox" name="driver_standard_method" value="simple" id="id_driver_standard_method_0" /> QR algorithm</label></li>
+	  <li><label for="id_driver_standard_method_1"><input type="checkbox" name="driver_standard_method" value="divide-and-conquer" id="id_driver_standard_method_1" /> divide and conquer</label></li>
+	  <li><label for="id_driver_standard_method_2"><input type="checkbox" name="driver_standard_method" value="jacobi" id="id_driver_standard_method_2" /> Jacobi</label></li>
+	</ul> 
+      </td>
+      <td>
+	QR algorithm
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_method_0"><input type="checkbox" name="computational_standard_method" value="QR" id="id_computational_standard_method_0" /> QR algorithm</label></li>
+	  <li><label for="id_computational_standard_method_1"><input type="checkbox" name="computational_standard_method" value="divide-and-conquer" id="id_computational_standard_method_1" /> divide and conquer</label></li>
+	</ul>
+      </td>
+      <td>
+	
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Singular vectors
+      </th>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_standard_singularVectors_0"><input type="checkbox" name="driver_standard_singularVectors" value="no" id="id_driver_standard_singularVectors_0" /> no</label></li>
+	  <li><label for="id_driver_standard_singularVectors_1"><input type="checkbox" name="driver_standard_singularVectors" value="yes" id="id_driver_standard_singularVectors_1" /> yes</label></li>	
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_generalized_singularVectors_0"><input type="checkbox" name="driver_generalized_singularVectors" value="no" id="id_driver_generalized_singularVectors_0" /> no</label></li>
+	  <li><label for="id_driver_generalized_singularVectors_1"><input type="checkbox" name="driver_generalized_singularVectors" value="yes" id="id_driver_generalized_singularVectors_1" /> yes</label></li>	
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_singularVectors_0"><input type="checkbox" name="computational_standard_singularVectors" value="no" id="id_computational_standard_singularVectors_0" /> no</label></li>
+	  <li><label for="id_computational_standard_singularVectors_1"><input type="checkbox" name="computational_standard_singularVectors" value="yes" id="id_computational_standard_singularVectors_1" /> yes</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_generalized_singularVectors_0"><input type="checkbox" name="computational_generalized_singularVectors" value="no" id="id_computational_generalized_singularVectors_0" /> no</label></li>
+	  <li><label for="id_computational_generalized_singularVectors_1"><input type="checkbox" name="computational_generalized_singularVectors" value="yes" id="id_computational_generalized_singularVectors_1" /> yes</label></li>
+	</ul>
+      </td>
+    </tr>
+    <tr>
+      <th>
+	Precision
+      </th>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_standard_singleDouble_0"><input type="checkbox" name="driver_standard_singleDouble" value="single" id="id_driver_standard_singleDouble_0" /> single</label></li>
+	  <li><label for="id_driver_standard_singleDouble_1"><input type="checkbox" name="driver_standard_singleDouble" value="double" id="id_driver_standard_singleDouble_1" /> double</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_driver_generalized_singleDouble_0"><input type="checkbox" name="driver_generalized_singleDouble" value="single" id="id_driver_generalized_singleDouble_0" /> single</label></li>
+	  <li><label for="id_driver_generalized_singleDouble_1"><input type="checkbox" name="driver_generalized_singleDouble" value="double" id="id_driver_generalized_singleDouble_1" /> double</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_standard_singleDouble_0"><input type="checkbox" name="computational_standard_singleDouble" value="single" id="id_computational_standard_singleDouble_0" /> single</label></li>
+	  <li><label for="id_computational_standard_singleDouble_1"><input type="checkbox" name="computational_standard_singleDouble" value="double" id="id_computational_standard_singleDouble_1" /> double</label></li>
+	</ul>
+      </td>
+      <td>
+	<ul class="a">
+	  <li><label for="id_computational_generalized_singleDouble_0"><input type="checkbox" name="computational_generalized_singleDouble" value="single" id="id_computational_generalized_singleDouble_0" /> single</label></li>
+	  <li><label for="id_computational_generalized_singleDouble_1"><input type="checkbox" name="computational_generalized_singleDouble" value="double" id="id_computational_generalized_singleDouble_1" /> double</label></li>
+	</ul>
+      </td>
+    </tr>
+    {% endif %}
+  </table>  
+  
+  <div id="button-div">
+    <table style="width:100%; margin: 0px auto;">
+      <tr style="width:100%;">
+	<td style="text-align:left;">       
+	  <button type="button" name="clear" id="clearButton_advanced" class="myButton" title="Clear Search"
+		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
+		  onmouseout="showTooltip('tooltip_advanced','');"
+		  onclick="show_confirm('/lapack_svd/')">
+	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
+	  </button>       
+	</td>
+	<td style="text-align:center;">
+	  <div id="tooltip_advanced"></div>
+	</td>
+	<td style="text-align:right;">
+	  <button type="submit" name="guided" value="submit" id="submitButton_advanced" title="Submit Answer" class="myButton"
+		  onmouseover="showTooltip('tooltip_advanced', 'Submit', '#009900');"
+		  onmouseout="showTooltip('tooltip_advanced','');">
+	      <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+	  </button >
+	</td>
+      </tr>
+    </table>
+  </div>
+</form>
