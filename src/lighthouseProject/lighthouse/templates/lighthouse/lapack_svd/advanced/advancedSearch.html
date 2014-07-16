@@ -16,7 +16,7 @@
 <script>
     require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/Dialog"]);
 </script>
-<form id="myFormThree" name="advanced" action="/lapack_SVD/advancedSearch/" name="frmProb" method="post"
+<form id="myFormThree" name="advanced" action="/lapack_svd/advancedSearch/" name="frmProb" method="post"
       data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
       onSubmit="return formValid();">
   {% csrf_token %}
@@ -357,7 +357,7 @@
 	  <button type="button" name="clear" id="clearButton_advanced" class="myButton" title="Clear Search"
 		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
 		  onmouseout="showTooltip('tooltip_advanced','');"
-		  onclick="show_confirm('/lapack_SVD/')">
+		  onclick="show_confirm('/lapack_svd/')">
 	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
 	  </button>       
 	</td>
