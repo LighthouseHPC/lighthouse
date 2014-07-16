@@ -88,8 +88,9 @@ class advancedSearchMenuForm(forms.Form):
 
 ##--- for driver standard ---##    
 class driver_standard_Form(forms.Form):
+    driverComput = 'Driver'
     standardGeneralized = 'standard'
-    function = 'compute the SVD of an <i>m&timesn</i> matrix A'
+    function = mark_safe('compute the SVD of an <i>m&timesn</i> matrix A')
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
     singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -97,9 +98,10 @@ class driver_standard_Form(forms.Form):
     
 
 ##--- for driver generalized ---##    
-class driver_generalized_Form(forms.Form):    
+class driver_generalized_Form(forms.Form):
+    driverComput = 'Driver'
     standardGeneralized = 'generalized'
-    function = 'compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B'
+    function = mark_safe('compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B')
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = 'QR algorithm'
     singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -108,6 +110,7 @@ class driver_generalized_Form(forms.Form):
 
 ##--- for computational standard ---##    
 class computational_standard_Form(forms.Form):
+    driverComput = 'Computational'
     standardGeneralized = 'standard'
     function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -124,6 +127,7 @@ class computational_standard_Form(forms.Form):
    
 ##--- for computational generalized ---##
 class computational_generalized_Form(forms.Form):
+    driverComput = 'Computational'
     standardGeneralized = 'generalized'
     function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
