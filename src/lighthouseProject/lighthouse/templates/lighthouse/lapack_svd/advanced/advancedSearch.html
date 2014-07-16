@@ -16,7 +16,7 @@
 <script>
     require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/Dialog"]);
 </script>
-<form id="myFormThree" name="advanced" action="/lapack_svd/advancedSearch/" name="frmProb" method="post"
+<form id="myFormThree" name="advanced" action="/lapack_SVD/advancedSearch/" name="frmProb" method="post"
       data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
       onSubmit="return formValid();">
   {% csrf_token %}
@@ -167,7 +167,7 @@
 	    <span onClick="dialog_uTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	  </li>
 	  <li>
-	    <label for="id_computational_standard_function_3"><input type="checkbox" name="computational_standard_function" value="svdBid" id="id_computational_standard_function_3" /> compute the svd of a bidiagonal matrix</label>
+	    <label for="id_computational_standard_function_3"><input type="checkbox" name="computational_standard_function" value="SVDBid" id="id_computational_standard_function_3" /> compute the SVD of a bidiagonal matrix</label>
 	    <span onClick="dialog_uTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	  </li>
 	</ul>
@@ -178,7 +178,7 @@
 	    <label for="id_computational_generalized_function_0"><input type="checkbox" name="computational_generalized_function" value="reduceUpTr" id="id_computational_generalized_function_0" /> simultaneously reduce general matrices <i>A</i> and <i>B</i> to upper triangular form</label>
 	    <span onClick="dialog_uTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	  </li>
-	  <li><label for="id_computational_generalized_function_1"><input type="checkbox" name="computational_generalized_function" value="svdUpTr" id="id_computational_generalized_function_1" /> compute the svd of upper triangular matrices <i>A</i> and <i>B</i></label>
+	  <li><label for="id_computational_generalized_function_1"><input type="checkbox" name="computational_generalized_function" value="SVDUpTr" id="id_computational_generalized_function_1" /> compute the SVD of upper triangular matrices <i>A</i> and <i>B</i></label>
 	    <span onClick="dialog_uTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	  </li>
 	</ul>
@@ -265,7 +265,7 @@
     </tr>
     <tr>
       <th>
-	Method of SVD
+	Method for SVD
 	<span onClick="dialog_uTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
       </th>
       <td>
@@ -357,7 +357,7 @@
 	  <button type="button" name="clear" id="clearButton_advanced" class="myButton" title="Clear Search"
 		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
 		  onmouseout="showTooltip('tooltip_advanced','');"
-		  onclick="show_confirm('/lapack_svd/')">
+		  onclick="show_confirm('/lapack_SVD/')">
 	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
 	  </button>       
 	</td>

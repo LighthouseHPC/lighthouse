@@ -1,5 +1,6 @@
 {% load static from staticfiles %}
 
+{% if advancedSearchMenuForm %}
 <div id="title-div">
   <table id="icon-table">
       <tr>
@@ -13,15 +14,14 @@
   </table>    
 </div>
 <br>
-
-<form id="myFormThree" name="advanced" action="/lapack_svd/advancedSearch/" name="frmProb" method="post"
-      data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
-      onSubmit="return formValid();">
-  {% csrf_token %}
-
-  <div id="question-div">
+<form id="svd_advancedMenu" name="advancedMenu" action="/lapack_svd/advancedForm/" method="post"
+    data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
+    onSubmit="return formValid();">
+  {% csrf_token %}     
+  <div id="question-div"> 
     {{ advancedSearchMenuForm }}
   </div>
+
   </br>
   <div id="button-div">
     <table style="width:100%; margin: 0px auto;">
@@ -45,6 +45,13 @@
 	  </button >
 	</td>
       </tr>
-    </table>
+    </table>    
   </div>
-</form>
+  </form>
+	      
+{% else %}
+
+    {% include "lighthouse/lapack_svd/advanced/advancedSearch.html" %}
+	    
+{% endif %}
+
