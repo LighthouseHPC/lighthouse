@@ -116,7 +116,8 @@ MENU_CHOICES = (
 
 
 FUNCTION_STANDARD_CHOICES = (
-	(u'reduceBid',				u'reduce a general matrix to bidiagonal form'),
+	(u'reduceBid',				u'reduce a general full matrix to bidiagonal form'),
+	(u'reduceBid_band',			u'reduce a general band matrix to bidiagonal form'),
 	(u'generateQ',				mark_safe('generate <i>Q</i>')),
 	(u'multiplyByQ',			mark_safe('multiply an arbitrary matrix by <i>Q</i>')),
 	(u'svdBid',				u'compute the SVD of a bidiagonal matrix'),
