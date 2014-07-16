@@ -89,7 +89,7 @@ class advancedSearchMenuForm(forms.Form):
 ##--- for driver standard ---##    
 class driver_standard_Form(forms.Form):
     driverComput = 'Driver'
-    standardGeneralized = 'standard'
+    standardGeneralized = 'Standard'
     function = mark_safe('compute the SVD of an <i>m&timesn</i> matrix A')
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
@@ -100,7 +100,7 @@ class driver_standard_Form(forms.Form):
 ##--- for driver generalized ---##    
 class driver_generalized_Form(forms.Form):
     driverComput = 'Driver'
-    standardGeneralized = 'generalized'
+    standardGeneralized = 'Generalized'
     function = mark_safe('compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B')
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = 'QR algorithm'
@@ -111,7 +111,7 @@ class driver_generalized_Form(forms.Form):
 ##--- for computational standard ---##    
 class computational_standard_Form(forms.Form):
     driverComput = 'Computational'
-    standardGeneralized = 'standard'
+    standardGeneralized = 'Standard'
     function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = forms.MultipleChoiceField(
@@ -128,7 +128,7 @@ class computational_standard_Form(forms.Form):
 ##--- for computational generalized ---##
 class computational_generalized_Form(forms.Form):
     driverComput = 'Computational'
-    standardGeneralized = 'generalized'
+    standardGeneralized = 'Generalized'
     function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = 'QR algorithm'
