@@ -80,10 +80,15 @@
 							<ul class="library">
 							    <li><a STYLE="text-decoration: none" href="{% url lapack_le %}">Linear systems</a></li>
 							    <li><a STYLE="text-decoration: none" href="{% url lapack_eigen %}">Eigenvalue problems</a></li>
-							    <li><a STYLE="text-decoration: none" href="{% url lapack_svd %}">Singular Value Decomposition (SVD) problems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_svd %}">Singular Value Decomposition (SVD)</a></li>
 							    <li><a STYLE="text-decoration: none" href="{% url lapack_sylvester %}">Sylvester matrix equation</a></li>
 							</ul>	    
-						</div> 
+						</div>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'Code optimization tools'" open="true" style="width: 300px; margin-left: 10px;">			
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url btoscript %}">Build to Order BLAS</a></li>
+							</ul>	    
+						</div>
 					</div>
 					<div class="columnB">
 						<div class="title blue">
