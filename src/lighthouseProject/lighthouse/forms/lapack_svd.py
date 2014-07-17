@@ -88,49 +88,49 @@ class advancedSearchMenuForm(forms.Form):
 
 ##--- for driver standard ---##    
 class driver_standard_Form(forms.Form):
-    driverComput = 'Driver'
-    standardGeneralized = 'Standard'
-    function = mark_safe('compute the SVD of an <i>m&timesn</i> matrix A')
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    driver_standard_driverComput = 'Driver'
+    driver_standard_standardGeneralized = 'Standard'
+    driver_standard_function = mark_safe('compute the SVD of an <i>m&timesn</i> matrix A')
+    driver_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
+    driver_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
 
 ##--- for driver generalized ---##    
 class driver_generalized_Form(forms.Form):
-    driverComput = 'Driver'
-    standardGeneralized = 'Generalized'
-    function = mark_safe('compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B')
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = 'QR algorithm'
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    driver_generalized_driverComput = 'Driver'
+    driver_generalized_standardGeneralized = 'Generalized'
+    driver_generalized_function = mark_safe('compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B')
+    driver_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_generalized_method = 'QR algorithm'
+    driver_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
 
 ##--- for computational standard ---##    
 class computational_standard_Form(forms.Form):
-    driverComput = 'Computational'
-    standardGeneralized = 'Standard'
-    function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = forms.MultipleChoiceField(
+    computational_standard_driverComput = 'Computational'
+    computational_standard_standardGeneralized = 'Standard'
+    computational_standard_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
+    computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_standard_method = forms.MultipleChoiceField(
 					    widget=forms.CheckboxSelectMultiple(),
 					    choices=(
 						(u'QR',				u'QR algorithm'),
 						(u'divide-and-conquer',		u'divide and conquer'),
 						)
 					    )
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    computational_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
    
    
 ##--- for computational generalized ---##
 class computational_generalized_Form(forms.Form):
-    driverComput = 'Computational'
-    standardGeneralized = 'Generalized'
-    function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = 'QR algorithm'
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    
+    computational_generalized_driverComput = 'Computational'
+    computational_generalized_standardGeneralized = 'Generalized'
+    computational_generalized_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
+    computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_method = 'QR algorithm'
+    computational_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    
