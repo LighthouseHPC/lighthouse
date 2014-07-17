@@ -89,7 +89,27 @@
     <tr>
       <th>Function</th>
       {% for form in formList %}
-      <td> {{ form.function }} </td>
+      <td>	
+	{% if form.function.field.widget %}
+	  <ul>
+	  {% for choice_id, choice_label in form.function.field.choices %}
+	    <li>
+	      <label for="{{ form.function.auto_id }}_{{ forloop.counter0 }}">
+		<input type="checkbox"
+		       name="{{ form.function.html_name }}"
+		       value="{{ choice_id }}"
+		       id="{{ form.function.auto_id }}_{{ forloop.counter0 }}" /> {{ choice_label }}
+	      </label>
+	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	    </li>
+	  {% endfor %}
+	  </ul>
+	{% else %}
+	  {{ form.function }}
+	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	  </div>
+	{% endif %}
+      </td>
       {% endfor %}      
     </tr>
     <tr>
@@ -101,8 +121,28 @@
     <tr>
       <th>Method for SVD</th>
       {% for form in formList %}
-      <td> {{ form.method }} </td>
-      {% endfor %}      
+      <td>	
+	{% if form.method.field.widget %}
+	  <ul>
+	  {% for choice_id, choice_label in form.method.field.choices %}
+	    <li>
+	      <label for="{{ form.method.auto_id }}_{{ forloop.counter0 }}">
+		<input type="checkbox"
+		       name="{{ form.method.html_name }}"
+		       value="{{ choice_id }}"
+		       id="{{ form.method.auto_id }}_{{ forloop.counter0 }}" /> {{ choice_label }}
+	      </label>
+	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	    </li>
+	  {% endfor %}
+	  </ul>
+	{% else %}
+	  {{ form.method }}
+	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	  </div>
+	{% endif %}
+      </td>
+      {% endfor %}       
     </tr>
     <tr>
       <th>Singular vectors</th>
@@ -143,3 +183,10 @@
     </table>
   </div>
 </form>
+
+
+{% for form in formList %}
+
+      {{ form }}
+
+{% endfor %}
