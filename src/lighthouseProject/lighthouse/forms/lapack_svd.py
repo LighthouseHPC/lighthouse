@@ -84,100 +84,53 @@ class advancedSearchMenuForm(forms.Form):
 	widget=forms.CheckboxSelectMultiple(),
 	choices=MENU_CHOICES
 	)
-    
 
-def set_field_html_name(cls, new_name):
-    """
-    This creates wrapper around the normal widget rendering, 
-    allowing for a custom field name (new_name).
-    """
-    old_render = cls.widget.render
-    def _widget_render_wrapper(name, value, attrs=None):
-        return old_render(new_name, value, attrs)
-
-    cls.widget.render = _widget_render_wrapper
-    
-    
     
 ##--- for driver standard ---##    
 class driver_standard_Form(forms.Form):
-    driverComput = 'Driver'
-    standardGeneralized = 'Standard'
-    function = mark_safe('compute the SVD of an <i>m&timesn</i> matrix A')
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_driver_standard_complexNumber'}), choices=NOYES_CHOICES)
-    method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_driver_standard_method'}), choices=METHOD_CHOICES)
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_driver_standard_singularVectors'}), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_driver_standard_singleDouble'}), choices=SINGLEDOUBLE_CHOICES)
+    driver_standard_driverComput = 'Driver'
+    driver_standard_standardGeneralized = 'Standard'
+    driver_standard_function = mark_safe('compute the SVD of an <i>m&timesn</i> matrix A')
+    driver_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
+    driver_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
-    ## change each html name from xxx to driver_standard_xxx
-    htmlName_list = ['driver_standard_complexNumber', 'driver_standard_method', 'driver_standard_singularVectors', 'driver_standard_singleDouble']
-    field_list = [complexNumber, method, singularVectors, singleDouble]
-    for field, htmlName in zip(field_list, htmlName_list):
-	set_field_html_name(field, htmlName)
-	   
-#    def clean_field1(self):
-#	# The form field will be submit with the new name (instead of the name "field1").
-#	data = self.data['driver_standard_method']
-#	if data:
-#	    raise ValidationError("Missing input")
-#	return data
-
-
-
 
 ##--- for driver generalized ---##    
 class driver_generalized_Form(forms.Form):
-    driverComput = 'Driver'
-    standardGeneralized = 'Generalized'
-    function = mark_safe('compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B')
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = 'QR algorithm'
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
-
-    ## change each html name from xxx to driver_standard_xxx
-    htmlName_list = ['driver_generalized_complexNumber', 'driver_generalized_singularVectors', 'driver_generalized_singleDouble']
-    field_list = [complexNumber, singularVectors, singleDouble]
-    for field, htmlName in zip(field_list, htmlName_list):
-	set_field_html_name(field, htmlName)
-	
-	
+    driver_generalized_driverComput = 'Driver'
+    driver_generalized_standardGeneralized = 'Generalized'
+    driver_generalized_function = mark_safe('compute the GSVD of an <i>m&timesn</i> matrix A and a <i>p&timesn</i> matrix B')
+    driver_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_generalized_method = 'QR algorithm'
+    driver_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
 
 ##--- for computational standard ---##    
 class computational_standard_Form(forms.Form):
-    driverComput = 'Computational'
-    standardGeneralized = 'Standard'
-    function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = forms.MultipleChoiceField(
+    computational_standard_driverComput = 'Computational'
+    computational_standard_standardGeneralized = 'Standard'
+    computational_standard_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
+    computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_standard_method = forms.MultipleChoiceField(
 					    widget=forms.CheckboxSelectMultiple(),
 					    choices=(
 						(u'QR',				u'QR algorithm'),
 						(u'divide-and-conquer',		u'divide and conquer'),
 						)
 					    )
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
-
-    ## change each html name from xxx to driver_standard_xxx
-    htmlName_list = ['computational_standard_function', 'computational_standard_complexNumber', 'computational_standard_method', 'computational_standard_singularVectors', 'computational_standard_singleDouble']
-    field_list = [function, complexNumber, method, singularVectors, singleDouble]
-    for field, htmlName in zip(field_list, htmlName_list):
-	set_field_html_name(field, htmlName)
-	
+    computational_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+   
    
 ##--- for computational generalized ---##
 class computational_generalized_Form(forms.Form):
-    driverComput = 'Computational'
-    standardGeneralized = 'Generalized'
-    function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
-    complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    method = 'QR algorithm'
-    singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
-    
-    ## change each html name from xxx to driver_standard_xxx
-    htmlName_list = ['computational_generalized_function', 'computational_generalized_complexNumber', 'computational_generalized_singularVectors', 'computational_generalized_singleDouble']
-    field_list = [function, complexNumber, singularVectors, singleDouble]
-    for field, htmlName in zip(field_list, htmlName_list):
-	set_field_html_name(field, htmlName)
+    computational_generalized_driverComput = 'Computational'
+    computational_generalized_standardGeneralized = 'Generalized'
+    computational_generalized_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
+    computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_method = 'QR algorithm'
+    computational_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
