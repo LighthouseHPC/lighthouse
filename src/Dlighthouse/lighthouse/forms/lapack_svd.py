@@ -109,8 +109,11 @@ class driver_standard_Form(forms.Form):
     singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_driver_standard_singularVectors'}), choices=NOYES_CHOICES)
     singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_driver_standard_singleDouble'}), choices=SINGLEDOUBLE_CHOICES)
     
-    for field in [complexNumber, method, singularVectors, singleDouble]:
-	set_field_html_name(field, 'test')
+    ## change each html name from xxx to driver_standard_xxx
+    htmlName_list = ['driver_standard_complexNumber', 'driver_standard_method', 'driver_standard_singularVectors', 'driver_standard_singleDouble']
+    field_list = [complexNumber, method, singularVectors, singleDouble]
+    for field, htmlName in zip(field_list, htmlName_list):
+	set_field_html_name(field, htmlName)
 	   
 #    def clean_field1(self):
 #	# The form field will be submit with the new name (instead of the name "field1").
@@ -131,7 +134,14 @@ class driver_generalized_Form(forms.Form):
     method = 'QR algorithm'
     singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
-    
+
+    ## change each html name from xxx to driver_standard_xxx
+    htmlName_list = ['driver_generalized_complexNumber', 'driver_generalized_singularVectors', 'driver_generalized_singleDouble']
+    field_list = [complexNumber, singularVectors, singleDouble]
+    for field, htmlName in zip(field_list, htmlName_list):
+	set_field_html_name(field, htmlName)
+	
+	
 
 ##--- for computational standard ---##    
 class computational_standard_Form(forms.Form):
@@ -148,7 +158,13 @@ class computational_standard_Form(forms.Form):
 					    )
     singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
-   
+
+    ## change each html name from xxx to driver_standard_xxx
+    htmlName_list = ['computational_standard_function', 'computational_standard_complexNumber', 'computational_standard_method', 'computational_standard_singularVectors', 'computational_standard_singleDouble']
+    field_list = [function, complexNumber, method, singularVectors, singleDouble]
+    for field, htmlName in zip(field_list, htmlName_list):
+	set_field_html_name(field, htmlName)
+	
    
 ##--- for computational generalized ---##
 class computational_generalized_Form(forms.Form):
@@ -158,4 +174,10 @@ class computational_generalized_Form(forms.Form):
     complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     method = 'QR algorithm'
     singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
-    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)    
+    singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+    ## change each html name from xxx to driver_standard_xxx
+    htmlName_list = ['computational_generalized_function', 'computational_generalized_complexNumber', 'computational_generalized_singularVectors', 'computational_generalized_singleDouble']
+    field_list = [function, complexNumber, singularVectors, singleDouble]
+    for field, htmlName in zip(field_list, htmlName_list):
+	set_field_html_name(field, htmlName)
