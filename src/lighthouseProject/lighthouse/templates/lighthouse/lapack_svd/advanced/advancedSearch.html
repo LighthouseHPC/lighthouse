@@ -137,7 +137,7 @@
 	  {% for choice_id, choice_label in form1.driver_standard_method.field.choices %}
 	    <li>
 	      <label for="{{ form1.driver_standard_method.auto_id }}_{{ forloop.counter0 }}">
-		<input type="checkbox" id="id_{{ formName }}_{{ form1.driver_standard_method.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ formName }}_{{ form1.driver_standard_method.html_name }}" /> {{ choice_label }}</label>
+		<input type="checkbox" id="{{ form1.driver_standard_method.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ form1.driver_standard_method.html_name }}" /> {{ choice_label }}</label>
 	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	    </li>
 	  {% endfor %}
@@ -152,7 +152,7 @@
 	  {% for choice_id, choice_label in form3.computational_standard_method.field.choices %}
 	    <li>
 	      <label for="{{ form3.computational_standard_method.auto_id }}_{{ forloop.counter0 }}">
-		<input type="checkbox" id="id_{{ formName }}_{{ form3.computational_standard_method.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ formName }}_{{ form3.computational_standard_method.html_name }}" /> {{ choice_label }}</label>
+		<input type="checkbox" id="{{ form3.computational_standard_method.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ form3.computational_standard_method.html_name }}" /> {{ choice_label }}</label>
 	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	    </li>
 	  {% endfor %}
