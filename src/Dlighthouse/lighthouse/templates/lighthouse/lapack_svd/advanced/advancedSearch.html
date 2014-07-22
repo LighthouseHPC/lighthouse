@@ -75,86 +75,108 @@
 	    <col class="vzebra-odd">
     </colgroup>
     <tr>
-      <th>Routine category</th>
-      {% for form in formList %}
-      <th> {{ form.driverComput }} </th>
-      {% endfor %}
+      <td class="a">Routine category</td>
+      <td class="a"> {{ form1.driver_standard_driverComput }} </td>
+      <td class="a"> {{ form2.driver_generalized_driverComput }} </td>
+      <td class="a"> {{ form3.computational_standard_driverComput }} </td>
+      <td class="a"> {{ form4.computational_generalized_driverComput }} </td>
     </tr>
     <tr>
-      <th>Standard/Generalized</th>
-      {% for form in formList %}
-      <th> {{ form.standardGeneralized }} </th>
-      {% endfor %}
+      <td class="a">Standard/Generalized</td>
+      <td class="a"> {{ form1.driver_standard_standardGeneralized }} </td>
+      <td class="a"> {{ form2.driver_generalized_standardGeneralized }} </td>
+      <td class="a"> {{ form3.computational_standard_standardGeneralized }} </td>
+      <td class="a"> {{ form4.computational_generalized_standardGeneralized }} </td>
     </tr>
     <tr>
-      <th>Function</th>
-      {% for form in formList %}
+      <td class="a">Function</td>
+      <td>
+	  {{ form1.driver_standard_function }}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td>
+      <td>
+	  {{ form2.driver_generalized_function }}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td>
       <td>	
-	{% if form.function.field.widget %}
 	  <ul>
-	  {% for choice_id, choice_label in form.function.field.choices %}
+	  {% for choice_id, choice_label in form3.computational_standard_function.field.choices %}
 	    <li>
-	      <label for="{{ form.function.auto_id }}_{{ forloop.counter0 }}">
-		<input type="checkbox"
-		       name="{{ form.function.html_name }}"
-		       value="{{ choice_id }}"
-		       id="{{ form.function.auto_id }}_{{ forloop.counter0 }}" /> {{ choice_label }}
-	      </label>
+	      <label for="{{ form3.computational_standard_function.auto_id }}_{{ forloop.counter0 }}">
+		<input type="checkbox" id="{{ form3.computational_standard_function.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ form3.computational_standard_function.html_name }}" /> {{ choice_label }}</label>
 	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	    </li>
 	  {% endfor %}
 	  </ul>
-	{% else %}
-	  {{ form.function }}
-	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
-	  </div>
-	{% endif %}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
       </td>
-      {% endfor %}      
-    </tr>
-    <tr>
-      <th>Complex number</th>
-      {% for form in formList %}
-      <td> {{ form.complexNumber }} </td>
-      {% endfor %}      
-    </tr>
-    <tr>
-      <th>Method for SVD</th>
-      {% for form in formList %}
       <td>	
-	{% if form.method.field.widget %}
 	  <ul>
-	  {% for choice_id, choice_label in form.method.field.choices %}
+	  {% for choice_id, choice_label in form4.computational_generalized_function.field.choices %}
 	    <li>
-	      <label for="{{ form.method.auto_id }}_{{ forloop.counter0 }}">
-		<input type="checkbox"
-		       name="{{ form.method.html_name }}"
-		       value="{{ choice_id }}"
-		       id="{{ form.method.auto_id }}_{{ forloop.counter0 }}" /> {{ choice_label }}
-	      </label>
+	      <label for="{{ form4.computational_generalized_function.auto_id }}_{{ forloop.counter0 }}">
+		<input type="checkbox" id="{{ form4.computational_generalized_function.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ form4.computational_generalized_function.html_name }}" /> {{ choice_label }}</label>
 	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	    </li>
 	  {% endfor %}
 	  </ul>
-	{% else %}
-	  {{ form.method }}
-	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
-	  </div>
-	{% endif %}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td> 
+    </tr>
+    <tr>
+      <td class="a">Complex number</td>
+      <td> {{ form1.driver_standard_complexNumber }} </td>
+      <td> {{ form2.driver_generalized_complexNumber }} </td>
+      <td> {{ form3.computational_standard_complexNumber }} </td>
+      <td> {{ form4.computational_generalized_complexNumber }} </td>
+    </tr>
+    <tr>
+      <td class="a">Method for SVD</td>
+      <td>	
+	  <ul>
+	  {% for choice_id, choice_label in form1.driver_standard_method.field.choices %}
+	    <li>
+	      <label for="{{ form1.driver_standard_method.auto_id }}_{{ forloop.counter0 }}">
+		<input type="checkbox" id="id_{{ formName }}_{{ form1.driver_standard_method.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ formName }}_{{ form1.driver_standard_method.html_name }}" /> {{ choice_label }}</label>
+	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	    </li>
+	  {% endfor %}
+	  </ul>
       </td>
-      {% endfor %}       
+      <td>
+	  {{ form2.driver_generalized_method }}
+	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
+      </td>
+      <td>
+	  <ul>
+	  {% for choice_id, choice_label in form3.computational_standard_method.field.choices %}
+	    <li>
+	      <label for="{{ form3.computational_standard_method.auto_id }}_{{ forloop.counter0 }}">
+		<input type="checkbox" id="id_{{ formName }}_{{ form3.computational_standard_method.auto_id }}_{{ forloop.counter0 }}" value="{{ choice_id }}" name="{{ formName }}_{{ form3.computational_standard_method.html_name }}" /> {{ choice_label }}</label>
+	      <span onClick="dialog_uqTri_real.show();"><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	    </li>
+	  {% endfor %}
+	  </ul>   
+      </td>
+      <td>
+	  {{ form4.computational_generalized_method }}
+	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
+      </td>
+      
     </tr>
     <tr>
-      <th>Singular vectors</th>
-      {% for form in formList %}
-      <td> {{ form.singularVectors }} </td>
-      {% endfor %}      
+      <td class="a">Singular vectors</td>
+      <td> {{ form1.driver_standard_singularVectors }} </td>
+      <td> {{ form2.driver_generalized_singularVectors }} </td>
+      <td> {{ form3.computational_standard_singularVectors }} </td>
+      <td> {{ form4.computational_generalized_singularVectors }} </td>   
     </tr>
     <tr>
-      <th>Precition</th>
-      {% for form in formList %}
-      <td> {{ form.singleDouble }} </td>
-      {% endfor %}      
+      <td class="a">Precition</td>
+      <td> {{ form1.driver_standard_singleDouble }} </td>
+      <td> {{ form2.driver_generalized_singleDouble }} </td>
+      <td> {{ form3.computational_standard_singleDouble }} </td>
+      <td> {{ form4.computational_generalized_singleDouble }} </td>       
     </tr>
   </table>  
   
@@ -184,9 +206,15 @@
   </div>
 </form>
 
+<script>
+    var tbl  = document.getElementById('ver-zebra');
+    var rows = tbl.getElementsByTagName('tr');
 
-{% for form in formList %}
+    for (var row=0; row<rows.length; row++) {
+      var cels = rows[row].getElementsByTagName('td');
+      for (i=0; i<{{ col_no }}.length; i++) {
 
-      {{ form }}
-
-{% endfor %}
+	  cels[{{ col_no }}[i]].style.display='none';
+      }
+    }  
+</script>
