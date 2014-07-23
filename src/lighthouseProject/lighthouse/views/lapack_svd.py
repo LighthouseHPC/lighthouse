@@ -55,7 +55,7 @@ def index(request):
         request.session[key] = ''    
     request.session['currentForm_name'] = 'problemForm'
     request.session['Routines'] = lapack_svd.objects.all()
-    request.session['svd_guided_answered'] = OrderedDict()
+    request.session['svd_guided_answered'] = OrderedDict()  
     request.session['advancedResults'] = []
     
     ## get ready for the template
@@ -137,16 +137,18 @@ def guidedSearch(request):
 ######-------- Advanced Search -------- ######
 ##############################################
 def advancedForm(request):
-    form = advancedSearchMenuForm(request.POST or None)
-    form_col = {'driver_standard': 1, 'driver_generalized': 2, 'computational_standard': 3, 'computational_generalized': 4}
+    request.session['advancedForms'] = []
+    form = advancedSearchMenuForm(request.POST or None)   
     formList = []
-    col_no = [1,2,3,4]      ## col_no is the column(s) to hide
+    request.session['col_no'] = [1,2,3,4]      ## col_no is the column(s) to hide
+    form_col = {'driver_standard': 1, 'driver_generalized': 2, 'computational_standard': 3, 'computational_generalized': 4}     
     if form.is_valid():
         value = form.cleaned_data['advancedSearchMenu']
         for item in value:
-            col_no.remove(form_col[item])       ## remove the column(s) needed from col_no
+            request.session['advancedForms'].append(item)
+            request.session['col_no'].remove(form_col[item])       ## remove the column(s) needed from col_no
             formList.append(getattr(sys.modules[__name__], item+'_Form')())         ## convert unicode to class
-           
+          
         ## context includes guided search form    
         context = {
             'AdvancedTab': True,
@@ -159,18 +161,33 @@ def advancedForm(request):
             'form3': computational_standard_Form(),
             'form4': computational_generalized_Form(),
             'formList': formList,
-            'col_no': col_no,
+            'col_no': request.session['col_no'],
         }
         return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
     
     else:
-        HttpResponse("<b>something is wrong!</b>")
+        return index(request)
         
         
         
         
         
 def advancedSearch(request):
-    form = driver_standard_Form(request.POST or None)
-    print form.data['method']
-    return HttpResponse("<b>Work on advanced search!</b>")
+    for item in request.session['advancedForms']:
+        form = getattr(sys.modules[__name__], item+'_Form')(request.POST or None)
+        print form
+    context = {
+            'AdvancedTab': True,
+            'results': 'start',
+            'formHTML': "problemForm",
+            'form': "invalid",
+            'svd_guided_answered' : '',
+            'form1': driver_standard_Form(request.POST or None),
+            'form2': driver_generalized_Form(request.POST or None),
+            'form3': computational_standard_Form(request.POST or None),
+            'form4': computational_generalized_Form(request.POST or None),
+            #'formList': formList,
+            'col_no': request.session['col_no'],
+            #'form_submitted': form,
+    }
+    return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
