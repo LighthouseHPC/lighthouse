@@ -173,21 +173,39 @@ def advancedForm(request):
         
         
 def advancedSearch(request):
+    driver_standardDict = {'driverComput': 'driver', 'standardGeneralized': 'standard', 'complexNumber':[], 'method': [], 'singularVectors': [], 'singleDouble':[]}
+    driver_generalizedDict = {'driverComput': 'driver', 'standardGeneralized': 'generalized', 'complexNumber':[], 'singularVectors': [], 'singleDouble':[]}
+    computational_standardDict = {'driverComput': 'computational', 'standardGeneralized': 'standard', 'function': [], 'complexNumber':[], 'method': [], 'singularVectors': [], 'singleDouble':[]}
+    computational_generalizedDict = {'driverComput': 'computational', 'standardGeneralized': 'generalized', 'function': [], 'complexNumber':[], 'singularVectors': [], 'singleDouble':[]}    
+    request.session['advancedResults'] = []
+    
     for item in request.session['advancedForms']:
         form = getattr(sys.modules[__name__], item+'_Form')(request.POST or None)
-        print form
-    context = {
-            'AdvancedTab': True,
-            'results': 'start',
-            'formHTML': "problemForm",
-            'form': "invalid",
-            'svd_guided_answered' : '',
-            'form1': driver_standard_Form(request.POST or None),
-            'form2': driver_generalized_Form(request.POST or None),
-            'form3': computational_standard_Form(request.POST or None),
-            'form4': computational_generalized_Form(request.POST or None),
-            #'formList': formList,
-            'col_no': request.session['col_no'],
-            #'form_submitted': form,
-    }
-    return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
+        if form.is_valid():
+            queryDict1 = {'driverComput': item.split('_')[0], 'standardGeneralized': item.split('_')[1]}
+            queryDict2 = {}
+            kwargs = {}
+            for index, value in form.fields.items():
+                queryDict2[index.split('_')[-1]] = form.cleaned_data[index]
+            print queryDict2
+            
+            for index, value in queryDict2.items():
+                for item in value:
+                    kwargs[index] = item
+                    print queryDict2.iterkeys()
+            
+        context = {
+                'AdvancedTab': True,
+                'results': 'start',
+                'formHTML': "problemForm",
+                'form': "invalid",
+                'svd_guided_answered' : '',
+                'form1': driver_standard_Form(request.POST or None),
+                'form2': driver_generalized_Form(request.POST or None),
+                'form3': computational_standard_Form(request.POST or None),
+                'form4': computational_generalized_Form(request.POST or None),
+                #'formList': formList,
+                'col_no': request.session['col_no'],
+                #'form_submitted': form,
+        }
+        return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
