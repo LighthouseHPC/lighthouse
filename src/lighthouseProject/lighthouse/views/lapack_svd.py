@@ -125,7 +125,8 @@ def guidedSearch(request):
                         'formHTML': formHTML,
                         'form': nextForm,
                         'svd_guided_answered' : request.session['svd_guided_answered'],
-                        'results' : request.session['Routines']
+                        'results' : request.session['Routines'],
+                        'advancedSearchMenuForm': advancedSearchMenuForm(),
                         }
             return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
     else:       
