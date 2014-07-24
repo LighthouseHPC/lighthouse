@@ -18,7 +18,10 @@
 <table id="routineListNode" style="width:100%; padding: 10px" >
   <tr>
     <th id="table_main_header">Category</th>
+    <th id="table_main_header">Standard/Generalized</th>
     <th id="table_main_header">Complex Numbers</th>
+    <th id="table_main_header">method</th>
+    <th id="table_main_header">Singular vectors</th>
     <th id="table_main_header">Precision</th>  
     <th id="table_main_header">Routine</th>
   </tr>
@@ -26,10 +29,19 @@
   <tr class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
        detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
     <td>
+      {{ item.driverComput }} 
+    </td>
+    <td>
       {{ item.standardGeneralized }}
     </td>
     <td>
       {{ item.complexNumber }}
+    </td>
+    <td>
+      {{ item.method }}
+    </td>
+    <td>
+      {{ item.singularVectors }}
     </td>
     <td>
       {{ item.singleDouble }}
@@ -88,5 +100,3 @@
   </tr>
   {% endfor %}
 </table>
-
-
