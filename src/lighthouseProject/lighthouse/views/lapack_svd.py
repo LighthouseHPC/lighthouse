@@ -46,17 +46,21 @@ def find_nextForm(currentForm_name, request):
     
 
 
-
-### start guided search views
-def index(request):
-    ## set up session keys and values
+### set up initial sessions
+def sessionSetup(request):
     for item in ['problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm']:
         key = 'svd_'+item[:-4]
         request.session[key] = ''    
     request.session['currentForm_name'] = 'problemForm'
     request.session['Routines'] = lapack_svd.objects.all()
-    request.session['svd_guided_answered'] = OrderedDict()  
-    request.session['advancedResults'] = []
+    request.session['svd_guided_answered'] = OrderedDict()    
+    
+    
+
+### start guided search views
+def index(request):
+    # set up session keys and values
+    sessionSetup(request)
     
     ## get ready for the template
     context = {
@@ -169,43 +173,57 @@ def advancedForm(request):
         return index(request)
         
         
-        
-        
+
+
+## for an arbitrary number of loops        
+def multi_for(iterables):
+    if not iterables:
+         yield ()
+    else:
+        for item in iterables[0]:
+            for rest_tuple in multi_for(iterables[1:]):
+                yield (item,) + rest_tuple
+                
+                
+                
         
 def advancedSearch(request):
-    driver_standardDict = {'driverComput': 'driver', 'standardGeneralized': 'standard', 'complexNumber':[], 'method': [], 'singularVectors': [], 'singleDouble':[]}
-    driver_generalizedDict = {'driverComput': 'driver', 'standardGeneralized': 'generalized', 'complexNumber':[], 'singularVectors': [], 'singleDouble':[]}
-    computational_standardDict = {'driverComput': 'computational', 'standardGeneralized': 'standard', 'function': [], 'complexNumber':[], 'method': [], 'singularVectors': [], 'singleDouble':[]}
-    computational_generalizedDict = {'driverComput': 'computational', 'standardGeneralized': 'generalized', 'function': [], 'complexNumber':[], 'singularVectors': [], 'singleDouble':[]}    
     request.session['advancedResults'] = []
-    
     for item in request.session['advancedForms']:
         form = getattr(sys.modules[__name__], item+'_Form')(request.POST or None)
+        queryDict2 = {}
+        kwargs = {}
+        modelFieldList = []
+        rangeList = []
         if form.is_valid():
-            queryDict1 = {'driverComput': item.split('_')[0], 'standardGeneralized': item.split('_')[1]}
-            queryDict2 = {}
-            kwargs = {}
             for index, value in form.fields.items():
                 queryDict2[index.split('_')[-1]] = form.cleaned_data[index]
-            print queryDict2
+                rangeList.append(len(form.cleaned_data[index]))
+                modelFieldList.append(index.split('_')[-1])
             
-            for index, value in queryDict2.items():
-                for item in value:
-                    kwargs[index] = item
-                    print queryDict2.iterkeys()
-            
-        context = {
-                'AdvancedTab': True,
-                'results': 'start',
-                'formHTML': "problemForm",
-                'form': "invalid",
-                'svd_guided_answered' : '',
-                'form1': driver_standard_Form(request.POST or None),
-                'form2': driver_generalized_Form(request.POST or None),
-                'form3': computational_standard_Form(request.POST or None),
-                'form4': computational_generalized_Form(request.POST or None),
-                #'formList': formList,
-                'col_no': request.session['col_no'],
-                #'form_submitted': form,
-        }
-        return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
+            for i in multi_for(map(xrange, rangeList)):
+                kwargs = {'driverComput': item.split('_')[0], 'standardGeneralized': item.split('_')[1]}
+                for model, answer in zip(modelFieldList, i):
+                    lookup = "%s__contains" % model
+                    kwargs.update({lookup: queryDict2[model][answer]})
+                print kwargs
+                request.session['advancedResults'].extend(lapack_svd_advanced.objects.filter(**kwargs))
+
+    ## be ready for switching to guided search
+    sessionSetup(request)
+    
+    context = {
+            'AdvancedTab': True,
+            'results': 'start',
+            'formHTML': "problemForm",
+            'form': "invalid",
+            'svd_guided_answered' : '',
+            'form_submitted': 'yes',
+            'form1': driver_standard_Form(request.POST or None),
+            'form2': driver_generalized_Form(request.POST or None),
+            'form3': computational_standard_Form(request.POST or None),
+            'form4': computational_generalized_Form(request.POST or None),
+            'results': request.session['advancedResults'],
+            'col_no': request.session['col_no'],
+    }
+    return render_to_response('lighthouse/lapack_svd/index.html', context_instance=RequestContext(request, context))
