@@ -207,10 +207,6 @@ def advancedSearch(request):
                 for model, answer in zip(modelFieldList, i):
                     kwargs.update({model: queryDict2[model][answer]})
                     
-                if kwargs['function'] and 'svd' not in kwargs['function']:    
-                    kwargs['singularVectors'] = 'none'
-                    kwargs['method'] = 'none'
-                    print kwargs
                 request.session['advancedResults'].extend(lapack_svd_advanced.objects.filter(**kwargs))
 
     ## be ready for switching to guided search
