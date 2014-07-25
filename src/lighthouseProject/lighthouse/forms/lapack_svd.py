@@ -119,11 +119,19 @@ class computational_standard_Form(forms.Form):
 					    choices=(
 						(u'QR',				u'QR algorithm'),
 						(u'divide-and-conquer',		u'divide and conquer'),
-						)
+						(u'none',			u'none'),
+						),
+					    initial = (u'none',			u'none')
 					    )
-    computational_standard_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_standard_singularVectors = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(),
+					    choices=NOYESNONE_CHOICES,
+					    initial = NOYESNONE_CHOICES[2]
+					    )
     computational_standard_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
-   
+	
+	
+	
    
 ##--- for computational generalized ---##
 class computational_generalized_Form(forms.Form):
@@ -132,5 +140,9 @@ class computational_generalized_Form(forms.Form):
     computational_generalized_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
     computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_method = 'QR algorithm'
-    computational_generalized_singularVectors = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_singularVectors = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(),
+					    choices=NOYESNONE_CHOICES,
+					    initial = NOYESNONE_CHOICES[2]
+					    )
     computational_generalized_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
