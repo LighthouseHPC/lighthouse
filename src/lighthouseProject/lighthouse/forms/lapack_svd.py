@@ -78,6 +78,18 @@ class singleDoubleForm(forms.Form):
     
     
 ######-------- For advanced Search --------######
+from django import forms
+from django.utils.safestring import mark_safe
+class CustomCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
+    def render(self, *args, **kwargs):
+        output = super(CustomCheckboxSelectMultiple, self).render(*args,**kwargs)
+        return mark_safe(output.replace('type="checkbox"', 'type="checkbox" onclick=myfunction(this);'))
+
+    
+    
+    
+    
+
 class advancedSearchMenuForm(forms.Form):
     advancedSearchMenu = forms.MultipleChoiceField(
 	label = "Which of the following routine categories would you like to search?",
@@ -115,7 +127,7 @@ class computational_standard_Form(forms.Form):
     computational_standard_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
     computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_method = forms.MultipleChoiceField(
-					    widget=forms.CheckboxSelectMultiple(),
+					    widget=CustomCheckboxSelectMultiple(),
 					    choices=(
 						(u'QR',				u'QR algorithm'),
 						(u'divide-and-conquer',		u'divide and conquer'),

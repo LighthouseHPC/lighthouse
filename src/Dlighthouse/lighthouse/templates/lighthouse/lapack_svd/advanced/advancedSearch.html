@@ -139,7 +139,7 @@
       
     </tr>
     <tr>
-      <td class="a">Singular vectors</td>
+      <td class="a">SVD with singular vectors</td>
       <td> {{ form1.driver_standard_singularVectors }} </td>
       <td> {{ form2.driver_generalized_singularVectors }} </td>
       <td> {{ form3.computational_standard_singularVectors }} </td>
@@ -191,4 +191,13 @@
 	  cels[{{ col_no }}[i]].style.display='none';
       }
     }  
+</script>
+<script>
+  function myfunction(pass) {
+    console.log(document.getElementById("id_computational_standard_function_4").checked);
+    if (document.getElementById("id_computational_standard_function_4").checked == false && pass.checked == true) {
+          alert("Notice: this is only for SVD!");
+    }
+
+  }
 </script>
