@@ -5,26 +5,24 @@
                 <table cellspacing="20" >
                     <form dojoType="dijit.form.Form" id="scriptForm" name="scriptform" action="" method="POST">
                     <tr>
-                        <td>
+                        <td valign="top">
                             <label for="scriptEquation"><strong>Equation(s):</strong>
                             </label>
-                        </td>
-                        <td>
+                        </td><td>
                             <textarea id="scriptEquation" required="true" name="scriptEquation"
                                       cols="30" rows="5" placeHolder="One equation per line"></textarea>
                         </td>
                     </tr><tr>
                         <td>
                             <label for="kernelName"><strong>Kernel/Function Name:</strong></label>
-                        </td>
-                        <td>
+                        </td><td>
                             <input id="kernelName" dojoType="dijit.form.ValidationTextBox"
                                    type="text" required="true" name="kernelName" 
                                    missingMessage="Oops! You forgot to name your kernel!" />                            
                         </td>
                     </tr><tr>
                         <td>
-                            <label for="btoArgs"><strong><a href="./args">Commandline args to pass to BTO</a>:</strong></label>
+                            <label for="btoArgs"><strong><a href="./args">Commandline args</a> to pass to BTO:</strong></label>
                         </td>
                     </tr><tr>
 
@@ -48,16 +46,18 @@
 				            </div><br />
                             <input type="radio" id="search_ga" name="search_type" value="1" checked onClick="javascript:show_ga_opts();" />&nbsp;<label for="search_ga">Genetic Algorithm (recommended)</label><br />
                             <input type="radio" id="search_ex" name="search_type" value="2" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_ex">Exhaustive (very long running time)</label><br />
+                            <input type="test" id="limit" value="6" style="width:3em;" />
+                            <label for="limit">Exhaustive search time limit (min)</label><br />
                             <input type="radio" id="search_rand" name="search_type" value="3" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_rand">Random</label><br />
                             <input type="radio" id="search_ortho" name="search_type" value="4" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_ortho">Orthogonal</label><br />
                             <input type="radio" id="search_thread" name="search_type" value="5" onClick="javascript:hide_ga_opts();" />&nbsp;<label for="search_thread">Thread Search</label>
                         </td><td valign="top">
                             <span id="ga_specific">
-                                <strong><i>Genetic Algorithm-specific options</i>:</strong><br />
+                                <strong><i>Genetic Algorithm advanced options</i>:</strong><br />
                                 <input type="checkbox" id="ga_nomaxfuse" />&nbsp;<label for="ga_nomaxfuse">Disable maximum loop fusion</label><br />
                                 <input type="checkbox" id="ga_noglobalthread" />&nbsp;<label for="ga_noglobalthread">Disable global Thread search</label><br />
-                                <input type="checkbox" id="ga_exthread" />&nbsp;<label for="ga_exthread">Additional Exhaustive search</label><br />
-                                <input type="text" id="ga_timelimit" value="10" style="width:3em;" />&nbsp;<label for="ga_timelimit">Time limit per version</label><br />
+                                <input type="checkbox" id="ga_exthread" />&nbsp;<label for="ga_exthread">Additional exhaustive Thread search</label><br />
+                                <input type="text" id="ga_timelimit" value="10" style="width:3em;" />&nbsp;<label for="ga_timelimit">Search time (s)</label><br />
                                 <input type="text" id="ga_popsize" value="10" style="width:3em;" />&nbsp;<label for="ga_popsize">Population size</label><br />
 
                             </span>
@@ -171,8 +171,11 @@
 
                             <input type="text" id="level1" name="level1" value="thread 2:8:2">&nbsp;Level 1 (outer/primary)<br />
                             <input type="text" id="level2" name="level2" value="">&nbsp;Level 2 (inner)<br />
-
-
+                        </td>
+                    </tr><tr>
+                        <td>
+                            <label for="addtl"><strong>Additional args to send</strong></label><br />
+                            <input type="text" id="addtl" value="" />
                         </td>
                     </tr><tr>
                         <td align="left">

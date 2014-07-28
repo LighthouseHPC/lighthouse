@@ -12,13 +12,13 @@ from utils import change_workdir, remove_workdir
 class BTO_Server(BaseServer):
     
     def __init__(self, btodir, u ,r , btoblas='./bin/btoblas'):
-        self.legal_options = 'aecmt:r:s:p'
+        self.legal_options = 'aecmt:r:s:pl:'
         self.legal_longoptions = ['precision=', 'empirical_off',
             'correctness', 'use_model', 'threshold=',
             'level1=', 'level2=', 'test_param=', 'search=',
             'ga_timelimit=', 'empirical_reps=', 'delete_tmp',
             'ga_popsize=', 'ga_nomaxfuse', 'ga_noglobalthread',
-            'ga_exthread', 'partition_off']
+            'ga_exthread', 'partition_off', 'limit=']
         self.bto_dir = btodir
         self.users = u
         self.req_id = r
@@ -231,7 +231,7 @@ class BTORequestHandler(BaseServer):
                 message = message + trunc + '\n'
             else:
                 message = message + bto_out
-            message = message + "--- END  output from btoblas---\n\n"
+            message = message + "\n--- END  output from btoblas---\n\n"
             report_err(message, filename)
 
         leave(pid)

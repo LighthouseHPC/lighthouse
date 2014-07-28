@@ -912,6 +912,11 @@
         opt = dojo.byId("search_ex");
         if(opt.checked == true) {
             szArgs += " ex";
+
+            opt = dojo.byId("limit").value;
+            if(opt != "") {
+                szArgs += " --limit " + Math.floor(opt);
+            }
         }
 
         opt = dojo.byId("search_rand");
@@ -992,6 +997,11 @@
         if(opt != "") {
             szArgs += " --level2 ";
             szArgs += opt.replace(/\s/g, ''); // same as above here
+        }
+
+        opt = dojo.byId("addtl").value;
+        if(opt != "") {
+            szArgs += " " + opt + ' ';
         }
 
         kernel.push(szArgs);
