@@ -20,49 +20,6 @@
       data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
       onSubmit="return formValid();">
   {% csrf_token %}
-  <script>
-      function formValid(){
-	  ////check whether radio buttons are checked
-	  if (document.getElementById("id_driver_standard_search_1").checked == false && document.getElementById("id_driver_generalized_search_1").checked == false) {
-	    alert("Select at least one category to search in.");
-	    return false;
-	  }
-	  ////check whether "Complex numbers" and "Precision" are checked for Standard
-	  if(document.getElementById("id_driver_standard_search_1").checked){
-	    var complexNumber_check1 = dojo.query('INPUT[name=standard_complexNumber]').filter(function(n){return n.checked;}).length;
-	    var singleDouble_check1 = dojo.query('INPUT[name=standard_singleDouble]').filter(function(n){return n.checked;}).length;
-	    if (complexNumber_check1 == 0 && singleDouble_check1 > 0){
-		alert("Check at least one box in the Complex Number cell in Standard Sylvester column.");
-		return false;
-	    }
-	    else if (singleDouble_check1 == 0 && complexNumber_check1 > 0){
-		alert("Check at least one box in the Precision cell in Standard Sylvester column.");
-		return false;
-	    }
-	    else if (singleDouble_check1 == 0 && complexNumber_check1 == 0){
-		alert("Check at least one box in the Complex Number and Precision cells in Standard Sylvester column.");
-		return false;
-	    }	
-	  }
-	  ////check whether "Complex numbers" and "Precision" are checked for Generalized
-	  if(document.getElementById("id_driver_generalized_search_1").checked){
-	    var complexNumber_check2 = dojo.query('INPUT[name=generalized_complexNumber]').filter(function(n){return n.checked;}).length;
-	    var singleDouble_check2 = dojo.query('INPUT[name=generalized_singleDouble]').filter(function(n){return n.checked;}).length;
-	    if (complexNumber_check2 == 0 && singleDouble_check2 > 0){
-		alert("Check at least one box in the Complex Number cell in the Generalized Sylvester column.");
-		return false;
-	    }
-	    else if (singleDouble_check2 == 0 && complexNumber_check2 > 0){
-		alert("Check at least one box in the Precision cell in the Generalized Sylvester column.");
-		return false;
-	    }
-	    else if (singleDouble_check2 == 0 && complexNumber_check2 == 0){
-		alert("Check at least one box in the Complex Number and Precision cells in the Generalized Sylvester column.");
-		return false;
-	    }
-	  }	  
-      }
-  </script>
   <table id='ver-zebra'>
     <!-- Colgroup -->
     <colgroup>
@@ -181,23 +138,50 @@
 </form>
 
 <script>
+    //// hide columns
     var tbl  = document.getElementById('ver-zebra');
     var rows = tbl.getElementsByTagName('tr');
-
     for (var row=0; row<rows.length; row++) {
       var cels = rows[row].getElementsByTagName('td');
       for (i=0; i<{{ col_no }}.length; i++) {
-
 	  cels[{{ col_no }}[i]].style.display='none';
       }
     }  
 </script>
 <script>
-  function myfunction(pass) {
-    console.log(document.getElementById("id_computational_standard_function_4").checked);
-    if (document.getElementById("id_computational_standard_function_4").checked == false && pass.checked == true) {
-          alert("Notice: this is only for SVD!");
+    //// multiple checkbox validation
+    function formValid(){
+      {% for formName, fields in formDict.items %}
+	{% for field in fields %}
+	      var ifchecked = dojo.query('INPUT[name={{field}}]').filter(function(n){return n.checked;}).length;
+	      if (ifchecked == 0){
+		  ////split each field name to three words and put them in an array called split
+		  var split = "{{ field }}".split(/[ _]+/);
+		  
+		  ////capitalize the first letter of each word in array split
+		  var capitalized = [];
+		  for (var i=0; i<3; i++){
+		    capitalized[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
+		    }
+		  
+		  ////change 'SingleDouble' to 'Precision'
+		  if (capitalized[2] == 'SingleDouble'){
+		      capitalized[2] = 'Precision';
+		  }
+		  
+		  alert("Check at least one box in the "+capitalized[2]+" field in the "+capitalized[0]+"_"+capitalized[1]+" column.");
+		  return false;
+	      }	
+	  {% endfor %}
+	{% endfor %}
     }
+    
+    //// handle the situation of none-svd routines
+    function myfunction(pass) {
+      console.log(document.getElementById("id_computational_standard_function_4").checked);
+      if (document.getElementById("id_computational_standard_function_4").checked == false && pass.checked == true) {
+	    alert("Notice: this is only for SVD!");
+      }
 
   }
 </script>
