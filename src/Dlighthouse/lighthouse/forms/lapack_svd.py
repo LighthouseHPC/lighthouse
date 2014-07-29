@@ -78,18 +78,6 @@ class singleDoubleForm(forms.Form):
     
     
 ######-------- For advanced Search --------######
-from django import forms
-from django.utils.safestring import mark_safe
-class CustomCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
-    def render(self, *args, **kwargs):
-        output = super(CustomCheckboxSelectMultiple, self).render(*args,**kwargs)
-        return mark_safe(output.replace('type="checkbox"', 'type="checkbox" onclick=myfunction(this);'))
-
-    
-    
-    
-    
-
 class advancedSearchMenuForm(forms.Form):
     advancedSearchMenu = forms.MultipleChoiceField(
 	label = "Which of the following routine categories would you like to search?",
@@ -127,7 +115,7 @@ class computational_standard_Form(forms.Form):
     computational_standard_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
     computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_method = forms.MultipleChoiceField(
-					    widget=CustomCheckboxSelectMultiple(),
+					    widget=forms.CheckboxSelectMultiple(attrs={'onclick':'SVDfunction(this, "id_computational_standard_function_4");'}),
 					    choices=(
 						(u'QR',				u'QR algorithm'),
 						(u'divide-and-conquer',		u'divide and conquer'),
@@ -136,7 +124,7 @@ class computational_standard_Form(forms.Form):
 					    initial = (u'none',			u'none')
 					    )
     computational_standard_singularVectors = forms.MultipleChoiceField(
-					    widget=forms.CheckboxSelectMultiple(),
+					    widget=forms.CheckboxSelectMultiple(attrs={'onclick':'SVDfunction(this, "id_computational_standard_function_4");'}),
 					    choices=NOYESNONE_CHOICES,
 					    initial = NOYESNONE_CHOICES[2]
 					    )
@@ -153,7 +141,7 @@ class computational_generalized_Form(forms.Form):
     computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_method = 'QR algorithm'
     computational_generalized_singularVectors = forms.MultipleChoiceField(
-					    widget=forms.CheckboxSelectMultiple(),
+					    widget=forms.CheckboxSelectMultiple(attrs={'onclick':'SVDfunction(this, "id_computational_standard_function_4");'}),
 					    choices=NOYESNONE_CHOICES,
 					    initial = NOYESNONE_CHOICES[2]
 					    )

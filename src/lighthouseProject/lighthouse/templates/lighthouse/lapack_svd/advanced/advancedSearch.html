@@ -56,14 +56,10 @@
 	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
       </td>
       <td>	
-	  {% for checkbox in form3.computational_standard_function %}
-	    {{ checkbox }}
-	  {% endfor %}
+	  {{ form3.computational_standard_function }}
       </td>
       <td>
-	  {% for checkbox in form4.computational_generalized_function %}
-	    {{ checkbox }}
-	  {% endfor %}
+	  {{ form4.computational_generalized_function }}
       </td> 
     </tr>
     <tr>
@@ -85,15 +81,12 @@
 	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
       </td>
       <td>
-	  {% for checkbox in form3.computational_standard_method %}
-	    {{ checkbox }}
-	  {% endfor %}
+	  {{ form3.computational_standard_method }}
       </td>
       <td>
 	  {{ form4.computational_generalized_method }}
 	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
       </td>
-      
     </tr>
     <tr>
       <td class="a">SVD with singular vectors</td>
@@ -177,11 +170,9 @@
     }
     
     //// handle the situation of none-svd routines
-    function myfunction(pass) {
-      console.log(document.getElementById("id_computational_standard_function_4").checked);
-      if (document.getElementById("id_computational_standard_function_4").checked == false && pass.checked == true) {
-	    alert("Notice: this is only for SVD!");
+    function SVDfunction(pass, svd) {
+      if (document.getElementById(svd).checked == false && pass.checked == true) {
+	    alert('Warning: this field applies only when the "compute the SVD ..." box is checked!');
       }
-
   }
 </script>
