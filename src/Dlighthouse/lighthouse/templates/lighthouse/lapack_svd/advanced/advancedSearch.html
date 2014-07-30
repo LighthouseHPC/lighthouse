@@ -147,24 +147,28 @@
       {% for formName, fields in formDict.items %}
 	{% for field in fields %}
 	      var ifchecked = dojo.query('INPUT[name={{field}}]').filter(function(n){return n.checked;}).length;
-	      if (ifchecked == 0){
-		  ////split each field name to three words and put them in an array called split
-		  var split = "{{ field }}".split(/[ _]+/);
-		  
-		  ////capitalize the first letter of each word in array split
-		  var capitalized = [];
-		  for (var i=0; i<3; i++){
-		    capitalized[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
-		    }
-		  
-		  ////change 'SingleDouble' to 'Precision'
-		  if (capitalized[2] == 'SingleDouble'){
-		      capitalized[2] = 'Precision';
+	      var split = "{{ field }}".split(/[ _]+/);		////split each field name to three words and put them in an array called split
+	      if (ifchecked == 0){ 
+		////capitalize the first letter of each word in array split
+		var capitalized = [];
+		for (var i=0; i<3; i++){
+		  capitalized[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
 		  }
-		  
-		  alert("Check at least one box in the "+capitalized[2]+" field in the "+capitalized[0]+"_"+capitalized[1]+" column.");
-		  return false;
-	      }	
+		
+		////change 'SingleDouble' to 'Precision'
+		if (capitalized[2] == 'SingleDouble'){
+		    capitalized[2] = 'Precision';
+		}
+		
+		alert("Check at least one box in the "+capitalized[2]+" field in the "+capitalized[0]+"_"+capitalized[1]+" column.");
+		return false;
+	      }
+	//      else if (ifchecked == 1 && split[2] == 'method'){
+	//	if (formName == 'computational_standard' && document.getElementById('id_computational_standard_function_4').checked == true
+	//	alert("No!");
+	//	return false;
+	//	
+	//      }
 	  {% endfor %}
 	{% endfor %}
     }
@@ -172,7 +176,7 @@
     //// handle the situation of none-svd routines
     function SVDfunction(pass, svd) {
       if (document.getElementById(svd).checked == false && pass.checked == true) {
-	    alert('Warning: this field applies only when the "compute the SVD ..." box is checked!');
+	    alert('Attention! This field applies only when the "compute the SVD ..." box is checked!');
       }
   }
 </script>
