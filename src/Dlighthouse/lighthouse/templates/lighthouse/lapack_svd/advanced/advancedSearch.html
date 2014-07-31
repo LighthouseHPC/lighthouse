@@ -168,6 +168,13 @@
 	}
       }
     }
+    
+    //// hide 'none' inputs (note: 'none' is needed for "if form.is_valid()")
+    var inputs = document.getElementsByTagName('input');
+    for (var i=0; i<inputs.length; i++){
+      if (inputs[i].value == 'none')
+	inputs[i].style.display='none';
+    }
 </script>    
 
 <script>
