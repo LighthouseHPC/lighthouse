@@ -143,7 +143,7 @@ def guidedSearch(request):
 ##############################################
 def advancedForm(request):
     request.session['advancedForms'] = []
-    formDict = {}                                                   ##store formNames and corresponding fields --> {formName: [list, of, fields]}  
+    request.session['formDict'] = {}                                ##store formNames and corresponding fields --> {formName: [list, of, fields]}  
     request.session['col_no'] = [1,2,3,4]                           ## col_no is the column(s) to hide
     form_col = {'driver_standard': 1, 'driver_generalized': 2, 'computational_standard': 3, 'computational_generalized': 4}
         
@@ -154,12 +154,12 @@ def advancedForm(request):
             request.session['advancedForms'].append(item)           ## store selected forms for displaying bound forms
             request.session['col_no'].remove(form_col[item])        ## remove column(s) that are needed from col_no list
             
-            ## construct formDict for form validation
+            ## construct request.session['formDict'] for form validation
             fieldList = []
             itemForm = getattr(sys.modules[__name__], item+'_Form')()
             for index, value in itemForm.fields.items():
                 fieldList.append(index)
-            formDict[item] = fieldList
+            request.session['formDict'][item] = fieldList
 
         ## context includes guided search form    
         context = {
@@ -168,7 +168,7 @@ def advancedForm(request):
             'form2': driver_generalized_Form(),
             'form3': computational_standard_Form(),
             'form4': computational_generalized_Form(),
-            'formDict': formDict,
+            'formDict': request.session['formDict'],
             'results': 'start',
             'col_no': request.session['col_no'],
             'formHTML': "problemForm",
@@ -226,6 +226,7 @@ def advancedSearch(request):
             'form2': driver_generalized_Form(request.POST or None),
             'form3': computational_standard_Form(request.POST or None),
             'form4': computational_generalized_Form(request.POST or None),
+            'formDict': request.session['formDict'],
             'results': request.session['advancedResults'],
             'col_no': request.session['col_no'],
             'formHTML': "problemForm",

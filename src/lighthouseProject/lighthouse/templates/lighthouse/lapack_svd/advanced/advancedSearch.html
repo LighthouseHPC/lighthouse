@@ -171,33 +171,41 @@
 </script>    
 
 <script>
-    //// multiple checkbox validation
+    //// multiplecheckbox validation
     function formValid(){
       {% for formName, fields in formDict.items %}
 	{% for field in fields %}
 	      var ifchecked = dojo.query('INPUT[name={{field}}]').filter(function(n){return n.checked;}).length;
 	      var split = "{{ field }}".split(/[ _]+/);		////split each field name to three words and put them in an array called split
-	      if (ifchecked == 0){ 
-		////capitalize the first letter of each word in array split
-		var capitalized = [];
-		for (var i=0; i<3; i++){
-		  capitalized[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
-		  }
-		
-		////change 'SingleDouble' to 'Precision'
-		if (capitalized[2] == 'SingleDouble'){
-		    capitalized[2] = 'Precision';
+	      
+	      if ( "{{ field }}" == "computational_standard_method" || "{{ field }}" == "computational_standard_singularVectors"){
+		if (ifchecked == 1 && document.getElementById('id_computational_standard_function_4').checked == true){
+		  var uppercase = split[2].charAt(0).toUpperCase() + split[2].slice(1); 
+		  alert("Check at least one box in the "+ uppercase +" field in the Computational_Standard column.");
+		  return false;
 		}
-		
-		alert("Check at least one box in the "+capitalized[2]+" field in the "+capitalized[0]+"_"+capitalized[1]+" column.");
-		return false;
 	      }
-	//      else if (ifchecked == 1 && split[2] == 'method'){
-	//	if (formName == 'computational_standard' && document.getElementById('id_computational_standard_function_4').checked == true
-	//	alert("No!");
-	//	return false;
-	//	
-	//      }
+	      else if ( "{{ field }}" == "computational_generalized_singularVectors"){
+		if (ifchecked == 1 && document.getElementById('id_computational_generalized_function_1').checked == true){
+		  alert("Check at least one box in the SingularVectors field in the Computational_Generalized column.");
+		  return false;
+		}
+	      }
+	      else {
+		if (ifchecked == 0){ 
+		  ////capitalize the first letter of each word in array split
+		  var capitalized = [];
+		  for (var i=0; i<3; i++){
+		    capitalized[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
+		    }		  
+		  ////change 'SingleDouble' to 'Precision'
+		  if (capitalized[2] == 'SingleDouble'){
+		      capitalized[2] = 'Precision';
+		  }		  
+		  alert("Check at least one box in the "+capitalized[2]+" field in the "+capitalized[0]+"_"+capitalized[1]+" column.");
+		  return false;
+		}
+	      }
 	  {% endfor %}
 	{% endfor %}
     }
