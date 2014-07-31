@@ -63,13 +63,6 @@
       </td> 
     </tr>
     <tr>
-      <td class="a">Complex number</td>
-      <td> {{ form1.driver_standard_complexNumber }} </td>
-      <td> {{ form2.driver_generalized_complexNumber }} </td>
-      <td> {{ form3.computational_standard_complexNumber }} </td>
-      <td> {{ form4.computational_generalized_complexNumber }} </td>
-    </tr>
-    <tr>
       <td class="a">Method for SVD</td>
       <td>
 	  {% for checkbox in form1.driver_standard_method %}
@@ -80,20 +73,38 @@
 	  {{ form2.driver_generalized_method }}
 	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
       </td>
-      <td>
+      <td class="b">
+	<span style="display: none;">
 	  {{ form3.computational_standard_method }}
+	</span>
       </td>
-      <td>
+      <td class="b">
+	<span style="display: none;">
 	  {{ form4.computational_generalized_method }}
-	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
+	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	</span>
       </td>
     </tr>
     <tr>
       <td class="a">SVD with singular vectors</td>
       <td> {{ form1.driver_standard_singularVectors }} </td>
       <td> {{ form2.driver_generalized_singularVectors }} </td>
-      <td> {{ form3.computational_standard_singularVectors }} </td>
-      <td> {{ form4.computational_generalized_singularVectors }} </td>   
+      <td class="b">
+	<span style="display: none;">
+	  {{ form3.computational_standard_singularVectors }}
+	</span>
+      </td>
+      <td class="b">
+	<span style="display: none;">
+	  {{ form4.computational_generalized_singularVectors }} </td>
+	</span>
+    </tr>
+    <tr>
+      <td class="a">Complex number</td>
+      <td> {{ form1.driver_standard_complexNumber }} </td>
+      <td> {{ form2.driver_generalized_complexNumber }} </td>
+      <td> {{ form3.computational_standard_complexNumber }} </td>
+      <td> {{ form4.computational_generalized_complexNumber }} </td>
     </tr>
     <tr>
       <td class="a">Precision</td>
@@ -130,7 +141,7 @@
   </div>
 </form>
 
-<script>
+<script>  
     //// hide columns
     var tbl  = document.getElementById('ver-zebra');
     var rows = tbl.getElementsByTagName('tr');
@@ -176,7 +187,7 @@
     //// handle the situation of none-svd routines
     function SVDfunction(pass, svd) {
       if (document.getElementById(svd).checked == false && pass.checked == true) {
-	    alert('Attention! This field applies only when the "compute the SVD ..." box is checked!');
+	    alert('Attention! This field applies only when the "compute the SVD ..." box is checked.');
       }
   }
 </script>
