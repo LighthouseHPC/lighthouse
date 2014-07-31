@@ -74,12 +74,12 @@
 	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span> 	
       </td>
       <td class="b">
-	<span style="display: none;">
+	<span class="showUL_computational_standard_function_4">
 	  {{ form3.computational_standard_method }}
 	</span>
       </td>
       <td class="b">
-	<span style="display: none;">
+	<span class="showUL_computational_generalized_function_1">
 	  {{ form4.computational_generalized_method }}
 	    <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
 	</span>
@@ -90,12 +90,12 @@
       <td> {{ form1.driver_standard_singularVectors }} </td>
       <td> {{ form2.driver_generalized_singularVectors }} </td>
       <td class="b">
-	<span style="display: none;">
+	<span class="showUL_computational_standard_function_4">
 	  {{ form3.computational_standard_singularVectors }}
 	</span>
       </td>
       <td class="b">
-	<span style="display: none;">
+	<span class="showUL_computational_generalized_function_1">
 	  {{ form4.computational_generalized_singularVectors }} </td>
 	</span>
     </tr>
@@ -150,8 +150,28 @@
       for (i=0; i<{{ col_no }}.length; i++) {
 	  cels[{{ col_no }}[i]].style.display='none';
       }
-    }  
-</script>
+    }
+
+    //// hide/show the computational method and singularVector fields at loading
+    wordList = ["computational_standard_function_4", "computational_generalized_function_1"]
+    for (var i=0; i<wordList.length; i++) {
+      if (document.getElementById("id_"+wordList[i]).checked == false) {
+	var className = "showUL_"+wordList[i];
+	var classElements = document.getElementsByClassName(className);
+	for (var j=0; j<classElements.length; j++){
+	  classElements[j].style.display='none';
+	}
+      }
+      else {
+	var className = "showUL_"+wordList[i];
+	var classElements = document.getElementsByClassName(className);
+	for (var j=0; j<classElements.length; j++){
+	  classElements[j].style.display='';
+	}
+      }
+    }
+</script>    
+
 <script>
     //// multiple checkbox validation
     function formValid(){
@@ -189,5 +209,21 @@
       if (document.getElementById(svd).checked == false && pass.checked == true) {
 	    alert('Attention! This field applies only when the "compute the SVD ..." box is checked.');
       }
-  }
+    }  
+      
+    //// show/hide computational method/singularVectors options upon clicking the svd function
+    function showSVD(svd, className) {
+      var elements = document.getElementsByClassName(className);
+      if (document.getElementById(svd).checked == true){	
+	for (var i=0; i<elements.length; i++){
+	  elements[i].style.display='';
+	}
+      }    
+      else {
+	for (var i=0; i<elements.length; i++){
+	  elements[i].style.display='none';
+	}	
+      }
+      
+    }
 </script>

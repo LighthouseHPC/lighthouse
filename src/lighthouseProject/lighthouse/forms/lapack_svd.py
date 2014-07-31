@@ -112,7 +112,10 @@ class driver_generalized_Form(forms.Form):
 class computational_standard_Form(forms.Form):
     computational_standard_driverComput = 'Computational'
     computational_standard_standardGeneralized = 'Standard'
-    computational_standard_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_STANDARD_CHOICES)
+    computational_standard_function = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(attrs={'onchange':'showSVD("id_computational_standard_function_4", "showUL_computational_standard_function_4");'}),
+					    choices=FUNCTION_STANDARD_CHOICES
+					    )
     computational_standard_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_method = forms.MultipleChoiceField(
 					    widget=forms.CheckboxSelectMultiple(attrs={'onclick':'SVDfunction(this, "id_computational_standard_function_4");'}),
@@ -137,11 +140,14 @@ class computational_standard_Form(forms.Form):
 class computational_generalized_Form(forms.Form):
     computational_generalized_driverComput = 'Computational'
     computational_generalized_standardGeneralized = 'Generalized'
-    computational_generalized_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_GENERALIZED_CHOICES)
+    computational_generalized_function = forms.MultipleChoiceField(
+					    widget=forms.CheckboxSelectMultiple(attrs={'onchange':'showSVD("id_computational_generalized_function_1", "showUL_computational_generalized_function_1");'}),
+					    choices=FUNCTION_GENERALIZED_CHOICES
+					    )
     computational_generalized_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_method = 'QR algorithm'
     computational_generalized_singularVectors = forms.MultipleChoiceField(
-					    widget=forms.CheckboxSelectMultiple(attrs={'onclick':'SVDfunction(this, "id_computational_standard_function_4");'}),
+					    widget=forms.CheckboxSelectMultiple(attrs={'onclick':'SVDfunction(this, "id_computational_generalized_function_1");'}),
 					    choices=NOYESNONE_CHOICES,
 					    initial = NOYESNONE_CHOICES[2]
 					    )
