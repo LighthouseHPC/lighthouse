@@ -271,7 +271,7 @@
 				<td class="routineInfo">{{ list.items.5.1 }}</td>
 				<td class="routineInfo">{{ list.items.1.1 }}</td>
 				<td class="routineInfo">{{ list.items.6.1 }}</td>
-				<td >
+				<td style="padding: 0px;">
 					{% if list.items.2.1 %}
 						{% for routine in list.items.2.1 %}
 						<div id="sel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"
@@ -344,7 +344,7 @@
 				<td class="routineInfo">{{ list.items.5.1 }}</td>
 				<td class="routineInfo">{{ list.items.1.1 }}</td>
 				<td class="routineInfo">{{ list.items.6.1 }}</td>
-				<td >
+				<td style="padding: 0px;">
 				{% if list.items.2.1 %}
 					{% for routine in list.items.2.1 %}
 					<div id="nsel_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"

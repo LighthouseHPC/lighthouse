@@ -34,32 +34,34 @@
     <td>
       {{ item.singleDouble }}
     </td>
-    <td>
-	<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px;">
-		<tr>					
-			<td class="hiddenStuff">
-				<input type="checkbox" name="routines"
-				       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
-				       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
-				       <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
-			</td>
-			<td style="font-weight: bold;" title="Drag and drop in Work Area for code generation">
-				{{ item.thePrecision|upper }}{{ item.routineName|upper }}
-			</td>
-			<td >
-				<img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
-				     onclick="dijit.byId('adv_{{ item.id }}').show()"/>	
-			</td>
-			<td class="hiddenStuff">
-				<img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
-				     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
-			</td>
-			<td class="hiddenStuff">                                            
-				<img src={% static "images/move.png" %} width="15" height="15" title="Move up and down"
-				     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
-			</td>
-		</tr>
-	</table>			
+    <td style="padding: 0px;">
+	<div class="routineName">
+	  <table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px;">
+		  <tr>					
+			  <td class="hiddenStuff">
+				  <input type="checkbox" name="routines"
+					 value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
+					 id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
+					 <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
+			  </td>
+			  <td style="font-weight: bold;" title="Drag and drop in Work Area for code generation">
+				  {{ item.thePrecision|upper }}{{ item.routineName|upper }}
+			  </td>
+			  <td >
+				  <img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
+				       onclick="dijit.byId('adv_{{ item.id }}').show()"/>	
+			  </td>
+			  <td class="hiddenStuff">
+				  <img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
+				       onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+			  </td>
+			  <td class="hiddenStuff">                                            
+				  <img src={% static "images/move.png" %} width="15" height="15" title="Move up and down"
+				       onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+			  </td>
+		  </tr>
+	  </table>
+	</div>
 	<div class="dijitHidden">
 		<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 			<div align="center">
