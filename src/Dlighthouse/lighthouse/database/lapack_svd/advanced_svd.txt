@@ -1,58 +1,58 @@
-1	s	gesvd	driver	standard	svd	QR	no	general	full	no	single	465
-2	d	gesvd	driver	standard	svd	QR	no	general	full	no	double	466
-3	c	gesvd	driver	standard	svd	QR	yes	general	full	no	single	467
-4	z	gesvd	driver	standard	svd	QR	yes	general	full	no	double	468
-5	s	gesvd	driver	standard	svd	QR	no	general	full	yes	single	465
-6	d	gesvd	driver	standard	svd	QR	no	general	full	yes	double	466
-7	c	gesvd	driver	standard	svd	QR	yes	general	full	yes	single	467
-8	z	gesvd	driver	standard	svd	QR	yes	general	full	yes	double	468
-9	s	gesdd	driver	standard	svd	divide-and-conquer	no	general	full	yes	single	469
-10	d	gesdd	driver	standard	svd	divide-and-conquer	no	general	full	yes	double	470
-11	c	gesdd	driver	standard	svd	divide-and-conquer	yes	general	full	yes	single	471
-12	z	gesdd	driver	standard	svd	divide-and-conquer	yes	general	full	yes	double	472
-13	s	gejsv	driver	standard	svd	jacobi	no	general	full	yes	single	473
-14	d	gejsv	driver	standard	svd	jacobi	no	general	full	yes	double	474
-15	s	gesvj	driver	standard	svd	jacobi	no	general	full	yes	single	475
-16	d	gesvj	driver	standard	svd	jacobi	no	general	full	yes	double	476
-17	s	ggsvd	driver	generalized	svd	QR	no	general	full	no	single	477
-18	d	ggsvd	driver	generalized	svd	QR	no	general	full	no	double	478
-19	c	ggsvd	driver	generalized	svd	QR	yes	general	full	no	single	479
-20	z	ggsvd	driver	generalized	svd	QR	yes	general	full	no	double	480
-21	s	ggsvd	driver	generalized	svd	QR	no	general	full	yes	single	477
-22	d	ggsvd	driver	generalized	svd	QR	no	general	full	yes	double	478
-23	c	ggsvd	driver	generalized	svd	QR	yes	general	full	yes	single	479
-24	z	ggsvd	driver	generalized	svd	QR	yes	general	full	yes	double	480
-25	s	gebrd	computational	standard	reduceBid	none	no	general	full	none	single	481
-26	d	gebrd	computational	standard	reduceBid	none	no	general	full	none	double	482
-27	c	gebrd	computational	standard	reduceBid	none	yes	general	full	none	single	483
-28	z	gebrd	computational	standard	reduceBid	none	yes	general	full	none	double	484
-29	s	gbbrd	computational	standard	reduceBid_band	none	no	general	band	none	single	485
-30	d	gbbrd	computational	standard	reduceBid_band	none	no	general	band	none	double	486
-31	c	gbbrd	computational	standard	reduceBid_band	none	yes	general	band	none	single	487
-32	z	gbbrd	computational	standard	reduceBid_band	none	yes	general	band	none	double	488
-33	s	orgbr	computational	standard	generateQ	none	no	orthogonal	full	none	single	489
-34	d	orgbr	computational	standard	generateQ	none	no	orthogonal	full	none	double	490
-35	c	ungbr	computational	standard	generateQ	none	yes	unitary	full	none	single	491
-36	z	ungbr	computational	standard	generateQ	none	yes	unitary	full	none	double	492
-37	s	ormbr	computational	standard	multiplyByQ	none	no	orthogonal	full	none	single	493
-38	d	ormbr	computational	standard	multiplyByQ	none	no	orthogonal	full	none	double	494
-39	c	unmbr	computational	standard	multiplyByQ	none	yes	unitary	full	none	single	495
-40	z	unmbr	computational	standard	multiplyByQ	none	yes	unitary	full	none	double	496
-41	s	bdsqr	computational	standard	svdBid	QR	no	bidiagonal	full	no	single	497
-42	d	bdsqr	computational	standard	svdBid	QR	no	bidiagonal	full	no	double	498
-43	c	bdsqr	computational	standard	svdBid	QR	yes	bidiagonal	full	no	single	499
-44	z	bdsqr	computational	standard	svdBid	QR	yes	bidiagonal	full	no	double	500
-45	s	bdsdc	computational	standard	svdBid	divide-and-conquer	no	bidiagonal	full	yes	single	501
-46	d	bdsdc	computational	standard	svdBid	divide-and-conquer	no	bidiagonal	full	yes	double	502
-47	s	ggsvp	computational	generalized	reduceUpTr	none	no	general	full	none	single	503
-48	d	ggsvp	computational	generalized	reduceUpTr	none	no	general	full	none	double	504
-49	c	ggsvp	computational	generalized	reduceUpTr	none	yes	general	full	none	single	505
-50	z	ggsvp	computational	generalized	reduceUpTr	none	yes	general	full	none	double	506
-51	s	tgsja	computational	generalized	svdUpTr	QR	no	upper triangular	full	no	single	507
-52	d	tgsja	computational	generalized	svdUpTr	QR	no	upper triangular	full	no	double	508
-53	c	tgsja	computational	generalized	svdUpTr	QR	yes	upper triangular	full	no	single	509
-54	z	tgsja	computational	generalized	svdUpTr	QR	yes	upper triangular	full	no	double	510
-55	s	tgsja	computational	generalized	svdUpTr	QR	no	upper triangular	full	yes	single	507
-56	d	tgsja	computational	generalized	svdUpTr	QR	no	upper triangular	full	yes	double	508
-57	c	tgsja	computational	generalized	svdUpTr	QR	yes	upper triangular	full	yes	single	509
-58	z	tgsja	computational	generalized	svdUpTr	QR	yes	upper triangular	full	yes	double	510
+1	s	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	no	general	full	no	single	465
+2	d	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	no	general	full	no	double	466
+3	c	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	no	single	467
+4	z	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	no	double	468
+5	s	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	no	general	full	yes	single	465
+6	d	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	no	general	full	yes	double	466
+7	c	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	yes	single	467
+8	z	gesvd	driver	standard	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	yes	double	468
+9	s	gesdd	driver	standard	svd	compute the SVD of an mxn matrix A	divide-and-conquer	no	general	full	yes	single	469
+10	d	gesdd	driver	standard	svd	compute the SVD of an mxn matrix A	divide-and-conquer	no	general	full	yes	double	470
+11	c	gesdd	driver	standard	svd	compute the SVD of an mxn matrix A	divide-and-conquer	yes	general	full	yes	single	471
+12	z	gesdd	driver	standard	svd	compute the SVD of an mxn matrix A	divide-and-conquer	yes	general	full	yes	double	472
+13	s	gejsv	driver	standard	svd	compute the SVD of an mxn matrix A	jacobi	no	general	full	yes	single	473
+14	d	gejsv	driver	standard	svd	compute the SVD of an mxn matrix A	jacobi	no	general	full	yes	double	474
+15	s	gesvj	driver	standard	svd	compute the SVD of an mxn matrix A	jacobi	no	general	full	yes	single	475
+16	d	gesvj	driver	standard	svd	compute the SVD of an mxn matrix A	jacobi	no	general	full	yes	double	476
+17	s	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	no	general	full	no	single	477
+18	d	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	no	general	full	no	double	478
+19	c	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	no	single	479
+20	z	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	no	double	480
+21	s	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	no	general	full	yes	single	477
+22	d	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	no	general	full	yes	double	478
+23	c	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	yes	single	479
+24	z	ggsvd	driver	generalized	svd	compute the SVD of an mxn matrix A	QR	yes	general	full	yes	double	480
+25	s	gebrd	computational	standard	reduceBid	reduce a general full matrix to bidiagonal form	none	no	general	full	none	single	481
+26	d	gebrd	computational	standard	reduceBid	reduce a general full matrix to bidiagonal form	none	no	general	full	none	double	482
+27	c	gebrd	computational	standard	reduceBid	reduce a general full matrix to bidiagonal form	none	yes	general	full	none	single	483
+28	z	gebrd	computational	standard	reduceBid	reduce a general full matrix to bidiagonal form	none	yes	general	full	none	double	484
+29	s	gbbrd	computational	standard	reduceBid_band	reduce a general band matrix to bidiagonal form	none	no	general	band	none	single	485
+30	d	gbbrd	computational	standard	reduceBid_band	reduce a general band matrix to bidiagonal form	none	no	general	band	none	double	486
+31	c	gbbrd	computational	standard	reduceBid_band	reduce a general band matrix to bidiagonal form	none	yes	general	band	none	single	487
+32	z	gbbrd	computational	standard	reduceBid_band	reduce a general band matrix to bidiagonal form	none	yes	general	band	none	double	488
+33	s	orgbr	computational	standard	generateQ	generate Q	none	no	orthogonal	full	none	single	489
+34	d	orgbr	computational	standard	generateQ	generate Q	none	no	orthogonal	full	none	double	490
+35	c	ungbr	computational	standard	generateQ	generate Q	none	yes	unitary	full	none	single	491
+36	z	ungbr	computational	standard	generateQ	generate Q	none	yes	unitary	full	none	double	492
+37	s	ormbr	computational	standard	multiplyByQ	multiply an arbitrary matrix by Q	none	no	orthogonal	full	none	single	493
+38	d	ormbr	computational	standard	multiplyByQ	multiply an arbitrary matrix by Q	none	no	orthogonal	full	none	double	494
+39	c	unmbr	computational	standard	multiplyByQ	multiply an arbitrary matrix by Q	none	yes	unitary	full	none	single	495
+40	z	unmbr	computational	standard	multiplyByQ	multiply an arbitrary matrix by Q	none	yes	unitary	full	none	double	496
+41	s	bdsqr	computational	standard	svdBid	compute the SVD of a bidiagonal matrix	QR	no	bidiagonal	full	no	single	497
+42	d	bdsqr	computational	standard	svdBid	compute the SVD of a bidiagonal matrix	QR	no	bidiagonal	full	no	double	498
+43	c	bdsqr	computational	standard	svdBid	compute the SVD of a bidiagonal matrix	QR	yes	bidiagonal	full	no	single	499
+44	z	bdsqr	computational	standard	svdBid	compute the SVD of a bidiagonal matrix	QR	yes	bidiagonal	full	no	double	500
+45	s	bdsdc	computational	standard	svdBid	compute the SVD of a bidiagonal matrix	divide-and-conquer	no	bidiagonal	full	yes	single	501
+46	d	bdsdc	computational	standard	svdBid	compute the SVD of a bidiagonal matrix	divide-and-conquer	no	bidiagonal	full	yes	double	502
+47	s	ggsvp	computational	generalized	reduceUpTr	simultaneously reduce general matrices A and B to upper triangular form	none	no	general	full	none	single	503
+48	d	ggsvp	computational	generalized	reduceUpTr	simultaneously reduce general matrices A and B to upper triangular form	none	no	general	full	none	double	504
+49	c	ggsvp	computational	generalized	reduceUpTr	simultaneously reduce general matrices A and B to upper triangular form	none	yes	general	full	none	single	505
+50	z	ggsvp	computational	generalized	reduceUpTr	simultaneously reduce general matrices A and B to upper triangular form	none	yes	general	full	none	double	506
+51	s	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	no	upper triangular	full	no	single	507
+52	d	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	no	upper triangular	full	no	double	508
+53	c	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	yes	upper triangular	full	no	single	509
+54	z	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	yes	upper triangular	full	no	double	510
+55	s	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	no	upper triangular	full	yes	single	507
+56	d	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	no	upper triangular	full	yes	double	508
+57	c	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	yes	upper triangular	full	yes	single	509
+58	z	tgsja	computational	generalized	svdUpTr	compute the SVD of upper triangular matrices A and B	QR	yes	upper triangular	full	yes	double	510
