@@ -242,17 +242,17 @@
 <TABLE id="table_main">
 
 	<TR >
-	<table id="routineListNode" style="width:100%;">
+	<table id="routineListNode" class="advancedResult" >
 	<tr >
-	<th id="table_main_header">Category</th>
-	<th id="table_main_header">Description</th> 
-	<th id="table_main_header">Equation</th>
-	<th id="table_main_header">Task</th>
-	<th id="table_main_header">Complex Numbers</th>
-	<th id="table_main_header">Matrix Type</th>
-	<th id="table_main_header">Storage Type</th>
-	<th id="table_main_header">Precision</th>  
-	<th id="table_main_header">Routine</th>
+	<th>Category</th>
+	<th>Description</th> 
+	<th>Equation</th>
+	<th>Task</th>
+	<th>Complex Numbers</th>
+	<th>Matrix Type</th>
+	<th>Storage Type</th>
+	<th>Precision</th>  
+	<th>Routine Name</th>
 	</tr>
 
 {% for model, value in Results.items %}
@@ -278,7 +278,7 @@
 						    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}"
 						    style="list-style-type: none;"> 
 							<div class="routineName">			
-								<table id="tb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+								<table id="tb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px;">
 									<tr>
 										<td class="hiddenStuff">
 											<input type="checkbox" name="routines"
@@ -286,7 +286,7 @@
 											       id="cb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}"/>
 											       <!--onclick="checkChanged('{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"/>-->
 										</td>
-										<td style="width: 56px; font-weight: bold;" title="Check box to generate template">
+										<td style="width: 56px; font-weight: bold;" title="Drag and drop in Work Area for code generation">
 											{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}
 										</td>
 										<td >
@@ -351,7 +351,7 @@
 					    detail="{{ routine.thePrecision }}_{{ routine.routineName }}_{{ routine.matrixType }}_{{ routine.storageType }}_{{ routine.id }}_{{routine.url }}"
 					     style="list-style-type: none;"> 
 						<div class="routineName">			
-							<table id="ntb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px; padding-left: 4px;">
+							<table id="ntb_{{ routine.thePrecision|upper }}{{ routine.routineName|upper }}" style="border-radius: 5px;">
 								<tr>
 									<td class="hiddenStuff">
 										<input type="checkbox" name="routines"
