@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from lighthouse.forms.lapack_eigen import *
-from lighthouse.models.lapack_eigen import lapack_eigen
+from lighthouse.models.lapack_eigen import lapack_eigen_guided
 from lighthouse.models.lapack_choiceDict import *
 
 import datetime
@@ -77,7 +77,7 @@ def guidedSearch_index(request):
         key = 'eigen_'+item[:-4]
         request.session[key] = ''    
     request.session['currentForm_name'] = 'problemForm'
-    request.session['Routines'] = lapack_eigen.objects.all()
+    request.session['Routines'] = lapack_eigen_guided.objects.all()
     request.session['eigen_guided_answered'] = OrderedDict()
     
     ## get ready for the template

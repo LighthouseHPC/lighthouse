@@ -19,7 +19,7 @@ class EntryAdminForm(forms.ModelForm):
 
 
 """ eigenproblem """
-class lapack_eigen_Admin(admin.ModelAdmin):
+class lapack_eigen_guided_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'problem', 'standardGeneralized', 'matrixType', 'storageType',
 			'selectedEV', 'eigenvector', 'schur', 'cndNumber')
 	list_filter = ['problem', 'standardGeneralized', 'thePrecision', 'matrixType', 'storageType',]
@@ -27,7 +27,7 @@ class lapack_eigen_Admin(admin.ModelAdmin):
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(lapack_eigen, lapack_eigen_Admin)
+admin.site.register(lapack_eigen_guided, lapack_eigen_guided_Admin)
 
 
 
