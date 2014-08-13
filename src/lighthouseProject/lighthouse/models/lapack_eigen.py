@@ -6,7 +6,7 @@ from lighthouse.models.lapack_routineInfo import lapack_RoutineInfo
 
 ###---------------- for guided search ----------------###
 ###--- Eigenproblem ---###
-class lapack_eigen(models.Model):
+class lapack_eigen_guided(models.Model):
         thePrecision = models.CharField('precision', max_length=10, choices=PRECISION_CHOICES)
         routineName = models.CharField('routine name', max_length=30)
         problem = models.CharField('problem type', max_length=50, choices=EIGENPROBLEM_CHOICES)
