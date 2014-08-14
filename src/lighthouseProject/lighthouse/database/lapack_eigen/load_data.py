@@ -1,5 +1,5 @@
 import MySQLdb
-import os, sys
+import os, sys, warnings
 
 myDB = MySQLdb.connect(host="127.0.0.1", port=3306, user="lighthouse", passwd="yellow1234", db="lighthousedb", local_infile = 1) 
 cursor = myDB.cursor()
@@ -21,9 +21,13 @@ fileDict = {
 def load_data(fileName):
     table = 'lighthouse_lapack_eigen_'+fileName
     try:
-        nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '%s.csv' INTO TABLE \
-                                        %s  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'" %(fileName, table))
-        print "Finished loading data to %s."%table
+        with warnings.catch_warnings(record=True) as w:
+            nr_records_inserted = cursor.execute("LOAD DATA LOCAL INFILE '%s.csv' INTO TABLE \
+                                            %s  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'" %(fileName, table))
+            if len(w):
+                print "Warning:", w[0].message 
+            else:
+                print "Finished loading data to %s."%table
     except Exception as e:          
         print "Error: ", e.args
         

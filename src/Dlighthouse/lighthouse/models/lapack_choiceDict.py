@@ -40,10 +40,10 @@ STORAGE_CHOICES = (
 
 
 PRECISION_CHOICES = (
-        (u's',                          	u'single'), 
-        (u'd',                          	u'double'), 
-        (u'c',                          	u'complex'), 
-        (u'z',                          	u'complex double'),
+        (u's',                          	u's'), 
+        (u'd',                          	u'd'), 
+        (u'c',                          	u'c'), 
+        (u'z',                          	u'z'),
 )
 
 
@@ -97,6 +97,13 @@ EIGENPROBLEM_CHOICES = (
 )
 
 
+EIGENMETHOD_CHOICES = (
+	(u'QR',					u'QR'),
+	(u'divide and conquer',			u'divide and conquer'),
+	(u'RRR',				u'Relatively Robust Representations'),
+	(u'QR or inverse iteration',		u'QR or inverse iteration'),
+	(u'QR or QL',				u'QR or QL'),
+)
 
 
 #####----------- for LAPACK SVD routines -------------#####
