@@ -1,64 +1,64 @@
-1	s	syev	no	symmetric	full	no	QR	none	none	single	reduced to tridiagonal form first	511
-2	d	syev	no	symmetric	full	no	QR	none	none	double	reduced to tridiagonal form first	512
+1	s	syev	no	symmetric	full	no	QL/QR	none	none	single	reduced to tridiagonal form first	511
+2	d	syev	no	symmetric	full	no	QL/QR	none	none	double	reduced to tridiagonal form first	512
 3	s	syevd	no	symmetric	full	no	divide and conquer	none	none	single	faster but more memory	513
 4	d	syevd	no	symmetric	full	no	divide and conquer	none	none	double	faster but more memory	514
 5	s	syevr	no	symmetric	full	yes	RRR	none	none	single	reduced to tridiagonal form first	517
 6	d	syevr	no	symmetric	full	yes	RRR	none	none	double	reduced to tridiagonal form first	518
-7	s	syevx	no	symmetric	full	yes	QR or inverse iteration	none	none	single	reduced to tridiagonal form first	515
-8	d	syevx	no	symmetric	full	yes	QR or inverse iteration	none	none	double	reduced to tridiagonal form first	516
-9	s	spev	no	symmetric	packed	no	QR	none	none	single	reduced to tridiagonal form first	519
-10	d	spev	no	symmetric	packed	no	QR	none	none	double	reduced to tridiagonal form first	520
+7	s	syevx	no	symmetric	full	yes	QL/QR or inverse iteration	none	none	single	reduced to tridiagonal form first	515
+8	d	syevx	no	symmetric	full	yes	QL/QR or inverse iteration	none	none	double	reduced to tridiagonal form first	516
+9	s	spev	no	symmetric	packed	no	QL/QR	none	none	single	reduced to tridiagonal form first	519
+10	d	spev	no	symmetric	packed	no	QL/QR	none	none	double	reduced to tridiagonal form first	520
 11	s	spevd	no	symmetric	packed	no	divide and conquer	none	none	single	faster but more memory	521
 12	d	spevd	no	symmetric	packed	no	divide and conquer	none	none	double	faster but more memory	522
-13	s	spevx	no	symmetric	packed	yes	QR or inverse iteration	none	none	single	reduced to tridiagonal form first	523
-14	d	spevx	no	symmetric	packed	yes	QR or inverse iteration	none	none	double	reduced to tridiagonal form first	524
-15	s	sbev	no	symmetric	band	no	QR	none	none	single	reduced to tridiagonal form first	525
-16	d	sbev	no	symmetric	band	no	QR	none	none	double	reduced to tridiagonal form first	526
+13	s	spevx	no	symmetric	packed	yes	QL/QR or inverse iteration	none	none	single	reduced to tridiagonal form first	523
+14	d	spevx	no	symmetric	packed	yes	QL/QR or inverse iteration	none	none	double	reduced to tridiagonal form first	524
+15	s	sbev	no	symmetric	band	no	QL/QR	none	none	single	reduced to tridiagonal form first	525
+16	d	sbev	no	symmetric	band	no	QL/QR	none	none	double	reduced to tridiagonal form first	526
 17	s	sbevd	no	symmetric	band	no	divide and conquer	none	none	single	faster but more memory	527
 18	d	sbevd	no	symmetric	band	no	divide and conquer	none	none	double	faster but more memory	528
-19	s	sbevx	no	symmetric	band	yes	QR or inverse iteration	none	none	single	reduced to tridiagonal form first	529
-20	d	sbevx	no	symmetric	band	yes	QR or inverse iteration	none	none	double	reduced to tridiagonal form first	530
-21	s	stev	no	symmetric	tridiagonal	no	QR or QL	none	none	single	N/A	535
-22	d	stev	no	symmetric	tridiagonal	no	QR or QL	none	none	double	N/A	536
+19	s	sbevx	no	symmetric	band	yes	QL/QR or inverse iteration	none	none	single	reduced to tridiagonal form first	529
+20	d	sbevx	no	symmetric	band	yes	QL/QR or inverse iteration	none	none	double	reduced to tridiagonal form first	530
+21	s	stev	no	symmetric	tridiagonal	no	QL/QR	none	none	single	N/A	535
+22	d	stev	no	symmetric	tridiagonal	no	QL/QR	none	none	double	N/A	536
 23	s	stevd	no	symmetric	tridiagonal	no	divide and conquer	none	none	single	faster but more memory;call SSTEDC	533
 24	d	stevd	no	symmetric	tridiagonal	no	divide and conquer	none	none	double	faster but more memory;call DSTEDC	534
 25	s	stevr	no	symmetric	tridiagonal	yes	RRR	none	none	single	SSTEVR calls SSTEMR when the full spectrum is requested	539
 26	d	stevr	no	symmetric	tridiagonal	yes	RRR	none	none	double	DSTEVR calls DSTEMR when the full spectrum is requested	540
-27	s	stevx	no	symmetric	tridiagonal	yes	QR	none	none	single	reducing the tridiagonal matrix to diagonal;bisection is used to determine selected eigenvalues 	541
-28	d	stevx	no	symmetric	tridiagonal	yes	QR	none	none	double	reducing the tridiagonal matrix to diagonal;bisection is used to determine selected eigenvalues 	542
-29	c	heev	yes	Hermitian	full	no	QR	none	none	single	reduced to real tridiagonal form first	567
-30	z	heev	yes	Hermitian	full	no	QR	none	none	double	reduced to real tridiagonal form first	568
+27	s	stevx	no	symmetric	tridiagonal	yes	QL/QR or inverse iteration	none	none	single	reducing the tridiagonal matrix to diagonal;bisection is used to determine selected eigenvalues 	541
+28	d	stevx	no	symmetric	tridiagonal	yes	QL/QR or inverse iteration	none	none	double	reducing the tridiagonal matrix to diagonal;bisection is used to determine selected eigenvalues 	542
+29	c	heev	yes	Hermitian	full	no	QL/QR	none	none	single	reduced to real tridiagonal form first	567
+30	z	heev	yes	Hermitian	full	no	QL/QR	none	none	double	reduced to real tridiagonal form first	568
 31	c	heevd	yes	Hermitian	full	no	divide and conquer	none	none	single	faster but more memory	569
 32	z	heevd	yes	Hermitian	full	no	divide and conquer	none	none	double	faster but more memory	570
 33	c	heevr	yes	Hermitian	full	yes	RRR	none	none	single	reduced to real tridiagonal form first	573
 34	z	heevr	yes	Hermitian	full	yes	RRR	none	none	double	reduced to real tridiagonal form first	574
-35	c	heevx	yes	Hermitian	full	yes	QR or inverse iteration	none	none	single	reduced to real tridiagonal form first	571
-36	z	heevx	yes	Hermitian	full	yes	QR or inverse iteration	none	none	double	reduced to real tridiagonal form first	572
-37	c	hpev	yes	Hermitian	packed	no	QR	none	none	single	reduced to real tridiagonal form first	575
-38	z	hpev	yes	Hermitian	packed	no	QR	none	none	double	reduced to real tridiagonal form first	576
+35	c	heevx	yes	Hermitian	full	yes	QL/QR or inverse iteration	none	none	single	reduced to real tridiagonal form first	571
+36	z	heevx	yes	Hermitian	full	yes	QL/QR or inverse iteration	none	none	double	reduced to real tridiagonal form first	572
+37	c	hpev	yes	Hermitian	packed	no	QL/QR	none	none	single	reduced to real tridiagonal form first	575
+38	z	hpev	yes	Hermitian	packed	no	QL/QR	none	none	double	reduced to real tridiagonal form first	576
 39	c	hpevd	yes	Hermitian	packed	no	divide and conquer	none	none	single	faster but more memory	577
 40	z	hpevd	yes	Hermitian	packed	no	divide and conquer	none	none	double	faster but more memory	578
-41	c	hpevx	yes	Hermitian	packed	yes	QR or inverse iteration	none	none	single	reduced to real tridiagonal form first	579
-42	z	hpevx	yes	Hermitian	packed	yes	QR or inverse iteration	none	none	double	reduced to real tridiagonal form first	580
-43	c	hbev	yes	Hermitian	band	no	QR	none	none	single	reduced to real tridiagonal form first	581
-44	z	hbev	yes	Hermitian	band	no	QR	none	none	double	reduced to real tridiagonal form first	582
+41	c	hpevx	yes	Hermitian	packed	yes	QL/QR or inverse iteration	none	none	single	reduced to real tridiagonal form first	579
+42	z	hpevx	yes	Hermitian	packed	yes	QL/QR or inverse iteration	none	none	double	reduced to real tridiagonal form first	580
+43	c	hbev	yes	Hermitian	band	no	QL/QR	none	none	single	reduced to real tridiagonal form first	581
+44	z	hbev	yes	Hermitian	band	no	QL/QR	none	none	double	reduced to real tridiagonal form first	582
 45	c	hbevd	yes	Hermitian	band	no	divide and conquer	none	none	single	faster but more memory	583
 46	z	hbevd	yes	Hermitian	band	no	divide and conquer	none	none	double	faster but more memory	584
-47	c	hbevx	yes	Hermitian	band	yes	QR or inverse iteration	none	none	single	reduced to real tridiagonal form first	585
-48	z	hbevx	yes	Hermitian	band	yes	QR or inverse iteration	none	none	double	reduced to real tridiagonal form first	586
+47	c	hbevx	yes	Hermitian	band	yes	QL/QR or inverse iteration	none	none	single	reduced to real tridiagonal form first	585
+48	z	hbevx	yes	Hermitian	band	yes	QL/QR or inverse iteration	none	none	double	reduced to real tridiagonal form first	586
 49	s	geev	no	general	full	no	QR	no	no	single	eigenvalues;optionally left right eigenvectors	543
 50	d	geev	no	general	full	no	QR	no	no	double	eigenvalues;optionally left right eigenvectors	544
-51	s	geevx	no	general	full	no	QR	no	yes	single	eigenvalues;optionally left right eigenvectors;balance matrix;condition numbers	545
-52	d	geevx	no	general	full	no	QR	no	yes	double	eigenvalues;optionally left right eigenvectors;balance matrix;condition numbers	546
-53	s	gees	no	general	full	no	N/A	yes	no	single	eigenvalues;Schur form;optionally Schur vectors	547
-54	d	gees	no	general	full	no	N/A	yes	no	double	eigenvalues;Schur form;optionally Schur vectors	548
-55	s	geesx	no	general	full	no	N/A	yes	yes	single	eigenvalues;Schur form;optionally Schur vectors;condition numbers	549
-56	d	geesx	no	general	full	no	N/A	yes	yes	double	eigenvalues;Schur form;optionally Schur vectors;condition numbers	550
+51	s	geevx	no	general	full	no	QR	no	yes	single	eigenvalues;optionally left right eigenvectors;condition numbers;balance matrix	545
+52	d	geevx	no	general	full	no	QR	no	yes	double	eigenvalues;optionally left right eigenvectors;condition numbers;balance matrix	546
+53	s	gees	no	general	full	no		yes	no	single	eigenvalues;Schur form;optionally Schur vectors	547
+54	d	gees	no	general	full	no		yes	no	double	eigenvalues;Schur form;optionally Schur vectors	548
+55	s	geesx	no	general	full	no		yes	yes	single	eigenvalues;Schur form;optionally Schur vectors;condition numbers	549
+56	d	geesx	no	general	full	no		yes	yes	double	eigenvalues;Schur form;optionally Schur vectors;condition numbers	550
 57	c	geev	yes	general	full	no	QR	no	no	single	eigenvalues;optionally left right eigenvectors	587
 58	z	geev	yes	general	full	no	QR	no	no	double	eigenvalues;optionally left right eigenvectors	588
-59	c	geevx	yes	general	full	no	QR	no	yes	single	eigenvalues;optionally left right eigenvectors;balance matrix;condition numbers	589
-60	z	geevx	yes	general	full	no	QR	no	yes	double	eigenvalues;optionally left right eigenvectors;balance matrix;condition numbers	590
-61	c	gees	yes	general	full	no	N/A	yes	no	single	eigenvalues;Schur form;optionally Schur vectors	591
-62	z	gees	yes	general	full	no	N/A	yes	no	double	eigenvalues;Schur form;optionally Schur vectors	592
-63	c	geesx	yes	general	full	no	N/A	yes	yes	single	eigenvalues;Schur form;optionally Schur vectors;condition numbers	593
-64	z	geesx	yes	general	full	no	N/A	yes	yes	double	eigenvalues;Schur form;optionally Schur vectors;condition numbers	594
+59	c	geevx	yes	general	full	no	QR	no	yes	single	eigenvalues;optionally left right eigenvectors;condition numbers;balance matrix	589
+60	z	geevx	yes	general	full	no	QR	no	yes	double	eigenvalues;optionally left right eigenvectors;condition numbers;balance matrix	590
+61	c	gees	yes	general	full	no		yes	no	single	eigenvalues;Schur form;optionally Schur vectors	591
+62	z	gees	yes	general	full	no		yes	no	double	eigenvalues;Schur form;optionally Schur vectors	592
+63	c	geesx	yes	general	full	no		yes	yes	single	eigenvalues;Schur form;optionally Schur vectors;condition numbers	593
+64	z	geesx	yes	general	full	no		yes	yes	double	eigenvalues;Schur form;optionally Schur vectors;condition numbers	594
