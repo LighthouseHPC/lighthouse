@@ -32,13 +32,24 @@ admin.site.register(lapack_eigen_guided, lapack_eigen_guided_Admin)
 
 class lapack_eigen_driver_standard_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
-			'selectedEV', 'eigenvector', 'method', 'schur', 'cndNumber')
+			'selectedEV', 'method', 'schur', 'cndNumber')
 	list_filter = ['thePrecision', 'matrixType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
 admin.site.register(lapack_eigen_driver_standard, lapack_eigen_driver_standard_Admin)
+
+
+class lapack_eigen_driver_generalized_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
+			'selectedEV', 'method', 'schur', 'cndNumber')
+	list_filter = ['thePrecision', 'matrixType',]
+	search_fields = ['routineName',]
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+admin.site.register(lapack_eigen_driver_generalized, lapack_eigen_driver_generalized_Admin)
 
 
 

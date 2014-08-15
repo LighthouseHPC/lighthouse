@@ -103,6 +103,7 @@ EGNVECTORMETHOD_CHOICES = (
 	(u'RRR',				u'Relatively Robust Representations'),
 	(u'QL/QR or inverse iteration',		u'QL/QR or inverse iteration'),
 	(u'QR',					u'QR'),
+	(u'QZ and back transformation',		u'QZ and back transformation'),
 )
 
 
