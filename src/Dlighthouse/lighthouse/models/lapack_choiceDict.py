@@ -100,7 +100,7 @@ EIGENPROBLEM_CHOICES = (
 EGNVECTORMETHOD_CHOICES = (
 	(u'QL/QR',				u'QL/QR'),
 	(u'divide and conquer',			u'divide and conquer'),
-	(u'RRR',				u'Relatively Robust Representations'),
+	(u'relatively robust representations',	u'relatively robust representations'),
 	(u'QL/QR or inverse iteration',		u'QL/QR or inverse iteration'),
 	(u'QR',					u'QR'),
 	(u'QZ and back transformation',		u'QZ and back transformation'),
