@@ -16,24 +16,24 @@
 16,d,sbgvd,no,symmetric,band,no,divide and conquer,none,none,double,faster but more memory;B is SPD,626
 17,s,sbgvx,no,symmetric,band,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard band symmetric problem;B is SPD,627
 18,d,sbgvx,no,symmetric,band,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard band symmetric problem;B is SPD,628
-19,c,hegv,yes,Hermitian,full,no,QL/QR,none,none,single,reduced to a standard symmetric eigenvalue problem,637
-20,z,hegv,yes,Hermitian,full,no,QL/QR,none,none,double,reduced to a standard symmetric eigenvalue problem,638
-21,c,hegvd,yes,Hermitian,full,no,divide and conquer,none,none,single,faster but more memory,639
-22,z,hegvd,yes,Hermitian,full,no,divide and conquer,none,none,double,faster but more memory,640
-23,c,hegvx,yes,Hermitian,full,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard symmetric eigenvalue problem,641
-24,z,hegvx,yes,Hermitian,full,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard symmetric eigenvalue problem,642
-25,c,hpgv,yes,Hermitian,packed,no,QL/QR,none,none,single,reduced to a standard symmetric eigenvalue problem,643
-26,z,hpgv,yes,Hermitian,packed,no,QL/QR,none,none,double,reduced to a standard symmetric eigenvalue problem,644
-27,c,hpgvd,yes,Hermitian,packed,no,divide and conquer,none,none,single,faster but more memory,645
-28,z,hpgvd,yes,Hermitian,packed,no,divide and conquer,none,none,double,faster but more memory,646
-29,c,hpgvx,yes,Hermitian,packed,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard symmetric eigenvalue problem,647
-30,z,hpgvx,yes,Hermitian,packed,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard symmetric eigenvalue problem,648
-31,c,hbgv,yes,Hermitian,band,no,QL/QR,none,none,single,reduced to a standard band Hermitian problem,649
-32,z,hbgv,yes,Hermitian,band,no,QL/QR,none,none,double,reduced to a standard band Hermitian problem,650
-33,c,hbgvd,yes,Hermitian,band,no,divide and conquer,none,none,single,faster but more memory,651
-34,z,hbgvd,yes,Hermitian,band,no,divide and conquer,none,none,double,faster but more memory,652
-35,c,hbgvx,yes,Hermitian,band,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard band Hermitian problem,653
-36,z,hbgvx,yes,Hermitian,band,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard band Hermitian problem,654
+19,c,hegv,yes,Hermitian,full,no,QL/QR,none,none,single,reduced to a standard symmetric eigenvalue problem;B is HPD,637
+20,z,hegv,yes,Hermitian,full,no,QL/QR,none,none,double,reduced to a standard symmetric eigenvalue problem;B is HPD,638
+21,c,hegvd,yes,Hermitian,full,no,divide and conquer,none,none,single,faster but more memory;B is HPD,639
+22,z,hegvd,yes,Hermitian,full,no,divide and conquer,none,none,double,faster but more memory;B is HPD,640
+23,c,hegvx,yes,Hermitian,full,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard symmetric eigenvalue problem;B is HPD,641
+24,z,hegvx,yes,Hermitian,full,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard symmetric eigenvalue problem;B is HPD,642
+25,c,hpgv,yes,Hermitian,packed,no,QL/QR,none,none,single,reduced to a standard symmetric eigenvalue problem;B is HPD,643
+26,z,hpgv,yes,Hermitian,packed,no,QL/QR,none,none,double,reduced to a standard symmetric eigenvalue problem;B is HPD,644
+27,c,hpgvd,yes,Hermitian,packed,no,divide and conquer,none,none,single,faster but more memory;B is HPD,645
+28,z,hpgvd,yes,Hermitian,packed,no,divide and conquer,none,none,double,faster but more memory;B is HPD,646
+29,c,hpgvx,yes,Hermitian,packed,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard symmetric eigenvalue problem;B is HPD,647
+30,z,hpgvx,yes,Hermitian,packed,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard symmetric eigenvalue problem;B is HPD,648
+31,c,hbgv,yes,Hermitian,band,no,QL/QR,none,none,single,reduced to a standard band Hermitian problem;B is HPD,649
+32,z,hbgv,yes,Hermitian,band,no,QL/QR,none,none,double,reduced to a standard band Hermitian problem;B is HPD,650
+33,c,hbgvd,yes,Hermitian,band,no,divide and conquer,none,none,single,faster but more memory;B is HPD,651
+34,z,hbgvd,yes,Hermitian,band,no,divide and conquer,none,none,double,faster but more memory;B is HPD,652
+35,c,hbgvx,yes,Hermitian,band,yes,QL/QR or inverse iteration,none,none,single,reduced to a standard band Hermitian problem;B is HPD,653
+36,z,hbgvx,yes,Hermitian,band,yes,QL/QR or inverse iteration,none,none,double,reduced to a standard band Hermitian problem;B is HPD,654
 37,s,ggev,no,general,full,none,QZ and back transformation,no,no,single,,629
 38,d,ggev,no,general,full,none,QZ and back transformation,no,no,double,,630
 39,s,ggevx,no,general,full,none,QZ and back transformation,no,yes,single,condition numbers;balance matrix,631
