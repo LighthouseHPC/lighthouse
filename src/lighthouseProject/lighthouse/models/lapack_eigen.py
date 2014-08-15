@@ -41,7 +41,7 @@ class lapack_eigen_driver_standard(models.Model):
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
-        selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYES_CHOICES)
+        selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
         method = models.CharField('method', max_length=50, choices=EGNVECTORMETHOD_CHOICES)
         schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
         cndNumber = models.CharField('condition number', max_length=10, choices=NOYESNONE_CHOICES)
