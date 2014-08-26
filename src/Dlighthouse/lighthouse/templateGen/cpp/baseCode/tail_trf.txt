@@ -1,0 +1,428 @@
+!---- close function GET_DATA() ----!
+begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print factored A ---*/
+  printf("Solution: \n");
+end (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf
+
+
+
+!---- print REAL factored matrix ----!
+begin (real) getrf
+  for (i=0; i<lda; i++){
+    for (j=0; j<n; j++){
+      printf("\t%6.3f", AT[i+lda*j]);   
+    }
+    printf("\n");
+  }
+end (real) getrf
+
+
+begin (real) gttrf
+  printf("\nSecond super-diagonal: \n");
+  for (i=0; i<n-2; i++){
+    printf("\t%6.3f", DU2[i]);
+  }
+  printf("\n");
+  
+  printf("\nFirst super-diagonal: \n");
+  for (i=0; i<n-1; i++){
+    printf("\t%6.3f", DU[i]);
+  }
+  printf("\n");
+  
+  printf("\nDiagonal: \n");
+  for (i=0; i<n; i++){
+    printf("\t%6.3f", D[i]);
+  }
+  printf("\n");
+  
+  printf("\nmultipliers: \n");
+  for (i=0; i<n-1; i++){
+    printf("\t%6.3f", DL[i]);
+  }
+end (real) gttrf
+
+
+begin (real) pttrf
+  printf("\nDiagonal: \n");
+  for (i=0; i<n; i++){
+    printf("\t%6.3f", D[i]);
+  }
+  printf("\n");
+  
+  printf("\nSub-diagonal: \n");
+  for (i=0; i<n-1; i++){
+    printf("\t%6.3f", E[i]);
+  }
+end (real) pttrf
+
+
+begin (real) gbtrf
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+      AB[i][j] = ABT[i+ldab*j];
+    }
+  }
+  
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<n){
+        printf("\t%6.3f", AB[kl+ku+i-j][j]);
+      }
+      else{
+        printf("\t ");
+      }
+    }
+    printf("\n");
+  }
+end (real) gbtrf
+
+
+begin (real) pbtrf
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+      AB[i][j] = ABT[i+ldab*j];
+    }
+  }
+  
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t%6.3f", AB[kd+i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t%6.3f", AB[i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) pbtrf
+
+
+begin (real) sytrf potrf pstrf
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AT[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AT[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) sytrf potrf pstrf
+
+
+begin (real) pptrf sptrf
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AP[(i+1)+j*(j+1)/2-1]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AP[i+j*(2*n-j-1)/2]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) pptrf sptrf
+
+
+begin (real) pftrf
+
+  /*--- use get_precisionTFTTR to convert A from rectangular full packed format (TF) to standard full format (TR). ---*/
+  get_precisionTFTTR_(&TRANSR, &UPLO, &n, A, ATR, &lda, &info);
+  
+  /*--- print A ---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", ATR[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", ATR[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) pftrf
+
+
+
+!---- print COMPLEX factored matrix ----!
+begin (complex) getrf
+  for (i=0; i<lda; i++){
+    for (j=0; j<n; j++){
+      printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);    
+    }
+    printf("\n");
+  }
+end (complex) getrf
+
+
+begin (complex) gttrf
+  printf("\nSecond super-diagonal: \n");
+  for (i=0; i<n-2; i++){
+    printf("\t(%6.3f, %6.3f)", creal(DU2[i]), cimag(DU2[i]));
+  }
+  printf("\n");
+  
+  printf("\nFirst super-diagonal: \n");
+  for (i=0; i<n-1; i++){
+    printf("\t(%6.3f, %6.3f)", creal(DU[i]), cimag(DU[i]));
+  }
+  printf("\n");
+  
+  printf("\nDiagonal: \n");
+  for (i=0; i<n; i++){
+    printf("\t(%6.3f, %6.3f)", creal(D[i]), cimag(D[i]));
+  }
+  printf("\n");
+  
+  printf("\nmultipliers: \n");
+  for (i=0; i<n-1; i++){
+    printf("\t(%6.3f, %6.3f)", creal(DL[i]), cimag(DL[i]));
+  }
+end (complex) gttrf
+
+
+begin (complex) pttrf
+  printf("\nDiagonal: \n");
+  for (i=0; i<n; i++){
+    printf("\t%6.3f", D[i]);
+  }
+  printf("\n");
+  
+  printf("\nSub-diagonal: \n");
+  for (i=0; i<n-1; i++){
+    printf("\t(%6.3f, %6.3f)", creal(E[i]), cimag(E[i]));
+  }
+end (complex) pttrf
+
+
+begin (complex) gbtrf
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+      AB[i][j] = ABT[2*(i+ldab*j)]+ABT[2*(i+ldab*j)+1]*I;
+    }
+  }
+  
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<n){
+        printf("\t(%6.3f, %6.3f)", creal(AB[kl+ku+i-j][j]), cimag(AB[kl+ku+i-j][j]));
+      }
+      else{
+        printf("\t\t\t");
+      }
+    }
+    printf("\n");
+  }
+end (complex) gbtrf
+
+
+begin (complex) pbtrf
+  for (i=0; i<ldab; i++){
+    for (j=0; j<n; j++){
+      AB[i][j] = ABT[2*(i+ldab*j)]+ABT[2*(i+ldab*j)+1]*I;
+    }
+  }
+  
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t(%6.3f, %6.3f)", creal(AB[kd+i-j][j]), cimag(AB[kd+i-j][j]));
+        }
+        else{
+          printf("\t\t\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AB[i-j][j]), cimag(AB[i-j][j]));
+        }
+        else{
+          printf("\t\t\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) pbtrf
+
+
+begin (complex) sytrf hetrf potrf pstrf
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) sytrf hetrf potrf pstrf
+
+
+begin (complex) pptrf sptrf hptrf
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(AP[(i+1)+j*(j+1)/2-1]), cimag(AP[(i+1)+j*(j+1)/2-1]));
+        }
+        else{
+          printf("\t\t\t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AP[i+j*(2*n-j-1)/2]), cimag(AP[i+j*(2*n-j-1)/2]));
+        }
+        else{
+          printf("\t\t\t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) pptrf sptrf hptrf
+
+
+begin (complex) pftrf
+
+  /*--- use get_precisionTFTTR to convert A from rectangular full packed format (TF) to standard full format (TR). ---*/
+  get_precisionTFTTR_(&TRANSR, &UPLO, &n, A, ATR, &lda, &info);
+  
+  /*--- print A ---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3lf, %6.3lf)", ATR[2*(i+lda*j)], ATR[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t\t\t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3lf, %6.3lf)", ATR[2*(i+lda*j)], ATR[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t\t\t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) pftrf
+
+
+
+!---- print info ----!
+begin (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf 
+
+  /*---print info ---*/
+   printf("\n\ninfo = %d\n\n", info);   
+}
+end (real) (complex) getrf gttrf pttrf gbtrf pbtrf sytrf potrf pptrf sptrf hetrf hptrf pftrf pstrf

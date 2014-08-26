@@ -1,0 +1,236 @@
+!---- close function GET_DATA() ----!
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
+}
+
+
+
+void PRINT_SOLUTION(){
+  printf("Inverse of A: \n");
+end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
+
+
+
+!---- print REAL inverted matrix ----!
+begin (real) getri
+  for (i=0; i<lda; i++){
+    for (j=0; j<n; j++){
+      printf("\t%6.3f", AT[i+lda*j]);   
+    }
+    printf("\n");
+  }
+end (real) getri
+
+
+begin (real) sytri potri trtri
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AT[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AT[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) sytri potri trtri
+
+
+begin (real) pptri sptri tptri
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AP[(i+1)+j*(j+1)/2-1]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AP[i+j*(2*n-j-1)/2]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) pptri sptri tptri
+
+
+begin (real) pftri tftri
+
+  /*--- use get_precisionTFTTR to convert A from rectangular full packed format (TF) to standard full format (TR). ---*/
+  get_precisionTFTTR_(&TRANSR, &UPLO, &n, A, ATR, &lda, &info);
+  
+  /*--- print A ---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", ATR[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", ATR[i+lda*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (real) pftri tftri
+
+
+
+
+
+!---- print COMPLEX inverted matrix ----!
+begin (complex) getri
+  for (i=0; i<lda; i++){
+    for (j=0; j<n; j++){
+      printf("   (%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);    
+    }
+    printf("\n");
+  }
+end (complex) getri
+
+
+begin (complex) sytri hetri potri trtri
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", AT[2*(i+lda*j)], AT[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) sytri hetri potri trtri
+
+
+begin (complex) pptri sptri hptri tptri
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(AP[(i+1)+j*(j+1)/2-1]), cimag(AP[(i+1)+j*(j+1)/2-1]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AP[i+j*(2*n-j-1)/2]), cimag(AP[i+j*(2*n-j-1)/2]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) pptri sptri hptri tptri
+
+
+begin (complex) pftri tftri
+
+  /*--- use get_precisionTFTTR to convert A from rectangular full packed format (TF) to standard full format (TR). ---*/
+  get_precisionTFTTR_(&TRANSR, &UPLO, &n, A, ATR, &lda, &info);
+  
+  /*--- print A ---*/
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3lf, %6.3lf)", ATR[2*(i+lda*j)], ATR[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t\t\t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3lf, %6.3lf)", ATR[2*(i+lda*j)], ATR[2*(i+lda*j)+1]);
+        }
+        else{
+          printf("\t\t\t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+end (complex) pftri tftri
+
+
+
+
+!---- print info ----!
+begin (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri
+
+  /*---print info ---*/
+   printf("\n\ninfo = %d\n", info);   
+}
+end (real) (complex) getri sytri potri pptri sptri trtri tptri hetri hptri pftri tftri

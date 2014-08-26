@@ -1,0 +1,41 @@
+begin gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            !--- Note: the solution is returned in B and A has been changed ---! 
+            WRITE(*,*)
+            WRITE(*,*) 'SOLUTION: '
+            DO I = 1, LDB
+                WRITE(*,fmtNum) ( B( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
+
+
+begin sgesv cgesv sposv cposv
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'SOLUTION: '
+            DO I = 1, LDX
+                WRITE(*,fmtNum) ( X( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+            WRITE(*,*) 'ITER = ', ITER
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+end sgesv cgesv sposv cposv
+        

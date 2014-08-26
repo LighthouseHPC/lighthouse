@@ -1,0 +1,310 @@
+begin sgecon, dgecon, cgecon, zgecon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            ANORM = 0.d0
+            IF (NORM == '1') THEN
+                DO J = 1,N
+                    COLSUM = 0.d0
+                    DO I=1,N
+                        COLSUM = COLSUM+ABS(A(I,J))
+                    END DO
+                    ANORM = MAX(ANORM, COLSUM)
+                END DO
+            ELSE IF (NORM == 'I') THEN
+                DO I = 1,N
+                    ROWSUM = 0.d0
+                    DO J=1,N
+                        ROWSUM = ROWSUM+ABS(A(I,J))
+                    END DO
+                    ANORM = MAX(ANORM, ROWSUM)
+                END DO            
+            END IF
+        END SUBROUTINE COMPUTE_ANORM
+end sgecon, dgecon, cgecon, zgecon
+
+
+begin sgtcon, dgtcon, cgtcon, zgtcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            ANORM = 0.d0
+            IF (NORM == '1') THEN
+                DO I = 1,N
+                    COLSUM = 0.d0
+                    IF (I == 1) THEN
+                        COLSUM = ABS(D(I))+ABS(DL(I))
+                    ELSE IF (I == N) THEN
+                        COLSUM = ABS(DU(I-1))+ABS(D(I))
+                    ELSE
+                        COLSUM = ABS(DU(I-1))+ABS(D(I))+ABS(DL(I))
+                    END IF           
+                    ANORM = MAX(ANORM, COLSUM)
+                END DO
+            ELSE IF (NORM == 'I') THEN
+                DO I = 1,N
+                    ROWSUM = 0.d0
+                    IF (I == 1) THEN
+                        ROWSUM = ABS(DU(I))+ABS(D(I))
+                    ELSE IF (I == N) THEN
+                        ROWSUM = ABS(D(I))+ABS(DL(I-1))
+                    ELSE
+                        ROWSUM = ABS(DU(I))+ABS(D(I))+ABS(DL(I-1))
+                    END IF
+                END DO
+            END IF
+        END SUBROUTINE COMPUTE_ANORM
+end sgtcon, dgtcon, cgtcon, zgtcon
+
+
+begin sptcon, dptcon, cptcon, zptcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            ANORM = 0.d0
+            DO I = 1,N
+                COLSUM = 0.d0
+                IF (I == 1) THEN
+                    COLSUM = ABS(D(I))+ABS(E(I))
+                ELSE IF (I == N) THEN
+                    COLSUM = ABS(D(I))+ABS(E(I-1))
+                ELSE
+                    COLSUM = ABS(D(I))+ABS(E(I))+ABS(E(I-1))
+                END IF           
+                ANORM = MAX(ANORM, COLSUM)
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end sptcon, dptcon, cptcon, zptcon
+
+
+begin sgbcon, dgbcon, cgbcon, zgbcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            ANORM = 0.d0
+            IF (NORM == '1') THEN
+                DO J = 1,N
+                    COLSUM = 0.d0
+                    DO I=1,N
+                        COLSUM = COLSUM+ABS(AB(KL+KU+1+I-J,J))
+                    END DO
+                    ANORM = MAX(ANORM, COLSUM)
+                END DO
+            ELSE IF (NORM == 'I') THEN
+                DO I = 1,N
+                    ROWSUM = 0.d0
+                    DO J=MAX(I-KL,1),MIN(I+KU,N)
+                        ROWSUM = ROWSUM+ABS(AB(KL+KU+1+I-J,J))
+                    END DO
+                    ANORM = MAX(ANORM, ROWSUM)
+                END DO            
+            END IF
+        END SUBROUTINE COMPUTE_ANORM
+end sgbcon, dgbcon, cgbcon, zgbcon
+
+
+begin spbcon, dpbcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,MIN(N,I+KD)
+                        Y(I, J) = AB(KD+1+I-J,J)
+                        Y(J, I) = Y(I, J)
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=MAX(1,I-KD),I
+                        Y(I, J) = AB(1+I-J,J)
+                        Y(J, I) = Y(I, J) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)                
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end spbcon, dpbcon
+
+
+begin cpbcon, zpbcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,MIN(N,I+KD)
+                        Y(I, J) = AB(KD+1+I-J,J)
+                        Y(J, I) = conjg(Y(I, J))
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=MAX(1,I-KD),I
+                        Y(I, J) = AB(1+I-J,J)
+                        Y(J, I) = conjg(Y(I, J)) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)                
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end cpbcon, zpbcon
+
+
+begin ssycon, dsycon, csycon, zsycon, spocon, dpocon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,N
+                        Y(I, J) = A(I,J)
+                        Y(J, I) = Y(I, J)
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=1,I
+                        Y(I, J) = A(I,J)
+                        Y(J, I) = Y(I, J) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)                
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end ssycon, dsycon, csycon, zsycon, spocon, dpocon
+
+
+begin checon, zhecon, cpocon, zpocon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,N
+                        Y(I,J) = A(I,J)
+                        Y(J,I) = conjg(Y(I,J))
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=1,I
+                        Y(I,J) = A(I,J)
+                        Y(J,I) = conjg(Y(I,J)) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)                
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end checon, zhecon, cpocon, zpocon
+
+
+begin sppcon, dppcon, sspcon, dspcon, cspcon, zspcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,N
+                        Y(I,J) = AP(I+J*(J-1)/2)
+                        Y(J,I) = Y(I,J)
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=1,I
+                        Y(I,J) = AP(I+(2*N-J)*(J-1)/2)
+                        Y(J,I) = Y(I,J) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)                
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end sppcon, dppcon, sspcon, dspcon, cspcon, zspcon
+
+
+begin cppcon, zppcon, chpcon, zhpcon
+        SUBROUTINE COMPUTE_ANORM
+            USE Declaration
+            dataType(KIND=)            :: Y(N,N)
+
+            ANORM = 0.d0
+            !--- write the entire matrix into Y ---!
+            IF (UPLO =='U') THEN
+                DO I=1,N
+                    DO J = I,N
+                        Y(I,J) = AP(I+J*(J-1)/2)
+                        Y(J,I) = conjg(Y(I,J))
+                    END DO
+                END DO
+            ELSE IF (UPLO == 'L') THEN
+                DO I = 1,N
+                    DO J=1,I
+                        Y(I,J) = AP(I+(2*N-J)*(J-1)/2)
+                        Y(J,I) = conjg(Y(I,J)) 
+                    END DO
+                END DO            
+            END IF
+            
+            !--- compute ANORM of Y ---!
+            DO I = 1,N
+                ROWSUM = 0.d0
+                DO J = 1,N
+                    ROWSUM = ROWSUM+ABS(Y(I,J))
+                END DO
+                ANORM = MAX(ANORM, ROWSUM)
+            END DO
+        END SUBROUTINE COMPUTE_ANORM
+end cppcon, zppcon, chpcon, zhpcon
+

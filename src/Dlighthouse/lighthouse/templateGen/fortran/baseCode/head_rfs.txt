@@ -1,0 +1,66 @@
+        MODULE Declaration
+            INTEGER                                                     :: integer_list, I, J
+            CHARACTER(LEN=1)                                            :: character_list
+            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
+            REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
+            dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
+            dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
+            
+        END MODULE Declaration
+                
+
+        PROGRAM TEMP_routineName
+            USE Declaration
+            IMPLICIT NONE
+            
+            !--- message ---!
+            PRINT *, "***************************************************************************************"
+            PRINT *, "*** Use routineName to improve the computed solution to a system of linear equations and ***"
+            print *, "*** provide error bounds and backward error estimates for the solution.             ***"
+            PRINT *, "***************************************************************************************"
+            PRINT *,
+ 
+ 
+            !--- open files that store data ---!
+            CALL OPEN_FILES
+
+
+            !--- allocate storage ---!
+            CALL DIMNS_ASSIGNMENT
+
+            
+            !--- read data ---!
+            CALL GET_DATA
+
+        
+            !--- copy arrays ---!
+            copy_arrays
+            X = B
+            
+            
+            !--- solve AX = B, improve solution, and compute error bounds ---!
+            CALL routineName_trf trf_parameters
+            CALL routineName_trs trs_parameters
+            CALL routineName routine_parameters
+
+            
+            !--- write the solution ---! 
+            CALL PRINT_SOLUTION
+             
+            !--- write INFO ---!
+            WRITE(*, *) "INFO = ", INFO
+            
+            DEALLOCATE(ALLOCATE_list)
+        END PROGRAM TEMP_routineName
+        
+
+
+        
+        SUBROUTINE OPEN_FILES
+            !--- obtain the dada of the matrix A ---!
+            OPEN (unit=11, file='/path/to/file/of/data_A', status='old')
+            
+            !--- obtain the data of right hand side B ---!
+            OPEN (unit=22, file='/path/to/file/of/data_B', status='old')
+        END SUBROUTINE OPEN_FILES
+        

@@ -1,0 +1,59 @@
+        MODULE Declaration
+            !--- declare arrays to be allocatable ---!
+            INTEGER                                                     :: integer_list, I, J
+            CHARACTER(LEN=1)                                            :: character_list
+            INTEGER, DIMENSION(:), ALLOCATABLE                          :: array_1D_int_list
+            REAL(KIND=), DIMENSION(:), ALLOCATABLE                      :: real_1D_list
+            dataType(KIND=), DIMENSION(:), ALLOCATABLE                  :: array_1D_list
+            dataType(KIND=), DIMENSION(:,:), ALLOCATABLE                :: matrix_list
+
+        END MODULE Declaration
+                
+
+        PROGRAM TEMP_routineName
+            USE Declaration
+            IMPLICIT NONE
+            
+            !--- message ---!
+            PRINT *, "******************************************************"
+            PRINT *, "*** Use routineName to compute the inverse of a matrix ***"
+            PRINT *, "******************************************************"
+            PRINT *,
+ 
+ 
+            !--- open file that stores data ---!
+            CALL OPEN_FILES
+
+
+            !--- allocate storage ---!
+            CALL DIMNS_ASSIGNMENT
+
+            
+            !--- read data ---!
+            CALL GET_DATA
+
+            
+            !--- invert matrix ---!
+            CALL routineName_trf trf_parameters
+            CALL routineName routine_parameters
+
+            
+            !--- write the solution ---!
+            CALL PRINT_SOLUTION
+            
+ 
+            !--- write INFO ---!
+            WRITE(*, *) "info = ", INFO
+            
+            DEALLOCATE(ALLOCATE_list)
+        END PROGRAM TEMP_routineName
+        
+
+
+        
+        SUBROUTINE OPEN_FILES
+            !--- obtain the dada of the matrix A ---!
+            OPEN (unit=11, file='file_name_for_data_A', status='old')
+            
+        END SUBROUTINE OPEN_FILES
+        

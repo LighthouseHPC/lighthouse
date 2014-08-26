@@ -1,0 +1,102 @@
+!--- real matrix B---!
+begin (real) gerfs gtrfs ptrfs gbrfs pbrfs syrfs porfs pprfs sprfs trrfs tbrfs tprfs
+  /*--- read B and transform it to BT ---*/
+  for(i=0; i <ldb; i++){
+    for (j=0; j<nrhs; j++){
+      fscanf(fptB, "%placeholder",&BT[i+ldb*j]);
+    }
+  }
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print vector x ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("   %6.3f", XT[i+n*j]);    
+    }
+    printf("\n");
+  }
+
+end (real) gerfs gtrfs ptrfs gbrfs pbrfs syrfs porfs pprfs sprfs trrfs tbrfs tprfs
+
+
+
+
+
+!--- complex matrix B---!
+begin (complex) gerfs gtrfs ptrfs gbrfs pbrfs syrfs porfs pprfs sprfs herfs hprfs trrfs tbrfs tprfs
+  /*--- allocate temporary array buffer_B ---*/
+  dataType *buffer_B;
+  buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
+  
+  /*--- read matrix B into buffer_B ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptB)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (i=0; i<2*nrhs; i++){
+      buffer_B[linenum*2*nrhs+i] = strtof(ptr, &ptr);                   //convert ptr to float
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    linenum++;
+  }
+  
+  /*--- get B ---*/
+  for (i=0; i<ldb; i++){
+    for (j=0; j<nrhs; j++){
+      B[i][j] = buffer_B[2*(i*nrhs+j)]+buffer_B[2*(i*nrhs+j)+1]*I;
+    }
+  }
+  
+  /*--- transform B to its Fortran vector format BT---*/
+  for (i=0; i<ldb; i++){                               
+    for(j=0; j<nrhs; j++){
+       BT[2*(i+ldb*j)]=creal(B[i][j]);
+       BT[2*(i+ldb*j)+1]=cimag(B[i][j]);
+    }
+  }
+  
+  free(buffer_B);
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print vector x ---*/
+  printf("Improved Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("(%6.3f, %6.3f)\t",  XT[2*(i+n*j)], XT[2*(i+n*j)+1]);     
+    }
+    printf("\n");
+  }
+
+end (complex) gerfs gtrfs ptrfs gbrfs pbrfs syrfs porfs pprfs sprfs herfs hprfs trrfs tbrfs tprfs
+
+
+
+
+!--- print error bounds and info ---!
+begin (real) (complex) gerfs gtrfs ptrfs gbrfs pbrfs syrfs porfs pprfs sprfs herfs hprfs trrfs tbrfs tprfs  
+  /*--- print forward errors---*/
+  /*--- Note: forward errors are machine-dependent ---*/
+  printf("\nFERR:\n");
+  for (i=0; i<nrhs; i++){
+    printf("\t%4.2e", FERR[i]);
+  }
+  
+  /*--- print backward errors---*/
+  /*--- Note: backward errors are machine-dependent ---*/
+  printf("\nBERR:\n");
+  for (i=0; i<nrhs; i++){
+    printf("\t%4.2e", BERR[i]);
+  }
+  
+  /*---print info ---*/
+   printf("\ninfo = %d", info);   
+}
+
+end (real) (complex) gerfs gtrfs ptrfs gbrfs pbrfs syrfs porfs pprfs sprfs herfs hprfs trrfs tbrfs tprfs

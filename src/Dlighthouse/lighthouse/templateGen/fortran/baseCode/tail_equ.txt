@@ -1,0 +1,273 @@
+begin geequ geequb gbequ gbequb
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,33300) 'AMAX = ', AMAX
+            WRITE(*,33300) 'ROWCND = ', ROWCND
+            WRITE(*,33300) 'COLCND = ', COLCND
+            WRITE(*,*)
+            WRITE(*,*) 'Row scale factors:'
+            WRITE(*, 44400) (R(I), I=1,M)
+            WRITE(*,*)
+            WRITE(*,*) 'Column scale factors:'           
+            WRITE(*, 44400) (C(J), J=1,N)
+            WRITE(*,*)
+            
+33300       FORMAT(1X,3(A,1P,ES15.2))
+
+44400       FORMAT(11(:,1X, ES15.2))
+        END SUBROUTINE PRINT_SOLUTION
+        
+        
+end geequ geequb gbequ gbequb
+
+
+
+begin poequ poequb pbequ ppequ syequb heequb
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,33300) 'AMAX = ', AMAX
+            WRITE(*,33300) 'SCOND = ', SCOND
+            WRITE(*,*)
+            WRITE(*,*) 'Scale factors:'
+            WRITE(*, 44400) (S(I), I=1,N)
+            WRITE(*,*)
+            
+33300       FORMAT(1X,3(A,1P,ES15.2))
+
+44400       FORMAT(11(:,1X, ES15.2))
+        END SUBROUTINE PRINT_SOLUTION
+        
+        
+end poequ poequb pbequ ppequ syequb heequb
+
+
+
+
+begin geequ geequb
+        SUBROUTINE MATRIX_SCALING
+            USE Declaration
+            
+            !--- determin type of scaling ---!
+            IF (ROWCON>=0.1 .AND. SMLNUM<AMAX .AND. AMAX<BIGNUM) THEN
+                IF (COLCON<0.1) THEN
+                    WRITE(*,*) 'Row scaling is not needed. Column Scaled Matrix A = '
+                    DO J=1,N
+                        DO I=1,M
+                            A(I,J) = A(I,J)*C(J)
+                        END DO
+                    END DO
+                ELSE
+                    WRITE(*,*) 'Matrix is not worth scaling.'
+                END IF
+            ELSE
+                IF (COLCON>=0.1) THEN
+                    WRITE(*,*) 'Column scaling is not needed. Row Scaled Matrix A = '
+                    DO J=1,N
+                        DO I=1,M
+                            A(I,J) = R(I)*A(I,J)
+                        END DO
+                    END DO
+                ELSE
+                    WRITE(*,*) 'Row-and-column Scaled Matrix A = '
+                    DO J=1,N
+                        DO I=1,M
+                            A(I,J) = R(I)*A(I,J)*C(J)
+                        END DO
+                    END DO
+                END IF
+            END IF
+                  
+            !--- print scaled matrix ---!
+            DO I = 1,M      
+                WRITE (*,fmtNum) (A(I,J), J=1,N)
+            END DO
+            
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+
+        END SUBROUTINE MATRIX_SCALING
+end geequ geequb
+
+
+
+begin gbequ gbequb
+        SUBROUTINE MATRIX_SCALING
+            USE Declaration
+            
+            !--- determin type of scaling ---!
+            IF (ROWCON>=0.1 .AND. SMLNUM<AMAX .AND. AMAX<BIGNUM) THEN
+                IF (COLCON<0.1) THEN
+                    WRITE(*,*) 'Row scaling is not needed. Column Scaled Matrix A = '
+                    DO J=1,N
+                        DO I=MAX(1,J-KU), MIN(N,J+KL)
+                            AB(KU+1+I-J, J) = AB(KU+1+I-J, J)*C(J)
+                        END DO
+                    END DO
+                ELSE
+                    WRITE(*,*) 'Matrix is not worth scaling.'
+                END IF
+            ELSE
+                IF (COLCON>=0.1) THEN
+                    WRITE(*,*) 'Column scaling is not needed. Row Scaled Matrix A = '
+                    DO J=1,N
+                        DO I=MAX(1,J-KU), MIN(N,J+KL)
+                            AB(KU+1+I-J, J) = R(I)*AB(KU+1+I-J, J)
+                        END DO
+                    END DO
+                ELSE
+                    WRITE(*,*) 'Row-and-column Scaled Matrix A = '
+                    DO J=1,N
+                        DO I=MAX(1,J-KU), MIN(N,J+KL)
+                            AB(KU+1+I-J, J) = R(I)*AB(KU+1+I-J, J)*C(J)
+                        END DO
+                    END DO
+                END IF
+            END IF
+                  
+            
+            DO I=1,M     
+                WRITE (*,fmtNum) (AB(KU+1+I-J, J), J=MAX(I-KL,1),MIN(I+KU,N))
+            END DO
+            
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE MATRIX_SCALING
+end gbequ gbequb   
+        
+        
+        
+begin pbequ
+        SUBROUTINE MATRIX_SCALING
+            USE Declaration
+            
+            !--- determin type of scaling ---!
+            IF (SCOND>=0.1 .AND. SMLNUM<AMAX .AND. AMAX<BIGNUM) THEN
+                WRITE(*,*) 'Matrix is not worth scaling.'
+            ELSE
+                WRITE(*,*) 'Scaled Matrix A = '
+                IF (UPLO=='U') THEN
+                    DO J=1,N
+                        DO I=MAX(1,J-KD), J
+                            AB(KD+1+I-J,J) = S(I)*AB(KD+1+I-J,J)*S(J)
+                        END DO
+                    END DO
+                ELSE IF (UPLO=='L') THEN
+                    DO J=1,N
+                        DO I=J, MIN(N,J+KD)
+                            AB(I+1-J,J) = S(I)*AB(I+1-J,J)*S(J)
+                        END DO
+                    END DO
+                END IF
+            END IF
+                  
+            
+            DO I=1,N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (AB(KD+1+I-J,J), J=I,MIN(N,I+KD))
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (AB(I+1-J,J), J=MAX(1,I-KD),I)
+                END IF
+            END DO
+            
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE MATRIX_SCALING
+end pbequ
+
+
+begin ppequ
+        SUBROUTINE MATRIX_SCALING
+            USE Declaration
+            
+            !--- determin type of scaling ---!
+            IF (SCOND>=0.1 .AND. SMLNUM<AMAX .AND. AMAX<BIGNUM) THEN
+                WRITE(*,*) 'Matrix is not worth scaling.'
+            ELSE
+                WRITE(*,*) 'Scaled Matrix A = '
+                IF (UPLO =='U') THEN
+                    DO J=1,N
+                        DO I=1,J
+                            AP(I+(J*(J-1))/2) = S(I)*AP(I+(J*(J-1))/2)*S(J)
+                        END DO
+                    END DO
+                ELSE IF (UPLO == 'L') THEN
+                    DO J=1,N
+                        DO I=J,N
+                            AP(I+((2*N-J)*(J-1))/2) = S(I)*AP(I+((2*N-J)*(J-1))/2)*S(J)
+                        END DO
+                    END DO
+                END IF
+            END IF
+                  
+            
+            DO I=1,N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (AP(I+J*(J-1)/2), J=I,N)
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (AP(I+(2*N-J)*(J-1)/2), J=1,I)
+                END IF
+            END DO
+            
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE MATRIX_SCALING
+end ppequ
+
+
+
+begin poequ poequb syequb heequb
+        SUBROUTINE MATRIX_SCALING
+            USE Declaration
+            
+            !--- determin type of scaling ---!
+            IF (SCOND>=0.1 .AND. SMLNUM<AMAX .AND. AMAX<BIGNUM) THEN
+                WRITE(*,*) 'Matrix is not worth scaling.'
+            ELSE
+                WRITE(*,*) 'Scaled Matrix A = '
+                IF (UPLO =='U') THEN
+                    DO J=1,N
+                        DO I=1,J
+                            A(I,J) = S(I)*A(I,J)*S(J)
+                        END DO
+                    END DO
+                ELSE IF (UPLO == 'L') THEN
+                    DO J=1,N
+                        DO I=J,N
+                            A(I,J) = S(I)*A(I,J)*S(J)
+                        END DO
+                    END DO
+                END IF
+            END IF
+                  
+            
+            DO I=1,N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (A(I,J), J=I,N)
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (A(I,J), J=1,I)
+                END IF
+            END DO
+            
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE MATRIX_SCALING
+end poequ poequb syequb heequb
