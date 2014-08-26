@@ -49,7 +49,7 @@
 			  </td>
 			  <td >
 				  <img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
-				       onclick="showMore('sel_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>	
+				       onclick="showMore('sel_syladv_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>	
 			  </td>
 			  <td class="hiddenStuff">
 				  <img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
@@ -63,7 +63,7 @@
 	  </table>
 	</div>
 	<div class="dijitHidden">
-		<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+		<div id="sel_syladv_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 			<div align="center">
 				<table id="table_main" width="80%" border = "1">
 					<tr>
@@ -79,8 +79,8 @@
 					<td>{{ item.storageType }}</td>      
 					</tr>
 				</table><br/>
-				<iframe id="sel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
-				<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+				<iframe id="sel_syladv_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
+				<button onClick="dijit.byId('sel_syladv_{{ item.id }}').hide()">Close</button>
 			</div>
 		</div>
 	</div>
