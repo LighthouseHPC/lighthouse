@@ -1,0 +1,340 @@
+####---------- for reading files for factored matrix ----------####
+
+begin gesvx
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AF and IPIV are input arguments ---!
+            !--- if FACT = 'F' and EQUED = 'R', 'C', or 'B', then R and/or C are input arguments ---!
+            open (unit=33, file='file_name_for_data_AF_R_C', status='old')
+            open (unit=44, file='file_name_for_data_IPIV', status='old')
+            
+            !--- read data from file for AF. (read R,and/or C only if EQUED is not 'N'.) ---!
+            READ(33, *) ((AF(I,J),J=1,N),I=1,N)
+            
+            IF (EQUED == 'R') THEN
+                READ(33, *) (R(I), I=1,N)
+            ELSE IF (EQUED == 'C') THEN
+                READ(33, *) (C(J), J=1,N)
+            ELSE IF (EQUED =='B') THEN
+                READ(33, *) (R(I), I=1,N)
+                READ(33, *) (C(J), J=1,N)
+            END IF
+                
+            !--- read data from file for IPIV ---!
+            READ (44,*) (IPIV(I), I=1,N)
+        END SUBROUTINE FACT_INPUT
+        
+        
+end gesvx
+
+
+begin gbsvx
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AFB and IPIV are input arguments ---!
+            !--- if FACT = 'F' and EQUED = 'R', 'C', or 'B', then R and/or C are input arguments ---!
+            open (unit=33, file='file_name_for_data_AFB_R_C', status='old')
+            open (unit=44, file='file_name_for_data_IPIV', status='old')
+            
+            !--- read data from file for AF. (read R,and/or C only if EQUED is not 'N'.) ---!
+            READ(33, *) ((AFB(KU+1+I-J,J),J=MAX(I-KL,1),MIN(I+KU,N)),I=1,N)
+            
+            IF (EQUED == 'R') THEN
+                READ(33, *) (R(I), I=1,N)
+            ELSE IF (EQUED == 'C') THEN
+                READ(33, *) (C(J), J=1,N)
+            ELSE IF (EQUED =='B') THEN
+                READ(33, *) (R(I), I=1,N)
+                READ(33, *) (C(J), J=1,N)
+            END IF
+                
+            !--- read data from file for IPIV ---!
+            READ (44,*) (IPIV(I), I=1,N)
+        END SUBROUTINE FACT_INPUT
+        
+        
+end gbsvx
+
+
+begin pbsvx
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AFB is an input argument ---!
+            !--- if FACT = 'F' and EQUED = 'Y', then S is an input argument ---!
+            open (unit=33, file='file_name_for_data_AFB_S', status='old')
+            
+            !--- read data from file for AFB. (read S only if EQUED = 'Y'.) ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AFB(KD+1+I-J,J),J=I,MIN(N,I+KD)),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AFB(1+I-J,J),J=MAX(1,I-KD),I),I=1,N)
+            END IF
+            
+            IF (EQUED == 'Y') THEN
+                READ(33, *) (S(I), I=1,N)
+            END IF
+        END SUBROUTINE FACT_INPUT
+        
+        
+end pbsvx
+
+
+begin posvx 
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AF is an input arguments ---!
+            !--- if FACT = 'F' and EQUED = 'Y', then S is an input argument ---!
+            open (unit=33, file='file_name_for_data_AF_S', status='old')
+            
+            !--- read data from file for AF. (read S only if EQUED = 'Y'.) ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AF(I,J),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AF(I,J),J=1,I),I=1,N)
+            END IF
+            
+            IF (EQUED == 'Y') THEN
+                READ(33, *) (S(I), I=1,N)
+            END IF
+        END SUBROUTINE FACT_INPUT
+        
+        
+end posvx
+
+
+begin ppsvx 
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AFP is an input arguments ---!
+            !--- if FACT = 'F' and EQUED = 'Y', then S is an input argument ---!
+            open (unit=33, file='file_name_for_data_AFP_S', status='old')
+            
+            !--- read data from file for AFP. (read S only if EQUED = 'Y'.) ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AFP(I+J*(J-1)/2),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AFP(I+(2*N-J)*(J-1)/2),J=1,I),I=1,N)
+            END IF
+            
+            IF (EQUED == 'Y') THEN
+                READ(33, *) (S(I), I=1,N)
+            END IF
+        END SUBROUTINE FACT_INPUT
+        
+        
+end ppsvx
+
+
+
+begin sysvx hesvx 
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AF and IPIV are input arguments ---!
+            open (unit=33, file='file_name_for_data_AF', status='old')
+            open (unit=44, file='file_name_for_data_IPIV', status='old')
+            
+            !--- read data from file for AF ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AF(I,J),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AF(I,J),J=1,I),I=1,N)
+            END IF
+            
+            !--- read data from file for IPIV ---!
+            READ (44,*) (IPIV(I), I=1,N)
+        END SUBROUTINE FACT_INPUT
+        
+        
+end sysvx hesvx 
+
+
+
+begin gtsvx
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', DUF,DF, DLF, and IPIV are input arguments ---!
+            open (unit=33, file='file_name_for_data_DUF_DF_DLF', status='old')
+            open (unit=44, file='file_name_for_data_IPIV', status='old')
+            
+            !--- read data from file for DUF,DF,and DLF. ---!
+            READ(33, *) (DUF(I),I=1,N-1)
+            READ(33, *) (DF(I),I=1,N)
+            READ(33, *) (DLF(I),I=1,N-1)
+                
+            !--- read data from file for IPIV ---!
+            READ (44,*) (IPIV(I), I=1,N)
+        END SUBROUTINE FACT_INPUT
+        
+        
+end gtsvx
+
+
+begin ptsvx
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', DF and EF are input arguments ---!
+            open (unit=33, file='file_name_for_data_DF_EF', status='old')
+            
+            !--- read data from files for DLF,DF,and DUF. ---!
+            READ(33,*) (DF(I),I=1,N)
+            READ(33,*) (EF(I),I=1,N-1)
+        END SUBROUTINE FACT_INPUT
+        
+        
+end ptsvx
+
+
+begin spsvx hpsvx
+        SUBROUTINE FACT_INPUT
+            USE Declaration
+            !--- if FACT = 'F', AFP and IPIV are input arguments ---!
+            open (unit=33, file='file_name_for_data_AFP', status='old')
+            open (unit=44, file='file_name_for_data_IPIV', status='old')
+            
+            !--- read data from file for AFP. ---!
+            IF (UPLO =='U') THEN
+                READ (33,*) ((AFP(I+J*(J-1)/2),J=I,N),I=1,N)
+            ELSE IF (UPLO == 'L') THEN
+                READ (33,*) ((AFP(I+(2*N-J)*(J-1)/2),J=1,I),I=1,N)
+            END IF
+            
+            !--- read data from file for IPIV ---!
+            READ (44,*) (IPIV(I), I=1,N)            
+        END SUBROUTINE FACT_INPUT
+        
+        
+end spsvx hpsvx
+
+
+
+
+####---------- for writing results ----------####
+
+begin gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'SOLUTION: '
+            DO I = 1, LDX
+                WRITE(*,fmtNum) ( X( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+            
+            !--- write forward errors ---!
+            !--- Note: forward errors are machine-dependent ---!
+            WRITE(*, *) "FERR: "
+            WRITE(*, "(ES15.3, 1X, ES15.3)") (FERR(I), I = 1, NRHS)
+            WRITE(*, *)            
+            
+            !--- write backward errors ---!
+            !--- Note: backward errors are machine-dependent ---!
+            WRITE(*, *) "BERR: "
+            WRITE(*, "(ES15.3, 1X, ES15.3)") (BERR(I), I = 1, NRHS)
+            WRITE(*, *)
+            
+            !--- write condition number ---!
+            WRITE (*,*) "Reciprocal condition number: "
+            WRITE (*,33300) "RCOND = ", RCOND
+            WRITE (*,*)
+            WRITE (*,*) "Condition number: "
+            WRITE (*,33300) "1/RCOND = ", 1.d0/RCOND
+            WRITE (*,*)
+
+end gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
+
+
+
+####---------- for writing scaled matrix ----------####
+
+begin gesvx gbsvx pbsvx
+            !--- write A ---!
+            IF (EQUED == 'N') THEN
+                WRITE (*,*) "A is not scaled. A = "
+            ELSE IF (EQUED == 'R') THEN
+                WRITE (*,*) "A is row sacled. A = "
+            ELSE IF (EQUED == 'C') THEN
+                WRITE (*,*) "A is column scaled. A = "
+            ELSE IF (EQUED == 'B') THEN
+                WRITE (*,*) "A is row and column scaled. A = "
+            END IF
+            
+end gesvx gbsvx pbsvx
+
+
+begin posvx ppsvx
+            !--- write A ---!
+            IF (EQUED == 'N') THEN
+                WRITE (*,*) "A is not scaled. A = "
+            ELSE IF (EQUED == 'Y') THEN
+                WRITE (*,*) "A is scaled. A = "
+            END IF
+            
+end posvx ppsvx
+
+
+
+begin gesvx
+            DO I = 1, N
+                WRITE(*,fmtNum) ( A( I, J ), J = 1, N )
+            END DO
+end gesvx
+
+
+
+begin gbsvx
+            DO I = 1, N
+                WRITE(*,fmtNum) (AB(KU+1+I-J,J),J=MAX(I-KL,1),MIN(I+KU,N))
+            END DO
+end gbsvx
+
+
+begin pbsvx
+            DO I = 1, N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (AB(KD+1+I-J,J), J=I,MIN(N,I+KD))
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (AB(KD+1+I-J,J), J=MAX(1,I-KD),I)
+                END IF
+            END DO
+end pbsvx
+
+
+begin posvx
+            DO I = 1, N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (A(I,J), J=I,N)
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (A(I,J), J=1,I)
+                END IF
+            END DO 
+end posvx
+
+
+begin ppsvx
+            DO I = 1, N
+                IF (UPLO=='U') THEN
+                    WRITE (*,fmtNum) (AP(I+J*(J-1)/2), J=I,N)
+                ELSE IF (UPLO=='L') THEN
+                    WRITE (*,fmtNum) (AP(I+(2*N-J)*(J-1)/2), J=1,I)
+                END IF
+            END DO 
+end ppsvx
+
+
+
+
+####---------- for defining format ----------####
+
+begin gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx
+
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.3))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+
+33300       FORMAT (5X, A, 1P, E10.4)
+
+        END SUBROUTINE PRINT_SOLUTION
+end gesvx gtsvx ptsvx gbsvx pbsvx sysvx hesvx posvx ppsvx spsvx hpsvx

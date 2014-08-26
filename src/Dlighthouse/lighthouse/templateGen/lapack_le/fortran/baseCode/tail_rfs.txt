@@ -1,0 +1,31 @@
+
+        SUBROUTINE PRINT_SOLUTION
+            USE Declaration
+
+            WRITE(*,*)
+            WRITE(*,*) 'IMPROVED SOLUTION: '
+            DO I = 1, LDX
+                WRITE(*,fmtNum) ( X( I, J ), J = 1, NRHS )
+            END DO
+            WRITE(*,*)
+            
+            !--- write forward errors ---!
+            !--- Note: forward errors are machine-dependent ---!
+            WRITE(*, *) "FERR: "
+            WRITE(*, "(ES15.3, 1X, ES15.3)") (FERR(I), I = 1, NRHS)
+            WRITE(*, *)            
+            
+            !--- write backward errors ---!
+            !--- Note: backward errors are machine-dependent ---!
+            WRITE(*, *) "BERR: "
+            WRITE(*, "(ES15.3, 1X, ES15.3)") (BERR(I), I = 1, NRHS)
+            WRITE(*, *)
+                   
+            !--- real ---!
+11100       FORMAT(11(:,1X, F8.4))            
+
+            !--- complex ---!    
+22200       FORMAT( 11(:,1X,'(',F12.6,',',F12.6,')') )
+        END SUBROUTINE PRINT_SOLUTION
+
+        

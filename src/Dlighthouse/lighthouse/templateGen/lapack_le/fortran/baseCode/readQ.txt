@@ -1,0 +1,117 @@
+            begin N
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input number of columns in matrix A. N >= 0. N = "
+	    READ *, N 
+            end N
+            
+            
+            begin M
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input number of rows in matrix A. M >= 0. M = "
+            READ *, M
+            end M
+            
+            
+            begin NRHS
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input number of columns in B. NRHS = "
+            READ *, NRHS
+            end NRHS
+            
+            
+            
+            !--- for band matrix ---!
+            begin KL
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of subdiagonals within the band of A. KL >= 0. KL = "
+            READ *, KL
+            end KL
+
+
+            begin KU
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of superdiagonals within the band of A. KU >= 0. KU = "
+            READ *, KU
+            end KU
+            
+ 
+            begin KD
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input the number of superdiagonals/subdiagonals of the matrix A. KD >= 0. KD = "
+            READ *, KD
+            end KD
+            !--- end for band matrix ---!
+
+            
+            
+            begin UPLO
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input 'U' for upper triangular matrix or 'L' for lower triangular matrix. UPLO = "
+            READ *, UPLO
+            end UPLO
+            
+	    
+	    begin TOL
+            WRITE(*, '(A)', ADVANCE = 'NO') "Define Tolerance. TOL = "
+            READ *, TOL
+            end TOL
+            
+	    
+            begin NORM
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input '1' for 1-norm or 'I' for Infinity-norm. NORM = "
+            READ *, NORM            
+            end NORM
+            
+            
+            begin TRANS
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' for No transpose, 'T' for Transpose, or 'C' for Conjugate transpose. TRANS = "
+            READ *, TRANS  
+            end TRANS
+            
+            
+            begin DIAG
+            WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if A is non-unit triangular or 'U' if A is unit triangular. DIAG = "
+            READ *, DIAG
+            end DIAG
+            
+            
+            begin TRANSR
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' if ARF is in Normal format,  or 'T' if ARF is in Transpose format. TRANSR = "
+            READ *, TRANSR  
+            end TRANSR
+	    	    
+	    
+	    
+	    !--- for driver expert routines ---!
+	    begin FACT gtsvx ptsvx sysvx hesvx spsvx hpsvx
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'F' for factored form of A; otherwise, enter 'N'. FACT = "
+	    READ *, FACT
+	    
+	    IF (FACT == 'F') THEN
+	        CALL FACT_INPUT
+	    END IF
+	    end FACT gtsvx ptsvx sysvx hesvx spsvx hpsvx
+	    
+	    
+	    begin FACT gesvx gbsvx
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'F' for factored form of A, 'E' if A is to be equilibrated; otherwise, enter 'N'. FACT = "
+	    READ *, FACT
+	    
+	    IF (FACT == 'F') THEN
+                !--- EQUED is an input argument only when FACT = 'F'; otherwise, it is an output argument ---!
+		WRITE(*, '(A)') "Input 'N' for No equilibration, or R' for Row equilibration, or"
+		WRITE(*, '(A)', ADVANCE = 'NO') "'C' for Column equilibration, or 'B' for Both row and column equilibration. EQUED = "
+                READ *, EQUED
+		
+	        CALL FACT_INPUT
+	    END IF
+	    end FACT gesvx gbsvx
+
+	    
+	    begin FACT posvx pbsvx ppsvx
+	    WRITE(*, '(A)', ADVANCE = 'NO') "Input 'F' for factored form of A, 'E' if A is to be equilibrated; otherwise, enter 'N'. FACT = "
+	    READ *, FACT
+	    
+	    IF (FACT == 'F') THEN
+                !--- EQUED is an input argument only when FACT = 'F'; otherwise, it is an output argument ---!
+		WRITE(*, '(A)', ADVANCE = 'NO') "Input 'N' for No equilibration, or 'Y' for equilibration. EQUED = "
+                READ *, EQUED
+		
+	        CALL FACT_INPUT
+	    END IF 
+	    end FACT posvx pbsvx ppsvx
+	    !--- end driver expert routines ---!
+	    
