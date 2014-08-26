@@ -2,8 +2,8 @@ import os, fnmatch, re
 
 from lighthouse.models.lapack_le import lapack_le_arg, lapack_le_arg_c
 
-fortran_path = './lighthouse/templateGen/fortran/'
-c_path = './lighthouse/templateGen/cpp/'
+fortran_path = './lighthouse/templateGen/lapack_le/fortran/'
+c_path = './lighthouse/templateGen/lapack_le/cpp/'
 
 keyword_list = ['trf', 'trs', 'con', 'tri', 'rfs', 'equ', 'svx']
 
