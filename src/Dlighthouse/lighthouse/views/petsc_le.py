@@ -91,7 +91,7 @@ def generateCode(request):
 		alt_option = request.POST['alt_choices']
 
 
-	base_path = './lighthouse/libraries/petsc_le/work_dir/'
+	base_path = './lighthouse/templateGen/petsc_le/work_dir/'
 
 	if upload_matrix == "No":
 		if alt_option == "1":
@@ -138,7 +138,7 @@ def generateCode(request):
 
 def downloadCode(request):
 
-	filepath = './lighthouse/libraries/petsc_le/work_dir/sample.zip'
+	filepath = './lighthouse/templateGen/petsc_le/work_dir/sample.zip'
 
 	wrapper = FileWrapper(open(filepath))
 	response = HttpResponse(wrapper, content_type='application/octet-stream')
@@ -147,7 +147,7 @@ def downloadCode(request):
 
 def getCode():
 
-	filepath = './lighthouse/libraries/petsc_le/work_dir/linear_solver.c'
+	filepath = './lighthouse/templateGen/petsc_le/work_dir/linear_solver.c'
 	code = ""
 	
 	if os.path.isfile(filepath):
@@ -158,7 +158,7 @@ def getCode():
 
 def getMakefile():
 
-	filepath = './lighthouse/libraries/petsc_le/work_dir/makefile'
+	filepath = './lighthouse/templateGen/petsc_le/work_dir/makefile'
 	makefile = ""
 	
 	if os.path.isfile(filepath):
@@ -169,7 +169,7 @@ def getMakefile():
 
 def getCommands():
 
-	filepath = './lighthouse/libraries/petsc_le/work_dir/command_line_options.txt'
+	filepath = './lighthouse/templateGen/petsc_le/work_dir/command_line_options.txt'
 	commands = ""
 	
 	if os.path.isfile(filepath):
@@ -179,6 +179,6 @@ def getCommands():
 	return commands
 
 def handle_uploaded_file(f):
-    with open('./lighthouse/libraries/petsc_le/work_dir/'+'matrix_file', 'wb+') as destination:
+    with open('./lighthouse/templateGen/petsc_le/work_dir/'+'matrix_file', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
