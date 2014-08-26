@@ -20,7 +20,6 @@
 {% for item in results %}
   
   {% if item in selectedRoutineNames %}
-
 	<div class="notDndItem" id="nsel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 	     detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
 	     style="list-style-type: none;">
@@ -40,7 +39,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('nsel_{{ item.id }}', '{{ item.url }}')">more</button>
+			<button onclick="showMore('nsel_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="nsel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -65,7 +64,7 @@
 			</div>
 		</div>		
 	</div>
-  {% else %} 
+  {% else %}
 	<div class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 	     detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
 		<div class="routineName">
@@ -82,7 +81,7 @@
 					</td>
 					<td class="hiddenStuff">
 						<img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
-						     onclick="showMore('sel_{{ item.id }}', '{{ item.url }}')"/>
+						     onclick="showMore('sel_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
 					</td>
 					<td class="hiddenStuff">
 						<img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
@@ -96,7 +95,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('sel_{{ item.id }}', '{{ item.url }}')">more</button>
+			<button onclick="showMore('sel_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
