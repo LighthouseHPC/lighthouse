@@ -47,8 +47,12 @@ def createTemplate(request, checked_list, language, time):
 		## remove makefile from the download directory
 		os.remove(dir_download+"makefile")
 		
-	except:
-		dajax.assign("#template_output", 'innerHTML', 'Coming soon...')		
+	#except:
+	#	dajax.assign("#template_output", 'innerHTML', 'Coming soon...')
+	
+        except Exception as e:          
+            print "e.message: ", e.message
+            print "e.args: ", e.args
 
 	return dajax.json()
 	
