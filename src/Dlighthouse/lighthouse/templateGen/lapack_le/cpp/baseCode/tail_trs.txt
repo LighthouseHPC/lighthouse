@@ -1,0 +1,78 @@
+!--- real matrix B---!
+begin (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs pftrs 
+  /*--- read B and transform it to BT ---*/
+  for(i=0; i <ldb; i++){
+    for (j=0; j<nrhs; j++){
+      fscanf(fptB, "%placeholder",&BT[i+ldb*j]);
+    }
+  }
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print vector x (stored in B) ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("\t%6.3f", BT[i+n*j]);    
+    }
+    printf("\n");
+  }
+  
+  /*---print info ---*/
+   printf("\ninfo = %d", info);   
+}
+
+end (real) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs trtrs tbtrs tptrs pftrs 
+
+
+
+
+!--- complex matrix B---!
+begin (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs pftrs 
+  /*--- allocate temporary array buffer_B ---*/
+  dataType *buffer_B;
+  buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
+  
+  /*--- read matrix B into buffer_B ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptB)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (i=0; i<2*nrhs; i++){
+      buffer_B[linenum*2*nrhs+i] = strtof(ptr, &ptr);                   //convert ptr to float
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    linenum++;
+  }
+  
+  /*--- transform B to its Fortran vector format BT---*/
+  /*--- NOTE: B[i][j] = buffer_B[2*(i*nrhs+j)]+buffer_B[2*(i*nrhs+j)+1]*I ---*/
+  for (i=0; i<ldb; i++){                               
+    for(j=0; j<nrhs; j++){
+       BT[2*(i+ldb*j)]=buffer_B[2*(i*nrhs+j)];
+       BT[2*(i+ldb*j)+1]=buffer_B[2*(i*nrhs+j)+1];
+    }
+  }
+  
+  free(buffer_B);
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print vector x (stored in B) ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("(%6.3f, %6.3f)\t", BT[2*(i+n*j)], BT[2*(i+n*j)+1]);     
+    }
+    printf("\n");
+  }
+  
+  /*---print info ---*/
+   printf("\ninfo = %d", info);   
+}
+
+end (complex) getrs gttrs pttrs gbtrs pbtrs sytrs potrs pptrs sptrs hetrs hptrs trtrs tbtrs tptrs pftrs 

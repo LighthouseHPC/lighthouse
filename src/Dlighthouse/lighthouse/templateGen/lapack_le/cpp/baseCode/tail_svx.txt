@@ -1,0 +1,396 @@
+!--- real matrix B---!
+begin (real) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx
+  /*--- read B and transform it to BT ---*/
+  for(i=0; i <ldb; i++){
+    for (j=0; j<nrhs; j++){
+      fscanf(fptB, "%placeholder",&BT[i+ldb*j]);
+    }
+  }
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print vector x ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("\t%6.3f", XT[i+n*j]);    
+    }
+    printf("\n");
+  }
+
+end (real) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx
+
+
+
+
+
+!--- complex matrix B---!
+begin (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx
+  /*--- allocate temporary array buffer_B ---*/
+  dataType *buffer_B;
+  buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
+  
+  /*--- read matrix B into buffer_B ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptB)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (i=0; i<2*nrhs; i++){
+      buffer_B[linenum*2*nrhs+i] = strtof(ptr, &ptr);                   //convert ptr to float
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    linenum++;
+  }
+  
+  /*--- get B ---*/
+  for (i=0; i<ldb; i++){
+    for (j=0; j<nrhs; j++){
+      B[i][j] = buffer_B[2*(i*nrhs+j)]+buffer_B[2*(i*nrhs+j)+1]*I;
+    }
+  }
+  
+  /*--- transform B to its Fortran vector format BT---*/
+  for (i=0; i<ldb; i++){                               
+    for(j=0; j<nrhs; j++){
+       BT[2*(i+ldb*j)]=creal(B[i][j]);
+       BT[2*(i+ldb*j)+1]=cimag(B[i][j]);
+    }
+  }
+  
+  free(buffer_B);
+}
+
+
+
+void PRINT_SOLUTION(){
+  /*--- print vector x ---*/
+  printf("Improved Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("\t(%6.3f, %6.3f)",  XT[2*(i+n*j)], XT[2*(i+n*j)+1]);     
+    }
+    printf("\n");
+  }
+
+end (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx
+
+
+
+
+!--- print error bounds and condition numbers ---!
+begin (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx  
+  /*--- print forward errors---*/
+  /*--- Note: forward errors are machine-dependent ---*/
+  printf("\nFERR:\n");
+  for (i=0; i<nrhs; i++){
+    printf("\t%4.2e", FERR[i]);
+  }
+  
+  /*--- print backward errors---*/
+  /*--- Note: backward errors are machine-dependent ---*/
+  printf("\nBERR:\n");
+  for (i=0; i<nrhs; i++){
+    printf("\t%4.2e", BERR[i]);
+  }
+  
+  printf("\n\n");
+  
+  /*--- print condition number ---*/
+  printf("Reciprocal condition number: \n\trcond = %4.2e\n\n", rcond);
+  printf("Condition number: \n\tCOND = %4.2e\n\n", 1.0/rcond);
+  
+end (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx
+
+
+
+!--- print equilibrated matrix ---!
+!--- group 1: R and C ---!
+begin (real) (complex) gesvx gbsvx
+  /*--- print scaled matrix A ---*/
+  if(EQUED == 'N'){
+    printf("A is not scaled. A = \n");
+  }
+  else if(EQUED == 'R'){
+    printf("A is row sacled. A = \n");
+  }
+  else if(EQUED == 'C'){
+    printf("A is column scaled. A = \n");
+  }
+  else if(EQUED == 'B'){
+    printf("A is row and column scaled. A = \n");
+  }
+  else{
+    printf("Invalid EQUED value!\n");
+    exit(EXIT_FAILURE);
+  }
+  
+end (real) (complex) gesvx gbsvx
+
+
+begin (real) gesvx
+  for(i=0; i<lda; i++){
+    for(j=0; j<n; j++){
+      printf("\t%6.3f", AT[i+lda*j]);
+    }
+    printf("\n");
+  }
+  
+end (real) gesvx
+
+
+begin (complex) gesvx
+  for(i=0; i<lda; i++){
+    for(j=0; j<n; j++){
+      printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));  
+    }
+    printf("\n");
+  }
+  
+end (complex) gesvx
+
+
+begin (real) gbsvx
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<=min(i+ku,n-1)){
+        printf("\t%6.3f", AB[ku+i-j][j]);
+      }
+      else{
+        printf("\t ");
+      }
+    }
+    printf("\n");
+  }
+  
+end (real) gbsvx
+
+
+begin (complex) gbsvx
+  for (i=0; i<m; i++){
+    for (j=0; j<n; j++){
+      if (j>=max(i-kl,0) && j<=min(i+ku,n-1)){
+        printf("\t(%6.3f, %6.3f)", creal(AB[ku+i-j][j]), cimag(AB[ku+i-j][j]));
+      }
+      else{
+        printf("\t\t\t");
+      }
+    }
+    printf("\n");
+  }
+  
+end (complex) gbsvx  
+
+
+!--- group 2: S ---!
+begin (real) (complex) pbsvx posvx ppsvx
+  if(EQUED == 'N'){
+    printf("A is not scaled. A = \n");
+  }
+  else if(EQUED == 'Y'){
+    printf("A is sacled. A = \n");
+  }
+  else{
+    printf("Invalid EQUED value!\n");
+    exit(EXIT_FAILURE);
+  }
+  
+end (real) (complex) pbsvx posvx ppsvx
+
+
+begin (real) pbsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t%6.3f", AB[kd+i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t%6.3f", AB[i-j][j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (real) pbsvx
+
+
+begin (complex) pbsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<min(i+1+kd,n)){
+          printf("\t(%6.3f, %6.3f)", creal(AB[kd+i-j][j]), cimag(AB[kd+i-j][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=max(0,i-kd) && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AB[i-j][j]), cimag(AB[i-j][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (complex) pbsvx
+
+
+
+begin (real) posvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AT[i+n*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AT[i+n*j]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (real) posvx
+
+
+begin (complex) posvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(A[i][j]), cimag(A[i][j]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (complex) posvx
+
+
+begin (real) ppsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t%6.3f", AP[(i+1)+j*(j+1)/2-1]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t%6.3f", AP[i+j*(2*SIZE-j-1)/2]);
+        }
+        else{
+          printf("\t ");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (real) ppsvx
+
+
+begin (complex) ppsvx
+  if (UPLO =='U' || UPLO =='u'){
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=i && j<n){
+          printf("\t(%6.3f, %6.3f)", creal(AP[(i+1)+j*(j+1)/2-1]), cimag(AP[(i+1)+j*(j+1)/2-1]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i=0; i<n; i++){
+      for (j=0; j<n; j++){
+        if (j>=0 && j<=i){
+          printf("\t(%6.3f, %6.3f)", creal(AP[i+j*(2*SIZE-j-1)/2]), cimag(AP[i+j*(2*SIZE-j-1)/2]));
+        }
+        else{
+          printf("\t \t \t");
+        }
+      }
+      printf("\n");
+    }    
+  }
+  
+end (complex) ppsvx
+
+
+
+!--- print info ---!
+begin (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx   
+  /*---print info ---*/
+  printf("\ninfo = %d", info);   
+}
+
+end (real) (complex) gesvx gtsvx ptsvx gbsvx pbsvx sysvx posvx ppsvx spsvx hesvx hpsvx

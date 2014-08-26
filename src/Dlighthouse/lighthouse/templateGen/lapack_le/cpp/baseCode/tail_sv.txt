@@ -1,0 +1,121 @@
+!--- real matrix B---!
+begin (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv sposv  
+  /*--- read B and transform it to BT ---*/
+  for(i=0; i <ldb; i++){
+    for (j=0; j<nrhs; j++){
+      fscanf(fptB, "%placeholder",&BT[i+ldb*j]);
+    }
+  }
+}
+
+
+
+end (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv sposv
+
+
+begin (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv
+void PRINT_SOLUTION(){
+  /*--- print vector x (stored in B) ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("\t%6.3f", BT[i+n*j]);    
+    }
+    printf("\n");
+  }
+
+end (real) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv
+
+
+begin (real) sgesv sposv
+void PRINT_SOLUTION(){
+  /*--- print vector x ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("\t%6.3f", XT[i+n*j]);    
+    }
+    printf("\n");
+  }
+  
+end (real) sgesv cgesv sposv cposv
+
+
+
+!--- complex matrix B---!
+begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv
+  /*--- allocate temporary array buffer_B ---*/
+  dataType *buffer_B;
+  buffer_B = (dataType*)malloc (sizeof (dataType)*(2*ldb*nrhs));
+  
+  /*--- read matrix B into buffer_B ---*/
+  linenum = 0;
+  while(fgets(line, BUFSIZ, fptB)){                                     //read the file line by line
+    ptr = strtok(line, ")(, ");                                         //split line around ")(, "
+    //printf("%s\n", ptr);                                              //print the first element in the line after the split
+    for (i=0; i<2*nrhs; i++){
+      buffer_B[linenum*2*nrhs+i] = strtof(ptr, &ptr);                   //convert ptr to float
+      ptr = strtok(NULL, ")(, ");                                       //and keep splitting , search in pointer+1
+    }
+    linenum++;
+  }
+
+  
+  /*--- transform B to its Fortran vector format BT---*/
+  /*--- NOTE: B[i][j] = buffer_B[2*(i*nrhs+j)]+buffer_B[2*(i*nrhs+j)+1]*I ---*/
+  for (i=0; i<ldb; i++){                               
+    for(j=0; j<nrhs; j++){
+       BT[2*(i+ldb*j)]=buffer_B[2*(i*nrhs+j)];
+       BT[2*(i+ldb*j)+1]=buffer_B[2*(i*nrhs+j)+1];
+    }
+  }
+  
+  free(buffer_B);
+}
+
+
+
+end (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv sgesv cgesv sposv cposv
+
+
+
+begin (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
+void PRINT_SOLUTION(){
+  /*--- print vector x (stored in B) ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("(%6.3f, %6.3f)\t", BT[2*(i+n*j)], BT[2*(i+n*j)+1]);     
+    }
+    printf("\n");
+  }
+
+end (complex) gesv gtsv ptsv gbsv pbsv sysv hesv posv ppsv spsv hpsv
+
+
+
+
+
+begin (complex) cgesv cposv
+void PRINT_SOLUTION(){
+  /*--- print vector x ---*/
+  printf("Solution: \n");
+  for (i=0; i<n; i++){
+    for (j=0; j<nrhs; j++){
+      printf("(%6.3f, %6.3f)\t", XT[2*(i+n*j)], XT[2*(i+n*j)+1]);     
+    }
+    printf("\n");
+  }
+  
+end (complex) cgesv cposv
+
+
+
+
+!--- print info ---!
+begin (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv hesv hpsv
+  /*---print info ---*/
+   printf("\ninfo = %d", info);   
+}
+
+end (real) (complex) gesv gtsv ptsv gbsv pbsv sysv posv ppsv spsv sgesv cgesv sposv cposv hesv hpsv 
