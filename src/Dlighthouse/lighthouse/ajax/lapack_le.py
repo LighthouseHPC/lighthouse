@@ -4,7 +4,7 @@ from dajaxice.core import dajaxice_functions
 from dajax.core import Dajax
 import os, glob, zipfile
 from datetime import datetime
-from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
+from lighthouse.templateGen.lapack_le.lapack_le import generateTemplate, generateTemplate_C
 
 
 dir_download = "./static/download/"
@@ -26,7 +26,7 @@ def createTemplate(request, checked_list, language, time):
 				else:
 					go = generateTemplate(item)
 				go.make_template()
-				name = "./lighthouse/templateGen/%s/codeTemplates/temp_%s.%s"%(language, item, extension)
+				name = "./lighthouse/templateGen/lapack_le/%s/codeTemplates/temp_%s.%s"%(language, item, extension)
 				file_zip.write(name, os.path.basename(name), zipfile.ZIP_DEFLATED)
 				with open(name,"r") as infile:
 					outfile.write(infile.read())
@@ -38,7 +38,7 @@ def createTemplate(request, checked_list, language, time):
 		f_output.close()
 		
 		## write README into the zip file
-		file_zip.write("./lighthouse/templateGen/README", os.path.basename(dir_download+"README"), zipfile.ZIP_DEFLATED)
+		file_zip.write("./lighthouse/templateGen/lapack_le/README", os.path.basename(dir_download+"README"), zipfile.ZIP_DEFLATED)
 		
 		## write makefile into the zip file
 		file_zip.write(dir_download+"makefile", os.path.basename(dir_download+"makefile"), zipfile.ZIP_DEFLATED)
@@ -64,7 +64,4 @@ def makeFile(file_name):
 			outfile.write("CC=gcc\nCFLAGS=-llapack -lblas\n\n")
 		outfile.write("lapackout: %s\n"%file_name)
 		outfile.write("\t$(CC) $(CFLAGS) -o lapackout %s"%file_name)	
-
-
-
 

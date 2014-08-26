@@ -5,7 +5,6 @@ from dajax.core import Dajax
 import os, glob, zipfile
 from datetime import datetime
 from lighthouse.codeGen.templates import BTOGenerator
-from lighthouse.templateGen.lapack_le import generateTemplate, generateTemplate_C
 
 
 dir_download = "./static/download/"
