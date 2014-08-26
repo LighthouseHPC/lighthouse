@@ -79,7 +79,7 @@
 	</table>
       </div>
       <div class="dijitHidden">
-	      <div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+	      <div id="sel_svdadv_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
 		      <div align="center">
 			      <table id="table_main" width="80%" border = "1">
 				      <tr>
@@ -95,8 +95,8 @@
 				      <td>{{ item.storageType }}</td>      
 				      </tr>
 			      </table><br/>
-			      <iframe id="sel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
-			      <button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
+			      <iframe id="sel_svdadv_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
+			      <button onClick="dijit.byId('sel_svdadv_{{ item.id }}').hide()">Close</button>
 		      </div>
 	      </div>
       </div>
