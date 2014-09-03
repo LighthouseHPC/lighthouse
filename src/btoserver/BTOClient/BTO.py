@@ -136,28 +136,6 @@ class BTORequestHandler(BaseServer):
         #print "Current folder is:", os.getcwd()                    #/homes/salin/Lighthouse/BTOServer/bto
         #print ".m file location:", workdir + '/' +filename         #/tmp/salin_xx-xx-xx/DGEM.m
 
-### old version
-        try:
-            # The actual call to the executable.
-            # Note that exceptions raised here (i.e., nonzero return)
-            # will prevent bto_out from being assigned anything, so
-            # we must check with the exception obj for that text.
-#            bto_out = check_output(argv, stderr=subprocess.STDOUT)
-            pass #tempo
-        except CalledProcessError, e:
-            bto_out = 'The BTO server was unable to compile and generate an output file.\n'
-            bto_out = bto_out + str(argv) + '\n'
-            bto_out = bto_out + '---BEGIN output from btoblas---\n'
-            bto_out = bto_out + e.output
-            bto_out = bto_out + '--- END  output from btoblas---\n\n'
-            bto_out = bto_out + str(e) + '\n\n'
-
-            print bto_out
-            report_err(bto_out, filename)
-            leave()
-            return None
-
-### new version
         bto_out = ''
         ret = None
         pid = 0
@@ -215,7 +193,8 @@ class BTORequestHandler(BaseServer):
             self.send_header1(1)
             self.send_files(cfiles)
         else:
-            message = 'BTO failed to generate a unique C file, or exited '
+            message = str(argv) + '\n'
+            message = message + 'BTO failed to generate a unique C file, or exited '
             message = message + 'with error but return status 0.\n'
             message = message + "---BEGIN output from btoblas---\n"
             trunc = ''
