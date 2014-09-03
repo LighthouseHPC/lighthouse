@@ -53,10 +53,14 @@ dispatcher={
   
 fileDict = {
     '1': 'guided',
-    '2': 'driver_standard',
-    '3': 'driver_generalized',
-    '4': 'computational_standard',
-    '5': 'computational_generalized',
+    '2': 'driver_standard_SH',
+    '3': 'driver_standard_G',
+    '4': 'driver_generalized_SH',
+    '5': 'driver_generalized_G',
+    '6': 'computational_standard_SH',
+    '7': 'computational_standard_G',    
+    '8': 'computational_generalized_SH',
+    '9': 'computational_generalized_G',
     }
 
 
@@ -72,10 +76,14 @@ if job == 'l':
     x = raw_input('Separate with "," if loading data to multiple tables. Enter \n\
                   "all" for loading data to all lapack_eigen tables, or\n\
                   "1" to lighthouse_lapack_eigen_guided,\n\
-                  "2" to lighthouse_lapack_eigen_driver_standard, \n\
-                  "3" to lighthouse_lapack_eigen_driver_generalized, \n\
-                  "4" to lighthouse_lapack_eigen_computational_standard, and\n\
-                  "5" to lighthouse_lapack_eigen_computational_generalized. \n\
+                  "2" to lighthouse_lapack_eigen_driver_standard_SH, \n\
+                  "3" to lighthouse_lapack_eigen_driver_standard_G, \n\
+                  "4" to lighthouse_lapack_eigen_driver_generalized_SH, \n\
+                  "5" to lighthouse_lapack_eigen_driver_generalized_G, \n\
+                  "6" to lighthouse_lapack_eigen_computational_standard_SH, \n\
+                  "7" to lighthouse_lapack_eigen_computational_standard_G, \n\
+                  "8" to lighthouse_lapack_eigen_computational_generalized_SH, and \n\
+                  "9" to lighthouse_lapack_eigen_computational_generalized_G. \n\
                   "q" to quit the program. \n--> ')
     jobfunction=dispatcher['l']
 
@@ -83,10 +91,14 @@ elif job == 't':
     x = raw_input('Separate with "," if truncating data from multiple tables. Enter \n\
                   "all" for truncating data from all lapack_eigen tables, or\n\
                   "1" from lighthouse_lapack_eigen_guided,\n\
-                  "2" from lighthouse_lapack_eigen_driver_standard, \n\
-                  "3" from lighthouse_lapack_eigen_driver_generalized, \n\
-                  "4" from lighthouse_lapack_eigen_computational_standard, and\n\
-                  "5" from lighthouse_lapack_eigen_computational_generalized. \n\
+                  "2" from lighthouse_lapack_eigen_driver_standard_SH, \n\
+                  "3" from lighthouse_lapack_eigen_driver_standard_G, \n\
+                  "4" from lighthouse_lapack_eigen_driver_generalized_SH, \n\
+                  "5" from lighthouse_lapack_eigen_driver_generalized_G, \n\
+                  "6" from lighthouse_lapack_eigen_computational_standard_SH, \n\
+                  "7" from lighthouse_lapack_eigen_computational_standard_G, \n\
+                  "8" from lighthouse_lapack_eigen_computational_generalized_SH, and \n\
+                  "9" from lighthouse_lapack_eigen_computational_generalized_G. \n\
                   "q" to quit the program. \n--> ')
     jobfunction=dispatcher['t']
     
@@ -94,10 +106,14 @@ elif job == 'd':
     x = raw_input('Separate with "," if dropping multiple tables. Enter \n\
                   "all" for dropping all tables, or\n\
                   "1" for dropping lighthouse_lapack_eigen_guided,\n\
-                  "2" for dropping lighthouse_lapack_eigen_driver_standard, \n\
-                  "3" for dropping lighthouse_lapack_eigen_driver_generalized, \n\
-                  "4" for dropping lighthouse_lapack_eigen_computational_standard, and\n\
-                  "5" for dropping lighthouse_lapack_eigen_computational_generalized. \n\
+                  "2" for dropping lighthouse_lapack_eigen_driver_standard_SH, \n\
+                  "3" for dropping lighthouse_lapack_eigen_driver_standard_G, \n\
+                  "4" for dropping lighthouse_lapack_eigen_driver_generalized_SH, \n\
+                  "5" for dropping lighthouse_lapack_eigen_driver_generalized_G, \n\
+                  "6" for dropping lighthouse_lapack_eigen_computational_standard_SH, \n\
+                  "7" for dropping lighthouse_lapack_eigen_computational_standard_G, \n\
+                  "8" for dropping lighthouse_lapack_eigen_computational_generalized_SH, and \n\
+                  "9" for dropping lighthouse_lapack_eigen_computational_generalized_G. \n\
                   "q" to quit the program. \n--> ')
     jobfunction=dispatcher['d']
 
