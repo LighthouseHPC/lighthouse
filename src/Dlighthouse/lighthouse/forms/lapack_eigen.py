@@ -191,3 +191,13 @@ class singleDoubleForm(forms.Form):
 					      widget=forms.RadioSelect(),
 					      choices=SINGLEDOUBLE_CHOICES
 					      )
+    
+    
+    
+######-------- For advanced Search --------######
+class advancedSearchMenuForm(forms.Form):
+    advancedSearchMenu = forms.MultipleChoiceField(
+	label = "Which of the following routine categories of eigen problems would you like to search?",
+	widget=forms.CheckboxSelectMultiple(),
+	choices=EIGENMENU_CHOICES
+	)

@@ -1,11 +1,19 @@
 {% extends "dojango/base_lapack.html" %}
 
 
-<!-- ########### Simple search questions: ###########-->
+<!-- ########### Guided search questions: ###########-->
 {% block dojango_content_guidedSearch %}
 {% include "lighthouse/lapack_eigen/guidedSearch.html" %}
 {% endblock %}
 
+
+<!-- ########### Advanced search form: ###########-->
+{% block dojango_content_advancedSearch %}
+{% include "lighthouse/lapack_eigen/advanced/advancedSearchMenu.html" %}
+{% endblock %}
+
+
+<!-- ########### Search results: ###########-->
 {% block dojango_content_search_result %}
 {% include "lighthouse/lapack_eigen/results.html" %}
 {% endblock %}

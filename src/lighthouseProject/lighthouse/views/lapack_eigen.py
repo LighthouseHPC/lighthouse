@@ -85,7 +85,8 @@ def guidedSearch_index(request):
                 'formHTML': "problemForm",
                 'form': "invalid",
                 'eigen_guided_answered' : '',
-                'results' : 'start'
+                'results' : 'start',
+                'advancedSearchMenuForm': advancedSearchMenuForm(),
     }
     return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
 
