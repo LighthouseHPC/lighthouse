@@ -340,12 +340,12 @@
 	
 
 	// Check if at least one check box in each cell is selected (in Computational Routine Search)
-	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2)
+	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, m7, m8, s1, s2, s3, s4, s5, p1, p2)
 	{
 		f = validate7Checkbox(f1, f2, f3, f4, f5, f6, f7);
 		c = validate2Checkbox(c1, c2);
-		m = validate6Checkbox(m1, m2, m3, m4, m5, m6);
-		s = validate4Checkbox(s1, s2, s3, s4);
+		m = validate6Checkbox(m1, m2, m3, m4, m5, m6, m7, m8);
+		s = validate4Checkbox(s1, s2, s3, s4, s5);
 		p = validate2Checkbox(p1, p2);
 
 		if(!f)
