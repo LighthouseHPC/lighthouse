@@ -82,10 +82,10 @@ class advancedSearchMenuForm(forms.Form):
     advancedSearchMenu = forms.MultipleChoiceField(
 	label = "Which of the following routine categories would you like to search?",
 	widget=forms.CheckboxSelectMultiple(),
-	choices=MENU_CHOICES
+	choices=SVDMENU_CHOICES
 	)
-
     
+
 ##--- for driver standard ---##    
 class driver_standard_Form(forms.Form):
     driver_standard_driverComput = 'Driver'
