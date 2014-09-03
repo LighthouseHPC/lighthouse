@@ -4,7 +4,7 @@ Lighthouse LAPACK template README 11/12/2013
 GENERAL NOTES
 ==============
 
-Lighthouse LAPACK templates are created to help users quickly learn how to use LAPACK subroutines. Each template serves as an example showing how to ensure subroutine calls are correctly constructed and argument variables are properly declared. The templates are easy to customize and adapt to different implementation requirements.
+Lighthouse LAPACK templates are created to help users quickly learn how to use LAPACK subroutines. Each template serves as an example ensuring that subroutine calls are correctly constructed and argument variables are properly declared. The templates are easy to customize and adapt to different implementation requirements.
 
 The templates currently support FORTRAN and C. 
 
@@ -13,22 +13,22 @@ The templates currently support FORTRAN and C.
 TEMPLATE USAGE STEPS
 ====================
 
-Step 1.    Download and save the template(s) of desired language
+Step 1.    Download and save the template(s) in the desired language
 Step 2.    Unzip the zip file
 Step 3.    Open template file (extension .f90 or .c)
 Step 4.    Input path(s) of the file(s) storing matrix data -- see ATTENTION section below
-Step 5.    Click the question button in "Selected Routines" for detailed information about arguments
-Step 6.    For templates in C, set up (#define) constants for matrix property 
-Step 7.    Compile the template program -- edit makefile and type make in terminal  
+Step 5.    Click the question buttons in "Selected Routines" for detailed information about arguments
+Step 6.    For templates in C, set up (#define) constants for matrix properties 
+Step 7.    Compile the template program -- edit makefile and type "make" in terminal  
 
 
 
 ATTENTION
 ==========
 
-For optimal template utilization, the matrix input format should satisfy the following conditions for both languages:
+For optimal template use, the matrix input format should satisfy the following conditions for both languages:
 
-Condition #1 -- Depending on the matrix and its storage type, the input data should be of the following forms:   
+Condition #1 -- Depending on the matrix and its storage type, the input data should be in one of the following forms:   
 
         (1) general matrix with full storage
                 eaxmple:
@@ -75,7 +75,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
                
                 
         
-        (4) symmteric matrix with full storage
+        (4) symmetric matrix with full storage
                 example:
                         | a11 a12 a13 a14 |
                         | a21 a22 a23 a24 |
@@ -96,7 +96,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
                         
                 
                 
-        (5) symmteric matrix with packed storage
+        (5) symmetric matrix with packed storage
                 example:
                         | a11 a12 a13 a14 |
                         | a21 a22 a23 a24 |
@@ -147,7 +147,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
                         
         
                                     
-        (8) positive definite matrix with full storage
+        (8) symmetric/Hermitian positive definite matrix with full storage
                 example:
                         | a11 a12 a13 a14 |
                         | a21 a22 a23 a24 |
@@ -168,7 +168,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
                         
                         
                         
-        (9) positive definite matrix with band storage
+        (9) symmetric/Hermitian positive definite matrix with band storage
                 example:
                         | a11 a12 0.0 0.0 |
                         | a21 a22 a23 0.0 |
@@ -189,7 +189,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
                         
                         
                         
-        (10) positive definite matrix with tridiagonal storage
+        (10) symmetric/Hermitian positive definite matrix with tridiagonal storage
                 example:
                         | a11 a12 0.0 0.0 0.0 |
                         | a21 a22 a23 0.0 0.0 |
@@ -203,7 +203,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
         
         
         
-        (11) positive definite matrix with packed storage
+        (11) symmetric/Hermitian positive definite matrix with packed storage
                 example:
                         | a11 a12 a13 a14 |
                         | a21 a22 a23 a24 |
@@ -218,7 +218,7 @@ Condition #1 -- Depending on the matrix and its storage type, the input data sho
                         
                         
                         
-        (12) positive definite matrix with packed rectangular full packed storage
+        (12) symmetric/Hermitian positive definite matrix with packed rectangular full packed storage
                 (A) example (n is even):
                         | a11 a12 a13 a14 a15 a16 |
                         | a21 a22 a23 a24 a25 a26 |
