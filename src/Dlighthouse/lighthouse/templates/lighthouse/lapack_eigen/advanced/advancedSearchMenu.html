@@ -1,0 +1,57 @@
+{% load static from staticfiles %}
+
+{% if advancedSearchMenuForm %}
+<div id="title-div">
+  <table id="icon-table">
+      <tr>
+	  <td id="icon-cell">
+	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	  </td>       
+	 <td id="title-cell">
+	      Advanced Search
+	  </td>
+      </tr>
+  </table>    
+</div>
+<br>
+<form id="eigen_advancedMenu" name="advancedMenu" action="/lapack_eigen/advancedForm/" method="post"
+    data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
+    onSubmit="return formValid();">
+  {% csrf_token %}     
+  <div id="question-div"> 
+    {{ advancedSearchMenuForm }}
+  </div>
+
+  </br>
+  <div id="button-div">
+    <table style="width:100%; margin: 0px auto;">
+      <tr style="width:100%;">
+	<td style="text-align:left;">       
+	  <button type="button" name="clear" id="clearButton_advanced" class="myButton" title="Clear Search"
+		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
+		  onmouseout="showTooltip('tooltip_advanced','');"
+		  onclick="show_confirm('/lapack_eigen/')">
+	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
+	  </button>       
+	</td>
+	<td style="text-align:center;">
+	  <div id="tooltip_advanced"></div>
+	</td>
+	<td style="text-align:right;">
+	  <button type="submit" name="guided" value="submit" id="submitButton_advanced" title="Submit Answer" class="myButton"
+		  onmouseover="showTooltip('tooltip_advanced', 'Submit', '#009900');"
+		  onmouseout="showTooltip('tooltip_advanced','');">
+	      <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+	  </button >
+	</td>
+      </tr>
+    </table>    
+  </div>
+  </form>
+	      
+{% else %}
+
+    {% include "lighthouse/lapack_eigen/advanced/advancedSearch.html" %}
+	    
+{% endif %}
+
