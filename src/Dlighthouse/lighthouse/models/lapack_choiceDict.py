@@ -115,7 +115,7 @@ SVD_CHOICES = (
 )
 
 
-MENU_CHOICES = (
+SVDMENU_CHOICES = (
 	(u'driver_standard',			u'Driver standard SVD routines'),
 	(u'driver_generalized',			u'Driver generalized SVD routines'),
 	(u'computational_standard',		u'Computational standard SVD routines'),
