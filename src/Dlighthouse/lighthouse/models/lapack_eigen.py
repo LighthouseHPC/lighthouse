@@ -35,7 +35,7 @@ class lapack_eigen_guided(models.Model):
                 
 
 ###---------------- for advanced search ----------------###
-class lapack_eigen_driver_standard_SH(models.Model):
+class lapack_eigen_driver_standard_sh(models.Model):
         thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
         routineName = models.CharField('routine name', max_length=30)
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
@@ -60,7 +60,7 @@ class lapack_eigen_driver_standard_SH(models.Model):
                 app_label = 'lighthouse'
                 
 
-class lapack_eigen_driver_standard_G(models.Model):
+class lapack_eigen_driver_standard_g(models.Model):
         thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
         routineName = models.CharField('routine name', max_length=30)
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
@@ -85,7 +85,7 @@ class lapack_eigen_driver_standard_G(models.Model):
                 app_label = 'lighthouse'
                 
                 
-class lapack_eigen_driver_generalized_SH(models.Model):
+class lapack_eigen_driver_generalized_sh(models.Model):
         thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
         routineName = models.CharField('routine name', max_length=30)
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
@@ -110,7 +110,7 @@ class lapack_eigen_driver_generalized_SH(models.Model):
                 app_label = 'lighthouse'
          
                 
-class lapack_eigen_driver_generalized_G(models.Model):
+class lapack_eigen_driver_generalized_g(models.Model):
         thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
         routineName = models.CharField('routine name', max_length=30)
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)

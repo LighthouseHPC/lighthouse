@@ -108,14 +108,14 @@ EGNVECTORMETHOD_CHOICES = (
 
 
 EIGENMENU_CHOICES = (
-	(u'driver_standard_SH', u'Driver standard with symmetric/Hermitian matrices'),
-	(u'driver_standard_G', u'Driver standard with general matrices'),
-	(u'driver_generalized_SH', u'Driver generalized with symmetric/Hermitian matrices'),
-	(u'driver_generalized_G', u'Driver generalized with general matrices'),
-	(u'computational_standard_SH', u'Computational standard with symmetric/Hermitian matrices'),
-	(u'computational_standard_G', u'Computational standard with general matrices'),
-	(u'computational_generalized_SH', u'Computational generalized with symmetric/Hermitian matrices'),
-	(u'computational_generalized_G', u'Computational generalized with general matrices'),
+	(u'driver_standard_sh', u'Driver standard with symmetric/Hermitian matrices'),
+	(u'driver_standard_g', u'Driver standard with general matrices'),
+	(u'driver_generalized_sh', u'Driver generalized with symmetric/Hermitian matrices'),
+	(u'driver_generalized_g', u'Driver generalized with general matrices'),
+	(u'computational_standard_sh', u'Computational standard with symmetric/Hermitian matrices'),
+	(u'computational_standard_g', u'Computational standard with general matrices'),
+	(u'computational_generalized_sh', u'Computational generalized with symmetric/Hermitian matrices'),
+	(u'computational_generalized_g', u'Computational generalized with general matrices'),
 )
 
 #####----------- for LAPACK SVD routines -------------#####
