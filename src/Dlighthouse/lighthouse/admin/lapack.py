@@ -30,7 +30,7 @@ class lapack_eigen_guided_Admin(admin.ModelAdmin):
 admin.site.register(lapack_eigen_guided, lapack_eigen_guided_Admin)
 
 
-class lapack_eigen_driver_standard_SH_Admin(admin.ModelAdmin):
+class lapack_eigen_driver_standard_sh_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
 			'selectedEV', 'method', 'schur', 'cndNumber')
 	list_filter = ['thePrecision', 'matrixType',]
@@ -38,10 +38,10 @@ class lapack_eigen_driver_standard_SH_Admin(admin.ModelAdmin):
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(lapack_eigen_driver_standard_SH, lapack_eigen_driver_standard_SH_Admin)
+admin.site.register(lapack_eigen_driver_standard_sh, lapack_eigen_driver_standard_sh_Admin)
 
 
-class lapack_eigen_driver_generalized_SH_Admin(admin.ModelAdmin):
+class lapack_eigen_driver_standard_g_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
 			'selectedEV', 'method', 'schur', 'cndNumber')
 	list_filter = ['thePrecision', 'matrixType',]
@@ -49,7 +49,29 @@ class lapack_eigen_driver_generalized_SH_Admin(admin.ModelAdmin):
 	ordering = ('id',)
 	raw_id_fields = ('info',)
 
-admin.site.register(lapack_eigen_driver_generalized_SH, lapack_eigen_driver_generalized_SH_Admin)
+admin.site.register(lapack_eigen_driver_standard_g, lapack_eigen_driver_standard_g_Admin)
+
+
+class lapack_eigen_driver_generalized_sh_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
+			'selectedEV', 'method', 'schur', 'cndNumber')
+	list_filter = ['thePrecision', 'matrixType',]
+	search_fields = ['routineName',]
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+admin.site.register(lapack_eigen_driver_generalized_sh, lapack_eigen_driver_generalized_sh_Admin)
+
+
+class lapack_eigen_driver_generalized_g_Admin(admin.ModelAdmin):
+	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
+			'selectedEV', 'method', 'schur', 'cndNumber')
+	list_filter = ['thePrecision', 'matrixType',]
+	search_fields = ['routineName',]
+	ordering = ('id',)
+	raw_id_fields = ('info',)
+
+admin.site.register(lapack_eigen_driver_generalized_g, lapack_eigen_driver_generalized_g_Admin)
 
 
 
