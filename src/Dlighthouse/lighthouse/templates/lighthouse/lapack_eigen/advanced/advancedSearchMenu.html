@@ -14,14 +14,86 @@
   </table>    
 </div>
 <br>
+  
 <form id="eigen_advancedMenu" name="advancedMenu" action="/lapack_eigen/advancedForm/" method="post"
     data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
     onSubmit="return formValid();">
   {% csrf_token %}     
-  <div id="question-div"> 
+<!--  <div id="question-div"> 
     {{ advancedSearchMenuForm }}
+  </div>-->
+  <div id="question-div">
+    <table style="padding:0px; margin:0px; border:0px;">
+	    <tr>
+		<td>
+			<label for="id_advancedSearchMenu_0">
+			<img src={%static "images/arrow.png" %} width="8" height="8"/>
+				<b>Which of the following categories of eigen problems would you like to search?</b>
+			</label>
+		</td>
+	    </tr>
+    </table>
+    <table id="box-table-a" >
+      <thead>
+	  <tr>
+	    <th>Select</th>
+	    <th>Routine class</th>
+	    <th>Problem type</th>
+	    <th>Matrix type</th>
+	  </tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="driver_standard_SH" id="id_advancedSearchMenu_0" /></td>
+	  <td>driver</td>
+	  <td>standard</td>
+	  <td>symmetric/Hermitian</td>
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="driver_standard_G" id="id_advancedSearchMenu_1" /></td>
+	  <td>driver</td>
+	  <td>standard</td>
+	  <td>general</td>	
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="driver_generalized_SH" id="id_advancedSearchMenu_2" /></td>
+	  <td>driver</td>
+	  <td>generalized</td>
+	  <td>symmetric/Hermitian</td>
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="driver_generalized_G" id="id_advancedSearchMenu_3" /></td>
+	  <td>driver</td>
+	  <td>generalized</td>
+	  <td>general</td>
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="computational_standard_SH" id="id_advancedSearchMenu_4" /></td>
+	  <td>computational</td>
+	  <td>standard</td>
+	  <td>symmetric/Hermitian</td>	
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="computational_standard_G" id="id_advancedSearchMenu_5" /></td>
+	  <td>computational</td>
+	  <td>standard</td>
+	  <td>general</td>
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="computational_generalized_SH" id="id_advancedSearchMenu_6" /></td>
+	  <td>computational</td>
+	  <td>generalized</td>
+	  <td>symmetric/Hermitian</td>
+	</tr>
+	<tr>
+	  <td><input type="checkbox" name="advancedSearchMenu" value="computational_generalized_G" id="id_advancedSearchMenu_7" /></td>
+	  <td>computational</td>
+	  <td>generalized</td>
+	  <td>general</td>
+	</tr>
+      </tbody>
+    </table>
   </div>
-
   </br>
   <div id="button-div">
     <table style="width:100%; margin: 0px auto;">
