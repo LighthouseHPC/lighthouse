@@ -1,0 +1,46 @@
+1,s,gehrd,no,reduce,general,full,,reduce to upper Hessenberg,single,,675
+2,d,gehrd,no,reduce,general,full,,reduce to upper Hessenberg,double,,676
+3,c,gehrd,yes,reduce,general,full,,reduce to upper Hessenberg,single,,677
+4,z,gehrd,yes,reduce,general,full,,reduce to upper Hessenberg,double,,678
+5,s,orghr,no,generateQ,orthogonal,full,,generate Q after reduction to upper Hessenberg,single,call SGEHRD first,747
+6,d,orghr,no,generateQ,orthogonal,full,,generate Q after reduction to upper Hessenberg,double,call DGEHRD first,748
+7,c,unghr,yes,generateQ,unitary,full,,generate Q after reduction to upper Hessenberg,single,call CGEHRD first,749
+8,z,unghr,yes,generateQ,unitary,full,,generate Q after reduction to upper Hessenberg,double,call ZGEHRD first,750
+9,s,ormhr,no,multiplyByQ,orthogonal,full,,multiply by Q after reduction to upper Hessenberg for eigenvectors of A,single,,751
+10,d,ormhr,no,multiplyByQ,orthogonal,full,,multiply by Q after reduction to upper Hessenberg for eigenvectors of A,double,,752
+11,c,unmhr,yes,multiplyByQ,unitary,full,,multiply by Q after reduction to upper Hessenberg for eigenvectors of A,single,,753
+12,z,unmhr,yes,multiplyByQ,unitary,full,,multiply by Q after reduction to upper Hessenberg for eigenvectors of A,double,,754
+13,s,hseqr,no,eigenvalues,upper Hessenberg,full,QL/QR,eigenvalues; Schur form; Schur vectors of H,single,call SGEHRD first;SGEHRD+SORGHR+SHSEQR for Schur vectors of A,563
+14,d,hseqr,no,eigenvalues,upper Hessenberg,full,QL/QR,eigenvalues; Schur form; Schur vectors of H,double,call DGEHRD first;DGEHRD+DORGHR+DHSEQR for Schur vectors of A,565
+15,c,hseqr,yes,eigenvalues,upper Hessenberg,full,QL/QR,eigenvalues; Schur form; Schur vectors of H,single,call CGEHRD first;CGEHRD+CUNGHR+CHSEQR for Schur vectors of A,607
+16,z,hseqr,yes,eigenvalues,upper Hessenberg,full,QL/QR,eigenvalues; Schur form; Schur vectors of H,double,call ZGEHRD first;ZGEHRD+ZUNGHR+ZHSEQR for Schur vectors of A,609
+17,s,hsein,no,eigenvectors,upper Hessenberg,full,inverse iteration,eigenvectors of H,single,SGEHRD+SHSEQR+SHSEIN for eigenvectors of H,564
+18,d,hsein,no,eigenvectors,upper Hessenberg,full,inverse iteration,eigenvectors of H,double,DGEHRD+DHSEQR+DHSEIN for eigenvectors of H,566
+19,c,hsein,yes,eigenvectors,upper Hessenberg,full,inverse iteration,eigenvectors of H,single,CGEHRD+CHSEQR+CHSEIN for eigenvectors of H,608
+20,z,hsein,yes,eigenvectors,upper Hessenberg,full,inverse iteration,eigenvectors of H,double,ZGEHRD+ZHSEQR+ZHSEIN for eigenvectors of H,610
+21,s,trevc,no,eigenvectors,upper quasi-triangular,full,,eigenvectors of Schur form T,single,SGEHRD+SORGHR+SHSEQR+STREVC for eigenvectors of T,755
+22,d,trevc,no,eigenvectors,upper quasi-triangular,full,,eigenvectors of Schur form T,double,DGEHRD+DORGHR+DHSEQR+DTREVC for eigenvectors of T,756
+23,c,trevc,yes,eigenvectors,upper quasi-triangular,full,,eigenvectors of Schur form T,single,CGEHRD+CUNGHR+CHSEQR+CTREVC for eigenvectors of T,757
+24,z,trevc,yes,eigenvectors,upper quasi-triangular,full,,eigenvectors of Schur form T,double,ZGEHRD+ZUNGHR+ZHSEQR+ZTREVC for eigenvectors of T,758
+25,s,trexc,no,reorder,upper quasi-triangular,full,,reorder Schur factorization,single,,759
+26,d,trexc,no,reorder,upper quasi-triangular,full,,reorder Schur factorization,double,,760
+27,c,trexc,yes,reorder,upper quasi-triangular,full,,reorder Schur factorization,single,,761
+28,z,trexc,yes,reorder,upper quasi-triangular,full,,reorder Schur factorization,double,,762
+29,s,trsen,no,reorder,upper quasi-triangular,full,,reorder Schur factorization;condition numbers,single,,763
+30,d,trsen,no,reorder,upper quasi-triangular,full,,reorder Schur factorization;condition numbers,double,,764
+31,c,trsen,yes,reorder,upper quasi-triangular,full,,reorder Schur factorization;condition numbers,single,,765
+32,z,trsen,yes,reorder,upper quasi-triangular,full,,reorder Schur factorization;condition numbers,double,,766
+33,s,disna,no,cndtNumber,diagonal,full,,condition numbers of eigenvectors,single,,683
+34,d,disna,no,cndtNumber,diagonal,full,,condition numbers of eigenvectors,double,,684
+35,s,trsna,no,cndtNumber,upper quasi-triangular,full,,condition numbers of eigenvectors,single,,687
+36,d,trsna,no,cndtNumber,upper quasi-triangular,full,,condition numbers of eigenvectors,double,,688
+37,c,trsna,yes,cndtNumber,upper quasi-triangular,full,,condition numbers of eigenvectors,single,,689
+38,z,trsna,yes,cndtNumber,upper quasi-triangular,full,,condition numbers of eigenvectors,double,,690
+39,s,gebal,no,balance,general,full,,balance matrix,single,improve eigenvalue accuracy,695
+40,d,gebal,no,balance,general,full,,balance matrix,double,improve eigenvalue accuracy,696
+41,c,gebal,yes,balance,general,full,,balance matrix,single,improve eigenvalue accuracy,697
+42,z,gebal,yes,balance,general,full,,balance matrix,double,improve eigenvalue accuracy,698
+43,s,gebak,no,eigenvectors,general,full,back transformation,eigenvectors of A,single,SGEHRD+SORGHR+SHSEQR+STREVC+SGEBAK for eigenvectors of A,767
+44,d,gebak,no,eigenvectors,general,full,back transformation,eigenvectors of A,double,DGEHRD+DORGHR+DHSEQR+DTREVC+DGEBAK for eigenvectors of A,768
+45,c,gebak,yes,eigenvectors,general,full,back transformation,eigenvectors of A,single,CGEHRD+CUNGHR+CHSEQR+CTREVC+CGEBAK for eigenvectors of A,769
+46,z,gebak,yes,eigenvectors,general,full,back transformation,eigenvectors of A,double,ZGEHRD+ZUNGHR+ZHSEQR+ZTREVC+ZGEBAK for eigenvectors of A,770

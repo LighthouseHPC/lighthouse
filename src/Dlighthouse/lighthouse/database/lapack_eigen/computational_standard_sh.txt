@@ -1,57 +1,56 @@
-id	precision	name	function	matrix type	storage	selected eigenvalues	eigenvectors	method	Purpose	note
-1	s	sytrd	tridiagonal	symmetric	full	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	
-2	d	sytrd	tridiagonal	symmetric	full	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	
-3	c	hetrd	tridiagonal	Hermitian	full	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	
-4	z	hetrd	tridiagonal	Hermitian	full	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	
-5	s	sptrd	tridiagonal	symmetric	packed	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	
-6	d	sptrd	tridiagonal	symmetric	packed	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	
-7	c	hptrd	tridiagonal	Hermitian	packed	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	
-8	z	hptrd	tridiagonal	Hermitian	packed	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	
-9	s	sbtrd	tridiagonal	symmetric	band	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	
-10	d	sbtrd	tridiagonal	symmetric	band	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	
-11	c	hbtrd	tridiagonal	Hermitian	band	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	
-12	z	hbtrd	tridiagonal	Hermitian	band	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	
-13	s	orgtr	generateQ	orthogonal	full	none	none	none	generates a real orthogonal matrix Q	
-14	d	orgtr	generateQ	orthogonal	full	none	none	none	generates a real orthogonal matrix Q	
-15	c	ungtr	generateQ	unitary	full	none	none	none	generates a complex unitary matrix Q	
-16	z	ungtr	generateQ	unitary	full	none	none	none	generates a complex unitary matrix Q
-17	s	opgtr	generateQ	orthogonal	packed	none	none	none	generates a real orthogonal matrix Q
-18	d	opgtr	generateQ	orthogonal	packed	none	none	none	generates a real orthogonal matrix Q
-19	c	upgtr	generateQ	unitary	packed	none	none	none	generates a complex unitary matrix Q
-20	z	upgtr	generateQ	unitary	packed	none	none	none	generates a complex unitary matrix Q
-21	s	ormtr	multiplyByQ	orthogonal	full	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q
-22	d	ormtr	multiplyByQ	orthogonal	full	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q
-23	c	unmtr	multiplyByQ	unitary	full	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q
-24	z	unmtr	multiplyByQ	unitary	full	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q
-25	s	opmtr	multiplyByQ	orthogonal	packed	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q 
-26	d	opmtr	multiplyByQ	orthogonal	packed	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q 
-27	c	upmtr	multiplyByQ	unitary	packed	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q
-28	z	upmtr	multiplyByQ	unitary	packed	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q
-29	s	sterf	eigenvalues	symmetric	tridiagonal	no	no	none	computes all eigenvalues of a symmetric tridiagonal matrix by Pal-Walker-Kahan variant of the QL or QR algorithm
-30	d	sterf	eigenvalues	symmetric	tridiagonal	no	no	none	computes all eigenvalues of a symmetric tridiagonal matrix by Pal-Walker-Kahan variant of the QL or QR algorithm
-31	s	steqr	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"
-32	d	steqr	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-33	c	stegr	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-34	z	stegr	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-35	s	pteqr	eigenvalues	SPD	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric positive definite tridiagonal matrix"	
-36	d	pteqr	eigenvalues	SPD	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric positive definite tridiagonal matrix"	
-37	c	pteqr	eigenvalues	SPD	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric positive definite tridiagonal matrix"	
-38	z	pteqr	eigenvalues	SPD	tridiagonal	no	yes	QL/QR	"computes all eigenvalues and, optionally, eigenvectors of a symmetric positive definite tridiagonal matrix"	
-39	s	stedc	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-40	d	stedc	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-41	c	stedc	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-42	z	stedc	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	"computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix"	
-43	s	stemr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	
-44	d	stemr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	
-45	c	stemr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	
-46	z	stemr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	
-47	s	stegr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	a compatability wrapper around the improved SSTEMR
-48	d	stegr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	a compatability wrapper around the improved DSTEMR
-49	c	stegr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	a compatability wrapper around the improved CSTEMR
-50	z	stegr	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	"computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T"	a compatability wrapper around the improved ZSTEMR
-51	s	stebz	eigenvalues	symmetric	tridiagonal	yes	no	none	computes the eigenvalues of a symmetric tridiagonal matrix T by bisection	ordered eigenvalues
-52	d	stebz	eigenvalues	symmetric	tridiagonal	yes	no	none	computes the eigenvalues of a symmetric tridiagonal matrix T by bisection	ordered eigenvalues
-53	s	stein	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	
-54	d	stein	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	
-55	c	stein	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	
-56	z	stein	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	
+1	s	sytrd	no	reduce	symmetric	full	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	single		663
+2	d	sytrd	no	reduce	symmetric	full	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	double		664
+3	c	hetrd	yes	reduce	Hermitian	full	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	single		669
+4	z	hetrd	yes	reduce	Hermitian	full	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	double		670
+5	s	sptrd	no	reduce	symmetric	packed	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	single		665
+6	d	sptrd	no	reduce	symmetric	packed	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	double		666
+7	c	hptrd	yes	reduce	Hermitian	packed	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	single		671
+8	z	hptrd	yes	reduce	Hermitian	packed	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	double		672
+9	s	sbtrd	no	reduce	symmetric	band	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	single		667
+10	d	sbtrd	no	reduce	symmetric	band	none	none	none	reduces a real symmetric matrix A to real symmetric tridiagonal by orthogonal similarity transformation	double		668
+11	c	hbtrd	yes	reduce	Hermitian	band	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	single		673
+12	z	hbtrd	yes	reduce	Hermitian	band	none	none	none	reduces a complex Hermitian matrix A to real symmetric tridiagonal by unitary similarity transformation	double		674
+13	s	orgtr	no	generateQ	orthogonal	full	none	none	none	generates a real orthogonal matrix Q	single		552
+14	d	orgtr	no	generateQ	orthogonal	full	none	none	none	generates a real orthogonal matrix Q	double		554
+15	c	ungtr	yes	generateQ	unitary	full	none	none	none	generates a complex unitary matrix Q	single		596
+16	z	ungtr	yes	generateQ	unitary	full	none	none	none	generates a complex unitary matrix Q	double		598
+17	s	opgtr	no	generateQ	orthogonal	packed	none	none	none	generates a real orthogonal matrix Q	single		556
+18	d	opgtr	no	generateQ	orthogonal	packed	none	none	none	generates a real orthogonal matrix Q	double		558
+19	c	upgtr	yes	generateQ	unitary	packed	none	none	none	generates a complex unitary matrix Q	single		600
+20	z	upgtr	yes	generateQ	unitary	packed	none	none	none	generates a complex unitary matrix Q	double		602
+21	s	ormtr	no	multiplyByQ	orthogonal	full	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q	single		715
+22	d	ormtr	no	multiplyByQ	orthogonal	full	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q	double		716
+23	c	unmtr	yes	multiplyByQ	unitary	full	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q	single		717
+24	z	unmtr	yes	multiplyByQ	unitary	full	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q	double		718
+25	s	opmtr	no	multiplyByQ	orthogonal	packed	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q 	single		719
+26	d	opmtr	no	multiplyByQ	orthogonal	packed	none	none	none	multiplies an arbitrary real matrix C by the real orthogonal matrix Q 	double		720
+27	c	upmtr	yes	multiplyByQ	unitary	packed	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q	single		721
+28	z	upmtr	yes	multiplyByQ	unitary	packed	none	none	none	multiplies an arbitrary complex matrix C by the complex unitary matrix Q	double		722
+29	s	sterf	no	eigenvalues	symmetric	tridiagonal	no	no	none	computes all eigenvalues of a symmetric tridiagonal matrix by Pal-Walker-Kahan variant of the QL or QR algorithm	single		531
+30	d	sterf	no	eigenvalues	symmetric	tridiagonal	no	no	none	computes all eigenvalues of a symmetric tridiagonal matrix by Pal-Walker-Kahan variant of the QL or QR algorithm	double		532
+31	s	steqr	no	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	single		723
+32	d	steqr	no	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	double		724
+33	c	steqr	yes	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	single		725
+34	z	steqr	yes	eigenvalues	symmetric	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	double		726
+35	s	pteqr	no	eigenvalues	SPD	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric positive definite tridiagonal matrix	single		561
+36	d	pteqr	no	eigenvalues	SPD	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric positive definite tridiagonal matrix	double		562
+37	c	pteqr	yes	eigenvalues	HPD	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric positive definite tridiagonal matrix	single		605
+38	z	pteqr	yes	eigenvalues	HPD	tridiagonal	no	yes	QL/QR	computes all eigenvalues and optionally eigenvectors of a symmetric positive definite tridiagonal matrix	double		606
+39	s	stedc	no	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	single		727
+40	d	stedc	no	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	double		728
+41	c	stedc	yes	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	single		729
+42	z	stedc	yes	eigenvalues	symmetric	tridiagonal	no	yes	divide and conquer	computes all eigenvalues and optionally eigenvectors of a symmetric tridiagonal matrix	double		730
+43	s	stemr	no	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	single		731
+44	d	stemr	no	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	double		732
+45	c	stemr	yes	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	single		733
+46	z	stemr	yes	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	double		734
+47	s	stegr	no	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	single	a compatability wrapper around the improved SSTEMR	735
+48	d	stegr	no	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	double	a compatability wrapper around the improved DSTEMR	736
+49	c	stegr	yes	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	single	a compatability wrapper around the improved CSTEMR	737
+50	z	stegr	yes	eigenvalues	symmetric	tridiagonal	yes	yes	relatively robust representations	computes selected eigenvalues and optionally eigenvectors of a real symmetric tridiagonal matrix T	double	a compatability wrapper around the improved ZSTEMR	738
+51	s	stebz	no	eigenvalues	symmetric	tridiagonal	yes	no	none	computes the eigenvalues of a symmetric tridiagonal matrix T by bisection	single	ordered eigenvalues	537
+52	d	stebz	no	eigenvalues	symmetric	tridiagonal	yes	no	none	computes the eigenvalues of a symmetric tridiagonal matrix T by bisection	double	ordered eigenvalues	538
+53	s	stein	no	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	single		739
+54	d	stein	no	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	double		740
+55	c	stein	yes	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	single		741
+56	z	stein	yes	eigenvectors	symmetric	tridiagonal	none	yes	inverse iteration	computes the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues	double		742
