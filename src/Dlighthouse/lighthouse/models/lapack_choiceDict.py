@@ -108,15 +108,46 @@ EGNVECTORMETHOD_CHOICES = (
 
 
 EIGENMENU_CHOICES = (
-	(u'driver_standard_sh', u'Driver standard with symmetric/Hermitian matrices'),
-	(u'driver_standard_g', u'Driver standard with general matrices'),
-	(u'driver_generalized_sh', u'Driver generalized with symmetric/Hermitian matrices'),
-	(u'driver_generalized_g', u'Driver generalized with general matrices'),
-	(u'computational_standard_sh', u'Computational standard with symmetric/Hermitian matrices'),
-	(u'computational_standard_g', u'Computational standard with general matrices'),
-	(u'computational_generalized_sh', u'Computational generalized with symmetric/Hermitian matrices'),
-	(u'computational_generalized_g', u'Computational generalized with general matrices'),
+	(u'driver_standard_sh', 		u'Driver standard with symmetric/Hermitian matrices'),
+	(u'driver_standard_g', 			u'Driver standard with general matrices'),
+	(u'driver_generalized_sh', 		u'Driver generalized with symmetric/Hermitian matrices'),
+	(u'driver_generalized_g', 		u'Driver generalized with general matrices'),
+	(u'computational_standard_sh', 		u'Computational standard with symmetric/Hermitian matrices'),
+	(u'computational_standard_g', 		u'Computational standard with general matrices'),
+	(u'computational_generalized_sh', 	u'Computational generalized with symmetric/Hermitian matrices'),
+	(u'computational_generalized_g', 	u'Computational generalized with general matrices'),
 )
+
+
+FUNCTION_cssh_CHOICES = (
+	(u'reduce', 				u'reduce matrix A to real symmetric tridiagonal form'),
+	(u'generateQ',				u'generate an orthogonal/unitary matrix Q'),
+	(u'multiplyByQ',			u'multiply an arbitrary matrix by the matrix Q'),
+	(u'eigenvalues',			u'compute eigenvalues'),
+	(u'eigenvectors',			u'compute the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues'),
+)
+
+
+FUNCTION_csg_CHOICES = (
+	(u'balance',				u'balance matrix A'),
+	(u'reduce',				u'reduce matrix A to upper Hessenberg form H'),
+	(u'generateQ',				u'generates an orthogonal/unitary matrix Q '),
+	(u'multiplyByQ',			u'multiply an arbitrary matrix by the matrix Q'),
+	(u'eigenvalues',			u'compute eigenvalues, Schur form, Schur vectors of H'),
+	(u'eigenvectors',			u'compute eigenvectors'),
+	(u'reorder',				u'reorder the Schur factorization of a general matrix'),
+	(u'cndtNumber',				u'estimate the condition numbers of eigenvectors'),
+)
+
+
+FUNCTION_cgsh_CHOICES = (
+	(u'reduce',				u'reduce a generalized eigenproblem to standard form'),
+	(u'split',				u'compute a split Cholesky factorization of a symmetric/Hermitian positive definite band matrix A'),
+)
+
+
+
+
 
 #####----------- for LAPACK SVD routines -------------#####
 SVD_CHOICES = (

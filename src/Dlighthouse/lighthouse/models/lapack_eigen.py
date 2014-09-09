@@ -42,9 +42,7 @@ class lapack_eigen_driver_standard_sh(models.Model):
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
         selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
-        method = models.CharField('method', max_length=50, choices=EGNVECTORMETHOD_CHOICES)
-        schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
-        cndNumber = models.CharField('condition number', max_length=10, choices=NOYESNONE_CHOICES)
+        method = models.CharField('method', max_length=50)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -66,8 +64,7 @@ class lapack_eigen_driver_standard_g(models.Model):
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
-        selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
-        method = models.CharField('method', max_length=50, choices=EGNVECTORMETHOD_CHOICES)
+        method = models.CharField('method', max_length=50)
         schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
         cndNumber = models.CharField('condition number', max_length=10, choices=NOYESNONE_CHOICES)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
@@ -92,9 +89,7 @@ class lapack_eigen_driver_generalized_sh(models.Model):
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
         selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
-        method = models.CharField('method', max_length=50, choices=EGNVECTORMETHOD_CHOICES)
-        schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
-        cndNumber = models.CharField('condition number', max_length=10, choices=NOYESNONE_CHOICES)
+        method = models.CharField('method', max_length=50)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
@@ -116,8 +111,7 @@ class lapack_eigen_driver_generalized_g(models.Model):
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
-        selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
-        method = models.CharField('method', max_length=50, choices=EGNVECTORMETHOD_CHOICES)
+        method = models.CharField('method', max_length=50)
         schur = models.CharField('Schur form/vectors', max_length=30, choices=NOYESNONE_CHOICES)
         cndNumber = models.CharField('condition number', max_length=10, choices=NOYESNONE_CHOICES)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
@@ -133,3 +127,101 @@ class lapack_eigen_driver_generalized_g(models.Model):
         
         class Meta:
                 app_label = 'lighthouse'
+                
+                
+class lapack_eigen_computational_standard_sh(models.Model):
+        thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
+        routineName = models.CharField('routine name', max_length=30)
+        complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
+        function = models.CharField('function', max_length=150, choices=FUNCTION_cssh_CHOICES)
+        matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
+        storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
+        selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
+        eigenvector = models.CharField('eigenvectors', max_length=10, choices=NOYESNONE_CHOICES)
+        method = models.CharField('method', max_length=50)
+        purpose = models.CharField('purpose', max_length=200)
+        singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
+        notes = models.CharField('notes', max_length=225)
+        info = models.ForeignKey(lapack_RoutineInfo)
+        
+        class Admin:
+                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+        def __unicode__(self):
+                return self.matrixType
+                return self.storageType
+        
+        class Meta:
+                app_label = 'lighthouse'
+                
+                
+class lapack_eigen_computational_standard_g(models.Model):
+        thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
+        routineName = models.CharField('routine name', max_length=30)
+        complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
+        function = models.CharField('function', max_length=150, choices=FUNCTION_csg_CHOICES)
+        matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
+        storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
+        method = models.CharField('method', max_length=50)
+        purpose = models.CharField('purpose', max_length=200)
+        singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
+        notes = models.CharField('notes', max_length=225)
+        info = models.ForeignKey(lapack_RoutineInfo)
+        
+        class Admin:
+                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+        def __unicode__(self):
+                return self.matrixType
+                return self.storageType
+        
+        class Meta:
+                app_label = 'lighthouse'
+                
+                
+                
+class lapack_eigen_computational_generalized_sh(models.Model):
+        thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
+        routineName = models.CharField('routine name', max_length=30)
+        complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
+        function = models.CharField('function', max_length=150, choices=FUNCTION_cgsh_CHOICES)
+        matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
+        storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
+        purpose = models.CharField('purpose', max_length=200)
+        singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
+        notes = models.CharField('notes', max_length=225)
+        info = models.ForeignKey(lapack_RoutineInfo)
+        
+        class Admin:
+                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+        def __unicode__(self):
+                return self.matrixType
+                return self.storageType
+        
+        class Meta:
+                app_label = 'lighthouse'
+                
+                
+                
+class lapack_eigen_computational_generalized_g(models.Model):
+        thePrecision = models.CharField('precision', max_length=3, choices=PRECISION_CHOICES)
+        routineName = models.CharField('routine name', max_length=30)
+        complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
+        function = models.CharField('function', max_length=150, choices=FUNCTION_cgsh_CHOICES)
+        storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
+        method = models.CharField('method', max_length=50)
+        purpose = models.CharField('purpose', max_length=200)
+        singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
+        info = models.ForeignKey(lapack_RoutineInfo)
+        
+        class Admin:
+                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
+
+        def __unicode__(self):
+                return self.matrixType
+                return self.storageType
+        
+        class Meta:
+                app_label = 'lighthouse'
+                
