@@ -119,6 +119,12 @@ EIGENMENU_CHOICES = (
 )
 
 
+FUNCTION_dsg_CHOICES = (
+	(u'eigenvectors',			u'compute the eigenvalues and, optionally, the left and/or right eigenvectors'),
+	(u'Schur',				u'compute the eigenvalues, the Schur form, and, optionally, the matrix of Schur vectors'),
+)
+
+
 FUNCTION_cssh_CHOICES = (
 	(u'reduce', 				u'reduce matrix A to real symmetric tridiagonal form'),
 	(u'generateQ',				u'generate an orthogonal/unitary matrix Q'),

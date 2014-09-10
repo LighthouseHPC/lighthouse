@@ -42,9 +42,8 @@ admin.site.register(lapack_eigen_driver_standard_sh, lapack_eigen_driver_standar
 
 
 class lapack_eigen_driver_standard_g_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType',
-			'method', 'schur', 'cndNumber')
-	list_filter = ['thePrecision', 'matrixType',]
+	list_display = ('id', 'thePrecision', 'routineName', 'function', 'method', 'cndNumber')
+	list_filter = ['thePrecision', 'function',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	raw_id_fields = ('info',)
