@@ -201,3 +201,38 @@ class advancedSearchMenuForm(forms.Form):
 	widget=forms.CheckboxSelectMultiple(),
 	choices=EIGENMENU_CHOICES
 	)
+    
+
+##--- for driver standard ---##    
+class driver_standard_sh_Form(forms.Form):
+    driver_standard_sh_driverComput = 'Driver'
+    driver_standard_sh_standardGeneralized = 'Standard'
+    driver_standard_sh_function = mark_safe('solve an eigenproblem')
+    driver_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_sh_matrixType = forms.MultipleChoiceField(
+					widget=forms.CheckboxSelectMultiple(),
+					choices=((u'symmetric',	u'symmetric'), (u'Hermitian', u'Hermitian'),)
+					)
+    driver_standard_sh_storageType = forms.MultipleChoiceField(
+					widget=forms.CheckboxSelectMultiple(),
+					choices=((u'full', u'full'), (u'packed', u'packed'), (u'band', u'band'), (u'tridiagonal', u'tridiagonal'))
+					)
+    driver_standard_sh_selectedEV = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_sh_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_CHOICES)
+    driver_standard_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+   
+class driver_standard_g_Form(forms.Form):    
+    driver_standard_g_driverComput = 'Driver'
+    driver_standard_g_standardGeneralized = 'Standard'
+    driver_standard_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_dsg_CHOICES)
+    driver_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_g_matrixType = 'general'
+    driver_standard_g_storageType = 'full'
+    driver_standard_g_method = 'QL/QR'
+    driver_standard_g_cndNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    driver_standard_g_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+    
+##--- for driver generalized ---##
+    
