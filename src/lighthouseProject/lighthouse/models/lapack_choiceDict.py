@@ -146,7 +146,15 @@ FUNCTION_cgsh_CHOICES = (
 )
 
 
-
+FUNCTION_cgg_CHOICES = (
+	(u'balance',				u'balance a pair of general matrices (A, B)'),
+	(u'reduce',				u'reduce a pair of matrices (A,B) to generalized upper Hessenberg form'),
+	(u'eigenvalues',			u'compute the eigenvalues of a matrix pair (H,T)'),
+	(u'eigenvectors',			u'compute some or all of the right and/or left eigenvectors of a pair of matrices (S,P)'),
+	(u'reorder',				u'reorder the generalized Schur decomposition of a matrix pair (A,B)'),
+	(u'cndtNumber',				u'estimate reciprocal condition numbers'),
+	(u'eigenvectorsG',			u'form the right or left eigenvectors of a generalized eigenvalue problem'),
+)
 
 
 #####----------- for LAPACK SVD routines -------------#####
