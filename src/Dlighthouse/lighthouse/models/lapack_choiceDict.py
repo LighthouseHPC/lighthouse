@@ -121,14 +121,6 @@ EIGENMENU_CHOICES = (
 
 
 ###--- advanced search ---###
-METHOD_dssh_CHOICES = (
-	(u'QL/QR',				u'QL/QR'),
-	(u'divide and conquer',			u'divide and conquer'),
-	(u'relatively robust representations',	u'relatively robust representations'),
-	(u'QL/QR or inverse iteration',		u'QL/QR or inverse iteration'),
-)
-
-
 FUNCTION_dsg_CHOICES = (
 	(u'eigenvectors',			u'compute the eigenvalues and, optionally, the left and/or right eigenvectors'),
 	(u'Schur',				u'compute the eigenvalues, the Schur form, and, optionally, the matrix of Schur vectors'),
@@ -149,13 +141,6 @@ FUNCTION_cssh_CHOICES = (
 	(u'eigenvectors',			u'compute the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues'),
 )
 
-
-METHOD_cssh_CHOICES = (
-	(u'QL/QR',				u'QL/QR'),
-	(u'divide and conquer',			u'divide and conquer'),
-	(u'relatively robust representations',	u'relatively robust representations'),
-	(u'inverse iteration',			u'inverse iteration'),
-)
 
 
 FUNCTION_csg_CHOICES = (
@@ -186,6 +171,28 @@ FUNCTION_cgg_CHOICES = (
 	(u'eigenvectorsG',			u'form the right or left eigenvectors of a generalized eigenvalue problem'),
 )
 
+
+METHOD_dssh_CHOICES = (
+	(u'QL/QR',				u'QL/QR'),
+	(u'divide and conquer',			u'divide and conquer'),
+	(u'relatively robust representations',	u'relatively robust representations'),
+	(u'QL/QR or inverse iteration',		u'QL/QR or inverse iteration'),
+)
+
+
+METHOD_dgsh_CHOICES = (
+	(u'QL/QR',				u'QL/QR'),
+	(u'divide and conquer',			u'divide and conquer'),
+	(u'QL/QR or inverse iteration',		u'QL/QR or inverse iteration'),
+)
+
+
+METHOD_cssh_CHOICES = (
+	(u'QL/QR',				u'QL/QR'),
+	(u'divide and conquer',			u'divide and conquer'),
+	(u'relatively robust representations',	u'relatively robust representations'),
+	(u'inverse iteration',			u'inverse iteration'),
+)
 
 
 
