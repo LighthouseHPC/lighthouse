@@ -25,9 +25,8 @@ class lapack_eigen_guided(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                        
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -51,9 +50,8 @@ class lapack_eigen_driver_standard_sh(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                        
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -73,9 +71,8 @@ class lapack_eigen_driver_standard_g(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                        
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -96,9 +93,8 @@ class lapack_eigen_driver_generalized_sh(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                        
         class Meta:
                 app_label = 'lighthouse'
          
@@ -118,9 +114,8 @@ class lapack_eigen_driver_generalized_g(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                        
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -144,9 +139,8 @@ class lapack_eigen_computational_standard_sh(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                       
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -168,9 +162,8 @@ class lapack_eigen_computational_standard_g(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                       
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -192,9 +185,8 @@ class lapack_eigen_computational_generalized_sh(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                       
         class Meta:
                 app_label = 'lighthouse'
                 
@@ -215,9 +207,8 @@ class lapack_eigen_computational_generalized_g(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
-        
+                return self.thePrecision+self.routineName
+                       
         class Meta:
                 app_label = 'lighthouse'
                 

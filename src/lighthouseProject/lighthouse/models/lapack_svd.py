@@ -21,8 +21,7 @@ class lapack_svd(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
+                return self.thePrecision+self.routineName
         
         class Meta:
                 app_label = 'lighthouse'
@@ -49,9 +48,7 @@ class lapack_svd_advanced(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.routineName
-                return self.matrixType
-                return self.storageType
+                return self.thePrecision+self.routineName
         
         class Meta:
                 app_label = 'lighthouse'

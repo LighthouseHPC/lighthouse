@@ -20,8 +20,7 @@ class lapack_sylvester(models.Model):
                 list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
-                return self.matrixType
-                return self.storageType
+                return self.thePrecision+self.routineName
         
         class Meta:
                 app_label = 'lighthouse'
