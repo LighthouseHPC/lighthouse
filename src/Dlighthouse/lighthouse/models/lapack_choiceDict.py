@@ -88,6 +88,7 @@ STANDARD_CHOICES = (
 
 
 #####----------- for LAPACK eigen routines -------------#####
+###--- guided search ---###
 EIGENPROBLEM_CHOICES = (
 	(u'eigen',				u'Solve an eigenproblem (e.g. diagonalize a matrix to find eigenvalues)'),
 	(u'Hessenberg',				u'Reduce a matrix to upper Hessenberg form'),
@@ -116,6 +117,15 @@ EIGENMENU_CHOICES = (
 	(u'computational_standard_g', 		u'Computational standard with general matrices'),
 	(u'computational_generalized_sh', 	u'Computational generalized with symmetric/Hermitian matrices'),
 	(u'computational_generalized_g', 	u'Computational generalized with general matrices'),
+)
+
+
+###--- advanced search ---###
+METHOD_dssh_CHOICES = (
+	(u'QL/QR',				u'QL/QR'),
+	(u'divide and conquer',			u'divide and conquer'),
+	(u'relatively robust representations',	u'relatively robust representations'),
+	(u'QL/QR or inverse iteration',		u'QL/QR or inverse iteration'),
 )
 
 
