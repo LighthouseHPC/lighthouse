@@ -114,10 +114,9 @@ class lapack_eigen_computational_standard_sh(models.Model):
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
         selectedEV = models.CharField('selected eigenvalues', max_length=10, choices=NOYESNONE_CHOICES)
         eigenvector = models.CharField('eigenvectors', max_length=10, choices=NOYESNONE_CHOICES)
-        method = models.CharField('method', max_length=50)
-        purpose = models.CharField('purpose', max_length=200)
+        method = models.CharField('method', max_length=50, choices=FUNCTION_cssh_CHOICES)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
-        notes = models.CharField('notes', max_length=225)
+        purpose = models.CharField('purpose', max_length=200)
         info = models.ForeignKey(lapack_RoutineInfo)
 
         def __unicode__(self):

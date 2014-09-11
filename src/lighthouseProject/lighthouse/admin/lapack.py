@@ -74,7 +74,7 @@ admin.site.register(lapack_eigen_driver_generalized_g, lapack_eigen_driver_gener
 
 class lapack_eigen_computational_standard_sh_Admin(admin.ModelAdmin):
 	list_display = ('id', 'thePrecision', 'routineName', 'function', 'matrixType', 'storageType',
-			'selectedEV', 'method')
+			'selectedEV', 'eigenvector', 'method')
 	list_filter = ['thePrecision', 'matrixType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
