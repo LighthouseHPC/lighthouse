@@ -26,6 +26,8 @@ MATRIX_CHOICES = (
 	(u'bidiagonal',                 	u'bidiagonal'),
 	(u'orthogonal',				u'orthogonal'),
 	(u'unitary',				u'unitary'),
+	(u'upper quasi-triangular',		u'upper quasi-triangular'),
+	(u'diagonal',				u'diagonal'),
         )
 
 
@@ -193,6 +195,14 @@ METHOD_cssh_CHOICES = (
 	(u'relatively robust representations',	u'relatively robust representations'),
 	(u'inverse iteration',			u'inverse iteration'),
 )
+
+
+METHOD_csg_CHOICES = (
+	(u'QL/QR',				u'QL/QR'),
+	(u'inverse iteration',			u'inverse iteration'),
+	(u'back transformation',		u'back transformation'),
+)
+
 
 
 

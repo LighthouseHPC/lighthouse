@@ -132,10 +132,9 @@ class lapack_eigen_computational_standard_g(models.Model):
         complexNumber = models.CharField('complex number', max_length=10, choices=NOYES_CHOICES)
         function = models.CharField('function', max_length=150, choices=FUNCTION_csg_CHOICES)
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
-        storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
-        method = models.CharField('method', max_length=50)
-        purpose = models.CharField('purpose', max_length=200)
+        method = models.CharField('method', max_length=50, choices=METHOD_csg_CHOICES)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
+        purpose = models.CharField('purpose', max_length=200)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
