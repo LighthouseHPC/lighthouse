@@ -125,12 +125,26 @@ FUNCTION_dsg_CHOICES = (
 )
 
 
+FUNCTION_dgg_CHOICES =(
+	(u'eigenvectors',			u'compute for a pair of N-by-N nonsymmetric matrices (A,B), the generalized eigenvalues, and optionally, the left and/or right generalized eigenvectors'),
+	(u'Schur',				u'compute the generalized eigenvalues, the generalized complex Schur form, and optionally left and/or right Schur vectors'),	
+)
+
+
 FUNCTION_cssh_CHOICES = (
 	(u'reduce', 				u'reduce matrix A to real symmetric tridiagonal form'),
 	(u'generateQ',				u'generate an orthogonal/unitary matrix Q'),
 	(u'multiplyByQ',			u'multiply an arbitrary matrix by the matrix Q'),
 	(u'eigenvalues',			u'compute eigenvalues'),
 	(u'eigenvectors',			u'compute the eigenvectors of a real symmetric tridiagonal matrix T corresponding to specified eigenvalues'),
+)
+
+
+METHOD_cssh_CHOICES = (
+	(u'QL/QR',				u'QL/QR'),
+	(u'divide and conquer',			u'divide and conquer'),
+	(u'relatively robust representations',	u'relatively robust representations'),
+	(u'inverse iteration',			u'inverse iteration'),
 )
 
 
@@ -161,6 +175,8 @@ FUNCTION_cgg_CHOICES = (
 	(u'cndtNumber',				u'estimate reciprocal condition numbers'),
 	(u'eigenvectorsG',			u'form the right or left eigenvectors of a generalized eigenvalue problem'),
 )
+
+
 
 
 #####----------- for LAPACK SVD routines -------------#####
