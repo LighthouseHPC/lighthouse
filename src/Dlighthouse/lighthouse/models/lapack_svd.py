@@ -17,9 +17,6 @@ class lapack_svd(models.Model):
         notes = models.CharField('Notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
-
         def __unicode__(self):
                 return self.thePrecision+self.routineName
         
@@ -43,9 +40,6 @@ class lapack_svd_advanced(models.Model):
         singularVectors = models.CharField('Singular vectors', max_length=10, choices=NOYESBOTH_CHOICES)
         singleDouble = models.CharField('Single/Double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName

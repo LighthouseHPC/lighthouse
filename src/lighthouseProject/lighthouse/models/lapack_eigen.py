@@ -21,9 +21,6 @@ class lapack_eigen_guided(models.Model):
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType', 'info')
-
         def __unicode__(self):
                 return self.thePrecision+self.routineName
                         
@@ -45,9 +42,6 @@ class lapack_eigen_driver_standard_sh(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         purpose = models.CharField('purpose', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -66,9 +60,6 @@ class lapack_eigen_driver_standard_g(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         purpose = models.CharField('purpose', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -88,9 +79,6 @@ class lapack_eigen_driver_generalized_sh(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         purpose = models.CharField('purpose', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -109,9 +97,6 @@ class lapack_eigen_driver_generalized_g(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         purpose = models.CharField('purpose', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -134,9 +119,6 @@ class lapack_eigen_computational_standard_sh(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -157,9 +139,6 @@ class lapack_eigen_computational_standard_g(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -180,9 +159,6 @@ class lapack_eigen_computational_generalized_sh(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName
@@ -202,9 +178,6 @@ class lapack_eigen_computational_generalized_g(models.Model):
         purpose = models.CharField('purpose', max_length=200)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         info = models.ForeignKey(lapack_RoutineInfo)
-        
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'matrixType', 'storageType', 'info')
 
         def __unicode__(self):
                 return self.thePrecision+self.routineName

@@ -16,9 +16,6 @@ class lapack_sylvester(models.Model):
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
         info = models.ForeignKey(lapack_RoutineInfo)
 
-        class Admin:
-                list_display = ('id', 'thePrecision', 'routineName', 'standardGeneralized', 'matrixType', 'storageType', 'info')
-
         def __unicode__(self):
                 return self.thePrecision+self.routineName
         
