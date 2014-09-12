@@ -299,3 +299,27 @@ class computational_standard_g_Form(forms.Form):
     
 
 ##--- for computational generalized ---##
+class computational_generalized_sh_Form(forms.Form):
+    computational_generalized_sh_driverComput = 'computational'
+    computational_generalized_sh_standardGeneralized = 'generalized'
+    computational_generalized_sh_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgsh_CHOICES)
+    computational_generalized_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_sh_matrixType = forms.MultipleChoiceField(
+					widget=forms.CheckboxSelectMultiple(),
+					choices=((u'symmetric',	u'symmetric'), (u'Hermitian', u'Hermitian'),)
+					)
+    computational_generalized_sh_storageType = forms.MultipleChoiceField(
+					widget=forms.CheckboxSelectMultiple(),
+					choices=((u'full', u'full'), (u'packed', u'packed'), (u'band', u'band'))
+					)
+    computational_generalized_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
+    
+class computational_genralized_g_Form(forms.Form):    
+    computational_generalized_g_driverComput = 'computational'
+    computational_generalized_g_standardGeneralized = 'generalized'
+    computational_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgg_CHOICES)
+    computational_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
+    computational_generalized_g_storageType = 'full'
+    computational_generalized_g_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
+    
