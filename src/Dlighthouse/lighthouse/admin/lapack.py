@@ -85,7 +85,7 @@ admin.site.register(lapack_eigen_computational_standard_sh, lapack_eigen_computa
 
 
 class lapack_eigen_computational_standard_g_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'function', 'matrixType', 'storageType', 'method')
+	list_display = ('id', 'thePrecision', 'routineName', 'function', 'matrixType', 'method')
 	list_filter = ['thePrecision', 'matrixType',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
@@ -106,7 +106,7 @@ admin.site.register(lapack_eigen_computational_generalized_sh, lapack_eigen_comp
 
 
 class lapack_eigen_computational_generalized_g_Admin(admin.ModelAdmin):
-	list_display = ('id', 'thePrecision', 'routineName', 'function', 'storageType', 'method')
+	list_display = ('id', 'thePrecision', 'routineName', 'function', 'storageType', 'purpose')
 	list_filter = ['thePrecision',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
