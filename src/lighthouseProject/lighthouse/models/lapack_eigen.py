@@ -153,8 +153,8 @@ class lapack_eigen_computational_generalized_sh(models.Model):
         function = models.CharField('function', max_length=150, choices=FUNCTION_cgsh_CHOICES)
         matrixType = models.CharField('matrix type', max_length=30, choices=MATRIX_CHOICES)
         storageType = models.CharField('storage type', max_length=30, choices=STORAGE_CHOICES)
-        purpose = models.CharField('purpose', max_length=200)
         singleDouble = models.CharField('single/double', max_length=10, choices=SINGLEDOUBLE_CHOICES)
+        purpose = models.CharField('purpose', max_length=200)
         notes = models.CharField('notes', max_length=225)
         info = models.ForeignKey(lapack_RoutineInfo)
 
