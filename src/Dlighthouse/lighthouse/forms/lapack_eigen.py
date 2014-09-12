@@ -29,8 +29,9 @@ class CustomRadioSelect(forms.widgets.RadioSelect):
     
     
     
-
+###############################################
 ######-------- For Guided Search --------######
+###############################################
 ##---- problem form ---- ##
 class problemForm(forms.Form):
     eigen_problem = forms.ChoiceField(label='Which of the following problems would you like to compute?',
@@ -193,8 +194,10 @@ class singleDoubleForm(forms.Form):
 					      )
     
     
-    
+
+#################################################    
 ######-------- For advanced Search --------######
+#################################################
 class advancedSearchMenuForm(forms.Form):
     advancedSearchMenu = forms.MultipleChoiceField(
 	label = "Which of the following routine categories of eigen problems would you like to search?",
@@ -205,8 +208,6 @@ class advancedSearchMenuForm(forms.Form):
 
 ##--- for driver standard ---##    
 class driver_standard_sh_Form(forms.Form):
-    driver_standard_sh_driverComput = 'Driver'
-    driver_standard_sh_standardGeneralized = 'standard'
     driver_standard_sh_function = mark_safe('solve a standard eigenproblem')
     driver_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_standard_sh_matrixType = forms.MultipleChoiceField(
@@ -223,8 +224,6 @@ class driver_standard_sh_Form(forms.Form):
     
    
 class driver_standard_g_Form(forms.Form):    
-    driver_standard_g_driverComput = 'Driver'
-    driver_standard_g_standardGeneralized = 'standard'
     driver_standard_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_dsg_CHOICES)
     driver_standard_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_standard_g_matrixType = 'general'
@@ -236,8 +235,6 @@ class driver_standard_g_Form(forms.Form):
     
 ##--- for driver generalized ---##
 class driver_generalized_sh_Form(forms.Form):
-    driver_generalized_sh_driverComput = 'Driver'
-    driver_generalized_sh_standardGeneralized = 'generalized'
     driver_generalized_sh_function = mark_safe('solve a generalized eigenproblem')
     driver_generalized_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_sh_matrixType = forms.MultipleChoiceField(
@@ -246,7 +243,7 @@ class driver_generalized_sh_Form(forms.Form):
 					)
     driver_generalized_sh_storageType = forms.MultipleChoiceField(
 					widget=forms.CheckboxSelectMultiple(),
-					choices=((u'full', u'full'), (u'packed', u'packed'), (u'band', u'band'), (u'tridiagonal', u'tridiagonal'))
+					choices=((u'full', u'full'), (u'packed', u'packed'), (u'band', u'band'))
 					)
     driver_generalized_sh_selectedEV = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_sh_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_dgsh_CHOICES)
@@ -254,8 +251,6 @@ class driver_generalized_sh_Form(forms.Form):
     
     
 class driver_generalized_g_Form(forms.Form):    
-    driver_generalized_g_driverComput = 'Driver'
-    driver_generalized_g_standardGeneralized = 'generalized'
     driver_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_dgg_CHOICES)
     driver_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_g_matrixType = 'general'
@@ -267,8 +262,6 @@ class driver_generalized_g_Form(forms.Form):
     
 ##--- for computational standard ---##    
 class computational_standard_sh_Form(forms.Form):
-    computational_standard_sh_driverComput = 'Computational'
-    computational_standard_sh_standardGeneralized = 'standard'
     computational_standard_sh_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cssh_CHOICES)
     computational_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_sh_matrixType = forms.MultipleChoiceField(
@@ -285,8 +278,6 @@ class computational_standard_sh_Form(forms.Form):
     
     
 class computational_standard_g_Form(forms.Form):    
-    computational_standard_g_driverComput = 'Computational'
-    computational_standard_g_standardGeneralized = 'standard'
     computational_standard_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_csg_CHOICES)
     computational_standard_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_g_matrixType = forms.MultipleChoiceField(
@@ -300,8 +291,6 @@ class computational_standard_g_Form(forms.Form):
 
 ##--- for computational generalized ---##
 class computational_generalized_sh_Form(forms.Form):
-    computational_generalized_sh_driverComput = 'Computational'
-    computational_generalized_sh_standardGeneralized = 'generalized'
     computational_generalized_sh_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgsh_CHOICES)
     computational_generalized_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_sh_matrixType = forms.MultipleChoiceField(
@@ -316,8 +305,6 @@ class computational_generalized_sh_Form(forms.Form):
     
     
 class computational_generalized_g_Form(forms.Form):    
-    computational_generalized_g_driverComput = 'Computational'
-    computational_generalized_g_standardGeneralized = 'generalized'
     computational_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgg_CHOICES)
     computational_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_g_storageType = 'full'
