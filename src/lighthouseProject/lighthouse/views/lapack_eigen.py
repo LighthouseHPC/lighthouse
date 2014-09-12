@@ -168,3 +168,57 @@ def guidedSearch(request):
 ##############################################
 ######-------- Advanced Search -------- ######
 ##############################################
+def advancedForm(request):
+    request.session['advancedForms'] = []
+    request.session['formDict'] = {}                                ##store formNames and corresponding fields --> {formName: [list, of, fields]}  
+    request.session['col_no'] = [1,2,3,4,5,6,7,8]                   ## col_no is the column(s) to hide
+    form_col = {
+        'driver_standard_sh': 1,
+        'driver_standard_g': 2,
+        'driver_generalized_sh': 3,
+        'driver_generalized_g': 4,
+        'computational_standard_sh': 5,
+        'computational_standard_g': 6,
+        'computational_generalized_sh': 7,
+        'computational_generalized_g': 8
+    }
+        
+    form = advancedSearchMenuForm(request.POST or None)
+    if form.is_valid():
+        value = form.cleaned_data['advancedSearchMenu']
+        for item in value:
+            request.session['advancedForms'].append(item)           ## store selected forms for displaying bound forms
+            request.session['col_no'].remove(form_col[item])        ## remove column(s) that are needed from col_no list
+            
+            ## construct request.session['formDict'] for form validation
+            fieldList = []
+            itemForm = getattr(sys.modules[__name__], item+'_Form')()
+            for index, value in itemForm.fields.items():
+                fieldList.append(index)
+            request.session['formDict'][item] = fieldList
+
+        ## context includes guided search form    
+        context = {
+            'AdvancedTab': True,
+            'form1': driver_standard_sh_Form(),
+            'form2': driver_standard_g_Form(),
+            'form3': driver_generalized_sh_Form(),
+            'form4': driver_generalized_g_Form(),
+            'form5': computational_standard_sh_Form(),
+            'form6': computational_standard_g_Form(),
+            'form7': computational_generalized_sh_Form(),
+            'form8': computational_generalized_g_Form(),
+            'formDict': request.session['formDict'],
+            'results': 'start',
+            'col_no': request.session['col_no'],
+            'formHTML': "problemForm",
+            'form': "invalid",
+            'svd_guided_answered' : '',
+        }
+        return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
+    
+    else:
+        return index(request)
+    
+    
+    
