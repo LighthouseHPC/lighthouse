@@ -207,7 +207,7 @@ class advancedSearchMenuForm(forms.Form):
 class driver_standard_sh_Form(forms.Form):
     driver_standard_sh_driverComput = 'Driver'
     driver_standard_sh_standardGeneralized = 'standard'
-    driver_standard_sh_function = mark_safe('solve an eigenproblem')
+    driver_standard_sh_function = mark_safe('solve a standard eigenproblem')
     driver_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_standard_sh_matrixType = forms.MultipleChoiceField(
 					widget=forms.CheckboxSelectMultiple(),
@@ -238,7 +238,7 @@ class driver_standard_g_Form(forms.Form):
 class driver_generalized_sh_Form(forms.Form):
     driver_generalized_sh_driverComput = 'Driver'
     driver_generalized_sh_standardGeneralized = 'generalized'
-    driver_generalized_sh_function = mark_safe('solve an eigenproblem')
+    driver_generalized_sh_function = mark_safe('solve a generalized eigenproblem')
     driver_generalized_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_sh_matrixType = forms.MultipleChoiceField(
 					widget=forms.CheckboxSelectMultiple(),
