@@ -315,7 +315,7 @@ class computational_generalized_sh_Form(forms.Form):
     computational_generalized_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
     
-class computational_genralized_g_Form(forms.Form):    
+class computational_generalized_g_Form(forms.Form):    
     computational_generalized_g_driverComput = 'computational'
     computational_generalized_g_standardGeneralized = 'generalized'
     computational_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgg_CHOICES)
