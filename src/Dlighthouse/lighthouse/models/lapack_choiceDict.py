@@ -206,6 +206,9 @@ METHOD_csg_CHOICES = (
 
 
 
+
+
+
 #####----------- for LAPACK SVD routines -------------#####
 SVD_CHOICES = (
 	(u'svd_standard',			mark_safe('Computing the SVD of a matrix')),
