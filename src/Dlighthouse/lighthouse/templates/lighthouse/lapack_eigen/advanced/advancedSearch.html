@@ -1,0 +1,318 @@
+{% load static from staticfiles %}
+
+<div id="title-div">
+  <table id="icon-table">
+      <tr>
+	  <td id="icon-cell">
+	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	  </td>       
+	 <td id="title-cell">
+	      Advanced Search
+	  </td>
+      </tr>
+  </table>    
+</div>
+<br>
+<script>
+    require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/Dialog"]);
+</script>
+<form id="myFormThree" name="advanced" action="/lapack_eigen/advancedSearch/" name="frmProb" method="post"
+      data-dojo-type="dijit/form/Form" data-dojo-id="myFormThree" encType="multipart/form-data"
+      onSubmit="return formValid();">
+  {% csrf_token %}
+  <table id='ver-zebra'>
+    <!-- Colgroup -->
+    <colgroup>
+	    <col class="vzebra-odd">
+	    <col class="vzebra-even">
+	    <col class="vzebra-odd">
+	    <col class="vzebra-even">
+	    <col class="vzebra-odd">
+	    <col class="vzebra-even">
+	    <col class="vzebra-odd">
+	    <col class="vzebra-even">
+	    <col class="vzebra-odd">  
+    </colgroup>
+    <tr>
+      <td class="a">Routine category</td>
+      <td class="a"> Driver </td>
+      <td class="a"> Driver </td>
+      <td class="a"> Driver </td>
+      <td class="a"> Driver </td>
+      <td class="a"> Computational </td>
+      <td class="a"> Computational </td>
+      <td class="a"> Computational </td>
+      <td class="a"> Computational </td>
+    </tr>
+    <tr>
+      <td class="a">Standard/Generalized</td>
+      <td class="a"> standard </td>
+      <td class="a"> standard </td>
+      <td class="a"> generalized </td>
+      <td class="a"> generalized </td>
+      <td class="a"> standard </td>
+      <td class="a"> standard </td>
+      <td class="a"> generalized </td>
+      <td class="a"> generalized </td>
+    </tr>
+    <tr>
+      <td class="a">Matrix type</td>
+      <td>{{ form1.driver_standard_sh_matrixType }} </td>
+      <td>general</td>
+      <td>{{ form3.driver_generalized_sh_matrixType }}</td>
+      <td>general</td>
+      <td>{{ form5.computational_standard_sh_matrixType }}</td>
+      <td>general</td>
+      <td>{{ form7.computational_generalized_sh_matrixType }}</td>
+      <td>general</td>
+    </tr>
+    <tr>
+      <td class="a">Function</td>
+      <td>
+	  {{ form1.driver_standard_sh_function }}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td>
+      <td>
+	  {{ form2.driver_standard_g_function }}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td>
+      <td>
+	  {{ form3.driver_generalized_sh_function }}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td>
+      <td>
+	  {{ form4.driver_generalized_g_function }}
+	  <span onClick=alert('test!')><img src={%static "images/question.png" %} width="16" height="16"/></span>
+      </td>
+      <td>	
+	  {{ form5.computational_standard_sh_function }}
+      </td>
+      <td>	
+	  {{ form6.computational_standard_g_function }}
+      </td>
+      <td>
+	  {{ form7.computational_generalized_sh_function }}
+      </td> 
+      <td>
+	  {{ form8.computational_generalized_g_function }}
+      </td> 
+    </tr>
+<!--    <tr>
+      <td class="a">Method for eigenvectors</td>
+      <td>
+	  {% for checkbox in form1.driver_standard_sh_method %}
+	    {{ checkbox }}
+	  {% endfor %}
+      </td>
+      <td>
+	  {{ form2.driver_standard_g_method }}	
+      </td>
+      <td>
+	  {{ form3.driver_generalized_sh_method }}	
+      </td>
+      <td>
+	  {{ form4.driver_generalized_g_method }} 	
+      </td>
+      <td class="b">
+	<span class="showUL_computational_standard_function_4">
+	  {{ form5.computational_standard_sh_method }}
+	</span>
+      </td>
+      <td class="b">
+	<span class="showUL_computational_standard_function_4">
+	  {{ form6.computational_standard_g_method }}
+	</span>
+      </td>
+      <td class="b">
+	<span class="showUL_computational_generalized_function_1">
+	  N/A
+	</span>
+      </td>
+      <td class="b">
+	<span class="showUL_computational_generalized_function_1">
+	  N/A
+	</span>
+      </td>
+    </tr>-->
+    <tr>
+      <td class="a">Storage type</td>
+      <td> {{ form1.driver_standard_sh_storageType }} </td>
+      <td> {{ form2.driver_standard_g_storageType }} </td>
+      <td> {{ form3.driver_generalized_sh_storageType }} </td>
+      <td> {{ form4.driver_generalized_g_storageType }} </td>
+      <td> {{ form5.computational_standard_sh_storageType }} </td>
+      <td> {{ form6.computational_standard_g_storageType }} </td>
+      <td> {{ form7.computational_generalized_sh_storageType }} </td>
+      <td> {{ form8.computational_generalized_g_storageType }} </td>
+    </tr>
+    <tr>
+      <td class="a">Selected eigenvalues</td>
+      <td> {{ form1.driver_standard_sh_selectedEV }} </td>
+      <td> N/A </td>
+      <td> {{ form3.driver_generalized_sh_selectedEV }} </td>
+      <td> N/A </td>
+      <td> {{ form5.computational_standard_sh_selectedEV }} </td>
+      <td> N/A </td>
+      <td> N/A </td>
+      <td> N/A </td>
+    </tr>
+    <tr>
+      <td class="a">Condition number</td>
+      <td> {{ form1.driver_standard_sh_cndNumber }} </td>
+      <td> {{ form2.driver_standard_g_cndNumber }} </td>
+      <td> {{ form3.driver_generalized_sh_cndNumber }} </td>
+      <td> {{ form4.driver_generalized_g_cndNumber }} </td>
+      <td> {{ form5.computational_standard_sh_cndNumber }} </td>
+      <td> {{ form6.computational_standard_g_cndNumber }} </td>
+      <td> {{ form7.computational_generalized_sh_cndNumber }} </td>
+      <td> {{ form8.computational_generalized_g_cndNumber }} </td>
+    </tr>
+    <tr>
+      <td class="a">Complex numbers</td>
+      <td> {{ form1.driver_standard_sh_complexNumber }} </td>
+      <td> {{ form2.driver_standard_g_complexNumber }} </td>
+      <td> {{ form3.driver_generalized_sh_complexNumber }} </td>
+      <td> {{ form4.driver_generalized_g_complexNumber }} </td>
+      <td> {{ form5.computational_standard_sh_complexNumber }} </td>
+      <td> {{ form6.computational_standard_g_complexNumber }} </td>
+      <td> {{ form7.computational_generalized_sh_complexNumber }} </td>
+      <td> {{ form8.computational_generalized_g_complexNumber }} </td>
+    </tr>
+    <tr>
+      <td class="a">Precision</td>
+      <td> {{ form1.driver_standard_sh_singleDouble }} </td>
+      <td> {{ form2.driver_standard_g_singleDouble }} </td>
+      <td> {{ form3.driver_generalized_sh_singleDouble }} </td>
+      <td> {{ form4.driver_generalized_g_singleDouble }} </td>
+      <td> {{ form5.computational_standard_sh_singleDouble }} </td>
+      <td> {{ form6.computational_standard_g_singleDouble }} </td>
+      <td> {{ form7.computational_generalized_sh_singleDouble }} </td>
+      <td> {{ form8.computational_generalized_g_singleDouble }} </td>      
+    </tr>
+  </table>  
+  
+  <div id="button-div">
+    <table style="width:100%; margin: 0px auto;">
+      <tr style="width:100%;">
+	<td style="text-align:left;">       
+	  <button type="button" name="clear" id="clearButton_advanced" class="myButton" title="Clear Search"
+		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
+		  onmouseout="showTooltip('tooltip_advanced','');"
+		  onclick="show_confirm('/lapack_eigen/')">
+	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
+	  </button>       
+	</td>
+	<td style="text-align:center;">
+	  <div id="tooltip_advanced"></div>
+	</td>
+	<td style="text-align:right;">
+	  <button type="submit" name="guided" value="submit" id="submitButton_advanced" title="Submit Answer" class="myButton"
+		  onmouseover="showTooltip('tooltip_advanced', 'Submit', '#009900');"
+		  onmouseout="showTooltip('tooltip_advanced','');">
+	      <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+	  </button >
+	</td>
+      </tr>
+    </table>
+  </div>
+</form>
+
+<script>  
+    //// hide columns
+    var tbl  = document.getElementById('ver-zebra');
+    var rows = tbl.getElementsByTagName('tr');
+    for (var row=0; row<rows.length; row++) {
+      var cels = rows[row].getElementsByTagName('td');
+      for (i=0; i<{{ col_no }}.length; i++) {
+	  cels[{{ col_no }}[i]].style.display='none';
+      }
+    }
+
+    //// hide/show the computational method and singularVector fields at loading
+    wordList = ["computational_standard_function_4", "computational_generalized_function_1"]
+    for (var i=0; i<wordList.length; i++) {
+      var className = "showUL_"+wordList[i];
+      var classElements = document.getElementsByClassName(className);
+      if (document.getElementById("id_"+wordList[i]).checked == false) {
+	for (var j=0; j<classElements.length; j++){
+	  classElements[j].style.display='none';
+	}
+      }
+      else {
+	for (var j=0; j<classElements.length; j++){
+	  classElements[j].style.display='';
+	}
+      }
+    }
+    
+    //// hide 'none' inputs (note: 'none' is needed for "if form.is_valid()")
+    var inputs = document.getElementsByTagName('input');
+    for (var i=0; i<inputs.length; i++){
+      if (inputs[i].value == 'none')
+	inputs[i].style.display='none';
+    }
+</script>    
+
+<script>
+    //// multiplecheckbox validation
+    function formValid(){
+      {% for formName, fields in formDict.items %}
+	{% for field in fields %}
+	      var ifchecked = dojo.query('INPUT[name={{field}}]').filter(function(n){return n.checked;}).length;
+	      var split = "{{ field }}".split(/[ _]+/);		////split each field name to three words and put them in an array called split
+	      
+	      if ( "{{ field }}" == "computational_standard_method" || "{{ field }}" == "computational_standard_singularVectors"){
+		if (ifchecked == 1 && document.getElementById('id_computational_standard_function_4').checked == true){
+		  var uppercase = split[2].charAt(0).toUpperCase() + split[2].slice(1); 
+		  alert("Check at least one box in the "+ uppercase +" field in the Computational_Standard column.");
+		  return false;
+		}
+	      }
+	      else if ( "{{ field }}" == "computational_generalized_singularVectors"){
+		if (ifchecked == 1 && document.getElementById('id_computational_generalized_function_1').checked == true){
+		  alert("Check at least one box in the SingularVectors field in the Computational_Generalized column.");
+		  return false;
+		}
+	      }
+	      else {
+		if (ifchecked == 0){ 
+		  ////capitalize the first letter of each word in array split
+		  var capitalized = [];
+		  for (var i=0; i<3; i++){
+		    capitalized[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
+		    }		  
+		  ////change 'SingleDouble' to 'Precision'
+		  if (capitalized[2] == 'SingleDouble'){
+		      capitalized[2] = 'Precision';
+		  }		  
+		  alert("Check at least one box in the "+capitalized[2]+" field in the "+capitalized[0]+"_"+capitalized[1]+" column.");
+		  return false;
+		}
+	      }
+	  {% endfor %}
+	{% endfor %}
+    }
+    
+    //// handle the situation of none-eigen routines
+    function EIGENfunction(pass, eigen) {
+      if (document.getElementById(eigen).checked == false && pass.checked == true) {
+	    alert('Attention! This field applies only when the "compute the EIGEN ..." box is checked.');
+      }
+    }  
+      
+    //// show/hide computational method/singularVectors options upon clicking the eigen function
+    function showEIGEN(eigen, className) {
+      var elements = document.getElementsByClassName(className);
+      if (document.getElementById(eigen).checked == true){	
+	for (var i=0; i<elements.length; i++){
+	  elements[i].style.display='';
+	}
+      }    
+      else {
+	for (var i=0; i<elements.length; i++){
+	  elements[i].style.display='none';
+	}	
+      }
+      
+    }
+</script>
