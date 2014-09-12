@@ -205,7 +205,7 @@ class advancedSearchMenuForm(forms.Form):
 
 ##--- for driver standard ---##    
 class driver_standard_sh_Form(forms.Form):
-    driver_standard_sh_driverComput = 'driver'
+    driver_standard_sh_driverComput = 'Driver'
     driver_standard_sh_standardGeneralized = 'standard'
     driver_standard_sh_function = mark_safe('solve an eigenproblem')
     driver_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -223,7 +223,7 @@ class driver_standard_sh_Form(forms.Form):
     
    
 class driver_standard_g_Form(forms.Form):    
-    driver_standard_g_driverComput = 'driver'
+    driver_standard_g_driverComput = 'Driver'
     driver_standard_g_standardGeneralized = 'standard'
     driver_standard_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_dsg_CHOICES)
     driver_standard_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -236,7 +236,7 @@ class driver_standard_g_Form(forms.Form):
     
 ##--- for driver generalized ---##
 class driver_generalized_sh_Form(forms.Form):
-    driver_generalized_sh_driverComput = 'driver'
+    driver_generalized_sh_driverComput = 'Driver'
     driver_generalized_sh_standardGeneralized = 'generalized'
     driver_generalized_sh_function = mark_safe('solve an eigenproblem')
     driver_generalized_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -254,7 +254,7 @@ class driver_generalized_sh_Form(forms.Form):
     
     
 class driver_generalized_g_Form(forms.Form):    
-    driver_generalized_g_driverComput = 'driver'
+    driver_generalized_g_driverComput = 'Driver'
     driver_generalized_g_standardGeneralized = 'generalized'
     driver_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_dgg_CHOICES)
     driver_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -267,7 +267,7 @@ class driver_generalized_g_Form(forms.Form):
     
 ##--- for computational standard ---##    
 class computational_standard_sh_Form(forms.Form):
-    computational_standard_sh_driverComput = 'computational'
+    computational_standard_sh_driverComput = 'Computational'
     computational_standard_sh_standardGeneralized = 'standard'
     computational_standard_sh_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cssh_CHOICES)
     computational_standard_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -285,7 +285,7 @@ class computational_standard_sh_Form(forms.Form):
     
     
 class computational_standard_g_Form(forms.Form):    
-    computational_standard_g_driverComput = 'computational'
+    computational_standard_g_driverComput = 'Computational'
     computational_standard_g_standardGeneralized = 'standard'
     computational_standard_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_csg_CHOICES)
     computational_standard_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -300,7 +300,7 @@ class computational_standard_g_Form(forms.Form):
 
 ##--- for computational generalized ---##
 class computational_generalized_sh_Form(forms.Form):
-    computational_generalized_sh_driverComput = 'computational'
+    computational_generalized_sh_driverComput = 'Computational'
     computational_generalized_sh_standardGeneralized = 'generalized'
     computational_generalized_sh_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgsh_CHOICES)
     computational_generalized_sh_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
@@ -316,7 +316,7 @@ class computational_generalized_sh_Form(forms.Form):
     
     
 class computational_generalized_g_Form(forms.Form):    
-    computational_generalized_g_driverComput = 'computational'
+    computational_generalized_g_driverComput = 'Computational'
     computational_generalized_g_standardGeneralized = 'generalized'
     computational_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgg_CHOICES)
     computational_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
