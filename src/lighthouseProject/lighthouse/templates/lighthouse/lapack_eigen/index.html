@@ -15,5 +15,9 @@
 
 <!-- ########### Search results: ###########-->
 {% block dojango_content_search_result %}
-{% include "lighthouse/lapack_eigen/results.html" %}
+    {% if form_submitted %}
+        {% include "lighthouse/lapack_eigen/resultsAdvanced.html" %}
+    {% else %}
+        {% include "lighthouse/lapack_eigen/results.html" %}
+    {% endif %}
 {% endblock %}
