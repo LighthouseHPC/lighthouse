@@ -1,0 +1,106 @@
+{% load static from staticfiles %}
+{% load highlight %}
+
+<div id="title-div">
+  <table style="width: 100%; border: 0px solid;">
+    <tr>
+      <td style="text-align:left; padding-left:5px; width:24px;">
+        <img src={%static "images/edit-find-10.png" %} width="32" height="32"/>
+      </td>   
+      <td style="text-align:left">
+        Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
+      </td>
+    </tr>
+  </table>  
+</div>
+
+</br>
+<table id="routineListNode" class="advancedResult" >
+  <tr>
+    <th>Category</th>
+    <th>Standard/Generalized</th>
+    <th>Function</th>
+    <th>Method for eigen</th>
+    <th>eigen with singular vectors</th>
+    <th>Complex numbers</th>
+    <th>Precision</th>  
+    <th>Routine name</th>
+  </tr>
+  {% for item in results %}
+  <tr class="dojoDndItem" id="sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
+       detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}">
+    <td>
+      {{ item.driverComput }} 
+    </td>
+    <td>
+      {{ item.standardGeneralized }}
+    </td>
+    <td>
+      {{ item.description }}
+    </td>
+    <td>
+      {{ item.method }}
+    </td>
+    <td>
+      {{ item.singularVectors }}
+    </td>
+    <td>
+      {{ item.complexNumber }}
+    </td>
+    <td>
+      {{ item.singleDouble }}
+    </td>
+    <td style="padding: 0px;">
+      <div class="routineName">
+	<table id="tb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}" style="border-radius: 5px;">
+		<tr>					
+			<td class="hiddenStuff">
+				<input type="checkbox" name="routines"
+				       value="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
+				       id="cb_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"/>
+				       <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routineName|upper }}', selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);"-->
+			</td>
+			<td style="font-weight: bold;" title="Drag and drop in Work Area for code generation">
+				{{ item.thePrecision|upper }}{{ item.routineName|upper }}
+			</td>
+			<td >
+				<img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
+				     onclick="showMore('sel_eigenadv_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>	
+			</td>
+			<td class="hiddenStuff">
+				<img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
+				     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
+			</td>
+			<td class="hiddenStuff">                                            
+				<img src={% static "images/move.png" %} width="15" height="15" title="Move up and down"
+				     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
+			</td>
+		</tr>
+	</table>
+      </div>
+      <div class="dijitHidden">
+	      <div id="sel_eigenadv_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+		      <div align="center">
+			      <table id="table_main" width="80%" border = "1">
+				      <tr>
+				      <th>Precision</th>
+				      <th>Routine Name</th>
+				      <th>Matrix Type</th>
+				      <th>Storage</th>
+				      </tr>
+				      <tr>
+				      <td>{{ item.thePrecision|upper }}</td>
+				      <td>{{ item.routineName|upper }}</td> 
+				      <td>{{ item.matrixType }}</td> 
+				      <td>{{ item.storageType }}</td>      
+				      </tr>
+			      </table><br/>
+			      <iframe id="sel_eigenadv_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
+			      <button onClick="dijit.byId('sel_eigenadv_{{ item.id }}').hide()">Close</button>
+		      </div>
+	      </div>
+      </div>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
