@@ -13,6 +13,27 @@ from lighthouse.models.lapack_choiceDict import *
 
 import datetime
 
+
+
+###############################################
+######--------- Help Functions --------- ######
+###############################################
+
+### set up initial sessions
+#def sessionSetup(request):
+#    for item in ['problemForm', 'complexNumberForm', 'matrixTypeForm', 'storageTypeForm', 'singularVectorsForm', 'singleDoubleForm']:
+#        key = 'eigen_'+item[:-4]
+#        request.session[key] = ''    
+#    request.session['currentForm_name'] = 'problemForm'
+#    request.session['Routines'] = lapack_eigen.objects.all()
+#    request.session['eigen_guided_answered'] = OrderedDict()
+    
+    
+    
+    
+    
+    
+
 ##############################################
 ######--------- Guided Search --------- ######
 ##############################################
@@ -213,7 +234,7 @@ def advancedForm(request):
             'col_no': request.session['col_no'],
             'formHTML': "problemForm",
             'form': "invalid",
-            'svd_guided_answered' : '',
+            'eigen_guided_answered' : '',
         }
         return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))
     
@@ -221,4 +242,59 @@ def advancedForm(request):
         return index(request)
     
     
+
+## for an arbitrary number of loops        
+def multi_for(iterables):
+    if not iterables:
+         yield ()
+    else:
+        for item in iterables[0]:
+            for rest_tuple in multi_for(iterables[1:]):
+                yield (item,) + rest_tuple
+                
+                
+                
+        
+def advancedSearch(request):
+    request.session['advancedResults'] = []
+    for item in request.session['advancedForms']:
+        form = getattr(sys.modules[__name__], item+'_Form')(request.POST or None)
+        queryDict2 = {}
+        kwargs = {}
+        modelFieldList = []
+        rangeList = []
+        if form.is_valid():
+            for index, value in form.fields.items():
+                queryDict2[index.split('_')[-1]] = form.cleaned_data[index]
+                rangeList.append(len(form.cleaned_data[index]))
+                modelFieldList.append(index.split('_')[-1])
+            
+            for i in multi_for(map(xrange, rangeList)):
+                kwargs = {'driverComput': item.split('_')[0], 'standardGeneralized': item.split('_')[1]}
+                for model, answer in zip(modelFieldList, i):
+                    kwargs.update({model: queryDict2[model][answer]})
+                    
+                request.session['advancedResults'].extend(lapack_eigen_advanced.objects.filter(**kwargs))
+
+    ## be ready for switching to guided search
+    #sessionSetup(request)
     
+    context = {
+            'AdvancedTab': True,
+            'form_submitted': 'yes',
+            'form1': driver_standard_sh_Form(request.POST or None),
+            'form2': driver_standard_g_Form(request.POST or None),
+            'form3': driver_generalized_sh_Form(request.POST or None),
+            'form4': driver_generalized_g_Form(request.POST or None),
+            'form5': computational_standard_sh_Form(request.POST or None),
+            'form6': computational_standard_g_Form(request.POST or None),
+            'form7': computational_generalized_sh_Form(request.POST or None),
+            'form8': computational_generalized_g_Form(request.POST or None),
+            'formDict': request.session['formDict'],
+            'results': request.session['advancedResults'],
+            'col_no': request.session['col_no'],
+            'formHTML': "problemForm",
+            'form': "invalid",
+            'eigen_guided_answered' : '',
+    }
+    return render_to_response('lighthouse/lapack_eigen/index.html', context_instance=RequestContext(request, context))    
