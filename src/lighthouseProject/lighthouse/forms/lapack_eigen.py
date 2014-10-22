@@ -220,6 +220,7 @@ class driver_standard_sh_Form(forms.Form):
 					)
     driver_standard_sh_selectedEV = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_standard_sh_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_dssh_CHOICES)
+    driver_standard_sh_cndNumber = 'N/A'
     driver_standard_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
    
@@ -228,6 +229,7 @@ class driver_standard_g_Form(forms.Form):
     driver_standard_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_standard_g_matrixType = 'general'
     driver_standard_g_storageType = 'full'
+    driver_standard_g_selectedEV = 'N/A'
     driver_standard_g_method = 'QL/QR'
     driver_standard_g_cndNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_standard_g_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
@@ -247,6 +249,7 @@ class driver_generalized_sh_Form(forms.Form):
 					)
     driver_generalized_sh_selectedEV = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_sh_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_dgsh_CHOICES)
+    driver_generalized_sh_cndNumber = 'N/A'
     driver_generalized_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
     
@@ -255,6 +258,7 @@ class driver_generalized_g_Form(forms.Form):
     driver_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_g_matrixType = 'general'
     driver_generalized_g_storageType = 'full'
+    driver_generalized_g_selectedEV = 'N/A'
     driver_generalized_g_method = 'QZ and back transformation'
     driver_generalized_g_cndNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     driver_generalized_g_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
@@ -274,6 +278,7 @@ class computational_standard_sh_Form(forms.Form):
 					)
     computational_standard_sh_selectedEV = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_standard_sh_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_cssh_CHOICES)
+    computational_standard_sh_cndNumber = 'N/A'
     computational_standard_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
     
@@ -285,7 +290,9 @@ class computational_standard_g_Form(forms.Form):
 					choices=((u'upper Hessenberg',	u'upper Hessenberg'), (u'upper quasi-triangular', u'upper quasi-triangular'), (u'general', u'general'))
 					)
     computational_standard_g_storageType = 'full'
+    computational_standard_g_selectedEV = 'N/A'
     computational_standard_g_method = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=METHOD_csg_CHOICES)
+    computational_standard_g_cndNumber = 'N/A'
     computational_standard_g_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
 
@@ -301,6 +308,8 @@ class computational_generalized_sh_Form(forms.Form):
 					widget=forms.CheckboxSelectMultiple(),
 					choices=((u'full', u'full'), (u'packed', u'packed'), (u'band', u'band'))
 					)
+    computational_generalized_sh_selectedEV = 'N/A'
+    computational_generalized_sh_cndNumber = 'N/A'
     computational_generalized_sh_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
     
@@ -308,5 +317,7 @@ class computational_generalized_g_Form(forms.Form):
     computational_generalized_g_function = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=FUNCTION_cgg_CHOICES)
     computational_generalized_g_complexNumber = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=NOYES_CHOICES)
     computational_generalized_g_storageType = 'full'
+    computational_generalized_g_selectedEV = 'N/A'
+    computational_generalized_g_cndNumber = 'N/A'
     computational_generalized_g_singleDouble = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=SINGLEDOUBLE_CHOICES)
     
