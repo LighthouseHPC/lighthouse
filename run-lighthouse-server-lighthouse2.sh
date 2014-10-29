@@ -45,7 +45,7 @@ checkCmd() {
     fi
 }
 
-pythonexec=/homes/salin/soft/djangostack-1.4.1-0/python/bin/python
+pythonexec=/home/norris/soft/djangostack-1.4.15-0/python/bin/python
 
 #dsversion=`ls /Applications | grep djangostack | sed -e 's|djangostack-\(.*\)/|\1|'`
 

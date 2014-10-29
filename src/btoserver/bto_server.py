@@ -36,11 +36,10 @@ PORT = 9999
 # Directory containing the ./bin dir holding bto compiler executable
 # on the server machine.
 #BTOdir = '/home/cookjj/btoblas/'
-#BTOdir = '/home/cookjj/bto/bto/'
-BTOdir = '/homes/salin/Lighthouse/BTOServer/bto'
+BTOdir = '/home/lighthouse/btoblas/'
 
 # Allowed Users
-USER = ['salin', 'cookjj']
+USER = ['lighthouse', 'salin']
 req_id = strftime('%H-%M-%S', gmtime())
 
 svr = LhServer((HOST, PORT), LhRequestHandler, BTOdir, USER, req_id)
