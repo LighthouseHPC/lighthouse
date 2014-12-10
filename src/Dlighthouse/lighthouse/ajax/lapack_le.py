@@ -63,5 +63,5 @@ def makeFile(file_name):
 		elif ".c" in file_name:
 			outfile.write("CC=gcc\nCFLAGS=-llapack -lblas\n\n")
 		outfile.write("lapackout: %s\n"%file_name)
-		outfile.write("\t$(CC) $(CFLAGS) -o lapackout %s"%file_name)	
+		outfile.write("\t$(CC) %s -o lapackout $(CFLAGS)"%file_name)	
 
