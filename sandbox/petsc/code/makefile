@@ -1,6 +1,3 @@
-export PETSC_DIR=/home/javed/Desktop/petsc-3.4.1
-export PETSC_ARCH=petsc_real
-
 include ${PETSC_DIR}/conf/variables
 include ${PETSC_DIR}/conf/rules
 
