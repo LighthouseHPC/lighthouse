@@ -1,0 +1,26 @@
+\documentclass{article}
+ 
+\usepackage{bibentry}
+\nobibliography*
+ 
+\begin{document}
+ 
+\section{Introduction}
+ 
+Look ma, inline bibtex entries:
+ 
+\begin{itemize}
+\item \bibentry{wiki}
+\item \bibentry{Health}
+\end{itemize}
+[1]
+ 
+\section{And now for something completely different}
+Lorem ipsum yada yada,
+also see \cite{wiki}, 
+yada yada, and \cite{Health} too.
+ 
+\bibliographystyle{alpha}
+\bibliography{proposal.bib}
+ 
+\end{document}
