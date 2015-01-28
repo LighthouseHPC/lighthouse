@@ -61,7 +61,7 @@ WSGI_APPLICATION = 'django_orthg.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.sqlite3',
-        'NAME': '/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/lighthouse_orthg.db',
+        'NAME': 'lighthouse_orthg.db',
        #'HOST':'/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/lighthouse_orthg.db'
        # 'USER': 'lighthouse', 
        # 'PASSWORD': 'yellow1234',
