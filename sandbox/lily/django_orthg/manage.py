@@ -1,5 +1,5 @@
-'''#!/usr/bin/env python'''
-#!/Users/lily/.virtualenvs/[lily]/lib/python2.7
+#!/usr/bin/env python
+'''#!/Users/lily/.virtualenvs/[lily]/lib/python2.7'''
 import os
 import sys
 
