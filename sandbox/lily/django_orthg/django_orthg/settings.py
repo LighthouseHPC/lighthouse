@@ -10,7 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+'''BASE_DIR = os.path.dirname(os.path.dirname(__file__))'''
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))  
 
 
 # Quick-start development settings - unsuitable for production
@@ -82,7 +83,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-TEMPLATE_DIRS = [os.path.join('/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/django_orthg', 'templates')]
+TEMPLATE_DIRS = ( os.path.join(SITE_ROOT, 'templates'),
+)
+#in my own comouter:os.path.join('/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/django_orthg', 'templates')]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
@@ -102,7 +105,9 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/orthg/static",
+    #in my own computer:
+    #"/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/orthg/static",
+    os.path.join(SITE_ROOT, 'static'),
 )
 
 # List of finder classes that know how to find static files in
