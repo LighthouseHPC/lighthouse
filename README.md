@@ -12,7 +12,7 @@ Acknowledgment: This material is based upon work supported by the National Scien
 
 * [Lighthouse: A User-Centered Web Service for Linear Algebra Software](http://arxiv.org/abs/1408.1363)
 Boyana Norris, Sa-Lin Bernstein, Ramya Nair, Elizabeth Jessup
-Elsevier Journal of Systems and Software (JSS): Special Issue on Software Engineering for Parallel Systems, (2014)
+Elsevier Journal of Systems and Software (JSS): Special Issue on Software Engineering for Parallel Systems, to appear (2015)
 
 * [Generating Customized Sparse Eigenvalue Solutions with Lighthouse](http://hpcl.cs.uoregon.edu/pubs/iccgi14.pdf)
 Ramya Nair, Sa-Lin Bernstein, Elizabeth Jessup, Boyana Norris
