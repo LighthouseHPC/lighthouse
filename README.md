@@ -94,11 +94,11 @@ Bootstrap required python modules and update the database (only once, no need to
 
 *On Mac*:
 ```
-./bootstrap.sh
+./scripts/bootstrap.sh
 ```
 *On Linux*:
 ```
-./bootstrap-new.sh
+./scripts/bootstrap-new.sh
 ```
 This may ask you for your superuser password on the Mac because it's adding packages to the djangostack python installation (root password should not be required on Linux since it is installed under your home directory). If bootstrap doesn't work, you can install the required packages manually, e.g., 
 
@@ -139,12 +139,12 @@ _If you haven't started the djangostack services as described above, please do s
 
 To run, in lighthouse-taxonomy, do:
 ```
-./run-lighthouse-new.sh
+./scripts/run-lighthouse-new.sh
 ```
 
 The script chooses a default port number (e.g., 8000 or 8080). You can use a different one, e.g., 8086, if you wish by supplying it:
 ```
-./run-lighthouse-new.sh 8086
+./scripts/run-lighthouse-new.sh 8086
 ```
 
 This HTTP server runs in the foreground of your shell and writes a log to the terminal.
