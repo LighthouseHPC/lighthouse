@@ -1,7 +1,5 @@
 # Lighthouse
-Lighthouse is a framework for creating, maintaining, and using a taxonomy of available software that can be used to build highly-optimized matrix algebra computations. The taxonomy will provide an organized anthology of software components and programming tools needed for that task. The taxonomy will serve as a guide to practitioners seeking to learn what is available for their programming tasks, how to use it, and how the various parts fit together. It will build upon and improve existing collections of numerical software, adding tools for the tuning of matrix algebra computations.
-
-We are developing an initial set of tools that operate in conjunction with this taxonomy. In particular, we will provide an interface that takes a high-level description of a matrix algebra computation and produces a customizable code template using the software in the taxonomy. The template will aid the developer at all steps of the process--from the initial construction of Basic Linear Algebra Subprogram (BLAS)-based codes through the full optimization of that code. Initially, the tools will accept a MATLAB prototype and produce optimized Fortran or C. Finally, we will advance the state-of-the-art in tuning tools by improving some of the tools included in the taxonomy, broadening their ranges of functionality in terms of problem domains and languages.
+Lighthouse is a framework for creating, maintaining, and using a taxonomy of available software that can be used to build highly-optimized matrix algebra computations. The taxonomy provides an organized anthology of software components and programming tools needed for that task. The taxonomy will serve as a guide to practitioners seeking to learn what is available for their programming tasks, how to use it, and how the various parts fit together. It builds upon and improves existing collections of numerical software, adding tools for the tuning of matrix algebra computations.
 
 The development version of Lighthouse can be accessed [here](http://lighthouse.cs.uoregon.edu). If you would like to check out the code and run it on Linux or Mac OS X 10.6 or later, refer to the [Getting Started] page.
 
@@ -9,6 +7,16 @@ Acknowledgment: This material is based upon work supported by the National Scien
 
 ### Version
 0.5.0
+
+### Publications
+
+* [Lighthouse: A User-Centered Web Service for Linear Algebra Software](http://arxiv.org/abs/1408.1363)
+Boyana Norris, Sa-Lin Bernstein, Ramya Nair, Elizabeth Jessup
+Elsevier Journal of Systems and Software (JSS): Special Issue on Software Engineering for Parallel Systems, (2014)
+
+* [Generating Customized Sparse Eigenvalue Solutions with Lighthouse](http://hpcl.cs.uoregon.edu/pubs/iccgi14.pdf)
+Ramya Nair, Sa-Lin Bernstein, Elizabeth Jessup, Boyana Norris
+Proceedings of the Ninth International Multi-Conference on Computing in the Global Information Technology June 22 - 17, 2014, Seville, Spain, (2014)
 
 ### Getting Started
 
