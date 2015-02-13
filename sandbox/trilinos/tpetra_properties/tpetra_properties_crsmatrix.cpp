@@ -1,12 +1,14 @@
 #include "tpetra_properties_crsmatrix.h"
 
+RCP<const Teuchos::Comm<int> > comm;
+
 int main(int argc, char *argv[]) {
 	
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
-	Teuchos::RCP<const Teuchos::Comm<int> > comm = platform.getComm();
-	Teuchos::RCP<NT> node = platform.getNode();
+	comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
+	RCP<NT> node = platform.getNode();
 	int myRank = comm->getRank();
 	Teuchos::oblackholestream blackhole;
 	std::ostream& out = (myRank == 0) ? std::cout : blackhole;
@@ -30,7 +32,6 @@ void runGauntlet(RCP<MAT> &A) {
 	calcNonzeros(A);
 	calcDim(A);
 	calcFrobeniusNorm(A);
-
 }
 
 //  Return the maximum row variance for the matrix
@@ -60,7 +61,18 @@ void calcRowVariance(RCP<MAT> &A) {
 		variance /= A->getGlobalNumCols();
 		if (variance > maxVariance) maxVariance = variance;
 	}
-	std::cout << "var:" << maxVariance << std::endl;
+	double* array;
+	array = new double[comm->getSize()];
+	double max[] = {maxVariance};
+	Teuchos::gather(max, 1, array, comm->getSize(), 0, *comm);
+	if (comm->getRank() == 0) {
+		for (int i = 0; i < comm->getSize(); i++) {
+			if (array[i] > maxVariance) {
+				maxVariance = array[i];
+			}
+		}
+		std::cout << maxVariance << std::endl;
+	}
 }
 
 //  Transpose the matrix, get row variance
@@ -68,7 +80,6 @@ void calcColVariance(RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 	calcRowVariance(B);
-	calcRowVariance(A);
 }
 
 void calcDiagVariance(RCP<MAT> &A) {

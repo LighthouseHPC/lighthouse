@@ -1,4 +1,4 @@
-# Install script for directory: /home/pamo8800/project/trilinos_work/tpetra_properties
+# Install script for directory: /home/pamo8800/project/lighthouse/sandbox/trilinos/tpetra_properties
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ else()
   set(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 endif()
 
-file(WRITE "/home/pamo8800/project/trilinos_work/tpetra_properties/${CMAKE_INSTALL_MANIFEST}" "")
+file(WRITE "/home/pamo8800/project/lighthouse/sandbox/trilinos/tpetra_properties/${CMAKE_INSTALL_MANIFEST}" "")
 foreach(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  file(APPEND "/home/pamo8800/project/trilinos_work/tpetra_properties/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  file(APPEND "/home/pamo8800/project/lighthouse/sandbox/trilinos/tpetra_properties/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 endforeach()

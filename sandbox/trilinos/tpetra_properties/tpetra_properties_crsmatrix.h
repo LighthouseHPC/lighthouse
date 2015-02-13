@@ -10,10 +10,12 @@
 #include <Tpetra_CrsMatrix.hpp>
 #include <Teuchos_ArrayView.hpp>
 #include <Tpetra_RowMatrixTransposer.hpp>
-
+#include <Teuchos_CommHelpers.hpp>
 // I/O for Matrix-Market files
 #include <MatrixMarket_Tpetra.hpp>
 #include <Tpetra_Import.hpp>
+//#include <Teuchos_DefaultMpiComm.hpp>
+//#include <Teuchos_Comm.hpp>
 
 // Typedefs given in Amesos2 example code
 typedef double ST;
