@@ -64,7 +64,7 @@ ENDIF()
 #
 # EDIT HERE: Replace TrilinosExample with your project's name.
 #
-project(tpetra_properties)
+project(tpetra_properties_crsmatrix)
 # 
 # EDIT HERE: 
 #
@@ -74,7 +74,7 @@ project(tpetra_properties)
 # are any.
 #
 set(SOURCES 
-		tpetra_properties.cpp
+		tpetra_properties_crsmatrix.cpp
   )
 
 # 
@@ -99,7 +99,7 @@ link_directories(${Trilinos_TPL_LIBRARY_DIRS})
 # file that you want to build.  This line tells CMake which source
 # file(s) to use to build the executable.
 #
-add_executable(tpetra_properties ${SOURCES})
+add_executable(tpetra_properties_crsmatrix ${SOURCES})
 
 #
 # EDIT HERE: Change trilinosExample to the name of the executable
@@ -107,7 +107,7 @@ add_executable(tpetra_properties ${SOURCES})
 # with the Trilinos libraries, and with the third-party libraries 
 # (TPLs) with which Trilinos was built.
 #
-target_link_libraries(tpetra_properties
+target_link_libraries(tpetra_properties_crsmatrix
   ${Trilinos_LIBRARIES} 
   ${Trilinos_TPL_LIBRARIES}
   )

@@ -43,10 +43,10 @@ RM = /curc/tools/x_86_64/rh6/cmake/3.0.0/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pamo8800/lighthouse_phd_work/tpetra_properties
+CMAKE_SOURCE_DIR = /home/pamo8800/project/trilinos_work/tpetra_properties
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pamo8800/lighthouse_phd_work/tpetra_properties
+CMAKE_BINARY_DIR = /home/pamo8800/project/trilinos_work/tpetra_properties
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -73,9 +73,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pamo8800/lighthouse_phd_work/tpetra_properties/CMakeFiles /home/pamo8800/lighthouse_phd_work/tpetra_properties/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pamo8800/project/trilinos_work/tpetra_properties/CMakeFiles /home/pamo8800/project/trilinos_work/tpetra_properties/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pamo8800/lighthouse_phd_work/tpetra_properties/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pamo8800/project/trilinos_work/tpetra_properties/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -103,41 +103,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named tpetra_properties
+# Target rules for targets named tpetra_properties_crsmatrix
 
 # Build rule for target.
-tpetra_properties: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tpetra_properties
-.PHONY : tpetra_properties
+tpetra_properties_crsmatrix: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tpetra_properties_crsmatrix
+.PHONY : tpetra_properties_crsmatrix
 
 # fast build rule for target.
-tpetra_properties/fast:
-	$(MAKE) -f CMakeFiles/tpetra_properties.dir/build.make CMakeFiles/tpetra_properties.dir/build
-.PHONY : tpetra_properties/fast
+tpetra_properties_crsmatrix/fast:
+	$(MAKE) -f CMakeFiles/tpetra_properties_crsmatrix.dir/build.make CMakeFiles/tpetra_properties_crsmatrix.dir/build
+.PHONY : tpetra_properties_crsmatrix/fast
 
-tpetra_properties.o: tpetra_properties.cpp.o
-.PHONY : tpetra_properties.o
+tpetra_properties_crsmatrix.o: tpetra_properties_crsmatrix.cpp.o
+.PHONY : tpetra_properties_crsmatrix.o
 
 # target to build an object file
-tpetra_properties.cpp.o:
-	$(MAKE) -f CMakeFiles/tpetra_properties.dir/build.make CMakeFiles/tpetra_properties.dir/tpetra_properties.cpp.o
-.PHONY : tpetra_properties.cpp.o
+tpetra_properties_crsmatrix.cpp.o:
+	$(MAKE) -f CMakeFiles/tpetra_properties_crsmatrix.dir/build.make CMakeFiles/tpetra_properties_crsmatrix.dir/tpetra_properties_crsmatrix.cpp.o
+.PHONY : tpetra_properties_crsmatrix.cpp.o
 
-tpetra_properties.i: tpetra_properties.cpp.i
-.PHONY : tpetra_properties.i
+tpetra_properties_crsmatrix.i: tpetra_properties_crsmatrix.cpp.i
+.PHONY : tpetra_properties_crsmatrix.i
 
 # target to preprocess a source file
-tpetra_properties.cpp.i:
-	$(MAKE) -f CMakeFiles/tpetra_properties.dir/build.make CMakeFiles/tpetra_properties.dir/tpetra_properties.cpp.i
-.PHONY : tpetra_properties.cpp.i
+tpetra_properties_crsmatrix.cpp.i:
+	$(MAKE) -f CMakeFiles/tpetra_properties_crsmatrix.dir/build.make CMakeFiles/tpetra_properties_crsmatrix.dir/tpetra_properties_crsmatrix.cpp.i
+.PHONY : tpetra_properties_crsmatrix.cpp.i
 
-tpetra_properties.s: tpetra_properties.cpp.s
-.PHONY : tpetra_properties.s
+tpetra_properties_crsmatrix.s: tpetra_properties_crsmatrix.cpp.s
+.PHONY : tpetra_properties_crsmatrix.s
 
 # target to generate assembly for a file
-tpetra_properties.cpp.s:
-	$(MAKE) -f CMakeFiles/tpetra_properties.dir/build.make CMakeFiles/tpetra_properties.dir/tpetra_properties.cpp.s
-.PHONY : tpetra_properties.cpp.s
+tpetra_properties_crsmatrix.cpp.s:
+	$(MAKE) -f CMakeFiles/tpetra_properties_crsmatrix.dir/build.make CMakeFiles/tpetra_properties_crsmatrix.dir/tpetra_properties_crsmatrix.cpp.s
+.PHONY : tpetra_properties_crsmatrix.cpp.s
 
 # Help Target
 help:
@@ -147,10 +147,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... tpetra_properties"
-	@echo "... tpetra_properties.o"
-	@echo "... tpetra_properties.i"
-	@echo "... tpetra_properties.s"
+	@echo "... tpetra_properties_crsmatrix"
+	@echo "... tpetra_properties_crsmatrix.o"
+	@echo "... tpetra_properties_crsmatrix.i"
+	@echo "... tpetra_properties_crsmatrix.s"
 .PHONY : help
 
 
