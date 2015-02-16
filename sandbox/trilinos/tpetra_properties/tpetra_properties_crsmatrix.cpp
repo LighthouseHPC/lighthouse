@@ -61,14 +61,14 @@ void calcRowVariance(RCP<MAT> &A) {
 		variance /= A->getGlobalNumCols();
 		if (variance > maxVariance) maxVariance = variance;
 	}
-	double* array;
-	array = new double[comm->getSize()];
+	//  Communicate local results, compare
+	double* results = new double[comm->getSize()];
 	double max[] = {maxVariance};
-	Teuchos::gather(max, 1, array, comm->getSize(), 0, *comm);
+	Teuchos::gather(max, 1, results, comm->getSize(), 0, *comm);
 	if (comm->getRank() == 0) {
 		for (int i = 0; i < comm->getSize(); i++) {
-			if (array[i] > maxVariance) {
-				maxVariance = array[i];
+			if (results[i] > maxVariance) {
+				maxVariance = results[i];
 			}
 		}
 		std::cout << maxVariance << std::endl;
@@ -83,11 +83,31 @@ void calcColVariance(RCP<MAT> &A) {
 }
 
 void calcDiagVariance(RCP<MAT> &A) {
+	ST localMean, mean, variance, maxVariance = 0.0; //normal things
+	typedef Tpetra::Map<LO, GO> map_type; //basic map setup
+	const GO indexBase = 0; //idk
+	GO numGlobalElements = A->getGlobalNumDiags(); //just need the space for diagonal entries
+	RCP<const map_type> map = rcp(new map_type (numGlobalElements, indexBase, comm)); //map itself
+	VEC v(map);
 
+	A->getLocalDiagCopy(v);
+	Teuchos::ArrayRCP<const ST> array = v.getData();	
+	for (int i = 0; i < array.size(); i++) {
+		localMean += array[i];	
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &localMean, &mean);
+	mean /= A->getGlobalNumRows();
+	for (int i = 0; i < array.size(); i++) {
+		variance += (array[i] - mean) * (array[i] - mean);
+	}	
+	double result = 0;
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &variance, &result);
+	result /= A->getGlobalNumRows();
+	std::cout << "result:" << result << std::endl;
 }
 
 void calcNonzeros(RCP<MAT> &A) {
-	std::cout << A->getGlobalNumEntries() << std::endl;
+	std::cout << A->getGlobalNumEntries();
 }
 
 void calcDim(RCP<MAT> &A) {
@@ -102,4 +122,15 @@ void calcSymmetricFrobeniusNorm(RCP<MAT> &A){ }
 void calcAntisymmetricFrobeniusNorm(RCP<MAT> &A){ }
 void calcOneNorm(RCP<MAT> &A){ }
 void calcInfNorm(RCP<MAT> &A){ }
+
+void calcDiagAvg(RCP<MAT> &A) {
+	ST mean, variance, maxVariance = 0.0; //normal things
+	typedef Tpetra::Map<LO, GO> map_type; //basic map setup
+	const GO indexBase = 0; //idk
+	GO numGlobalElements = A->getGlobalNumDiags(); //just need the space for diagonal entries
+	RCP<const map_type> map = rcp(new map_type (numGlobalElements, indexBase, comm)); //map itself
+	VEC v(map);
+	A->getLocalDiagCopy(v);
+	std::cout << "avg:" << v.meanValue() << std::endl;
+}
 

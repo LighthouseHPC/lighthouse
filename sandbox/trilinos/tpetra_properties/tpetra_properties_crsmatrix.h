@@ -6,6 +6,7 @@
 #include <Teuchos_CommandLineProcessor.hpp>
 #include <Tpetra_DefaultPlatform.hpp>
 #include <Tpetra_Map.hpp>
+#include <Tpetra_Vector.hpp>
 #include <Tpetra_MultiVector.hpp>
 #include <Tpetra_CrsMatrix.hpp>
 #include <Teuchos_ArrayView.hpp>
@@ -24,6 +25,8 @@ typedef long GO;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType::NodeType NT;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
+typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
+typedef Tpetra::Map<LO, GO, NT> MAP;
 
 using Tpetra::global_size_t;
 using Tpetra::Map;
