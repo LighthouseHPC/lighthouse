@@ -15,6 +15,7 @@
 // I/O for Matrix-Market files
 #include <MatrixMarket_Tpetra.hpp>
 #include <Tpetra_Import.hpp>
+#include <TpetraExt_MatrixMatrix.hpp>
 //#include <Teuchos_DefaultMpiComm.hpp>
 //#include <Teuchos_Comm.hpp>
 
@@ -36,7 +37,7 @@ using Teuchos::rcp;
 using Teuchos::ArrayView;
 
 void runGauntlet(RCP<MAT> &A);
-void calcRowVariance(RCP<MAT> &A);
+void calcRowVariance(RCP<MAT> &A, bool transpose);
 void calcColVariance(RCP<MAT> &A);
 void calcDiagVariance(RCP<MAT> &A);
 void calcNonzeros(RCP<MAT> &A);
