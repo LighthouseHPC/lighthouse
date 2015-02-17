@@ -45,6 +45,8 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcMaxNonzerosPerRow(A);
 	calcMinNonzerosPerRow(A);
 	calcAvgNonzerosPerRow(A);
+	calcTrace(A, false);
+	calcAbsTrace(A);
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -234,6 +236,34 @@ void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locNonzeros, &result);
 	double castResult = (double)result / (double) A->getGlobalNumRows();
 	*fos << "avg nonzeros per row:" << castResult << std::endl;	
+}
+
+void calcTrace(const RCP<MAT> &A, bool abs) {
+	ST locSum, result = 0.0; 
+	typedef Tpetra::Map<LO, GO> map_type; 
+	GO numGlobalElements = A->getGlobalNumDiags(); 
+	RCP<const map_type> map = rcp(new map_type (numGlobalElements, 0, comm)); 
+	VEC v(map);
+
+	A->getLocalDiagCopy(v);
+	Teuchos::ArrayRCP<const ST> array = v.getData();	
+	for (int i = 0; i < array.size(); i++) {
+		if (abs) {
+			locSum += array[i];	
+		} else {
+			locSum += fabs(array[i]);
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locSum, &result);
+	if (abs) {
+		*fos << "abs trace:" << result << std::endl;
+	} else {
+		*fos << "trace:" << result << std::endl;
+	}
+}
+
+void calcAbsTrace(const RCP<MAT> &A) {
+	calcTrace(A, true);
 }
 
 void calcDiagMean(const RCP<MAT> &A) {

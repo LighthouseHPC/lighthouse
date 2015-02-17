@@ -51,10 +51,11 @@ void calcInfNorm(const RCP<MAT> &A, bool transpose);
 void calcSymmetricInfNorm(const RCP<MAT> &A);
 void calcAntisymmetricInfNorm(const RCP<MAT> &A);
 void calcMaxNonzerosPerRow(const RCP<MAT> &A);
-void calcTrace(const RCP<MAT> &A);
-void calcAbsTrace(const RCP<MAT> &A);
 void calcMinNonzerosPerRow(const RCP<MAT> &A);
 void calcAvgNonzerosPerRow(const RCP<MAT> &A);
+void calcTrace(const RCP<MAT> &A, bool abs);
+void calcAbsTrace(const RCP<MAT> &A);
+
 void calcDummyRows(const RCP<MAT> &A);
 void calcDummyRowsKind(const RCP<MAT> &A);
 void calcNumericalSymmetry(const RCP<MAT> &A);
