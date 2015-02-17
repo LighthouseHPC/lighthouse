@@ -172,10 +172,14 @@ void calcOneNorm(const RCP<MAT> &A) {
 }
 
 void calcSymmetricInfNorm(const RCP<MAT> &A) {
-
+	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, 0.5, true, *A);
+	*fos << "symmetric ";
+	calcInfNorm(A_s, false);
 }
 void calcAntisymmetricInfNorm(const RCP<MAT> &A) {
-
+	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
+	*fos << "symmetric ";
+	calcInfNorm(A_s, false);
 }
 void calcMaxNonzerosPerRow(const RCP<MAT> &A) {
 	
