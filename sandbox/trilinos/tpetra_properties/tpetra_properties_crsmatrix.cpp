@@ -38,6 +38,11 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcFrobeniusNorm(A);
 	calcSymmetricFrobeniusNorm(A);
 	calcAntisymmetricFrobeniusNorm(A);
+	calcInfNorm(A, false);
+	calcOneNorm(A);
+	calcSymmetricInfNorm(A);
+	calcAntisymmetricInfNorm(A);
+	calcMaxNonzerosPerRow(A);
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -131,8 +136,50 @@ void calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
 	*fos << "antisymm frob norm:" << A_a->getFrobeniusNorm() << ", " << std::endl;
 }
-void calcOneNorm(const RCP<MAT> &A){ }
-void calcInfNorm(const RCP<MAT> &A){ }
+
+//  Max absolute row sum
+void calcInfNorm(const RCP<MAT> &A, bool transpose) {
+	LO localRows = A->getNodeNumRows(); 
+	ArrayView<const ST> values;
+	ArrayView<const LO> indices;
+	GO numColsInCurrentRow;
+	ST locSum, locMaxSum, result = 0.0;
+
+	//  Go through each row on the current process
+	for (LO row = 0; row < localRows; row++) {
+		locSum = 0.0;
+		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
+		A->getLocalRowView(row, indices, values); 
+
+		for (LO col = 0; col < numColsInCurrentRow; col++) {
+			locSum += fabs(values[col]);
+		} 
+		if (locSum > locMaxSum) locMaxSum = locSum;
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxSum, &result);
+	if (transpose) {
+		*fos << "one norm:" << result << std::endl;
+	} else {
+		*fos << "inf norm:" << result << std::endl;
+	}
+}
+
+//  Max absolute column sum
+void calcOneNorm(const RCP<MAT> &A) {
+	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+	calcInfNorm(B, true);
+}
+
+void calcSymmetricInfNorm(const RCP<MAT> &A) {
+
+}
+void calcAntisymmetricInfNorm(const RCP<MAT> &A) {
+
+}
+void calcMaxNonzerosPerRow(const RCP<MAT> &A) {
+	
+}
 
 void calcDiagMean(const RCP<MAT> &A) {
 	ST locMean, mean = 0.0; 

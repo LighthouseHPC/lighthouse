@@ -16,6 +16,7 @@
 #include <MatrixMarket_Tpetra.hpp>
 #include <Tpetra_Import.hpp>
 #include <TpetraExt_MatrixMatrix.hpp>
+#include <cmath>
 //#include <Teuchos_DefaultMpiComm.hpp>
 //#include <Teuchos_Comm.hpp>
 
@@ -46,7 +47,7 @@ void calcFrobeniusNorm(const RCP<MAT> &A);
 void calcSymmetricFrobeniusNorm(const RCP<MAT> &A);
 void calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A);
 void calcOneNorm(const RCP<MAT> &A);
-void calcInfNorm(const RCP<MAT> &A);
+void calcInfNorm(const RCP<MAT> &A, bool transpose);
 void calcSymmetricInfNorm(const RCP<MAT> &A);
 void calcAntisymmetricInfNorm(const RCP<MAT> &A);
 void calcMaxNonzerosPerRow(const RCP<MAT> &A);
