@@ -47,6 +47,14 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcAvgNonzerosPerRow(A);
 	calcTrace(A, false);
 	calcAbsTrace(A);
+	calcDummyRows(A);
+	//calcDummyRowsKind(A);
+	calcNumericalSymmetry(A);
+	calcNonzeroPatternSymmetry(A);
+	//calcNumericalValueSymmetry(A);
+  //calcNonzeroPatternSymmetry(A);
+	calcRowDiagonalDominance(A);
+	calcColDiagonalDominance(A);
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -192,8 +200,6 @@ void calcAntisymmetricInfNorm(const RCP<MAT> &A) {
 //  Self explanatory
 void calcMaxNonzerosPerRow(const RCP<MAT> &A) {
 	LO localRows = A->getNodeNumRows(); 
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
 	GO numColsInCurrentRow;
 	GO locNonzeros, locMaxNonzeros, result = 0;
 
@@ -208,8 +214,6 @@ void calcMaxNonzerosPerRow(const RCP<MAT> &A) {
 
 void calcMinNonzerosPerRow(const RCP<MAT> &A) {
 	LO localRows = A->getNodeNumRows();
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
 	GO numColsInCurrentRow;
 	GO locNonzeros, locMinNonzeros, result = 0;	
 
@@ -224,8 +228,6 @@ void calcMinNonzerosPerRow(const RCP<MAT> &A) {
 
 void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 	LO localRows = A->getNodeNumRows();
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
 	GO numColsInCurrentRow = 0;
 	GO locNonzeros = 0, locMinNonzeros = 0, result = 0;
 
@@ -266,7 +268,111 @@ void calcAbsTrace(const RCP<MAT> &A) {
 	calcTrace(A, true);
 }
 
-void calcDiagMean(const RCP<MAT> &A) {
+void calcDummyRows(const RCP<MAT> &A) {
+	LO localRows = A->getNodeNumRows(); 
+	GO numColsInCurrentRow;
+	GO locDummy = 0, result = 0;
+
+	//  Go through each row on the current process
+	for (LO row = 0; row < localRows; row++) {
+		if (A->getNumEntriesInLocalRow(row) == 1) {
+			locDummy++;
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locDummy, &result);
+	*fos << "dummy rows:" << result << std::endl;
+}
+
+//void calcDummyRowsKind(const RCP<MAT> &A) {} 
+
+void calcNumericalSymmetry(const RCP<MAT> &A) {
+	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+
+	LO localRows = A->getNodeNumRows();
+	ArrayView<const ST> valuesA, valuesB;
+	ArrayView<const LO> indicesA, indicesB;
+	GO numColsInCurrentRow = 0;
+
+	//  Go through each row on the current process
+	for (LO row = 0; row < localRows; row++) {
+		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
+		A->getLocalRowView(row, indicesA, valuesA); 
+		B->getLocalRowView(row, indicesB, valuesB);
+		for (LO col = 0; col < numColsInCurrentRow; col++) {
+			if (valuesA[col] != valuesB[col]) {
+				*fos << "numerical symmetry:" << 0 << std::endl;
+				return;
+			}
+		} 
+	}
+	*fos << "numerical symmetry:" << 1 << std::endl;	
+}
+
+void calcNonzeroPatternSymmetry(const RCP<MAT> &A) {
+	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+
+	LO localRows = A->getNodeNumRows();
+	ArrayView<const ST> valuesA, valuesB;
+	ArrayView<const LO> indicesA, indicesB;
+	GO numColsInCurrentRow = 0;
+
+	//  Go through each row on the current process
+	for (LO row = 0; row < localRows; row++) {
+		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
+		A->getLocalRowView(row, indicesA, valuesA); 
+		B->getLocalRowView(row, indicesB, valuesB);
+		//  If the two matrices have the same nonzero indices, symmetric
+		for (LO col = 0; col < numColsInCurrentRow; col++) {
+			if (indicesA[col] != indicesB[col]) {
+				*fos << "nonzero numerical symmetry:" << 0 << std::endl;
+				return;
+			}
+		} 
+	}
+	*fos << "nonzero numerical symmetry:" << 1 << std::endl;	
+}
+
+// 0 not, 1 weak, 2 strict
+void calcRowDiagonalDominance(const RCP<MAT> &A) {
+	LO localRows = A->getNodeNumRows(); 
+	ArrayView<const ST> values;
+	ArrayView<const LO> indices;
+	GO numColsInCurrentRow;
+	ST diagonalEntry, locSum, result = 0.0;
+
+	//  Go through each row on the current process
+	for (LO row = 0; row < localRows; row++) {
+		diagonalEntry = locSum = 0.0;
+		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
+		A->getLocalRowView(row, indices, values); 
+		for (int col = 0; col < numColsInCurrentRow; col++) {
+			if (indices[col] == row) {
+				locSum += fabs(values[col]);
+			} else {
+				diagonalEntry = fabs(values[col]);
+			}
+		}
+		if (diagonalEntry > locSum) {
+			*fos << "row diag dominance:2" << std::endl;
+			return;
+		}
+		if (diagonalEntry >= locSum) {
+			*fos << "row diag dominance:1" << std::endl;
+			return;
+		}
+	}
+	*fos << "row diag dominance:0" << std::endl;
+}
+
+void calcColDiagonalDominance(const RCP<MAT> &A) {
+	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+	calcRowDiagonalDominance(B);
+}
+
+void calcDiagonalMean(const RCP<MAT> &A) {
 	ST locMean, mean = 0.0; 
 	typedef Tpetra::Map<LO, GO> map_type; 
 	GO numGlobalElements = A->getGlobalNumDiags(); 

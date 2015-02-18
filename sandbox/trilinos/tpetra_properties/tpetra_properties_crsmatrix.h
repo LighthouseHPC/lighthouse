@@ -55,16 +55,16 @@ void calcMinNonzerosPerRow(const RCP<MAT> &A);
 void calcAvgNonzerosPerRow(const RCP<MAT> &A);
 void calcTrace(const RCP<MAT> &A, bool abs);
 void calcAbsTrace(const RCP<MAT> &A);
-
 void calcDummyRows(const RCP<MAT> &A);
-void calcDummyRowsKind(const RCP<MAT> &A);
+//void calcDummyRowsKind(const RCP<MAT> &A);
 void calcNumericalSymmetry(const RCP<MAT> &A);
 void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
-void calcNumericalValueSymmetry(const RCP<MAT> &A);
-void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
+//void calcNumericalValueSymmetry(const RCP<MAT> &A);
+//void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
 void calcRowDiagonalDominance(const RCP<MAT> &A);
 void calcColDiagonalDominance(const RCP<MAT> &A);
 void calcDiagonalMean(const RCP<MAT> &A);
+
 void calcDiagonalSign(const RCP<MAT> &A);
 void calcDiagonalNonzeros(const RCP<MAT> &A);
 void calcLowerBandwidth(const RCP<MAT> &A);
