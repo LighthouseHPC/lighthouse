@@ -10,6 +10,7 @@
 #include <Tpetra_MultiVector.hpp>
 #include <Tpetra_CrsMatrix.hpp>
 #include <Teuchos_ArrayView.hpp>
+#include <Teuchos_Array.hpp>
 #include <Tpetra_RowMatrixTransposer.hpp>
 #include <Teuchos_CommHelpers.hpp>
 // I/O for Matrix-Market files
@@ -36,6 +37,7 @@ using Tpetra::Import;
 using Teuchos::RCP;
 using Teuchos::rcp;
 using Teuchos::ArrayView;
+using Teuchos::Array;
 
 void runGauntlet(const RCP<MAT> &A);
 void calcRowVariance(const RCP<MAT> &A, bool transpose);

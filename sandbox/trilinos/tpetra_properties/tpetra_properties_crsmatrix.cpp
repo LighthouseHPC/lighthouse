@@ -30,9 +30,10 @@ void runGauntlet(const RCP<MAT> &A) {
 	}
 	numNodes = comm->getSize();
 	*fos << "nodes:" << numNodes << " nodes" << std::endl;
+
 	calcRowVariance(A, false);
 	calcColVariance(A);
-	calcDiagVariance(A);
+/*	calcDiagVariance(A);
 	calcNonzeros(A);
 	calcDim(A);
 	calcFrobeniusNorm(A);
@@ -55,34 +56,42 @@ void runGauntlet(const RCP<MAT> &A) {
   //calcNonzeroPatternSymmetry(A);
 	calcRowDiagonalDominance(A);
 	calcColDiagonalDominance(A);
+
+	//calcDiagonalSign(A);
+	//calcDiagonalNonzeros(A);
+	calcLowerBandwidth(A);
+	//calcUpperBandwidth(A);
+	*/
 }
 
 //  Return the maximum row locVariance for the matrix
 //  The average of the squared differences from the Mean.
 void calcRowVariance(const RCP<MAT> &A, bool transpose) {
-	LO localRows = A->getNodeNumRows(); 
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
-	GO numColsInCurrentRow;
+	LO rows = A->getGlobalNumRows(); 
 	ST mean, locVariance, locMaxVariance, result = 0.0;
+	RCP<const MAP> m = A->getRowMap();
 
 	//  Go through each row on the current process
-	for (LO row = 0; row < localRows; row++) {
-		mean = locVariance = 0.0; 
-		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
-		A->getLocalRowView(row, indices, values); 
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			mean = locVariance = 0.0; 
+			size_t cols = A->getNumEntriesInGlobalRow(row); 
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			A->getGlobalRowCopy(row, indices(), values(), cols); 
 
 		//  Two-step approach for locVariance, could be more efficient 
-		for (LO col = 0; col < numColsInCurrentRow; col++) {
-			mean += values[col];
-		} 
+			for (LO col = 0; col < cols; col++) {
+				mean += values[col];
+			} 
 		//  Divide entries by the dim (to include zeros)
-		mean /= A->getGlobalNumCols();
-		for (LO col = 0; col < numColsInCurrentRow; col++) {
-			locVariance += (values[col] - mean) * (values[col] - mean);
+			mean /= A->getGlobalNumCols();
+			for (LO col = 0; col < cols; col++) {
+				locVariance += (values[col] - mean) * (values[col] - mean);
+			}
+			locVariance /= A->getGlobalNumCols();
+			if (locVariance > locMaxVariance) locMaxVariance = locVariance;
 		}
-		locVariance /= A->getGlobalNumCols();
-		if (locVariance > locMaxVariance) locMaxVariance = locVariance;
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
 	if (transpose) {
@@ -388,3 +397,83 @@ void calcDiagonalMean(const RCP<MAT> &A) {
 	*fos << "diag mean" << mean << ", " << std::endl;
 }
 
+// indicates the diagonal sign pattern
+// -2 all negative, -1 nonpositive, 0 all zero, 1 nonnegative, 2 all positive, 
+// 3 some negative,some or no zero,some positive
+void calcDiagonalSign(const RCP<MAT> &A) {
+	long locPos = 0, locNeg = 0, locZero = 0;
+	long totalPos, totalNeg, totalZero;
+	typedef Tpetra::Map<LO, GO> map_type;
+	GO numGlobalElements = A->getGlobalNumDiags();
+	RCP<const map_type> map = rcp(new map_type (numGlobalElements, 0, comm));
+	VEC v(map);
+	A->getLocalDiagCopy(v);
+	Teuchos::ArrayRCP<const ST> array = v.getData();
+	for (int i = 0; i < array.size(); i++) {
+		if (array[i] > 0) {
+			locPos++;
+		} else if (array[i] < 0) {
+			locNeg++;
+		} else {
+			locZero++;
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locPos, &totalPos);
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locNeg, &totalNeg);
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locZero, &totalZero);
+	*fos << "diagonal sign:";
+	if (totalPos > 0 && totalNeg == 0 && totalZero == 0) {
+		*fos << "2" << std::endl;
+	} else if (totalNeg > 0 && totalPos == 0 && totalZero == 0) {
+		*fos << "-2" << std::endl;
+	} else if (totalZero > 0 && totalPos == 0 && totalNeg == 0) {
+		*fos << "0" << std::endl;
+	} else if (totalNeg == 0) {
+		*fos << "1" << std::endl;
+	} else if (totalPos == 0) {
+		*fos << "-1" << std::endl;
+	} else {
+		*fos << "3" << std::endl;
+	}
+}
+
+void calcDiagonalNonzeros(const RCP<MAT> &A) {
+	GO diagNonzeros = A->getGlobalNumDiags();
+	*fos << "nonzeros on diag:" << diagNonzeros << std::endl;
+}
+
+void calcLowerBandwidth(const RCP<MAT> &A) {
+
+	// Maybe doing something with a map
+	// GO gblRow =  map->getGlobalElement(lclRow);
+	// From the power method example code
+	ArrayView<const ST> values;
+	ArrayView<const LO> indices;
+	GO numColsInCurrentRow;
+	ST mean, locVariance, locMaxVariance, result = 0.0;
+	std::cout << comm->getRank() << "\t" << A->getNodeNumRows() << "\t" << 
+	A->getNodeNumCols() << std::endl;
+}
+
+void calcUpperBandwidth(const RCP<MAT> &A) {
+	int localRows = A->getNodeNumRows();
+	int* array = new int[numNodes];
+	GO numColsInCurrentRow, result = 0, ub = 0, maxUB = 0;
+	ArrayView<const ST> values;
+	ArrayView<const LO> indices;
+
+	Teuchos::gatherAll<int, int>(*comm, 1, &localRows, numNodes, array);
+	int startingRow = 0; 
+	for (int i = 0; i < comm->getRank(); i++) {
+		startingRow += array[i];
+	}
+	for (int row = 0; row < localRows; row++) {
+		A->getLocalRowView(row, indices, values);
+		ub = indices.back() - (row + startingRow);
+		if (ub > maxUB) {
+			maxUB = ub;
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &maxUB, &maxUB);
+	*fos << "ub:" << maxUB << std::endl;
+}
