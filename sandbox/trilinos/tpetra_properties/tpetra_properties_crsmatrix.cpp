@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 
 	// Load and run tests on Matrix Market file
-	std::string filename("../demo.mtx");
+	std::string filename("../ecl32.mtx");
 	RCP<MAT> A = Tpetra::MatrixMarket::Reader<MAT>::readSparseFile(filename, comm, node, true);
 	runGauntlet(A);
 
@@ -31,21 +31,24 @@ void runGauntlet(const RCP<MAT> &A) {
 	numNodes = comm->getSize();
 	*fos << "nodes:" << numNodes << " nodes" << std::endl;
 
-	calcRowVariance(A, false);
+// Working
+	calcRowVariance(A);
 	calcColVariance(A);
-/*	calcDiagVariance(A);
+	calcDiagVariance(A);
 	calcNonzeros(A);
 	calcDim(A);
 	calcFrobeniusNorm(A);
 	calcSymmetricFrobeniusNorm(A);
 	calcAntisymmetricFrobeniusNorm(A);
-	calcInfNorm(A, false);
 	calcOneNorm(A);
+	calcInfNorm(A, false);
 	calcSymmetricInfNorm(A);
 	calcAntisymmetricInfNorm(A);
 	calcMaxNonzerosPerRow(A);
 	calcMinNonzerosPerRow(A);
 	calcAvgNonzerosPerRow(A);
+
+// not checked
 	calcTrace(A, false);
 	calcAbsTrace(A);
 	calcDummyRows(A);
@@ -61,7 +64,6 @@ void runGauntlet(const RCP<MAT> &A) {
 	//calcDiagonalNonzeros(A);
 	calcLowerBandwidth(A);
 	//calcUpperBandwidth(A);
-	*/
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -94,10 +96,10 @@ void calcRowVariance(const RCP<MAT> &A, bool transpose) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
-	if (transpose) {
-		*fos << "col variance:" << result << std::endl;
-	} else {
+	if (transpose == false) {
 		*fos << "row variance:" << result << std::endl;
+	} else {
+		*fos << "col variance:" << result << std::endl;
 	}
 }
 
@@ -169,13 +171,15 @@ void calcInfNorm(const RCP<MAT> &A, bool transpose) {
 	//  Go through each row on the current process
 	for (LO row = 0; row < localRows; row++) {
 		locSum = 0.0;
-		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
-		A->getLocalRowView(row, indices, values); 
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
+			A->getLocalRowView(row, indices, values); 
 
-		for (LO col = 0; col < numColsInCurrentRow; col++) {
-			locSum += fabs(values[col]);
-		} 
-		if (locSum > locMaxSum) locMaxSum = locSum;
+			for (LO col = 0; col < numColsInCurrentRow; col++) {
+				locSum += fabs(values[col]);
+			} 
+			if (locSum > locMaxSum) locMaxSum = locSum;
+		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxSum, &result);
 	if (transpose) {
@@ -202,50 +206,48 @@ void calcSymmetricInfNorm(const RCP<MAT> &A) {
 //  Max absolute row sum of anti-symmetric part
 void calcAntisymmetricInfNorm(const RCP<MAT> &A) {
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
-	*fos << "symmetric ";
+	*fos << "anti-symmetric ";
 	calcInfNorm(A_a, false);
 }
 
 //  Self explanatory
 void calcMaxNonzerosPerRow(const RCP<MAT> &A) {
-	LO localRows = A->getNodeNumRows(); 
-	GO numColsInCurrentRow;
-	GO locNonzeros, locMaxNonzeros, result = 0;
-
-	//  Go through each row on the current process
-	for (LO row = 0; row < localRows; row++) {
-		locNonzeros = A->getNumEntriesInLocalRow(row); 
-		if (locNonzeros > locMaxNonzeros) locMaxNonzeros = locNonzeros;
-	}
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxNonzeros, &result);
+	size_t result = A->getGlobalMaxNumRowEntries();	
 	*fos << "max nonzeros per row:" << result << std::endl;
 }
 
 void calcMinNonzerosPerRow(const RCP<MAT> &A) {
-	LO localRows = A->getNodeNumRows();
-	GO numColsInCurrentRow;
-	GO locNonzeros, locMinNonzeros, result = 0;	
+	GO rows = A->getGlobalNumRows();
+	GO locNonzeros = rows, locMinNonzeros = rows, result = 0;	
 
-	//  Go through each row on the current process
-	for (LO row = 0; row < localRows; row++) {
-		locNonzeros = A->getNumEntriesInLocalRow(row);
-		if (locNonzeros < locMinNonzeros) locMinNonzeros = locNonzeros;
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			locNonzeros = A->getNumEntriesInGlobalRow(row);
+			if (locNonzeros >= 0) {
+				if (locNonzeros < locMinNonzeros) {
+					locMinNonzeros = locNonzeros;
+				}
+			}
+		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MIN, 1, &locMinNonzeros, &result);
 	*fos << "min nonzeros per row:" << result << std::endl;
 }
 
 void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
-	LO localRows = A->getNodeNumRows();
-	GO numColsInCurrentRow = 0;
-	GO locNonzeros = 0, locMinNonzeros = 0, result = 0;
+	GO rows = A->getGlobalNumRows();
+	GO locNonzeros = 0, result = 0;
 
 	//  Go through each row on the current process
-	for (LO row = 0; row < localRows; row++) {
-		locNonzeros += A->getNumEntriesInLocalRow(row);
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			if (A->getNumEntriesInGlobalRow(row) >= 0) {
+				locNonzeros += A->getNumEntriesInGlobalRow(row);	
+			}
+		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locNonzeros, &result);
-	double castResult = (double)result / (double) A->getGlobalNumRows();
+	double castResult = (double)result / (double)rows;
 	*fos << "avg nonzeros per row:" << castResult << std::endl;	
 }
 
