@@ -51,18 +51,20 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcTrace(A, false);
 	calcAbsTrace(A);
 	calcDummyRows(A);	
-	calcNumericalSymmetry(A);
-	calcNonzeroPatternSymmetry(A);
+
 */
 // Checking
-	calcRowDiagonalDominance(A);
-	calcColDiagonalDominance(A);
-	calcLowerBandwidth(A);
+	calcNumericalSymmetryPercentage(A);
+	calcNonzeroPatternSymmetryPercentage(A);
+	calcNumericalSymmetry(A);
+	calcNonzeroPatternSymmetry(A);
+	//calcRowDiagonalDominance(A);
+	//calcColDiagonalDominance(A);
+	//calcLowerBandwidth(A);
 
 	//  Not implemented
 	//calcDummyRowsKind(A);
-	//calcNumericalValueSymmetryPercentage(A);
-  //calcNonzeroPatternSymmetryPercentage(A);
+	
 	//calcDiagonalSign(A);
 	//calcDiagonalNonzeros(A);
 	//calcUpperBandwidth(A);
@@ -384,6 +386,71 @@ void calcNonzeroPatternSymmetry(const RCP<MAT> &A) {
 	*fos << "nonzero symmetry:1" << std::endl;
 }
 
+//  Exact match
+void calcNumericalSymmetryPercentage(const RCP<MAT> &A) {
+	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+
+	GO rows = A->getGlobalNumRows(); 
+	ST result = 0.0;
+	GO totalMatch, match = 0;
+	GO locEntries = 0;
+
+	GO diagNonzeros = A->getGlobalNumDiags();
+	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row) &&
+				B->getRowMap()->isNodeGlobalElement(row)) {
+			size_t colsA = A->getNumEntriesInGlobalRow(row);
+			size_t colsB = B->getNumEntriesInGlobalRow(row);
+			Array<ST> valuesA(colsA), valuesB(colsB);
+			Array<GO> indicesA(colsA), indicesB(colsB);
+			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
+			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
+			for (int col = 0; col < colsA; col++) {
+				if (valuesA[col] == valuesB[col] && indicesA[col] != row) {
+					match++;
+				}
+			}
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
+	result = double(totalMatch) / double(offDiagNonzeros);
+	*fos << "numerical symmetry percentage:" << result << std::endl;
+}
+
+void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A) {
+	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+
+	GO rows = A->getGlobalNumRows(); 
+	ST locSum, locMaxSum, result = 0.0;
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row) &&
+				B->getRowMap()->isNodeGlobalElement(row)) {
+			locSum = 0;
+			size_t colsA = A->getNumEntriesInGlobalRow(row);
+			size_t colsB = B->getNumEntriesInGlobalRow(row);
+			Array<ST> valuesA(colsA), valuesB(colsB);
+			Array<GO> indicesA(colsA), indicesB(colsB);
+			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
+			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
+			if (colsA != colsB) {
+				*fos << "nonzero symmetry:0" << std::endl;
+				return;
+			}
+			for (int i = 0; i < colsA; i++) {
+				if ((valuesA[i] == 0 && valuesB[i] != 0) || 
+					(valuesA[i] != 0 && valuesB[i] == 0)) {
+					*fos << "nonzero symmetry:0" << std::endl;
+					return;
+				}
+			}
+		}
+	}
+	*fos << "nonzero symmetry:1" << std::endl;
+}
+
 // 0 not, 1 weak, 2 strict
 void calcRowDiagonalDominance(const RCP<MAT> &A) {
 	LO localRows = A->getNodeNumRows(); 
@@ -518,3 +585,4 @@ void calcUpperBandwidth(const RCP<MAT> &A) {
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &maxUB, &maxUB);
 	*fos << "ub:" << maxUB << std::endl;
 }
+
