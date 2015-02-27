@@ -1,0 +1,148 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to writeLaTeX --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you give
+% someone the link to this page, they can edit at the same
+% time. See the help menu above for more info. Enjoy!
+%
+% Note: you can export the pdf to see the result at full
+% resolution.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{verbatim}
+
+\begin{comment}
+:Title: Probability tree
+:Tags: Trees
+
+A simple example of a probability tree diagram. 
+
+\end{comment}
+
+
+\begin{document}
+\pagestyle{empty}
+
+
+% Set the overall layout of the tree
+%\tikzstyle{level 1}=[level distance=3.5cm, sibling distance=3.5cm]
+%\tikzstyle{level 2}=[level distance=3.5cm, sibling distance=2cm]
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=5.5cm]
+\tikzstyle{level 2}=[level distance=0.5cm, sibling distance=4.0cm]
+\tikzstyle{level 3}=[level distance=1.2cm, sibling distance=3.5cm]
+\tikzstyle{level 4}=[level distance=1.2cm, sibling distance=2.8cm]
+\tikzstyle{level 5}=[level distance=1.3cm, sibling distance=0.7cm]
+\tikzstyle{level 6}=[level distance=2.5cm, sibling distance=0.4cm]
+\tikzstyle{level 7}=[level distance=2.5cm, sibling distance=0.2cm]
+
+%\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+%\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=2.5cm]
+
+% Define styles for bags and leafs
+%\tikzstyle{bag} = [text width=9em, text centered]
+\tikzstyle{bag} = [text width=9em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+
+% The sloped option gives rotated edge labels. Personally
+% I find sloped labels a bit difficult to read. Remove the sloped options
+% to get horizontal labels. 
+\begin{tikzpicture}[grow=right, sloped]
+\node[bag] {\scriptsize Problem Type}
+    child {node[bag] {\scriptsize generalized}        
+            child {node[bag] {\scriptsize general matrix} 
+                child{node[bag] {\scriptsize Full Storage} 
+                         child{node[bag] {\scriptsize Complex} 
+                                  child{node[bag] {\scriptsize only A is Full Rank}
+                                         child{node[bag]{\scriptsize Double: ZGGLSE}}
+                                         child{node[bag]{\scriptsize Single: CGGLSE}}
+                                          }
+                                  child{node[bag] {\scriptsize only B is Full Rank}
+                                        child{node[bag]{\scriptsize Double: ZGGGLM}}
+                                         child{node[bag]{\scriptsize Single: CGGGLM}}
+                                  }
+                                   child{node[bag] {\scriptsize Both are Full Rank}
+                                         child{node[bag]{\scriptsize Double: ZGGGLM}}
+                                         child{node[bag]{\scriptsize Single: CGGGLM}}
+                                   } 
+                                    child{node[bag] {\scriptsize Neither are Full Rank}} 
+                               }
+                              child{node[bag]{\scriptsize Real}
+                                    child{node[bag] {\scriptsize only A is Full Rank}
+                                         child{node[bag]{\scriptsize Double: DGGLSE}}
+                                         child{node[bag]{\scriptsize Single: SGGLSE}}
+                                          }
+                                  child{node[bag] {\scriptsize only B is Full Rank}
+                                        child{node[bag]{\scriptsize Double: DGGGLM}}
+                                         child{node[bag]{\scriptsize Single: SGGGLM}}
+                                  }
+                                   child{node[bag] {\scriptsize Both are Full Rank}
+                                         child{node[bag]{\scriptsize Double: DGGGLM}}
+                                         child{node[bag]{\scriptsize Single: SGGGLM}}
+                                   } 
+                                    child{node[bag] {\scriptsize Neither are Full Rank}} 
+                               }
+                %child{node[bag] {not general matrix}}
+                }
+            child {node[bag] {\scriptsize Not Full Storage}}
+            }
+          child{node[bag] {\scriptsize Not general matrix}}
+    }
+    child {node[bag] {\scriptsize ordinary}        
+        child {node[bag] {\scriptsize general matrix} 
+                   child{node[bag] {\scriptsize Full Storage}
+                         child{node[bag] {\scriptsize Full Rank} 
+                             child{node[bag] {\scriptsize Complex}
+                                  child{node[bag] {\scriptsize divide and conquer}
+                                      child{node[bag]{\tiny Double: ZGELSY}}
+                                       child{node[bag]{\tiny Single: CGELSY}}
+                                  }
+                                  child{node[bag] {\scriptsize SVD}
+                                         child{node[bag]{\tiny Double: ZGELSX}}
+                                         child{node[bag]{\tiny Single: CGELSX}}
+                                       }                                                              
+                                    }
+                                  child{node[bag] {\scriptsize Real}
+                                  child{node[bag] {\scriptsize divide and conquer}
+                                      child{node[bag]{\tiny Double: DGELSY}}
+                                       child{node[bag]{\tiny Single: SGELSY}}
+                                  }
+                                  child{node[bag] {\scriptsize SVD}
+                                         child{node[bag]{\tiny Double: DGELSX}}
+                                         child{node[bag]{\tiny Single: SGELSX}}
+                                       }                                                              
+                                    } 
+                               }                
+                              child{node[bag]{\scriptsize Not Full Rank}
+                                  child{node[bag] {\scriptsize Complex} 
+                                     child{node[bag] {\scriptsize Faster QR }
+                                        child{node[bag]{\tiny Double: ZGELSS}}
+                                         child{node[bag]{\tiny Single: CGELSS}}
+                                     }
+                                     child{node[bag] {\scriptsize QR column pivoting}
+                                         child{node[bag]{\tiny Double: ZGELSD}}
+                                         child{node[bag]{\tiny Single: CGELSD}}
+                                     }
+                                           }  
+                                   child{node[bag] {\scriptsize Real} 
+                                     child{node[bag] {\scriptsize Faster QR }
+                                        child{node[bag]{\tiny Double: DGELSS}}
+                                         child{node[bag]{\tiny Single: SGELSS}}
+                                     }
+                                     child{node[bag] {\scriptsize QR column pivoting}
+                                         child{node[bag]{\tiny Double: DGELSD}}
+                                         child{node[bag]{\tiny Single: SGELSD}}
+                                             }
+                                    }                    
+                %child{node[bag] {not general matrix}}
+                              }
+                     }
+            child {node[bag] {\scriptsize Not Full Storage}}
+            }
+          child{node[bag] {\scriptsize not general matrix}}};
+\end{tikzpicture}
+\end{document}

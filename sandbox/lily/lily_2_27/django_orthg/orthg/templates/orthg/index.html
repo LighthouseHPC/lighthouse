@@ -1,0 +1,11 @@
+{% extends "dojango/base_lapack.html" %}
+
+
+<!-- ########### Simple search questions: ###########-->
+{% block dojango_content_guidedSearch %}
+{% include "orthg/guidedSearch.html" %}
+{% endblock %}
+
+{% block dojango_content_search_result %}
+{% include "orthg/results.html" %}
+{% endblock %}

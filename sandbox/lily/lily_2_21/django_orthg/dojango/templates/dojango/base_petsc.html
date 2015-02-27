@@ -1,0 +1,136 @@
+{% load dojango_base %}        
+{% set_dojango_context %}
+        
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      
+        <title>Lighthouse Search</title>
+
+        <link rel="shortcut icon" href="{{ MEDIA_URL }}Images/favicon.png"/>          
+
+        <style type="text/css">
+                @import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
+                @import "{{ DOJANGO.THEME_CSS_URL }}";
+        </style>
+               
+        <script type="text/javascript" src="{{ DOJANGO.DOJO_SRC_FILE }}">
+        </script>                
+       
+        {% include "style.html" %}
+
+        <script type="text/javascript">    
+            dojo.require("dijit.layout.TabContainer");
+            dojo.require("dijit.layout.BorderContainer");
+            dojo.require("dijit.layout.SplitContainer");    
+            dojo.require("dijit.layout.ContentPane");
+        </script>
+
+        {% include "jsFunctions_petsc.html" %}
+
+        </script>
+    </head> 
+
+<body class="{{ DOJANGO.THEME }}">
+        <!-- basic preloader: -->
+        <div id="loader">
+                <div id="loaderInner">
+                        <img src="{{ MEDIA_URL }}Images/loadingSquare.gif"/>
+			<br><br>
+			Loading..
+                </div>
+        </div>
+
+        <!-- "main" BorderContainer just contains page title and another BorderContainer -->
+        <div id="main" dojoType="dijit.layout.BorderContainer">
+        <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">
+
+    		<img src="{{ MEDIA_URL }}Images/petsc_header.png"/>
+			<div style="float:right; padding-top: 7px;">
+				{% if user.is_authenticated %}                            
+					<div style="text-align:right; color:#808080;">
+						<table>
+							<tr>
+								<td>Welcome, {{ user.username }}!</td>
+							</tr>
+							<tr>
+								<td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;
+								    <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
+								</td>
+							</tr>
+						</table>        
+					</div>
+				{% else %}
+					<div>
+						<table>
+							<tr>
+								<td>
+									<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>
+								</td>          
+								<td>
+									<a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
+								</td>
+							</tr>
+						</table>        
+					</div>                                
+				{% endif %}
+			</div>
+		 </div>
+
+                <!-- "mainSplit" BorderContainer has all the real content -->
+                <div dojoType="dijit.layout.BorderContainer" liveSplitters="false"
+                        design="sidebar" region="center" id="mainSplit">
+
+                        <div dojoType="dijit.layout.TabContainer" duration="200"
+                                minSize="100" style="width: 40%;" id="leftTab"
+                                region="leading" splitter="true">
+                                <!-- Simple Search-->
+                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                        {% block guidedSearch %}{% endblock %}
+                                </div><!-- end Simple Search -->
+
+                                <!--  Advanced Search -->
+                                <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
+                                        {% block advancedSearch %}{% endblock %}
+                                </div><!-- end Advanced Search -->
+                                
+                        </div><!-- end TabsContainer -->
+
+                        <!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
+                        <div dojoType="dijit.layout.TabContainer" region="center" id="topTabs" style="height: 60%;">
+                                <!-- first upper tab ==> Search Result -->
+                                <div id="tab1" dojoType="dijit.layout.ContentPane" title="Instructions" selected="false" style="padding:10px;">
+                                        {% block instructions %}{% endblock %}        
+                                </div><!-- end:first upper tab -->
+
+                                <!-- second tab ==> script area -->
+                                <div id="tab2" dojoType="dijit.layout.ContentPane" title="PETSc Code" selected="false" style="padding:10px;">
+                                        {% block code %}{% endblock %}
+                                </div><!-- end second tab -->
+                        </div><!-- end of region="center" TabContainer -->
+
+
+                        <!-- bottom right tabs -->
+                        <div dojoType="dijit.layout.TabContainer" id="bottomTabs"
+                        tabPosition="top" selectedChild="btab1"
+                        region="bottom" splitter="true" style="height:40%">
+                                <!-- btab 1 ==> work area -->
+                                <div id="btab1" dojoType="dijit.layout.ContentPane" title="Command-line Options" style="padding:10px;">
+                                       {% block command_line_options %}{% endblock %}
+                                </div><!-- end btab1 -->
+
+                                <!-- btab2 ==> authors -->
+                                <div id="btab2" dojoType="dijit.layout.ContentPane" title="Makefile" style="padding:10px;">
+                                        <span  id="themeData" style="display:none"></span>
+                                        {% block makefile %}{% endblock %}
+                                </div><!-- end btab2 -->
+                        </div><!-- end Bottom TabContainer -->
+                       
+                </div> <!-- end of "mainSplit" BorderContainer -->
+        </div><!-- end of "main" BorderContainer -->
+</body>
+
+</html>
