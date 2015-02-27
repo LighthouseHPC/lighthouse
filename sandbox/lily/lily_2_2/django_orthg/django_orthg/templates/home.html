@@ -1,0 +1,131 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Lighthouse Home</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<link href={%static "style/home.css" %} rel="stylesheet" type="text/css" media="screen" />
+		
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.3/dijit/themes/claro/claro.css" media="screen" />		
+		<script>dojoConfig = {async: true, parseOnLoad: true}</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script>
+		
+		<script>
+			require(["dojo/parser", "dijit/TitlePane"]);
+		</script>
+	</head>
+	<body class="claro">
+		<!-- start header -->
+		<div id="header">
+			<div id="logo">
+				<h1>Lighthouse <span>Taxonomy</span></h1>
+		<!--		<p>By Free CSS Templates</p>-->
+			</div>
+	<!--		<div id="menu">
+				<ul>
+					<li class="current_page_item"><a href="#">Homepage</a></li>
+					<li><a href="#">Products</a></li>
+					<li><a href="#">Services</a></li>
+					<li><a href="#">About Us</a></li>
+					<li><a href="#">Contact Us</a></li>
+				</ul>
+			</div>-->
+		</div>
+		<!-- end header -->
+		<!-- start page -->
+		<div id="page">
+			<!-- start content -->
+			<div id="content">
+				<div class="post greenbox">
+					<div class="title">
+						<h1>About</h1>
+					</div>
+					<br>
+					<div class="entry"> <!--<img src="images/bg.jpg" alt="" width="220" height="120" class="left" />-->
+						<p>Lighthouse is a framework for creating, maintaining, and using a taxonomy of available
+						software that can be used to build highly-optimized linear algebra computations.
+						The Lighthouse search-based system combines expert knowledge, machine
+						learning-based classification of existing numerical software collections, and
+						automated code generation and tuning.
+						It enables developers with varied backgrounds to readily discover and
+						effectively apply the best available numerical software for their problems.</p>
+						<br>
+						<p>Lighthouse supports libraries covering a broad space of sequential and parallel solution methods for dense and sparse
+						linear algebra.
+						It currently offers access to functionality from three packages: LAPACK, PETSc, and SLEPc.
+						To start the services, please click on the links listed below.
+						If you would like to check out the code and run it on Linux or Mac OS X 10.6 or later, visit
+						<a href="https://code.google.com/p/lighthouse-taxonomy/wiki/GettingStarted">GettingStarted</a> for Lighthouse.</p>
+					</div>
+					<div class="btm">
+						<div class="l">
+							<div class="r">
+								<div id="posted">Click on the links below to start using Lighthouse!</div>
+								<p class="meta"><!--<a href="#" class="more">Read More</a> &nbsp;&nbsp;&nbsp; <a href="#" class="comments">Comments (33)</a>--></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="two-columns">
+					<div class="columnA">
+						<div class="title red">
+							<h2>Dense Matrix</h2>
+						</div>
+						<br>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'LAPACK'" open="true" style="width: 300px; margin-left: 10px;">			
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_le %}">Linear systems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_eigen %}">Eigenvalue problems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_svd %}">Singular Value Decomposition (SVD) problems</a></li>
+							    <li><a STYLE="text-decoration: none" href="{% url lapack_sylvester %}">Sylvester matrix equation</a></li>
+							</ul>	    
+						</div> 
+					</div>
+					<div class="columnB">
+						<div class="title blue">
+							<h2>Sparse Matrix</h2>
+						</div>
+						<br>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'PETSc'" open="true" style="width: 300px; margin-left: 10px;">
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url petsc %}">Linear systems</a></li>
+							</ul>
+						</div>
+						<div data-dojo-type="dijit/TitlePane" data-dojo-props="title: 'SLEPc'" open="true" style="width: 300px; margin-left: 10px;">
+							<ul class="library">
+							    <li><a STYLE="text-decoration: none" href="{% url slepc_eprob %}">Eigenvalue problems</a></li>
+							</ul>
+						</div> 
+					</div>
+					<div class="btm">&nbsp;</div>
+				</div>
+			</div>
+			<!-- end content -->
+			<!-- start sidebar -->
+			<div id="sidebar">
+				<ul>
+					<li>
+						<h2>Updates</h2>
+						<ul>
+							<li><a href="#">a</a></li>
+							<li><a href="#">b</a></li>
+							<li><a href="#">c</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- end sidebar -->
+		</div>
+		<!-- end page -->
+		<div style="clear: both;">&nbsp;</div>
+		<!--<div id="footer">-->
+		<!--	<p>&copy;2007 All Rights Reserved. &nbsp;&bull;&nbsp; Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>-->
+		<!--</div>-->
+		<!--<div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a>-->
+		<!--</div>-->
+	</body>
+</html>

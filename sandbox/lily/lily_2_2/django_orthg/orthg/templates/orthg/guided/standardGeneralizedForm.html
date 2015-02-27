@@ -1,0 +1,21 @@
+{% load static from staticfiles %}
+
+
+<table style="padding:0px; margin:0px; border:0px;">
+    <tr>
+        <td>
+            <label for="id_orthg_standardGeneralized_0">
+            <img src={%static "images/arrow.png" %} width="8" height="8"/>
+                Would you like to solve a standard or generalized least square equation?                <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <li><label for="id_orthg_standardGeneralized_0"><input type="radio" id="id_orthg_standardGeneralized_0" value="generalized" name="orthg_standardGeneralized" /> generalized</label></li>
+                <li><label for="id_orthg_standardGeneralized_1"><input type="radio" id="id_orthg_standardGeneralized_1" value="standard" name="orthg_standardGeneralized" /> standard</label></li>
+            </ul>
+        </td>
+    </tr>            
+</table>
