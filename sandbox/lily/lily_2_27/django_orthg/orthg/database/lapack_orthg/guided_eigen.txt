@@ -1,0 +1,204 @@
+1	s	syev	eigen	standard	no	symmetric	full	no	no/yes	none	none	single		457
+2	d	syev	eigen	standard	no	symmetric	full	no	no/yes	none	none	double		458
+3	s	syevd	eigen	standard	no	symmetric	full	no	yes	none	none	single	faster while more memory is required	459
+4	d	syevd	eigen	standard	no	symmetric	full	no	yes	none	none	double	faster while more memory is required	460
+5	s	syevx	eigen	standard	no	symmetric	full	yes	no/yes	none	none	single		461
+6	d	syevx	eigen	standard	no	symmetric	full	yes	no/yes	none	none	double		462
+7	s	syevr	eigen	standard	no	symmetric	full	yes	yes	none	none	single	recommended if a subset of eigenvalues is needed	463
+8	d	syevr	eigen	standard	no	symmetric	full	yes	yes	none	none	double	recommended if a subset of eigenvalues is needed	464
+9	s	spev	eigen	standard	no	symmetric	packed	no	no/yes	none	none	single		465
+10	d	spev	eigen	standard	no	symmetric	packed	no	no/yes	none	none	double		466
+11	s	spevd	eigen	standard	no	symmetric	packed	no	yes	none	none	single	faster while more memory is required	467
+12	d	spevd	eigen	standard	no	symmetric	packed	no	yes	none	none	double	faster while more memory is required	468
+13	s	spevx	eigen	standard	no	symmetric	packed	yes	no/yes	none	none	single		469
+14	d	spevx	eigen	standard	no	symmetric	packed	yes	no/yes	none	none	double		470
+15	s	sbev	eigen	standard	no	symmetric	band	no	no/yes	none	none	single		471
+16	d	sbev	eigen	standard	no	symmetric	band	no	no/yes	none	none	double		472
+17	s	sbevd	eigen	standard	no	symmetric	band	no	yes	none	none	single	faster while more memory is required	473
+18	d	sbevd	eigen	standard	no	symmetric	band	no	yes	none	none	double	faster while more memory is required	474
+19	s	sbevx	eigen	standard	no	symmetric	band	yes	no/yes	none	none	single		475
+20	d	sbevx	eigen	standard	no	symmetric	band	yes	no/yes	none	none	double		476
+21	s	sterf	eigen	standard	no	symmetric	tridiagonal	no	no	none	none	single		477
+22	d	sterf	eigen	standard	no	symmetric	tridiagonal	no	no	none	none	double		478
+23	s	stevd	eigen	standard	no	symmetric	tridiagonal	no	yes	none	none	single	faster while more memory is required	479
+24	d	stevd	eigen	standard	no	symmetric	tridiagonal	no	yes	none	none	double	faster while more memory is required	480
+25	s	stev	eigen	standard	no	symmetric	tridiagonal	no	yes	none	none	single		481
+26	d	stev	eigen	standard	no	symmetric	tridiagonal	no	yes	none	none	double		482
+27	s	stebz	eigen	standard	no	symmetric	tridiagonal	yes	no	none	none	single		483
+28	d	stebz	eigen	standard	no	symmetric	tridiagonal	yes	no	none	none	double		484
+29	s	stevr	eigen	standard	no	symmetric	tridiagonal	yes	yes	none	none	single	recommended if a subset of eigenvalues is needed	485
+30	d	stevr	eigen	standard	no	symmetric	tridiagonal	yes	yes	none	none	double	recommended if a subset of eigenvalues is needed	486
+31	s	stevx	eigen	standard	no	symmetric	tridiagonal	yes	yes	none	none	single		487
+32	d	stevx	eigen	standard	no	symmetric	tridiagonal	yes	yes	none	none	double		488
+33	s	geev	eigen	standard	no	general	full	none	no/yes	no	no	single		489
+34	d	geev	eigen	standard	no	general	full	none	no/yes	no	no	double		490
+35	s	geevx	eigen	standard	no	general	full	none	no/yes	no	yes	single		491
+36	d	geevx	eigen	standard	no	general	full	none	no/yes	no	yes	double		492
+37	s	gees	eigen	standard	no	general	full	none	no	yes	no	single		493
+38	d	gees	eigen	standard	no	general	full	none	no	yes	no	double		494
+39	s	geesx	eigen	standard	no	general	full	none	no	yes	yes	single		495
+40	d	geesx	eigen	standard	no	general	full	none	no	yes	yes	double		496
+41	s	sytrd	eigen	standard	no	SPD	full	none	no/yes	none	none	single	use before SPTEQR	498
+42	s	orgtr	eigen	standard	no	SPD	full	none	yes	none	none	single	use after SSYTRD and before SPTEQR	501
+43	d	sytrd	eigen	standard	no	SPD	full	none	no/yes	none	none	double	use before DPTEQR	500
+44	d	orgtr	eigen	standard	no	SPD	full	none	yes	none	none	double	use after DSYTRD and before DPTEQR 	502
+45	s	sptrd	eigen	standard	no	SPD	packed	none	no/yes	none	none	single	use before SPTEQR	503
+46	s	opgtr	eigen	standard	no	SPD	packed	none	yes	none	none	single	use after SSPTRD and before SPTEQR	505
+47	d	sptrd	eigen	standard	no	SPD	packed	none	no/yes	none	none	double	use before DPTEQR	504
+48	d	opgtr	eigen	standard	no	SPD	packed	none	yes	none	none	double	use after DSPTRD and before DPTEQR	506
+49	s	sbtrd	eigen	standard	no	SPD	band	none	no/yes	none	none	single	use before SPTEQR	507
+50	d	sbtrd	eigen	standard	no	SPD	band	none	no/yes	none	none	double	use before DPTEQR	508
+51	s	pteqr	eigen	standard	no	SPD	full/packed/band/tridiagonal	none	no/yes	none	none	single		497
+52	d	pteqr	eigen	standard	no	SPD	full/packed/band/tridiagonal	none	no/yes	none	none	double		499
+53	s	hseqr	eigen	standard	no	upper Hessenberg	full	none	no/yes	none	none	single		509
+54	s	hsein	eigen	standard	no	upper Hessenberg	full	none	yes	none	none	single	use after SHSEQR	536
+55	d	hseqr	eigen	standard	no	upper Hessenberg	full	none	no/yes	none	none	double		510
+56	d	hsein	eigen	standard	no	upper Hessenberg	full	none	yes	none	none	double	use after DHSEQR	511
+57	c	heev	eigen	standard	yes	Hermitian	full	no	no/yes	none	none	single		512
+58	z	heev	eigen	standard	yes	Hermitian	full	no	no/yes	none	none	double		513
+59	c	heevd	eigen	standard	yes	Hermitian	full	no	yes	none	none	single	faster while more memory is required	514
+60	z	heevd	eigen	standard	yes	Hermitian	full	no	yes	none	none	double	faster while more memory is required	515
+61	c	heevx	eigen	standard	yes	Hermitian	full	yes	no/yes	none	none	single		516
+62	z	heevx	eigen	standard	yes	Hermitian	full	yes	no/yes	none	none	double		517
+63	c	heevr	eigen	standard	yes	Hermitian	full	yes	yes	none	none	single	recommended if a subset of eigenvalues is needed	518
+64	z	heevr	eigen	standard	yes	Hermitian	full	yes	yes	none	none	double	recommended if a subset of eigenvalues is needed	519
+65	c	hpev	eigen	standard	yes	Hermitian	packed	no	no/yes	none	none	single		520
+66	z	hpev	eigen	standard	yes	Hermitian	packed	no	no/yes	none	none	double		521
+67	c	hpevd	eigen	standard	yes	Hermitian	packed	no	yes	none	none	single	faster while more memory is required	522
+68	z	hpevd	eigen	standard	yes	Hermitian	packed	no	yes	none	none	double	faster while more memory is required	523
+69	c	hpevx	eigen	standard	yes	Hermitian	packed	yes	no/yes	none	none	single		524
+70	z	hpevx	eigen	standard	yes	Hermitian	packed	yes	no/yes	none	none	double		525
+71	c	hbev	eigen	standard	yes	Hermitian	band	no	no/yes	none	none	single		526
+72	z	hbev	eigen	standard	yes	Hermitian	band	no	no/yes	none	none	double		527
+73	c	hbevd	eigen	standard	yes	Hermitian	band	no	yes	none	none	single	faster while more memory is required	528
+74	z	hbevd	eigen	standard	yes	Hermitian	band	no	yes	none	none	double	faster while more memory is required	529
+75	c	hbevx	eigen	standard	yes	Hermitian	band	yes	no/yes	none	none	single		530
+76	z	hbevx	eigen	standard	yes	Hermitian	band	yes	no/yes	none	none	double		531
+77	c	geev	eigen	standard	yes	general	full	none	no/yes	no	no	single		532
+78	z	geev	eigen	standard	yes	general	full	none	no/yes	no	no	double		533
+79	c	geevx	eigen	standard	yes	general	full	none	no/yes	no	yes	single		534
+80	z	geevx	eigen	standard	yes	general	full	none	no/yes	no	yes	double		535
+81	c	gees	eigen	standard	yes	general	full	none	no	yes	no	single		536
+82	z	gees	eigen	standard	yes	general	full	none	no	yes	no	double		537
+83	c	geesx	eigen	standard	yes	general	full	none	no	yes	yes	single		538
+84	z	geesx	eigen	standard	yes	general	full	none	no	yes	yes	double		539
+85	c	hetrd	eigen	standard	yes	HPD	full	none	no/yes	none	none	single	use before CPTEQR	541
+86	c	ungtr	eigen	standard	yes	HPD	full	none	yes	none	none	single	use after CHETRD and before CPTEQR	544
+87	z	hetrd	eigen	standard	yes	HPD	full	none	no/yes	none	none	double	use before ZPTEQR	543
+88	z	ungtr	eigen	standard	yes	HPD	full	none	yes	none	none	double	use after ZHETRD and before ZPTEQR	545
+89	c	hptrd	eigen	standard	yes	HPD	packed	none	no/yes	none	none	single	use before CPTEQR	546
+90	c	upgtr	eigen	standard	yes	HPD	packed	none	yes	none	none	single	use after CHPTRD and before CPTEQR	548
+91	z	hptrd	eigen	standard	yes	HPD	packed	none	no/yes	none	none	double	use before ZPTEQR	547
+92	z	upgtr	eigen	standard	yes	HPD	packed	none	yes	none	none	double	use after ZHPTRD and before ZPTEQR	549
+93	c	hbtrd	eigen	standard	yes	HPD	band	none	no/yes	none	none	single	use before CPTEQR	550
+94	z	hbtrd	eigen	standard	yes	HPD	band	none	no/yes	none	none	double	use before ZPTEQR	551
+95	c	pteqr	eigen	standard	yes	HPD	full/packed/band/tridiagonal	none	no/yes	none	none	single		540
+96	z	pteqr	eigen	standard	yes	HPD	full/packed/band/tridiagonal	none	no/yes	none	none	double		542
+97	c	hseqr	eigen	standard	yes	upper Hessenberg	full	none	no/yes	none	none	single		552
+98	c	hsein	eigen	standard	yes	upper Hessenberg	full	none	yes	none	none	single	use after CHSEQR	554
+99	z	hseqr	eigen	standard	yes	upper Hessenberg	full	none	no/yes	none	none	double		553
+100	z	hsein	eigen	standard	yes	upper Hessenberg	full	none	yes	none	none	double	use after ZHSEQR	555
+101	s	sygv	eigen	generalized	no	symmetric	full	no	no/yes	none	none	single		556
+102	d	sygv	eigen	generalized	no	symmetric	full	no	no/yes	none	none	double		557
+103	s	sygvd	eigen	generalized	no	symmetric	full	no	yes	none	none	single	faster while more memory is required	558
+104	d	sygvd	eigen	generalized	no	symmetric	full	no	yes	none	none	double	faster while more memory is required	559
+105	s	sygvx	eigen	generalized	no	symmetric	full	yes	no/yes	none	none	single		560
+106	d	sygvx	eigen	generalized	no	symmetric	full	yes	no/yes	none	none	double		561
+107	s	spgv	eigen	generalized	no	symmetric	packed	no	no/yes	none	none	single		562
+108	d	spgv	eigen	generalized	no	symmetric	packed	no	no/yes	none	none	double		563
+109	s	spgvd	eigen	generalized	no	symmetric	packed	no	yes	none	none	single	faster while more memory is required	564
+110	d	spgvd	eigen	generalized	no	symmetric	packed	no	yes	none	none	double	faster while more memory is required	565
+111	s	spgvx	eigen	generalized	no	symmetric	packed	yes	no/yes	none	none	single		566
+112	d	spgvx	eigen	generalized	no	symmetric	packed	yes	no/yes	none	none	double		567
+113	s	sbgv	eigen	generalized	no	symmetric	band	no	no/yes	none	none	single		568
+114	d	sbgv	eigen	generalized	no	symmetric	band	no	no/yes	none	none	double		569
+115	s	sbgvd	eigen	generalized	no	symmetric	band	no	yes	none	none	single	faster while more memory is required	570
+116	d	sbgvd	eigen	generalized	no	symmetric	band	no	yes	none	none	double	faster while more memory is required	571
+117	s	sbgvx	eigen	generalized	no	symmetric	band	yes	no/yes	none	none	single		572
+118	d	sbgvx	eigen	generalized	no	symmetric	band	yes	no/yes	none	none	double		573
+119	s	ggev	eigen	generalized	no	general	full	none	no/yes	no	no	single		574
+120	d	ggev	eigen	generalized	no	general	full	none	no/yes	no	no	double		575
+121	s	ggevx	eigen	generalized	no	general	full	none	no/yes	no	yes	single		576
+122	d	ggevx	eigen	generalized	no	general	full	none	no/yes	no	yes	double		577
+123	s	gges	eigen	generalized	no	general	full	none	no	yes	no	single		578
+124	d	gges	eigen	generalized	no	general	full	none	no	yes	no	double		579
+125	s	ggesx	eigen	generalized	no	general	full	none	no	yes	yes	single		580
+126	d	ggesx	eigen	generalized	no	general	full	none	no	yes	yes	double		581
+127	c	hegv	eigen	generalized	yes	Hermitian	full	no	no/yes	none	none	single		582
+128	z	hegv	eigen	generalized	yes	Hermitian	full	no	no/yes	none	none	double		583
+129	c	hegvd	eigen	generalized	yes	Hermitian	full	no	yes	none	none	single	faster while more memory is required	584
+130	z	hegvd	eigen	generalized	yes	Hermitian	full	no	yes	none	none	double	faster while more memory is required	585
+131	c	hegvx	eigen	generalized	yes	Hermitian	full	yes	no/yes	none	none	single		586
+132	z	hegvx	eigen	generalized	yes	Hermitian	full	yes	no/yes	none	none	double		587
+133	c	hpgv	eigen	generalized	yes	Hermitian	packed	no	no/yes	none	none	single		588
+134	z	hpgv	eigen	generalized	yes	Hermitian	packed	no	no/yes	none	none	double		589
+135	c	hpgvd	eigen	generalized	yes	Hermitian	packed	no	yes	none	none	single	faster while more memory is required	590
+136	z	hpgvd	eigen	generalized	yes	Hermitian	packed	no	yes	none	none	double	faster while more memory is required	591
+137	c	hpgvx	eigen	generalized	yes	Hermitian	packed	yes	no/yes	none	none	single		592
+138	z	hpgvx	eigen	generalized	yes	Hermitian	packed	yes	no/yes	none	none	double		593
+139	c	hbgv	eigen	generalized	yes	Hermitian	band	no	no/yes	none	none	single		594
+140	z	hbgv	eigen	generalized	yes	Hermitian	band	no	no/yes	none	none	double		595
+141	c	hbgvd	eigen	generalized	yes	Hermitian	band	no	yes	none	none	single	faster while more memory is required	596
+142	z	hbgvd	eigen	generalized	yes	Hermitian	band	no	yes	none	none	double	faster while more memory is required	597
+143	c	hbgvx	eigen	generalized	yes	Hermitian	band	yes	no/yes	none	none	single		598
+144	z	hbgvx	eigen	generalized	yes	Hermitian	band	yes	no/yes	none	none	double		599
+145	c	ggev	eigen	generalized	yes	general	full	none	no/yes	no	no	single		600
+146	z	ggev	eigen	generalized	yes	general	full	none	no/yes	no	no	double		601
+147	c	ggevx	eigen	generalized	yes	general	full	none	no/yes	no	yes	single		602
+148	z	ggevx	eigen	generalized	yes	general	full	none	no/yes	no	yes	double		603
+149	c	gges	eigen	generalized	yes	general	full	none	no	yes	no	single		604
+150	z	gges	eigen	generalized	yes	general	full	none	no	yes	no	double		605
+151	c	ggesx	eigen	generalized	yes	general	full	none	no	yes	yes	single		606
+152	z	ggesx	eigen	generalized	yes	general	full	none	no	yes	yes	double		607
+153	s	sytrd	Hessenberg	standard	no	symmetric	full	none	none	none	none	single		608
+154	d	sytrd	Hessenberg	standard	no	symmetric	full	none	none	none	none	double		609
+155	s	sptrd	Hessenberg	standard	no	symmetric	packed	none	none	none	none	single		610
+156	d	sptrd	Hessenberg	standard	no	symmetric	packed	none	none	none	none	double		611
+157	s	sbtrd	Hessenberg	standard	no	symmetric	band	none	none	none	none	single		612
+158	d	sbtrd	Hessenberg	standard	no	symmetric	band	none	none	none	none	double		613
+159	c	hetrd	Hessenberg	standard	yes	Hermitian	full	none	none	none	none	single		614
+160	z	hetrd	Hessenberg	standard	yes	Hermitian	full	none	none	none	none	double		615
+161	c	hptrd	Hessenberg	standard	yes	Hermitian	packed	none	none	none	none	single		616
+162	z	hptrd	Hessenberg	standard	yes	Hermitian	packed	none	none	none	none	double		617
+163	c	hbtrd	Hessenberg	standard	yes	Hermitian	band	none	none	none	none	single		618
+164	z	hbtrd	Hessenberg	standard	yes	Hermitian	band	none	none	none	none	double		619
+165	s	gehrd	Hessenberg	standard	no	general	full	none	none	none	none	single		620
+166	d	gehrd	Hessenberg	standard	no	general	full	none	none	none	none	double		621
+167	c	gehrd	Hessenberg	standard	yes	general	full	none	none	none	none	single		622
+168	z	gehrd	Hessenberg	standard	yes	general	full	none	none	none	none	double		623
+169	s	gghrd	Hessenberg	generalized	no	general	full	none	none	none	none	single		624
+170	d	gghrd	Hessenberg	generalized	no	general	full	none	none	none	none	double		625
+171	c	gghrd	Hessenberg	generalized	yes	general	full	none	none	none	none	single		626
+172	z	gghrd	Hessenberg	generalized	yes	general	full	none	none	none	none	double		627
+173	s	disna	cndNumber_of_evtrs	standard	no	symmetric	none	none	none	none	none	single		628
+174	d	disna	cndNumber_of_evtrs	standard	no	symmetric	none	none	none	none	none	double		629
+175	s	disna	cndNumber_of_evtrs	standard	yes	Hermitian	none	none	none	none	none	single		628
+176	d	disna	cndNumber_of_evtrs	standard	yes	Hermitian	none	none	none	none	none	double		629
+177	s	trsna	cndNumber_of_evtrs	standard	no	block upper triangular	none	none	none	none	none	single		630
+178	d	trsna	cndNumber_of_evtrs	standard	no	block upper triangular	none	none	none	none	none	double		631
+179	c	trsna	cndNumber_of_evtrs	standard	yes	upper triangular	none	none	none	none	none	single		632
+180	z	trsna	cndNumber_of_evtrs	standard	yes	upper triangular	none	none	none	none	none	double		633
+181	s	tgsna	cndNumber_of_evtrs	generalized	no	block upper triangular	none	none	none	none	none	single		634
+182	d	tgsna	cndNumber_of_evtrs	generalized	no	block upper triangular	none	none	none	none	none	double		635
+183	c	tgsna	cndNumber_of_evtrs	generalized	yes	upper triangular	none	none	none	none	none	single		636
+184	z	tgsna	cndNumber_of_evtrs	generalized	yes	upper triangular	none	none	none	none	none	double		637
+185	s	gebal	balance	standard	no	general	full	none	none	none	none	single		638
+186	d	gebal	balance	standard	no	general	full	none	none	none	none	double		639
+187	c	gebal	balance	standard	yes	general	full	none	none	none	none	single		640
+188	z	gebal	balance	standard	yes	general	full	none	none	none	none	double		641
+189	s	ggbal	balance	generalized	no	general	full	none	none	none	none	single		642
+190	d	ggbal	balance	generalized	no	general	full	none	none	none	none	double		643
+191	c	ggbal	balance	generalized	yes	general	full	none	none	none	none	single		644
+192	z	ggbal	balance	generalized	yes	general	full	none	none	none	none	double		645
+193	s	sygst	generalized_to_standard	none	no	symmetric-definite	full	none	none	none	none	single		646
+194	d	sygst	generalized_to_standard	none	no	symmetric-definite	full	none	none	none	none	double		647
+195	c	hegst	generalized_to_standard	none	yes	Hermitian-definite	full	none	none	none	none	single		648
+196	z	hegst	generalized_to_standard	none	yes	Hermitian-definite	full	none	none	none	none	double		649
+197	s	spgst	generalized_to_standard	none	no	symmetric-definite	packed	none	none	none	none	single		650
+198	d	spgst	generalized_to_standard	none	no	symmetric-definite	packed	none	none	none	none	double		651
+199	c	hpgst	generalized_to_standard	none	yes	Hermitian-definite	packed	none	none	none	none	single		652
+200	z	hpgst	generalized_to_standard	none	yes	Hermitian-definite	packed	none	none	none	none	double		653
+201	s	sbgst	generalized_to_standard	none	no	symmetric-definite	band	none	none	none	none	single		654
+202	d	sbgst	generalized_to_standard	none	no	symmetric-definite	band	none	none	none	none	double		655
+203	c	hbgst	generalized_to_standard	none	yes	Hermitian-definite	band	none	none	none	none	single		656
+204	z	hbgst	generalized_to_standard	none	yes	Hermitian-definite	band	none	none	none	none	double		657
