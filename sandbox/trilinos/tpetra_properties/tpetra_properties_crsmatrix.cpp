@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 
 	// Load and run tests on Matrix Market file
-	std::string filename("../bcircuit.mtx");
+	std::string filename("../ecl32.mtx");
 	RCP<MAT> A = Tpetra::MatrixMarket::Reader<MAT>::readSparseFile(filename, comm, node, true);
 	runGauntlet(A);
 
@@ -407,9 +407,19 @@ void calcNumericalSymmetryPercentage(const RCP<MAT> &A) {
 			Array<GO> indicesA(colsA), indicesB(colsB);
 			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
 			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-			for (int col = 0; col < colsA; col++) {
-				if (valuesA[col] == valuesB[col] && indicesA[col] != row) {
-					match++;
+			size_t i = 0, j = 0;
+			if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
+				while (i < colsA && j < colsB) {
+					if (indicesA[i] < indicesB[j]) {
+						i++;
+					} else if (indicesA[i] > indicesB[j]) {
+						j++;
+					} else {
+						if (valuesA[i] == valuesB[j] && row != indicesA[i]) {
+							match++;
+						}
+						i++; j++;
+					}
 				}
 			}
 		}
