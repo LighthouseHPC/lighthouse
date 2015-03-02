@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
 	std::string filename("../ecl32.mtx");
 	RCP<MAT> A = Tpetra::MatrixMarket::Reader<MAT>::readSparseFile(filename, comm, node, true);
 	runGauntlet(A);
-
 }
+
 void runGauntlet(const RCP<MAT> &A) {
 	// Test squareness
 	if (A->getGlobalNumRows() != A->getGlobalNumCols() ) {
@@ -32,7 +32,6 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << "nodes:" << numNodes << " nodes" << std::endl;
 
 // Working
-/*
 	calcRowVariance(A);
 	calcColVariance(A);
 	calcDiagVariance(A);
@@ -51,13 +50,8 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcTrace(A, false);
 	calcAbsTrace(A);
 	calcDummyRows(A);	
-
-*/
-// Checking
-	calcNumericalSymmetryPercentage(A);
-	calcNonzeroPatternSymmetryPercentage(A);
-	calcNumericalSymmetry(A);
-	calcNonzeroPatternSymmetry(A);
+	calcNumericalSymmetryPercentage(A); //Single process only
+	calcNonzeroPatternSymmetryPercentage(A); //Single process only
 	//calcRowDiagonalDominance(A);
 	//calcColDiagonalDominance(A);
 	//calcLowerBandwidth(A);
@@ -99,18 +93,41 @@ void calcRowVariance(const RCP<MAT> &A, bool transpose) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
-	if (transpose == false) {
-		*fos << "row variance:" << result << std::endl;
-	} else {
-		*fos << "col variance:" << result << std::endl;
-	}
+	*fos << "row variance:" << result << std::endl;
 }
 
 //  Transpose the matrix, get row locVariance 
 void calcColVariance(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
-	calcRowVariance(B, true);
+	
+	LO rows = B->getGlobalNumRows(); 
+	ST mean, locVariance, locMaxVariance, result = 0.0;
+
+	//  Go through each row on the current process
+	for (GO row = 0; row < rows; row++) {
+		if (B->getRowMap()->isNodeGlobalElement(row)) {
+			mean = locVariance = 0.0; 
+			size_t cols = B->getNumEntriesInGlobalRow(row); 
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			B->getGlobalRowCopy(row, indices(), values(), cols); 
+
+		//  Two-step approach for locVariance, could be more efficient 
+			for (LO col = 0; col < cols; col++) {
+				mean += values[col];
+			} 
+		//  Divide entries by the dim (to include zeros)
+			mean /= B->getGlobalNumCols();
+			for (LO col = 0; col < cols; col++) {
+				locVariance += (values[col] - mean) * (values[col] - mean);
+			}
+			locVariance /= B->getGlobalNumCols();
+			if (locVariance > locMaxVariance) locMaxVariance = locVariance;
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
+	*fos << "col variance:" << result << std::endl;
 }
 
 //  The variance of the diagonal
@@ -323,67 +340,34 @@ void calcDummyRows(const RCP<MAT> &A) {
 	*fos << "dummy rows:" << result << std::endl;
 }
 
-void calcNumericalSymmetry(const RCP<MAT> &A) {
+void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
-	GO rows = A->getGlobalNumRows(); 
-	ST locSum, locMaxSum, result = 0.0;
+	Array<ST> valuesA, valuesB;
+	Array<GO> indicesA, indicesB;
+	int test;
+	GO rows = A->getGlobalNumRows();
 	for (GO row = 0; row < rows; row++) {
-		if (A->getRowMap()->isNodeGlobalElement(row) &&
-				B->getRowMap()->isNodeGlobalElement(row)) {
-			locSum = 0;
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t colsA = A->getNumEntriesInGlobalRow(row);
+			valuesA = Array<ST>(colsA);
+			indicesA = Array<GO>(colsA);
+			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA);
+			Teuchos::broadcast<int, ST>(*comm, comm->getRank(), valuesA);
+		}
+		/*
+		if (B->getRowMap()->isNodeGlobalElement(row)) {
 			size_t colsB = B->getNumEntriesInGlobalRow(row);
-			Array<ST> valuesA(colsA), valuesB(colsB);
-			Array<GO> indicesA(colsA), indicesB(colsB);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-			if (colsA != colsB) {
-				*fos << "numerical symmetry:0" << std::endl;
-				return;
-			}
-			for (int i = 0; i < colsA; i++) {
-				if ((valuesA[i] != valuesB[i] || indicesA[i] != indicesB[i])) {
-					*fos << "numerical symmetry:0" << std::endl;
-					return;
-				}
-			}
+			valuesB = Array<ST>(colsB);
+			indicesB = Array<GO>(colsB);
+		}
+		*/
+		if (row == 4176) {
+			std::cout << "rank:" << comm->getRank() << "," << row << "\t" << valuesA << std::endl;
+			exit;
 		}
 	}
-	*fos << "numerical symmetry:1" << std::endl;
-}
-
-void calcNonzeroPatternSymmetry(const RCP<MAT> &A) {
-	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-
-	GO rows = A->getGlobalNumRows(); 
-	ST locSum, locMaxSum, result = 0.0;
-	for (GO row = 0; row < rows; row++) {
-		if (A->getRowMap()->isNodeGlobalElement(row) &&
-				B->getRowMap()->isNodeGlobalElement(row)) {
-			locSum = 0;
-			size_t colsA = A->getNumEntriesInGlobalRow(row);
-			size_t colsB = B->getNumEntriesInGlobalRow(row);
-			Array<ST> valuesA(colsA), valuesB(colsB);
-			Array<GO> indicesA(colsA), indicesB(colsB);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-			if (colsA != colsB) {
-				*fos << "nonzero symmetry:0" << std::endl;
-				return;
-			}
-			for (int i = 0; i < colsA; i++) {
-				if ((valuesA[i] == 0 && valuesB[i] != 0) || 
-					(valuesA[i] != 0 && valuesB[i] == 0)) {
-					*fos << "nonzero symmetry:0" << std::endl;
-					return;
-				}
-			}
-		}
-	}
-	*fos << "nonzero symmetry:1" << std::endl;
 }
 
 //  Exact match
@@ -399,27 +383,24 @@ void calcNumericalSymmetryPercentage(const RCP<MAT> &A) {
 	GO diagNonzeros = A->getGlobalNumDiags();
 	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
 	for (GO row = 0; row < rows; row++) {
-		if (A->getRowMap()->isNodeGlobalElement(row) &&
-				B->getRowMap()->isNodeGlobalElement(row)) {
-			size_t colsA = A->getNumEntriesInGlobalRow(row);
-			size_t colsB = B->getNumEntriesInGlobalRow(row);
-			Array<ST> valuesA(colsA), valuesB(colsB);
-			Array<GO> indicesA(colsA), indicesB(colsB);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-			size_t i = 0, j = 0;
-			if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
-				while (i < colsA && j < colsB) {
-					if (indicesA[i] < indicesB[j]) {
-						i++;
-					} else if (indicesA[i] > indicesB[j]) {
-						j++;
-					} else {
-						if (valuesA[i] == valuesB[j] && row != indicesA[i]) {
-							match++;
-						}
-						i++; j++;
+		size_t colsA = A->getNumEntriesInGlobalRow(row);
+		size_t colsB = B->getNumEntriesInGlobalRow(row);
+		Array<ST> valuesA(colsA), valuesB(colsB);
+		Array<GO> indicesA(colsA), indicesB(colsB);
+		A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
+		B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
+		size_t i = 0, j = 0;
+		if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
+			while (i < colsA && j < colsB) {
+				if (indicesA[i] < indicesB[j]) {
+					i++;
+				} else if (indicesA[i] > indicesB[j]) {
+					j++;
+				} else {
+					if (valuesA[i] == valuesB[j] && row != indicesA[i]) {
+						match++;
 					}
+					i++; j++;
 				}
 			}
 		}
@@ -427,6 +408,11 @@ void calcNumericalSymmetryPercentage(const RCP<MAT> &A) {
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
 	result = double(totalMatch) / double(offDiagNonzeros);
 	*fos << "numerical symmetry percentage:" << result << std::endl;
+	if (result < 1.0) {
+		*fos << "numerical symmetry:0" << std::endl;
+	} else {
+		*fos << "numerical symmetry:1" << std::endl;
+	}
 }
 
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A) {
@@ -434,31 +420,43 @@ void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A) {
 	RCP<MAT> B = transposer.createTranspose();
 
 	GO rows = A->getGlobalNumRows(); 
-	ST locSum, locMaxSum, result = 0.0;
+	ST result = 0.0;
+	GO totalMatch, match = 0;
+	GO locEntries = 0;
+
+	GO diagNonzeros = A->getGlobalNumDiags();
+	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
 	for (GO row = 0; row < rows; row++) {
-		if (A->getRowMap()->isNodeGlobalElement(row) &&
-				B->getRowMap()->isNodeGlobalElement(row)) {
-			locSum = 0;
-			size_t colsA = A->getNumEntriesInGlobalRow(row);
-			size_t colsB = B->getNumEntriesInGlobalRow(row);
-			Array<ST> valuesA(colsA), valuesB(colsB);
-			Array<GO> indicesA(colsA), indicesB(colsB);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-			if (colsA != colsB) {
-				*fos << "nonzero symmetry:0" << std::endl;
-				return;
-			}
-			for (int i = 0; i < colsA; i++) {
-				if ((valuesA[i] == 0 && valuesB[i] != 0) || 
-					(valuesA[i] != 0 && valuesB[i] == 0)) {
-					*fos << "nonzero symmetry:0" << std::endl;
-					return;
+		size_t colsA = A->getNumEntriesInGlobalRow(row);
+		size_t colsB = B->getNumEntriesInGlobalRow(row);
+		Array<ST> valuesA(colsA), valuesB(colsB);
+		Array<GO> indicesA(colsA), indicesB(colsB);
+		A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
+		B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
+		size_t i = 0, j = 0;
+		if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
+			while (i < colsA && j < colsB) {
+				if (indicesA[i] < indicesB[j]) {
+					i++;
+				} else if (indicesA[i] > indicesB[j]) {
+					j++;
+				} else {
+					if (valuesA[i] && valuesB[j] && row != indicesA[i]) {
+						match++;
+					}
+					i++; j++;
 				}
 			}
 		}
 	}
-	*fos << "nonzero symmetry:1" << std::endl;
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
+	result = double(totalMatch) / double(offDiagNonzeros);
+	*fos << "nonzero symmetry percentage:" << result << std::endl;
+	if (result < 1.0) {
+		*fos << "nonzero symmetry:0" << std::endl;
+	} else {
+		*fos << "nonzero symmetry:1" << std::endl;
+	}
 }
 
 // 0 not, 1 weak, 2 strict
@@ -500,10 +498,9 @@ void calcColDiagonalDominance(const RCP<MAT> &A) {
 }
 
 void calcDiagonalMean(const RCP<MAT> &A) {
-	ST locMean, mean = 0.0; 
-	typedef Tpetra::Map<LO, GO> map_type; 
+	ST locMean, mean = 0.0;
 	GO numGlobalElements = A->getGlobalNumDiags(); 
-	RCP<const map_type> map = rcp(new map_type (numGlobalElements, 0, comm)); 
+	RCP<const MAP> map = rcp(new MAP (numGlobalElements, 0, comm)); 
 	VEC v(map);
 	A->getLocalDiagCopy(v);
 	Teuchos::ArrayRCP<const ST> array = v.getData();	

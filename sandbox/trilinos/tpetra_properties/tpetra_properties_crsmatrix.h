@@ -18,6 +18,7 @@
 #include <Tpetra_Import.hpp>
 #include <TpetraExt_MatrixMatrix.hpp>
 #include <cmath>
+#include <Teuchos_ParameterList.hpp>
 #include <stdint.h>
 //#include <Teuchos_DefaultMpiComm.hpp>
 //#include <Teuchos_Comm.hpp>
@@ -62,6 +63,7 @@ void calcDummyRows(const RCP<MAT> &A);
 //void calcDummyRowsKind(const RCP<MAT> &A);
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
 void calcNumericalSymmetryPercentage(const RCP<MAT> &A);
+void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A);
 void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
 void calcNumericalSymmetry(const RCP<MAT> &A);
 void calcRowDiagonalDominance(const RCP<MAT> &A);
