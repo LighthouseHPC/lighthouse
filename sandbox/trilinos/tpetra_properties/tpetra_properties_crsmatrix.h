@@ -18,13 +18,15 @@
 #include <Tpetra_Import.hpp>
 #include <TpetraExt_MatrixMatrix.hpp>
 #include <cmath>
+#include <Teuchos_ParameterList.hpp>
+#include <stdint.h>
 //#include <Teuchos_DefaultMpiComm.hpp>
 //#include <Teuchos_Comm.hpp>
 
 // Typedefs given in Amesos2 example code
 typedef double ST;
 typedef int LO;
-typedef long GO;
+typedef int64_t GO;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType::NodeType NT;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
@@ -59,10 +61,11 @@ void calcTrace(const RCP<MAT> &A, bool abs = false);
 void calcAbsTrace(const RCP<MAT> &A);
 void calcDummyRows(const RCP<MAT> &A);
 //void calcDummyRowsKind(const RCP<MAT> &A);
-void calcNumericalSymmetry(const RCP<MAT> &A);
+void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
+void calcNumericalSymmetryPercentage(const RCP<MAT> &A);
+void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A);
 void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
-//void calcNumericalValueSymmetry(const RCP<MAT> &A);
-//void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
+void calcNumericalSymmetry(const RCP<MAT> &A);
 void calcRowDiagonalDominance(const RCP<MAT> &A);
 void calcColDiagonalDominance(const RCP<MAT> &A);
 void calcDiagonalMean(const RCP<MAT> &A);
