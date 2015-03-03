@@ -1,0 +1,252 @@
+{% spaceless %}
+        {% load dojango_base %}
+        {% load dojango_filters %}
+        
+        <!--for static files-->
+        {% load static from staticfiles %}
+        
+         <!--for dajaxice-->
+        {% load dajaxice_templatetags %}
+        
+        {% if not DOJANGO %}
+                {# if the context processor did not pass the DOJANGO context, we set it here #}
+                {% set_dojango_context %}
+        {% endif %}
+        
+        {% if not LANGUAGE_CODE %}
+                {% load i18n %}
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_current_language_bidi as LANGUAGE_BIDI %}
+        {% endif %}
+        {% block _dojango_doctype %}
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        {% endblock %}
+{% endspaceless %}
+
+{% block _dojango_html_start_tag %}
+        <html xmlns="http://www.w3.org/1999/xhtml"{% block _dojango_html_lang %}{% endblock %}>
+{% endblock %}
+
+{% spaceless %}
+        <head>
+                {% block _dojango_meta_content_type %}
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                {% endblock %}
+                
+                {# This must be before any non-english text, i.e. title. http://www.dojotoolkit.org/book/dojo-book-0-9/part-3-programmatic-dijit-and-dojo/i18n/globalization-guidelines/encoding-guideli#textfiles #}
+                {% block _dojango_meta_content_lang %}{% endblock %}
+                
+                <!--<title>{% block dojango_page_title %}{% endblock %}</title>-->
+		<title>Lighthouse Search</title>
+                <link rel="shortcut icon" href={% static "images/favicon.png" %}/>
+                
+                
+                <!-- STYLE BEGINS -->
+                {% include "style/style.html" %}
+                <link rel="stylesheet" type="text/css" href={% static "style/dndDefault.css" %} />
+                
+                {% block _dojango_dojo_styles %}
+                        <style type="text/css">
+                                @import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
+                                @import "{{ DOJANGO.THEME_CSS_URL }}";
+                                @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/resources/dnd.css");
+                        </style>
+                {% endblock %}
+                <!-- STYLE ENDS -->
+                
+                
+                <script type="text/javascript">
+                        {# baseUrl setting is needed, if you want to combine a local with a remote build! #}
+                        {% block _dojango_dj_config %}
+                                var djConfig = {
+                                        'isDebug':{{ DOJANGO.DEBUG|json }},
+                                        'parseOnLoad':true,
+                                        'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
+                                        {% if not DOJANGO.IS_LOCAL %}
+                                                ,'dojoBlankHtmlUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+                                                ,'dojoIframeHistoryUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+                                        {% endif %}
+                                        {% if DOJANGO.VERSION > '1.6' %}
+                                                ,'paths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+                                        {% else %}{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+                                                ,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+                                        {% endif %}{% endif %}
+                                };
+                        {% endblock %}
+                </script>
+        
+                {% block _dojango_post_dj_config %}{# don't use this block, it is used by base_i18n.html #}{% endblock %}
+                
+                {% block dojango_post_dj_config %}{# if you want to manipulate djConfig stuff #}{% endblock %}
+                
+                <script type="text/javascript" src="{{ DOJANGO.DOJO_SRC_FILE }}"></script>
+        
+                {# for a locally built version dojango should already be included #}
+                {% if not DOJANGO.IS_LOCAL_BUILD %}
+                        <script type="text/javascript" src="{{ DOJANGO.DOJANGO_SRC_FILE }}"></script>
+                {% endif %}
+        
+                {% block dojango_header_extra %}{% endblock %}
+
+                <script>
+                    require(["dojo/parser", "dijit/layout/ContentPane", "dijit/layout/BorderContainer",
+                             "dijit/layout/TabContainer", "dijit/layout/AccordionContainer", "dijit/layout/AccordionPane"
+                            ]);
+                </script>
+                
+                <!--import dajaxice javascript-->
+                {% dajaxice_js_import %}
+
+                
+                <!-- for dajax prototype -->
+                {% include "javascript/dajaxDojo.html" %}
+
+                
+               <!--for syntaxhighlighter -->
+                <link href={% static "syntaxhighlighter_3.0.83/styles/shCore.css" %} rel='stylesheet' type='text/css'/>
+                <link href={% static "syntaxhighlighter_3.0.83/styles/shThemeEclipse.css" %} rel='stylesheet' type='text/css'/>
+                <script src={% static "syntaxhighlighter_3.0.83/scripts/shCore.js" %} type='text/javascript'></script>
+                <script src={% static "syntaxhighlighter_3.0.83/scripts/shBrushFortran.js" %} type='text/javascript'></script>
+                <script src={% static "syntaxhighlighter_3.0.83/scripts/shBrushCpp.js" %} type='text/javascript'></script>
+                <script language="javascript" type="text/javascript">
+                        SyntaxHighlighter.defaults['toolbar'] = false;
+                        SyntaxHighlighter.config.bloggerMode = false;
+                        //SyntaxHighlighter.all();                
+                </script>
+
+                
+                <!-- for jQuery -->
+                <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+                <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+                <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+                
+        </head>
+{% endspaceless %}
+
+{% block dojango_body %}
+<body class="{{ DOJANGO.THEME }}">
+        <!-- basic preloader: -->
+        <div id="loader">
+                <div id="loaderInner">
+                        <img src={% static "images/loadingSquare.gif" %}/>
+			<br><br>
+                        Please wait while the page loads...
+                </div>
+        </div>
+
+        <!-- "main" BorderContainer just contains page title and another BorderContainer -->
+        <div id="main" dojoType="dijit.layout.BorderContainer">
+                <div id="header" dojoType="dijit.layout.ContentPane" region="top">
+			<div style="float:right; padding-top: 7px;">
+				{% if user.is_authenticated %}                            
+					<div style="text-align:right; color:#808080;">
+						<table>
+							<tr>
+								<td>Welcome, {{ user.username }}!</td>
+							</tr>
+							<tr>
+							<!--<a href="/accounts/logout/"><img src="{{ MEDIA_URL }}Images/logout.png"/></a>-->        
+								<td>My Account &nbsp;&nbsp; |&nbsp; &nbsp;&nbsp;
+								    <a style="text-decoration: none;" href="/accounts/logout/">Logout</a>
+								</td>
+							</tr>
+						</table>        
+					</div>
+				{% else %}
+					<div>
+						<table>
+							<tr>
+								<td>
+									<a href="/accounts/logout/"><img src={% static "images/logout.png" %}/></a>
+								</td>          
+								<td>
+									<a style="text-decoration: none; color:#000;" href="/accounts/logout/">logout</a>
+								</td>
+							</tr>
+						</table>        
+					</div>                                
+				{% endif %}
+			</div>
+                        <!-- navigation starts-->	
+                        <div id="navcontainer">
+                            <ul id="navlist">
+                            </ul>
+                        </div><!-- navigation ends-->
+		 </div>
+
+                <!-- "mainSplit" BorderContainer has all the real content -->
+                <div dojoType="dijit.layout.BorderContainer" liveSplitters="false" design="sidebar" region="center" id="mainSplit">
+                        <div dojoType="dijit.layout.TabContainer" duration="200"
+                                minSize="100" style="width: 550px;" id="leftTab"
+                                region="leading" splitter="true">
+                                <!-- Guided Search-->
+                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ GuidedTab|default:"false" }}" style="padding:10px;">        
+                                        {% block dojango_content_guidedSearch %}{% endblock %}
+                                </div><!-- end Guided Search -->
+
+                                <!--  Advanced Search -->
+                                <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">
+                                        {% block dojango_content_advancedSearch %}{% endblock %}
+                                </div><!-- end Advanced Search -->
+
+                                <!--  Keyword Search -->
+                                <div dojoType="dijit.layout.ContentPane" title="Keyword Search" selected="{{ KeywordTab|default:"false" }}" style="padding:10px;">
+                                        {% block dojango_content_keywordSearch %}{% endblock %}
+                                </div><!-- end Keyword Search -->
+                        </div><!-- end TabsContainer -->
+
+
+                        <!-- top tabs (marked as "center" to take up the main part of the BorderContainer) -->
+                        <div dojoType="dijit.layout.TabContainer" region="center" id="topTabs">
+                                <!-- first upper tab ==> Search Result -->
+                                <div id="tab1" dojoType="dijit.layout.ContentPane" title="Search Result" selected="false" style="padding:10px; display:none;">
+                                        {% block dojango_content_search_result %}{% endblock %}        
+                                </div><!-- end:first upper tab -->
+                        </div><!-- end of region="center" TabContainer -->
+
+
+                        <!-- bottom right tabs -->
+                        <div dojoType="dijit.layout.TabContainer" id="bottomTabs"
+                        tabPosition="top" selectedChild="btab1"
+                        region="bottom" splitter="true" style="height:55%">
+                                <!-- btab 1 ==> work area -->
+                                <div id="btab1" dojoType="dijit.layout.ContentPane" title="Work Area" style="padding:0px;">
+                                        <div dojoType="dijit.layout.SplitContainer" orientation="horizontal"
+                                                sizerWidth="5" activeSizing="true"
+                                                style="border: 0px solid #bfbfbf; float: left; width: 100%; height: 100%;">
+                                                <!-- for selected routines -->
+                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">                                                        
+                                                        {% block dojango_content_selected_routines %}{% endblock %}
+                                                </div><!-- end selected routines -->
+                                               
+                                                <!-- for code template -->
+                                                <div dojoType="dijit.layout.ContentPane" sizeMin="50" sizeShare="50" style="padding:10px;">
+                                                        {% block dojango_content_code_template %}{% endblock %}
+                                                </div><!-- end code templae -->        
+                                        </div><!-- SplitContainer -->
+                                </div><!-- end btab1 -->
+
+                                <!-- btab2 ==> authors -->
+                                <div id="btab2" dojoType="dijit.layout.ContentPane" title="Authors" style="padding:20px;">
+                                        <span  id="themeData"></span>
+                                </div><!-- end btab2 -->
+                        </div><!-- end Bottom TabContainer -->
+                       
+                </div> <!-- end of "mainSplit" BorderContainer -->
+        </div><!-- end of "main" BorderContainer -->
+                
+                {% include "javascript/jsFunctions.html" %}
+        
+<!--            {% block dojango_require %}
+                        <script type="text/javascript">
+                                {% for require in DOJANGO.COLLECTOR %}
+                                        {% spaceless %}
+                                                dojo.require("{{ require }}");
+                                        {% endspaceless %}
+                                {% endfor %}
+                        </script>
+                {% endblock %}-->
+        </body>
+{% endblock %}
+
+</html>

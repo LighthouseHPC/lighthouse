@@ -1,0 +1,71 @@
+{% load static from staticfiles %}
+
+
+<table style="padding:0px; margin:0px; border:0px;">
+        <tr>
+            <td>
+                    <label for="id_svd_problem_0">
+                    <img src={%static "images/arrow.png" %} width="8" height="8"/>
+                            <b>Which of the following singular value decomposition (SVD) problems do you have?</b>
+                    </label>
+            </td>
+        </tr>
+</table>
+<table style="padding-left:10px; padding-top:10px; border:0px;">
+    <tr>
+        <td>
+            1.
+        </td>
+        <td>
+            <label for="id_svd_problem_0">
+                <input type="radio" id="id_svd_problem_0" value="svd_standard" name="svd_problem" />
+                Computing the SVD of a <em>general</em> matrix 
+            </label>
+        </td>
+        <td>
+<!--            <div data-dojo-type="dijit/form/DropDownButton  class="tooltipLink">-->
+                <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+<!--                    <div data-dojo-type="dijit/TooltipDialog" id="help_svdStandard" title="Standard Eigenproblem">
+                           <div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+                                    dojoType="dijit.form.Button">[Close]
+                                    <script type="dojo/method" event="onClick">
+                                            dijit.byId('help_svdStandard').onCancel();
+                                    </script>
+                            </div>
+                            <h2>Standard Eigenproblem</h2>
+                            <div id="helpText_LinearEquation" style="background-color:#FFFFD6;">
+                                <iframe width="500px" height="300px" src={%static "Help/lapack/svd_standard.html" %}></iframe> 		 		
+                            </div>
+                    </div>-->
+<!--            </div>-->
+        </td>
+    </tr>
+    <tr>
+        <td>
+            2.
+        </td>
+        <td>
+            <label for="id_svd_problem_1">
+                <input type="radio" id="id_svd_problem_1" value="svd_generalized" name="svd_problem" />
+                Computing the generalized SVD of a matrix in <em>full</em> storage
+            </label>
+        </td>
+        <td>
+            <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            3.
+        </td>
+        <td>
+            <label for="id_svd_problem_2">
+                <input type="radio" id="id_svd_problem_2" value="bidiagonal" name="svd_problem" />
+                Reducing a <em>general</em> matrix to bidiagonal form 
+            </label>
+        </td>
+        <td>
+            <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+        </td>
+    </tr>
+</table>
