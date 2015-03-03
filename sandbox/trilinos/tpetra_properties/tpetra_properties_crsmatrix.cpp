@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 
 	// Load and run tests on Matrix Market file
-	std::string filename("../ecl32.mtx");
+	std::string filename("../bp_1200.mtx");
 	RCP<MAT> A = Tpetra::MatrixMarket::Reader<MAT>::readSparseFile(filename, comm, node, true);
 	runGauntlet(A);
 }
@@ -32,8 +32,8 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << "nodes:" << numNodes << " nodes" << std::endl;
 
 // Working
-	calcRowVariance(A);
-	calcColVariance(A);
+	calcRowVariance(A); // ecl32, 
+	calcColVariance(A); // ecl32
 	calcDiagVariance(A);
 	calcNonzeros(A);
 	calcDim(A);
@@ -50,18 +50,20 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcTrace(A, false);
 	calcAbsTrace(A);
 	calcDummyRows(A);	
-	calcNumericalSymmetryPercentage(A); //Single process only
-	calcNonzeroPatternSymmetryPercentage(A); //Single process only
-	//calcRowDiagonalDominance(A);
-	//calcColDiagonalDominance(A);
-	//calcLowerBandwidth(A);
+	//calcNumericalSymmetryPercentage(A); //Single process only
+	//calcNonzeroPatternSymmetryPercentage(A); //Single process only
+	calcRowDiagonalDominance(A);
+	calcColDiagonalDominance(A);
+	calcLowerBandwidth(A);
+	calcUpperBandwidth(A);
 
 	//  Not implemented
 	//calcDummyRowsKind(A);
 	
 	//calcDiagonalSign(A);
 	//calcDiagonalNonzeros(A);
-	//calcUpperBandwidth(A);
+	
+	
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -460,41 +462,92 @@ void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A) {
 }
 
 // 0 not, 1 weak, 2 strict
+// a_ii >= sum(a_ij) for all i,js i!=j
 void calcRowDiagonalDominance(const RCP<MAT> &A) {
-	LO localRows = A->getNodeNumRows(); 
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
-	GO numColsInCurrentRow;
-	ST diagonalEntry, locSum, result = 0.0;
+	GO rows = A->getGlobalNumRows(); 
+	ST result = 0.0;
+	GO totalMatch, match = 0;
+	GO locEntries = 0;
+	ST locDiagSum = 0.0, locRowSum = 0.0;
+	ST totalDiagSum, totalRowSum;
+	int strict = 1, totalStrict;
 
-	//  Go through each row on the current process
-	for (LO row = 0; row < localRows; row++) {
-		diagonalEntry = locSum = 0.0;
-		numColsInCurrentRow = A->getNumEntriesInLocalRow(row); 
-		A->getLocalRowView(row, indices, values); 
-		for (int col = 0; col < numColsInCurrentRow; col++) {
-			if (indices[col] == row) {
-				locSum += fabs(values[col]);
-			} else {
-				diagonalEntry = fabs(values[col]);
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = A->getNumEntriesInGlobalRow(row);
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			A->getGlobalRowCopy(row, indices(), values(), cols); 
+			size_t i = 0, j = 0;
+			if (cols < A->getGlobalNumRows()) {
+				totalDiagSum = totalRowSum = 0.0;
+				for (size_t col = 0; col < cols; col++) {
+					if (row == indices[col]) {
+						totalDiagSum += values[col];
+					} else {
+						totalRowSum += values[col];
+					}
+				}
+				if (locDiagSum < locRowSum) {
+					*fos << "row diagonal dominance:0" << std::endl;
+					return;
+				} else if (locDiagSum == locRowSum) {
+					strict = 0;
+				}
 			}
 		}
-		if (diagonalEntry > locSum) {
-			*fos << "row diag dominance:2" << std::endl;
-			return;
-		}
-		if (diagonalEntry >= locSum) {
-			*fos << "row diag dominance:1" << std::endl;
-			return;
-		}
 	}
-	*fos << "row diag dominance:0" << std::endl;
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &strict, &totalStrict);
+	if (totalStrict == 1) {
+		*fos << "row diagonal dominance:2" << std::endl;
+	} else {
+		*fos << "row diagonal dominance:1" << std::endl;
+	}
 }
 
 void calcColDiagonalDominance(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
-	calcRowDiagonalDominance(B);
+
+	GO rows = B->getGlobalNumRows(); 
+	ST result = 0.0;
+	GO totalMatch, match = 0;
+	GO locEntries = 0;
+	ST locDiagSum = 0.0, locRowSum = 0.0;
+	ST totalDiagSum, totalRowSum;
+	int strict = 1, totalStrict;
+
+	for (GO row = 0; row < rows; row++) {
+		if (B->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = B->getNumEntriesInGlobalRow(row);
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			B->getGlobalRowCopy(row, indices(), values(), cols); 
+			size_t i = 0, j = 0;
+			if (cols < B->getGlobalNumRows()) {
+				totalDiagSum = totalRowSum = 0.0;
+				for (size_t col = 0; col < cols; col++) {
+					if (row == indices[col]) {
+						totalDiagSum += values[col];
+					} else {
+						totalRowSum += values[col];
+					}
+				}
+				if (locDiagSum < locRowSum) {
+					*fos << "col diagonal dominance:0" << std::endl;
+					return;
+				} else if (locDiagSum == locRowSum) {
+					strict = 0;
+				}
+			}
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &strict, &totalStrict);
+	if (totalStrict == 1) {
+		*fos << "col diagonal dominance:2" << std::endl;
+	} else {
+		*fos << "col diagonal dominance:1" << std::endl;
+	}	
 }
 
 void calcDiagonalMean(const RCP<MAT> &A) {
@@ -558,38 +611,98 @@ void calcDiagonalNonzeros(const RCP<MAT> &A) {
 }
 
 void calcLowerBandwidth(const RCP<MAT> &A) {
+	LO rows = A->getGlobalNumRows();
+	GO localMaxLB = 0, localLB = 0, totalLB;
+	GO minIndex;
 
-	// Maybe doing something with a map
-	// GO gblRow =  map->getGlobalElement(lclRow);
-	// From the power method example code
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
-	GO numColsInCurrentRow;
-	ST mean, locVariance, locMaxVariance, result = 0.0;
-	std::cout << comm->getRank() << "\t" << A->getNodeNumRows() << "\t" << 
-	A->getNodeNumCols() << std::endl;
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = A->getNumEntriesInGlobalRow(row);
+			if (cols > 0 && cols <= A->getGlobalNumRows()) {
+				Array<ST> values(cols);
+				Array<GO> indices(cols);
+				A->getGlobalRowCopy(row, indices(), values(), cols); 
+				minIndex = indices[0];
+				for (size_t col = 1; col < cols; col++) {
+					if (indices[col] < minIndex) {
+						minIndex = indices[col];
+					}	
+				}
+				localLB = row - minIndex;
+				if (localLB > localMaxLB) {
+					localMaxLB = localLB;
+				}
+			}
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
+	*fos << "lb:" << totalLB << std::endl;
 }
 
 void calcUpperBandwidth(const RCP<MAT> &A) {
-	int localRows = A->getNodeNumRows();
-	int* array = new int[numNodes];
-	GO numColsInCurrentRow, result = 0, ub = 0, maxUB = 0;
-	ArrayView<const ST> values;
-	ArrayView<const LO> indices;
+	LO rows = A->getGlobalNumRows();
+	GO localMaxUB = 0, localUB = 0, totalUB;
+	GO maxIndex;
 
-	Teuchos::gatherAll<int, int>(*comm, 1, &localRows, numNodes, array);
-	int startingRow = 0; 
-	for (int i = 0; i < comm->getRank(); i++) {
-		startingRow += array[i];
-	}
-	for (int row = 0; row < localRows; row++) {
-		A->getLocalRowView(row, indices, values);
-		ub = indices.back() - (row + startingRow);
-		if (ub > maxUB) {
-			maxUB = ub;
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = A->getNumEntriesInGlobalRow(row);
+			if (cols > 0 && cols <= A->getGlobalNumRows()) {
+				Array<ST> values(cols);
+				Array<GO> indices(cols);
+				A->getGlobalRowCopy(row, indices(), values(), cols); 
+				maxIndex = indices[0];
+				for (size_t col = 1; col < cols; col++) {
+					if (indices[col] > maxIndex) {
+						maxIndex = indices[col];
+					}	
+				}
+				localUB = maxIndex - row;
+				if (localUB > localMaxUB) {
+					localMaxUB = localUB;
+				}
+			}
 		}
 	}
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &maxUB, &maxUB);
-	*fos << "ub:" << maxUB << std::endl;
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
+	*fos << "ub:" << totalUB << std::endl;
 }
 
+void calcBandwidth(const RCP<MAT> &A) {
+  LO rows = A->getGlobalNumRows();
+	GO localMaxUB = 0, localUB = 0, totalUB;
+	GO localMaxLB = 0, localLB = 0, totalLB;
+	GO maxIndex, minIndex;
+
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = A->getNumEntriesInGlobalRow(row);
+			if (cols > 0 && cols <= A->getGlobalNumRows()) {
+				Array<ST> values(cols);
+				Array<GO> indices(cols);
+				A->getGlobalRowCopy(row, indices(), values(), cols); 
+				minIndex = maxIndex = indices[0];
+				for (size_t col = 1; col < cols; col++) {
+					if (indices[col] > maxIndex) {
+						maxIndex = indices[col];
+					}	
+					if (indices[col] < minIndex) {
+						minIndex = indices[col];
+					}
+				}
+				localUB = maxIndex - row;
+				localLB = row - maxIndex;
+				if (localUB > localMaxUB) {
+					localMaxUB = localUB;
+				}
+				if (localLB < localMaxLB) {
+					localMaxLB = localLB;
+				}
+			}
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
+	*fos << "ub:" << totalUB << std::endl;
+	*fos << "lb:" << totalLB << std::endl;
+}
