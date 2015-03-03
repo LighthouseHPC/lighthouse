@@ -41,13 +41,13 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcSymmetricFrobeniusNorm(A);
 	calcAntisymmetricFrobeniusNorm(A);
 	calcOneNorm(A);
-	calcInfNorm(A, false);
+	calcInfNorm(A);
 	calcSymmetricInfNorm(A);
 	calcAntisymmetricInfNorm(A);
 	calcMaxNonzerosPerRow(A);
 	calcMinNonzerosPerRow(A);
 	calcAvgNonzerosPerRow(A);
-	calcTrace(A, false);
+	calcTrace(A);
 	calcAbsTrace(A);
 	calcDummyRows(A);	
 	//calcNumericalSymmetryPercentage(A); //Single process only
@@ -60,15 +60,13 @@ void runGauntlet(const RCP<MAT> &A) {
 	//  Not implemented
 	//calcDummyRowsKind(A);
 	
-	//calcDiagonalSign(A);
-	//calcDiagonalNonzeros(A);
-	
-	
+	calcDiagonalSign(A);
+	calcDiagonalNonzeros(A);
 }
 
 //  Return the maximum row locVariance for the matrix
 //  The average of the squared differences from the Mean.
-void calcRowVariance(const RCP<MAT> &A, bool transpose) {
+void calcRowVariance(const RCP<MAT> &A) {
 	LO rows = A->getGlobalNumRows(); 
 	ST mean, locVariance, locMaxVariance, result = 0.0;
 
@@ -153,9 +151,7 @@ void calcDiagVariance(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locMean, &mean);
-	*fos << "trace total:" << mean << std::endl;
 	mean /= A->getGlobalNumRows();
-	*fos << "diag avg:" << mean << std::endl;
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t cols = A->getNumEntriesInGlobalRow(row);
@@ -202,10 +198,9 @@ void calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){
 }
 
 //  Max absolute row sum
-void calcInfNorm(const RCP<MAT> &A, bool transpose) {
+void calcInfNorm(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
 	ST locSum, locMaxSum, result = 0.0;
-	RCP<const MAP> m = A->getRowMap();
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
@@ -223,32 +218,48 @@ void calcInfNorm(const RCP<MAT> &A, bool transpose) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxSum, &result);
-	if (transpose) {
-		*fos << "one norm:" << result << std::endl;
-	} else {
-		*fos << "inf norm:" << result << std::endl;
-	}
+	*fos << "inf norm:" << result << std::endl;
 }
 
 //  Max absolute column sum
 void calcOneNorm(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
-	calcInfNorm(B, true);
+
+	GO rows = B->getGlobalNumRows(); 
+	ST locSum, locMaxSum, result = 0.0;
+	//  Go through each row on the current process
+	for (GO row = 0; row < rows; row++) {
+		if (B->getRowMap()->isNodeGlobalElement(row)) {
+			locSum = 0;
+			size_t cols = B->getNumEntriesInGlobalRow(row);
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			B->getGlobalRowCopy(row, indices(), values(), cols); 
+			for (LO col = 0; col < cols; col++) {
+				locSum += fabs(values[col]);
+			} 
+			if (locSum > locMaxSum) {
+				locMaxSum = locSum;
+			}
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxSum, &result);
+	*fos << "one norm:" << result << std::endl;
 }
 
 //  Max absolute row sum of symmetric part
 void calcSymmetricInfNorm(const RCP<MAT> &A) {
 	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, 0.5, true, *A);
 	*fos << "symmetric ";
-	calcInfNorm(A_s, false);
+	calcInfNorm(A_s);
 }
 
 //  Max absolute row sum of anti-symmetric part
 void calcAntisymmetricInfNorm(const RCP<MAT> &A) {
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
 	*fos << "anti-symmetric ";
-	calcInfNorm(A_a, false);
+	calcInfNorm(A_a);
 }
 
 //  Self explanatory
@@ -292,7 +303,7 @@ void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 	*fos << "avg nonzeros per row:" << castResult << std::endl;	
 }
 
-void calcTrace(const RCP<MAT> &A, bool abs) {
+void calcTrace(const RCP<MAT> &A) {
 	LO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
@@ -305,25 +316,35 @@ void calcTrace(const RCP<MAT> &A, bool abs) {
 			A->getGlobalRowCopy(row, indices(), values(), cols);
 			for (size_t col = 0; col < cols; col++) {
 				if (indices[col] == row) {
-					if (abs) {
-						trace += fabs(values[col]);
-					} else {
 						trace += values[col]; 
-					}
 				}
 			}
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &trace, &result);
-	if (abs) {
-		*fos << "abs trace:" << result << std::endl;
-	} else {
-		*fos << "trace:" << result << std::endl;
-	}
+	*fos << "trace:" << result << std::endl;
 }
 
 void calcAbsTrace(const RCP<MAT> &A) {
-	calcTrace(A, true);
+	LO rows = A->getGlobalNumRows(); 
+	ST trace = 0.0, result = 0.0;
+
+	//  Go through each row on the current process
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = A->getNumEntriesInGlobalRow(row);
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			A->getGlobalRowCopy(row, indices(), values(), cols);
+			for (size_t col = 0; col < cols; col++) {
+				if (indices[col] == row) {
+					trace += fabs(values[col]);
+				}
+			}
+		}
+	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &trace, &result);
+	*fos << "trace:" << result << std::endl;	
 }
 
 void calcDummyRows(const RCP<MAT> &A) {
@@ -571,21 +592,28 @@ void calcDiagonalMean(const RCP<MAT> &A) {
 void calcDiagonalSign(const RCP<MAT> &A) {
 	long locPos = 0, locNeg = 0, locZero = 0;
 	long totalPos, totalNeg, totalZero;
-	typedef Tpetra::Map<LO, GO> map_type;
-	GO numGlobalElements = A->getGlobalNumDiags();
-	RCP<const map_type> map = rcp(new map_type (numGlobalElements, 0, comm));
-	VEC v(map);
-	A->getLocalDiagCopy(v);
-	Teuchos::ArrayRCP<const ST> array = v.getData();
-	for (int i = 0; i < array.size(); i++) {
-		if (array[i] > 0) {
-			locPos++;
-		} else if (array[i] < 0) {
-			locNeg++;
-		} else {
-			locZero++;
+	GO rows = A->getGlobalNumRows();
+	
+	for (GO row = 0; row < rows; row++) {
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			size_t cols = A->getNumEntriesInGlobalRow(row);
+			Array<ST> values(cols);
+			Array<GO> indices(cols);
+			A->getGlobalRowCopy(row, indices(), values(), cols);
+			for (size_t col = 0; col < cols; col++) {
+				if (indices[col] == row) {
+					if (values[col] > 0) {
+						locPos++;
+					} else if (values[col] < 0) {
+						locNeg++;
+					} else {
+						locZero++;
+					}
+				}
+			}
 		}
 	}
+
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locPos, &totalPos);
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locNeg, &totalNeg);
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locZero, &totalZero);
