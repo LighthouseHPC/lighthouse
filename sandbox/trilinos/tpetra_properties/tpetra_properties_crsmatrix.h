@@ -23,6 +23,18 @@
 //#include <Teuchos_DefaultMpiComm.hpp>
 //#include <Teuchos_Comm.hpp>
 
+
+//Anasazi
+// Include autoconfigured header
+#include "AnasaziConfigDefs.hpp"
+// Include header for TraceMin-Davidson solver
+#include "AnasaziTraceMinDavidsonSolMgr.hpp"
+// Include header to define basic eigenproblem Ax = \lambda*Bx
+#include "AnasaziBasicEigenproblem.hpp"
+// Include header to provide Anasazi with Tpetra adapters
+#include "AnasaziTpetraAdapter.hpp"
+#include "AnasaziOperator.hpp"
+
 // Typedefs given in Amesos2 example code
 typedef double ST;
 typedef int LO;
@@ -75,4 +87,6 @@ void calcDiagonalNonzeros(const RCP<MAT> &A);
 void calcLowerBandwidth(const RCP<MAT> &A);
 void calcUpperBandwidth(const RCP<MAT> &A);
 void calcBandwidth(const RCP<MAT> &A);
+
+void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]);
 

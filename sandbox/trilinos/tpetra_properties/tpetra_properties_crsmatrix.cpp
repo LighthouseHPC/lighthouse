@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
 	std::string filename("../bp_1200.mtx");
 	RCP<MAT> A = Tpetra::MatrixMarket::Reader<MAT>::readSparseFile(filename, comm, node, true);
 	runGauntlet(A);
+	calcLambdaMaxByMagnitudeReal(A, argc, argv);
 }
 
 void runGauntlet(const RCP<MAT> &A) {
@@ -56,10 +57,6 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcColDiagonalDominance(A);
 	calcLowerBandwidth(A);
 	calcUpperBandwidth(A);
-
-	//  Not implemented
-	//calcDummyRowsKind(A);
-	
 	calcDiagonalSign(A);
 	calcDiagonalNonzeros(A);
 }
@@ -734,3 +731,54 @@ void calcBandwidth(const RCP<MAT> &A) {
 	*fos << "ub:" << totalUB << std::endl;
 	*fos << "lb:" << totalLB << std::endl;
 }
+
+// based off tinyurl.com/ktlpsah
+void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
+	std::string filenameA ("../bcsstk06.mtx");
+  std::string filenameB ("../bcsstm06.mtx");
+  ST tol = 1e-6;
+  int nev = 4;
+  int blockSize = 1;
+  bool verbose = true;
+  std::string whenToShift = "Always";
+  Teuchos::CommandLineProcessor cmdp(false,true);
+  cmdp.setOption("fileA",&filenameA, "Filename for the Matrix-Market matrix.");
+  cmdp.setOption("tolerance",&tol, "Relative residual used for solver.");
+  cmdp.setOption("nev",&nev, "Number of desired eigenpairs.");
+  cmdp.setOption("blocksize",&blockSize, "Number of vectors to add to the subspace at each iteration.");
+  cmdp.setOption("verbose","quiet",&verbose, "Whether to print a lot of info or a little bit.");
+  cmdp.setOption("whenToShift",&whenToShift, "When to perform Ritz shifts. Options: Never, After Trace Levels, Always.");
+  if(cmdp.parse(argc,argv) != Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL) {
+  	*fos << "PARSE_UNSUCCESSFUL" << std::endl;
+    return;
+  }
+
+	int verbosity;
+	int numRestartBlocks = 2*nev/blockSize;
+	int numBlocks = 10*nev/blockSize;
+
+	if(verbose) {
+    verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
+	} else {
+    verbosity = Anasazi::TimingDetails;	
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
