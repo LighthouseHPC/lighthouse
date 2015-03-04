@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 
 	// Load and run tests on Matrix Market file
 	std::string filename("../bp_1200.mtx");
-	RCP<MAT> A = Tpetra::MatrixMarket::Reader<MAT>::readSparseFile(filename, comm, node, true);
+	RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
 	runGauntlet(A);
 	calcLambdaMaxByMagnitudeReal(A, argc, argv);
 }
@@ -741,6 +741,8 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   int blockSize = 1;
   bool verbose = true;
   std::string whenToShift = "Always";
+
+	//  Process command line args 
   Teuchos::CommandLineProcessor cmdp(false,true);
   cmdp.setOption("fileA",&filenameA, "Filename for the Matrix-Market matrix.");
   cmdp.setOption("tolerance",&tol, "Relative residual used for solver.");
@@ -753,15 +755,34 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
     return;
   }
 
-	int verbosity;
+  //  Read matrices, calculate matrix norm
+  Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
+  RCP<NT> node = platform.getNode();
+  RCP<const MAT> K = Reader::readSparseFile(filenameA, comm, node);
+  RCP<const MAT> M = Reader::readSparseFile(filenameB, comm, node);
+  ST mat_norm = std::max(K->getFrobeniusNorm(),M->getFrobeniusNorm());	
+
+  // Start the block Arnoldi iteration
+  int verbosity;
 	int numRestartBlocks = 2*nev/blockSize;
 	int numBlocks = 10*nev/blockSize;
-
 	if(verbose) {
     verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
 	} else {
     verbosity = Anasazi::TimingDetails;	
 	}
+
+	Teuchos::ParameterList MyPL;
+  MyPL.set( "Verbosity", verbosity );                  // How much information should the solver print?
+  MyPL.set( "Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
+  MyPL.set( "Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
+  MyPL.set( "Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
+  MyPL.set( "Relative Convergence Tolerance", false);  // Don't scale residuals by eigenvalues (when checking for convergence)
+  MyPL.set( "Use Locking", true);                      // Use deflation
+  MyPL.set( "Relative Locking Tolerance", false);      // Don't scale residuals by eigenvalues (when checking whether to lock a vector)
+  MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
+  MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
+  MyPL.set("When To Shift", whenToShift);
 }
 
 

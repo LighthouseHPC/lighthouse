@@ -44,6 +44,7 @@ typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
 typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
 typedef Tpetra::Map<LO, GO, NT> MAP;
+typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
 
 using Tpetra::global_size_t;
 using Tpetra::Map;
