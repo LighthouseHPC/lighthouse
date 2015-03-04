@@ -27,60 +27,36 @@ class CustomRadioSelect(forms.widgets.RadioSelect):
 
 ######-------- For Guided Search --------######
 ##---- problem form ---- ##
-class standardGeneralizedForm(forms.ModelForm):
-#      orthg_standardGeneralized = forms.ChoiceField(label = 'Which of the following least square problems would you like to compute?',widget = forms.RadioSelect())
-      least_standardGeneralized = forms.ChoiceField(label = 'Which of the following least square problems would you like to compute?')
-      class Meta:
-            model = least 
-            widget = forms.RadioSelect()
-            fields = ('standardGeneralized',)
-                   
-class FullStorageForm(forms.ModelForm):
-#      orthg_FullStorage = forms.ChoiceField(label = 'Given your selections, the LAPACK subroutines only support full storage and general matrix. Do you wish to continue the search?',widget = forms.RadioSelect())
-      least_FullStorage = forms.ChoiceField(label = 'Given your selections, the LAPACK subroutines only support full storage and general matrix. Do you wish to continue the search?')
-      class Meta:
-            model = least
-            widget = forms.RadioSelect()
-            fields = ('FullStorage',)
-            
+class standardGeneralizedForm(forms.Form):
+    orthg_standardGeneralized = forms.ChoiceField(label='Which of the following least square problems would you like to compute?', widget=forms.RadioSelect(),choices=STANDARD_CHOICES)    
+    
+
+class FullStorageForm(forms.Form):
+    orthg_FullStorage = forms.ChoiceField(label= 'Given your selections, the LAPACK subroutines only support full storage and general matrix. Do you wish to continue the search?',widget=forms.RadioSelect(),choices=NOYES_CHOICES)   
+                        
+
 ##---- standard: Full Rank form ----##
-class sFullRankForm(forms.ModelForm):
-      least_sFullRank = forms.ChoiceField(label = 'Does your matrix is full rank?',widget = forms.RadioSelect())
-      class Meta:
-            model = least
-            fields = ('sFullRank',)
-                
+class sFullRankForm(forms.Form):
+    orthg_sFullRank = forms.ChoiceField(label='Does your matrix is full rank?',widget=forms.RadioSelect(),choices=NOYES_CHOICES)
+
+     
 ##---- complex form ----##
-class complexNumberForm(forms.ModelForm):
-      least_complexNumber = forms.ChoiceField(label = 'Does your matrix has complex number?',widget = forms.RadioSelect())
-      class Meta:
-           model = least 
-           fields = ('complexNumber',)
-           
+class complexNumberForm(forms.Form):
+    orthg_complexNumber = forms.ChoiceField(label='Does your matrix has complex number?', widget=forms.RadioSelect(), choices=NOYES_CHOICES)
+
 ##---- QR form ----##
-class QRForm(forms.ModelForm):
-      least_qr = forms.ChoiceField(label = 'How would you like to compute problem?',widget = forms.RadioSelect())
-      class Meta:
-            model = least 
-            fields = ('qr',)
-           
+class QRForm(forms.Form):
+    orthg_QR = forms.ChoiceField(label='How would you like to compute problem?',widget=forms.RadioSelect(),choices=QR_CHOICES)
+     
 ##---- SVD form ----##
-class SVDForm(forms.ModelForm):
-      least_svd = forms.ChoiceField(label = 'How would you like to compute problem?',widget = forms.RadioSelect())
-      class Meta:
-            model = least 
-            fields = ('svd',)
-            
+class SVDForm(forms.Form):
+    orthg_SVD = forms.ChoiceField(label='How would you like to compute problem?',widget=forms.RadioSelect(), choices=SVD_CHOICES)
+
 ##---- generalized:Full Rank form ----##
-class gFullRankForm(forms.ModelForm):
-      least_gFullRank = forms.ChoiceField(label = 'How would you like to compute problem?',widget = forms.RadioSelect())
-      class Meta:
-            model = least 
-            fields = ('gFullRank',)
-           
+
+class gFullRankForm(forms.Form):
+    orthg_gFullRank = forms.ChoiceField(label='How would you like to compute problem?',widget=forms.RadioSelect(),choices=GFULLRANK_CHOICES)
+    
 ##--- precision form ---##
-class singleDoubleForm(forms.ModelForm):
-      least_orthg_singleDouble = forms.ChoiceField(label = 'Would you like to use single or double precision?',widget = forms.RadioSelect())
-      class Meta:
-            model = least 
-            fields = ('singleDouble',)
+class singleDoubleForm(forms.Form):
+    orthg_singleDouble = forms.ChoiceField(label='Would you like to use single or double precision?', widget=forms.RadioSelect(), choices=SINGLEDOUBLE_CHOICES)
