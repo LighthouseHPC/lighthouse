@@ -58,8 +58,8 @@ def find_nextForm(currentForm_name, request):
         nextForm = ""
         try:
             ## search for 'none' and return the first column that has zero to be the next question/form
-            next_index = next(i for i in range(current_index+1, len(form_order))) 
-            #FIX!!   if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
+            #next_index = next(i for i in range(current_index+1, len(form_order))) 
+            next_index = next(i for i in range(current_index+1, len(form_order))if request.session['Results'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
             nextForm_name = form_order[next_index]
 #            if nextForm_name in form_rank:
 #                 nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
@@ -82,7 +82,7 @@ def guidedSearch_index(request):
         key = item[:-4]
         request.session[key] = ''    
     request.session['currentForm_name'] = 'standardGeneralizedForm'
-    request.session['Routines'] = str(least.objects.all())
+    request.session['Routines'] = least.objects.all()
     request.session['orthg_guided_answered'] = OrderedDict()
     
     ## get ready for the template
@@ -104,7 +104,7 @@ def guidedSearch(request):
     if form.is_valid():
         ## get current question and user's answer
         current_question = request.session['currentForm_name'][:-4]
-        formField_name = 'least_'+current_question
+        formField_name = 'orthg_'+current_question
         value = form.cleaned_data[formField_name]
         choices = form.fields[formField_name].choices        
         request.session['orthg_guided_answered'].update(question_and_answer(form, value, choices))
@@ -116,7 +116,7 @@ def guidedSearch(request):
             ## do search based on user's response
             lookup = "%s__contains" % current_question
             query = {lookup : value}
-           #FIX!!! request.session['Routines'] = request.session['Routines'].filter(**query)
+            request.session['Routines'] = request.session['Routines'].filter(**query)
                                     
             ## generate a session for current question/answer -->request.session[eigen_currentQuestion] = answer
             request.session[formField_name] = value
@@ -140,9 +140,10 @@ def guidedSearch(request):
                         'formHTML': formHTML,
                         'form': nextForm,
                         'orthg_guided_answered' : request.session['orthg_guided_answered'],
-                       # 'results' : request.session['Routines']
+                        'results' : request.session['Routines']
                         }
             return render_to_response('orthg/index.html', context_instance=RequestContext(request, context))
     else:       
-       return guidedSearch_index(request)
+        print form.error
+        return guidedSearch_index(request)
 
