@@ -39,6 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'orthg',
     'dojango',
+ ###----- for haystack -----###
+    'haystack',
+    
+    ###----- for dajaxice and dajax -----###
+    'dajaxice',
+    'dajax',
 )
 
 MIDDLEWARE_CLASSES = (

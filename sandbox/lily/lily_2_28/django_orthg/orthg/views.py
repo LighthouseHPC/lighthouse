@@ -59,7 +59,7 @@ def find_nextForm(currentForm_name, request):
         try:
             ## search for 'none' and return the first column that has zero to be the next question/form
             #next_index = next(i for i in range(current_index+1, len(form_order))) 
-            next_index = next(i for i in range(current_index+1, len(form_order))if request.session['Results'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
+            next_index = next(i for i in range(current_index+1, len(form_order))if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
             nextForm_name = form_order[next_index]
 #            if nextForm_name in form_rank:
 #                 nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
