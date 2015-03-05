@@ -41,7 +41,7 @@ typedef Tpetra::Map<>::node_type NT;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
 typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
-typedef Tpetra::Operator<ST> OP;
+typedef Tpetra::Operator<ST, LO, GO, NT> OP;
 
 //  Anasazi typedefs
 typedef Anasazi::MultiVecTraits<ST, MV> MVT;

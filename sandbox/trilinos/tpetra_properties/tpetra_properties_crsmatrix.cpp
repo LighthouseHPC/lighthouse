@@ -3,6 +3,7 @@
 RCP<const Teuchos::Comm<int> > comm;
 RCP<Teuchos::FancyOStream> fos;
 int numNodes;
+int myRank;
 
 int main(int argc, char *argv[]) {
 	
@@ -12,7 +13,7 @@ int main(int argc, char *argv[]) {
 	//comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
   comm = platform.getComm();
 	RCP<NT> node = platform.getNode();
-	int myRank = comm->getRank();
+	myRank = comm->getRank();
 	Teuchos::oblackholestream blackhole;
 	std::ostream& out = (myRank == 0) ? std::cout : blackhole;
 	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
@@ -785,4 +786,67 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   //  Needs to have same number of columns as the blocksize
   RCP<MV> ivec = rcp (new MV (K->getRowMap(), blockSize));
   MVT::MvRandom(*ivec);
+
+  //  Create eigenproblem
+  RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
+    rcp (new Anasazi::BasicEigenproblem<ST, MV, OP> (K, M, ivec));
+
+  //  Tell the eigenproblem that the matrix pencil (K,M) is symmetric
+  MyProblem->setHermitian(true);
+
+  //  Set the number of eigenvalues that we need
+  MyProblem->setNEV(nev);
+
+  //  Tell eigenproblem that we are done passing it things
+  bool boolret = MyProblem->setProblem();
+  if (boolret != true) {
+    *fos << "Anasazi set problem has an error" << std::endl;
+  }
+
+  //  Initialize the TraceMin-Davidson solver
+  Anasazi::Experimental::TraceMinDavidsonSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
+
+  //  Solve the problem
+  Anasazi::ReturnType returnCode = MySolverMgr.solve();
+  if (returnCode != Anasazi::Converged && myRank == 0) {
+    *fos << "Did not converge" << std::endl;
+  } else {
+      *fos << "Converged" << std::endl;
+  }
+
+  //  Get the eigenvalues/vectors
+  Anasazi::Eigensolution<ST, MV> sol = MyProblem->getSolution();
+  std::vector<Anasazi::Value<ST> > evals = sol.Evals;
+  RCP<MV> evecs = sol.Evecs;
+  int numev = sol.numVecs;
+
+  // Compute the residual, just as a precaution
+  if (numev > 0) {
+    Teuchos::SerialDenseMatrix<int,ST> T(numev,numev);
+    for(int i=0; i < numev; i++)
+      T(i,i) = evals[i].realpart;
+    std::vector<ST> normR(sol.numVecs);
+    MV Kvec( K->getRowMap(), MVT::GetNumberVecs( *evecs ) );
+    MV Mvec( M->getRowMap(), MVT::GetNumberVecs( *evecs ) );
+    OPT::Apply( *K, *evecs, Kvec );
+    OPT::Apply( *M, *evecs, Mvec );
+    MVT::MvTimesMatAddMv( -1.0, Mvec, T, 1.0, Kvec );
+    MVT::MvNorm( Kvec, normR );
+    if (myRank == 0) {
+      std::cout.setf(std::ios_base::right, std::ios_base::adjustfield);
+      std::cout<<"Actual Eigenvalues: "<<std::endl;
+      std::cout<<"------------------------------------------------------"<<std::endl;
+      std::cout<<std::setw(16)<<"Real Part"
+        <<std::setw(16)<<"Error"<<std::endl;
+      std::cout<<"------------------------------------------------------"<<std::endl;
+      for (int i=0; i<numev; i++) {
+        std::cout<<std::setw(16)<<evals[i].realpart
+          <<std::setw(16)<<normR[i]/mat_norm
+          <<std::endl;
+      }
+      std::cout<<"------------------------------------------------------"<<std::endl;
+    }
+  }
 }
+
+
