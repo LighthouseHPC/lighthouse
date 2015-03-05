@@ -13,38 +13,39 @@
 #include <Teuchos_Array.hpp>
 #include <Tpetra_RowMatrixTransposer.hpp>
 #include <Teuchos_CommHelpers.hpp>
-// I/O for Matrix-Market files
 #include <MatrixMarket_Tpetra.hpp>
 #include <Tpetra_Import.hpp>
 #include <TpetraExt_MatrixMatrix.hpp>
 #include <cmath>
 #include <Teuchos_ParameterList.hpp>
 #include <stdint.h>
-//#include <Teuchos_DefaultMpiComm.hpp>
-//#include <Teuchos_Comm.hpp>
-
+#include <Tpetra_Operator.hpp>
+#include <Tpetra_Version.hpp>
+#include <TpetraExt_MatrixMatrix_def.hpp>
+#include <Tpetra_ConfigDefs.hpp>
 
 //Anasazi
-// Include autoconfigured header
 #include "AnasaziConfigDefs.hpp"
-// Include header for TraceMin-Davidson solver
 #include "AnasaziTraceMinDavidsonSolMgr.hpp"
-// Include header to define basic eigenproblem Ax = \lambda*Bx
 #include "AnasaziBasicEigenproblem.hpp"
-// Include header to provide Anasazi with Tpetra adapters
 #include "AnasaziTpetraAdapter.hpp"
 #include "AnasaziOperator.hpp"
 
-// Typedefs given in Amesos2 example code
+//  Tpetra typedefs
 typedef double ST;
 typedef int LO;
 typedef int64_t GO;
-typedef Tpetra::DefaultPlatform::DefaultPlatformType::NodeType NT;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
+//typedef Tpetra::DefaultPlatform::DefaultPlatformType::NodeType NT;
+typedef Tpetra::Map<>::node_type NT;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
-typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
-typedef Tpetra::Map<LO, GO, NT> MAP;
+typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
+typedef Tpetra::Operator<ST> OP;
+
+//  Anasazi typedefs
+typedef Anasazi::MultiVecTraits<ST, MV> MVT;
+typedef Anasazi::OperatorTraits<ST, MV, OP> OPT;
 
 using Tpetra::global_size_t;
 using Tpetra::Map;

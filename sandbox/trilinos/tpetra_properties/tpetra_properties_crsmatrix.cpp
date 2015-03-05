@@ -9,7 +9,8 @@ int main(int argc, char *argv[]) {
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
-	comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
+	//comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
+  comm = platform.getComm();
 	RCP<NT> node = platform.getNode();
 	int myRank = comm->getRank();
 	Teuchos::oblackholestream blackhole;
@@ -64,7 +65,7 @@ void runGauntlet(const RCP<MAT> &A) {
 //  Return the maximum row locVariance for the matrix
 //  The average of the squared differences from the Mean.
 void calcRowVariance(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows(); 
+	GO rows = A->getGlobalNumRows(); 
 	ST mean, locVariance, locMaxVariance, result = 0.0;
 
 	//  Go through each row on the current process
@@ -98,7 +99,7 @@ void calcColVariance(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 	
-	LO rows = B->getGlobalNumRows(); 
+	GO rows = B->getGlobalNumRows(); 
 	ST mean, locVariance, locMaxVariance, result = 0.0;
 
 	//  Go through each row on the current process
@@ -129,7 +130,7 @@ void calcColVariance(const RCP<MAT> &A) {
 
 //  The variance of the diagonal
 void calcDiagVariance(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows(); 
+	GO rows = A->getGlobalNumRows(); 
 	ST locMean = 0.0;
 	ST mean = 0.0, locVariance = 0.0, result = 0.0;
 
@@ -301,7 +302,7 @@ void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 }
 
 void calcTrace(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows(); 
+	GO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
 	//  Go through each row on the current process
@@ -323,7 +324,7 @@ void calcTrace(const RCP<MAT> &A) {
 }
 
 void calcAbsTrace(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows(); 
+	GO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
 	//  Go through each row on the current process
@@ -345,11 +346,11 @@ void calcAbsTrace(const RCP<MAT> &A) {
 }
 
 void calcDummyRows(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows(); 
+	GO rows = A->getGlobalNumRows(); 
 	GO locDummy = 0, result = 0;
 
 	//  Go through each row on the current process
-	for (LO row = 0; row < rows; row++) {
+	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			if (A->getNumEntriesInGlobalRow(row) == 1) {
 				locDummy++;
@@ -375,17 +376,6 @@ void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A) {
 			indicesA = Array<GO>(colsA);
 			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA);
 			Teuchos::broadcast<int, ST>(*comm, comm->getRank(), valuesA);
-		}
-		/*
-		if (B->getRowMap()->isNodeGlobalElement(row)) {
-			size_t colsB = B->getNumEntriesInGlobalRow(row);
-			valuesB = Array<ST>(colsB);
-			indicesB = Array<GO>(colsB);
-		}
-		*/
-		if (row == 4176) {
-			std::cout << "rank:" << comm->getRank() << "," << row << "\t" << valuesA << std::endl;
-			exit;
 		}
 	}
 }
@@ -570,14 +560,20 @@ void calcColDiagonalDominance(const RCP<MAT> &A) {
 
 void calcDiagonalMean(const RCP<MAT> &A) {
 	ST locMean, mean = 0.0;
-	GO numGlobalElements = A->getGlobalNumDiags(); 
-	RCP<const MAP> map = rcp(new MAP (numGlobalElements, 0, comm)); 
-	VEC v(map);
-	A->getLocalDiagCopy(v);
-	Teuchos::ArrayRCP<const ST> array = v.getData();	
-	for (int i = 0; i < array.size(); i++) {
-		locMean += array[i];	
-	}
+  GO rows = A->getGlobalNumRows();
+  for (GO row = 0; row < rows; row++) {
+    if (A->getRowMap()->isNodeGlobalElement(row)) {
+      size_t cols = A->getNumEntriesInGlobalRow(row);
+      Array<ST> values(cols);
+      Array<GO> indices(cols);
+      A->getGlobalRowCopy(row, indices(), values(), cols);
+      for (size_t col = 0; col < cols; col++) {
+        if (indices[col] == row) {
+          locMean += values[col]; 
+        }
+      }
+    }
+  }
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locMean, &mean);
 	mean /= A->getGlobalNumRows();
 	*fos << "diag mean" << mean << ", " << std::endl;
@@ -636,7 +632,7 @@ void calcDiagonalNonzeros(const RCP<MAT> &A) {
 }
 
 void calcLowerBandwidth(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows();
+	GO rows = A->getGlobalNumRows();
 	GO localMaxLB = 0, localLB = 0, totalLB;
 	GO minIndex;
 
@@ -665,7 +661,7 @@ void calcLowerBandwidth(const RCP<MAT> &A) {
 }
 
 void calcUpperBandwidth(const RCP<MAT> &A) {
-	LO rows = A->getGlobalNumRows();
+	GO rows = A->getGlobalNumRows();
 	GO localMaxUB = 0, localUB = 0, totalUB;
 	GO maxIndex;
 
@@ -694,7 +690,7 @@ void calcUpperBandwidth(const RCP<MAT> &A) {
 }
 
 void calcBandwidth(const RCP<MAT> &A) {
-  LO rows = A->getGlobalNumRows();
+  GO rows = A->getGlobalNumRows();
 	GO localMaxUB = 0, localUB = 0, totalUB;
 	GO localMaxLB = 0, localLB = 0, totalLB;
 	GO maxIndex, minIndex;
@@ -772,6 +768,7 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
     verbosity = Anasazi::TimingDetails;	
 	}
 
+	//  Parameter list to pass into the solver
 	Teuchos::ParameterList MyPL;
   MyPL.set( "Verbosity", verbosity );                  // How much information should the solver print?
   MyPL.set( "Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
@@ -783,23 +780,9 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
   MyPL.set("When To Shift", whenToShift);
+
+  //  Create Epetra_Multivector for an initial vector to start the solver
+  //  Needs to have same number of columns as the blocksize
+  RCP<MV> ivec = rcp (new MV (K->getRowMap(), blockSize));
+  MVT::MvRandom(*ivec);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
