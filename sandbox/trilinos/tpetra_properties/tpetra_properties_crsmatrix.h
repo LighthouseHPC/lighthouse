@@ -25,12 +25,17 @@
 #include <Tpetra_ConfigDefs.hpp>
 
 //Anasazi
-#include "AnasaziConfigDefs.hpp"
-#include "AnasaziTraceMinDavidsonSolMgr.hpp"
+#include <AnasaziConfigDefs.hpp>
+#include <AnasaziTraceMinDavidsonSolMgr.hpp>
 #include <AnasaziGeneralizedDavidsonSolMgr.hpp>
-#include "AnasaziBasicEigenproblem.hpp"
-#include "AnasaziTpetraAdapter.hpp"
-#include "AnasaziOperator.hpp"
+#include <AnasaziBlockKrylovSchurSolMgr.hpp>
+#include <AnasaziBasicEigenproblem.hpp>
+#include <AnasaziTpetraAdapter.hpp>
+#include <AnasaziOperator.hpp>
+
+//Ifpack
+#include <Ifpack.h>
+#include <Ifpack_Preconditioner.h>
 
 //  Tpetra typedefs
 typedef double ST;

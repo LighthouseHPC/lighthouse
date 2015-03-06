@@ -769,12 +769,12 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   //  Create parameters to pass to the solver
   Teuchos::ParameterList MyPL;
   MyPL.set("Verbosity", verbosity);
-  MyPL.set( "Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
-  MyPL.set( "Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
-  MyPL.set( "Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
-  MyPL.set( "Relative Convergence Tolerance", false);  // Don't scale residuals by eigenvalues (when checking for convergence)
-  MyPL.set( "Use Locking", true);                      // Use deflation
-  MyPL.set( "Relative Locking Tolerance", false);      // Don't scale residuals by eigenvalues (when checking whether to lock a vector)
+  MyPL.set("Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
+  MyPL.set("Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
+  MyPL.set("Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
+  MyPL.set("Relative Convergence Tolerance", false);  // Don't scale residuals by eigenvalues (when checking for convergence)
+  MyPL.set("Use Locking", true);                      // Use deflation
+  MyPL.set("Relative Locking Tolerance", false);      // Don't scale residuals by eigenvalues (when checking whether to lock a vector)
   MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
   MyPL.set("When To Shift", whenToShift);
@@ -795,7 +795,7 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   MyProblem->setProblem();
 
   //  Initialize TraceMin-Davidson Solver
-  Anasazi::GeneralizedDavidsonSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
+  Anasazi::BlockKrylovSchurSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
 
   //  Solve the problem
   Anasazi::ReturnType returnCode = MySolverMgr.solve();
