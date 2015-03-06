@@ -731,47 +731,44 @@ void calcBandwidth(const RCP<MAT> &A) {
 
 // based off tinyurl.com/ktlpsah
 void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
-	std::string filenameA ("../bcsstk06.mtx");
-  std::string filenameB ("../bcsstm06.mtx");
+  std::string filenameA("../bp_1200.mtx");
   ST tol = 1e-6;
   int nev = 4;
   int blockSize = 1;
-  bool verbose = true;
+  bool verbose = false;
   std::string whenToShift = "Always";
-
-	//  Process command line args 
-  Teuchos::CommandLineProcessor cmdp(false,true);
-  cmdp.setOption("fileA",&filenameA, "Filename for the Matrix-Market matrix.");
-  cmdp.setOption("tolerance",&tol, "Relative residual used for solver.");
-  cmdp.setOption("nev",&nev, "Number of desired eigenpairs.");
-  cmdp.setOption("blocksize",&blockSize, "Number of vectors to add to the subspace at each iteration.");
-  cmdp.setOption("verbose","quiet",&verbose, "Whether to print a lot of info or a little bit.");
-  cmdp.setOption("whenToShift",&whenToShift, "When to perform Ritz shifts. Options: Never, After Trace Levels, Always.");
-  if(cmdp.parse(argc,argv) != Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL) {
-  	*fos << "PARSE_UNSUCCESSFUL" << std::endl;
+  Teuchos::CommandLineProcessor cmdp(false, true);
+  cmdp.setOption("fileA", &filenameA, "Filename for the Matrix-Market matrix");
+  cmdp.setOption("tolerance", &tol, "Relative residual used for solver");
+  //cmdp.setOption("nev", &nev, "Number of desired eigenpairs");
+  cmdp.setOption("blockSize", &blockSize, "Number of vectors to add to the subspace each iteration");
+  cmdp.setOption("verbose", "quiet", &verbose, "How much info to print");
+  cmdp.setOption("whenToShift", &whenToShift, "When to perform Ritz shifts");
+  if (cmdp.parse(argc, argv) != Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL) {
     return;
   }
 
-  //  Read matrices, calculate matrix norm
   Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   RCP<NT> node = platform.getNode();
   RCP<const MAT> K = Reader::readSparseFile(filenameA, comm, node);
-  RCP<const MAT> M = Reader::readSparseFile(filenameB, comm, node);
-  ST mat_norm = std::max(K->getFrobeniusNorm(),M->getFrobeniusNorm());	
 
-  // Start the block Arnoldi iteration
+  //  Get norm
+  ST mat_norm = K->getFrobeniusNorm();
+
+  //  Start block Arnoldi iteration
   int verbosity;
-	int numRestartBlocks = 2*nev/blockSize;
-	int numBlocks = 10*nev/blockSize;
-	if(verbose) {
-    verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
-	} else {
-    verbosity = Anasazi::TimingDetails;	
-	}
+  int numRestartBlocks = 2*nev/blockSize;
+  int numBlocks = 10*nev/blockSize;
 
-	//  Parameter list to pass into the solver
-	Teuchos::ParameterList MyPL;
-  MyPL.set( "Verbosity", verbosity );                  // How much information should the solver print?
+  if (verbose) {
+    verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
+  } else {
+    verbosity = Anasazi::TimingDetails;
+  } 
+
+  //  Create parameters to pass to the solver
+  Teuchos::ParameterList MyPL;
+  MyPL.set("Verbosity", verbosity);
   MyPL.set( "Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
   MyPL.set( "Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
   MyPL.set( "Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
@@ -781,60 +778,53 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
   MyPL.set("When To Shift", whenToShift);
+  MyPL.set("Which", "LM");
 
-  //  Create Epetra_Multivector for an initial vector to start the solver
-  //  Needs to have same number of columns as the blocksize
-  RCP<MV> ivec = rcp (new MV (K->getRowMap(), blockSize));
+  //  Create multivector for a initial vector to start the solver
+  RCP<MV> ivec = rcp (new MV(K->getRowMap(), numRestartBlocks*blockSize));
   MVT::MvRandom(*ivec);
 
   //  Create eigenproblem
   RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
-    rcp (new Anasazi::BasicEigenproblem<ST, MV, OP> (K, M, ivec));
+    Teuchos::rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(K, ivec));
 
-  //  Tell the eigenproblem that the matrix pencil (K,M) is symmetric
-  MyProblem->setHermitian(true);
-
-  //  Set the number of eigenvalues that we need
+  MyProblem->setHermitian(false);
   MyProblem->setNEV(nev);
 
-  //  Tell eigenproblem that we are done passing it things
-  bool boolret = MyProblem->setProblem();
-  if (boolret != true) {
-    *fos << "Anasazi set problem has an error" << std::endl;
-  }
+  //  We are done with giving it info
+  MyProblem->setProblem();
 
-  //  Initialize the TraceMin-Davidson solver
-  Anasazi::Experimental::TraceMinDavidsonSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
+  //  Initialize TraceMin-Davidson Solver
+  Anasazi::GeneralizedDavidsonSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
 
   //  Solve the problem
   Anasazi::ReturnType returnCode = MySolverMgr.solve();
   if (returnCode != Anasazi::Converged && myRank == 0) {
-    *fos << "Did not converge" << std::endl;
-  } else {
-      *fos << "Converged" << std::endl;
+    std::cout << "unconverged" << std::endl;
+  } else if (myRank == 0) {
+    std::cout << "converged" << std::endl;
   }
 
-  //  Get the eigenvalues/vectors
+  //  Get the results
   Anasazi::Eigensolution<ST, MV> sol = MyProblem->getSolution();
   std::vector<Anasazi::Value<ST> > evals = sol.Evals;
   RCP<MV> evecs = sol.Evecs;
   int numev = sol.numVecs;
 
-  // Compute the residual, just as a precaution
+  //  Compute residual 
   if (numev > 0) {
-    Teuchos::SerialDenseMatrix<int,ST> T(numev,numev);
-    for(int i=0; i < numev; i++)
+    Teuchos::SerialDenseMatrix<int, ST> T(numev,numev);
+    for (int i = 0; i < numev; i++) {
       T(i,i) = evals[i].realpart;
+    }
     std::vector<ST> normR(sol.numVecs);
-    MV Kvec( K->getRowMap(), MVT::GetNumberVecs( *evecs ) );
-    MV Mvec( M->getRowMap(), MVT::GetNumberVecs( *evecs ) );
-    OPT::Apply( *K, *evecs, Kvec );
-    OPT::Apply( *M, *evecs, Mvec );
-    MVT::MvTimesMatAddMv( -1.0, Mvec, T, 1.0, Kvec );
-    MVT::MvNorm( Kvec, normR );
+    MV Kvec(K->getRowMap(), MVT::GetNumberVecs(*evecs));
+    OPT::Apply(*K, *evecs, Kvec);
+    MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
+    MVT::MvNorm(Kvec, normR);
     if (myRank == 0) {
       std::cout.setf(std::ios_base::right, std::ios_base::adjustfield);
-      std::cout<<"Actual Eigenvalues: "<<std::endl;
+      std::cout<<"Actual Eigenvalues (obtained by Rayleigh quotient) : "<<std::endl;
       std::cout<<"------------------------------------------------------"<<std::endl;
       std::cout<<std::setw(16)<<"Real Part"
         <<std::setw(16)<<"Error"<<std::endl;
@@ -849,4 +839,113 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
   }
 }
 
+// based off tinyurl.com/n9v8oxn
+void calcLambdaMaxByMagnitudeRealHermitian(const RCP<MAT> &A, int argc, char *argv[]) {
+  std::string filenameA("../bp_1200.mtx");
+  ST tol = 1e-6;
+  int nev = 4;
+  int blockSize = 1;
+  bool verbose = false;
+  std::string whenToShift = "Always";
+  Teuchos::CommandLineProcessor cmdp(false, true);
+  cmdp.setOption("fileA", &filenameA, "Filename for the Matrix-Market matrix");
+  cmdp.setOption("tolerance", &tol, "Relative residual used for solver");
+  cmdp.setOption("nev", &nev, "Number of desired eigenpairs");
+  cmdp.setOption("blockSize", &blockSize, "Number of vectors to add to the subspace each iteration");
+  cmdp.setOption("verbose", "quiet", &verbose, "How much info to print");
+  cmdp.setOption("whenToShift", &whenToShift, "When to perform Ritz shifts");
+  if (cmdp.parse(argc, argv) != Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL) {
+    return;
+  }
+
+  Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
+  RCP<NT> node = platform.getNode();
+  RCP<const MAT> K = Reader::readSparseFile(filenameA, comm, node);
+
+  //  Get norm
+  ST mat_norm = K->getFrobeniusNorm();
+
+  //  Start block Arnoldi iteration
+  int verbosity;
+  int numRestartBlocks = 2*nev/blockSize;
+  int numBlocks = 10*nev/blockSize;
+
+  if (verbose) {
+    verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
+  } else {
+    verbosity = Anasazi::TimingDetails;
+  } 
+
+  //  Create parameters to pass to the solver
+  Teuchos::ParameterList MyPL;
+  MyPL.set("Verbosity", verbosity);
+  MyPL.set( "Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
+  MyPL.set( "Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
+  MyPL.set( "Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
+  MyPL.set( "Relative Convergence Tolerance", false);  // Don't scale residuals by eigenvalues (when checking for convergence)
+  MyPL.set( "Use Locking", true);                      // Use deflation
+  MyPL.set( "Relative Locking Tolerance", false);      // Don't scale residuals by eigenvalues (when checking whether to lock a vector)
+  MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
+  MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
+  MyPL.set("When To Shift", whenToShift);
+  MyPL.set("Which", "LM");
+
+  //  Create multivector for a initial vector to start the solver
+  RCP<MV> ivec = rcp (new MV(K->getRowMap(), numRestartBlocks*blockSize));
+  MVT::MvRandom(*ivec);
+
+  //  Create eigenproblem
+  RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
+    Teuchos::rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(K, ivec));
+
+  MyProblem->setHermitian(true);
+  MyProblem->setNEV(nev);
+
+  //  We are done with giving it info
+  MyProblem->setProblem();
+
+  //  Initialize TraceMin-Davidson Solver
+  Anasazi::Experimental::TraceMinDavidsonSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
+
+  //  Solve the problem
+  Anasazi::ReturnType returnCode = MySolverMgr.solve();
+  if (returnCode != Anasazi::Converged && myRank == 0) {
+    std::cout << "unconverged" << std::endl;
+  } else if (myRank == 0) {
+    std::cout << "converged" << std::endl;
+  }
+
+  //  Get the results
+  Anasazi::Eigensolution<ST, MV> sol = MyProblem->getSolution();
+  std::vector<Anasazi::Value<ST> > evals = sol.Evals;
+  RCP<MV> evecs = sol.Evecs;
+  int numev = sol.numVecs;
+
+  //  Compute residual 
+  if (numev > 0) {
+    Teuchos::SerialDenseMatrix<int, ST> T(numev,numev);
+    for (int i = 0; i < numev; i++) {
+      T(i,i) = evals[i].realpart;
+    }
+    std::vector<ST> normR(sol.numVecs);
+    MV Kvec(K->getRowMap(), MVT::GetNumberVecs(*evecs));
+    OPT::Apply(*K, *evecs, Kvec);
+    MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
+    MVT::MvNorm(Kvec, normR);
+    if (myRank == 0) {
+      std::cout.setf(std::ios_base::right, std::ios_base::adjustfield);
+      std::cout<<"Actual Eigenvalues (obtained by Rayleigh quotient) : "<<std::endl;
+      std::cout<<"------------------------------------------------------"<<std::endl;
+      std::cout<<std::setw(16)<<"Real Part"
+        <<std::setw(16)<<"Error"<<std::endl;
+      std::cout<<"------------------------------------------------------"<<std::endl;
+      for (int i=0; i<numev; i++) {
+        std::cout<<std::setw(16)<<evals[i].realpart
+          <<std::setw(16)<<normR[i]/mat_norm
+          <<std::endl;
+      }
+      std::cout<<"------------------------------------------------------"<<std::endl;
+    }
+  }
+}
 

@@ -27,6 +27,7 @@
 //Anasazi
 #include "AnasaziConfigDefs.hpp"
 #include "AnasaziTraceMinDavidsonSolMgr.hpp"
+#include <AnasaziGeneralizedDavidsonSolMgr.hpp>
 #include "AnasaziBasicEigenproblem.hpp"
 #include "AnasaziTpetraAdapter.hpp"
 #include "AnasaziOperator.hpp"
