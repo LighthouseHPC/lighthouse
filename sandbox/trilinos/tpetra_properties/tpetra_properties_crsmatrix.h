@@ -96,5 +96,5 @@ void calcLowerBandwidth(const RCP<MAT> &A);
 void calcUpperBandwidth(const RCP<MAT> &A);
 void calcBandwidth(const RCP<MAT> &A);
 
-void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]);
+void calcEigenValues(const RCP<MAT> &A, std::string type);
 

@@ -12,17 +12,17 @@ int main(int argc, char *argv[]) {
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
 	//comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
   comm = platform.getComm();
-	RCP<NT> node = platform.getNode();
-	myRank = comm->getRank();
-	Teuchos::oblackholestream blackhole;
-	std::ostream& out = (myRank == 0) ? std::cout : blackhole;
-	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+  RCP<NT> node = platform.getNode();
+  myRank = comm->getRank();
+  Teuchos::oblackholestream blackhole;
+  std::ostream& out = (myRank == 0) ? std::cout : blackhole;
+  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 
 	// Load and run tests on Matrix Market file
-	std::string filename("../bp_1200.mtx");
-	RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
-	runGauntlet(A);
-	calcLambdaMaxByMagnitudeReal(A, argc, argv);
+  std::string filename("../ecl32.mtx");
+  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
+  runGauntlet(A);
+
 }
 
 void runGauntlet(const RCP<MAT> &A) {
@@ -61,6 +61,10 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcUpperBandwidth(A);
 	calcDiagonalSign(A);
 	calcDiagonalNonzeros(A);
+  calcEigenValues(A, "LM");
+  calcEigenValues(A, "SM");
+  calcEigenValues(A, "LR");
+  calcEigenValues(A, "SR");
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -315,13 +319,13 @@ void calcTrace(const RCP<MAT> &A) {
 			A->getGlobalRowCopy(row, indices(), values(), cols);
 			for (size_t col = 0; col < cols; col++) {
 				if (indices[col] == row) {
-						trace += values[col]; 
-				}
-			}
-		}
-	}
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &trace, &result);
-	*fos << "trace:" << result << std::endl;
+          trace += values[col]; 
+        }
+      }
+    }
+  }
+  Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &trace, &result);
+  *fos << "trace:" << result << std::endl;
 }
 
 void calcAbsTrace(const RCP<MAT> &A) {
@@ -575,9 +579,9 @@ void calcDiagonalMean(const RCP<MAT> &A) {
       }
     }
   }
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locMean, &mean);
-	mean /= A->getGlobalNumRows();
-	*fos << "diag mean" << mean << ", " << std::endl;
+  Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locMean, &mean);
+  mean /= A->getGlobalNumRows();
+  *fos << "diag mean" << mean << ", " << std::endl;
 }
 
 // indicates the diagonal sign pattern
@@ -692,101 +696,87 @@ void calcUpperBandwidth(const RCP<MAT> &A) {
 
 void calcBandwidth(const RCP<MAT> &A) {
   GO rows = A->getGlobalNumRows();
-	GO localMaxUB = 0, localUB = 0, totalUB;
-	GO localMaxLB = 0, localLB = 0, totalLB;
-	GO maxIndex, minIndex;
+  GO localMaxUB = 0, localUB = 0, totalUB;
+  GO localMaxLB = 0, localLB = 0, totalLB;
+  GO maxIndex, minIndex;
 
-	for (GO row = 0; row < rows; row++) {
-		if (A->getRowMap()->isNodeGlobalElement(row)) {
-			size_t cols = A->getNumEntriesInGlobalRow(row);
-			if (cols > 0 && cols <= A->getGlobalNumRows()) {
-				Array<ST> values(cols);
-				Array<GO> indices(cols);
-				A->getGlobalRowCopy(row, indices(), values(), cols); 
-				minIndex = maxIndex = indices[0];
-				for (size_t col = 1; col < cols; col++) {
-					if (indices[col] > maxIndex) {
-						maxIndex = indices[col];
-					}	
-					if (indices[col] < minIndex) {
-						minIndex = indices[col];
-					}
-				}
-				localUB = maxIndex - row;
-				localLB = row - maxIndex;
-				if (localUB > localMaxUB) {
-					localMaxUB = localUB;
-				}
-				if (localLB < localMaxLB) {
-					localMaxLB = localLB;
-				}
-			}
-		}
-	}
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
-	*fos << "ub:" << totalUB << std::endl;
-	*fos << "lb:" << totalLB << std::endl;
+  for (GO row = 0; row < rows; row++) {
+    if (A->getRowMap()->isNodeGlobalElement(row)) {
+     size_t cols = A->getNumEntriesInGlobalRow(row);
+     if (cols > 0 && cols <= A->getGlobalNumRows()) {
+      Array<ST> values(cols);
+      Array<GO> indices(cols);
+      A->getGlobalRowCopy(row, indices(), values(), cols); 
+      minIndex = maxIndex = indices[0];
+      for (size_t col = 1; col < cols; col++) {
+       if (indices[col] > maxIndex) {
+        maxIndex = indices[col];
+      }	
+      if (indices[col] < minIndex) {
+        minIndex = indices[col];
+      }
+    }
+    localUB = maxIndex - row;
+    localLB = row - maxIndex;
+    if (localUB > localMaxUB) {
+     localMaxUB = localUB;
+   }
+   if (localLB < localMaxLB) {
+     localMaxLB = localLB;
+   }
+ }
+}
+}
+Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
+Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
+*fos << "ub:" << totalUB << std::endl;
+*fos << "lb:" << totalLB << std::endl;
 }
 
 // based off tinyurl.com/ktlpsah
-void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
-  std::string filenameA("../bp_1200.mtx");
-  ST tol = 1e-6;
-  int nev = 4;
-  int blockSize = 1;
-  bool verbose = false;
-  std::string whenToShift = "Always";
-  Teuchos::CommandLineProcessor cmdp(false, true);
-  cmdp.setOption("fileA", &filenameA, "Filename for the Matrix-Market matrix");
-  cmdp.setOption("tolerance", &tol, "Relative residual used for solver");
-  //cmdp.setOption("nev", &nev, "Number of desired eigenpairs");
-  cmdp.setOption("blockSize", &blockSize, "Number of vectors to add to the subspace each iteration");
-  cmdp.setOption("verbose", "quiet", &verbose, "How much info to print");
-  cmdp.setOption("whenToShift", &whenToShift, "When to perform Ritz shifts");
-  if (cmdp.parse(argc, argv) != Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL) {
-    return;
-  }
-
+void calcEigenValues(const RCP<MAT> &A, std::string type) {
   Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   RCP<NT> node = platform.getNode();
-  RCP<const MAT> K = Reader::readSparseFile(filenameA, comm, node);
 
   //  Get norm
-  ST mat_norm = K->getFrobeniusNorm();
+  ST mat_norm = A->getFrobeniusNorm();
 
   //  Start block Arnoldi iteration
-  int verbosity;
-  int numRestartBlocks = 2*nev/blockSize;
-  int numBlocks = 10*nev/blockSize;
-
-  if (verbose) {
-    verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
-  } else {
-    verbosity = Anasazi::TimingDetails;
-  } 
+  int nev = 1;
+  int blockSize = 1;
+  int numBlocks = 3*nev / blockSize;
+  ST tol = 1e-8;
 
   //  Create parameters to pass to the solver
   Teuchos::ParameterList MyPL;
-  MyPL.set("Verbosity", verbosity);
-  MyPL.set("Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
+  //MyPL.set("Verbosity", verbosity);
   MyPL.set("Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
-  MyPL.set("Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
+  MyPL.set("Convergence Tolerance", tol);   // How small do the residuals have to be
   MyPL.set("Relative Convergence Tolerance", false);  // Don't scale residuals by eigenvalues (when checking for convergence)
   MyPL.set("Use Locking", true);                      // Use deflation
   MyPL.set("Relative Locking Tolerance", false);      // Don't scale residuals by eigenvalues (when checking whether to lock a vector)
-  MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
-  MyPL.set("When To Shift", whenToShift);
-  MyPL.set("Which", "LM");
+
+  //  Default to largest magnitude 
+  if (type.compare("SM") == 0) {
+    MyPL.set("Which", "SM");
+  } else if (type.compare("SR") == 0) {
+    MyPL.set("Which", "SR");
+  } else if (type.compare("LR") == 0) {
+    MyPL.set("Which", "LR");
+  } else {
+    MyPL.set("Which", "LM");
+  }
+
+  
 
   //  Create multivector for a initial vector to start the solver
-  RCP<MV> ivec = rcp (new MV(K->getRowMap(), numRestartBlocks*blockSize));
+  RCP<MV> ivec = rcp (new MV(A->getRowMap(), blockSize));
   MVT::MvRandom(*ivec);
 
   //  Create eigenproblem
   RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
-    Teuchos::rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(K, ivec));
+    Teuchos::rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(A, ivec));
 
   MyProblem->setHermitian(false);
   MyProblem->setNEV(nev);
@@ -799,120 +789,10 @@ void calcLambdaMaxByMagnitudeReal(const RCP<MAT> &A, int argc, char *argv[]) {
 
   //  Solve the problem
   Anasazi::ReturnType returnCode = MySolverMgr.solve();
-  if (returnCode != Anasazi::Converged && myRank == 0) {
-    std::cout << "unconverged" << std::endl;
-  } else if (myRank == 0) {
-    std::cout << "converged" << std::endl;
-  }
-
-  //  Get the results
-  Anasazi::Eigensolution<ST, MV> sol = MyProblem->getSolution();
-  std::vector<Anasazi::Value<ST> > evals = sol.Evals;
-  RCP<MV> evecs = sol.Evecs;
-  int numev = sol.numVecs;
-
-  //  Compute residual 
-  if (numev > 0) {
-    Teuchos::SerialDenseMatrix<int, ST> T(numev,numev);
-    for (int i = 0; i < numev; i++) {
-      T(i,i) = evals[i].realpart;
-    }
-    std::vector<ST> normR(sol.numVecs);
-    MV Kvec(K->getRowMap(), MVT::GetNumberVecs(*evecs));
-    OPT::Apply(*K, *evecs, Kvec);
-    MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
-    MVT::MvNorm(Kvec, normR);
-    if (myRank == 0) {
-      std::cout.setf(std::ios_base::right, std::ios_base::adjustfield);
-      std::cout<<"Actual Eigenvalues (obtained by Rayleigh quotient) : "<<std::endl;
-      std::cout<<"------------------------------------------------------"<<std::endl;
-      std::cout<<std::setw(16)<<"Real Part"
-        <<std::setw(16)<<"Error"<<std::endl;
-      std::cout<<"------------------------------------------------------"<<std::endl;
-      for (int i=0; i<numev; i++) {
-        std::cout<<std::setw(16)<<evals[i].realpart
-          <<std::setw(16)<<normR[i]/mat_norm
-          <<std::endl;
-      }
-      std::cout<<"------------------------------------------------------"<<std::endl;
-    }
-  }
-}
-
-// based off tinyurl.com/n9v8oxn
-void calcLambdaMaxByMagnitudeRealHermitian(const RCP<MAT> &A, int argc, char *argv[]) {
-  std::string filenameA("../bp_1200.mtx");
-  ST tol = 1e-6;
-  int nev = 4;
-  int blockSize = 1;
-  bool verbose = false;
-  std::string whenToShift = "Always";
-  Teuchos::CommandLineProcessor cmdp(false, true);
-  cmdp.setOption("fileA", &filenameA, "Filename for the Matrix-Market matrix");
-  cmdp.setOption("tolerance", &tol, "Relative residual used for solver");
-  cmdp.setOption("nev", &nev, "Number of desired eigenpairs");
-  cmdp.setOption("blockSize", &blockSize, "Number of vectors to add to the subspace each iteration");
-  cmdp.setOption("verbose", "quiet", &verbose, "How much info to print");
-  cmdp.setOption("whenToShift", &whenToShift, "When to perform Ritz shifts");
-  if (cmdp.parse(argc, argv) != Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL) {
-    return;
-  }
-
-  Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
-  RCP<NT> node = platform.getNode();
-  RCP<const MAT> K = Reader::readSparseFile(filenameA, comm, node);
-
-  //  Get norm
-  ST mat_norm = K->getFrobeniusNorm();
-
-  //  Start block Arnoldi iteration
-  int verbosity;
-  int numRestartBlocks = 2*nev/blockSize;
-  int numBlocks = 10*nev/blockSize;
-
-  if (verbose) {
-    verbosity = Anasazi::TimingDetails + Anasazi::IterationDetails + Anasazi::Debug + Anasazi::FinalSummary;
+  if (returnCode != Anasazi::Converged) {
+    *fos << "unconverged" << std::endl;
   } else {
-    verbosity = Anasazi::TimingDetails;
-  } 
-
-  //  Create parameters to pass to the solver
-  Teuchos::ParameterList MyPL;
-  MyPL.set("Verbosity", verbosity);
-  MyPL.set( "Saddle Solver Type", "Projected Krylov"); // Use projected minres/gmres to solve the saddle point problem
-  MyPL.set( "Block Size", blockSize );                 // Add blockSize vectors to the basis per iteration
-  MyPL.set( "Convergence Tolerance", tol*mat_norm );   // How small do the residuals have to be
-  MyPL.set( "Relative Convergence Tolerance", false);  // Don't scale residuals by eigenvalues (when checking for convergence)
-  MyPL.set( "Use Locking", true);                      // Use deflation
-  MyPL.set( "Relative Locking Tolerance", false);      // Don't scale residuals by eigenvalues (when checking whether to lock a vector)
-  MyPL.set("Num Restart Blocks", numRestartBlocks);    // When we restart, we start back up with 2*nev blocks
-  MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
-  MyPL.set("When To Shift", whenToShift);
-  MyPL.set("Which", "LM");
-
-  //  Create multivector for a initial vector to start the solver
-  RCP<MV> ivec = rcp (new MV(K->getRowMap(), numRestartBlocks*blockSize));
-  MVT::MvRandom(*ivec);
-
-  //  Create eigenproblem
-  RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
-    Teuchos::rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(K, ivec));
-
-  MyProblem->setHermitian(true);
-  MyProblem->setNEV(nev);
-
-  //  We are done with giving it info
-  MyProblem->setProblem();
-
-  //  Initialize TraceMin-Davidson Solver
-  Anasazi::Experimental::TraceMinDavidsonSolMgr<ST, MV, OP> MySolverMgr(MyProblem, MyPL);
-
-  //  Solve the problem
-  Anasazi::ReturnType returnCode = MySolverMgr.solve();
-  if (returnCode != Anasazi::Converged && myRank == 0) {
-    std::cout << "unconverged" << std::endl;
-  } else if (myRank == 0) {
-    std::cout << "converged" << std::endl;
+    *fos << "converged" << std::endl;
   }
 
   //  Get the results
@@ -928,24 +808,20 @@ void calcLambdaMaxByMagnitudeRealHermitian(const RCP<MAT> &A, int argc, char *ar
       T(i,i) = evals[i].realpart;
     }
     std::vector<ST> normR(sol.numVecs);
-    MV Kvec(K->getRowMap(), MVT::GetNumberVecs(*evecs));
-    OPT::Apply(*K, *evecs, Kvec);
+    MV Kvec(A->getRowMap(), MVT::GetNumberVecs(*evecs));
+    OPT::Apply(*A, *evecs, Kvec);
     MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
     MVT::MvNorm(Kvec, normR);
-    if (myRank == 0) {
-      std::cout.setf(std::ios_base::right, std::ios_base::adjustfield);
-      std::cout<<"Actual Eigenvalues (obtained by Rayleigh quotient) : "<<std::endl;
-      std::cout<<"------------------------------------------------------"<<std::endl;
-      std::cout<<std::setw(16)<<"Real Part"
-        <<std::setw(16)<<"Error"<<std::endl;
-      std::cout<<"------------------------------------------------------"<<std::endl;
-      for (int i=0; i<numev; i++) {
-        std::cout<<std::setw(16)<<evals[i].realpart
-          <<std::setw(16)<<normR[i]/mat_norm
-          <<std::endl;
-      }
-      std::cout<<"------------------------------------------------------"<<std::endl;
+    *fos << "Eigenvalues (obtained by Rayleigh quotient) : "<<std::endl;
+    *fos <<"------------------------------------------------------"<<std::endl;
+    *fos <<std::setw(16)<<"Real Part"
+    <<std::setw(16)<<"Error"<<std::endl;
+    *fos <<"------------------------------------------------------"<<std::endl;
+    for (int i=0; i<numev; i++) {
+      *fos<<std::setw(16)<<evals[i].realpart
+      <<std::setw(16)<<normR[i]/mat_norm
+      <<std::endl;
     }
+    *fos<<"------------------------------------------------------"<<std::endl;
   }
 }
-
