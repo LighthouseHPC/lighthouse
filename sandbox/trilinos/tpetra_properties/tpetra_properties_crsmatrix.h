@@ -48,6 +48,7 @@ typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
 typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
 typedef Tpetra::Operator<ST, LO, GO, NT> OP;
+typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
 
 //  Anasazi typedefs
 typedef Anasazi::MultiVecTraits<ST, MV> MVT;
@@ -80,21 +81,14 @@ void calcAvgNonzerosPerRow(const RCP<MAT> &A);
 void calcTrace(const RCP<MAT> &A);
 void calcAbsTrace(const RCP<MAT> &A);
 void calcDummyRows(const RCP<MAT> &A);
-//void calcDummyRowsKind(const RCP<MAT> &A);
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
-void calcNumericalSymmetryPercentage(const RCP<MAT> &A);
-void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A);
-void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
-void calcNumericalSymmetry(const RCP<MAT> &A);
+void calcSymmetry(const RCP<MAT> &A);
 void calcRowDiagonalDominance(const RCP<MAT> &A);
 void calcColDiagonalDominance(const RCP<MAT> &A);
 void calcDiagonalMean(const RCP<MAT> &A);
-
 void calcDiagonalSign(const RCP<MAT> &A);
 void calcDiagonalNonzeros(const RCP<MAT> &A);
 void calcLowerBandwidth(const RCP<MAT> &A);
 void calcUpperBandwidth(const RCP<MAT> &A);
-void calcBandwidth(const RCP<MAT> &A);
-
-void calcEigenValues(const RCP<MAT> &A, std::string type);
-
+void calcEigenValues(const RCP<MAT> &A, std::string eigenType);
+//void calcDummyRowsKind(const RCP<MAT> &A);

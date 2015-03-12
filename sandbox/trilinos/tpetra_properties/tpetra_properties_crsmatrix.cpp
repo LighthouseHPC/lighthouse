@@ -13,7 +13,8 @@ int main(int argc, char *argv[]) {
 	//comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
   comm = platform.getComm();
   RCP<NT> node = platform.getNode();
-  myRank = comm->getRank();
+  myRank = comm->getRank(); 
+
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
   fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
@@ -21,8 +22,12 @@ int main(int argc, char *argv[]) {
 	// Load and run tests on Matrix Market file
   std::string filename("../ecl32.mtx");
   RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
+  Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
+  *fos << "File:" << filename << std::endl;
+  *fos << "Map A:" << A->getRowMap()->description() << std::endl;
+  *fos << "Map B:" << B->getRowMap()->description() << std::endl;
   runGauntlet(A);
-
 }
 
 void runGauntlet(const RCP<MAT> &A) {
@@ -32,7 +37,7 @@ void runGauntlet(const RCP<MAT> &A) {
 		exit(-1);
 	}
 	numNodes = comm->getSize();
-	*fos << "nodes:" << numNodes << " nodes" << std::endl;
+	*fos << "MPI Procs:" << numNodes << std::endl;
 
 // Working
 	calcRowVariance(A); // ecl32, 
@@ -53,12 +58,12 @@ void runGauntlet(const RCP<MAT> &A) {
 	calcTrace(A);
 	calcAbsTrace(A);
 	calcDummyRows(A);	
-	//calcNumericalSymmetryPercentage(A); //Single process only
-	//calcNonzeroPatternSymmetryPercentage(A); //Single process only
+	calcSymmetry(A);
 	calcRowDiagonalDominance(A);
 	calcColDiagonalDominance(A);
 	calcLowerBandwidth(A);
 	calcUpperBandwidth(A);
+	calcDiagonalMean(A);
 	calcDiagonalSign(A);
 	calcDiagonalNonzeros(A);
   calcEigenValues(A, "LM");
@@ -75,13 +80,13 @@ void calcRowVariance(const RCP<MAT> &A) {
 
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
+		comm->barrier();
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			mean = locVariance = 0.0; 
 			size_t cols = A->getNumEntriesInGlobalRow(row); 
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			A->getGlobalRowCopy(row, indices(), values(), cols); 
-
 		//  Two-step approach for locVariance, could be more efficient 
 			for (LO col = 0; col < cols; col++) {
 				mean += values[col];
@@ -109,13 +114,13 @@ void calcColVariance(const RCP<MAT> &A) {
 
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
+		comm->barrier();
 		if (B->getRowMap()->isNodeGlobalElement(row)) {
 			mean = locVariance = 0.0; 
 			size_t cols = B->getNumEntriesInGlobalRow(row); 
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
-			B->getGlobalRowCopy(row, indices(), values(), cols); 
-
+			B->getGlobalRowCopy(row, indices(), values(), cols);
 		//  Two-step approach for locVariance, could be more efficient 
 			for (LO col = 0; col < cols; col++) {
 				mean += values[col];
@@ -136,13 +141,13 @@ void calcColVariance(const RCP<MAT> &A) {
 //  The variance of the diagonal
 void calcDiagVariance(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
-	ST locMean = 0.0;
+	ST locMean = 0.0; 
 	ST mean = 0.0, locVariance = 0.0, result = 0.0;
 
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
-			size_t cols = A->getNumEntriesInGlobalRow(row);
+	 		size_t cols = A->getNumEntriesInGlobalRow(row);  
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			A->getGlobalRowCopy(row, indices(), values(), cols);
@@ -366,112 +371,62 @@ void calcDummyRows(const RCP<MAT> &A) {
 	*fos << "dummy rows:" << result << std::endl;
 }
 
-void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A) {
+void calcSymmetry(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
-	Array<ST> valuesA, valuesB;
-	Array<GO> indicesA, indicesB;
-	int test;
-	GO rows = A->getGlobalNumRows();
+	GO rows = A->getGlobalNumRows(); 
+	ST result = 0.0;
+	GO match = 0, noMatch = 0, dne = 0;
+	GO totalMatch, totalNoMatch, totalDne;
+	GO locEntries = 0;
+
+	GO diagNonzeros = A->getGlobalNumDiags();
+	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t colsA = A->getNumEntriesInGlobalRow(row);
-			valuesA = Array<ST>(colsA);
-			indicesA = Array<GO>(colsA);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA);
-			Teuchos::broadcast<int, ST>(*comm, comm->getRank(), valuesA);
-		}
-	}
-}
+			size_t colsB = B->getNumEntriesInGlobalRow(row);
+			Array<ST> valuesA(colsA), valuesB(colsB);
+			Array<GO> indicesA(colsA), indicesB(colsB);
+			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
+			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
 
-//  Exact match
-void calcNumericalSymmetryPercentage(const RCP<MAT> &A) {
-	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-
-	GO rows = A->getGlobalNumRows(); 
-	ST result = 0.0;
-	GO totalMatch, match = 0;
-	GO locEntries = 0;
-
-	GO diagNonzeros = A->getGlobalNumDiags();
-	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
-	for (GO row = 0; row < rows; row++) {
-		size_t colsA = A->getNumEntriesInGlobalRow(row);
-		size_t colsB = B->getNumEntriesInGlobalRow(row);
-		Array<ST> valuesA(colsA), valuesB(colsB);
-		Array<GO> indicesA(colsA), indicesB(colsB);
-		A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-		B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-		size_t i = 0, j = 0;
-		if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
-			while (i < colsA && j < colsB) {
-				if (indicesA[i] < indicesB[j]) {
-					i++;
-				} else if (indicesA[i] > indicesB[j]) {
-					j++;
-				} else {
-					if (valuesA[i] == valuesB[j] && row != indicesA[i]) {
+			//  Make maps for each row, ignoring diagonal
+			std::map<GO, ST> mapA, mapB;
+			for (int colA = 0; colA < colsA; colA++) {
+				if (row != indicesA[colA])
+					mapA.insert( std::pair<GO,ST>(indicesA[colA], valuesA[colA]) );
+			}
+			for (int colB = 0; colB < colsB; colB++) {
+				if (row != indicesB[colB])
+					mapB.insert( std::pair<GO,ST>(indicesB[colB], valuesB[colB]) );
+			}
+			//  Compare the maps
+			std::map<GO, ST>::iterator iterA;
+			for (iterA = mapA.begin(); iterA != mapA.end(); iterA++) {
+				//*fos << row << ": A[" << iterA->first << "]:" << iterA->second << std::endl;
+				//*fos << row << ": B[" << iterA->first << "]:" << mapB[iterA->first] << std::endl;
+				//  Matching indices found
+				if (mapB.count (iterA->first) ) {
+					//  Check if values for those indices match
+					if ( iterA->second == mapB[iterA->first] ) {
 						match++;
+					} else {
+						noMatch++;
 					}
-					i++; j++;
+				} else {
+					dne++;
 				}
 			}
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
-	result = double(totalMatch) / double(offDiagNonzeros);
-	*fos << "numerical symmetry percentage:" << result << std::endl;
-	if (result < 1.0) {
-		*fos << "numerical symmetry:0" << std::endl;
-	} else {
-		*fos << "numerical symmetry:1" << std::endl;
-	}
-}
-
-void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A) {
-	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-
-	GO rows = A->getGlobalNumRows(); 
-	ST result = 0.0;
-	GO totalMatch, match = 0;
-	GO locEntries = 0;
-
-	GO diagNonzeros = A->getGlobalNumDiags();
-	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
-	for (GO row = 0; row < rows; row++) {
-		size_t colsA = A->getNumEntriesInGlobalRow(row);
-		size_t colsB = B->getNumEntriesInGlobalRow(row);
-		Array<ST> valuesA(colsA), valuesB(colsB);
-		Array<GO> indicesA(colsA), indicesB(colsB);
-		A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-		B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-		size_t i = 0, j = 0;
-		if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
-			while (i < colsA && j < colsB) {
-				if (indicesA[i] < indicesB[j]) {
-					i++;
-				} else if (indicesA[i] > indicesB[j]) {
-					j++;
-				} else {
-					if (valuesA[i] && valuesB[j] && row != indicesA[i]) {
-						match++;
-					}
-					i++; j++;
-				}
-			}
-		}
-	}
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
-	result = double(totalMatch) / double(offDiagNonzeros);
-	*fos << "nonzero symmetry percentage:" << result << std::endl;
-	if (result < 1.0) {
-		*fos << "nonzero symmetry:0" << std::endl;
-	} else {
-		*fos << "nonzero symmetry:1" << std::endl;
-	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &noMatch, &totalNoMatch);
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &dne, &totalDne);
+	*fos << "totalMatch:" << (double)totalMatch/(double)offDiagNonzeros << std::endl;
+	*fos << "totalNoMatch:" << (double)totalNoMatch/(double)offDiagNonzeros << std::endl;
+	*fos << "totalDne:" << (double)totalDne/(double)offDiagNonzeros << std::endl;
 }
 
 // 0 not, 1 weak, 2 strict
@@ -491,7 +446,6 @@ void calcRowDiagonalDominance(const RCP<MAT> &A) {
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			A->getGlobalRowCopy(row, indices(), values(), cols); 
-			size_t i = 0, j = 0;
 			if (cols < A->getGlobalNumRows()) {
 				totalDiagSum = totalRowSum = 0.0;
 				for (size_t col = 0; col < cols; col++) {
@@ -536,7 +490,6 @@ void calcColDiagonalDominance(const RCP<MAT> &A) {
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			B->getGlobalRowCopy(row, indices(), values(), cols); 
-			size_t i = 0, j = 0;
 			if (cols < B->getGlobalNumRows()) {
 				totalDiagSum = totalRowSum = 0.0;
 				for (size_t col = 0; col < cols; col++) {
@@ -591,7 +544,6 @@ void calcDiagonalSign(const RCP<MAT> &A) {
 	long locPos = 0, locNeg = 0, locZero = 0;
 	long totalPos, totalNeg, totalZero;
 	GO rows = A->getGlobalNumRows();
-	
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t cols = A->getNumEntriesInGlobalRow(row);
@@ -694,47 +646,8 @@ void calcUpperBandwidth(const RCP<MAT> &A) {
 	*fos << "ub:" << totalUB << std::endl;
 }
 
-void calcBandwidth(const RCP<MAT> &A) {
-  GO rows = A->getGlobalNumRows();
-  GO localMaxUB = 0, localUB = 0, totalUB;
-  GO localMaxLB = 0, localLB = 0, totalLB;
-  GO maxIndex, minIndex;
-
-  for (GO row = 0; row < rows; row++) {
-    if (A->getRowMap()->isNodeGlobalElement(row)) {
-     size_t cols = A->getNumEntriesInGlobalRow(row);
-     if (cols > 0 && cols <= A->getGlobalNumRows()) {
-      Array<ST> values(cols);
-      Array<GO> indices(cols);
-      A->getGlobalRowCopy(row, indices(), values(), cols); 
-      minIndex = maxIndex = indices[0];
-      for (size_t col = 1; col < cols; col++) {
-       if (indices[col] > maxIndex) {
-        maxIndex = indices[col];
-      }	
-      if (indices[col] < minIndex) {
-        minIndex = indices[col];
-      }
-    }
-    localUB = maxIndex - row;
-    localLB = row - maxIndex;
-    if (localUB > localMaxUB) {
-     localMaxUB = localUB;
-   }
-   if (localLB < localMaxLB) {
-     localMaxLB = localLB;
-   }
- }
-}
-}
-Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
-Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
-*fos << "ub:" << totalUB << std::endl;
-*fos << "lb:" << totalLB << std::endl;
-}
-
 // based off tinyurl.com/ktlpsah
-void calcEigenValues(const RCP<MAT> &A, std::string type) {
+void calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   RCP<NT> node = platform.getNode();
 
@@ -744,8 +657,8 @@ void calcEigenValues(const RCP<MAT> &A, std::string type) {
   //  Start block Arnoldi iteration
   int nev = 1;
   int blockSize = 1;
-  int numBlocks = 3*nev / blockSize;
-  ST tol = 1e-8;
+  int numBlocks = 10*nev / blockSize;
+  ST tol = 1e-6;
 
   //  Create parameters to pass to the solver
   Teuchos::ParameterList MyPL;
@@ -758,17 +671,15 @@ void calcEigenValues(const RCP<MAT> &A, std::string type) {
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
 
   //  Default to largest magnitude 
-  if (type.compare("SM") == 0) {
+  if (eigenType.compare("SM") == 0) {
     MyPL.set("Which", "SM");
-  } else if (type.compare("SR") == 0) {
+  } else if (eigenType.compare("SR") == 0) {
     MyPL.set("Which", "SR");
-  } else if (type.compare("LR") == 0) {
+  } else if (eigenType.compare("LR") == 0) {
     MyPL.set("Which", "LR");
   } else {
     MyPL.set("Which", "LM");
   }
-
-  
 
   //  Create multivector for a initial vector to start the solver
   RCP<MV> ivec = rcp (new MV(A->getRowMap(), blockSize));
