@@ -10,78 +10,81 @@ int main(int argc, char *argv[]) {
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
-	//comm = rcp (new Teuchos::MpiComm<int> (MPI_COMM_WORLD));	
   comm = platform.getComm();
   RCP<NT> node = platform.getNode();
-  myRank = comm->getRank();
+  myRank = comm->getRank(); 
+
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
   fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 
 	// Load and run tests on Matrix Market file
-  std::string filename("../ecl32.mtx");
+	if (argc < 2) {
+		*fos << "Error: no file was selected" << std::endl;
+		exit(-2);
+	}	
+  std::string filename(argv[1]);
   RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
+  Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+	RCP<MAT> B = transposer.createTranspose();
   runGauntlet(A);
-
 }
 
 void runGauntlet(const RCP<MAT> &A) {
 	// Test squareness
 	if (A->getGlobalNumRows() != A->getGlobalNumCols() ) {
-		*fos << "Not a square matrix, exiting\n";
+		*fos << "Not a square matrix, exiting." << std::endl;
 		exit(-1);
 	}
-	numNodes = comm->getSize();
-	*fos << "nodes:" << numNodes << " nodes" << std::endl;
-
-// Working
-	calcRowVariance(A); // ecl32, 
-	calcColVariance(A); // ecl32
-	calcDiagVariance(A);
-	calcNonzeros(A);
-	calcDim(A);
-	calcFrobeniusNorm(A);
-	calcSymmetricFrobeniusNorm(A);
-	calcAntisymmetricFrobeniusNorm(A);
-	calcOneNorm(A);
-	calcInfNorm(A);
-	calcSymmetricInfNorm(A);
-	calcAntisymmetricInfNorm(A);
-	calcMaxNonzerosPerRow(A);
-	calcMinNonzerosPerRow(A);
-	calcAvgNonzerosPerRow(A);
-	calcTrace(A);
-	calcAbsTrace(A);
-	calcDummyRows(A);	
-	//calcNumericalSymmetryPercentage(A); //Single process only
-	//calcNonzeroPatternSymmetryPercentage(A); //Single process only
-	calcRowDiagonalDominance(A);
-	calcColDiagonalDominance(A);
-	calcLowerBandwidth(A);
-	calcUpperBandwidth(A);
-	calcDiagonalSign(A);
-	calcDiagonalNonzeros(A);
+	*fos << comm->getSize() << ", ";
+	*fos << calcRowVariance(A) << ", ";
+	*fos << calcColVariance(A) << ", ";
+	*fos << calcDiagVariance(A) << ", ";
+	*fos << calcNonzeros(A) << ", ";
+	*fos << calcDim(A) << ", ";
+	*fos << calcFrobeniusNorm(A) << ", ";
+	*fos << calcSymmetricFrobeniusNorm(A) << ", ";
+	*fos << calcAntisymmetricFrobeniusNorm(A) << ", ";
+	*fos << calcOneNorm(A) << ", ";
+	*fos << calcInfNorm(A) << ", ";
+	*fos << calcSymmetricInfNorm(A) << ", ";
+	*fos << calcAntisymmetricInfNorm(A) << ", ";
+	*fos << calcMaxNonzerosPerRow(A) << ", ";
+	*fos << calcMinNonzerosPerRow(A) << ", ";
+	*fos << calcAvgNonzerosPerRow(A) << ", ";
+	*fos << calcTrace(A) << ", ";
+	*fos << calcAbsTrace(A) << ", ";
+	*fos << calcDummyRows(A) << ", ";
+	calcSymmetry(A);
+	*fos << calcRowDiagonalDominance(A) << ", ";
+	*fos << calcColDiagonalDominance(A) << ", ";
+	*fos << calcLowerBandwidth(A) << ", ";
+	*fos << calcUpperBandwidth(A) << ", ";
+	*fos << calcDiagonalMean(A) << ", ";
+	*fos << calcDiagonalSign(A) << ", ";
+	*fos << calcDiagonalNonzeros(A) << ", ";
   calcEigenValues(A, "LM");
   calcEigenValues(A, "SM");
   calcEigenValues(A, "LR");
-  calcEigenValues(A, "SR");
+  calcEigenValues(A, "SR"); 
+  *fos << std::endl;
 }
 
 //  Return the maximum row locVariance for the matrix
 //  The average of the squared differences from the Mean.
-void calcRowVariance(const RCP<MAT> &A) {
+ST calcRowVariance(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
 	ST mean, locVariance, locMaxVariance, result = 0.0;
 
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
+		comm->barrier();
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			mean = locVariance = 0.0; 
 			size_t cols = A->getNumEntriesInGlobalRow(row); 
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			A->getGlobalRowCopy(row, indices(), values(), cols); 
-
 		//  Two-step approach for locVariance, could be more efficient 
 			for (LO col = 0; col < cols; col++) {
 				mean += values[col];
@@ -96,11 +99,12 @@ void calcRowVariance(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
-	*fos << "row variance:" << result << std::endl;
+	return result;
+	//*fos << "row variance:" << result << std::endl;
 }
 
 //  Transpose the matrix, get row locVariance 
-void calcColVariance(const RCP<MAT> &A) {
+ST calcColVariance(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 	
@@ -109,13 +113,13 @@ void calcColVariance(const RCP<MAT> &A) {
 
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
+		comm->barrier();
 		if (B->getRowMap()->isNodeGlobalElement(row)) {
 			mean = locVariance = 0.0; 
 			size_t cols = B->getNumEntriesInGlobalRow(row); 
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
-			B->getGlobalRowCopy(row, indices(), values(), cols); 
-
+			B->getGlobalRowCopy(row, indices(), values(), cols);
 		//  Two-step approach for locVariance, could be more efficient 
 			for (LO col = 0; col < cols; col++) {
 				mean += values[col];
@@ -130,19 +134,20 @@ void calcColVariance(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
-	*fos << "col variance:" << result << std::endl;
+	return result;
+	//*fos << "col variance:" << result << std::endl;
 }
 
 //  The variance of the diagonal
-void calcDiagVariance(const RCP<MAT> &A) {
+ST calcDiagVariance(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
-	ST locMean = 0.0;
+	ST locMean = 0.0; 
 	ST mean = 0.0, locVariance = 0.0, result = 0.0;
 
 	//  Go through each row on the current process
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
-			size_t cols = A->getNumEntriesInGlobalRow(row);
+	 		size_t cols = A->getNumEntriesInGlobalRow(row);  
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			A->getGlobalRowCopy(row, indices(), values(), cols);
@@ -170,38 +175,44 @@ void calcDiagVariance(const RCP<MAT> &A) {
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locVariance, &result);
 	result /= A->getGlobalNumRows();
-	*fos << "diag variance:" << result << std::endl;
+	return result;
+	//*fos << "diag variance:" << result << std::endl;
 }
 
 //  Total number of nonzeros in matrix
-void calcNonzeros(const RCP<MAT> &A) {
-	*fos << "nonzeros:" << A->getGlobalNumEntries() << ", " << std::endl;
+size_t calcNonzeros(const RCP<MAT> &A) {
+	//*fos << "nonzeros:" << A->getGlobalNumEntries() << ", " << std::endl;
+	return A->getGlobalNumEntries();
 }
 
 //  Dimension of the square matrix
-void calcDim(const RCP<MAT> &A) {
-	*fos << "dimension:" << A->getGlobalNumRows() << ", " << std::endl;
+size_t calcDim(const RCP<MAT> &A) {
+	//*fos << "dimension:" << A->getGlobalNumRows() << ", " << std::endl;
+	return A->getGlobalNumRows();
 }
 
 //  Frobenius norm of matrix
-void calcFrobeniusNorm(const RCP<MAT> &A) {
-	*fos << "frob norm:" << A->getFrobeniusNorm() << ", " << std::endl;
+ST calcFrobeniusNorm(const RCP<MAT> &A) {
+	//*fos << "frob norm:" << A->getFrobeniusNorm() << ", " << std::endl;
+	return A->getFrobeniusNorm();
 }
 
 //  Symmetric A_s = (A+A')/2
-void calcSymmetricFrobeniusNorm(const RCP<MAT> &A){ 
+ST calcSymmetricFrobeniusNorm(const RCP<MAT> &A){ 
 	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, 0.5, true, *A);
-	*fos << "symm frob norm:" << A_s->getFrobeniusNorm() << ", " << std::endl;
+	//*fos << "symm frob norm:" << A_s->getFrobeniusNorm() << ", " << std::endl;
+	return A_s->getFrobeniusNorm();
 }
 
 //  Antisymmetric A_a = (A-A')/2
-void calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){ 
+ST calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){ 
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
-	*fos << "antisymm frob norm:" << A_a->getFrobeniusNorm() << ", " << std::endl;
+	//*fos << "antisymm frob norm:" << A_a->getFrobeniusNorm() << ", " << std::endl;
+	return A_a->getFrobeniusNorm();
 }
 
 //  Max absolute row sum
-void calcInfNorm(const RCP<MAT> &A) {
+ST calcInfNorm(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
 	ST locSum, locMaxSum, result = 0.0;
 	//  Go through each row on the current process
@@ -221,11 +232,12 @@ void calcInfNorm(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxSum, &result);
-	*fos << "inf norm:" << result << std::endl;
+	//*fos << "inf norm:" << result << std::endl;
+	return result;
 }
 
 //  Max absolute column sum
-void calcOneNorm(const RCP<MAT> &A) {
+ST calcOneNorm(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
@@ -248,34 +260,34 @@ void calcOneNorm(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxSum, &result);
-	*fos << "one norm:" << result << std::endl;
+	//*fos << "one norm:" << result << std::endl;
+	return result;
 }
 
 //  Max absolute row sum of symmetric part
-void calcSymmetricInfNorm(const RCP<MAT> &A) {
+ST calcSymmetricInfNorm(const RCP<MAT> &A) {
 	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, 0.5, true, *A);
-	*fos << "symmetric ";
-	calcInfNorm(A_s);
+	//*fos << "symmetric ";
+	return calcInfNorm(A_s);
 }
 
 //  Max absolute row sum of anti-symmetric part
-void calcAntisymmetricInfNorm(const RCP<MAT> &A) {
+ST calcAntisymmetricInfNorm(const RCP<MAT> &A) {
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
-	*fos << "anti-symmetric ";
-	calcInfNorm(A_a);
+	//*fos << "anti-symmetric ";
+	return calcInfNorm(A_a);
 }
 
 //  Self explanatory
-void calcMaxNonzerosPerRow(const RCP<MAT> &A) {
-	size_t result = A->getGlobalMaxNumRowEntries();	
-	*fos << "max nonzeros per row:" << result << std::endl;
+size_t calcMaxNonzerosPerRow(const RCP<MAT> &A) {
+	return A->getGlobalMaxNumRowEntries();
 }
 
-void calcMinNonzerosPerRow(const RCP<MAT> &A) {
-	GO rows = A->getGlobalNumRows();
-	GO locNonzeros = rows, locMinNonzeros = rows, result = 0;	
+size_t calcMinNonzerosPerRow(const RCP<MAT> &A) {
+	size_t rows = A->getGlobalNumRows();
+	size_t locNonzeros = rows, locMinNonzeros = rows, result = 0;	
 
-	for (GO row = 0; row < rows; row++) {
+	for (size_t row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			locNonzeros = A->getNumEntriesInGlobalRow(row);
 			if (locNonzeros >= 0) {
@@ -286,10 +298,11 @@ void calcMinNonzerosPerRow(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MIN, 1, &locMinNonzeros, &result);
-	*fos << "min nonzeros per row:" << result << std::endl;
+	//*fos << "min nonzeros per row:" << result << std::endl;
+	return result;
 }
 
-void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
+ST calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows();
 	GO locNonzeros = 0, result = 0;
 
@@ -302,11 +315,10 @@ void calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locNonzeros, &result);
-	double castResult = (double)result / (double)rows;
-	*fos << "avg nonzeros per row:" << castResult << std::endl;	
+	return (ST)result / (ST)rows;
 }
 
-void calcTrace(const RCP<MAT> &A) {
+ST calcTrace(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
@@ -325,10 +337,11 @@ void calcTrace(const RCP<MAT> &A) {
     }
   }
   Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &trace, &result);
-  *fos << "trace:" << result << std::endl;
+  //*fos << "trace:" << result << std::endl;
+  return result;
 }
 
-void calcAbsTrace(const RCP<MAT> &A) {
+ST calcAbsTrace(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
@@ -347,15 +360,16 @@ void calcAbsTrace(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &trace, &result);
-	*fos << "trace:" << result << std::endl;	
+	//*fos << "trace:" << result << std::endl;	
+	return result;
 }
 
-void calcDummyRows(const RCP<MAT> &A) {
-	GO rows = A->getGlobalNumRows(); 
-	GO locDummy = 0, result = 0;
+size_t calcDummyRows(const RCP<MAT> &A) {
+	size_t rows = A->getGlobalNumRows(); 
+	size_t locDummy = 0, result = 0;
 
 	//  Go through each row on the current process
-	for (GO row = 0; row < rows; row++) {
+	for (size_t row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			if (A->getNumEntriesInGlobalRow(row) == 1) {
 				locDummy++;
@@ -363,120 +377,76 @@ void calcDummyRows(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locDummy, &result);
-	*fos << "dummy rows:" << result << std::endl;
+	//*fos << "dummy rows:" << result << std::endl;
+	return result;
 }
 
-void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A) {
+std::vector<ST> calcSymmetry(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
-	Array<ST> valuesA, valuesB;
-	Array<GO> indicesA, indicesB;
-	int test;
-	GO rows = A->getGlobalNumRows();
+	GO rows = A->getGlobalNumRows(); 
+	ST result = 0.0;
+	GO match = 0, noMatch = 0, dne = 0;
+	GO totalMatch, totalNoMatch, totalDne;
+	GO locEntries = 0;
+
+	GO diagNonzeros = A->getGlobalNumDiags();
+	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t colsA = A->getNumEntriesInGlobalRow(row);
-			valuesA = Array<ST>(colsA);
-			indicesA = Array<GO>(colsA);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA);
-			Teuchos::broadcast<int, ST>(*comm, comm->getRank(), valuesA);
-		}
-	}
-}
+			size_t colsB = B->getNumEntriesInGlobalRow(row);
+			Array<ST> valuesA(colsA), valuesB(colsB);
+			Array<GO> indicesA(colsA), indicesB(colsB);
+			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
+			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
 
-//  Exact match
-void calcNumericalSymmetryPercentage(const RCP<MAT> &A) {
-	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-
-	GO rows = A->getGlobalNumRows(); 
-	ST result = 0.0;
-	GO totalMatch, match = 0;
-	GO locEntries = 0;
-
-	GO diagNonzeros = A->getGlobalNumDiags();
-	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
-	for (GO row = 0; row < rows; row++) {
-		size_t colsA = A->getNumEntriesInGlobalRow(row);
-		size_t colsB = B->getNumEntriesInGlobalRow(row);
-		Array<ST> valuesA(colsA), valuesB(colsB);
-		Array<GO> indicesA(colsA), indicesB(colsB);
-		A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-		B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-		size_t i = 0, j = 0;
-		if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
-			while (i < colsA && j < colsB) {
-				if (indicesA[i] < indicesB[j]) {
-					i++;
-				} else if (indicesA[i] > indicesB[j]) {
-					j++;
-				} else {
-					if (valuesA[i] == valuesB[j] && row != indicesA[i]) {
+			//  Make maps for each row, ignoring diagonal
+			std::map<GO, ST> mapA, mapB;
+			for (int colA = 0; colA < colsA; colA++) {
+				if (row != indicesA[colA])
+					mapA.insert( std::pair<GO,ST>(indicesA[colA], valuesA[colA]) );
+			}
+			for (int colB = 0; colB < colsB; colB++) {
+				if (row != indicesB[colB])
+					mapB.insert( std::pair<GO,ST>(indicesB[colB], valuesB[colB]) );
+			}
+			//  Compare the maps
+			std::map<GO, ST>::iterator iterA;
+			for (iterA = mapA.begin(); iterA != mapA.end(); iterA++) {
+				//*fos << row << ": A[" << iterA->first << "]:" << iterA->second << std::endl;
+				//*fos << row << ": B[" << iterA->first << "]:" << mapB[iterA->first] << std::endl;
+				//  Matching indices found
+				if (mapB.count (iterA->first) ) {
+					//  Check if values for those indices match
+					if ( iterA->second == mapB[iterA->first] ) {
 						match++;
+					} else {
+						noMatch++;
 					}
-					i++; j++;
+				} else {
+					dne++;
 				}
 			}
 		}
 	}
+	std::vector<ST> results;
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
-	result = double(totalMatch) / double(offDiagNonzeros);
-	*fos << "numerical symmetry percentage:" << result << std::endl;
-	if (result < 1.0) {
-		*fos << "numerical symmetry:0" << std::endl;
-	} else {
-		*fos << "numerical symmetry:1" << std::endl;
-	}
-}
-
-void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A) {
-	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-
-	GO rows = A->getGlobalNumRows(); 
-	ST result = 0.0;
-	GO totalMatch, match = 0;
-	GO locEntries = 0;
-
-	GO diagNonzeros = A->getGlobalNumDiags();
-	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
-	for (GO row = 0; row < rows; row++) {
-		size_t colsA = A->getNumEntriesInGlobalRow(row);
-		size_t colsB = B->getNumEntriesInGlobalRow(row);
-		Array<ST> valuesA(colsA), valuesB(colsB);
-		Array<GO> indicesA(colsA), indicesB(colsB);
-		A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-		B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-		size_t i = 0, j = 0;
-		if (colsA < A->getGlobalNumRows() && colsB < A->getGlobalNumRows()) {
-			while (i < colsA && j < colsB) {
-				if (indicesA[i] < indicesB[j]) {
-					i++;
-				} else if (indicesA[i] > indicesB[j]) {
-					j++;
-				} else {
-					if (valuesA[i] && valuesB[j] && row != indicesA[i]) {
-						match++;
-					}
-					i++; j++;
-				}
-			}
-		}
-	}
-	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &match, &totalMatch);
-	result = double(totalMatch) / double(offDiagNonzeros);
-	*fos << "nonzero symmetry percentage:" << result << std::endl;
-	if (result < 1.0) {
-		*fos << "nonzero symmetry:0" << std::endl;
-	} else {
-		*fos << "nonzero symmetry:1" << std::endl;
-	}
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &noMatch, &totalNoMatch);
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &dne, &totalDne);
+	results.push_back( (double)totalMatch/(double)offDiagNonzeros );
+	results.push_back( (double)totalNoMatch/(double)offDiagNonzeros );
+	results.push_back( (double)totalDne/(double)offDiagNonzeros );
+	*fos << (double)totalMatch/(double)offDiagNonzeros << ", ";
+	*fos << (double)totalNoMatch/(double)offDiagNonzeros << ", ";
+	*fos << (double)totalDne/(double)offDiagNonzeros << ", "; 
+	return results;
 }
 
 // 0 not, 1 weak, 2 strict
 // a_ii >= sum(a_ij) for all i,js i!=j
-void calcRowDiagonalDominance(const RCP<MAT> &A) {
+int calcRowDiagonalDominance(const RCP<MAT> &A) {
 	GO rows = A->getGlobalNumRows(); 
 	ST result = 0.0;
 	GO totalMatch, match = 0;
@@ -491,7 +461,6 @@ void calcRowDiagonalDominance(const RCP<MAT> &A) {
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			A->getGlobalRowCopy(row, indices(), values(), cols); 
-			size_t i = 0, j = 0;
 			if (cols < A->getGlobalNumRows()) {
 				totalDiagSum = totalRowSum = 0.0;
 				for (size_t col = 0; col < cols; col++) {
@@ -502,8 +471,8 @@ void calcRowDiagonalDominance(const RCP<MAT> &A) {
 					}
 				}
 				if (locDiagSum < locRowSum) {
-					*fos << "row diagonal dominance:0" << std::endl;
-					return;
+					//*fos << "row diagonal dominance:0" << std::endl;
+					return 0;
 				} else if (locDiagSum == locRowSum) {
 					strict = 0;
 				}
@@ -512,13 +481,15 @@ void calcRowDiagonalDominance(const RCP<MAT> &A) {
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &strict, &totalStrict);
 	if (totalStrict == 1) {
-		*fos << "row diagonal dominance:2" << std::endl;
+		//*fos << "row diagonal dominance:2" << std::endl;
+		return 2;
 	} else {
-		*fos << "row diagonal dominance:1" << std::endl;
+		//*fos << "row diagonal dominance:1" << std::endl;
+		return 1;
 	}
 }
 
-void calcColDiagonalDominance(const RCP<MAT> &A) {
+int calcColDiagonalDominance(const RCP<MAT> &A) {
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
@@ -536,7 +507,6 @@ void calcColDiagonalDominance(const RCP<MAT> &A) {
 			Array<ST> values(cols);
 			Array<GO> indices(cols);
 			B->getGlobalRowCopy(row, indices(), values(), cols); 
-			size_t i = 0, j = 0;
 			if (cols < B->getGlobalNumRows()) {
 				totalDiagSum = totalRowSum = 0.0;
 				for (size_t col = 0; col < cols; col++) {
@@ -547,8 +517,8 @@ void calcColDiagonalDominance(const RCP<MAT> &A) {
 					}
 				}
 				if (locDiagSum < locRowSum) {
-					*fos << "col diagonal dominance:0" << std::endl;
-					return;
+					//*fos << "col diagonal dominance:0" << std::endl;
+					return 0;
 				} else if (locDiagSum == locRowSum) {
 					strict = 0;
 				}
@@ -557,13 +527,15 @@ void calcColDiagonalDominance(const RCP<MAT> &A) {
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &strict, &totalStrict);
 	if (totalStrict == 1) {
-		*fos << "col diagonal dominance:2" << std::endl;
+		//*fos << "col diagonal dominance:2" << std::endl;
+		return 2;
 	} else {
-		*fos << "col diagonal dominance:1" << std::endl;
+		//*fos << "col diagonal dominance:1" << std::endl;
+		return 1;
 	}	
 }
 
-void calcDiagonalMean(const RCP<MAT> &A) {
+ST calcDiagonalMean(const RCP<MAT> &A) {
 	ST locMean, mean = 0.0;
   GO rows = A->getGlobalNumRows();
   for (GO row = 0; row < rows; row++) {
@@ -581,17 +553,17 @@ void calcDiagonalMean(const RCP<MAT> &A) {
   }
   Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locMean, &mean);
   mean /= A->getGlobalNumRows();
-  *fos << "diag mean" << mean << ", " << std::endl;
+  //*fos << "diag mean" << mean << ", " << std::endl;
+  return mean;
 }
 
 // indicates the diagonal sign pattern
 // -2 all negative, -1 nonpositive, 0 all zero, 1 nonnegative, 2 all positive, 
 // 3 some negative,some or no zero,some positive
-void calcDiagonalSign(const RCP<MAT> &A) {
+int calcDiagonalSign(const RCP<MAT> &A) {
 	long locPos = 0, locNeg = 0, locZero = 0;
 	long totalPos, totalNeg, totalZero;
 	GO rows = A->getGlobalNumRows();
-	
 	for (GO row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t cols = A->getNumEntriesInGlobalRow(row);
@@ -615,33 +587,38 @@ void calcDiagonalSign(const RCP<MAT> &A) {
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locPos, &totalPos);
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locNeg, &totalNeg);
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_SUM, 1, &locZero, &totalZero);
-	*fos << "diagonal sign:";
+	//*fos << "diagonal sign:";
 	if (totalPos > 0 && totalNeg == 0 && totalZero == 0) {
-		*fos << "2" << std::endl;
+		//*fos << "2" << std::endl;
+		return 2;
 	} else if (totalNeg > 0 && totalPos == 0 && totalZero == 0) {
-		*fos << "-2" << std::endl;
+		//*fos << "-2" << std::endl;
+		return -2;
 	} else if (totalZero > 0 && totalPos == 0 && totalNeg == 0) {
-		*fos << "0" << std::endl;
+		//*fos << "0" << std::endl;
+		return 0;
 	} else if (totalNeg == 0) {
-		*fos << "1" << std::endl;
+		//*fos << "1" << std::endl;
+		return 1;
 	} else if (totalPos == 0) {
-		*fos << "-1" << std::endl;
+		//*fos << "-1" << std::endl;
+		return -1;
 	} else {
-		*fos << "3" << std::endl;
+		//*fos << "3" << std::endl;
+		return 3;
 	}
 }
 
-void calcDiagonalNonzeros(const RCP<MAT> &A) {
-	GO diagNonzeros = A->getGlobalNumDiags();
-	*fos << "nonzeros on diag:" << diagNonzeros << std::endl;
+size_t calcDiagonalNonzeros(const RCP<MAT> &A) {
+	return A->getGlobalNumDiags();
 }
 
-void calcLowerBandwidth(const RCP<MAT> &A) {
-	GO rows = A->getGlobalNumRows();
-	GO localMaxLB = 0, localLB = 0, totalLB;
-	GO minIndex;
+size_t calcLowerBandwidth(const RCP<MAT> &A) {
+	size_t rows = A->getGlobalNumRows();
+	size_t localMaxLB = 0, localLB = 0, totalLB;
+	size_t minIndex;
 
-	for (GO row = 0; row < rows; row++) {
+	for (size_t row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t cols = A->getNumEntriesInGlobalRow(row);
 			if (cols > 0 && cols <= A->getGlobalNumRows()) {
@@ -662,15 +639,16 @@ void calcLowerBandwidth(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
-	*fos << "lb:" << totalLB << std::endl;
+	//*fos << "lb:" << totalLB << std::endl;
+	return totalLB;
 }
 
-void calcUpperBandwidth(const RCP<MAT> &A) {
-	GO rows = A->getGlobalNumRows();
-	GO localMaxUB = 0, localUB = 0, totalUB;
-	GO maxIndex;
+size_t calcUpperBandwidth(const RCP<MAT> &A) {
+	size_t rows = A->getGlobalNumRows();
+	size_t localMaxUB = 0, localUB = 0, totalUB;
+	size_t maxIndex;
 
-	for (GO row = 0; row < rows; row++) {
+	for (size_t row = 0; row < rows; row++) {
 		if (A->getRowMap()->isNodeGlobalElement(row)) {
 			size_t cols = A->getNumEntriesInGlobalRow(row);
 			if (cols > 0 && cols <= A->getGlobalNumRows()) {
@@ -691,50 +669,12 @@ void calcUpperBandwidth(const RCP<MAT> &A) {
 		}
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
-	*fos << "ub:" << totalUB << std::endl;
-}
-
-void calcBandwidth(const RCP<MAT> &A) {
-  GO rows = A->getGlobalNumRows();
-  GO localMaxUB = 0, localUB = 0, totalUB;
-  GO localMaxLB = 0, localLB = 0, totalLB;
-  GO maxIndex, minIndex;
-
-  for (GO row = 0; row < rows; row++) {
-    if (A->getRowMap()->isNodeGlobalElement(row)) {
-     size_t cols = A->getNumEntriesInGlobalRow(row);
-     if (cols > 0 && cols <= A->getGlobalNumRows()) {
-      Array<ST> values(cols);
-      Array<GO> indices(cols);
-      A->getGlobalRowCopy(row, indices(), values(), cols); 
-      minIndex = maxIndex = indices[0];
-      for (size_t col = 1; col < cols; col++) {
-       if (indices[col] > maxIndex) {
-        maxIndex = indices[col];
-      }	
-      if (indices[col] < minIndex) {
-        minIndex = indices[col];
-      }
-    }
-    localUB = maxIndex - row;
-    localLB = row - maxIndex;
-    if (localUB > localMaxUB) {
-     localMaxUB = localUB;
-   }
-   if (localLB < localMaxLB) {
-     localMaxLB = localLB;
-   }
- }
-}
-}
-Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxUB, &totalUB);
-Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &localMaxLB, &totalLB);
-*fos << "ub:" << totalUB << std::endl;
-*fos << "lb:" << totalLB << std::endl;
+	//*fos << "ub:" << totalUB << std::endl;
+	return totalUB;
 }
 
 // based off tinyurl.com/ktlpsah
-void calcEigenValues(const RCP<MAT> &A, std::string type) {
+RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   RCP<NT> node = platform.getNode();
 
@@ -744,8 +684,8 @@ void calcEigenValues(const RCP<MAT> &A, std::string type) {
   //  Start block Arnoldi iteration
   int nev = 1;
   int blockSize = 1;
-  int numBlocks = 3*nev / blockSize;
-  ST tol = 1e-8;
+  int numBlocks = 10*nev / blockSize;
+  ST tol = 1e-6;
 
   //  Create parameters to pass to the solver
   Teuchos::ParameterList MyPL;
@@ -758,17 +698,15 @@ void calcEigenValues(const RCP<MAT> &A, std::string type) {
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
 
   //  Default to largest magnitude 
-  if (type.compare("SM") == 0) {
+  if (eigenType.compare("SM") == 0) {
     MyPL.set("Which", "SM");
-  } else if (type.compare("SR") == 0) {
+  } else if (eigenType.compare("SR") == 0) {
     MyPL.set("Which", "SR");
-  } else if (type.compare("LR") == 0) {
+  } else if (eigenType.compare("LR") == 0) {
     MyPL.set("Which", "LR");
   } else {
     MyPL.set("Which", "LM");
   }
-
-  
 
   //  Create multivector for a initial vector to start the solver
   RCP<MV> ivec = rcp (new MV(A->getRowMap(), blockSize));
@@ -790,10 +728,8 @@ void calcEigenValues(const RCP<MAT> &A, std::string type) {
   //  Solve the problem
   Anasazi::ReturnType returnCode = MySolverMgr.solve();
   if (returnCode != Anasazi::Converged) {
-    *fos << "unconverged" << std::endl;
-  } else {
-    *fos << "converged" << std::endl;
-  }
+    *fos << "unconverged" << ", ";
+  } 
 
   //  Get the results
   Anasazi::Eigensolution<ST, MV> sol = MyProblem->getSolution();
@@ -812,16 +748,9 @@ void calcEigenValues(const RCP<MAT> &A, std::string type) {
     OPT::Apply(*A, *evecs, Kvec);
     MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
     MVT::MvNorm(Kvec, normR);
-    *fos << "Eigenvalues (obtained by Rayleigh quotient) : "<<std::endl;
-    *fos <<"------------------------------------------------------"<<std::endl;
-    *fos <<std::setw(16)<<"Real Part"
-    <<std::setw(16)<<"Error"<<std::endl;
-    *fos <<"------------------------------------------------------"<<std::endl;
     for (int i=0; i<numev; i++) {
-      *fos<<std::setw(16)<<evals[i].realpart
-      <<std::setw(16)<<normR[i]/mat_norm
-      <<std::endl;
+      *fos << evals[i].realpart << ", " << normR[i]/mat_norm << ", ";
     }
-    *fos<<"------------------------------------------------------"<<std::endl;
   }
+	return evecs;  
 }

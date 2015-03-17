@@ -42,12 +42,12 @@ typedef double ST;
 typedef int LO;
 typedef int64_t GO;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
-//typedef Tpetra::DefaultPlatform::DefaultPlatformType::NodeType NT;
 typedef Tpetra::Map<>::node_type NT;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
 typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
 typedef Tpetra::Operator<ST, LO, GO, NT> OP;
+typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
 
 //  Anasazi typedefs
 typedef Anasazi::MultiVecTraits<ST, MV> MVT;
@@ -62,39 +62,33 @@ using Teuchos::ArrayView;
 using Teuchos::Array;
 
 void runGauntlet(const RCP<MAT> &A);
-void calcRowVariance(const RCP<MAT> &A);
-void calcColVariance(const RCP<MAT> &A);
-void calcDiagVariance(const RCP<MAT> &A);
-void calcNonzeros(const RCP<MAT> &A);
-void calcDim(const RCP<MAT> &A);
-void calcFrobeniusNorm(const RCP<MAT> &A);
-void calcSymmetricFrobeniusNorm(const RCP<MAT> &A);
-void calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A);
-void calcInfNorm(const RCP<MAT> &A);
-void calcOneNorm(const RCP<MAT> &A);
-void calcSymmetricInfNorm(const RCP<MAT> &A);
-void calcAntisymmetricInfNorm(const RCP<MAT> &A);
-void calcMaxNonzerosPerRow(const RCP<MAT> &A);
-void calcMinNonzerosPerRow(const RCP<MAT> &A);
-void calcAvgNonzerosPerRow(const RCP<MAT> &A);
-void calcTrace(const RCP<MAT> &A);
-void calcAbsTrace(const RCP<MAT> &A);
-void calcDummyRows(const RCP<MAT> &A);
-//void calcDummyRowsKind(const RCP<MAT> &A);
+
+ST calcRowVariance(const RCP<MAT> &A);
+ST calcColVariance(const RCP<MAT> &A);
+ST calcDiagVariance(const RCP<MAT> &A);
+size_t calcNonzeros(const RCP<MAT> &A);
+size_t calcDim(const RCP<MAT> &A);
+ST calcFrobeniusNorm(const RCP<MAT> &A);
+ST calcSymmetricFrobeniusNorm(const RCP<MAT> &A);
+ST calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A);
+ST calcInfNorm(const RCP<MAT> &A);
+ST calcOneNorm(const RCP<MAT> &A);
+ST calcSymmetricInfNorm(const RCP<MAT> &A);
+ST calcAntisymmetricInfNorm(const RCP<MAT> &A);
+size_t calcMaxNonzerosPerRow(const RCP<MAT> &A);
+size_t calcMinNonzerosPerRow(const RCP<MAT> &A);
+ST calcAvgNonzerosPerRow(const RCP<MAT> &A);
+ST calcTrace(const RCP<MAT> &A);
+ST calcAbsTrace(const RCP<MAT> &A);
+size_t calcDummyRows(const RCP<MAT> &A);
+std::vector<ST> calcSymmetry(const RCP<MAT> &A);
+int calcRowDiagonalDominance(const RCP<MAT> &A);
+int calcColDiagonalDominance(const RCP<MAT> &A);
+ST calcDiagonalMean(const RCP<MAT> &A);
+int calcDiagonalSign(const RCP<MAT> &A);
+size_t calcDiagonalNonzeros(const RCP<MAT> &A);
+size_t calcLowerBandwidth(const RCP<MAT> &A);
+size_t calcUpperBandwidth(const RCP<MAT> &A);
+RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType);
+
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
-void calcNumericalSymmetryPercentage(const RCP<MAT> &A);
-void calcNumericalSymmetryPercentageMPI(const RCP<MAT> &A);
-void calcNonzeroPatternSymmetry(const RCP<MAT> &A);
-void calcNumericalSymmetry(const RCP<MAT> &A);
-void calcRowDiagonalDominance(const RCP<MAT> &A);
-void calcColDiagonalDominance(const RCP<MAT> &A);
-void calcDiagonalMean(const RCP<MAT> &A);
-
-void calcDiagonalSign(const RCP<MAT> &A);
-void calcDiagonalNonzeros(const RCP<MAT> &A);
-void calcLowerBandwidth(const RCP<MAT> &A);
-void calcUpperBandwidth(const RCP<MAT> &A);
-void calcBandwidth(const RCP<MAT> &A);
-
-void calcEigenValues(const RCP<MAT> &A, std::string type);
-
