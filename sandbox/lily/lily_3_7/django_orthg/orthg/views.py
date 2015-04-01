@@ -14,10 +14,9 @@ from orthg.forms import *
 
 import datetime
 
-form_order = ['standardGeneralizedForm', 'complexNumberForm', 'FullStorageForm', 'sFullRankForm', 'qrForm', 'svdForm', 'gFullRankForm', 'singleDoubleForm']
-form_rank = ['sFullRankForm']
+form_order = ['standardGeneralizedForm', 'FullStorageForm', 'complexNumberForm', 'sFullRankForm', 'qrForm', 'svdForm', 'gFullRankForm', 'singleDoubleForm']
+form_2arguments = ['FullStorageForm']
 form_HTML = ['standardGeneralizedForm']   
-form_qrsvd = ['QRForm','SVDForm']
 
 ### help functions
 def question_and_answer(form, value, choices):
@@ -31,20 +30,20 @@ def question_and_answer(form, value, choices):
 def find_nextForm(currentForm_name, request):
     ## orthogonal problem for "general matrix" when the answer to the eigenvector question is 'yes'
     ## the next question in this case is gFullRankForm
-    if request.session.get('orthg_standardGeneralized') == 'generalized' and request.session.get('orthg_FullStorage') == 'yes' and request.session.get('orthg_gFullRank') == '':
+    if request.session.get('orthg_standardGeneralized','') == 'generalized' and request.session.get('orthg_complexNumber','') != None and request.session.get('orthg_gFullRank','') == None:
         nextForm_name = 'gFullRankForm'
         nextForm = gFullRankForm()
-    elif request.session.get('orthg_sFullRank') == True and request.session.get('orthg_singleDouble') == '':
-         nextForm_name = 'singleDoubleForm'
-         nextForm = singleDoubleForm()
+    #elif request.session.get('orthg_gFullRank') != '' and request.session.get('orthg_singleDouble') == '':
+         #nextForm_name = 'singleDoubleForm'
+         #nextForm = singleDoubleForm()
     ## orthogonal problem for "general matrix" when the answer to the eigenvector question is 'yes'
     ## the next question in this case is sFullRankForm
     #elif request.session.get('orthg_standardGeneralized') == 'standard' and request.session.get('orthg_sFullRank') == 'no' and request.session.get('orthg_QR') == '':
          #nextForm_name = 'QRForm'
-        # nextForm = QRForm()
-    #elif request.session.get('orthg_standardGeneralized') == 'standard' and request.session.get('orthg_sFullRank') == 'yes' and request.session.get('orthg_SVD') == '':
-         #nextForm_name = 'SVDForm'
-        # nextForm = QRForm()
+         #nextForm = QRForm()
+    elif request.session.get('orthg_sFullRank') == 'yes' and request.session.get('orthg_svd') == 'None':
+         nextForm_name = 'svdForm'
+         nextForm = svdForm()
 
    # elif (request.session.get('orthg_QR') !='' or request.session.get('orthg_SVD')!= '') and request.session.get('orthg_singleDouble') == '':
          #nextForm_name = 'singleDoubleForm'
@@ -56,14 +55,12 @@ def find_nextForm(currentForm_name, request):
         try:
             ## search for 'none' and return the first column that has zero to be the next question/form
             #next_index = next(i for i in range(current_index+1, len(form_order))) 
-            next_index = next(i for i in range(current_index+1, len(form_order))if request.session.get('Routines').filter(**{form_order[i][:-4]: 'none'}).count() == 0)
+            next_index = next(i for i in range(current_index+1, len(form_order)) if request.session['Routines'].filter(**{form_order[i][:-4]: 'none'}).count() == 0)
             nextForm_name = form_order[next_index]
-#            if nextForm_name in form_rank:
-#                 nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
-#            elif nextForm_name in form_qrsvd:
-#                 nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
-#            else:
-            nextForm = getattr(sys.modules[__name__], nextForm_name)()
+            if nextForm_name in form_2arguments:
+                nextForm = getattr(sys.modules[__name__], nextForm_name)(request)
+            else:
+                nextForm = getattr(sys.modules[__name__], nextForm_name)()
         ## the end of the guided search or other errors
         except Exception as e:          
             print type(e)
@@ -92,12 +89,11 @@ def guidedSearch_index(request):
     return render_to_response('orthg/index.html', context_instance=RequestContext(request, context))
 
 def guidedSearch(request):
-#    if request.session.get('currentForm_name') in form_rank:
-#       form = getattr(sys.modules[__name__], request.session.get('currentForm_name'))(request, request.GET or None)   #handle GET and POST in the same view
-#    elif request.session.get('currentForm_name') in form_qrsvd:
-#          form = getattr(sys.modules[__name__], request.session.get('currentForm_name'))(request, request.GET or None)  #handle GET and POST in the same view
-#    else:
-    form = getattr(sys.modules[__name__], request.session.get('currentForm_name'))(request.GET or None)
+## distinguish forms that take 2 arguments from forms that take 1 argument
+    if request.session['currentForm_name'] in form_2arguments:
+        form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.GET or None)   #handle GET and POST in the same view
+    else:
+        form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.GET or None)
     if form.is_valid():
         ## get current question and user's answer
         current_question = request.session.get('currentForm_name')[:-4]
@@ -138,7 +134,7 @@ def guidedSearch(request):
                         'form': nextForm,
                         'orthg_guided_answered' : request.session.get('orthg_guided_answered'),
                         'results' : request.session.get('Routines')
-                        }
+                      }
             return render_to_response('orthg/index.html', context_instance=RequestContext(request, context))
     else:       
         print form.error

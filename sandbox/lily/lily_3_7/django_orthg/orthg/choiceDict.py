@@ -64,8 +64,8 @@ NOYESBOTH_CHOICES = (
 
 #####----------- for LAPACK least square problem type, Sylvester routines -------------#####
 STANDARD_CHOICES = (
-        (u'standard',                   	u'standard'),
-        (u'generalized',                	u'generalized'), 
+        (u'standard',                   	u'Driver standard with general matrix'),
+        (u'generalized',                	u'Driver generalized with general matrices'), 
 )
 
 
@@ -86,8 +86,8 @@ SFULLRANK_CHOICES = (
 
 
 GFULLRANK_CHOICES = (
-        (u'Neither are Full Rank',                   	u'Neither are Full Rank'),
-        (u'Both are Full Rank',                 	u'Both are Full Rank'), 
+        (u'Neither are Full Rank',                   	u'Neither A and B are Full Rank'),
+        (u'Both are Full Rank',                 	u'Both A and B are Full Rank'), 
         (u'Only A is Full Rank',                 	u'Only A is Full Rank'), 
         (u'Only B is Full Rank',                 	u'Only B is Full Rank'), 
 )
