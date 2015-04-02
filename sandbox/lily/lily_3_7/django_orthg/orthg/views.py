@@ -30,7 +30,7 @@ def question_and_answer(form, value, choices):
 def find_nextForm(currentForm_name, request):
     ## orthogonal problem for "general matrix" when the answer to the eigenvector question is 'yes'
     ## the next question in this case is gFullRankForm
-    if request.session.get('orthg_standardGeneralized','') == 'generalized' and request.session.get('orthg_complexNumber','') != None and request.session.get('orthg_gFullRank','') == None:
+    if request.session.get('orthg_standardGeneralized') == 'generalized' and request.session.get('orthg_complexNumber') != None and request.session.get('orthg_gFullRank') == None:
         nextForm_name = 'gFullRankForm'
         nextForm = gFullRankForm()
     #elif request.session.get('orthg_gFullRank') != '' and request.session.get('orthg_singleDouble') == '':
