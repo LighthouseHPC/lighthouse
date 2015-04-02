@@ -39,7 +39,8 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('nsel_sylguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
+		    <button onclick="showMore('nsel_eigenguid_{{ item.id }}', '{{ item.url }}')">more</button>	
+                     <!--<button onclick="showMore('nsel_sylguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>--!>
 		</div>
 		<div class="dijitHidden">
 			<div id="nsel_sylguid_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
