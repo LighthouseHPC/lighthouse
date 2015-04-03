@@ -32,22 +32,8 @@ class standardGeneralizedForm(forms.Form):
     
 
 class FullStorageForm(forms.Form):
-    orthg_FullStorage = forms.ChoiceField(label='How is your matrix stored?', choices=[], widget=forms.RadioSelect())
-    def __init__(self, request, *args, **kwargs):
-	super(FullStorageForm, self).__init__(*args, **kwargs)
-	self.fields['orthg_FullStorage'].choices = request.session['Routines'].values_list('FullStorage', 'FullStorage').distinct()
-	disableList = [] 
-	##--- order choices by string length ---##
-	self.fields['orthg_FullStorage'].choices.sort(key=lambda k:len(k[1]))
-	    
-	##--- if there is only one choice, show the others but disable them ---##
-	if len(self.fields['orthg_FullStorage'].choices) == 1:
-	    selected = self.fields['orthg_FullStorage'].choices[0][1]
-	    self.fields['orthg_FullStorage'].label = 'Given your selections, the LAPACK subroutines only support %s storage matrices. Do you wish to continue the search?'%selected
-	    self.fields['orthg_FullStorage'].choices = (
-		(selected,                       u'yes, continue'),
-		(u'stop',                        u'no, stop the search'),)
-  
+    orthg_FullStorage = forms.ChoiceField(label='How is your matrix stored?', choices=FullStorageNoYes_CHOICES, widget=forms.RadioSelect())
+    	      
 ##---- standard: Full Rank form ----##
 class sFullRankForm(forms.Form):
     orthg_sFullRank = forms.ChoiceField(label='Does your matrix is full rank?',widget=forms.RadioSelect(),choices=NOYES_CHOICES)

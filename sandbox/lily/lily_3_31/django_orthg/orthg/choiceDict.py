@@ -68,6 +68,10 @@ STANDARD_CHOICES = (
         (u'generalized',                	u'Driver generalized with general matrices'), 
 )
 
+FullStorageNoYes_CHOICES = (
+		(u'yes',                       u'yes, continue'),
+		(u'no',                        u'no, stop the search'),
+)
 
 QR_CHOICES = (
         (u'QR Column pivoting',                   	u'QR Column pivoting'),

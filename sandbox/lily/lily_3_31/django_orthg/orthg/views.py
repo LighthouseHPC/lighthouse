@@ -15,9 +15,9 @@ from orthg.forms import *
 import datetime
 
 form_order_standard = ['standardGeneralizedForm', 'complexNumberForm', 'FullStorageForm', 'sFullRankForm']
-form_order_qr= ['qrForm', 'svdForm', 'singleDoubleForm']
-form_order_svd= ['qrForm', 'singleDoubleForm']
-form_order_generalized = ['standardGeneralizedForm', 'gFullRankForm', 'complexNumberForm', 'FullStorageForm', 'gFullRankForm', 'singleDoubleForm']
+form_order_qr= [ 'sFullRankForm','qrForm', 'singleDoubleForm']
+form_order_svd= [ 'sFullRankForm','svdForm', 'singleDoubleForm']
+form_order_generalized = ['standardGeneralizedForm', 'complexNumberForm', 'FullStorageForm', 'gFullRankForm', 'singleDoubleForm']
 form_2arguments = ['FullStorageForm']
 form_HTML = ['standardGeneralizedForm']   
 
@@ -42,6 +42,7 @@ def find_nextForm(currentForm_name, request):
         nextForm_name = request.session.get('form_order')[next_index]
         print nextForm_name
         nextForm = getattr(sys.modules[__name__], nextForm_name)()
+                #nextForm = getattr(sys.modules[__name__], nextForm_name)()
     ## the end of the guided search or other errors
     except Exception as e:          
         print type(e)
@@ -71,10 +72,7 @@ def guidedSearch_index(request):
 
 def guidedSearch(request):
 ## distinguish forms that take 2 arguments from forms that take 1 argument
-    if request.session['currentForm_name'] in form_2arguments:
-        form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request, request.GET or None)   #handle GET and POST in the same view
-    else:
-        form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.GET or None)
+    form = getattr(sys.modules[__name__], request.session['currentForm_name'])(request.GET or None)
     if form.is_valid():
         ## get current question and user's answer
         current_question = request.session.get('currentForm_name')[:-4]
@@ -97,23 +95,20 @@ def guidedSearch(request):
             
               ## decide which form order to use
             if request.session['currentForm_name'] == 'standardGeneralizedForm' and request.session.get('orthg_standardGeneralized') == 'standard':
-               if request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'yes':
-                    request.session['form_order'] = form_order_standard_qr
-               elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'no':
-                    request.session['form_order'] = form_order_standard_svd
-               else:
-                    request.session['form_order'] = form_order_standard
-            elif request.session['currentForm_name'] == 'standardGeneralizedForm' and request.session.get('orthg_standardGeneralized') == 'generalized':
-                 request.session['form_order'] = form_order_generalized
-
-            ## call function find_nextForm to set up next form for next question
-            if request.session['orthg_standardCondition'] == 'no' or request.session['sylvester_generalizedCondition'] == 'no':         ## stop search
-               return index(request)
+               request.session['form_order'] = form_order_standard
+            elif request.session['currentForm_name'] == 'standardGeneralizedForm' and request.session.get('orthg_standardGeneralized') == 'generalized':               request.session['form_order'] = form_order_generalized     
+            elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'yes':
+                 request.session['form_order'] = form_order_qr
+            elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'no':
+                 request.session['form_order'] = form_order_svd
+      
+             ## call function find_nextForm to set up next form for next question
+            if request.session['orthg_FullStorage'] == 'no':         ## stop search
+               return guidedSearch_index(request)
             else:
                  dict_nextQuestion = find_nextForm(request.session.get('currentForm_name'), request)           
                  nextForm_name = dict_nextQuestion['nextForm_name']
                  nextForm = dict_nextQuestion['nextForm']
-            
             ## make next form current for request.session.get('currentForm_name')
                  request.session['currentForm_name'] = nextForm_name 
             
@@ -124,12 +119,12 @@ def guidedSearch(request):
                       formHTML = "invalid"
             
             ## get ready for the template       
-                  context = {
-                        'formHTML': formHTML,
-                        'form': nextForm,
-                        'orthg_guided_answered' : request.session.get('orthg_guided_answered'),
-                        'results' : request.session.get('Routines')
-                      }
+                 context = {
+                              'formHTML': formHTML,
+                              'form': nextForm,
+                              'orthg_guided_answered' : request.session.get('orthg_guided_answered'),
+                              'results' : request.session.get('Routines')
+                            }
                  return render_to_response('orthg/index.html', context_instance=RequestContext(request, context))
     else:       
         print form.error
