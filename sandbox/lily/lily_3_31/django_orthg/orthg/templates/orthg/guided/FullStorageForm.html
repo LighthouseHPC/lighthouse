@@ -1,0 +1,21 @@
+{% load static from staticfiles %}
+
+
+<table style="padding:0px; margin:0px; border:0px;">
+    <tr>
+        <td>
+            <label for="id_orthg_FullStorage_0">
+            <img src={%static "images/arrow.png" %} width="8" height="8"/>
+                Given your selections, the LAPACK subroutines only support full storage and general matrix. Do you wish to continue the search?                <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <li><label for="id_orthg_FullStorage_0"><input type="radio" id="id_orthg_FullStorage_0" value="yes" name="orthg_FullStorage" /> yes</label></li>
+                <li><label for="id_orthg_FullStorage_1"><input type="radio" id="id_orthg_FullStorage_1" value="no" name="orthg_FullStorage" /> no</label></li>
+            </ul>
+        </td>
+    </tr>            
+</table>

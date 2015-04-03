@@ -1,0 +1,36 @@
+{% load dojango_base %}
+{% load dojango_filters %}
+{# where should we set the context? #}
+{% if not DOJANGO %}
+	{# if the context processor did not pass the DOJANGO context, we set it here #}
+	{% set_dojango_context %}
+{% endif %}
+<style type="text/css">
+    @import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
+    @Import "{{ DOJANGO.THEME_CSS_URL }}";
+</style>
+<script type="text/javascript">
+    {# baseUrl setting is needed, if you want to combine a local with a remote build! #}
+	var djConfig = {
+		'isDebug':{{ DOJANGO.DEBUG|json }},
+		'parseOnLoad':true,
+		'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
+		{% if not DOJANGO.IS_LOCAL %}
+			,'dojoBlankHtmlUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+			,'dojoIframeHistoryUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+		{% endif %}
+		{% if DOJANGO.VERSION > '1.6' %}
+			,'paths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+		{% else %}{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+			,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+		{% endif %}{% endif %}
+	};
+</script>
+{% block _dojango_post_dj_config %}{# don't use this block, it is used by include_i18n.html #}{% endblock %}
+{% block dojango_post_dj_config %}{# if you want to manipulate djConfig stuff #}{% endblock %}
+<script type="text/javascript" src="{{ DOJANGO.DOJO_SRC_FILE }}">
+</script>
+{# for a local builded version dojango should already be included #}
+{% if not DOJANGO.IS_LOCAL_BUILD %}
+    <script type="text/javascript" src="{{ DOJANGO.DOJANGO_SRC_FILE }}"></script>
+{% endif %}
