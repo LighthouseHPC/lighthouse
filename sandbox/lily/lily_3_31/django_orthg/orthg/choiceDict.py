@@ -90,7 +90,6 @@ SFULLRANK_CHOICES = (
 
 
 GFULLRANK_CHOICES = (
-        (u'Neither are Full Rank',                   	u'Neither A and B are Full Rank'),
         (u'Both are Full Rank',                 	u'Both A and B are Full Rank'), 
         (u'Only A is Full Rank',                 	u'Only A is Full Rank'), 
         (u'Only B is Full Rank',                 	u'Only B is Full Rank'), 
