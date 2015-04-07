@@ -56,6 +56,9 @@
 //  Ifpack
 #include <Ifpack.h>
 #include <Ifpack_Preconditioner.h>
+#include <Ifpack2_ILUT_decl.hpp> 
+#include <Ifpack2_ILUT_def.hpp>
+#include <Ifpack2_ILUT.hpp>
 
 //  Tpetra Typedefs
 typedef double ST;
@@ -113,3 +116,4 @@ size_t calcUpperBandwidth(const RCP<MAT> &A);
 RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType);
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
 void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename);
+void calcInverseMethod(const RCP<MAT> &A);

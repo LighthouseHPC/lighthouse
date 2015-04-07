@@ -6,7 +6,11 @@ int numNodes;
 int myRank;
 
 int main(int argc, char *argv[]) {
-	
+	std::string filename(argv[1]);
+  if (filename.empty()) {
+  	*fos << "No .mtx file was specified" << std::endl;
+  	return -1;
+  }	
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
@@ -23,12 +27,13 @@ int main(int argc, char *argv[]) {
 		*fos << "Error: no file was selected" << std::endl;
 		exit(-2);
 	}	
-  std::string filename(argv[1]);
+
   RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
   Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
   runGauntlet(A);
-  calcSmallestEigenvalues(A, filename);
+  //calcSmallestEigenvalues(A, filename);
+  //calcInverseMethod(A);
 }
 
 void runGauntlet(const RCP<MAT> &A) {
@@ -64,9 +69,13 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << calcDiagonalMean(A) << ", ";
 	*fos << calcDiagonalSign(A) << ", ";
 	*fos << calcDiagonalNonzeros(A) << ", ";
+	*fos << "\nLM:" << std::endl;
   calcEigenValues(A, "LM");
+  *fos << "\nSM:" << std::endl;
   calcEigenValues(A, "SM");
+  *fos << "\nLR:" << std::endl;
   calcEigenValues(A, "LR");
+  *fos << "\nSR:" << std::endl;
   calcEigenValues(A, "SR"); 
   *fos << std::endl;
   
@@ -684,10 +693,10 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   ST mat_norm = A->getFrobeniusNorm();
 
   //  Start block Arnoldi iteration
-  int nev = 1;
+  int nev = 4;
   int blockSize = 1;
   int numBlocks = 10*nev / blockSize;
-  ST tol = 1e-6;
+  ST tol = 1e-8;
 
   //  Create parameters to pass to the solver
   Teuchos::ParameterList MyPL;
@@ -718,6 +727,13 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
     rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(A, ivec));
 
+  //  Taken from https://github.com/qsnake/trilinos/blob/master/packages/tpetra/example/HybridPlatform/build_eigproblem.hpp
+  //  Create preconditioner
+	typedef Ifpack2::Preconditioner<ST,LO,GO,NT> Tprec;	
+	Teuchos::RCP<Tprec> prec;
+  prec = rcp(new Ifpack2::ILUT<const MAT> (A) );
+  prec->compute();
+  MyProblem->setPrec(prec);
   MyProblem->setHermitian(false);
   MyProblem->setNEV(nev);
 
@@ -758,120 +774,5 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
 }
 
 void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename) {
-	*fos << std::endl << "In function" << std::endl;
-	Epetra_MpiComm eComm(MPI_COMM_WORLD);	
-
-	int space_dim = 2;
-  
-  // Size of each of the dimensions of the domain
-  std::vector<double> brick_dim( space_dim );
-  brick_dim[0] = 1.0;
-  brick_dim[1] = 1.0;
-  
-  // Number of elements in each of the dimensions of the domain
-  std::vector<int> elements( space_dim );
-  elements[0] = 10;
-  elements[1] = 10;
-  
-  // Create problem
-  RCP<ModalProblem> testCase = rcp( 
-  	new ModeLaplace2DQ2(eComm, brick_dim[0], elements[0], brick_dim[1], elements[1]) );
-  
-  // Get the stiffness and mass matrices
- // RCP<Epetra_CrsMatrix> L = rcp( const_cast<Epetra_CrsMatrix *>(testCase->getStiffness()), false);
-//RCP<Epetra_CrsMatrix> L = rcp( const_cast<Epetra_CrsMatrix *>(testCase->getStiffness()), true ); BREAKS
-
-//  Create Matrix
-  *fos << "test0" << std::endl;
-	//TODO: Do without making redundant RCP of matrix
-	Epetra_CrsMatrix* K;
-	EpetraExt::MatrixMarketFileToCrsMatrix(filename.c_str(), eComm, K);
-	RCP<Epetra_CrsMatrix> L = rcp(const_cast<Epetra_CrsMatrix*> (K), false);
-	if (K == NULL) {
-		*fos << "K is null" << std::endl;
-	}
-	if (L.is_null()) {
-		*fos << "L is null" << std::endl;
-	}	
-//  Construct Ifpack preconditioner
-	Teuchos::ParameterList ifpackList;
-	Ifpack Factory;
-	std::string PrecType = "ICT";
-	int overlapLevel = 0;
-	*fos << "Test before preconditioner" << std::endl;
-	RCP<Ifpack_Preconditioner> Prec =	rcp( Factory.Create(PrecType, &*L, overlapLevel) );
-	*fos << "before assert" << std::endl;
-	assert(Prec != Teuchos::null);
-	*fos << "after assert" << std::endl;
-	ifpackList.set("fact: drop tolerance", 1e-4);
-	ifpackList.set("fact: ict level-of-fill", 0.);
-	ifpackList.set("schwarz: combine mode", "Add");
-	Prec->SetParameters(ifpackList);
-	Prec->Initialize();
-	Prec->Compute();	
-*fos << "test1" << std::endl;
-//  Set up Belos block CG operator for inner iteration
-	int blockSize = 3;
-	int maxits = L->NumGlobalRows();
-	RCP<Belos::LinearProblem<ST, Epetra_MultiVector, Epetra_Operator> > 
-		My_LP = rcp(new Belos::LinearProblem<ST, Epetra_MultiVector, Epetra_Operator>());
-	My_LP->setOperator(L); // only accepts RCP of crsmatrix
-	RCP<Epetra_Operator> belosPrec = rcp (new Epetra_InvOperator (Prec.get()));
-	My_LP->setLeftPrec(belosPrec);
-
-	RCP<Teuchos::ParameterList> My_List = rcp(new Teuchos::ParameterList() );
-	My_List->set( "Solver", "BlockCG" );
-  My_List->set( "Maximum Iterations", maxits );
-  My_List->set( "Block Size", 1 );
-  My_List->set( "Convergence Tolerance", 1e-12 );
-
-  RCP<Belos::EpetraOperator> BelosOp = 
-  	rcp(new Belos::EpetraOperator (My_LP, My_List));
-
-//  Start the block Arnoldi iteration
-  double tol = 1.0e-8;
-  int nev = 10;
-  int numBlocks = 3*nev/blockSize;
-  int maxRestarts = 5;
-  //int step = 5;
-  std::string which = "LM";
-  int verbosity = Anasazi::Errors + Anasazi::Warnings + Anasazi::FinalSummary;
-  
-  // Create parameter list to pass into solver
-  Teuchos::ParameterList MyPL;
-  MyPL.set( "Verbosity", verbosity );
-  MyPL.set( "Which", which );
-  MyPL.set( "Block Size", blockSize );
-  MyPL.set( "Num Blocks", numBlocks );
-  MyPL.set( "Maximum Restarts", maxRestarts );
-  MyPL.set( "Convergence Tolerance", tol );
-  //MyPL.set( "Step Size", step );
-
-*fos << "test2" << std::endl;
-  RCP<Epetra_MultiVector> ivec = 
-  	rcp(new Epetra_MultiVector(L->Map(), blockSize));
-  Anasazi::MultiVecTraits<ST, Epetra_MultiVector>::MvRandom(*ivec);
-  *fos << "testa" << std::endl;
-  RCP<Anasazi::EpetraGenOp> Aop = 
-  	rcp(new Anasazi::EpetraGenOp(BelosOp, L, false));
-  RCP<Anasazi::BasicEigenproblem<ST, Epetra_MultiVector, Epetra_Operator> >	MyProblem = 
-  	rcp(new Anasazi::BasicEigenproblem<ST,Epetra_MultiVector,Epetra_Operator> (Aop, L, ivec));
-  MyProblem->setNEV(nev);
-  MyProblem->setProblem();
-  *fos << "testb" << std::endl;
-  Anasazi::BlockKrylovSchurSolMgr<ST, Epetra_MultiVector, Epetra_Operator> MySolverMgr(MyProblem, MyPL);
-  *fos << "testc" << std::endl;
-  Anasazi::ReturnType returnCode = MySolverMgr.solve(); //breaks here
-  *fos << "testd" << std::endl;
-  if (returnCode != Anasazi::Converged) {
-    *fos << "Anasazi::EigensolverMgr::solve() returned unconverged." << std::endl;
-  }
-  // Get the eigenvalues and eigenvectors from the eigenproblem
-
-*fos << "test3" << std::endl;
-  Anasazi::Eigensolution<ST,Epetra_MultiVector> sol = MyProblem->getSolution();
-  std::vector<Anasazi::Value<ST> > evals = sol.Evals;
-  Teuchos::RCP<Epetra_MultiVector> evecs = sol.Evecs;
-  int numev = sol.numVecs;
-
+	
 }
