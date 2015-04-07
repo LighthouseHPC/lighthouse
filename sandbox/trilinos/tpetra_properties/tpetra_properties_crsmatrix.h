@@ -48,6 +48,7 @@
 #include <AnasaziTpetraAdapter.hpp>
 #include <AnasaziOperator.hpp>
 #include <AnasaziEpetraAdapter.hpp>
+#include <AnasaziBlockDavidsonSolMgr.hpp>
 
 //  Belos
 #include <BelosEpetraOperator.h>
@@ -59,6 +60,7 @@
 #include <Ifpack2_ILUT_decl.hpp> 
 #include <Ifpack2_ILUT_def.hpp>
 #include <Ifpack2_ILUT.hpp>
+#include <Ifpack2_Factory.hpp>
 
 //  Tpetra Typedefs
 typedef double ST;
