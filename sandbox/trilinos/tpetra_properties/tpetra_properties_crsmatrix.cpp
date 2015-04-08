@@ -5,6 +5,37 @@ RCP<Teuchos::FancyOStream> fos;
 int numNodes;
 int myRank;
 
+TIMER timeRowVariance;
+TIMER timeColVariance;
+TIMER timeDiagVariance;
+TIMER timeNonzeros;
+TIMER timeDim;
+TIMER timeFrobeniusNorm;
+TIMER timeSymmetricFrobeniusNorm;
+TIMER timeAntisymmetricFrobeniusNorm;
+TIMER timeOneNorm;
+TIMER timeInfNorm;
+TIMER timeSymmetricInfNorm;
+TIMER timeAntisymmetricInfNorm;
+TIMER timeMaxNonzerosPerRow;
+TIMER timeMinNonzerosPerRow;
+TIMER timeAvgNonzerosPerRow;
+TIMER timeTrace;
+TIMER timeAbsTrace;
+TIMER timeDummyRows;
+TIMER timeSymmetry;
+TIMER timeRowDiagonalDominance;
+TIMER timeColDiagonalDominance;
+TIMER timeLowerBandwidth;
+TIMER timeUpperBandwidth;
+TIMER timeDiagonalMean;
+TIMER timeDiagonalSign;
+TIMER timeDiagonalNonzeros;
+TIMER timeEigenValuesLM;
+TIMER timeEigenValuesSM;
+TIMER timeEigenValuesLR;
+TIMER timeEigenValuesSR; 
+
 int main(int argc, char *argv[]) {
 	std::string filename(argv[1]);
   if (filename.empty()) {
@@ -31,7 +62,9 @@ int main(int argc, char *argv[]) {
   RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
   Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
+	initTimers();
   runGauntlet(A);
+  TimeMonitor::summarize(out);
   //calcSmallestEigenvalues(A, filename);
   //calcInverseMethod(A);
 }
@@ -84,6 +117,7 @@ void runGauntlet(const RCP<MAT> &A) {
 //  Return the maximum row locVariance for the matrix
 //  The average of the squared differences from the Mean.
 ST calcRowVariance(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeRowVariance);
 	GO rows = A->getGlobalNumRows(); 
 	ST mean, locVariance, locMaxVariance, result = 0.0;
 
@@ -779,4 +813,37 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
 
 void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename) {
 	
+}
+
+void initTimers() {
+	timeRowVariance = TimeMonitor::getNewCounter("Row Variance");
+	timeColVariance = TimeMonitor::getNewCounter("Col Variance");
+	timeDiagVariance = TimeMonitor::getNewCounter("Diag Variance");
+	timeNonzeros = TimeMonitor::getNewCounter("Nonzeros");
+	timeDim = TimeMonitor::getNewCounter("Dimension");
+	timeFrobeniusNorm = TimeMonitor::getNewCounter("Frob. Norm");
+	timeSymmetricFrobeniusNorm = TimeMonitor::getNewCounter("Symm Frob Norm");
+	timeAntisymmetricFrobeniusNorm = TimeMonitor::getNewCounter("Antisymm Frob Norm");
+	timeOneNorm = TimeMonitor::getNewCounter("One Norm");
+	timeInfNorm = TimeMonitor::getNewCounter("Inf Norm");
+	timeSymmetricInfNorm = TimeMonitor::getNewCounter("Symm Inf Norm");
+	timeAntisymmetricInfNorm = TimeMonitor::getNewCounter("Antisymm Inf Norm");
+	timeMaxNonzerosPerRow = TimeMonitor::getNewCounter("Max Nonzeros / Row");
+	timeMinNonzerosPerRow = TimeMonitor::getNewCounter("Min Nonzeros / Row");
+	timeAvgNonzerosPerRow = TimeMonitor::getNewCounter("Avg Nonzeros / Row");
+	timeTrace = TimeMonitor::getNewCounter("Trace");
+	timeAbsTrace = TimeMonitor::getNewCounter("Abs Trace");
+	timeDummyRows = TimeMonitor::getNewCounter("Dummy Rows");
+	timeSymmetry = TimeMonitor::getNewCounter("Symmetry");
+	timeRowDiagonalDominance = TimeMonitor::getNewCounter("Row Diag Dominance");
+	timeColDiagonalDominance = TimeMonitor::getNewCounter("Col Diag Dominance");
+	timeLowerBandwidth = TimeMonitor::getNewCounter("Lower Bandwidth");
+	timeUpperBandwidth = TimeMonitor::getNewCounter("Upper Bandwidth");
+	timeDiagonalMean = TimeMonitor::getNewCounter("Diagonal Mean");
+	timeDiagonalSign = TimeMonitor::getNewCounter("Diagonal Sign");
+	timeDiagonalNonzeros = TimeMonitor::getNewCounter("Diadonal Nonzeros");
+	timeEigenValuesLM = TimeMonitor::getNewCounter("Eigen LM");
+	timeEigenValuesSM = TimeMonitor::getNewCounter("Eigen SM");
+	timeEigenValuesLR = TimeMonitor::getNewCounter("Eigen LR");
+	timeEigenValuesSR = TimeMonitor::getNewCounter("Eigen SR"); 
 }

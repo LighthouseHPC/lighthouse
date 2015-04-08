@@ -38,6 +38,7 @@
 #include <Teuchos_Array.hpp>
 #include <Teuchos_CommHelpers.hpp>
 #include <Teuchos_SerialDenseMatrix.hpp>
+#include <Teuchos_TimeMonitor.hpp>
 
 //  Anasazi
 #include <AnasaziConfigDefs.hpp>
@@ -73,6 +74,7 @@ typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
 typedef Tpetra::Operator<ST, LO, GO, NT> OP;
 typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
+typedef Teuchos::RCP<Teuchos::Time> TIMER;
 
 //  Anasazi typedefs
 typedef Anasazi::MultiVecTraits<ST, MV> MVT;
@@ -86,6 +88,8 @@ using Teuchos::RCP;
 using Teuchos::rcp;
 using Teuchos::ArrayView;
 using Teuchos::Array;
+using Teuchos::Time;
+using Teuchos::TimeMonitor;
 
 //  Functions
 void runGauntlet(const RCP<MAT> &A);
@@ -119,3 +123,4 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType);
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
 void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename);
 void calcInverseMethod(const RCP<MAT> &A);
+void initTimers();
