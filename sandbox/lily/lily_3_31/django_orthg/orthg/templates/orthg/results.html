@@ -18,7 +18,7 @@
 <div id="routineListNode" class="container">
 
 {% for item in results %}
-  
+ 
   {% if item in selectedRoutineNames %}
 	<div class="notDndItem" id="nsel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}"
 	     detail="{{ item.thePrecision }}_{{ item.routineName }}_{{ item.matrixType }}_{{ item.storageType }}_{{ item.id }}_{{ item.url }}"
