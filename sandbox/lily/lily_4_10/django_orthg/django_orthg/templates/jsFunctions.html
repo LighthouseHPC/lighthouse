@@ -1,0 +1,1293 @@
+<script type="text/javascript">
+	/* Loading themeTester */
+	//var loadingEl = dojo.byId("loaderInner");
+	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
+
+	dojo.ready( function() {
+		/* delete cookie */
+		//if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
+		//	dojo.cookie("nameList", null, {path: '/', expire: -1});
+		//	console.log("initial cookie:", dojo.cookie("nameList"));
+		//}
+		
+		
+		// this is just a list of 'official' dijit themes, you can use
+		// ?theme=String for 'un-supported' themes, too. (eg: yours)
+		
+		var availableThemes = [
+			{
+				theme:"1",
+				author:"Sa-Lin Cheng Bernstein",
+				baseUri:"../themes/"
+			},
+			{
+				theme:"2",
+				author:"Javed Hossain",
+				baseUri:"../themes/"
+			},
+			{
+				theme:"3",
+				author:"Elizabeth R. Jessup",
+				baseUri:"../themes/"
+			},
+			{
+				theme:"4",
+				author:"Boyana Norris",
+				baseUri:"../themes/"
+			}
+		];
+		var holder = dojo.byId('themeData');
+		var tmpString='';
+		dojo.forEach(availableThemes, function(theme) {
+			tmpString += '<a href="?theme='+theme.theme+'">'+
+			theme.theme+'</'+'a>: '+theme.author+' <br>';
+		});
+		holder.innerHTML = tmpString;
+		
+		
+		
+		
+		/* for parser time info */
+		var start = new Date().getTime();
+		dojo.parser.parse(dojo.byId('container'));
+		console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
+					
+		//dojo.byId('loaderInner').innerHTML += " done.";
+		
+		setTimeout( function hideLoader() {
+			var loader = dojo.byId('loader');
+			dojo.fadeOut({
+				node: loader,
+				duration:500,
+				onEnd: function() {
+					loader.style.display = "none";
+				}
+			}).play();
+		}, 250);
+		
+		
+		
+		var strayGlobals = [];
+		for(var i in window) {
+			if(!window.__globalList[i]) {
+				strayGlobals.push(i);
+			}
+		}
+		if(strayGlobals.length) {
+			console.warn("Stray globals: "+strayGlobals.join(", "));
+		}
+		
+		/* create dnd Sources */
+		var source1 = new dojo.dnd.Source("routineListNode");
+		var source2 = new dojo.dnd.Target("selectedListNode");		
+
+		/* update Django session for selected routines through javascript*/
+		//var nameObj = [];
+		dojo.connect( source1, "onDndDrop", 
+			function(source, nodes, copy, target){
+				//console.log("cookie predrop:", dojo.cookie("nameList"));
+				var cookieToArray = [];
+				if (dojo.cookie("nameList") != null){
+					cookieToArray = dojo.cookie("nameList").split(',');
+				}
+				
+				for( i=0; i < nodes.length; i++){
+					item = this.getItem(nodes[i].id);
+					liId = nodes[i].id;
+					//routineData = item.data;
+					//nameObj.push(liId);
+					//dojo.cookie(liId, routineData, {path: '/'});					
+					
+					var detail = dojo.attr(dojo.byId(liId), "detail")
+					var precision = detail.split("_")[0];
+					var routineName = detail.split("_")[1];
+					var matrixType = detail.split("_")[2];
+					var storageType = detail.split("_")[3];
+					var idn = detail.split("_")[4];
+					var url = detail.split("_")[5]+"_8f.html";
+
+					//if(routineExists(precision+routineName,allRoutines_session)){
+					//	alert("Routine already selected!");
+					//}
+
+					allRoutines_session.push(precision+routineName);
+					
+					//dojo.cookie(liId, detail);
+					//alert(precision+routineName);
+					
+					/* pass "routineData" to ajax.py for test */
+					//Dajaxice.lapack.test(Dajax.process, {'data': routineData});
+					
+					/* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
+					dojo.xhrPost( {
+						url: "/lapack_le/update_session/",
+						content: {
+							precision: precision,
+							routineName: routineName,
+							matrixType: matrixType,
+							storageType: storageType,
+							idn: idn,
+							url: url,							
+							//checkState: "checked"
+							},
+						load: function(response){
+							//response is a string --> convert into an array							
+							//selectedRoutineNames = response.split(',');
+							console.log(response);
+						    },
+						error: function(){
+						    console.log("error");
+						    }
+					});
+
+					//var el = document.getElementById("sel_"+(precision+routineName).toUpperCase());
+					//el.setAttribute('name','crap');
+				}
+				//dojo.cookie("nameList", cookieToArray.concat(nameObj), {path: '/'});
+				//console.log("cookie after drop: ", dojo.cookie("nameList"));
+				//console.log("host name:", window.location.hostname);
+				//console.log(location.href);
+				//console.log(dojo.attr(dojo.byId(nameObj[0]), "detail"));
+			}
+		);
+	});
+
+
+	/* showing/hiding the table in the search result by clicking the image */
+	//function show_hide(tblid, show) {
+	//	if (tbl == document.getElementById(tblid)) {
+	//		if (null == show) show = tbl.style.display == 'none';
+	//		tbl.style.display = (show ? '' : 'none');
+	//	}
+	//}
+	//
+	//
+	//function HideFrame() {
+	//	var fr = document.getElementById ("frDocViewer");
+	//	if(fr.style.display=="none") {
+	//	   fr.style.display="block";
+	//	}
+	//	else {
+	//	   fr.style.display="none";
+	//	}
+	//}
+	
+
+	// Check radio buttons in guided search, if none is selected return false, else return true
+	function checkRadios(){
+		var radios = document.getElementsByTagName('input');
+		var checked = false;
+		for (var i = 0; i < radios.length; i++) {
+		    if (radios[i].type === 'radio' && radios[i].checked) {
+		        checked = true;
+		    }
+		}
+		return checked;
+	}
+	
+	
+	
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Search Result ------------------------------- */
+	/*--------------------------------------------------------------------------------- */
+	
+	// show routine info after clicking on the 'more' button and load iframe 
+	function showMore(selectedID, selectedURL) {
+		document.getElementById(selectedID+"Iframe").src = selectedURL;
+		dijit.byId(selectedID).show();
+		console.log(selectedID);
+		console.log(selectedURL);
+	}
+	
+	
+	
+
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Guided Search ------------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	/* disable the checkboxes in the first question when clicking a radiobutton */
+	function disableCheckboxes() {
+                dojo.query('[name=question_prob]').forEach(function(n){
+                        if (n.type == "checkbox"){
+                                n.disabled = true;
+				n.checked = false;
+                        }               
+                });
+	}
+
+	
+	/* enable the checkboxes in the first question when clicking the last radiobutton */
+	function enableCheckboxes() {
+                dojo.query('[name=question_prob]').forEach(function(n){
+                        if (n.type == "checkbox"){
+                                n.disabled = false;
+                        }               
+                });
+	}
+	
+	
+	
+	/* disable THE OTHER radiobutton in the "complex numbers" question --> NOT working yet! */
+	//function disableComplex(dict) {
+	//   length = document.frmComp.length;
+	//   for (i=0; i<length; i++)
+	//	{
+	//	    if (document.frmComp[i].value != dict)
+	//		document.frmComp[i].disabled = "disabled";
+	//	}
+	//}
+	
+
+
+	/* Ask for confirmation when user clicks on Restart Search button */
+	function show_confirm(link_q1){
+	var answer = confirm("Are you sure you want to start over the search?")
+		if (answer){
+			window.location = link_q1;
+		}	
+	}
+
+
+	
+	// Functions for faster tooltips for submit and clear buttons
+	function showTooltip(id, text, color){		
+		document.getElementById(id).innerHTML=text;
+		document.getElementById(id).style.color=color;
+	}
+	
+	
+	
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Advanced Search ----------------------------- */
+	/*--------------------------------------------------------------------------------- */
+	
+	// Check if at least one check box (out of three in the initial advanced search tab) has been selected 
+	function validateAdvancedCategoryCheckbox(chk1, chk2, chk3){
+		if (!validate3Checkbox(chk1, chk2, chk3))
+		{
+			alert("Select at least one category.");
+			return false;
+		}
+		else
+			return true;
+	}
+
+	// Check if at least 1/2 check box is selected
+	function validate1Checkbox(cb1)
+	{
+		if (cb1.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/2 check box is selected
+	function validate2Checkbox(cb1, cb2)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/3 check box is selected
+	function validate3Checkbox(cb1, cb2, cb3)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/4 check box is selected
+	function validate4Checkbox(cb1, cb2, cb3, cb4)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/5 check box is selected
+	function validate5Checkbox(cb1, cb2, cb3, cb4, cb5)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/6 check box is selected
+	function validate6Checkbox(cb1, cb2, cb3, cb4, cb5, cb6)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0)
+			return false;
+		else
+			return true;
+	}
+
+	// Check if at least 1/7 check box is selected
+	function validate7Checkbox(cb1, cb2, cb3, cb4, cb5, cb6, cb7)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0 && cb7.checked == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	// Check if at least 1/8 check box is selected
+	function validate8Checkbox(cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8)
+	{
+		if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0 && cb7.checked == 0 && cb8.checked == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	
+	// Check if at least one check box in each cell is selected (in Computational Routine Search)
+	function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, m7, m8, s1, s2, s3, s4, s5, p1, p2)
+	{
+		f = validate7Checkbox(f1, f2, f3, f4, f5, f6, f7);
+		c = validate2Checkbox(c1, c2);
+		m = validate8Checkbox(m1, m2, m3, m4, m5, m6, m7, m8);
+		s = validate5Checkbox(s1, s2, s3, s4, s5);
+		p = validate2Checkbox(p1, p2);
+
+		if(!f)
+		{
+			alert("Check at least one box in the Function cell in Computational Routines column.");
+			return false;
+		}
+		else if(!c)
+		{
+			alert("Check at least one box in the Complex Number cell in Computational Routines column.");
+			return false;
+		}
+		else if(!m)
+		{
+			alert("Check at least one box in the Matrix Type cell in Computational Routines column.");
+			return false;
+		}
+		else if(!s)
+		{
+			alert("Check at least one box in the Storage cell in Computational Routines column.");
+			return false;
+		}
+		else if(!p)
+		{
+			alert("Check at least one box in the Precision cell in Computational Routines column.");
+			return false;
+		}
+		else
+			return true;
+					
+	}
+
+	// Check if at least one check box in each cell is selected (in Simple Driver Routine Search)
+	function validateSimpleCheckbox(f1, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+	{
+		f = validate1Checkbox(f1);
+		c = validate2Checkbox(c1, c2);
+		m = validate5Checkbox(m1, m2, m3, m4, m5);
+		s = validate4Checkbox(s1, s2, s3, s4);
+		p = validate2Checkbox(p1, p2);
+
+		if(!f)
+		{
+			alert("Check at least one box in the Function cell in Simple Driver Routines column.");
+			return false;
+		}
+		else if(!c)
+		{
+			alert("Check at least one box in the Complex Number cell in Simple Driver Routines column.");
+			return false;
+		}
+		else if(!m)
+		{
+			alert("Check at least one box in the Matrix Type cell in Simple Driver Routines column.");
+			return false;
+		}
+		else if(!s)
+		{
+			alert("Check at least one box in the Storage cell in Simple Driver Routines column.");
+			return false;
+		}
+		else if(!p)
+		{
+			alert("Check at least one box in the Precision cell in Simple Driver Routines column.");
+			return false;
+		}
+		else
+			return true;			
+	}
+
+	// Check if at least one check box in each cell is selected (in Expert Driver Routine Search)
+	function validateExpertCheckbox(d1, d2, d3, f1, f2, f3, f4, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+	{
+    	d = validate3Checkbox(d1, d2, d3);
+		f = validate4Checkbox(f1, f2, f3, f4);
+		c = validate2Checkbox(c1, c2);
+		m = validate5Checkbox(m1, m2, m3, m4, m5);
+		s = validate4Checkbox(s1, s2, s3, s4);
+		p = validate2Checkbox(p1, p2);
+
+		if(!d)
+		{
+			alert("Select at least one Equation in the Function cell in Expert Driver Routines column.");
+			return false;
+		}
+		else if(!f)
+		{
+			alert("Select at least one Task in the Function cell in Expert Driver Routines column.");
+			return false;
+		}
+		else if(!c)
+		{
+			alert("Check at least one box in the Complex Number cell in Expert Driver Routines column.");
+			return false;
+		}
+		else if(!m)
+		{
+			alert("Check at least one box in the Matrix Type cell in Expert Driver Routines column.");
+			return false;
+		}
+		else if(!s)
+		{
+			alert("Check at least one box in the Storage cell in Expert Driver Routines column.");
+			return false;
+		}
+		else if(!p)
+		{
+			alert("Check at least one box in the Precision cell in Expert Driver Routines column.");
+			return false;
+		}
+		else
+			return true;
+					
+	}
+
+	// Check if at least one check box in each cell is selected (in Computational Routine and Simple Driver Routine Search)
+	function validateComputationalSimpleCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2)
+	{
+		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
+
+		if(c == true)
+		{
+			s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+		}
+			
+
+		if(c && s)
+			return true;
+		else 
+			return false;
+	}
+
+	// Check if at least one check box in each cell is selected (in Computational Routine and Expert Driver Routine Search)
+	function validateComputationalExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+	{
+		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);	
+
+		if(c == true)
+		{
+			e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+		}
+			
+
+		if(c && e)
+			return true;
+		else 
+			return false;
+	}
+
+	// Check if at least one check box in each cell is selected (in Simple Driver Routine and Expert Driver Routine Search)
+	function validateSimpleExpertCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+	{
+		s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+
+		if(s == true)
+		{
+			e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+		}
+			
+
+		if(s && e)
+			return true;
+		else 
+			return false;
+	}
+
+	// Check if at least one check box in each cell is selected (in Computational Routines, Simple Driver Routine and Expert Driver Routine Search)
+	function validateComputationalSimpleExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+	{		
+		c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
+
+		if(c == true)
+		{
+			s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+		}
+
+		if(s == true)
+		{
+			e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+		}
+
+		if(c && s && e)
+			return true;
+		else 
+			return false;
+	}
+
+
+
+	/*--------------------------------------------------------------------------------- */	
+	/* ----------------------------- For Selected Routines ---------------------------- */
+	/*--------------------------------------------------------------------------------- */
+	// Get current date and time (for naming download zip file)
+	function getDateTime(){
+		var newDate = new Date();
+		//For todays date;
+		Date.prototype.today = function(){ 
+		    return this.getFullYear() +(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + ((this.getDate() < 10)?"0":"") + this.getDate()
+		};
+		//For the time now
+		Date.prototype.timeNow = function(){
+		     return ((this.getHours() < 10)?"0":"") + this.getHours() +"_"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +"_"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+		};
+		var dateTime = newDate.today() + newDate.timeNow(); 
+		return dateTime;
+	}
+	
+        // Get checked items
+        function getCheckedRoutines(){
+                var checked_list = [];
+                dojo.query('[name=routines]').forEach(function(n){
+                        /* n is one of the checkboxes */
+                        if (n.checked == true){
+                                /* note: n.id is uppercase */
+                                checked_list.push(n.id.split('_')[1]);
+                        }               
+                }); 
+                return checked_list;
+        }
+
+	
+        
+        // generate code template: call lighthouse.lapack_le.createTemplate using dajax
+        function generateTemplate(language){
+                var checked_list = [];
+                var time = getDateTime();
+		
+                checked_list = getCheckedRoutines();
+                if (checked_list.length == 0)
+                        alert('No boxes were checked!');
+			
+		else
+			//document.getElementById("template_output").className = "brush:"+language;
+			Dajaxice.lighthouse.lapack_le.createTemplate(Dajax.process, {'checked_list': checked_list, 'language': language, 'time': time});
+			//alert(document.getElementById('template_output').className);
+                return time;
+        }
+
+	
+	
+	//*** for move up and down ***//
+	// Called when user clicks on the name of the routine in the selected routines area --> change color
+	function selectRoutine(selectedRoutine, id){
+		//console.log(id);
+		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
+			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
+				if(document.getElementById("tb_"+selectedRoutine))
+					document.getElementById("tb_"+selectedRoutine).style.background = "";				
+			}
+		}
+
+		var elem = document.getElementById("tb_"+id);
+		
+		// If the routine background was grey (i.e. it was selected)
+		if(elem.style.background == "rgb(170, 170, 170)"){
+			elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
+			document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
+			return "";
+		}
+		else{ // Routine was not selected
+			elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
+			document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
+			return id;
+		}
+	}
+	
+
+	
+	// Swaps the selected routine with the routine right above it (if there's any)
+	function moveup(id, routines){
+		if(id == "") return routines;
+
+		// Get the html element for the selected routine
+		var thisRoutine = document.getElementById("sel_ajax_"+id);
+		var prev_routine = "";
+		var prev_routine_index = -1;
+		var this_routine_index = -1;
+
+		// Find the index of this routine in the "routines" array, also save the index of the previous routine
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;
+				if(i > 0){
+					prev_routine = routines[i-1].toUpperCase();
+					prev_routine_index = i-1;
+				}
+				if (thisRoutine == null){	//combibe with the freshly dropped items
+					thisRoutine = document.getElementById("sel_"+id);
+				}
+			}
+		}		
+		
+		if(prev_routine != ""){ // If there is a routine above the selected routine
+			// Get the html element of the previous routine
+			var prevRoutine = document.getElementById("sel_ajax_"+prev_routine);
+			if (prevRoutine == null){
+				prevRoutine = document.getElementById("sel_"+prev_routine);
+			}			
+
+			// Swap the html contents of the routines
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = prevRoutine.innerHTML;
+			prevRoutine.innerHTML = temp;
+
+			// Swap their ids
+			temp = thisRoutine.id;
+			thisRoutine.id = prevRoutine.id;
+			prevRoutine.id = temp;
+
+			// Swap the routines in the "routines" array
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[prev_routine_index];
+			routines[prev_routine_index] = temp;
+		}
+		
+		return routines;
+	}
+
+
+	
+	// Swaps the selected routine with the routine right below it (if there's any)
+	function movedown(id, routines){
+		if(id == "") return routines;
+
+		// Get the html element for the selected routine
+		var thisRoutine = document.getElementById("sel_ajax_"+id);
+		var next_routine = "";
+		var this_routine_index = -1;
+		var next_routine_index = -1;
+
+		// Find the index of this routine in the "routines" array, also save the index of the next routine
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;				
+				if(i < (routines.length - 1)){
+					next_routine = routines[i+1].toUpperCase();
+					next_routine_index = i+1;
+				}
+				if (thisRoutine == null){	//combibe with the freshly dropped items
+					thisRoutine = document.getElementById("sel_"+id);
+				}
+			}
+		}		
+		
+		// If there is a routine below the selected routine
+		if(next_routine != ""){
+
+			// Get the html element of the next routine
+			var nextRoutine = document.getElementById("sel_ajax_"+next_routine);
+			if (nextRoutine == null){
+				nextRoutine = document.getElementById("sel_"+next_routine);
+			}
+			
+			// Swap the routines
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = nextRoutine.innerHTML;
+			nextRoutine.innerHTML = temp;
+
+			// Swap their ids
+			temp = thisRoutine.id;
+			thisRoutine.id = nextRoutine.id;
+			nextRoutine.id = temp;
+
+			// Swap the routines in the "routines" array
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[next_routine_index];
+			routines[next_routine_index] = temp;
+		}		
+
+		return routines;
+	}
+
+
+	//remove routine
+	function removeRoutine(id, allRoutines_session){
+		var routine = id.split("_").pop().toLowerCase();
+		var i = allRoutines_session.indexOf(routine);
+
+		allRoutines_session.splice(i, 1);
+		
+		//Remove checked routine from the session
+		dojo.xhrPost( {
+			url: "/lapack_le/remove_session/",
+			content: {routine: routine,},
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		
+		dojo.destroy(id);
+		return allRoutines_session;
+	}
+	
+	
+	/* Clear all routines from selected routines area */
+	function clearAllRoutines(){
+		//reset request.session['selectedRoutines'] = [] and empty the list			
+		dojo.xhrPost( {
+			url: "/lapack_le/clear_session/",
+			load: function(response){
+				dojo.empty("sel_routineListNode");
+				dojo.empty("selectedListNode");
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		selectedRoutine_session.length = 0; 
+		uncheckedRoutines.length = 0;
+		allRoutines_session.length = 0;			
+	}
+	
+	
+	
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ----------------------------- For Code Template Area --------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	// Clear code template area and remove template file from server
+        function clearTemplateArea(){
+                dojo.byId("template_output").innerHTML = "";    
+        }
+
+        // Check if there's any code template, allow download if template is not empty
+        function downloadTemplate(time){
+                var content = dojo.byId("template_output").innerHTML;
+                if(content.length > 0 && time != '')                    
+                        window.location = '/static/download/lighthouse_'+time+'.zip';
+                else
+                        alert("No template code was generated!");
+        }
+	
+	
+
+	/*--------------------------------------------------------------------------------- */	
+	/* --------------------------------- For Script Area ------------------------------ */
+	/*--------------------------------------------------------------------------------- */
+
+	//*--- Clear Equation & kernel name fields---*
+	function clearKernelEquation(){
+		dojo.empty('parameterTable');
+		dojo.byId("scriptEquation").value = '';
+		dojo.byId("kernelName").value = '';
+	}
+	
+	
+	
+	//*--- Find the index (position) of the '=' sign ---*
+	function indexEqual(a){
+		for (var i=0; i<a.length; i++){
+			if (a[i] == '='){
+				return i;
+			}
+			else {
+				continue;
+			}
+		}
+	}
+	
+	
+	//*--- Remove duplicates in an array ---*
+	function removeElem(elem, pos, array) {
+                        return array.indexOf(elem) == pos;
+	}
+	
+	
+	
+	//*--- for Submit Equation & kernel name fields---*
+	var specialWords = ['alpha', 'beta'];
+		
+	// arrays for in, out, inout
+	var optionIn = new Array();
+	var optionOut = new Array();
+	var optionInOut = new Array();
+	
+	// arrays for scalar, vector, matrix
+	var optionScalar = ["alpha", "beta", "^[^ABCquvwyxz]+[0-9]*"];
+	var optionVector = ["^[quvwyxz]+[0-9]*"];
+	var optionMatrix = ["^[ABC]+[0-9]*"];
+
+	// arrParameters stores the parameters
+	var arrParameters = new Array();
+	
+	// kernel stores the kernel name and the equation
+	var kernel = [];
+	
+	function submitEquation(){
+		equationList = [];
+		positionEqualArray = [];
+		arrParameters = [];
+		kernel = [];
+		optionIn = [];
+		optionOut = [];
+		optionInOut = [];
+		var equation = dojo.byId("scriptEquation").value;
+		var kernelName = dojo.byId("kernelName").value;
+		kernel.push(kernelName);
+		kernel.push(equation);
+		
+		if (equation == 0 || kernelName == 0) {
+			alert("Please complete all fields.")
+		}
+		
+		else {
+			// separate equations
+			equationList = equation.split("\n");
+			
+			// find the index of '=' in EACH equation
+			for (var i=0; i < equationList.length; i++){
+                if (/\S/.test(equationList[i])) { // added check to skip blank/whitespace lines
+			    	if (equationList[i].indexOf('=') == -1) {
+    				  alert("No equal sign in equation "+(i+1)+": "+equationList[i]+".");
+	        		} else
+				    	positionEqualArray.push(indexEqual(equationList[i]));
+                }
+			}
+			
+			
+			
+			// find special words in equation and remove them from equation
+			for (var i=0; i<specialWords.length; i++){
+				for (var j=0; j<equationList.length; j++){
+					if (equationList[j].search(specialWords[i]) != -1){
+						if (equationList[j].indexOf(specialWords[i][0]) < positionEqualArray[j]){
+							optionOut.push(specialWords[i]);
+						}
+						else {
+							optionIn.push(specialWords[i]);
+						}
+					equationList[j] = equationList[j].replace(specialWords[i], "");
+					}
+				}
+			}
+			
+			
+			// find the index of '=' in EACH equation
+			positionEqualArray = [];
+			for (var i=0; i<equationList.length; i++){
+				positionEqualArray.push(indexEqual(equationList[i]));
+			}
+			
+			
+			// seperate the letters in equation
+			var splitPattern = /[\s'()*/%+-]+/g;
+			var eqArray = [];
+			for (var k=0; k<equationList.length; k++){
+				equationList[k] = equationList[k].replace(/\s+/g, ''); 			//remove white spaces first
+				eqArray = equationList[k].split(splitPattern);
+				for (var i=0; i<eqArray.length; i++){	//split string by mathematical operators but not '=' sign
+					if (eqArray[i].indexOf('=') === -1){
+						optionIn.push(eqArray[i]);
+					}
+					else {
+						optionOut.push(eqArray[i].split("=")[0]);
+						optionIn.push(eqArray[i].split("=")[1]);
+					}
+				}
+			}
+			
+			
+			//remove duplicates in OptionIn and OptionOut
+			optionIn = optionIn.filter(removeElem);		
+			optionOut = optionOut.filter(removeElem);
+			
+
+			//remove empty elements
+			for (var i=0; i<optionIn.length; i++){
+				if (!optionIn[i]){ 
+				    optionIn.splice(i, 1);
+				}
+			}							
+			//console.log(optionIn);
+			
+			
+			// set up optionInOut
+			optionIn.filter(function(element) {
+				if(optionOut.indexOf(element) != -1){
+				    optionInOut.push(element);
+				    optionIn.splice(optionIn.indexOf(element), 1);
+				    optionOut.splice(optionOut.indexOf(element), 1);
+				}
+			});
+			
+			
+			// create arrParameters
+			arrParameters = optionIn.concat(optionOut, optionInOut);
+			
+			
+			// create drop-down lists
+			dojo.empty('parameterTable');
+			dojo.forEach(arrParameters, displayCallback);
+		
+			// show button "generate code with BTO"
+			dojo.byId("codeSubmitButton").style.display = "block";
+		}
+	}
+	
+	
+	function displayCallback(element, index){
+		var row = dojo.create('tr', {id: "tr_"+index}, 'parameterTable');
+		var cell0 = dojo.create('td', {innerHTML: element+":"}, row);
+		var cell1 = dojo.create('td', {innerHTML: "<select id='select1_"+index +"\'"+"size='1'>"+
+					"<option value='0'>Section...</option>"+
+					"<option id='op10_"+index+"\'"+"value='0'>in</option>"+
+					"<option id='op11_"+index+"\'"+"value='1'>out</option>"+
+					"<option id='op12_"+index+"\'"+"value='2'>inout</option></select>"}, row);
+		
+		// set up the preselected value for cell1
+		if (optionIn.indexOf(element) != -1){
+			dojo.attr("op10_"+index, "selected", "selected");	
+		}
+		if (optionOut.indexOf(element) != -1){
+			dojo.attr("op11_"+index, "selected", "selected");	
+		}
+		if (optionInOut.indexOf(element) != -1){
+			dojo.attr("op12_"+index, "selected", "selected");	
+		}
+		
+		
+		var cell2 = dojo.create('td', {innerHTML:
+					"<select id='select2_"+index+"\'"+
+					"onchange="+"\""+"updatecombo(this.value, this.id," + index+")"+"\""+
+					"size='1'>"+
+					"<option value='0'>Parameter type...</option>"+
+					"<option id='op20_"+index+"\'"+"value='0'>scalar</option>"+
+					"<option id='op21_"+index+"\'"+"value='1'>vector</option>"+
+					"<option id='op22_"+index+"\'"+"value='2'>matrix</option></select>"}, row);
+		
+		var cell3 = dojo.create('td', {id: "cell3"+index, innerHTML: " "}, row);
+		
+		// set up the preselected value for cell2
+		
+		var reScalar = new RegExp(optionScalar.join("|"), "g");
+		var reVector = new RegExp(optionVector.join("|"), "g");
+		var reMatrix = new RegExp(optionMatrix.join("|"), "g");
+		
+		if (element.match(reScalar) != null){
+			dojo.attr("op20_"+index, "selected", "selected");
+		}
+		else if (element.match(reVector) != null){
+			dojo.attr("op21_"+index, "selected", "selected");
+			updatecombo('1', "select2"+index, index)
+		}
+		else if (element.match(reMatrix) != null){
+			dojo.attr("op22_"+index, "selected", "selected");
+			updatecombo('2', "select2"+index, index)
+		}
+		
+	}
+	
+	
+	function updatecombo(option, select2Id, index){
+		// element is the paramater.
+		var element = select2Id.substr(7) ;
+		var selections ="";
+		var options = [[],
+				['column', 'row'],
+				['column', 'row', 'general', 'symmetric', 'Hermitian', 'SPD', 'HPD']];
+		if (parseInt(option) == 0){
+			dojo.empty("cell3"+index);
+		}
+		else {
+			for (var i=0; i<options[parseInt(option)].length; i++){
+				selections = selections+ "<option value="+i+">"+options[parseInt(option)][i]+"</option>";
+			}
+			dojo.byId("cell3"+index).innerHTML = "<select id='select3_"+index+"\'"+"\">"+selections+"</select>";
+		}
+	}
+	
+	
+	
+	// Called when user submits some script
+	function runScript(){
+		var paramProperty = {'kernelName': kernel[0], 'equation': kernel[1]};
+		for (var i=0; i<arrParameters.length; i++){
+			var selectId_1 = 'select1_'+i;
+			var selectId_2 = 'select2_'+i;
+			var selectId_3 = 'select3_'+i;
+			if (dojo.byId(selectId_3) != null)
+				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
+								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text+'\(orientation='+dojo.byId(selectId_3).options[dojo.byId(selectId_3).selectedIndex].text+'\)'];
+			else
+				paramProperty[arrParameters[i]]=[dojo.byId(selectId_1).options[dojo.byId(selectId_1).selectedIndex].text,
+								 dojo.byId(selectId_2).options[dojo.byId(selectId_2).selectedIndex].text];		
+		}
+		
+		//start loading spinner
+		document.body.appendChild(waitStandby.domNode);
+		dojo.byId("waitScript").style.display = "block";
+		waitStandby.show();
+		
+		// start timer
+		//doTimer();
+		
+		Dajaxice.lighthouse.lapack_le.make_mfile(Dajax.process,{'paramProperty': paramProperty})
+	}
+
+
+	
+	// Set up timer
+	var totalSeconds = 1;
+	var timer_is_on = 0;
+	var timer;
+
+	function updateTime() {
+		totalSeconds++;
+		dojo.byId("seconds").innerHTML = pad(totalSeconds%60);
+		dojo.byId("minutes").innerHTML = pad(parseInt(totalSeconds/60));
+		timer=setInterval(updateTime, 1000);
+	}
+    
+	function pad(val) {
+		var valString = val + "";
+		if (valString.length < 2) {
+			return "0" + valString;
+		}
+		else {
+			 return valString;
+		}
+	}
+	
+	function doTimer(){
+	    if (!timer_is_on){
+		timer_is_on=1;
+		updateTime();
+	    }
+	}
+	
+	function stopTimer(){
+	    clearInterval(timer);
+	    timer_is_on=0;
+	}
+	
+	
+	// Called when user clicks the "Clear" button
+	function clearScript(){
+		// Replace the contents of input and output panel with empty strings
+		clearKernelEquation();
+		dojo.byId('script_output').innerHTML = "";
+		dojo.byId("waitScript").style.display = "none";
+		waitStandby.hide();
+		stopTimer();
+	}
+
+	
+	// Download the best C file
+	function outputDownload(){
+		if(dojo.byId('script_output').innerHTML.search("#include"))			
+			window.location = '/static/download/script/'+dojo.byId("kernelName").value+'.c';
+		else
+			alert("Output file does not exist!")
+	}
+	
+
+
+
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------------------ For Keyword Search ----------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	// Check if any keyword was provided
+	function validateKeywordForm() {				
+		var x=document.forms["keyword_form"]["q"].value;
+		if (x==null || x==""){
+			alert("No strings were entered!");
+		}
+	}	
+
+	
+	function displayRefine() {
+		document.getElementById("tab_keywordSubmit").style.display = "none";
+		document.getElementById("tab_refine").style.display = "block";
+		document.getElementById("tab_refineSubmit").style.display = "block";
+	}
+	
+	// Use jQuery for autocomplete
+	$(function() {
+		var availableTags = [
+			//operation type
+			"solve a system of linear equations",			
+			"factor a matrix",
+			"condition number",
+			"error bounds",
+			"refine the solution",
+			"equilibrate a matrix",
+			"inverse of a matrix",
+			//matrix type
+			"general",
+			"symmetric",
+			"Hermitian",
+			"SPD",
+			"symmetric positive definite",
+			"HPD",
+			"Hermitian positive definite",
+			"triangular",
+			"SPsD",
+			"symmetric positive semidefinite",
+			"HPsD",
+			"Hermitian positive semidefinite",
+			//storage type
+			"full",
+			"band",
+			"packed",
+			"tridiagonal",
+			"RFP",
+			"rectangular full packed",
+			//complex/precision
+			"real single",
+			"real double",
+			"complex single",
+			"complex double",
+			//other
+			'driver',
+			'computational',
+			"Gaussian elimination",
+			"LU factorization",
+			"Cholesky factorization",
+			"transpose",
+			"conjugate transpose",
+			
+		];
+		
+		// ---Autocomplete for single word ---//
+		//$( "#id_q" ).autocomplete({
+		//	source: availableTags
+		//});
+		
+		
+		// ---Autocomplete for multiple words ---//
+		function split( val ) {
+			return val.split( / \s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+	     
+		$( "#id_q" )
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ){
+					event.preventDefault();
+				}
+			})
+			
+			.autocomplete({
+				minLength: 0,
+				source: function( request, response ) {
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter(
+					availableTags, extractLast( request.term ) ) );
+				},	
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( " " );
+					return false;
+				}
+			});
+	});
+	
+	
+	
+	/*--------------------------------------------------------------------------------- */	
+	/* ------------------- Add Line Wrapping to SyntaxHighlighter --------------------- */
+	/*--------------------------------------------------------------------------------- */
+	var wrap = function () {
+	    var elems = document.getElementsByClassName('syntaxhighlighter');
+	    for (var j = 0; j < elems.length; ++j) {
+		var sh = elems[j];
+		var gLines = sh.getElementsByClassName('gutter')[0].getElementsByClassName('line');
+		var cLines = sh.getElementsByClassName('code')[0].getElementsByClassName('line');
+		var stand = 15;
+		for (var i = 0; i < gLines.length; ++i) {
+		    var h = $(cLines[i]).height();
+		    if (h != stand) {
+			//console.log(i);
+			gLines[i].setAttribute('style', 'height: ' + h + 'px !important;');
+		    }
+		}
+	    }
+	};
+	var whenReady = function () {
+	    if ($('.syntaxhighlighter').length === 0) {
+		setTimeout(whenReady, 800);
+	    } else {
+		wrap();
+	    }
+	};
+	whenReady();
+
+
+	function lineWrap(){
+	    var wrap = function () {
+		var elems = document.getElementsByClassName('syntaxhighlighter');
+		for (var j = 0; j < elems.length; ++j) {
+		    var sh = elems[j];
+		    var gLines = sh.getElementsByClassName('gutter')[0].getElementsByClassName('line');
+		    var cLines = sh.getElementsByClassName('code')[0].getElementsByClassName('line');
+		    var stand = 15;
+		    for (var i = 0; i < gLines.length; ++i) {
+			var h = $(cLines[i]).height();
+			if (h != stand) {
+			    //console.log(i);
+			    gLines[i].setAttribute('style', 'height: ' + h + 'px !important;');
+			}
+		    }
+		}
+	     };
+	    var whenReady = function () {
+		if ($('.syntaxhighlighter').length === 0) {
+		    setTimeout(whenReady, 800);
+		} else {
+		    wrap();
+		}
+	    };
+	    whenReady();
+	};
+	lineWrap();
+	$(window).resize(function(){lineWrap()});
+
+</script>
