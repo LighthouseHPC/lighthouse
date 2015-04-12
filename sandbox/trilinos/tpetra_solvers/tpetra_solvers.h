@@ -27,7 +27,11 @@
 #include <Teuchos_SerialDenseMatrix.hpp>
 #include <Teuchos_TimeMonitor.hpp>
 
-//  Tpetra Typedefs
+//  Belos
+#include <BelosTpetraAdapter.hpp>
+#include <BelosSolverFactory.hpp>
+
+//  Typedefs
 typedef double ST;
 typedef int LO;
 typedef int64_t GO;
@@ -46,7 +50,13 @@ using Tpetra::Map;
 using Tpetra::Import;
 using Teuchos::RCP;
 using Teuchos::rcp;
+using Teuchos::rcpFromRef;
 using Teuchos::ArrayView;
 using Teuchos::Array;
 using Teuchos::Time;
 using Teuchos::TimeMonitor;
+using Teuchos::ParameterList;
+using Teuchos::parameterList;
+
+//  Functions
+void belosSolve(const RCP<MAT> A);
