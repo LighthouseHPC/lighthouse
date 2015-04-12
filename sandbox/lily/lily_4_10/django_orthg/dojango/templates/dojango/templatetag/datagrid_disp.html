@@ -1,0 +1,58 @@
+{% load dojango_base %}
+{% load dojango_filters %}
+{% set_dojango_context %}
+
+{# TODO: Add a css loader to the dojo collector #}
+<link rel="stylesheet"
+        href="{{ DOJANGO.DOJOX_URL }}/grid/resources/{{ DOJANGO.THEME }}Grid.css"
+        type="text/css" />
+
+<script type="text/javascript">
+if(typeof(dojango) == 'undefined') dojango= {};
+if(typeof(dojango._datagrid) == 'undefined') dojango._datagrid= {};
+if(typeof(dojango._datagrid._stores) == 'undefined') dojango._datagrid._stores= {};
+
+function {{id}}_noSort(row){ return !(false {{ nosort }}); }
+dojo.addOnLoad(function(){ 
+    dojango._datagrid._stores.{{id}}=new dojox.data.QueryReadStore({ url: {{ json_store_url|json|safe }} });
+    var {{id}}_layout=[
+    {% for x in headers %}
+        {
+            field:"{{x.attname}}", 
+            name:"{{x.label|safe|capfirst}}",
+            width: "{{x.column_width}}" 
+            {% if x.formatter %}, formatter: {{x.formatter}} {% endif %}
+        }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    ];
+    dojango._datagrid.{{id}}= new dojox.grid.DataGrid({
+        jsid:'{{id}}',
+        id:'{{id}}',
+        store:dojango._datagrid._stores.{{id}}, 
+        structure:{{id}}_layout, {% if selection_mode %} selectionMode:'{{ selection_mode }}', {% endif %}
+        canSort:{{id}}_noSort
+        {% if sortInfo %},sortInfo:{{sortInfo|safe}}{% endif %}
+        {% if query %},query:{{query|safe}}{% endif %}
+        {% if rowsPerPage %},rowsPerPage:{{rowsPerPage|json}}{% endif %}
+        {% if delayScroll %},delayScroll:{{delayScroll|json}}{% endif %}
+   }, dojo.place(dojo.create("div"), dojo.byId("{{id}}_container")));
+   dojango._datagrid.{{id}}.startup();
+});
+
+{% if search_fields %}
+dojango._datagrid.{{id}}_last = "";
+function do_{{id}}_search(el) {
+    if (el.value != dojango._datagrid.{{id}}_last) {
+        dojango._datagrid.{{id}}_last = el.value;
+
+        dojango._datagrid.{{id}}.filter({
+            search:el.value, 
+            search_fields:'{{search_fields}}'
+            {% for k, v in query.items %},'{{k}}':'{{v}}'{% endfor %} 
+        }, true);
+    }
+}
+{% endif %}
+</script>
+{% if show_search %}<div style="width:{{width}};height:20px" >&nbsp;Search:<input style="border:solid 1px #ccc;margin-left:10px" type=text onkeyup="do_{{id}}_search(this)"/></div>{% endif %}
+<div id="{{id}}_container" style="width:{{width}}; height:{{height}}"></div>
