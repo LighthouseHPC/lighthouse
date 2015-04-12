@@ -28,16 +28,25 @@ int main(int argc, char *argv[]) {
 }
 
 //  https://code.google.com/p/trilinos/wiki/Tpetra_Belos_CreateSolver
-void belosSolve(const RCP<MAT> A) {
+void belosSolve(const RCP<const MAT> A) {
   RCP<ParameterList> solverParams = parameterList();
   solverParams->set("Num Blocks", 40); //max # of Krylov vectors to store
   solverParams->set("Maximum Iterations", 400); //total # of iters incl restarts
   solverParams->set("Convergence Tolerance", 1.0e-8); //relative residual 2-norm
 
   //  Create solver and specify algorithm
-  Belos::SolverFactory<ST, MV, OP> factory;
+  Belos::SolverFactory<ST, MV, OP> belosFactory;
   RCP<Belos::SolverManager<ST, MV, OP> > solver = 
-    factory.create("GMRES", solverParams); 
+    belosFactory.create("GMRES", solverParams); 
+
+  //  Create the preconditioner
+  RCP<PT> prec;
+  Ifpack2::Factory ifpack2Factory;
+  const std::string precondType = "ILUT";
+  prec = ifpack2Factory.create(precondType, A);
+  prec->initialize();
+  prec->compute();
+
 
   //  Create the linear problem
   RCP<MV> X = rcp (new MV (A->getDomainMap(), 1));
@@ -45,6 +54,7 @@ void belosSolve(const RCP<MAT> A) {
   B->randomize();
   typedef Belos::LinearProblem<ST, MV, OP> PT;
   RCP<PT> problem = rcp (new PT(A, X, B));
+  problem->setRightPrec(prec);
   problem->setProblem();
 
   solver->setProblem(problem);

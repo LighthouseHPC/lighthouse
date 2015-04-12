@@ -31,6 +31,9 @@
 #include <BelosTpetraAdapter.hpp>
 #include <BelosSolverFactory.hpp>
 
+//  Ifpack2
+#include <Ifpack2_Factory.hpp>
+
 //  Typedefs
 typedef double ST;
 typedef int LO;
@@ -43,6 +46,10 @@ typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
 typedef Tpetra::Operator<ST, LO, GO, NT> OP;
 typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
 typedef Teuchos::RCP<Teuchos::Time> TIMER;
+typedef Teuchos::ScalarTraits<ST> STS;
+typedef STS::magnitudeType magnitude_type;
+typedef Teuchos::ScalarTraits<magnitude_type> STM;
+typedef Ifpack2::Preconditioner<ST, LO, GO, NT> PT;
 
 //  Namespaces
 using Tpetra::global_size_t;
@@ -59,4 +66,4 @@ using Teuchos::ParameterList;
 using Teuchos::parameterList;
 
 //  Functions
-void belosSolve(const RCP<MAT> A);
+void belosSolve(const RCP<const MAT> A);
