@@ -91,6 +91,38 @@ using Teuchos::Array;
 using Teuchos::Time;
 using Teuchos::TimeMonitor;
 
+//  Timers
+TIMER timeRowVariance;
+TIMER timeColVariance;
+TIMER timeDiagVariance;
+TIMER timeNonzeros;
+TIMER timeDim;
+TIMER timeFrobeniusNorm;
+TIMER timeSymmetricFrobeniusNorm;
+TIMER timeAntisymmetricFrobeniusNorm;
+TIMER timeOneNorm;
+TIMER timeInfNorm;
+TIMER timeSymmetricInfNorm;
+TIMER timeAntisymmetricInfNorm;
+TIMER timeMaxNonzerosPerRow;
+TIMER timeMinNonzerosPerRow;
+TIMER timeAvgNonzerosPerRow;
+TIMER timeTrace;
+TIMER timeAbsTrace;
+TIMER timeDummyRows;
+TIMER timeSymmetry;
+TIMER timeRowDiagonalDominance;
+TIMER timeColDiagonalDominance;
+TIMER timeLowerBandwidth;
+TIMER timeUpperBandwidth;
+TIMER timeDiagonalMean;
+TIMER timeDiagonalSign;
+TIMER timeDiagonalNonzeros;
+TIMER timeEigenValuesLM;
+TIMER timeEigenValuesSM;
+TIMER timeEigenValuesLR;
+TIMER timeEigenValuesSR; 
+
 //  Functions
 void runGauntlet(const RCP<MAT> &A);
 ST calcRowVariance(const RCP<MAT> &A);

@@ -5,37 +5,6 @@ RCP<Teuchos::FancyOStream> fos;
 int numNodes;
 int myRank;
 
-TIMER timeRowVariance;
-TIMER timeColVariance;
-TIMER timeDiagVariance;
-TIMER timeNonzeros;
-TIMER timeDim;
-TIMER timeFrobeniusNorm;
-TIMER timeSymmetricFrobeniusNorm;
-TIMER timeAntisymmetricFrobeniusNorm;
-TIMER timeOneNorm;
-TIMER timeInfNorm;
-TIMER timeSymmetricInfNorm;
-TIMER timeAntisymmetricInfNorm;
-TIMER timeMaxNonzerosPerRow;
-TIMER timeMinNonzerosPerRow;
-TIMER timeAvgNonzerosPerRow;
-TIMER timeTrace;
-TIMER timeAbsTrace;
-TIMER timeDummyRows;
-TIMER timeSymmetry;
-TIMER timeRowDiagonalDominance;
-TIMER timeColDiagonalDominance;
-TIMER timeLowerBandwidth;
-TIMER timeUpperBandwidth;
-TIMER timeDiagonalMean;
-TIMER timeDiagonalSign;
-TIMER timeDiagonalNonzeros;
-TIMER timeEigenValuesLM;
-TIMER timeEigenValuesSM;
-TIMER timeEigenValuesLR;
-TIMER timeEigenValuesSR; 
-
 int main(int argc, char *argv[]) {
 	std::string filename(argv[1]);
   if (filename.empty()) {
@@ -150,6 +119,7 @@ ST calcRowVariance(const RCP<MAT> &A) {
 
 //  Transpose the matrix, get row locVariance 
 ST calcColVariance(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeColVariance);
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 	
@@ -185,6 +155,7 @@ ST calcColVariance(const RCP<MAT> &A) {
 
 //  The variance of the diagonal
 ST calcDiagVariance(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeDiagVariance);
 	GO rows = A->getGlobalNumRows(); 
 	ST locMean = 0.0; 
 	ST mean = 0.0, locVariance = 0.0, result = 0.0;
@@ -226,24 +197,28 @@ ST calcDiagVariance(const RCP<MAT> &A) {
 
 //  Total number of nonzeros in matrix
 size_t calcNonzeros(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeNonzeros);
 	//*fos << "nonzeros:" << A->getGlobalNumEntries() << ", " << std::endl;
 	return A->getGlobalNumEntries();
 }
 
 //  Dimension of the square matrix
 size_t calcDim(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeDim);
 	//*fos << "dimension:" << A->getGlobalNumRows() << ", " << std::endl;
 	return A->getGlobalNumRows();
 }
 
 //  Frobenius norm of matrix
 ST calcFrobeniusNorm(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeFrobeniusNorm);
 	//*fos << "frob norm:" << A->getFrobeniusNorm() << ", " << std::endl;
 	return A->getFrobeniusNorm();
 }
 
 //  Symmetric A_s = (A+A')/2
 ST calcSymmetricFrobeniusNorm(const RCP<MAT> &A){ 
+	TimeMonitor LocalTimer (*timeSymmetricFrobeniusNorm);
 	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, 0.5, true, *A);
 	//*fos << "symm frob norm:" << A_s->getFrobeniusNorm() << ", " << std::endl;
 	return A_s->getFrobeniusNorm();
@@ -251,6 +226,7 @@ ST calcSymmetricFrobeniusNorm(const RCP<MAT> &A){
 
 //  Antisymmetric A_a = (A-A')/2
 ST calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){ 
+	TimeMonitor LocalTimer (*timeAntisymmetricFrobeniusNorm);
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
 	//*fos << "antisymm frob norm:" << A_a->getFrobeniusNorm() << ", " << std::endl;
 	return A_a->getFrobeniusNorm();
@@ -258,6 +234,7 @@ ST calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){
 
 //  Max absolute row sum
 ST calcInfNorm(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeInfNorm);
 	GO rows = A->getGlobalNumRows(); 
 	ST locSum, locMaxSum, result = 0.0;
 	//  Go through each row on the current process
@@ -283,6 +260,7 @@ ST calcInfNorm(const RCP<MAT> &A) {
 
 //  Max absolute column sum
 ST calcOneNorm(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeOneNorm);
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
@@ -311,6 +289,7 @@ ST calcOneNorm(const RCP<MAT> &A) {
 
 //  Max absolute row sum of symmetric part
 ST calcSymmetricInfNorm(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeSymmetricInfNorm);
 	RCP<MAT> A_s = Tpetra::MatrixMatrix::add(0.5, false, *A, 0.5, true, *A);
 	//*fos << "symmetric ";
 	return calcInfNorm(A_s);
@@ -318,6 +297,7 @@ ST calcSymmetricInfNorm(const RCP<MAT> &A) {
 
 //  Max absolute row sum of anti-symmetric part
 ST calcAntisymmetricInfNorm(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeAntisymmetricInfNorm);
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
 	//*fos << "anti-symmetric ";
 	return calcInfNorm(A_a);
@@ -325,10 +305,12 @@ ST calcAntisymmetricInfNorm(const RCP<MAT> &A) {
 
 //  Self explanatory
 size_t calcMaxNonzerosPerRow(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeMaxNonzerosPerRow);
 	return A->getGlobalMaxNumRowEntries();
 }
 
 size_t calcMinNonzerosPerRow(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeMinNonzerosPerRow);
 	size_t rows = A->getGlobalNumRows();
 	size_t locNonzeros = rows, locMinNonzeros = rows, result = 0;	
 
@@ -348,6 +330,7 @@ size_t calcMinNonzerosPerRow(const RCP<MAT> &A) {
 }
 
 ST calcAvgNonzerosPerRow(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeAvgNonzerosPerRow);
 	GO rows = A->getGlobalNumRows();
 	GO locNonzeros = 0, result = 0;
 
@@ -364,6 +347,7 @@ ST calcAvgNonzerosPerRow(const RCP<MAT> &A) {
 }
 
 ST calcTrace(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeTrace);
 	GO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
@@ -387,6 +371,7 @@ ST calcTrace(const RCP<MAT> &A) {
 }
 
 ST calcAbsTrace(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeAbsTrace);
 	GO rows = A->getGlobalNumRows(); 
 	ST trace = 0.0, result = 0.0;
 
@@ -410,6 +395,7 @@ ST calcAbsTrace(const RCP<MAT> &A) {
 }
 
 size_t calcDummyRows(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeDummyRows);
 	size_t rows = A->getGlobalNumRows(); 
 	size_t locDummy = 0, result = 0;
 
@@ -427,6 +413,7 @@ size_t calcDummyRows(const RCP<MAT> &A) {
 }
 
 std::vector<ST> calcSymmetry(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeSymmetry);
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
@@ -492,6 +479,7 @@ std::vector<ST> calcSymmetry(const RCP<MAT> &A) {
 // 0 not, 1 weak, 2 strict
 // a_ii >= sum(a_ij) for all i,js i!=j
 int calcRowDiagonalDominance(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeRowDiagonalDominance);
 	GO rows = A->getGlobalNumRows(); 
 	ST result = 0.0;
 	GO totalMatch, match = 0;
@@ -535,6 +523,7 @@ int calcRowDiagonalDominance(const RCP<MAT> &A) {
 }
 
 int calcColDiagonalDominance(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeColDiagonalDominance);
 	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 
@@ -581,6 +570,7 @@ int calcColDiagonalDominance(const RCP<MAT> &A) {
 }
 
 ST calcDiagonalMean(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeDiagonalMean);
 	ST locMean, mean = 0.0;
   GO rows = A->getGlobalNumRows();
   for (GO row = 0; row < rows; row++) {
@@ -606,6 +596,7 @@ ST calcDiagonalMean(const RCP<MAT> &A) {
 // -2 all negative, -1 nonpositive, 0 all zero, 1 nonnegative, 2 all positive, 
 // 3 some negative,some or no zero,some positive
 int calcDiagonalSign(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeDiagonalSign);
 	long locPos = 0, locNeg = 0, locZero = 0;
 	long totalPos, totalNeg, totalZero;
 	GO rows = A->getGlobalNumRows();
@@ -655,10 +646,12 @@ int calcDiagonalSign(const RCP<MAT> &A) {
 }
 
 size_t calcDiagonalNonzeros(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeDiagonalNonzeros);
 	return A->getGlobalNumDiags();
 }
 
 size_t calcLowerBandwidth(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeLowerBandwidth);
 	size_t rows = A->getGlobalNumRows();
 	size_t localMaxLB = 0, localLB = 0, totalLB;
 	size_t minIndex;
@@ -689,6 +682,7 @@ size_t calcLowerBandwidth(const RCP<MAT> &A) {
 }
 
 size_t calcUpperBandwidth(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeUpperBandwidth);
 	size_t rows = A->getGlobalNumRows();
 	size_t localMaxUB = 0, localUB = 0, totalUB;
 	size_t maxIndex;
@@ -720,6 +714,15 @@ size_t calcUpperBandwidth(const RCP<MAT> &A) {
 
 // based off tinyurl.com/ktlpsah
 RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
+	TimeMonitor LocalTimerLM (*timeEigenValuesLM);
+	TimeMonitor LocalTimerSM (*timeEigenValuesSM);
+	TimeMonitor LocalTimerLR (*timeEigenValuesLR);
+	TimeMonitor LocalTimerSR (*timeEigenValuesSR);
+	timeEigenValuesLM->stop();
+	timeEigenValuesSM->stop();
+	timeEigenValuesLR->stop();
+	timeEigenValuesSR->stop();
+
   Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   RCP<NT> node = platform.getNode();
 
@@ -743,14 +746,18 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   MyPL.set("Num Blocks", numBlocks);                   // Maximum number of blocks in the subspace
 
   //  Default to largest magnitude 
-  if (eigenType.compare("SM") == 0) {
-    MyPL.set("Which", "SM");
-  } else if (eigenType.compare("SR") == 0) {
+  if (eigenType.compare("SR") == 0) {
     MyPL.set("Which", "SR");
+    timeEigenValuesSR->start();
+  } else if (eigenType.compare("SM") == 0) {
+    MyPL.set("Which", "SM");
+    timeEigenValuesSM->start();
   } else if (eigenType.compare("LR") == 0) {
     MyPL.set("Which", "LR");
+    timeEigenValuesLR->start();
   } else {
     MyPL.set("Which", "LM");
+    timeEigenValuesLM->start();
   }
 
   //  Create multivector for a initial vector to start the solver
