@@ -33,7 +33,11 @@ int main(int argc, char *argv[]) {
 	RCP<MAT> B = transposer.createTranspose();
 	initTimers();
   runGauntlet(A);
-  TimeMonitor::summarize(out);
+  RCP<Teuchos::ParameterList> reportParams = Teuchos::parameterList();
+  reportParams->set("Report format", "YAML");
+  reportParams->set("YAML style", "compact");
+  const std::string a = "";
+  TimeMonitor::report(comm.ptr(), out, a, reportParams);
   //calcSmallestEigenvalues(A, filename);
   //calcInverseMethod(A);
 }
