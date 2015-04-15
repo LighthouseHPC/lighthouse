@@ -1,6 +1,6 @@
 import datetime
 from haystack import indexes
-from orthg.models import least
+from models import least
 
 
 
