@@ -64,8 +64,8 @@ NOYESBOTH_CHOICES = (
 
 #####----------- for LAPACK least square problem type, Sylvester routines -------------#####
 STANDARD_CHOICES = (
-        (u'standard',                   	u'Driver standard with general matrix'),
-        (u'generalized',                	u'Driver generalized with general matrices'), 
+        (u'standard',                   	u'Standard linear least squares with general matrix'),
+        (u'generalized',                	u'Generalized linear least squares with general matrices'), 
 )
 
 FullStorageNoYes_CHOICES = (
@@ -74,8 +74,8 @@ FullStorageNoYes_CHOICES = (
 )
 
 QR_CHOICES = (
-        (u'QR Column pivoting',                   	u'QR Column pivoting'),
-        (u'Faster QR',                	                u'Faster QR'), 
+        (u'QR Column pivoting',                   	u'QR factorization Column pivoting'),
+        (u'Faster QR',                	                u'QR factorization with faster processing spped(require more memory space)'), 
 )
 
 SVD_CHOICES = (
