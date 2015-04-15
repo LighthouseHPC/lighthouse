@@ -36,12 +36,12 @@ class FullStorageForm(forms.Form):
     	      
 ##---- standard: Full Rank form ----##
 class sFullRankForm(forms.Form):
-    orthg_sFullRank = forms.ChoiceField(label='Does your matrix is full rank?',widget=forms.RadioSelect(),choices=NOYES_CHOICES)
+    orthg_sFullRank = forms.ChoiceField(label='Is your matrix full rank?',widget=forms.RadioSelect(),choices=NOYES_CHOICES)
 
      
 ##---- complex form ----##
 class complexNumberForm(forms.Form):
-    orthg_complexNumber = forms.ChoiceField(label='Does your matrix has complex number?', widget=forms.RadioSelect(), choices=NOYES_CHOICES)
+    orthg_complexNumber = forms.ChoiceField(label='Does your matrix has at least one complex number?', widget=forms.RadioSelect(), choices=NOYES_CHOICES)
 
 ##---- QR form ----##
 class qrForm(forms.Form):
