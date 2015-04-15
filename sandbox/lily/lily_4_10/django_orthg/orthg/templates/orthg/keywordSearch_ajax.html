@@ -1,0 +1,126 @@
+<!-- ########### Keyword search form: ###########-->
+<script type="text/javascript">
+        dojo.ready( function() {		
+            /* ajax for keyword search result */
+            var form = dojo.byId("keyword_form");
+            dojo.connect(form, "onsubmit", function(event){
+                    var x=document.forms["keyword_form"]["q"].value;
+                    if (x==null || x==""){
+                            alert("No strings were entered!");
+                    }
+                    else{
+                            //Stop the submit event since we want to control form submission.
+                            dojo.stopEvent(event);	
+                            dojo.xhrPost({
+                                    form: form,
+                                    url: "/lapack_le/keyword/",
+                                    load: function(response){
+                                            //alert(response);
+                                            dojo.byId("tab1").innerHTML = response;
+                                        },
+                                    error: function(){
+                                        console.log("error");
+                                        }
+                            });				
+                    }
+            });       
+        })
+</script>
+
+<div id="title-div">
+        <table id="icon-table">
+                <tr>
+                        <td id="icon-cell">
+                                <img src="{{ MEDIA_URL }}Images/keywordSearch.png" width="32" height="32"/>
+                        </td>           
+                        <td id="title-cell">
+                                Keyword Search 
+                        </td>
+                </tr>
+        </table>        
+</div>
+<br>
+<div id="button-div" >
+        <table  border="0" cellspacing="10" id="icon-table" style="margin-left: 10px; padding-top: 0px;">
+                <tr>
+                        <td style="padding-top:5px; padding-bottom:5px;">
+                                <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+                        </td>
+                        <td  label for="id_q" colspan="2" >
+                                <b> Please enter a word or phrase to search in the subroutines of <u>Linear Equations</u>: </b>
+                        </td>
+                </tr>               
+                <form action="" method="post" name="kw_form" id="keyword_form">
+                        {% csrf_token %}
+                <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2">
+                                <input type="text" size="60"
+                                        autocomplete="off"
+                                        style="border:solid 1px black; font-family: Tahoma; font-size: 15px;"
+                                        name="q"
+                                        id="id_q"
+                                        value= "{{ request.POST.q }}"/>
+                        </td>
+                </tr>
+
+                <tr>
+                        <td>&nbsp;</td>
+                        <th><label for="id_models_0"><b>Search in (optional):</b></label></th>
+                        <td><ul>
+                                <li><label for="id_models_2"><input type="checkbox" name="models" value="lighthouse.lapack_le_driver" id="id_models_2" /> Driver Routines (Linear Equations)</label></li>
+                                <li><label for="id_models_1"><input type="checkbox" name="models" value="lighthouse.lapack_le_computational" id="id_models_1" /> Computational Routines (Linear Equations)</label></li>       
+                        </ul></td>
+                </tr>          
+        </table>
+        <table id="tab_keywordSubmit" style="width:100%; margin: 0px auto; padding: 20px;">
+                <tr style="width:100%;">
+			<td style="text-align:left;">				
+				<button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search"
+					onclick="return show_confirm()">
+                                        <img src="{{ MEDIA_URL }}Images/clear.png" height="16"/> 
+				</button>				
+			</td>
+                        <td style="text-align:right;">
+                                <button type="submit" name="Search" id="searchButton" class="myButton" title="Search String" style="width: 60px;"
+                                        >
+                                        <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" height="16"/>
+                                </button >                      
+                        </td>
+                </tr>                
+        </table>
+        </form>
+<!--        <form>
+        <table id="tab_refine" border="0" cellspacing="10" id="icon-table2" style="margin-left: 10px; padding-top: 0px; display:none;">
+                <tr>
+                        <td>&nbsp;&nbsp;</td>
+                        <td  label for="id_q2" colspan="2" >
+                        <b> Refine keyword filter: </b>
+                        </td>
+                        <td>
+                                <input type="text" size="40"
+                                        autocomplete="off"
+                                        style="border:solid 1px black; font-family: Tahoma; font-size: 15px;"
+                                        name="q"
+                                        id="id_q"/>
+                        </td>
+                </tr>
+        </table>
+        <table id="tab_refineSubmit" style="width:100%; margin: 0px auto; padding: 20px; display:none;">
+                <tr style="width:100%;">
+			<td style="text-align:left;">				
+				<button type="button" name="clear" id="clearButton2" class="myButton" title="Clear Search"
+					onclick="return show_confirm()">
+                                        <img src="{{ MEDIA_URL }}Images/clear.png" height="16"/> 
+				</button>				
+			</td>
+                        <td style="text-align:right;">
+                                <button type="submit" name="Search" id="searchButton2" class="myButton" title="Search String2"
+                                        style="width: 60px;">
+                                        <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" height="16"/>
+                                </button >                      
+                        </td>
+                </tr>                
+        </table>        
+        </form>-->
+</div>

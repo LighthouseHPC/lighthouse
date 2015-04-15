@@ -13,4 +13,5 @@ urlpatterns = patterns('orthg.views',
     url(r'^guidedSearch_index/$', "guidedSearch_index", name='orthg'),
     # ex: /polls/5/results/
     url(r'^guidedSearch/$', "guidedSearch", name='orthg_guidedSearch'),
+    url(r'^keyword/$', "keywordResult"),
 )

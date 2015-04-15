@@ -32,7 +32,7 @@ class standardGeneralizedForm(forms.Form):
     
 
 class FullStorageForm(forms.Form):
-    orthg_FullStorage = forms.ChoiceField(label='How is your matrix stored?', choices=FullStorageNoYes_CHOICES, widget=forms.RadioSelect())
+    orthg_FullStorage = forms.ChoiceField(label='Given your selections, the LAPACK subroutines only support full storage matrices. Do you wish to continue the search?', choices=FullStorageNoYes_CHOICES, widget=forms.RadioSelect())
     	      
 ##---- standard: Full Rank form ----##
 class sFullRankForm(forms.Form):
