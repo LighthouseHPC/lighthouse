@@ -2,13 +2,12 @@
 
 RCP<const Teuchos::Comm<int> > comm;
 RCP<Teuchos::FancyOStream> fos;
-int numNodes;
-int myRank;
+int myRank, numNodes;
 
 int main(int argc, char *argv[]) {
 	std::string filename(argv[1]);
   if (filename.empty()) {
-  	*fos << "No .mtx file was specified" << std::endl;
+  	std::cout << "No .mtx file was specified" << std::endl;
   	return -1;
   }	
 	//  General setup for Teuchos/communication
@@ -18,22 +17,28 @@ int main(int argc, char *argv[]) {
   RCP<NT> node = platform.getNode();
   myRank = comm->getRank(); 
 
+  unsigned found = filename.find_last_of("/\\");
+  std::string outputFilename = "/lustre/janus_scratch/pamo8800/tpetra_results/" + filename.substr(found+1)+".out";
+  std::ofstream outputFile(outputFilename.c_str());
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
-  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
+  //fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 
-	// Load and run tests on Matrix Market file
-	if (argc < 2) {
-		*fos << "Error: no file was selected" << std::endl;
-		exit(-2);
-	}	
+  //  Basic non-timing properties to output
+  outputFile << "Matrix : " << filename.substr(found+1) << std::endl;
+  outputFile << "Procs: " << comm->getSize() << std::endl;
 
   RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
   Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 	initTimers();
   runGauntlet(A);
-  TimeMonitor::summarize(out);
+
+  RCP<Teuchos::ParameterList> reportParams = Teuchos::parameterList();
+  reportParams->set("Report format", "YAML");
+  reportParams->set("YAML style", "compact");
+  TimeMonitor::report(comm.ptr(), outputFile, "", reportParams);
   //calcSmallestEigenvalues(A, filename);
   //calcInverseMethod(A);
 }
@@ -71,16 +76,11 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << calcDiagonalMean(A) << ", ";
 	*fos << calcDiagonalSign(A) << ", ";
 	*fos << calcDiagonalNonzeros(A) << ", ";
-	*fos << "\nLM:" << std::endl;
   calcEigenValues(A, "LM");
-  *fos << "\nSM:" << std::endl;
   calcEigenValues(A, "SM");
-  *fos << "\nLR:" << std::endl;
   calcEigenValues(A, "LR");
-  *fos << "\nSR:" << std::endl;
   calcEigenValues(A, "SR"); 
   *fos << std::endl;
-  
 }
 
 //  Return the maximum row locVariance for the matrix
@@ -730,10 +730,10 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   ST mat_norm = A->getFrobeniusNorm();
 
   //  Start block Arnoldi iteration
-  int nev = 4;
+  int nev = 1;
   int blockSize = 1;
   int numBlocks = 10*nev / blockSize;
-  ST tol = 1e-6;
+  ST tol = 1e-8;
 
   //  Create parameters to pass to the solver
   Teuchos::ParameterList MyPL;

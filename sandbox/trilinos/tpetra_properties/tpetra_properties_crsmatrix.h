@@ -1,6 +1,8 @@
 //  C/C++
 #include <cmath>
 #include <stdint.h>
+#include <iostream>
+#include <fstream>
 
 //  Tpetra
 #include <Tpetra_Operator.hpp>
