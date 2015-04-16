@@ -1,0 +1,128 @@
+/*
+
+	there are basically all the classes you can set 
+	for the various dojo.dnd states and elements in
+	their simplest form. hacking welcome. 
+
+*/
+.container {
+	border: 0px solid #ccc;
+	padding: 15px 15px 0px 15px;
+	cursor: default;
+	radius: 8pt;
+	background: #fff;
+}
+
+.container2 {
+	border: 1px  #ccc;
+	padding: 1em 2em; 
+	cursor: default;
+	radius: 8pt;
+	background: #fff;
+}
+
+.dojoDndContainer{
+	border: 1px solid #fff;
+}
+
+.dojoDndContainerOver {
+	/* cursor:pointer; */
+	border: 1px solid #aaa;
+}
+
+.dojoDndTargetDisabled {
+	background: #eee;
+}
+
+.dojoDndItem { 
+	padding: 0px;
+	background-color: #fbfbfb;	
+}
+
+.notDndItem { 
+	padding: 0px;
+	background-color: #fbfbfb;	
+}
+
+.notDndItem .routineName{ 	
+	font-weight: bold;
+	background: #D7E6AC;
+	color: #000;
+	padding-left: 0px;
+}
+
+.dojoDndItem .routineName{ 	
+	font-weight: bold;
+	background: #D7E6AC;
+	color: #000;
+	padding-left: 0px;
+}
+
+
+.dj_ff2 .dojoDndItem {
+	-moz-user-select: none; /* workaround FF2 dragging bug, see #6345, #4854, #6350 */
+} 
+
+.dojoDndItemOver {
+	background: #ededed;
+	cursor: pointer;
+}
+
+.dojoDndItemSelected {
+	background: #ccc; color: #000;
+}
+
+.dojoDndItemAnchor {
+	background: #ccc; color: #000;
+}
+
+.dojoDndItemOver .dojoDndItemSelected {
+	background: #ededed;
+}
+
+.dojoDndItemOver .dojoDndItemAnchor {
+	background: #ededed;
+}
+
+.dojoDndItemBefore {
+	border-top: 2px solid #369;
+}
+
+.dojoDndItemAfter {
+	border-bottom: 2px solid #369;
+}
+
+.dojoDndAvatar {
+	border: 2px solid #ccc;
+	font-size: 75%;
+	width: 500px;
+}
+	
+.dojoDndAvatarHeader {
+	background: #aaa;
+}
+
+.dojoDndAvatarItem {
+	background: #fff;
+	border-bottom: 1px solid #666;
+}
+
+#selectedRoutines .routineName {
+	background: #eee;	
+	width:100%;
+}
+
+#selectedRoutines .routineNameAdvanced {
+	background: white;	
+	width:100%;
+	margin-top: 5px;
+}
+
+#selectedRoutines .routineInfo {
+	overflow: hidden;
+	display: none;
+}
+
+#selectedRoutines .hiddenStuff {
+	visibility: visible;
+}
