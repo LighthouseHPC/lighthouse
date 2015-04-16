@@ -64,8 +64,8 @@ NOYESBOTH_CHOICES = (
 
 #####----------- for LAPACK least square problem type, Sylvester routines -------------#####
 STANDARD_CHOICES = (
-        (u'standard',                   	u'Standard linear least squares with general matrix'),
-        (u'generalized',                	u'Generalized linear least squares with general matrices'), 
+        (u'standard',                   	u'Standard linear least squares problem with general matrix'),
+        (u'generalized',                	u'Generalized linear least squares problem with general matrices'), 
 )
 
 FullStorageNoYes_CHOICES = (
@@ -95,7 +95,7 @@ SFULLRANK_CHOICES = (
 
 
 GFULLRANK_CHOICES = (
-        (u'A_Full_Col',                 	u'Only A is Full Rank'), 
-        (u'B_Full_Row',                 	u'Only B is Full Rank'), 
+        (u'A_Full_Col',                 	u'linear equality-constrained least squares problem (LSE) (<i>min|c-Ax| subject to Bx=d</i>)'), 
+        (u'B_Full_Row',                 	u'general (Gauss-Markov) linear model problem (GLM)(<i>min|y| subject to d=Ax+By</i>)'), 
 )
 

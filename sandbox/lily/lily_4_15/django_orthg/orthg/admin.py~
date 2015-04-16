@@ -15,8 +15,8 @@ class EntryAdminForm(forms.ModelForm):
 
 class least_Admin(admin.ModelAdmin):
 #add: routineName
-	list_display = ('id', 'thePrecision', 'standardGeneralized', 'sFullRank', 'gFullRank' )
-	list_filter = ['standardGeneralized', 'thePrecision', 'sFullRank', 'gFullRank']
+	list_display = ('id', 'thePrecision', 'standardGeneralized', 'sFullRank', 'gFullRank', 'svd', 'qr', )
+	list_filter = ['standardGeneralized', 'thePrecision', 'sFullRank', 'gFullRank', 'svd', 'qr',]
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	#raw_id_fields = ('info',)

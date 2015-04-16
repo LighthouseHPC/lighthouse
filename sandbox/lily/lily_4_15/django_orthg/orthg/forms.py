@@ -41,7 +41,7 @@ class sFullRankForm(forms.Form):
      
 ##---- complex form ----##
 class complexNumberForm(forms.Form):
-    orthg_complexNumber = forms.ChoiceField(label='Does your matrix has at least one complex number?', widget=forms.RadioSelect(), choices=NOYES_CHOICES)
+    orthg_complexNumber = forms.ChoiceField(label='Does your matrix has at least one complex number?', widget=forms.RadioSelect(), choices=COMPLEX_CHOICES)
 
 ##---- QR form ----##
 class qrForm(forms.Form):
@@ -54,7 +54,7 @@ class svdForm(forms.Form):
 ##---- generalized:Full Rank form ----##
 
 class gFullRankForm(forms.Form):
-    orthg_gFullRank = forms.ChoiceField(label='How would you like to compute problem?',widget=forms.RadioSelect(),choices=GFULLRANK_CHOICES)
+    orthg_gFullRank = forms.ChoiceField(label='Which type of generalized linear least squares problem do you want to solve?',widget=forms.RadioSelect(),choices=GFULLRANK_CHOICES)
     
 ##--- precision form ---##
 class singleDoubleForm(forms.Form):
