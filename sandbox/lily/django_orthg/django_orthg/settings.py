@@ -39,6 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'orthg',
     'dojango',
+ ###----- for haystack -----###
+    'haystack',
+    
+    ###----- for dajaxice and dajax -----###
+    'dajaxice',
+    'dajax',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,7 +68,7 @@ WSGI_APPLICATION = 'django_orthg.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.sqlite3',
-        'NAME': 'lighthouse_orthg.db',
+        'NAME': 'orthg.db',
        #'HOST':'/Users/lily/lighthouse-taxonomy/sandbox/lily/django_orthg/lighthouse_orthg.db'
        # 'USER': 'lighthouse', 
        # 'PASSWORD': 'yellow1234',
@@ -129,6 +135,20 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+  "django.contrib.auth.context_processors.auth",
+  "django.core.context_processors.media",
+  "django.core.context_processors.static",
+  "django.core.context_processors.csrf",
+
+# Must define a function "templates(request)" in django.core.context_processors 
+# in order to enable the template tag {{ templates }} for TEMPLATE_URL
+  #"django.core.context_processors.templates",
+
+# For dajaxice.
+  "django.core.context_processors.request",
+  'django.contrib.messages.context_processors.messages'
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -190,6 +210,9 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
     },
 }
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+#HAYSTACK_SITECONF = 'orthg'
 
 
 

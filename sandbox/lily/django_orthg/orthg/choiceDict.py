@@ -64,14 +64,23 @@ NOYESBOTH_CHOICES = (
 
 #####----------- for LAPACK least square problem type, Sylvester routines -------------#####
 STANDARD_CHOICES = (
-        (u'standard',                   	u'standard'),
-        (u'generalized',                	u'generalized'), 
+        (u'standard',                   	u'Standard linear least squares problem with general matrix'),
+        (u'generalized',                	u'Generalized linear least squares problem with general matrices'), 
 )
 
+FullStorageNoYes_CHOICES = (
+		(u'yes',                       u'yes, continue'),
+		(u'no',                        u'no, stop the search'),
+)
 
+COMPLEX_CHOICES = (
+          (u'complex',                       u'yes'),
+          (u'real',                          u'no'),
+
+)
 QR_CHOICES = (
-        (u'QR Column pivoting',                   	u'QR Column pivoting'),
-        (u'Faster QR',                	                u'Faster QR'), 
+        (u'QR Column pivoting',                   	u'QR factorization Column pivoting'),
+        (u'Faster QR',                	                u'QR factorization with faster processing spped(require more memory space)'), 
 )
 
 SVD_CHOICES = (
@@ -86,9 +95,7 @@ SFULLRANK_CHOICES = (
 
 
 GFULLRANK_CHOICES = (
-        (u'Neither are Full Rank',                   	u'Neither are Full Rank'),
-        (u'Both are Full Rank',                 	u'Both are Full Rank'), 
-        (u'Only A is Full Rank',                 	u'Only A is Full Rank'), 
-        (u'Only B is Full Rank',                 	u'Only B is Full Rank'), 
+        (u'A_Full_Col',                 	u'linear equality-constrained least squares problem (LSE) (<i>min|c-Ax| subject to Bx=d</i>)'), 
+        (u'B_Full_Row',                 	u'general (Gauss-Markov) linear model problem (GLM)(<i>min|y| subject to d=Ax+By</i>)'), 
 )
 

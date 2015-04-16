@@ -203,6 +203,34 @@
                 color: #669;
         }
 
+
+	/* table for LAPACK advanced search results */
+	table.advancedResult {
+		width:	100%;
+		padding: 10px;
+		border: 0px solid #ccc;
+		cursor: default;
+		radius: 8pt;
+		background: #fff;
+	}
+	
+	table.advancedResult th {
+                font-size: 12px;
+                font-weight: bold;
+                padding: 8px;
+                background-color: #D7E6AC;
+                border: 1px solid #9dbf3a;
+                margin: 0px;		
+	}
+	
+	table.advancedResult td {
+                padding-left: 8px;
+		padding-right: 8px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+                color: #669;
+	}
+	
 	
         /* box for dispalying the routine information */
          .box {
@@ -423,6 +451,33 @@
                 border-top: 1px solid #fff;
                 border-bottom: 1px solid #fff;
         }
+	
+	/* class="a" is the same as <th>. It is for hiding columns. */
+        #ver-zebra td.a{
+                font-size: 12px;
+                font-weight: bold;
+                padding: 12px 15px;
+                border-right: 1px solid #fff;
+                border-left: 1px solid #fff;
+                color: #003366;
+                background: #c9dcfa;
+                border-top: 1px solid #fff;
+                border-bottom: 1px solid #fff;
+        }
+	
+        #ver-zebra td.b{
+                padding: 8px 50px;
+                border-right: 1px solid #fff;
+                border-left: 1px solid #fff;
+                color: #003366;
+                border-top: 1px solid #fff;
+                border-bottom: 1px solid #fff;
+        }
+	
+	#ver-zebra td ul{
+		padding-left:10px;
+	}
+	
         .vzebra-odd {
                 background: #e0ebfc;
 
@@ -595,6 +650,41 @@
 	/* Add Line Wrapping to SyntaxHighlighter */
 	body .syntaxhighlighter .line {
 	    white-space: pre-wrap !important;
+	}
+	
+	
+	/* Table for lapack eigen advanced search menu */
+	#box-table-a
+	{
+		font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+		font-size: 12px;
+		margin: 20px;
+		width: 440px;
+		text-align: left;
+		border-collapse: collapse;
+	}
+	#box-table-a th
+	{
+		font-size: 13px;
+		font-weight: bold;
+		padding: 8px;
+		/*background: #b9c9fe;*/
+		border-top: 0px solid #aabcfe;
+		border-bottom: 2px solid #aabcfe;
+		color: #039;
+	}
+	#box-table-a td
+	{
+		padding: 8px;
+		/*background: #e8edff; */
+		border-bottom: 1px solid #fff;
+		color: #669;
+		border-top: 1px solid transparent;
+	}
+	#box-table-a tr:hover td
+	{
+		background: #d0dafd;
+		color: #339;
 	}
 
 </style>
