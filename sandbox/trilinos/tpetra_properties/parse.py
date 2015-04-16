@@ -1,13 +1,18 @@
-import re
-import pprint
+import re,sys
 
-f = open('parsed.txt', 'w')
+input_file = sys.argv[1]
+output_file = input_file + '.parsed'
+writing = open(output_file, 'w')
+reading = open(input_file, 'r')
 
-with open('output.txt') as fp:
-	for line in fp:
+for i, line in enumerate(reading):
+	if i == 0 or i == 1: #matrix/procs
+		writing.write( line.split(": ")[1] )
+	if i == 2: #results
+		writing.write(line)
+	if i == 10: #timings
 		string = re.findall(r"[+-]? *(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?", line)
 		for item in string:
-			f.write("%s," % item)
-		if string:
-			f.write("\n")
-	f.close()
+			writing.write("%s," % item)
+writing.close()
+reading.close()
