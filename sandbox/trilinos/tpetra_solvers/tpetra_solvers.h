@@ -34,6 +34,10 @@
 //  Ifpack2
 #include <Ifpack2_Factory.hpp>
 
+//  C++
+#include <array>
+#include <vector>
+
 //  Typedefs
 typedef double ST;
 typedef int LO;
@@ -49,7 +53,9 @@ typedef Teuchos::RCP<Teuchos::Time> TIMER;
 typedef Teuchos::ScalarTraits<ST> STS;
 typedef STS::magnitudeType magnitude_type;
 typedef Teuchos::ScalarTraits<magnitude_type> STM;
-typedef Ifpack2::Preconditioner<ST, LO, GO, NT> PT;
+typedef Ifpack2::Preconditioner<ST, LO, GO, NT> PRE;
+typedef Belos::LinearProblem<ST, MV, OP> LP;
+typedef Belos::SolverManager<ST, MV, OP> BSM;
 
 //  Namespaces
 using Tpetra::global_size_t;
@@ -65,5 +71,17 @@ using Teuchos::TimeMonitor;
 using Teuchos::ParameterList;
 using Teuchos::parameterList;
 
+//  Globals
+const	std::vector<std::string> ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL",
+	"RELAXATION", "CHEBYSHEV"};
+const std::vector<std::string> belosSolvers = {"Block GMRES", "CG", "CGPoly", 
+	"Flexible GMRES", "GMRES", "GmresPoly", "Pseudo Block CG", "Pseudo Block GMRES", 
+	"PseudoBlockCG", "PseudoBlockGmres", "Recycling CG", "Recycling GMRES", "Seed CG", 
+	"Seed GMRES", "Stochastic CG", "Transpose-Free QMR", "Block CG", "Block GMRES", 
+	"GCRODR", "Hybrid Block GMRES", "MINRES", "PCPG", "Pseudoblock CG", 
+	"Pseudoblock GMRES", "Pseudoblock Stochastic CG", "RCG", "TFQMR"};
+
 //  Functions
-void belosSolve(const RCP<const MAT> A);
+void belosSolve(const RCP<const MAT> &A);
+bool calcSymmetry(const RCP<MAT> &A);
+RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, std::string ifpack2PrecChoice);
