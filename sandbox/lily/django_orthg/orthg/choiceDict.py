@@ -95,7 +95,7 @@ SFULLRANK_CHOICES = (
 
 
 GFULLRANK_CHOICES = (
-        (u'A_Full_Col',                 	u'linear equality-constrained least squares problem (LSE) (<i>min|c-Ax| subject to Bx=d</i>)'), 
-        (u'B_Full_Row',                 	u'general (Gauss-Markov) linear model problem (GLM)(<i>min|y| subject to d=Ax+By</i>)'), 
+        (u'A_Full_Col',                 	u'linear equality-constrained least squares problem (LSE) (min|c-Ax| subject to Bx=d)'), 
+        (u'B_Full_Row',                 	u'general (Gauss-Markov) linear model problem (GLM)(min|y| subject to d=Ax+By)'), 
 )
 

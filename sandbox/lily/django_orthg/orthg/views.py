@@ -24,7 +24,7 @@ from itertools import chain
 
 import datetime
 
-form_order_standard = ['standardGeneralizedForm', 'complexNumberForm', 'FullStorageForm', 'sFullRankForm']
+form_order_standard = ['standardGeneralizedForm', 'complexNumberForm', 'FullStorageForm', 'sFullRankForm','singleDoubleForm']
 form_order_qr= [ 'sFullRankForm','qrForm', 'singleDoubleForm']
 form_order_svd= [ 'sFullRankForm','svdForm', 'singleDoubleForm']
 form_order_generalized = ['standardGeneralizedForm', 'complexNumberForm', 'FullStorageForm', 'gFullRankForm', 'singleDoubleForm']
@@ -107,10 +107,10 @@ def guidedSearch(request):
             if request.session['currentForm_name'] == 'standardGeneralizedForm' and request.session.get('orthg_standardGeneralized') == 'standard':
                request.session['form_order'] = form_order_standard
             elif request.session['currentForm_name'] == 'standardGeneralizedForm' and request.session.get('orthg_standardGeneralized') == 'generalized':               request.session['form_order'] = form_order_generalized     
-            elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'no':
-                 request.session['form_order'] = form_order_qr
-            elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'yes':
-                 request.session['form_order'] = form_order_svd
+            #elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'no':
+             #    request.session['form_order'] = form_order_qr
+            #elif request.session['currentForm_name'] == 'sFullRankForm' and request.session.get('orthg_sFullRank') == 'yes':
+            #     request.session['form_order'] = form_order_svd
       
              ## call function find_nextForm to set up next form for next question
             if request.session['orthg_FullStorage'] == 'no':         ## stop search
