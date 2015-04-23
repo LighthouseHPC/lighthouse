@@ -5,29 +5,42 @@ RCP<Teuchos::FancyOStream> fos;
 int myRank, numNodes;
 
 int main(int argc, char *argv[]) {
-	std::string filename(argv[1]);
-  if (filename.empty()) {
-  	std::cout << "No .mtx file was specified" << std::endl;
-  	return -1;
-  }	
+	std::string filename;
+	if (argv[1] == NULL) {
+		std::cout << "No input directory was specified" << std::endl;
+		return -1;
+	}
+	filename = argv[1];
+	std::string outputDir;
+	if (argv[2] == NULL) {
+  	std::cout << "No output directory was specified. Printing to screen" << std::endl;
+  }	else {
+		outputDir = argv[2];
+	}
+
+  
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   comm = platform.getComm();
   RCP<NT> node = platform.getNode();
   myRank = comm->getRank(); 
-
-  unsigned found = filename.find_last_of("/\\");
-  std::string outputFilename = "/lustre/janus_scratch/pamo8800/tpetra_results/" + filename.substr(found+1)+".out";
-  std::ofstream outputFile(outputFilename.c_str());
+  
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
-  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
-  //fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+  std::ofstream outputFile;
 
-  //  Basic non-timing properties to output
-  outputFile << "Matrix : " << filename.substr(found+1) << std::endl;
-  outputFile << "Procs: " << comm->getSize() << std::endl;
+  if (outputDir.empty()) { //  print to screen
+  	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+  } else { //  print to file
+  	unsigned found = filename.find_last_of("/\\");
+	  std::string outputFilename = "/lustre/janus_scratch/pamo8800/" + outputDir + "/" + filename.substr(found+1)+".out";
+	  std::cout << outputFilename << std::endl;
+	  outputFile.open(outputFilename.c_str());
+	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
+	  outputFile << "Matrix : " << filename.substr(found+1) << std::endl;
+	  outputFile << "Procs: " << comm->getSize() << std::endl;
+	}
 
   RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
   Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
@@ -35,10 +48,14 @@ int main(int argc, char *argv[]) {
 	initTimers();
   runGauntlet(A);
 
-  RCP<Teuchos::ParameterList> reportParams = Teuchos::parameterList();
-  reportParams->set("Report format", "YAML");
-  reportParams->set("YAML style", "compact");
-  TimeMonitor::report(comm.ptr(), outputFile, "", reportParams);
+  if (outputDir.empty()) {
+	  TimeMonitor::report(out);
+	} else {
+		RCP<Teuchos::ParameterList> reportParams = Teuchos::parameterList();
+	  reportParams->set("Report format", "YAML");
+	  reportParams->set("YAML style", "compact");
+	  TimeMonitor::report(comm.ptr(), outputFile, "", reportParams);
+	}
   //calcSmallestEigenvalues(A, filename);
   //calcInverseMethod(A);
 }
@@ -77,8 +94,8 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << calcDiagonalSign(A) << ", ";
 	*fos << calcDiagonalNonzeros(A) << ", ";
   calcEigenValues(A, "LM");
-  calcEigenValues(A, "SM");
   calcEigenValues(A, "LR");
+  calcEigenValues(A, "SM");
   calcEigenValues(A, "SR"); 
   *fos << std::endl;
 }
@@ -767,7 +784,7 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   //  Create eigenproblem
   RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
     rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(A, ivec));
-  MyProblem->setHermitian(false);
+  MyProblem->setHermitian(true);
   MyProblem->setNEV(nev);
 
   //  Taken from https://github.com/qsnake/trilinos/blob/master/packages/tpetra/example/HybridPlatform/build_eigproblem.hpp
@@ -812,14 +829,10 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
     MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
     MVT::MvNorm(Kvec, normR);
     for (int i=0; i<numev; i++) {
-      *fos << evals[i].realpart << ", " << normR[i]/mat_norm << ", ";
+      *fos << evals[i].realpart << ", ";
     }
   }
 	return evecs;  
-}
-
-void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename) {
-	
 }
 
 void initTimers() {
