@@ -5,44 +5,43 @@ RCP<Teuchos::FancyOStream> fos;
 int myRank, numNodes;
 
 int main(int argc, char *argv[]) {
-	std::string filename;
-	if (argv[1] == NULL) {
-		std::cout << "No input directory was specified" << std::endl;
-		return -1;
-	}
-	filename = argv[1];
 	std::string outputDir;
-	if (argv[2] == NULL) {
-  	std::cout << "No output directory was specified. Printing to screen" << std::endl;
-  }	else {
-		outputDir = argv[2];
+	if (argv[1] == NULL) {
+		std::cout << "No input file was specified" << std::endl;
+		return -1;
+	} 
+	if (argv[2] != NULL) {
+		outputDir = argv[2];	
 	}
+	std::string filename = argv[1];
+	
 
-  
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   comm = platform.getComm();
   RCP<NT> node = platform.getNode();
-  myRank = comm->getRank(); 
-  
+  myRank = comm->getRank();
+  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true); 
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
   std::ofstream outputFile;
 
   if (outputDir.empty()) { //  print to screen
-  	fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+  	std::cout << "No output directory was specified. Printing to screen" << std::endl;
+	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+	  unsigned found = filename.find_last_of("/\\");
+	  filename = filename.substr(found+1);
   } else { //  print to file
   	unsigned found = filename.find_last_of("/\\");
-	  std::string outputFilename = "/lustre/janus_scratch/pamo8800/" + outputDir + "/" + filename.substr(found+1)+".out";
-	  std::cout << outputFilename << std::endl;
+	  std::string outputFilename = outputDir + "/" + filename.substr(found+1)+".out";
+	  filename = filename.substr(found+1);
 	  outputFile.open(outputFilename.c_str());
 	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
-	  outputFile << "Matrix : " << filename.substr(found+1) << std::endl;
+	  outputFile << "Matrix: " << filename << std::endl;
 	  outputFile << "Procs: " << comm->getSize() << std::endl;
 	}
 
-  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
   Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 	RCP<MAT> B = transposer.createTranspose();
 	initTimers();
