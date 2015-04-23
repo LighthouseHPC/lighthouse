@@ -6,26 +6,45 @@ int numNodes;
 int myRank;
 
 int main(int argc, char *argv[]) {
-	std::string filename(argv[1]);
-  if (filename.empty()) {
-  	*fos << "No .mtx file was specified" << std::endl;
-  	return -1;
-  }	
+	std::string outputDir;
+	if (argv[1] == NULL) {
+		std::cout << "No input file was specified" << std::endl;
+		return -1;
+	} 
+	if (argv[2] != NULL) {
+		outputDir = argv[2];	
+	}
+	std::string filename = argv[1];
+	
 
 	//  General setup for Teuchos/communication
 	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
 	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
   comm = platform.getComm();
   RCP<NT> node = platform.getNode();
-  myRank = comm->getRank(); 
-
+  myRank = comm->getRank();
+  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true); 
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
-  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+  std::ofstream outputFile;
 
-  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true);
-  *fos << "Matrix symmetry: " << calcSymmetry(A) << std::endl;
-  belosSolve(A);
+  if (outputDir.empty()) {
+  	std::cout << "No output directory was specified. Printing to screen" << std::endl;
+	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+	  unsigned found = filename.find_last_of("/\\");
+	  filename = filename.substr(found+1);
+	} else {
+		unsigned found = filename.find_last_of("/\\");
+	  std::string outputFilename = outputDir + "/" + filename.substr(found+1)+".out";
+	  filename = filename.substr(found+1);
+	  outputFile.open(outputFilename.c_str());
+	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
+	  outputFile << "Matrix: " << filename << std::endl;
+	  outputFile << "Procs: " << comm->getSize() << std::endl;
+	}
+
+  
+  belosSolve(A, filename);
 }
 
 RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, 
@@ -52,18 +71,20 @@ RCP<BSM> getBelosSolver(const RCP<const MAT> &A,
 }
 
 //  https://code.google.com/p/trilinos/wiki/Tpetra_Belos_CreateSolver
-void belosSolve(const RCP<const MAT> &A) {
+void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
   // Create solver and preconditioner 
+  Teuchos::Time timer("timer", false);
   RCP<PRE> prec;
   RCP<BSM> solver; 
   Belos::SolverFactory<ST, MV, OP> belosFactory;
-  *fos << "Supported:" << belosFactory.supportedSolverNames() << std::endl;
 
   //  Create solver and preconditioner
   for (auto solverIter : belosSolvers) {
   	for (auto precIter : ifpack2Precs) {
+  		timer.start(true);
   		solver = Teuchos::null;
   		prec = Teuchos::null;
+  		*fos << filename << ", ";
 		  try {
 		  	solver = getBelosSolver(A, solverIter); 
 		    prec = getIfpack2Preconditoner(A, precIter);
@@ -86,12 +107,14 @@ void belosSolve(const RCP<const MAT> &A) {
 		  //  Solve the problem 
 			  Belos::ReturnType result = solver->solve();
 			  const int numIters = solver->getNumIters();
-			  *fos << solverIter  << ", "  << precIter << ", " << numIters;
+			  timer.stop();
+			  *fos <<  solverIter  << ", "  << precIter;
 			  if (result == Belos::Converged) {
-			    *fos << ", converged" << std::endl; 
+			    *fos << ", converged, "; 
 			  } else {
-			  	*fos << ", unconverged" << std::endl;
+			  	*fos << ", unconverged, ";
 			  } 
+			  *fos << numIters << ", " << timer.totalElapsedTime() << std::endl;
 			} catch (...) {
 				*fos << solverIter << ", " << precIter << ", solve_error" << std::endl;
 			}

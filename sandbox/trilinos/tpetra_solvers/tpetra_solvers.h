@@ -82,6 +82,6 @@ const std::vector<std::string> belosSolvers = {"Block GMRES", "CG", "CGPoly",
 	"Pseudoblock GMRES", "Pseudoblock Stochastic CG", "RCG", "TFQMR"};
 
 //  Functions
-void belosSolve(const RCP<const MAT> &A);
+void belosSolve(const RCP<const MAT> &A, const std::string &filename);
 bool calcSymmetry(const RCP<MAT> &A);
 RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, std::string ifpack2PrecChoice);
