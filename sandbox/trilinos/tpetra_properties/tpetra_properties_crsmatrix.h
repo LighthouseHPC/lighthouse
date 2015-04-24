@@ -67,20 +67,28 @@
 
 //  Tpetra Typedefs
 typedef double ST;
+typedef std::complex<double> STC;
 typedef int LO;
 typedef int64_t GO;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
 typedef Tpetra::Map<>::node_type NT;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
+typedef Tpetra::CrsMatrix<STC, LO, GO, NT> MATC;
 typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
+typedef Tpetra::MultiVector<STC, LO, GO, NT> MVC;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
+typedef Tpetra::MatrixMarket::Reader<MATC> ReaderC;
 typedef Tpetra::Operator<ST, LO, GO, NT> OP;
+typedef Tpetra::Operator<STC, LO, GO, NT> OPC;
 typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
+typedef Tpetra::Vector<STC, LO, GO, NT> VECC;
 typedef Teuchos::RCP<Teuchos::Time> TIMER;
 
 //  Anasazi typedefs
 typedef Anasazi::MultiVecTraits<ST, MV> MVT;
+typedef Anasazi::MultiVecTraits<STC, MV> MVTC;
 typedef Anasazi::OperatorTraits<ST, MV, OP> OPT;
+typedef Anasazi::OperatorTraits<STC, MV, OP> OPTC;
 
 //  Namespaces
 using Tpetra::global_size_t;
@@ -157,4 +165,38 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType);
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
 void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename);
 void calcInverseMethod(const RCP<MAT> &A);
+
+//  Complex versions
+void runGauntlet(const RCP<MATC> &A);
+ST calcRowVariance(const RCP<MATC> &A);
+ST calcColVariance(const RCP<MATC> &A);
+ST calcDiagVariance(const RCP<MATC> &A);
+size_t calcNonzeros(const RCP<MATC> &A);
+size_t calcDim(const RCP<MATC> &A);
+ST calcFrobeniusNorm(const RCP<MATC> &A);
+ST calcSymmetricFrobeniusNorm(const RCP<MATC> &A);
+ST calcAntisymmetricFrobeniusNorm(const RCP<MATC> &A);
+ST calcInfNorm(const RCP<MATC> &A);
+ST calcOneNorm(const RCP<MATC> &A);
+ST calcSymmetricInfNorm(const RCP<MATC> &A);
+ST calcAntisymmetricInfNorm(const RCP<MATC> &A);
+size_t calcMaxNonzerosPerRow(const RCP<MATC> &A);
+size_t calcMinNonzerosPerRow(const RCP<MATC> &A);
+ST calcAvgNonzerosPerRow(const RCP<MATC> &A);
+ST calcTrace(const RCP<MATC> &A);
+ST calcAbsTrace(const RCP<MATC> &A);
+size_t calcDummyRows(const RCP<MATC> &A);
+std::vector<ST> calcSymmetry(const RCP<MATC> &A);
+int calcRowDiagonalDominance(const RCP<MATC> &A);
+int calcColDiagonalDominance(const RCP<MATC> &A);
+ST calcDiagonalMean(const RCP<MATC> &A);
+int calcDiagonalSign(const RCP<MATC> &A);
+size_t calcDiagonalNonzeros(const RCP<MATC> &A);
+size_t calcLowerBandwidth(const RCP<MATC> &A);
+size_t calcUpperBandwidth(const RCP<MATC> &A);
+RCP<MV> calcEigenValues(const RCP<MATC> &A, std::string eigenType);
+void calcNonzeroPatternSymmetryPercentage(const RCP<MATC> &A);
+void calcSmallestEigenvalues(const RCP<MATC> &A, std::string filename);
+void calcInverseMethod(const RCP<MATC> &A);
+
 void initTimers();

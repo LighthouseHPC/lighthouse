@@ -13,7 +13,8 @@ int main(int argc, char *argv[]) {
 	if (argv[2] != NULL) {
 		outputDir = argv[2];	
 	}
-	std::string filename = argv[1];
+	std::string origFilename = argv[1];
+	std::string filename = origFilename;
 	
 
 	//  General setup for Teuchos/communication
@@ -22,10 +23,10 @@ int main(int argc, char *argv[]) {
   comm = platform.getComm();
   RCP<NT> node = platform.getNode();
   myRank = comm->getRank();
-  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true); 
   Teuchos::oblackholestream blackhole;
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
   std::ofstream outputFile;
+  bool complex = false;
 
   if (outputDir.empty()) { //  print to screen
   	std::cout << "No output directory was specified. Printing to screen" << std::endl;
@@ -42,10 +43,19 @@ int main(int argc, char *argv[]) {
 	  outputFile << "Procs: " << comm->getSize() << std::endl;
 	}
 
-  Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-	initTimers();
-  runGauntlet(A);
+	if (complex) {
+		RCP<MATC> A = ReaderC::readSparseFile(origFilename, comm, node, true); 
+	  Tpetra::RowMatrixTransposer<STC, LO, GO, NT> transposer(A);	
+		RCP<MATC> B = transposer.createTranspose();
+		initTimers();
+	  runGauntlet(A);
+	} else {
+		RCP<MAT> A = Reader::readSparseFile(origFilename, comm, node, true); 
+	  Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
+		RCP<MAT> B = transposer.createTranspose();
+		initTimers();
+	  runGauntlet(A);
+	}
 
   if (outputDir.empty()) {
 	  TimeMonitor::report(out);
@@ -55,8 +65,6 @@ int main(int argc, char *argv[]) {
 	  reportParams->set("YAML style", "compact");
 	  TimeMonitor::report(comm.ptr(), outputFile, "", reportParams);
 	}
-  //calcSmallestEigenvalues(A, filename);
-  //calcInverseMethod(A);
 }
 
 void runGauntlet(const RCP<MAT> &A) {
@@ -686,6 +694,9 @@ size_t calcLowerBandwidth(const RCP<MAT> &A) {
 					}	
 				}
 				localLB = row - minIndex;
+				if (row < minIndex) {
+					localLB = 0;
+				}
 				if (localLB > localMaxLB) {
 					localMaxLB = localLB;
 				}
@@ -717,6 +728,9 @@ size_t calcUpperBandwidth(const RCP<MAT> &A) {
 					}	
 				}
 				localUB = maxIndex - row;
+				if (row > maxIndex) {
+					localUB = 0;
+				}
 				if (localUB > localMaxUB) {
 					localMaxUB = localUB;
 				}
@@ -783,7 +797,6 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   //  Create eigenproblem
   RCP<Anasazi::BasicEigenproblem<ST, MV, OP> > MyProblem = 
     rcp(new Anasazi::BasicEigenproblem<ST, MV, OP>(A, ivec));
-  MyProblem->setHermitian(true);
   MyProblem->setNEV(nev);
 
   //  Taken from https://github.com/qsnake/trilinos/blob/master/packages/tpetra/example/HybridPlatform/build_eigproblem.hpp
@@ -816,21 +829,6 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   RCP<MV> evecs = sol.Evecs;
   int numev = sol.numVecs;
 
-  //  Compute residual 
-  if (numev > 0) {
-    Teuchos::SerialDenseMatrix<int, ST> T(numev,numev);
-    for (int i = 0; i < numev; i++) {
-      T(i,i) = evals[i].realpart;
-    }
-    std::vector<ST> normR(sol.numVecs);
-    MV Kvec(A->getRowMap(), MVT::GetNumberVecs(*evecs));
-    OPT::Apply(*A, *evecs, Kvec);
-    MVT::MvTimesMatAddMv(-1.0, *evecs, T, 1.0, Kvec);
-    MVT::MvNorm(Kvec, normR);
-    for (int i=0; i<numev; i++) {
-      *fos << evals[i].realpart << ", ";
-    }
-  }
 	return evecs;  
 }
 

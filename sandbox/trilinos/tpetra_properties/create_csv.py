@@ -1,8 +1,10 @@
 import re,sys
 
 input_file = sys.argv[1]
-timings_file = open("timings.csv", 'a')
-results_file = open("results.csv", 'a')
+out_file1 = sys.argv[2]
+out_file2 = sys.argv[3]
+timings_file = open(out_file1, 'a')
+results_file = open(out_file2, 'a')
 reading = open(input_file, 'r')
 
 results_line = ""
