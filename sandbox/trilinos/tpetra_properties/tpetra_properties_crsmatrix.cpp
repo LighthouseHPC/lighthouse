@@ -743,7 +743,7 @@ size_t calcUpperBandwidth(const RCP<MAT> &A) {
 }
 
 // based off tinyurl.com/ktlpsah
-RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
+void calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
 	TimeMonitor LocalTimerLM (*timeEigenValuesLM);
 	TimeMonitor LocalTimerSM (*timeEigenValuesSM);
 	TimeMonitor LocalTimerLR (*timeEigenValuesLR);
@@ -821,15 +821,15 @@ RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType) {
   Anasazi::ReturnType returnCode = MySolverMgr.solve();
   if (returnCode != Anasazi::Converged) {
     *fos << "unconverged" << ", ";
+    return;
   } 
 
   //  Get the results
   Anasazi::Eigensolution<ST, MV> sol = MyProblem->getSolution();
   std::vector<Anasazi::Value<ST> > evals = sol.Evals;
-  RCP<MV> evecs = sol.Evecs;
-  int numev = sol.numVecs;
-
-	return evecs;  
+  for (int i = 0; i < 1; i++) {
+  	*fos << evals[i].realpart <<  " : " << evals[i].imagpart << ", ";
+  }
 }
 
 void initTimers() {
