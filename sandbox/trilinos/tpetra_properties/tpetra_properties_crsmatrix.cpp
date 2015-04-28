@@ -28,7 +28,8 @@ int main(int argc, char *argv[]) {
   std::ofstream outputFile;
   bool complex = false;
 
-  if (outputDir.empty()) { //  print to screen
+  //  Decide to print to screen or file
+  if (outputDir.empty()) { 
   	std::cout << "No output directory was specified. Printing to screen" << std::endl;
 	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
 	  unsigned found = filename.find_last_of("/\\");
@@ -39,24 +40,41 @@ int main(int argc, char *argv[]) {
 	  filename = filename.substr(found+1);
 	  outputFile.open(outputFilename.c_str());
 	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
-	  outputFile << "Matrix: " << filename << std::endl;
-	  outputFile << "Procs: " << comm->getSize() << std::endl;
+	  
 	}
 
+	//  Check if matrix is complex
+	std::ifstream infile;
+	infile.open(argv[1]);
+	if (infile.is_open()) {
+		std::string firstLine;
+		getline(infile, firstLine);
+		if (firstLine.find("complex") != std::string::npos) {
+			complex = true;
+		}
+	} 
+	infile.close();	
 	if (complex) {
 		RCP<MATC> A = ReaderC::readSparseFile(origFilename, comm, node, true); 
 	  Tpetra::RowMatrixTransposer<STC, LO, GO, NT> transposer(A);	
 		RCP<MATC> B = transposer.createTranspose();
+		*fos << "complex" << std::endl;
+		*fos << "Matrix: " << filename << std::endl;
+  	*fos << "Procs: " << comm->getSize() << std::endl;
 		initTimers();
 	  runGauntlet(A);
 	} else {
 		RCP<MAT> A = Reader::readSparseFile(origFilename, comm, node, true); 
 	  Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
 		RCP<MAT> B = transposer.createTranspose();
+		*fos << "real" << std::endl;
+		*fos << "Matrix: " << filename << std::endl;
+	  *fos << "Procs: " << comm->getSize() << std::endl;
 		initTimers();
 	  runGauntlet(A);
 	}
 
+	//  Output timing results
   if (outputDir.empty()) {
 	  TimeMonitor::report(out);
 	} else {
@@ -106,6 +124,47 @@ void runGauntlet(const RCP<MAT> &A) {
   calcEigenValues(A, "SR"); 
   *fos << std::endl;
 }
+void runGauntlet(const RCP<MATC> &A) {
+	// Test squareness
+	if (A->getGlobalNumRows() != A->getGlobalNumCols() ) {
+		*fos << "Not a square matrix, exiting." << std::endl;
+		exit(-1);
+	}
+	*fos << comm->getSize() << ", ";
+	*fos << calcRowVariance(A) << ", ";
+	/*
+	*fos << calcColVariance(A) << ", ";
+	*fos << calcDiagVariance(A) << ", ";
+	*fos << calcNonzeros(A) << ", ";
+	*fos << calcDim(A) << ", ";
+	*fos << calcFrobeniusNorm(A) << ", ";
+	*fos << calcSymmetricFrobeniusNorm(A) << ", ";
+	*fos << calcAntisymmetricFrobeniusNorm(A) << ", ";
+	*fos << calcOneNorm(A) << ", ";
+	*fos << calcInfNorm(A) << ", ";
+	*fos << calcSymmetricInfNorm(A) << ", ";
+	*fos << calcAntisymmetricInfNorm(A) << ", ";
+	*fos << calcMaxNonzerosPerRow(A) << ", ";
+	*fos << calcMinNonzerosPerRow(A) << ", ";
+	*fos << calcAvgNonzerosPerRow(A) << ", ";
+	*fos << calcTrace(A) << ", ";
+	*fos << calcAbsTrace(A) << ", ";
+	*fos << calcDummyRows(A) << ", ";
+	calcSymmetry(A);
+	*fos << calcRowDiagonalDominance(A) << ", ";
+	*fos << calcColDiagonalDominance(A) << ", ";
+	*fos << calcLowerBandwidth(A) << ", ";
+	*fos << calcUpperBandwidth(A) << ", ";
+	*fos << calcDiagonalMean(A) << ", ";
+	*fos << calcDiagonalSign(A) << ", ";
+	*fos << calcDiagonalNonzeros(A) << ", ";
+  calcEigenValues(A, "LM");
+  calcEigenValues(A, "LR");
+  calcEigenValues(A, "SM");
+  calcEigenValues(A, "SR"); 
+  */
+  *fos << std::endl;
+}
 
 //  Return the maximum row locVariance for the matrix
 //  The average of the squared differences from the Mean.
@@ -138,6 +197,41 @@ ST calcRowVariance(const RCP<MAT> &A) {
 	}
 	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &locMaxVariance, &result);
 	return result;
+	//*fos << "row variance:" << result << std::endl;
+}
+ST calcRowVariance(const RCP<MATC> &A) {
+	TimeMonitor LocalTimer (*timeRowVariance);
+	GO rows = A->getGlobalNumRows(); 
+	STC mean, locVariance, locMaxVariance, result = 0.0;
+
+	//  Go through each row on the current process
+	for (GO row = 0; row < rows; row++) {
+		comm->barrier();
+		if (A->getRowMap()->isNodeGlobalElement(row)) {
+			mean = locVariance = 0.0; 
+			size_t cols = A->getNumEntriesInGlobalRow(row); 
+			Array<STC> values(cols);
+			Array<GO> indices(cols);
+			A->getGlobalRowCopy(row, indices(), values(), cols); 
+		//  Two-step approach for locVariance, could be more efficient 
+			for (LO col = 0; col < cols; col++) {
+				mean += values[col];
+			} 
+		//  Divide entries by the dim (to include zeros)
+			mean /= A->getGlobalNumCols();
+			for (LO col = 0; col < cols; col++) {
+				locVariance += (values[col] - mean) * (values[col] - mean);
+			}
+			locVariance /= A->getGlobalNumCols();
+			if (std::abs(locVariance) > std::abs(locMaxVariance)) {
+				locMaxVariance = locVariance;
+			}
+		}
+	}
+	double l = std::abs(locMaxVariance);
+	double r;
+	Teuchos::reduceAll(*comm, Teuchos::REDUCE_MAX, 1, &l, &r);
+	return r;
 	//*fos << "row variance:" << result << std::endl;
 }
 
