@@ -74,7 +74,26 @@ project(tpetra_properties_crsmatrix)
 # are any.
 #
 set(SOURCES 
-		tpetra_properties_crsmatrix.cpp
+    ./functions/builtin.cpp
+    ./functions/calcBandwidth.cpp
+    ./functions/calcColVariance.cpp
+    ./functions/calcDiagonalDominance.cpp
+    ./functions/calcDiagonalMean.cpp
+    ./functions/calcDiagonalSign.cpp
+    ./functions/calcDiagVariance.cpp
+    ./functions/calcDummyRows.cpp
+    ./functions/calcEigenvalues.cpp
+    ./functions/calcInfNorm.cpp
+    ./functions/calcNonzerosPerRow.cpp
+    ./functions/calcOneNorm.cpp
+    ./functions/calcRowVariance.cpp
+    ./functions/calcSymmetry.cpp
+    ./functions/calcTrace.cpp
+	  tpetra_properties_crsmatrix.cpp
+  )
+
+set(HEADERS
+    tpetra_properties_crsmatrix.h
   )
 
 # 

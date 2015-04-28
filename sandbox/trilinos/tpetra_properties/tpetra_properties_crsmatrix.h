@@ -1,3 +1,5 @@
+#ifndef TPETRA_PROPERTIES_CRSMATRIX_H
+#define TPETRA_PROPERTIES_CRSMATRIX_H
 //  C/C++
 #include <cmath>
 #include <stdint.h>
@@ -101,37 +103,42 @@ using Teuchos::Array;
 using Teuchos::Time;
 using Teuchos::TimeMonitor;
 
+//  Globals
+extern RCP<const Teuchos::Comm<int> > comm;
+extern RCP<Teuchos::FancyOStream> fos;
+extern int myRank, numNodes;
+
 //  Timers
-TIMER timeRowVariance;
-TIMER timeColVariance;
-TIMER timeDiagVariance;
-TIMER timeNonzeros;
-TIMER timeDim;
-TIMER timeFrobeniusNorm;
-TIMER timeSymmetricFrobeniusNorm;
-TIMER timeAntisymmetricFrobeniusNorm;
-TIMER timeOneNorm;
-TIMER timeInfNorm;
-TIMER timeSymmetricInfNorm;
-TIMER timeAntisymmetricInfNorm;
-TIMER timeMaxNonzerosPerRow;
-TIMER timeMinNonzerosPerRow;
-TIMER timeAvgNonzerosPerRow;
-TIMER timeTrace;
-TIMER timeAbsTrace;
-TIMER timeDummyRows;
-TIMER timeSymmetry;
-TIMER timeRowDiagonalDominance;
-TIMER timeColDiagonalDominance;
-TIMER timeLowerBandwidth;
-TIMER timeUpperBandwidth;
-TIMER timeDiagonalMean;
-TIMER timeDiagonalSign;
-TIMER timeDiagonalNonzeros;
-TIMER timeEigenValuesLM;
-TIMER timeEigenValuesSM;
-TIMER timeEigenValuesLR;
-TIMER timeEigenValuesSR; 
+extern TIMER timeRowVariance;
+extern TIMER timeColVariance;
+extern TIMER timeDiagVariance;
+extern TIMER timeNonzeros;
+extern TIMER timeDim;
+extern TIMER timeFrobeniusNorm;
+extern TIMER timeSymmetricFrobeniusNorm;
+extern TIMER timeAntisymmetricFrobeniusNorm;
+extern TIMER timeOneNorm;
+extern TIMER timeInfNorm;
+extern TIMER timeSymmetricInfNorm;
+extern TIMER timeAntisymmetricInfNorm;
+extern TIMER timeMaxNonzerosPerRow;
+extern TIMER timeMinNonzerosPerRow;
+extern TIMER timeAvgNonzerosPerRow;
+extern TIMER timeTrace;
+extern TIMER timeAbsTrace;
+extern TIMER timeDummyRows;
+extern TIMER timeSymmetry;
+extern TIMER timeRowDiagonalDominance;
+extern TIMER timeColDiagonalDominance;
+extern TIMER timeLowerBandwidth;
+extern TIMER timeUpperBandwidth;
+extern TIMER timeDiagonalMean;
+extern TIMER timeDiagonalSign;
+extern TIMER timeDiagonalNonzeros;
+extern TIMER timeEigenValuesLM;
+extern TIMER timeEigenValuesSM;
+extern TIMER timeEigenValuesLR;
+extern TIMER timeEigenValuesSR; 
 
 //  Functions
 void runGauntlet(const RCP<MAT> &A);
@@ -200,3 +207,5 @@ void calcSmallestEigenvalues(const RCP<MATC> &A, std::string filename);
 void calcInverseMethod(const RCP<MATC> &A);
 
 void initTimers();
+
+#endif
