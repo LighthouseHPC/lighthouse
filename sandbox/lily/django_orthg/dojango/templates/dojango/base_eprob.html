@@ -190,10 +190,10 @@
                         <div dojoType="dijit.layout.TabContainer" duration="200"
                                 minSize="100" style="width: 550px;" id="leftTab"
                                 region="leading" splitter="true">
-                                <!-- Simple Search-->
-                                <div dojoType="dijit.layout.ContentPane" title="Simple Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
+                                <!-- Guided Search-->
+                                <div dojoType="dijit.layout.ContentPane" title="Guided Search" selected="{{ request.session.selectedSimpleSearchTab|default:"false" }}" style="padding:10px;">        
                                         {% block dojango_content_eprob_guidedSearch %}{% endblock %}
-                                </div><!-- end Simple Search -->
+                                </div><!-- end Guided Search -->
 
                                 <!--  Advanced Search -->
                                 <div dojoType="dijit.layout.ContentPane" title="Advanced Search" selected="{{ AdvancedTab|default:"false" }}" style="padding:10px;">

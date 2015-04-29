@@ -1,1 +1,0 @@
-#from orthg import ajax

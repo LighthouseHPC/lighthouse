@@ -1,6 +1,10 @@
+#ifndef TPETRA_PROPERTIES_CRSMATRIX_H
+#define TPETRA_PROPERTIES_CRSMATRIX_H
 //  C/C++
 #include <cmath>
 #include <stdint.h>
+#include <iostream>
+#include <fstream>
 
 //  Tpetra
 #include <Tpetra_Operator.hpp>
@@ -38,6 +42,7 @@
 #include <Teuchos_Array.hpp>
 #include <Teuchos_CommHelpers.hpp>
 #include <Teuchos_SerialDenseMatrix.hpp>
+#include <Teuchos_TimeMonitor.hpp>
 
 //  Anasazi
 #include <AnasaziConfigDefs.hpp>
@@ -48,6 +53,7 @@
 #include <AnasaziTpetraAdapter.hpp>
 #include <AnasaziOperator.hpp>
 #include <AnasaziEpetraAdapter.hpp>
+#include <AnasaziBlockDavidsonSolMgr.hpp>
 
 //  Belos
 #include <BelosEpetraOperator.h>
@@ -56,22 +62,35 @@
 //  Ifpack
 #include <Ifpack.h>
 #include <Ifpack_Preconditioner.h>
+#include <Ifpack2_ILUT_decl.hpp> 
+#include <Ifpack2_ILUT_def.hpp>
+#include <Ifpack2_ILUT.hpp>
+#include <Ifpack2_Factory.hpp>
 
 //  Tpetra Typedefs
 typedef double ST;
+typedef std::complex<double> STC;
 typedef int LO;
 typedef int64_t GO;
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
 typedef Tpetra::Map<>::node_type NT;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
+typedef Tpetra::CrsMatrix<STC, LO, GO, NT> MATC;
 typedef Tpetra::MultiVector<ST, LO, GO, NT> MV;
+typedef Tpetra::MultiVector<STC, LO, GO, NT> MVC;
 typedef Tpetra::MatrixMarket::Reader<MAT> Reader;
+typedef Tpetra::MatrixMarket::Reader<MATC> ReaderC;
 typedef Tpetra::Operator<ST, LO, GO, NT> OP;
+typedef Tpetra::Operator<STC, LO, GO, NT> OPC;
 typedef Tpetra::Vector<ST, LO, GO, NT> VEC;
+typedef Tpetra::Vector<STC, LO, GO, NT> VECC;
+typedef Teuchos::RCP<Teuchos::Time> TIMER;
 
 //  Anasazi typedefs
 typedef Anasazi::MultiVecTraits<ST, MV> MVT;
+typedef Anasazi::MultiVecTraits<STC, MV> MVTC;
 typedef Anasazi::OperatorTraits<ST, MV, OP> OPT;
+typedef Anasazi::OperatorTraits<STC, MV, OP> OPTC;
 
 //  Namespaces
 using Tpetra::global_size_t;
@@ -81,6 +100,45 @@ using Teuchos::RCP;
 using Teuchos::rcp;
 using Teuchos::ArrayView;
 using Teuchos::Array;
+using Teuchos::Time;
+using Teuchos::TimeMonitor;
+
+//  Globals
+extern RCP<const Teuchos::Comm<int> > comm;
+extern RCP<Teuchos::FancyOStream> fos;
+extern int myRank, numNodes;
+
+//  Timers
+extern TIMER timeRowVariance;
+extern TIMER timeColVariance;
+extern TIMER timeDiagVariance;
+extern TIMER timeNonzeros;
+extern TIMER timeDim;
+extern TIMER timeFrobeniusNorm;
+extern TIMER timeSymmetricFrobeniusNorm;
+extern TIMER timeAntisymmetricFrobeniusNorm;
+extern TIMER timeOneNorm;
+extern TIMER timeInfNorm;
+extern TIMER timeSymmetricInfNorm;
+extern TIMER timeAntisymmetricInfNorm;
+extern TIMER timeMaxNonzerosPerRow;
+extern TIMER timeMinNonzerosPerRow;
+extern TIMER timeAvgNonzerosPerRow;
+extern TIMER timeTrace;
+extern TIMER timeAbsTrace;
+extern TIMER timeDummyRows;
+extern TIMER timeSymmetry;
+extern TIMER timeRowDiagonalDominance;
+extern TIMER timeColDiagonalDominance;
+extern TIMER timeLowerBandwidth;
+extern TIMER timeUpperBandwidth;
+extern TIMER timeDiagonalMean;
+extern TIMER timeDiagonalSign;
+extern TIMER timeDiagonalNonzeros;
+extern TIMER timeEigenValuesLM;
+extern TIMER timeEigenValuesSM;
+extern TIMER timeEigenValuesLR;
+extern TIMER timeEigenValuesSR; 
 
 //  Functions
 void runGauntlet(const RCP<MAT> &A);
@@ -110,6 +168,44 @@ int calcDiagonalSign(const RCP<MAT> &A);
 size_t calcDiagonalNonzeros(const RCP<MAT> &A);
 size_t calcLowerBandwidth(const RCP<MAT> &A);
 size_t calcUpperBandwidth(const RCP<MAT> &A);
-RCP<MV> calcEigenValues(const RCP<MAT> &A, std::string eigenType);
+void calcEigenValues(const RCP<MAT> &A, std::string eigenType);
 void calcNonzeroPatternSymmetryPercentage(const RCP<MAT> &A);
 void calcSmallestEigenvalues(const RCP<MAT> &A, std::string filename);
+void calcInverseMethod(const RCP<MAT> &A);
+
+//  Complex versions
+void runGauntlet(const RCP<MATC> &A);
+ST calcRowVariance(const RCP<MATC> &A);
+STC calcColVariance(const RCP<MATC> &A);
+STC calcDiagVariance(const RCP<MATC> &A);
+size_t calcNonzeros(const RCP<MATC> &A);
+size_t calcDim(const RCP<MATC> &A);
+STC calcFrobeniusNorm(const RCP<MATC> &A);
+STC calcSymmetricFrobeniusNorm(const RCP<MATC> &A);
+STC calcAntisymmetricFrobeniusNorm(const RCP<MATC> &A);
+STC calcInfNorm(const RCP<MATC> &A);
+STC calcOneNorm(const RCP<MATC> &A);
+STC calcSymmetricInfNorm(const RCP<MATC> &A);
+STC calcAntisymmetricInfNorm(const RCP<MATC> &A);
+size_t calcMaxNonzerosPerRow(const RCP<MATC> &A);
+size_t calcMinNonzerosPerRow(const RCP<MATC> &A);
+STC calcAvgNonzerosPerRow(const RCP<MATC> &A);
+STC calcTrace(const RCP<MATC> &A);
+STC calcAbsTrace(const RCP<MATC> &A);
+size_t calcDummyRows(const RCP<MATC> &A);
+std::vector<ST> calcSymmetry(const RCP<MATC> &A);
+int calcRowDiagonalDominance(const RCP<MATC> &A);
+int calcColDiagonalDominance(const RCP<MATC> &A);
+STC calcDiagonalMean(const RCP<MATC> &A);
+int calcDiagonalSign(const RCP<MATC> &A);
+size_t calcDiagonalNonzeros(const RCP<MATC> &A);
+size_t calcLowerBandwidth(const RCP<MATC> &A);
+size_t calcUpperBandwidth(const RCP<MATC> &A);
+void calcEigenValues(const RCP<MATC> &A, std::string eigenType);
+void calcNonzeroPatternSymmetryPercentage(const RCP<MATC> &A);
+void calcSmallestEigenvalues(const RCP<MATC> &A, std::string filename);
+void calcInverseMethod(const RCP<MATC> &A);
+
+void initTimers();
+
+#endif

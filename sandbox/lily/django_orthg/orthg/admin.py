@@ -13,15 +13,15 @@ class EntryAdminForm(forms.ModelForm):
 		#model = 'lapack_RoutineInfo'
 
 
-class orthg_Admin(admin.ModelAdmin):
+class least_Admin(admin.ModelAdmin):
 #add: routineName
-	list_display = ('id', 'thePrecision', 'standardGeneralized', 'sFullRank', 'gFullRank', 'svd', 'qr', )
-	list_filter = ['standardGeneralized', 'thePrecision', 'sFullRank', 'gFullRank', 'svd', 'qr',]
+	list_display = ('id', 'thePrecision', 'standardGeneralized', 'sFullRank', 'gFullRank' )
+	list_filter = ['standardGeneralized', 'thePrecision', 'sFullRank', 'gFullRank']
 	search_fields = ['routineName',]
 	ordering = ('id',)
 	#raw_id_fields = ('info',)
 
-admin.site.register(orthg, orthg_Admin)
+admin.site.register(least, least_Admin)
 
 
 

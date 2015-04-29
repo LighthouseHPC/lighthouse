@@ -1,0 +1,218 @@
+<script type="text/javascript">
+        /* Loading themeTester */
+        //var loadingEl = dojo.byId("loaderInner");
+        //loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
+        
+        selectedRoutineNames = [];
+        
+        dojo.ready( function() {
+                /* delete cookie */
+                //if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
+                //      dojo.cookie("nameList", null, {path: '/', expire: -1});
+                //      console.log("initial cookie:", dojo.cookie("nameList"));
+                //}
+                
+                
+                // this is just a list of 'official' dijit themes, you can use
+                // ?theme=String for 'un-supported' themes, too. (eg: yours)
+                
+                var availableThemes = [
+                        {
+                                theme:"1",
+                                author:"Sa-Lin Cheng Bernstein",
+                                baseUri:"../themes/"
+                        },
+                        {
+                                theme:"2",
+                                author:"Javed Hossain",
+                                baseUri:"../themes/"
+                        },
+                        {
+                                theme:"3",
+                                author:"Elizabeth R. Jessup",
+                                baseUri:"../themes/"
+                        },
+                        {
+                                theme:"4",
+                                author:"Boyana Norris",
+                                baseUri:"../themes/"
+                        }
+                ];
+                var holder = dojo.byId('themeData');
+                var tmpString='';
+                dojo.forEach(availableThemes, function(theme) {
+                        tmpString += '<a href="?theme='+theme.theme+'">'+
+                        theme.theme+'</'+'a>: '+theme.author+' <br>';
+                });
+                holder.innerHTML = tmpString;
+                        
+                
+                /* for parser time info */
+                var start = new Date().getTime();
+                dojo.parser.parse(dojo.byId('container'));
+                console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
+                                        
+                //dojo.byId('loaderInner').innerHTML += " done.";
+                
+                setTimeout( function hideLoader() {
+                        var loader = dojo.byId('loader');
+                        dojo.fadeOut({
+                                node: loader,
+                                duration:100,
+                                onEnd: function() {
+                                        loader.style.display = "none";
+                                }
+                        }).play();
+                }, 50);
+
+        });
+
+        /* Ask for confirmation when user clicks on Restart Search button */
+        function show_confirm(){
+                var restart = "";
+                restart = confirm("Are you sure you start over the search?");
+                if(restart)
+                        window.location = "/petsc/";    
+        }
+
+        // Functions for faster tooltips for submit and clear buttons
+        function showTooltip(id, text, color){          
+                document.getElementById(id).innerHTML=text;
+                document.getElementById(id).style.color=color;
+        }
+
+        function checkAnswers(){
+                
+                var answered_all = false;
+                if(document.getElementById('output_format_0').checked)
+                        answered_all = true;
+                if(document.getElementById('output_format_1').checked)
+                        answered_all = true;
+
+                if(answered_all)
+                        return true;            
+                else
+                        alert("Please answer all the questions and then try again.");           
+
+                return false;
+        }
+
+        function checkOperation(){
+                if(document.getElementById('main_op_0').checked)
+                        return true;
+                if(document.getElementById('main_op_1').checked)
+                        return true;
+
+                alert("Select an operation.");
+                return false;
+        }
+
+        function upload_mat_changed(){
+                var x;
+                if(document.getElementById('upload_matrix_0').checked) {                  
+                  x = document.getElementsByName('matrix_file_div');
+                  x[0].style.display = "block";
+                  x = document.getElementsByName('alt_choices_div');
+                  x[0].style.display = "none";
+          reset_radio_buttons('alt_choices');
+
+                }else if(document.getElementById('upload_matrix_1').checked) {  
+                  x = document.getElementsByName('matrix_file_div');
+                  x[0].style.display = "none";
+                  x = document.getElementsByName('alt_choices_div');
+                  x[0].style.display = "block";
+                }
+
+                x = document.getElementById('sub_button');
+                x.disabled = true;
+
+                x = document.getElementsByName('sub_message');
+                x[0].style.display = "none";
+
+                x = document.getElementsByName('solution_type_div');
+                x[0].style.display = "none";
+
+                x = document.getElementsByName('matrix_prop_file_div');
+                x[0].style.display = "none";
+                
+                reset_radio_buttons('solution_type');
+                if (document.getElementById("matrix_file").value != "" && document.getElementById('upload_matrix_0').checked){
+                        var x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "block";
+                }
+                
+        }
+        
+        function solution_type_changed(){                               
+                var x = document.getElementById('sub_button');
+                x.disabled = false;
+
+                x = document.getElementsByName('sub_message');
+                x[0].style.display = "block";
+        }
+
+        function file_changed(){
+                if (document.getElementById("matrix_file").value == ""){
+                        alert("no file selected");
+                }else{
+                        var x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "block";
+                }
+        }
+
+        function prop_file_changed(){
+                if (document.getElementById("matrix_prop_file").value == ""){
+                        alert("no file selected");
+                }else{
+                        var x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "block";
+                }
+        }       
+
+        function alt_choices_changed(){
+                if(document.getElementById('alt_choices_2').checked){             
+                        x = document.getElementsByName('matrix_prop_file_div');
+                        x[0].style.display = "block";
+                        x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "none";
+                        x = document.getElementById('sub_button');
+                        x.disabled = true;
+                        x = document.getElementsByName('sub_message');
+                        x[0].style.display = "none";
+                }
+                if(document.getElementById('alt_choices_1').checked){             
+                        x = document.getElementsByName('matrix_prop_file_div');
+                        x[0].style.display = "none";
+                        x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "none";
+                        x = document.getElementById('sub_button');
+                        x.disabled = false;
+                        x = document.getElementsByName('sub_message');
+                        x[0].style.display = "block";
+                }
+                if(document.getElementById('alt_choices_0').checked){             
+                        x = document.getElementsByName('matrix_prop_file_div');
+                        x[0].style.display = "none";
+                        x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "none";
+                        x = document.getElementById('sub_button');
+                        x.disabled = false;
+                        x = document.getElementsByName('sub_message');
+                        x[0].style.display = "block";
+                }
+
+                
+                reset_radio_buttons('solution_type');
+                if (document.getElementById("matrix_prop_file").value != "" && document.getElementById('alt_choices_2').checked){
+                        var x = document.getElementsByName('solution_type_div');
+                        x[0].style.display = "block";
+                }
+        }
+
+        function reset_radio_buttons(name){
+                var x = document.getElementsByName(name);
+                for(i = 0; i < x.length; i++)
+                        x[i].checked = false;
+        }
+
+</script>

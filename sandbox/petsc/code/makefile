@@ -17,6 +17,10 @@ convert: convert.o  chkopts
 	-${CLINKER} -o convert convert.o  ${PETSC_MAT_LIB}
 	${RM} convert.o
 
+mm2petsc: mm2petsc.o  chkopts
+	-${CLINKER} -o mm2petsc mm2petsc.o  ${PETSC_MAT_LIB}
+	${RM} mm2petsc.o
+
 properties: properties.o  chkopts
 	-${CLINKER} -o properties properties.o  ${PETSC_MAT_LIB}
 	${RM} properties.o

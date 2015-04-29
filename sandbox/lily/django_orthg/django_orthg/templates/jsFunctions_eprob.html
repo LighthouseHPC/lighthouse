@@ -1,0 +1,1225 @@
+<script type="text/javascript">
+    /* Loading themeTester */
+    //var loadingEl = dojo.byId("loaderInner");
+    //loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
+    
+    selectedRoutineNames = [];
+
+    
+    dojo.ready( function() {
+        /* delete cookie */
+        //if (document.URL == "http://127.0.0.1:8000/index/" || document.URL == "http://127.0.0.1:8000/index/?clear="){
+        //  dojo.cookie("nameList", null, {path: '/', expire: -1});
+        //  console.log("initial cookie:", dojo.cookie("nameList"));
+        //}
+        
+        
+        // this is just a list of 'official' dijit themes, you can use
+        // ?theme=String for 'un-supported' themes, too. (eg: yours)
+        
+        var availableThemes = [
+            {
+                theme:"1",
+                author:"Sa-Lin Cheng Bernstein",
+                baseUri:"../themes/"
+            },
+            {
+                theme:"2",
+                author:"Javed Hossain",
+                baseUri:"../themes/"
+            },
+            {
+                theme:"3",
+                author:"Elizabeth R. Jessup",
+                baseUri:"../themes/"
+            },
+            {
+                theme:"4",
+                author:"Boyana Norris",
+                baseUri:"../themes/"
+            }
+        ];
+        var holder = dojo.byId('themeData');
+        var tmpString='';
+        dojo.forEach(availableThemes, function(theme) {
+            tmpString += '<a href="?theme='+theme.theme+'">'+
+            theme.theme+'</'+'a>: '+theme.author+' <br>';
+        });
+        holder.innerHTML = tmpString;
+        
+        
+        
+        
+        /* for parser time info */
+        var start = new Date().getTime();
+        dojo.parser.parse(dojo.byId('container'));
+        console.info("Total parse time: " + (new Date().getTime() - start) + "ms");
+                    
+        //dojo.byId('loaderInner').innerHTML += " done.";
+        
+        setTimeout( function hideLoader() {
+            var loader = dojo.byId('loader');
+            dojo.fadeOut({
+                node: loader,
+                duration:500,
+                onEnd: function() {
+                    loader.style.display = "none";
+                }
+            }).play();
+        }, 250);
+        
+        
+        
+        var strayGlobals = [];
+        for(var i in window) {
+            if(!window.__globalList[i]) {
+                strayGlobals.push(i);
+            }
+        }
+        if(strayGlobals.length) {
+            console.warn("Stray globals: "+strayGlobals.join(", "));
+        }
+        
+        /* create dnd Sources */
+        var source1 = new dojo.dnd.Source("routineListNode");
+        var source2 = new dojo.dnd.Target("selectedListNode");      
+
+        /* update Django session for selected routines through javascript*/
+        //var nameObj = [];
+        dojo.connect( source1, "onDndDrop", 
+            function(source, nodes, copy, target){
+                //console.log("cookie predrop:", dojo.cookie("nameList"));
+                var cookieToArray = [];
+                if (dojo.cookie("nameList") != null){
+                    cookieToArray = dojo.cookie("nameList").split(',');
+                }
+                
+                for( i=0; i < nodes.length; i++){
+                    item = this.getItem(nodes[i].id);
+                    liId = nodes[i].id;
+                    //routineData = item.data;
+                    //nameObj.push(liId);
+                    //dojo.cookie(liId, routineData, {path: '/'});                  
+                    
+                    var detail = dojo.attr(dojo.byId(liId), "detail")
+                    var precision = detail.split("_")[0];
+                    var routineName = detail.split("_")[1];
+                    var matrixType = detail.split("_")[2];
+                    var storageType = detail.split("_")[3];
+                    var idn = detail.split("_")[4];
+                    var url = detail.split("_")[5]+"_8f.html";
+
+                    //if(routineExists(precision+routineName,allRoutines_session)){
+                    //  alert("Routine already selected!");
+                    //}
+
+                    allRoutines_session.push(precision+routineName);
+                    
+                    //dojo.cookie(liId, detail);
+                    //alert(precision+routineName);
+                    
+                    /* pass "routineData" to ajax.py for test */
+                    //Dajaxice.lapack.test(Dajax.process, {'data': routineData});
+                    
+                    /* pass "detail" to views.py via ajax to update request.session['selectedRoutines'] */
+                    dojo.xhrPost( {
+                        url: "/lapack_eprob/update_session/",
+                        content: {
+                            precision: precision,
+                            routineName: routineName,
+                            matrixType: matrixType,
+                            storageType: storageType,
+                            idn: idn,
+                            url: url,                           
+                            checkState: "checked"
+                            },
+                        load: function(response){
+                            //response is a string --> convert into an array                            
+                            selectedRoutineNames = response.split(',');                         
+                            console.log("load response: ", selectedRoutineNames);
+                            //alert("Test");
+                            },
+                        error: function(){
+                            console.log("error");
+                            }
+                    });
+
+                    //var el = document.getElementById("sel_"+(precision+routineName).toUpperCase());
+                    //el.setAttribute('name','crap');
+                }
+                //dojo.cookie("nameList", cookieToArray.concat(nameObj), {path: '/'});
+                //console.log("cookie after drop: ", dojo.cookie("nameList"));
+                //console.log("host name:", window.location.hostname);
+                //console.log(location.href);
+                //console.log(dojo.attr(dojo.byId(nameObj[0]), "detail"));
+            }
+        );
+
+        
+
+    });
+
+    
+    /* clear cookie */
+    //function clearCookie() {
+    //  dojo.cookie("nameList", null, {expire: -1});
+    //}
+    
+
+    /* showing/hiding the table in the search result by clicking the image */
+    function show_hide(tblid, show) {
+        if (tbl == document.getElementById(tblid)) {
+            if (null == show) show = tbl.style.display == 'none';
+            tbl.style.display = (show ? '' : 'none');
+        }
+    }
+
+    
+    function HideFrame() {
+        var fr = document.getElementById ("frDocViewer");
+        if(fr.style.display=="none") {
+           fr.style.display="block";
+        }
+        else {
+           fr.style.display="none";
+        }
+    }
+
+    /* disable the radiobuttons in the first question when clicking a checkbox */
+    function disableRadiobuttons() {
+        length = document.frmProb.length;
+        for (i=0; i<length; i++)
+        {
+            if (document.frmProb[i].type == "radio")
+            document.frmProb[i].disabled = "disabled";
+        }
+    }
+
+
+
+    /* disable the checkboxes in the first question when clicking a radiobutton */
+    function disableCheckboxes() {
+        length = document.frmProb.length;
+        for (i=0; i<length; i++)
+        {
+            if (document.frmProb[i].type == "checkbox")
+            document.frmProb[i].disabled = "disabled";
+        }
+    }
+
+    
+    /* Ask for confirmation when user clicks on Restart Search button */
+    function show_confirm(){
+        var restart = "";
+        restart = confirm("Are you sure you start the search over?");
+        return restart;       
+    }
+
+    /* Clear all routines from selected routines area */
+    function clearAllRoutines(){
+        //reset request.session['selectedRoutines'] = [] and empty the list         
+        dojo.xhrPost( {
+            url: "/lapack_eprob/clear_session/",
+            content: {clear: "all"},
+            load: function(response){
+                dojo.empty("sel_routineListNode");
+                dojo.empty("selectedListNode");
+                console.log(response);
+                },
+            error: function(){
+                console.log("error");
+                }
+        });
+        
+        //dojo.empty("routineListNode");
+    }
+    
+    /* Eliminate duplicated elements in arrays */
+    //Array.prototype.unique = function () {
+    //  var r = new Array();
+    //  o:for(var i = 0; i< this.length; i++)
+    //  {
+    //      for(var j = 0; j< r.length; j++)
+    //      {
+    //          if(r[j]==this[i])
+    //          {
+    //              //alert(r[j] +' is a DUPE!');
+    //              continue o;
+    //          }
+    //      }
+    //      r[r.length] = this[i];
+    //  }
+    //  return r;
+    //}
+
+    
+    // Functions for faster tooltips for submit and clear buttons
+    function showTooltip(id, text, color){      
+        document.getElementById(id).innerHTML=text;
+        document.getElementById(id).style.color=color;
+    }
+
+
+    // Check radio buttons in guided search, if none is selected return false, else return true
+    function checkRadios(){
+        var radios = document.getElementsByTagName('input');
+        var checked = false;
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].type === 'radio' && radios[i].checked) {
+                checked = true;
+            }
+        }
+        return checked;
+    }
+
+    /*--------------------------------------------------------------------------------- */  
+    /* ------------------------------ For Advanced Search ----------------------------- */
+    /*--------------------------------------------------------------------------------- */
+    
+    // Check if at least one check box (out of three in the initial advanced search tab) has been selected 
+    function validateAdvancedCategoryCheckbox(chk1, chk2, chk3){
+        if (!validate3Checkbox(chk1, chk2, chk3))
+        {
+            alert("Select at least one category.");
+            return false;
+        }
+        else
+            return true;
+    }
+
+    // Check if at least 1/2 check box is selected
+    function validate1Checkbox(cb1)
+    {
+        if (cb1.checked == 0)
+            return false;
+        else
+            return true;
+    }
+
+    // Check if at least 1/2 check box is selected
+    function validate2Checkbox(cb1, cb2)
+    {
+        if (cb1.checked == 0 && cb2.checked == 0)
+            return false;
+        else
+            return true;
+    }
+
+    // Check if at least 1/3 check box is selected
+    function validate3Checkbox(cb1, cb2, cb3)
+    {
+        if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0)
+            return false;
+        else
+            return true;
+    }
+
+    // Check if at least 1/4 check box is selected
+    function validate4Checkbox(cb1, cb2, cb3, cb4)
+    {
+        if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0)
+            return false;
+        else
+            return true;
+    }
+
+    // Check if at least 1/5 check box is selected
+    function validate5Checkbox(cb1, cb2, cb3, cb4, cb5)
+    {
+        if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0)
+            return false;
+        else
+            return true;
+    }
+
+    // Check if at least 1/6 check box is selected
+    function validate6Checkbox(cb1, cb2, cb3, cb4, cb5, cb6)
+    {
+        if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0)
+            return false;
+        else
+            return true;
+    }
+
+    // Check if at least 1/7 check box is selected
+    function validate7Checkbox(cb1, cb2, cb3, cb4, cb5, cb6, cb7)
+    {
+        if (cb1.checked == 0 && cb2.checked == 0 && cb3.checked == 0 && cb4.checked == 0 && cb5.checked == 0 && cb6.checked == 0 && cb7.checked == 0)
+            return false;
+        else
+            return true;
+    }
+    
+
+    // Check if at least one check box in each cell is selected (in Computational Routine Search)
+    function validateComputationalCheckbox(f1, f2, f3, f4, f5, f6, f7, c1, c2, m1, m2, m3, m4, m5, m6, s1, s2, s3, s4, p1, p2)
+    {
+        f = validate7Checkbox(f1, f2, f3, f4, f5, f6, f7);
+        c = validate2Checkbox(c1, c2);
+        m = validate6Checkbox(m1, m2, m3, m4, m5, m6);
+        s = validate4Checkbox(s1, s2, s3, s4);
+        p = validate2Checkbox(p1, p2);
+
+        if(!f)
+        {
+            alert("Check at least one box in the Function cell in Computational Routines column.");
+            return false;
+        }
+        else if(!c)
+        {
+            alert("Check at least one box in the Complex Number cell in Computational Routines column.");
+            return false;
+        }
+        else if(!m)
+        {
+            alert("Check at least one box in the Matrix Type cell in Computational Routines column.");
+            return false;
+        }
+        else if(!s)
+        {
+            alert("Check at least one box in the Storage cell in Computational Routines column.");
+            return false;
+        }
+        else if(!p)
+        {
+            alert("Check at least one box in the Precision cell in Computational Routines column.");
+            return false;
+        }
+        else
+            return true;
+                    
+    }
+
+    // Check if at least one check box in each cell is selected (in Simple Driver Routine Search)
+    function validateSimpleCheckbox(f1, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+    {
+        f = validate1Checkbox(f1);
+        c = validate2Checkbox(c1, c2);
+        m = validate5Checkbox(m1, m2, m3, m4, m5);
+        s = validate4Checkbox(s1, s2, s3, s4);
+        p = validate2Checkbox(p1, p2);
+
+        if(!f)
+        {
+            alert("Check at least one box in the Function cell in Simple Driver Routines column.");
+            return false;
+        }
+        else if(!c)
+        {
+            alert("Check at least one box in the Complex Number cell in Simple Driver Routines column.");
+            return false;
+        }
+        else if(!m)
+        {
+            alert("Check at least one box in the Matrix Type cell in Simple Driver Routines column.");
+            return false;
+        }
+        else if(!s)
+        {
+            alert("Check at least one box in the Storage cell in Simple Driver Routines column.");
+            return false;
+        }
+        else if(!p)
+        {
+            alert("Check at least one box in the Precision cell in Simple Driver Routines column.");
+            return false;
+        }
+        else
+            return true;            
+    }
+
+    // Check if at least one check box in each cell is selected (in Expert Driver Routine Search)
+    function validateExpertCheckbox(d1, d2, d3, f1, f2, f3, f4, c1, c2, m1, m2, m3, m4, m5, s1, s2, s3, s4, p1, p2)
+    {
+        d = validate3Checkbox(d1, d2, d3);
+        f = validate4Checkbox(f1, f2, f3, f4);
+        c = validate2Checkbox(c1, c2);
+        m = validate5Checkbox(m1, m2, m3, m4, m5);
+        s = validate4Checkbox(s1, s2, s3, s4);
+        p = validate2Checkbox(p1, p2);
+
+        if(!d)
+        {
+            alert("Select at least one Equation in the Function cell in Expert Driver Routines column.");
+            return false;
+        }
+        else if(!f)
+        {
+            alert("Select at least one Task in the Function cell in Expert Driver Routines column.");
+            return false;
+        }
+        else if(!c)
+        {
+            alert("Check at least one box in the Complex Number cell in Expert Driver Routines column.");
+            return false;
+        }
+        else if(!m)
+        {
+            alert("Check at least one box in the Matrix Type cell in Expert Driver Routines column.");
+            return false;
+        }
+        else if(!s)
+        {
+            alert("Check at least one box in the Storage cell in Expert Driver Routines column.");
+            return false;
+        }
+        else if(!p)
+        {
+            alert("Check at least one box in the Precision cell in Expert Driver Routines column.");
+            return false;
+        }
+        else
+            return true;
+                    
+    }
+
+    // Check if at least one check box in each cell is selected (in Computational Routine and Simple Driver Routine Search)
+    function validateComputationalSimpleCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2)
+    {
+        c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
+
+        if(c == true)
+        {
+            s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+        }
+            
+
+        if(c && s)
+            return true;
+        else 
+            return false;
+    }
+
+    // Check if at least one check box in each cell is selected (in Computational Routine and Expert Driver Routine Search)
+    function validateComputationalExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+    {
+        c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2); 
+
+        if(c == true)
+        {
+            e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+        }
+            
+
+        if(c && e)
+            return true;
+        else 
+            return false;
+    }
+
+    // Check if at least one check box in each cell is selected (in Simple Driver Routine and Expert Driver Routine Search)
+    function validateSimpleExpertCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+    {
+        s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+
+        if(s == true)
+        {
+            e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+        }
+            
+
+        if(s && e)
+            return true;
+        else 
+            return false;
+    }
+
+    // Check if at least one check box in each cell is selected (in Computational Routines, Simple Driver Routine and Expert Driver Routine Search)
+    function validateComputationalSimpleExpertCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2, sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2, ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2)
+    {       
+        c = validateComputationalCheckbox(cf1, cf2, cf3, cf4, cf5, cf6, cf7, cc1, cc2, cm1, cm2, cm3, cm4, cm5, cm6, cs1, cs2, cs3, cs4, cp1, cp2);
+
+        if(c == true)
+        {
+            s = validateSimpleCheckbox(sf1, sc1, sc2, sm1, sm2, sm3, sm4, sm5, ss1, ss2, ss3, ss4, sp1, sp2);
+        }
+
+        if(s == true)
+        {
+            e = validateExpertCheckbox(ed1, ed2, ed3, ef1, ef2, ef3, ef4, ec1, ec2, em1, em2, em3, em4, em5, es1, es2, es3, es4, ep1, ep2);
+        }
+
+        if(c && s && e)
+            return true;
+        else 
+            return false;
+    }
+
+
+    /*--------------------------------------------------------------------------------- */  
+    /* ------------------------------ For Keyword Search ----------------------------- */
+    /*--------------------------------------------------------------------------------- */
+
+    // Check if any keyword was provided
+    function checkKeyword(){                
+        t = document.getElementById("keyword").value;   
+        if(t.length == 0){
+            alert("Please enter a keyword.");
+            return false;
+        }
+        else
+            return true;        
+    }
+
+    // Not used, might need later
+    function catchEnter() {
+        var e = window.event;
+        if (e.keyCode) code = e.keyCode;
+        else if (e.which) code = e.which;
+
+        if (code==13) {
+            if(checkKeyword())
+                document.forms["keyword_form"].submit();
+        }
+    }
+    
+    // Trim the leading and trailing white spaces from a string
+    function trim(stringToTrim) {
+        return stringToTrim.replace(/^\s+|\s+$/g,"");
+    }
+
+    // Keyword autocompletion functions
+    var code;
+    var tmp = -1;   
+    var t = null;
+    var s = null;
+    var kwtbArrValue = new Array();
+    var kwtbArrText = new Array();
+    var org_input = "";
+
+    document.onkeydown = function(e)
+    {
+        if(!e) var e = window.event;
+        code = e.keyCode;
+        
+        tmp2 = document.forms['kw_form'].elements['sel'].length - 1;
+
+        if(document.forms['kw_form'].elements['sel'].length == 0) tmp = -1;
+        
+        // it's a letter (a-z, A-Z)
+        if(code >= 48 && code <= 90){
+            // Save the keyword as the original input
+            org_input = document.getElementById("keyword").value + String.fromCharCode(code).toLowerCase();
+            
+            // If shift key is pressed, don't lowercase it
+            //if(window.event.shiftKey)
+            //  org_input = document.getElementById("keyword").value + String.fromCharCode(code);           
+        }
+        // down arrow key is pressed
+        if(code==40){                   
+            tmp = tmp + 1;
+            if(tmp > tmp2) tmp = tmp2;          
+            document.forms['kw_form'].elements['sel'].options[tmp].selected = true;
+            product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
+            document.forms['kw_form'].elements['kwtb'].value = product;         
+        }
+        // up arrow key is pressed
+        if(code==38){
+            if(tmp == 0){
+                document.forms['kw_form'].elements['sel'].options[0].selected = false;              
+                document.forms['kw_form'].elements['kwtb'].value = org_input;
+                tmp = -1;
+                //document.getElementById("keyword").value = "";                
+            }
+
+            if(tmp >= 1){
+                tmp = tmp - 1;
+                document.forms['kw_form'].elements['sel'].options[tmp].selected = true;
+                product = document.forms['kw_form'].elements['sel'].options[tmp].text;   
+                document.forms['kw_form'].elements['kwtb'].value = product;             
+            }           
+        }
+        // enter is pressed
+        if(code==13){           
+            document.getElementById("show").style.display='none';
+        }   
+    }    
+        
+    function init()
+    {
+        //create a global reference to the text field
+        t = document.getElementById("keyword");
+        //create a global reference to the select menu
+        s = document.getElementById("sel");
+        //Make a copy of the data to loop through
+        //and to restore the list if needed
+        for(var i = 0; i < s.options.length; i++)
+        {
+            kwtbArrValue[i] = s.options[i].value;
+            kwtbArrText[i] = s.options[i].text;
+        }
+    }
+
+    function findIt(val,txt,menu,tfield)
+    {
+        if(code==40||code==38||code==13)
+        {
+
+        }
+        else
+        {
+            if(tfield.value.length == 0){
+                document.getElementById("show").style.display='none';
+                
+                tmp = -1;
+                tmp2 = 0;
+                t = null;
+                s = null;
+                kwtbArrValue = new Array();
+                kwtbArrText = new Array();
+
+                return;
+            }
+
+            if(tfield.value.length > 0)
+            {
+                document.getElementById("show").style.display='inline-block';
+                var tmp = document.forms['kw_form'].elements['sel'].length;
+                for(a = tmp; a >= 0; a--)
+                {
+                    document.forms['kw_form'].elements['sel'].options[a] = null;
+                }
+
+                // List of keywords
+                obj = document.forms['kw_form'].elements['sel'];                
+                obj[0] = new Option('factor a matrix','0');
+                obj[1] = new Option('factorization','1');
+                obj[2] = new Option('condition number','2');
+                obj[3] = new Option('error bounds','3');
+                obj[4] = new Option('forward error bounds','4');
+                obj[5] = new Option('backward error bounds','5');
+                obj[6] = new Option('refine the solution','6');
+                obj[7] = new Option('refinement','7');
+                obj[8] = new Option('equilibrate a matrix','8');
+                obj[9] = new Option('equilibration','9');
+                obj[10] = new Option('invert a matrix','10');
+                obj[11] = new Option('complex numbers','11');
+                obj[12] = new Option('general','12');
+                obj[13] = new Option('symmetric','13');
+                obj[14] = new Option('SPD','14');
+                obj[15] = new Option('Hermitian','15');
+                obj[16] = new Option('HPD','16');
+                obj[17] = new Option('triangular','17');
+                obj[18] = new Option('full','18');
+                obj[19] = new Option('band','19');
+                obj[20] = new Option('packed','20');
+                obj[21] = new Option('tridiagonal','21');
+                obj[22] = new Option('single precision','22');
+                obj[23] = new Option('double precision','23');
+
+
+                init();
+            }
+
+            if(tfield.value.length > 0)
+            {
+                menu.options.length = 0;
+                var reg = new RegExp("^" + tfield.value,"i");
+                var op = document.createElement("option");
+                var tmp = null;
+                var count = 0;
+                for(var i = 0; i < val.length; i++)
+                {
+                    if(reg.test(txt[i]))
+                    {
+                        var tt = document.createTextNode(txt[i]);
+                        tmp = op.cloneNode(false);
+                        tmp.setAttribute("value",val[i]);
+                        tmp.appendChild(tt);
+                        menu.appendChild(tmp);
+                        count++;
+                    }
+                }
+                if(count == 1) count = 2;
+                document.getElementById("sel").setAttribute('size',count);
+                if(count == 0)
+                    document.getElementById("show").style.display='none';
+            }
+            else{
+                restore(val,txt,menu,tfield);
+            }
+        }
+    }
+
+    function restore(val,txt,menu,tfield)
+    {
+        if(tfield.value.length < 2 && menu.options.length != val.length)
+        {
+            menu.options.length = 0;
+            var op = document.createElement("option");
+            var tmp = null;
+            for(var i = 0;i < val.length;i++)
+            {
+                var tt = document.createTextNode(txt[i]);
+                tmp = op.cloneNode(false);
+                tmp.setAttribute("value",val[i]);
+                tmp.appendChild(tt);
+                menu.appendChild(tmp);
+            }
+        }
+    }
+
+    function setKeywordValue(){
+        var val = document.getElementById("sel").selectedIndex;
+        var text = document.getElementById("sel").options[val].innerHTML;
+        document.forms['kw_form'].elements['kwtb'].value = text;
+        document.getElementById("show").style.display='none';
+    }
+
+    /*--------------------------------------------------------------------------------- */  
+    /* ----------------------------- For Selected Routines ---------------------------- */
+    /*--------------------------------------------------------------------------------- */
+    
+        //** Get the checked items **//
+        function getCheckedRoutines(){
+                var checked_list = [];
+                dojo.query('[name=routines]').forEach(function(n){
+                        /* n is one of the checkboxes */
+                        if (n.checked == true){
+                                /* note: n.id is uppercase */
+                                checked_list.push(n.id.split('_')[1]);
+                        }               
+                }); 
+                return checked_list;
+        }
+        
+        // Called when user selects an option from the "Generate Template" menu (combobox)
+        function generateMenuChanged(){
+                /* get the checked values */
+                checked_list = getCheckedRoutines();
+                //console.log(checked_list);
+                /* get selected option */
+                //console.log(document.getElementById('generateMenu').value);
+                if (document.getElementById('generateMenu').value == '2'){
+                        Dajaxice.lighthouse.lapack_eprob.createTemplate_C(Dajax.process, {'checked_list': checked_list});
+                }       
+                else if (document.getElementById('generateMenu').value == '3'){
+                        Dajaxice.lighthouse.lapack_eprob.createTemplate_FORTRAN(Dajax.process, {'checked_list': checked_list});
+                }
+        
+        }
+
+    // Hide the unchecked routines from the Selected Routine area and remove them from session
+    function clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames){       
+        
+        // Remove unchecked routines from the session
+        dojo.xhrPost( {
+            url: "/lapack_eprob/clear_session/",
+            content: {clear: "unchecked"},
+            load: function(response){
+                console.log(response);
+                },
+            error: function(){
+                console.log("error");
+                }
+        });
+        
+        var len = uncheckedRoutines.length;
+
+        // Hide the unchecked routines
+        for(var i = 0; i < len; i++){
+            routineName = uncheckedRoutines[i];
+            tb = document.getElementById("tb_"+routineName.toUpperCase());      
+            tb.style.display = "none";
+        }       
+    }
+
+    // Checks all routines
+    function checkAll(field, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+        for (i = 0; i < field.length; i++){
+            field[i].checked = true;
+            if(field[i].id.indexOf("cb") != -1)
+                checkChanged(field[i].id.replace(/cb_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);         
+        }           
+    }
+
+    // Unchecks all routines
+    function uncheckAll(field){
+        for (i = 0; i < field.length; i++){
+            field[i].checked = false;
+            if(field[i].id.indexOf("cb") != -1)
+                checkChanged(field[i].id.replace(/cb_/g,""), selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);         
+        }
+    }
+
+    // Called when a checkbox is checked or unchecked
+    function checkChanged(routine, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+
+        var checkbox = document.getElementById("cb_"+routine);
+
+        // If any routine was dropped than use the array "selectedRoutineNames" instead of "selectedRoutine_session"
+        if(selectedRoutineNames.length > 0){
+            selectedRoutine_session = selectedRoutineNames;
+        }       
+
+        var detail = checkbox.value;
+        var precision = detail.split("_")[0];
+        var routineName = detail.split("_")[1];
+        var matrixType = detail.split("_")[2];
+        var storageType = detail.split("_")[3];
+        var idn = detail.split("_")[4];
+        var url = detail.split("_")[5];
+        var checked;
+
+        // If routine was checked
+        if(checkbox.checked == 1){
+            checked = "checked";
+            
+            checkbox.setAttribute('checked','checked');
+
+            // Add routine name to "selectedRoutine_session"
+            if(!routineExists(routine, selectedRoutine_session))
+                selectedRoutine_session.push(routine.toLowerCase());
+
+            // Remove routine name from "uncheckedRoutines"
+            if(routineExists(routine, uncheckedRoutines)){
+                var index = uncheckedRoutines.indexOf(routine.toLowerCase());
+                uncheckedRoutines.splice(index, 1);                 
+            }            
+        }
+
+        // If routine was unchecked
+        else if(checkbox.checked == 0){
+            checked = "unchecked";
+            checkbox.removeAttribute('checked',0);
+
+            // Remove routine name from "selectedRoutine_session"
+            if(routineExists(routine, selectedRoutine_session)){
+                var index = selectedRoutine_session.indexOf(routine.toLowerCase());
+                selectedRoutine_session.splice(index, 1); 
+            }
+
+            // Add routine name to "uncheckedRoutines"
+            if(!routineExists(routine, uncheckedRoutines))
+                uncheckedRoutines.push(routine.toLowerCase());
+        }
+
+        // Update session
+        dojo.xhrPost( {
+            url: "/lapack_eprob/update_session/",
+            content: {
+                precision: precision,
+                routineName: routineName,
+                matrixType: matrixType,
+                storageType: storageType,
+                idn: idn,
+                url: url,
+                checkState: checked
+                },
+            load: function(response){
+                console.log(response);
+                },
+            error: function(){
+                console.log("error");
+                }
+        });
+        
+    }
+
+    // Returns true if "routineName" exists in "array"
+    function routineExists(routineName, array){
+        routineName = routineName.toLowerCase();
+        for(var i = 0; i < array.length; i++){
+            if(routineName == array[i]){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Called when user selects an option from the "Clear" menu (combobox)
+    function clearMenuChanged(){
+        var menu = document.getElementById('clearMenu');
+        var selected = menu.options[menu.selectedIndex].text;
+        menu.options[0].selected = true;
+        if(selected == "Unchecked"){
+            clearUncheckedRoutines(uncheckedRoutines, selectedRoutineNames); 
+            uncheckedRoutines.length = 0;
+        }           
+        else if(selected == "Checked")
+            alert("Not implemented yet");
+        else if(selected == "All"){
+            clearAllRoutines(); 
+            selectedRoutineNames.length = 0; 
+            selectedRoutine_session.length = 0; 
+            uncheckedRoutines.length = 0;
+            allRoutines_session.length = 0;
+        }           
+    }
+
+    // Called when user selects an option from the "Select" menu (combobox)
+    function selectMenuChanged(selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+        var menu = document.getElementById('selectMenu');
+        var selected = menu.options[menu.selectedIndex].text;
+        menu.options[0].selected = true;
+        if(selected == "All")
+            checkAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
+        else if(selected == "None")
+            uncheckAll(document.droppedRoutines.routines, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines);
+    }
+
+    // Called when user selects an option from the "Generate Template" menu (combobox)
+    //function generateMenuChanged(){
+    //
+    //  var menu = document.getElementById('generateMenu');
+    //  var selected = menu.options[menu.selectedIndex].text;
+    //  menu.options[0].selected = true;
+    //
+    //  // If user reordered the routines but did not click 'Done', show this dialogue
+    //  if(document.getElementById("movebuttons").style.display == "block"){
+    //      alert("Click 'Done' if you are done reordering the routines.");
+    //      return;
+    //  }
+    //
+    //  if(selected == "C")
+    //      Dajaxice.lighthouse.lapack_eprob.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "C"});
+    //  else if(selected == "FORTRAN")
+    //      Dajaxice.lighthouse.lapack_eprob.createTemplate(Dajax.process, {'selectedRoutine_ajax': selectedRoutineNames, 'selectedRoutine_session': selectedRoutine_session, 'prog_language': "FORTRAN"});
+    //}
+
+    // Unused function
+    function hoverEffect(ele){
+        var x = document.getElementById("ts_"+ele);
+        var col = x.style.background;
+        if(col == "rgb(200, 200, 200)")
+            x.style.background = "";
+        else
+            x.style.background = "rgb(200, 200, 200)";
+    }
+
+    // Swaps the selected routine with the routine right above it (if there's any)
+    function moveup(id, routines){
+        
+        if(id == "") return routines;
+
+        // Get the html element for the selected routine
+        var thisRoutine = document.getElementById("sel_"+id.toUpperCase());
+        var prev_routine = "";
+        var prev_routine_index = -1;
+        var this_routine_index = -1;
+
+        // Find the index of this routine in the "routines" array, also save the index of the previous routine
+        for(var i = 0; i < routines.length; i++){
+            if(routines[i] == id.toLowerCase()){
+                this_routine_index = i;
+                if(i > 0){
+                    prev_routine = routines[i-1];
+                    prev_routine_index = i-1;
+                }               
+            }
+        }       
+        
+        if(prev_routine != ""){ // If there is a routine above the selected routine
+
+            // Get the html element of the previous routine
+            var prevRoutine = document.getElementById("sel_"+prev_routine.toUpperCase());
+
+            // Swap the html contents of the routines
+            var temp = thisRoutine.innerHTML;   
+            thisRoutine.innerHTML = prevRoutine.innerHTML;
+            prevRoutine.innerHTML = temp;
+
+            // Swap their ids
+            temp = thisRoutine.id;
+            thisRoutine.id = prevRoutine.id;
+            prevRoutine.id = temp;
+
+            // Swap the routines in the "routines" array
+            temp = routines[this_routine_index];
+            routines[this_routine_index] = routines[prev_routine_index];
+            routines[prev_routine_index] = temp;
+        }
+        
+        return routines;
+    }
+
+    // Swaps the selected routine with the routine right below it (if there's any)
+    function movedown(id, routines){
+
+        if(id == "") return routines;
+
+        // Get the html element for the selected routine
+        var thisRoutine = document.getElementById("sel_"+id);
+        var next_routine = "";
+        var this_routine_index = -1;
+        var next_routine_index = -1;
+
+        // Find the index of this routine in the "routines" array, also save the index of the next routine
+        for(var i = 0; i < routines.length; i++){
+            if(routines[i] == id.toLowerCase()){
+                this_routine_index = i;             
+                if(i < (routines.length - 1)){
+                    next_routine = routines[i+1];
+                    next_routine_index = i+1;
+                }
+            }
+        }       
+        
+        // If there is a routine below the selected routine
+        if(next_routine != ""){
+
+            // Get the html element of the next routine
+            var nextRoutine = document.getElementById("sel_"+next_routine.toUpperCase());
+
+            // Swap the routines
+            var temp = thisRoutine.innerHTML;   
+            thisRoutine.innerHTML = nextRoutine.innerHTML;
+            nextRoutine.innerHTML = temp;
+
+            // Swap their ids
+            temp = thisRoutine.id;
+            thisRoutine.id = nextRoutine.id;
+            nextRoutine.id = temp;
+
+            // Swap the routines in the "routines" array
+            temp = routines[this_routine_index];
+            routines[this_routine_index] = routines[next_routine_index];
+            routines[next_routine_index] = temp;
+        }       
+
+        return routines;
+    }
+
+    // Called when user clicks on the name of the routine in the selected routines area
+    function selectRoutine(selectedRoutine, id){
+
+        if(selectedRoutine != ''){ // Selected routine name is a non-empty string
+            if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
+                if(document.getElementById("tb_"+selectedRoutine))
+                    document.getElementById("tb_"+selectedRoutine).style.background = "";               
+            }
+        }
+
+        var elem = document.getElementById("tb_"+id);
+        
+        // If the routine background was grey (i.e. it was selected)
+        if(elem.style.background == "rgb(170, 170, 170)"){
+            elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
+            document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
+            return "";
+        }
+        else{ // Routine was not selected
+            elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
+            document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
+            return id;
+        }
+    }
+
+    // Hide the panel routine ordering 
+    function closeOrderingPanel(id, allRoutines_session, selectedRoutineNames, selectedRoutine_session, uncheckedRoutines){
+
+        // If any routine was selected, unselect that first
+        if(id != ''){
+            if(document.getElementById("tb_"+id))
+                document.getElementById("tb_"+id).style.background = "";                
+        }
+        // hide the reordering button panel
+        document.getElementById("movebuttons").style.display = "none";
+
+        // If any routine was dropped than use the array "selectedRoutineNames" instead of "selectedRoutine_session" 
+        if(selectedRoutineNames.length > 0)
+            selectedRoutine_session = selectedRoutineNames;
+
+        // Delete all the routines form "selectedRoutine_session"
+        selectedRoutine_session.length = 0;     
+        
+        // Add the reordered routines back to "selectedRoutine_session"
+        var j = 0;
+        for(var i = 0; i < allRoutines_session.length; i++){
+            if(!routineExists(allRoutines_session[i],uncheckedRoutines)){ // Add it only if it's checked
+                selectedRoutine_session[j] = allRoutines_session[i];    
+                j++;
+            }
+        }
+
+        // Clear the session
+        dojo.xhrPost( {
+            url: "/lapack_eprob/clear_session/",
+            content: {clear: "all"},
+            load: function(response){
+                console.log(response);
+                },
+            error: function(){
+                console.log("error");
+                }
+        });
+
+        // Add back the routines to the session in the updated order
+        for(var i = 0; i < allRoutines_session.length; i++){
+            
+            routineName = allRoutines_session[i];
+            
+            var checkbox = document.getElementById("cb_"+routineName.toUpperCase());            
+
+            // Extract details
+            var detail = checkbox.value;
+            var precision = detail.split("_")[0];
+            var routineName = detail.split("_")[1];
+            var matrixType = detail.split("_")[2];
+            var storageType = detail.split("_")[3];
+            var idn = detail.split("_")[4];
+            var url = detail.split("_")[5];
+            var checked = "checked";
+
+            if(checkbox.checked == 0)
+                checked = "unchecked";
+
+            // Update session
+            dojo.xhrPost( {
+            url: "/lapack_eprob/update_session/",
+            content: {
+                precision: precision,
+                routineName: routineName,
+                matrixType: matrixType,
+                storageType: storageType,
+                idn: idn,
+                url: url,
+                checkState: checked
+                },
+            load: function(response){
+                console.log(response);
+                },
+            error: function(){
+                console.log("error");
+                }
+            });
+        }
+
+        // return the reordered array of routines
+        return selectedRoutine_session;
+    }
+
+    /*--------------------------------------------------------------------------------- */  
+    /* ----------------------------- For Code Template Area --------------------------- */
+    /*--------------------------------------------------------------------------------- */
+
+    // Clear code template area and remove template file from server
+    function clearTemplateArea(){
+        dojo.byId("template_output").innerHTML = "";    
+    }
+
+    // Check if there's any code template, allow download if template is not empty
+    function checkCodeTemplate(){       
+        var template = document.getElementById('div-codeTemp');
+        var content = trim(template.innerHTML);
+        
+        if(content.length > 0)          
+            window.location = '/lapack_eprob/download/';
+    }
+
+    // Loads code template for display, called when user clicks the "Show" button
+    function loadCodeTemplate(){
+        dojo.xhrPost( {
+            url: "/lapack_eprob/load_template/",
+            load: function(response){
+                // Set the content of the 'codeFrame' div
+                document.getElementById('codeFrame').innerHTML = response.replace(/\n/g,'<br>');
+                console.log("load response: ", response);
+                },
+            error: function(){
+                console.log("error");
+                }
+        });
+    }
+
+</script>

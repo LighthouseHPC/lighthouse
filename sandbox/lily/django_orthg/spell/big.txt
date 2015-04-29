@@ -1,0 +1,1705 @@
+The name of each LAPACK routine is a coded specification of its function (within the very tight limits of standard Fortran  -character names).
+
+All driver and computational routines have names of the form XYYZZZ where for some driver routines the th character is blank.
+
+The first letter X indicates the data type as follows:
+
+S       REAL
+D       DOUBLE PRECISION
+C       COMPLEX
+Z       COMPLEX* or DOUBLE COMPLEX
+When we wish to refer to an LAPACK routine generically regardless of data type we replace the first letter by ``x''. Thus xGESV refers to any or all of the routines SGESV CGESV DGESV and ZGESV.
+
+The next two letters YY indicate the type of matrix (or of the most significant matrix). Most of these two-letter codes apply to both real and complex matrices; a few apply specifically to one or the other as indicated in Table ..
+
+
+Table .: Matrix types in the LAPACK naming scheme
+BD      bidiagonal
+DI      diagonal
+GB      general band
+GE      general (i.e. unsymmetric in some cases rectangular)
+GG      general matrices generalized problem (i.e. a pair of general matrices)
+GT      general tridiagonal
+HB      (complex) Hermitian band
+HE      (complex) Hermitian
+HG      upper Hessenberg matrix generalized problem (i.e a Hessenberg and a
+        triangular matrix)
+HP      (complex) Hermitian packed storage
+HS      upper Hessenberg
+OP      (real) orthogonal packed storage
+OR      (real) orthogonal
+PB      symmetric or Hermitian positive definite band
+PO      symmetric or Hermitian positive definite
+PP      symmetric or Hermitian positive definite packed storage
+PT      symmetric or Hermitian positive definite tridiagonal
+SB      (real) symmetric band
+SP      symmetric packed storage
+ST      (real) symmetric tridiagonal
+SY      symmetric
+TB      triangular band
+TG      triangular matrices generalized problem (i.e. a pair of triangular matrices)
+TP      triangular packed storage
+TR      triangular (or in some cases quasi-triangular)
+TZ      trapezoidal
+UN      (complex) unitary
+UP      (complex) unitary packed storage
+
+
+
+
+absolute value of a matrix 
+absolute value of a matrix 
+aggressive early deflation 
+algebraic multiplicity 
+algebraic multiplicity 
+angle between two vectors 
+angle between two vectors 
+approximate minimum-degree ordering 
+Arnoldi process 
+Arnoldi process as a similarity transformation 
+Arnoldi process implicitly restarted (IRA) 
+Arnoldi process Krylov-Schur algorithm 
+Arnoldi process matrix representations 
+arrowhead matrix 
+augmented matrix 
+back substitution 
+backward error analysis 
+backward stability 
+backward stability and residual 
+backward stability and residual 
+backward stability componentwise 
+backward stability componentwise 
+backward stability normwise 
+backward stability of Cholesky's method 
+backward stability of forward substitution 
+backward stability of Gaussian elimination 
+backward stability of matrix multiplication 
+backward stability of rotators and reflectors 
+backward stability of rotators and reflectors 
+balancing 
+balancing 
+banded matrix 
+band width 
+basis (of a subspace) 
+Bauer-Fike Theorem 
+Bauer-Fike Theorem 
+Bauer's Theorem 
+best approximation theorem 
+best approximation theorem 
+BiCGSTAB 
+biconjugate-gradient (BiCG) algorithm 
+bidiagonal matrix 
+bidiagonal matrix proper 
+biorthogonal vectors 
+biorthogonal vectors 
+bisection method 
+BLAS 
+block Gaussian elimination 
+block iterative method 
+block matrix multiplication 
+block matrix multiplication 
+bucky ball 
+bulge 
+bulgebulge chain 
+bulgeof degree three 
+bulgeof degree two 
+bulge-chasing algorithm 
+bulge-chasing algorithm 
+bulge-chasing algorithm 
+bulge-chasing algorithm 
+bulge-chasing algorithm 
+bulge-chasing algorithm 
+bulge-chasing algorithm 
+bulge pencil 
+Bunch-Kaufman algorithm 
+cache 
+cache 
+cache 
+cache 
+cache 
+cache 
+catastrophic cancellation 
+catastrophic cancellation in Gaussian elimination 
+Cauchy-Schwarz inequality 
+Cauchy-Schwarz inequality 
+CGS 
+characteristic equation 
+characteristic equation 
+characteristic polynomial 
+characteristic polynomial 
+Chebyshev acceleration 
+Chebyshev polynomials 
+Chebyshev polynomials and convergence of CG algorithm 
+Chebyshev polynomials and convergence of Lanczos process 
+Cholesky decomposition 
+Cholesky decomposition downdating 
+Cholesky decomposition downdating 
+Cholesky decomposition downdating 
+Cholesky decomposition updating 
+Cholesky's method backward stability 
+Cholesky's method block 
+Cholesky's method bordered form 
+Cholesky's method inner-product form 
+Cholesky's method outer-product form 
+cofactor method 
+column scaling 
+column space 
+companion matrix 
+complete pivoting 
+componentwise backward stability 
+condition number 
+condition number control of 
+condition number estimation of 
+condition number of nonsquare matrix 
+condition number single eigenvalue 
+condition number single eigenvector 
+condition number of square matrix 
+condition number Skeel 
+conductance 
+conformable partition 
+congruence 
+congruence of matrix pairs 
+conjugate-gradient (CG) method 
+conjugate-gradient (CG) method and Lanczos process 
+conjugate-gradient (CG) method and Lanczos process 
+conjugate-gradient (CG) method and Lanczos process 
+conjugate-gradient (CG) method as acceleration technique 
+conjugate-gradient (CG) method convergence of 
+conjugate-gradient (CG) method derivation 
+conjugate-gradient (CG) method preconditioned 
+conjugate transpose 
+conjugate (vectors) 
+contraction number 
+convection-diffusion operator 
+convection-diffusion operator 
+convergencelinear 
+convergencequadratic and cubic 
+convergenceslower than linear 
+convergence rate\ asymptotic ($R_{\infty (G)$) 
+convergence rate\ asymptotic ($R_{\infty (G)$) of classical methods 
+convergence ratio 
+Cramer's rule 
+Crout reduction 
+cubic convergence 
+Cuppen's algorithm 
+Cuppen's algorithm secular equation 
+curse of dimensionality 
+Cuthill-McKee ordering reverse 
+damped iteration 
+damped Jacobi method 
+damped pendulum 
+Davidson's method 
+decomposition Cholesky 
+decomposition LDL^T 
+decomposition LDL^T 
+decomposition LDV 
+decomposition LR 
+decomposition LU 
+decomposition MD^-M^T 
+decomposition QR 
+decomposition Schur 
+decomposition singular value 
+decomposition spectral 
+decomposition twisted 
+defective matrix 
+deflation 
+deflation aggressive early 
+departure from normality 
+descent method 
+descent method CG 
+descent method Gauss-Seidel 
+descent method preconditioned CG 
+descent method SOR 
+descent method steepest 
+determinant computation of 
+diagonalization theorem 
+diagonal matrix 
+differential equations 
+differential equations 
+differential equations asymptotically stable 
+differential equations homogeneous linear 
+differential equations nonhomogeneous linear 
+differential equations nonlinear 
+differential equations unstable 
+dimension (of a subspace) 
+direct sum (of subspaces) 
+direct iterative methods 
+distance to nearest rank-deficient matrix 
+distance to nearest singular matrix 
+divide-and-conquer algorithm 
+domain decomposition 
+dominant eigenvalue 
+Doolittle reduction 
+downdating QR deleting a column 
+downdating QR deleting a row 
+dqds algorithm 
+duality in subspace iteration 
+eigenpair 
+eigenspace 
+eigenvalue 
+eigenvalue 
+eigenvalue condition number 
+eigenvalue problem generalized 
+eigenvalue problem product 
+eigenvalue problem symmetric 
+eigenvalue problem symmetric 
+eigenvalues of normal matrices 
+eigenvalue swapping 
+eigenvector 
+eigenvector 
+eigenvector condition number 
+eigenvector left 
+eigenvector left 
+eigenvector right 
+elementary row operation 
+elimination Gaussian 
+elimination Gauss-Jordan 
+energy inner product and norm 
+envelope of a matrix 
+equivalence of linear systems 
+equivalence of matrices 
+equivalence of matrix pairs (pencils) 
+equivalence orthogonal 
+equivalence orthogonal 
+error absolute vs. relative 
+error analysis backward vs.\ forward 
+error analysis componentwise 
+error analysis \emph  {a priori vs.\ \emph  {a posteriori 
+Euclidean norm 
+exact shift 
+fast Poisson solver 
+fast rotators 
+fill-in 
+finite difference method 
+finite difference method 
+finite difference method 
+five-point stencil 
+floating-point arithmetic 
+floating-point IEEE standard 
+flop 
+Fortran- 
+forward substitution 
+forward substitution backward stability 
+forward substitution block 
+forward substitution column oriented 
+forward substitution row oriented 
+Francis's algorithm global romanontrue
+Francis's algorithm 
+Francis's algorithm and Krylov subspaces 
+Francis's algorithm and the QR decomposition 
+Francis's algorithm as inverse iteration 
+Francis's algorithm convergence of 
+Francis's algorithm eigenvector computation 
+Francis's algorithm for products of matrices 
+Francis's algorithm for the generalized eigenvalue problem 
+Francis's algorithm for the SVD 
+Francis's algorithm of arbitrary degree 
+Francis's algorithm of degree one 
+Francis's algorithm of degree two 
+Francis's algorithm quadratic convergence 
+Frobenius norm 
+full rank 
+fundamental subspaces 
+fundamental subspaces 
+Galerkin condition 
+Galerkin condition 
+Galerkin condition Petrov 
+Gaussian elimination backward stability 
+Gaussian elimination block 
+Gaussian elimination block 
+Gaussian elimination column oriented 
+Gaussian elimination generic 
+Gaussian elimination inner-product formulation 
+Gaussian elimination row oriented 
+Gaussian elimination sparse 
+Gaussian elimination without pivoting 
+Gaussian elimination with pivoting 
+Gaussian elimination with small pivot 
+Gauss-Jordan elimination 
+Gauss-Seidel method 
+Gauss-Seidel method as a descent method 
+Gauss-Seidel method as smoother for multigrid 
+Gauss-Seidel method block 
+Gauss-Seidel method convergence rate 
+Gauss-Seidel method line 
+Gauss-Seidel method orderings 
+Gauss-Seidel method red-black 
+Gauss-Seidel method symmetric 
+Gauss transform 
+Gauss transform 
+generalized eigenvalue problem 
+generalized inverse Moore-Penrose 
+geometric multiplicity 
+geometric multiplicity 
+Gerschgorin disk 
+Givens rotator 
+GMRES 
+Golub-Kahan algorithm 
+Golub-Reinsch algorithm 
+Google matrix 
+gradient 
+Gram-Schmidt process and QR decomposition 
+Gram-Schmidt process classical 
+Gram-Schmidt process classical 
+Gram-Schmidt process modified 
+Gram-Schmidt process modified 
+Gram-Schmidt process with reorthogonalization 
+harmonic Ritz value 
+hermitian matrix 
+hermitian matrix 
+Hessenberg form 
+Hessenberg form 
+Hessenberg form and Krylov subspaces 
+Hessenberg form for products 
+Hessenberg form for the generalized eigenvalue problem 
+Hessenberg form $j$-Hessenberg 
+Hessenberg form proper (unreduced) 
+Hessenberg-triangular form 
+Hilbert matrix 
+Hilbert matrix 
+Hilbert matrix 
+Householder transformation 
+hyperbolic transformation 
+hyperplane 
+ideal computer 
+idempotent 
+identity matrix 
+IEEE floating-point standard 
+ill-conditioned matrix 
+implicitly restarted Arnoldi (IRA) 
+implicit-Q theorem global romanontrue
+implicit-Q theorem global romanontrue
+implicit-Q theorem 
+inductance 
+induction mathematical 
+inertia 
+inner product 
+inner product 
+inner product 
+inner product complex 
+inner product energy 
+inner product induced by H 
+inner product of functions 
+invariant subspace 
+inverse iteration 
+inverse matrix 
+inverse matrix computation of 
+inverse matrix of a sparse matrix 
+inverse matrix pseudoinverse 
+inverse power method (inverse iteration) 
+invertible matrix 
+IRA 
+isometric matrix (isometry) 
+iterative refinement 
+iterative vs.\ direct methods 
+Jacobian matrix 
+Jacobi-Davidson method 
+Jacobi-Davidson method purging 
+Jacobi-Davidson method with inexact solve 
+Jacobi rotator 
+Jacobi rotator 
+Jacobi's method for eigenvalue problem 
+Jacobi's method for eigenvalue problem 
+Jacobi's method for linear system 
+Jacobi's method for linear system block variant 
+Jacobi's method for linear system convergence rate 
+Jacobi's method for linear system damped 
+Jordan block 
+Jordan block 
+Jordan canonical form 
+Jordan canonical form 
+Kahan matrix 
+Kahan matrix 
+kernel 
+Kirchhoff's laws current 
+Kirchhoff's laws voltage 
+Kirchhoff's laws voltage 
+Kirchhoff's laws voltage 
+Kronecker product 
+Kronecker product 
+Krylov matrix 
+Krylov matrix 
+Krylov-Schur algorithm 
+Krylov subspace 
+Krylov subspace 
+Krylov subspace 
+Krylov subspace 
+Krylov subspaces and Hessenberg matrices 
+Krylov subspaces and subspace iteration 
+Lanczos process 
+Lanczos process connection with CG 
+Lanczos process connection with CG 
+Lanczos process connection with CG 
+Laplacian discrete 
+Laplacian discrete 
+Laplacian discrete 
+Laplacian discrete 
+Laplacian discrete 
+LDL^T decomposition 
+LDV decomposition 
+least squares problem 
+least squares problem and SVD 
+least squares problem continuous 
+least squares problem discrete 
+least squares problem discrete 
+least squares problem solution in full-rank case 
+least squares problem solution in rank-deficient case 
+least squares problem solution in rank-deficient case 
+linear combination 
+linear convergence 
+linear independence and dependence 
+line iteration 
+line search 
+line search exact vs. inexact 
+Lotkin matrix 
+LR algorithm 
+LU decomposition 
+Manhattan metric 
+Markov chain 
+matrix norm 
+matrix pencil (pair) 
+matrix pencil (pair) equivalence 
+matrix pencil (pair) symmetric 
+maxmag 
+MD^-M^T decomposition 
+minimum-degree ordering approximate 
+minimum-degree ordering column 
+minmag 
+MINRES 
+Moler-Stewart algorithm 
+monic polynomial 
+Moore-Penrose generalized inverse 
+MRRR algorithm 
+multicolor ordering 
+multigrid 
+multigrid 
+multiplication matrix 
+multiplication matrix-vector 
+multiplicity algebraic 
+multiplicity algebraic vs.\ geometric 
+multiplicity geometric 
+NASA Airfoil 
+nested-dissection ordering 
+Newton's method 
+Newton's second law 
+nondefective matrix 
+nonsingular matrix 
+norm 
+normenergy 
+norm matrix 
+norm matrix-norm (column sum) 
+norm matrix Frobenius 
+norm matrix induced 
+norm matrix $\infty $-norm (row sum) 
+norm matrix $p$-norm 
+norm matrix spectral (-norm) 
+norm of a function 
+norm vector 
+norm vector 
+norm vector $A$-norm 
+norm vector Euclidean (-norm) 
+norm vector $\infty $-norm 
+norm vector $p$-norm 
+norm vector taxicab (-norm) 
+normal equations 
+normal matrix 
+null space 
+Ohm's law 
+operator norm 
+orthogonal complement 
+Orthogonal decomposition 
+orthogonal equivalence 
+orthogonal equivalence 
+orthogonality of functions 
+orthogonality of vectors 
+orthogonal matrix 
+orthogonal projection (of vector onto subspace) 
+orthonormal vectors 
+orthoprojector 
+orthoprojector 
+overdetermined system 
+overflow 
+partial pivoting 
+partition\ conformable 
+pencil (pair) 
+pencil (pair) equivalence 
+pencil (pair) regular vs.\ singular 
+pencil (pair) symmetric 
+perfect shuffle 
+perfect shuffle 
+permutation matrix 
+permutation matrix 
+Perron-Frobenius theory 
+Petrov-Galerkin conditions 
+pivot 
+pivoting complete 
+pivoting partial 
+plane rotator 
+Poisson's equation 
+positive definite matrix 
+positive definite matrix complex 
+positive semidefinite matrix 
+power method 
+power method convergence rate 
+power method inverse 
+preconditioner 
+preconditioner and Richardson's method 
+preconditioner as splitting matrix 
+preconditioner diagonal (= Jacobi) 
+preconditioner domain decomposition 
+preconditioner incomplete factorization factor
+preconditioner incomplete factorization factor
+preconditioner multigrid 
+preconditioner SSOR 
+principal submatrix 
+principal submatrix 
+product eigenvalue problem 
+projector 
+projector 
+pseudoinverse 
+purging 
+Pythagorean theorem 
+QMR 
+QR algorithm basic 
+QR algorithm implicitly-shifted \global\romanontrue
+QR algorithm implicitly-shifted 
+QR decomposition 
+QR decomposition and Gram-Schmidt process 
+QR decomposition by reflectors 
+QR decomposition by rotators 
+QR decomposition complex 
+QR decomposition condensed 
+QR decomposition essential uniqueness 
+QR decomposition nonsquare 
+QR decomposition rank-deficient case 
+QR decomposition uniqueness 
+QR decomposition uniqueness 
+QR decomposition uniqueness essential 
+QR decomposition updating of 
+QR decomposition with column pivoting 
+quadratic convergence 
+quasi-triangular matrix 
+quotient-difference (qd) algorithm 
+quotient-difference (qd) algorithm differential form 
+QZ algorithm 
+range 
+rank 
+rank 
+rank-one update eigenvalue problem 
+rank-one update of identity matrix 
+rank-one update of identity matrix 
+Rayleigh quotient 
+Rayleigh quotient matrix 
+Rayleigh quotient of normal matrix 
+Rayleigh quotient iteration 
+Rayleigh quotient iteration cubic convergence 
+Rayleigh quotient iteration in Jacobi-Davidson 
+Rayleigh quotient iteration quadratic convergence 
+Rayleigh quotient shift 
+Rayleigh-Ritz-Galerkin condition 
+red-black ordering 
+refinement\ iterative 
+reflector 
+reflector backward stability 
+reflector backward stability 
+reflector complex 
+regular pencil (pair) 
+relatively robust representation (RRR) 
+reorthogonalization 
+residual 
+residual and backward stability 
+residual and backward stability 
+Richardson's method 
+Ritz pair 
+Ritz value 
+Ritz value 
+Ritz value harmonic 
+Ritz vector 
+Ritz vector 
+rotator 
+rotator backward stability 
+rotator backward stability 
+rotator complex 
+rotator fast 
+rotator Givens 
+rotator Jacobi 
+rotator Jacobi 
+rotator plane 
+roundoff error 
+roundoff unit 
+row operation elementary 
+row scaling 
+row space 
+scaling 
+scaling bad 
+Schur complement 
+Schur complement 
+Schur complement 
+Schur complement 
+Schur complement 
+Schur complement 
+Schur complement 
+Schur's theorem 
+Schur's theorem generalized 
+Schur's theorem generalized 
+Schur's theorem real (Wintner-Murnaghan) 
+Schwarz inequality 
+Schwarz inequality 
+scientific notation 
+secular equation 
+semiband width 
+semisimple matrix 
+shift 
+shift exact 
+shift exceptional 
+shift exceptional 
+shift failure of convergence 
+shift generalized Rayleigh quotient 
+shift generalized Rayleigh quotient 
+shift generalized Rayleigh quotient 
+shift Rayleigh quotient 
+shift Rayleigh quotient 
+shift Wilkinson 
+shift Wilkinson 
+shift Wilkinson 
+shift zero shift for SVD 
+shift-and-invert strategy 
+shift-and-invert strategy and Arnoldi process 
+shift-and-invert strategy and subspace iteration 
+shift-and-invert strategy with IRA 
+shift blurring 
+shuffle perfect 
+shuffle perfect 
+shuffled coordinate system 
+shuffled coordinate system 
+similarity 
+similarity orthogonal and unitary 
+similar matrices 
+simultaneous iteration 
+simultaneous iteration 
+simultaneous iteration on sparse matrices 
+simultaneous iteration with changes of coordinate system 
+singular matrix 
+singular pencil (pair) 
+singular value decomposition (SVD) 
+singular vectors 
+Skeel condition number 
+skew-Hermitian matrix 
+skew-symmetric matrix 
+slicing method 
+SOR method 
+SOR method as a descent method 
+SOR method block 
+SOR method convergence rate 
+SOR method line 
+SOR method red-black 
+SOR method symmetric 
+spanning set (of a subspace) 
+span of a set of vectors 
+spectral norm 
+spectral radius 
+spectral theorem for Hermitian matrices 
+spectral theorem for normal matrices 
+spectral theorem for normal matrices 
+spectral theorem for real symmetric matrices 
+spectral theorem for real symmetric matrices 
+spectral theorem for skew-Hermitian matrices 
+spectral theorem for unitary matrices 
+spectrum 
+splitting matrix (= preconditioner) 
+spy plot 
+SSOR 
+stability\see backward stability 
+standard basis 
+steepest descent method 
+steepest descent method geometric interpretation 
+steepest descent method preconditioned 
+stiffness matrix 
+stiffness matrix 
+stochastic matrix 
+stochastic matrix 
+strain energy 
+strain energy 
+strain energy 
+Strassen's method 
+submatrix\ principal 
+subspace 
+subspace eigenspace 
+subspace invariant 
+subspace iteration 
+subspace iteration duality in 
+subspace iteration with Krylov subspaces 
+substitution back 
+substitution forward 
+successive overrelaxation (SOR) 
+successive overrelaxation (SOR) block 
+successive overrelaxation (SOR) line 
+successive overrelaxation (SOR) red-black 
+successive overrelaxation (SOR) symmetric 
+sum (of subspaces) 
+SVD 
+SVD and spectral decomposition 
+SVD computation of 
+SVD condensed 
+SVD diagram 
+SVD geometric 
+swamping 
+swamping 
+Sylvester equation 
+Sylvester's law of inertia 
+Sylvester's law of inertia proof 
+symmetric eigenvalue problem 
+symmetric eigenvalue problem 
+symmetric Lanczos process 
+symmetric Lanczos process 
+symmetric matrix 
+symmetric SOR 
+SYMMLQ 
+systems of differential equations 
+systems of differential equations 
+systems of differential equations asymptotically stable 
+systems of differential equations homogeneous linear 
+systems of differential equations nonhomogeneous linear 
+systems of differential equations nonlinear 
+systems of differential equations unstable 
+taxicab norm 
+tensor product 
+tensor product 
+trace 
+trace 
+transpose 
+transpose conjugate 
+triangle inequality 
+triangular matrix 
+triangular matrix eigenvectors of 
+tridiagonal matrix 
+tridiagonal matrix 
+tridiagonal matrix 
+tridiagonal matrix 
+twisted factorization factor
+twisted factorization factor
+underflow 
+underflow gradual 
+underflow harmful 
+unitary matrix 
+unitary matrix 
+unit lower-triangular matrix 
+unit roundoff 
+updating the QR decomposition adding a column 
+updating the QR decomposition adding a row 
+Vandermonde matrix 
+vector norm 
+well-conditioned matrix 
+Wilkinson shift 
+Wintner-Murnaghan theorem 
+Wintner-Murnaghan theorem proof 
+Wintner-Murnaghan theorem proof 
+
+
+absolute uncertainty or error     absorbing Markov chains     absorbing states    
+addition properties of     additive identity     additive inverse     adjacency matrix     adjoint    
+adjugate    
+refine functions     refine space      algebraic group    
+algebraic multiplicity      amplitude    
+Anderson-Duffin formula    
+Anderson Jean    xii Anderson W.  N.  Jr.     angle     
+canonical    
+between complementary spaces     maximal    
+principal    
+between subspaces     annihilating  polynomials     aperiodic Markov chain    
+Arnoldi's algorithm    
+Arnoldi Walter Edwin    associative property
+of addition    
+of matrix multiplication     of scalar multiplication    
+asymptotic rate of convergence     augmented matrix    
+Autonne L.    
+
+ 
+Bauer-Fike bound     beads on a string    
+Bellman Richard    xii
+Beltrami Eugenio    
+Benzi  Michele    xii
+Bernoulli Daniel    
+Bessel  Friedrich W.     
+Bessel's  inequality    
+best  approximate  inverse     biased estimator    
+binary representation    
+Birkhoff Garrett    
+Birkhoff 's theorem     bit  reversal    
+bit  reversing permutation  matrix     block  diagonal    -
+rank of    
+using  real  arithmetic     block  matrices    
+determinant of     linear  operators   
+block  matrix multiplication     block  triangular    -
+determinants    eigenvalues of    
+Bolzano-Weierstrass  theorem    
+Boolean matrix     bordered matrix    
+eigenvalues of     branch    
+Brauer Alfred   
+Bunyakovskii Victor    
+
+
+cancellation law     canonical angles    
+canonical form  reducible matrix    
+Cantor  Georg   
+Cauchy Augustin-Louis     
+back  substitution    
+backward error  analysis     backward triangle inequality    	determinant formula    
+integral formula    
+Cauchy-Bunyakovskii-Schwarz inequality	
+
+
+band matrix    
+Bartlett M. S.     base- b      	Cauchy-Goursat  theorem    
+Cauchy-Schwarz inequality    
+Cayley Arthur       	
+basic  columns      	Cayley-Hamilton theorem      	
+combinations of    	to  determine  f (A)     	
+basic  variables    	Cayley transformation     	
+in nonhomogeneous systems                                             CBS  inequality     
+basis      		general form     
+change of    		centered difference approximations    
+characterizations		Ces`aro Ernesto    
+orthonormal    		Ces`aro sequence    
+basis  for		Ces`aro summability     
+direct sum     		for stochastic matrix    
+intersection of spaces                                                       chain Jordan    
+ 
+space  of linear  transformations    
+ 
+change of basis        
+
+ 
+change of coordinates     characteristic equation    
+coefficients      characteristic polynomial    
+of a product    
+characteristic values and  vectors    
+Chebyshev Pafnuty Lvovich     checking an  answer    
+Cholesky Andre-Louis    
+Cholesky factorization factor      
+Cimmino Gianfranco    
+Cimmino's reflection method     circuit    
+circulant matrix    with convolution    eigenvalues eigenvectors    
+classical Gram-Schmidt  algorithm     classical least  squares     
+clock cycles       closest  point
+to  an  refine space     
+with  Fourier expansion     theorem    
+closure  property
+of addition    
+of multiplication   coefficient matrix    
+coefficient of linear  correlation     cofactor    
+expansion    
+Collatz Lothar    
+Collatz-Wielandt formula       column    
+equivalence     
+and  nullspace     operations     rank     relationships     scaling    
+space        spanning set  for    
+vector    
+Comdico David    xii commutative law    
+commutative property of addition     commuting matrices eigenvectors     companion matrix    
+compatibility of norms     compatible norms     competing species  model      complementary  projector     complementary subspaces    
+angle  between     complete pivoting    
+numerical stability     complete set  of eigenvectors     complex conjugate    
+complex exponential     
+ 
+complex numbers the  set  of     component matrices     component vectors     composition
+of linear  functions    
+of linear  transformations     of matrix functions    
+computer graphics     condition number
+for eigenvalues     generalized    
+for matrices     condition  of
+eigenvalues hermitian matrices     linear  system    
+conditioning and  pivots     conformable    
+conformably partitioned     congruence transformation     conjugate  complex    
+conjugate gradient algorithm     conjugate matrix    
+conjugate transpose     reverse order  law    
+conjugate vectors     connected graph    
+connectivity and  linear  dependence     connectivity matrix    
+consistent system     constituent matrices     continuity
+of eigenvalues     of inversion    
+of norms    
+continuous Fourier transform     continuous functions max  and  min      convergence     
+convergent matrix     converse of a statement     convolution
+with  circulants     definition     operation count     theorem     
+Cooley  J. W.        cooperating species  model      coordinate matrix     coordinates     
+change of     of a vector    
+coordinate spaces    
+core-nilpotent decomposition     correlation    
+correlation  coefficient    cosine
+of angle     
+minimal angle      discrete     
+
+ 
+Courant-Fischer  theorem     alternate    
+for singular values    
+Courant Richard     covariance    
+Cramer Gabriel    
+Cramer's rule       critical point    
+cross  product    
+Cuomo Kelly     xii curve fitting    
+
+
+defective     deficient     definite matrices    
+deflation eigenvalue problems     dense  matrix    
+dependent set      derivative
+of a determinant      of a linear  system    
+of a matrix     operator    
+determinant     computing    
+of a product    
+as product of eigenvalues     of a sum     
+and  volume    
+deviation from  symmetry     diagonal dominance     diagonal matrix    
+eigenvalues of     inverse of    
+diagonalizability    
+being  arbitrarily close to     
+in terms of minimum polynomial     in terms of multiplicities     summary    
+diagonalization
+of circulants    
+Jacobi's method    
+of normal matrices     simultaneous    
+diagonally dominant         systems    
+difference equations      difference of matrices     difference of projectors    
+differential equations       independent solutions     nonhomogeneous    
+solution of     stability     systems     uncoupling    
+ 
+diffusion  equation     diffusion  model      dimension    
+of direct sum     
+of fundamental  subspaces     of left-hand nullspace    
+of nullspace    
+of orthogonal complement     of range    
+of row space     
+of space  of linear  transformations     of subspace    
+of sum     
+direct product     direct sum     
+of linear  operators    
+of several subspaces    
+of symmetric and  skew-symmetric matrices     directed distance between subspaces   
+directed graph    
+Dirichlet Johann P. G.  L     
+Dirichlet problem    
+discrete Fourier transform      discrete Laplacian    
+eigenvalues of    
+discrete sine  cosine  and  exponential     disjoint subspaces    
+distance    
+to  lower-rank matrices     between subspaces    
+to  symmetric matrices    
+between a vector and  a subspace     distinct  eigenvalues   
+distributions     distributive property
+of matrix multiplication     of scalar multiplication    
+domain    
+doubly stochastic    
+Drazin generalized inverse      
+Cauchy formula     integral representation    
+Drazin M. P.    
+Duffin  R.  J.    
+Duncan W.  J.    
+
+
+Eckart C.    
+economic input-output model      edge  matrix    
+edges      eigenpair     eigenspace     
+
+eigenvalues      bounds for     continuity of     determinant and  trace	
+
+
+		extending to  a basis     
+extending to  an  orthonormal basis         extension set     
+distinct    			F
+generalized    		
+index  of      		Faddeev and  Sominskii    
+perturbations and  condition of	 	fail-safe  system    
+semisimple    		fast  Fourier transform (FFT)    
+sensitivity hermitian matrices		FFT algorithm       
+unit    		FFT operation count   
+eigenvalues  of		fast  integer multiplication    
+bordered matrices    		filtering random noise     
+discrete Laplacian    		finite  difference matrix     
+triangular and  diagonal matrices		finite-dimensional spaces    
+ 
+tridiagonal Toeplitz matrices    
+eigenvectors    
+of commuting matrices     generalized     independent    
+of tridiagonal Toeplitz matrices     electrical circuits    
+elementary matrices    - interchange matrices    
+elementary orthogonal projector     rank of    
+elementary reflector     determinant of    
+elementary row and  column operations      and  determinants    
+elementary triangular matrix     ellipsoid    
+degenerate    
+elliptical inner  product     elliptical norm    
+empty set     
+EP  matrices     equal  matrices    
+equivalence row and  column     testing for    
+equivalent norms matrices  vectors    
+equivalent statements     equivalent systems     ergodic  class     
+error absolute and  relative     essentially positive matrix     estimators    
+euclidean norm    
+unitary invariance of     evolutionary  processes    exponential
+complex     discrete     matrix    
+inverse of     products of     sums  of    
+ 
+finite  group    
+Fischer Ernst    
+five-point difference equations     fixed points    
+of a reflector     flatness    
+floating-point number     forward substitution    
+four  fundamental  subspaces     summary    
+Fourier coefficients   
+Fourier expansion     and  projection    
+Fourier Jean Baptiste Joseph   
+Fourier matrix    
+Fourier series      
+Fourier transform continuous     discrete    
+Frame J. S.    
+Francis J. F.  G.     
+Fr«echet Maurice R.      free variables    
+in nonhomogeneous systems     frequency    
+frequency domain    
+Frobenius Ferdinand Georg      
+Frobenius form     
+Frobenius inequality    
+Frobenius matrix norm      and  inner  product    
+of rank-one matrices     unitary invariance of    
+Frobenius test for primitivity     full-rank factorization factor    
+for determining index     of a projector    
+function refine    
+composition of       domain of    
+linear     norm  of     range  of     
+
+
+functional matrix identities		GMRES    
+functions  of		Golub Gene  H.    xii
+diagonalizable matrices		gradient    
+of Jordan blocks     		Gram Jorgen P.    
+matrices    		Gram matrix    
+ 
+using  Cauchy integral formula   
+using  Cayley-Hamilton theorem     nondiagonalizable matrices    
+fundamental (normal) mode  of vibration     fundamental problem of matrix theory     fundamental  subspaces    
+dimension of     orthonormal bases  for     projector onto    
+fundamental theorem of algebra     fundamental theorem of linear  algebra    
+
+
+gap      
+Gauss Carl  F.     ix     as a teacher    
+Gaussian elimination     and  LU factorization factor    effects  of roundoff     modified    
+numerical stability     operation counts    
+Gaussian transformation    
+Gauss-Jordan method     
+for computing a matrix inverse    operation counts    
+Gauss-Markov theorem     
+Gauss-Seidel method     general solution
+algebraic equations
+homogeneous systems      nonhomogeneous systems       
+difference equations     differential equations     
+generalized condition number     generalized eigenvalue problem     generalized eigenvectors       generalized inverse      
+Drazin     group    
+and  orthogonal projectors    
+generalized minimal residual (GMRES)     genes  and  chromosomes    
+geometric multiplicity     geometric series       
+Gerschgorin circles     
+Gerschgorin S. A.    
+Givens reduction     and determinants     numerical stability    
+Givens rotations    
+Givens Wallace    
+ 
+Gram-Schmidt algorithm
+classical version     implementations of    
+and  minimum polynomial     modified version    
+numerical stability of     and  volume    
+Gram-Schmidt  process   
+Gram-Schmidt sequence     graph    
+of a matrix    
+graphics -D rotations    
+Grassmann Hermann G.     
+Graybill Franklin A.    xii grid  norm    
+grid  points     group finite     
+group inverse     
+growth in Gaussian elimination    
+Guttman L.    
+
+
+Hadamard Jacques    
+Hadamard's inequality    
+Halmos Paul   xii 
+Hamilton William R.      harmonic functions    
+Haynsworth Emilie  V.     heat equation    
+Helfrich Laura    xii
+Hermite Charles    
+Hermite interpolation  polynomial   
+Hermite normal form     
+Hermite polynomial     hermitian matrix     
+condition of eigenvalues     eigen  components of    
+Hessenberg matrices    
+QR  factorization factorof    
+Hessian matrix    
+Hestenes Magnus R.      hidden surfaces    
+Hilbert David    
+Hilbert matrix     
+Hilbert-Schmidt  norm    
+Hohn  Franz    xii
+H¬older Ludwig O.    
+H¬older's inequality      homogeneous systems     
+Hooke  Robert    
+Hooke's  law    
+Horn  Roger     xii 
+
+ 
+Horst Paul    
+Householder Alston S.    
+Householder reduction      and  determinants    
+ 
+integer multiplication     integral formula
+for generalized inverses     for matrix functions    
+and  fundamental subspaces		intercept model     
+numerical stability    		interchange matrices    
+Householder transformations		interlacing of eigenvalues    
+hyperplane	                                                                           interpolation
+I	formula for  f (A)     
+Hermite polynomial    
+idempotent and  projec	                                                       Lagrange polynomial     tors                                                                    intersection of subspaces
+ 
+identity matrix     identity operator    
+ill-conditioned matrix       ill-conditioned system     
+normal equations    
+image  and  image  space       dimension of    
+image  of unit sphere    imaginary pure     imprimitive matrices    
+maximal root  of     spectrum of    
+test for    
+imprimitivity index  of      incidence matrix     inconsistent system    
+
+
+
+
+basic  facts      maximal    
+independent solutions
+for algebraic equations     for differential equations    
+index
+of an  eigenvalue      of imprimitivity     
+ 
+basis  for    
+projection onto    
+invariant subspace      inverse Fourier transform     inverse iteration    
+inverse matrix    
+best  approximation to     
+Cauchy formula for     computation of    
+operation counts     continuity of     determinants     eigenvalues of     existence of     generalized    
+integral representation of     norm  of    
+properties of     of a sum     
+invertible operators     invertible part of an  operator     involutory       irreducible Markov chain limits     irreducible matrix    
+isometry    iteration matrix    iterative methods    
+
+ 
+Jordan  Wilhelm   
+
+Kaczmarz's projection method     
+Kaczmarz Stefan    
+Kaplansky Irving    
+Kearn Vickie     xi  kernel    
+Kirchhoff 's rules      loop  rule     
+Kline  Morris    
+Kowa  Seki    
+Kronecker Leopold    
+Kronecker product      and  the  Laplacian    
+Krylov Aleksei  Nikolaevich    
+Krylov
+method    sequence    
+subspaces sequences matrices    
+Kummer Ernst Eduard    
+
+
+Lagrange interpolating polynomial      
+Lagrange Joseph-Louis    
+Lagrange multipliers    
+Lancaster Peter    xii
+Lanczos algorithm    
+Lanczos Cornelius    
+Laplace's determinant expansion    
+Laplace's equation    
+Laplace Pierre-Simon      
+
+latent semantic indexing   latent values and  vectors     law of cosines     
+LDU  factorization factor    leading principal minor    
+leading principal submatrices     least  common multiple    
+least  squares    
+and  Gram-Schmidt    
+ 
+Legendre's differential equation    
+Leibniz Gottfried W.      length of a projection    
+Leontief 's input-output model     
+Leontief Wassily    
+Leslie  P. H.    
+Leslie  population model     
+Leverrier-Souriau-Frame  Algorithm    
+Leverrier U. J. J.   
+L«evy L.    
+limiting distribution      limits
+and  group inversion     in Markov chains
+irreducible Markov chains   
+reducible  Markov  chains    
+of powers  of matrices     and  spectral radius    
+of vector sequences    in vector spaces    
+Lindemann Carl  Louis  Ferdinand von      linear
+algebra     combination     correlation    
+dependence and  connectivity     estimation    
+functions    
+defined  by matrix multiplication     defined  by systems of equations    
+models     operators    
+
+regression     spaces    
+stationary iterations     transformation    
+linearly independent and  dependent sets      basic  facts     
+maximal     and  rank    
+linearly independent eigenvectors     
+and  orthogonal projection
+and  polynomial fitting     and  pseudoinverse    
+and  QR  factorization factor    total least  squares     why  least  squares?    
+LeBlanc Kathleen    xii
+
+in inverses    
+and  projectors    
+ 
+
+ 
+lines  in  Rn    not  through the  origin     
+lines  projection onto    
+long-run distribution     loop     
+equations     rule     
+
+lower  triangular    
+LU factorization factor    
+left-hand nullspace      spanning set  for    
+Legendre Adrien-Marie     
+Legendre polynomials    
+ 
+existence of    
+with  interchanges     operation counts     summary     
+ 
+
+main  diagonal    
+Markov Andrei Andreyevich    
+Markov chains       absorbing    
+periodic    
+mass-stiffness equation     matrices the  set  of     matrix    
+diagonal     
+exponential     
+
+
+
+
+functions    
+as infinite series      as polynomials    
+group     multiplication    
+by blocks     
+as a linear  function     properties of    
+relation to  linear  transformations     norms    
+norm    
+norm    
+norm    
+Frobenius norm     induced norm    
+polynomials     product    
+representation of a projector     representations    
+triangular	 maximal angle     
+maximal independent set     
+maximal linearly independent subset     maximum and  minimum of continuous functions    
+McCarthy Joseph R.      mean    
+ 
+minimum polynomial    determination of    
+of a vector    
+minimum variance estimator    
+Minkowski Hermann       
+Minkowski inequality    
+minor determinant principal    
+MINRES algorithm    
+Mirsky Leonid   xii
+M-matrix       modern least  squares     modified gaussian elimination    
+modified Gram-Schmidt  algorithm     monic  polynomial    
+Montgomery Michelle   xii
+Moore  E.  H.    
+Morrison W.  J.     multiplication
+of integers   
+of matrices   
+of polynomials   
+multiplicities    
+and  diagonalizability     multiplier    
+in partial pivoting   
+
+
+negative definite    
+Neumann series       
+Newton    
+Newton's identities    
+Newton's second  law     nilpotent      
+Jordan blocks     
+part of an  operator    
+Noble  Ben     xii
+node         rule       
+Meyer
+Allison  C.    xii Bethany B.    xii Carl Sr.     xii Holly  F.     xii Louise     xii	no-intercept model     	
+	noise  removal with  SVD     	
+	nonbasic columns    	
+	nonderogatory matrices    	
+	nondiagonalizable spectral resolution	
+	nonhomogeneous differential equations	
+Margaret E.     xii
+Martin D.    xii		nonhomogeneous systems     
+general solution     	
+min-max theorem    
+alternate  formulation    		summary    
+nonnegative matrices    	
+for singular values    		nonsingular matrices    	
+minimal angle     		and  determinants    	
+minimal spanning set      		and  elementary matrices    	
+minimum norm  least  squares solution		products of    	
+minimum norm  solution    		sequences of    	
+ 
+ 
+norm    
+compatibility      elliptical    
+equivalent     of a function    
+on a grid     
+of an  inverse     for matrices    
+- - and  ° -norms    
+Frobenius     induced     
+of a projection     for vectors    
+- - and  ° -norms     p-norms    
+of a waveform    
+normal equations         normal modes  of vibration     normalized vector    
+normal matrix       nullity    
+nullspace       equality    
+of an  orthogonal projector     of a partitioned  matrix    
+of a product     spanning set  for     and  transpose    
+number of pivots     numerical stability    
+
+
+oblique  projection    
+method for linear  systems     oblique  projectors from  SVD     
+Ohm's  law    
+Oh  notation  O(hp )      one-to-one mapping     onto  mapping     operation counts
+for convolution    
+for Gaussian elimination     for Gauss-Jordan  method     for LU factorization factor   
+for matrix inversion    operator linear     operator norm    
+Ortega James    xii
+orthogonal complement     dimension of    
+involving range  and  nullspace    
+ 
+orthogonal projection          and  -D graphics    
+onto  an  refine space      and  least  squares    
+orthogonal projectors       elementary    
+formulas for    
+onto  an  intersection     and  pseudoinverses     sums  of    
+orthogonal reduction    
+to  determine full-rank factorization factor    to  determine fundamental  subspaces   
+orthogonal triangularization     orthogonal vectors     orthonormal basis     
+extending to       
+for fundamental  subspaces    
+by means of orthogonal reduction     orthonormal set     
+Ostrowski Alexander     outer product     overrelaxation    
+
+
+Painter Richard J.   xii parallelepiped     parallelogram identity      parallelogram law    
+parallel sum     
+parity of a permutation    
+Parseval des Chöenes M.    
+Parseval's identity     partial pivoting   
+and  diagonal dominance     and  LU factorization factor   
+and  numerical stability    
+particular solution    -     partitioned  matrix    
+and  linear  operators     rank and  nullity of    
+Peano Giuseppe    
+Penrose equations    
+Penrose Roger      perfect shuffle      
+period of trigonometric  functions     periodic extension    
+periodic function     periodic Markov chain     permutation    
+symmetric    permutation counter    permutation matrix       
+
+ 
+Perron vector      perturbations
+affecting rank     eigenvalues    
+hermitian  eigenvalues    in inverses    
+in linear  systems      rank-one update    
+singular values    
+Piazzi Giuseppe     pivot
+conditioning    
+determinant formula for      elements and  equations     positions     
+in partial pivoting    uniqueness    
+pivoting complete     partial    
+plane rotation     determinant of    
+p-norm    
+Poisson's equation     
+Poisson Sim«eon D.      polar  factorization factor    polarization identity     polynomial
+equations    
+in a matrix    
+and  matrix functions    minimum    
+multiplication and  convolution     polytope    
+ponderal index    
+poor  man's  root  finder      population distribution     population migration     population model  Leslie      positive definite form     
+positive definite matrix        positive matrix    
+positive semidefinite matrix     
+Poulson Deborah     xii power  method     powers  of a matrix    
+limiting values    
+powers  of linear  transformations     precision    
+preconditioned system     predator-prey model      primitive matrices    
+test for     principal angles    principal minors    
+in an  M-matrix     nonnegative    
+positive    
+ 
+principal submatrix    
+and  interlaced  eigenvalues     of an  M-matrix    
+of a stochastic     products
+of matrices    
+of nonsingular matrices     of orthogonal projectors     of projectors    
+product rule  for determinants     projection       
+and  Fourier expansion    
+method for solving  linear  systems     onto
+refine spaces     fundamental  subspaces     hyperplanes    
+lines      
+oblique  subspaces     orthogonal subspaces     symmetric matrices    
+projectors        complementary    
+from  core-nilpotent decomposition     difference of    
+from  full-rank factorization factor    as idempotents    
+induced norm  of      matrix representation of     oblique    
+orthogonal     product of     spectral     sum  of    
+proper values  and  vectors     pseudoinverse     
+as best  approximate  inverse    
+Drazin     group    
+inner outer reflexive     
+integral representation of      and  least  squares    
+Moore-Penrose    
+and  orthogonal projectors     pure  imaginary    
+Pythagorean theorem      and  closest  point theorem    
+for matrices with  Frobenius norm    
+
+
+QR  factorization factor   
+and  Hessenberg matrices     and  least  squares    
+and  minimum polynomial     rectangular version of    
+and  volume     quadratic form      
+quaternions    
+
+
+random integer matrices     random walk     
+range
+of a function    
+of a matrix       of an  operator    
+of an  orthogonal projector    
+ 
+reducible matrices      canonical form  for    
+in linear  systems     
+reflection    
+about a hyperplane   
+method for solving  linear  systems     reflector     
+determinant of     reflexive  pseudoinverse     regression    
+relative uncertainty or error     relaxation parameter     residual    
+resolvent    
+restricted operators      
+range-symmetric matrices     rank    
+restricted transformations     reversal matrix    
+reverse order  law 
+of a block  diagonal matrix     and  consistency    
+and  determinants     of a difference    
+of an  elementary projector     and  free variables    
+of an  incidence matrix     and  independent sets      and  matrix inverses   
+and  nonhomogeneous systems     and  nonsingular submatrices     numerical determination    
+of a partitioned  matrix     of a perturbed matrix     of a product      of a projector    
+and  submatrices     of a sum       summary    
+and  trivial nullspaces    rank normal form     
+rank-one matrices characterization of     diagonalizability of     perturbations of    
+rank-one updates determinants of     eigenvalues of    
+rank plus  nullity theorem    
+Rayleigh Lord     
+Rayleigh quotient     iteration    
+real  numbers the  set  of     real  Schur form     
+real-symmetric matrix     rectangular matrix    
+rectangular QR  factorization factor    rectangular  systems    
+reduced row echelon  form      reducible Markov chain    
+ 
+for inversion    
+for transpose and  conjugate transpose     reversing binary bits    
+Richardson iterative method     right angle     
+right-hand rule      right-hand side     
+Ritz  values     roots  of unity    
+and  imprimitive matrices    
+Rose  Nick     xii rotation    
+determinant of    
+plane (Givens rotations)    
+in  R       in  R       in  Rn      
+rotator    
+rounding convention     roundoff error       row    
+echelon  form      reduced    
+equivalence     and  nullspace    
+operations     rank     relationships     scaling    
+space         spanning set  for    
+vector    
+RPN matrices    
+Rutishauser Heinz     
+
+Saad Yousef     
+saw-toothed  function     scalar     
+ 
+
+scalar multiplication      scale     
+scaling  a linear  system    
+
+Schmidt Erhard    
+Schr¬odinger Erwin    
+Schultz Martin H.    
+Schur complements    
+Schur form  for real  matrices    
+Schur Issai       
+Schur norm    
+Schur triangularization  theorem    
+Schwarz Hermann A.      search engine       sectionally continuous     secular equation    
+Seidel  Ludwig    
+Sellers  Lois    xii semiaxes     semidefinite    
+
+semistable     sensitivity    
+minimum norm  solution     sequence
+limit  of    
+of matrices    
+series  for  f (A)      shape    
+shell  game     
+Sherman J.    
+Sherman-Morrison formula    
+SIAM      
+signal  processing     signal-to-noise ratio     sign  of a permutation    
+similar matrices       similarity    
+and  block-diagonal matrices     and  block-triangular  matrices     and  eigenvalues    
+invariant    
+and  orthogonal matrices    
+simultaneous diagonalization triangularization     simultaneous displacements    
+sine  discrete     singular matrix    
+eigenvalues of     sequences of    
+singular systems practical solution of    
+ 
+singular values    
+Courant-Fischer  theorem     and  determinants    
+as eigenvalues    
+
+size    
+skew-hermitian matrices     
+skew-symmetric matrices        eigenvalues of     
+as exponentials     vector space  of    
+SOR  method    
+Souriau J. M.     spanning sets     
+for column space     
+for four  fundamental  subspaces     for left-hand nullspace    
+minimal    
+for nullspace     for row  space      test for    
+sparse least  squares    
+
+spectral circle  imprimitive matrices     spectral mapping property     spectral projectors     
+commuting property     interpolation formula for     positivity of    
+in terms of eigenvectors     spectral radius     
+Collatz-Wielandt formula      as a limit    
+and  limits    
+spectral representation of matrix functions     spectral resolution of  f (A)     
+spectral theorem for diagonalizable matrices     spectrum    
+of imprimitive matrix     spheres    
+splitting    
+spring-mass vibrations     springs    
+square matrix    system    
+wave  function     stable    
+algorithm       matrix    
+system     standard
+basis        coordinates     deviation    
+inner  product     scores     
+standardization of data     stationary distribution     
+ 
+
+steady-state distribution     steepest descent    
+step  size    
+Stewart G.  W.     xii Stiefel  Eduard     stiffness
+constant     matrix    
+stochastic matrix     doubly    
+summability of     unit eigenvalues of    
+Strang Gilbert    xii
+strongly connected graph    
+Strutt John W.     
+stuff  in a vector space       subgroup    
+submatrix    
+Taussky-Todd Olga     
+Taylor series        t-digit arithmetic     tensor product    
+and  the  Laplacian    
+term-by-document matrix     text mining   
+three-dimensional rotations     time  domain    
+Todd John    
+Toeplitz matrices    
+Toeplitz Otto     total least  squares     trace    
+and  characteristic  equation     of imprimitive matrices     inequalities     
+substochastic matrix    successive displacements    successive overrelaxation method    sum
+of matrices    
+of orthogonal projectors    
+nullspace     properties of    
+reverse order  law for     and  similarity    
+trapezoidal form      trend of observations    
+of projectors    
+of vector spaces     dimension of    
+summable matrix and  summability      stochastic matrices    
+superdiagonal    
+SVD     
+and  full-rank factorization factor    and  oblique  projectors    
+switching circuits    
+Sylvester James J.     
+Sylvester's law of inertia    
+Sylvester's law of nullity    
+ 
+triangle inequality      backward  version    
+triangular matrices      block  versions     determinant of     eigenvalues of     elementary    
+inverses of    
+triangularization  simultaneous     triangularization using  elementary  reflectors     triangular  system    
+tridiagonal matrix     
+Toeplitz matrices     
+symmetric
+functions    		trivial
+nullspaces    
+matrices    
+diagonalization and  eigen  components  of	
+	solution     
+and  nonhomogeneous systems    
+reduction to  tridiagonal form     		and  nonsingular matrices    
+space  of    		subspace    
+permutation    		Tukey J. W.       
+two-point boundary value  problem    
+
+unbiased estimator for variance     uncertainties in linear  systems     underrelaxation    
+unique solution
+for differential equations     and  free variables    
+for homogeneous systems    
+for nonhomogeneous systems     unitarily invariant norm     unitary diagonalization    unitary matrices    
+determinant of     unit columns    
+unit eigenvalues of stochastic matrices     units    
+unit sphere    image  of     
+unstable    
+upper-trapezoidal form       upper triangular    
+URV  factorization factor   
+and  full-rank factorization factor  
+
+Vandermonde  Alexandre-Theophile    
+Vandermonde determinant    
+Vandermonde matrices     
+Van  Loan  Charlie    xii variance    
+vector     norms     spaces    
+vertex matrix     vibrations small      volume
+by determinants   
+by Gram-Schmidt and  QR      von  Mises  R.     
+von  Neumann John    
+
+Weierstrass Karl  Theodor Wilhelm     well conditioned     
+Weyl  Hermann     why  least  squares?    
+Wielandt Helmut      
+Wielandt's matrix    
+Wielandt's theorem    
+Will  Marianne    xii wire  frame  figure     
+Woodbury M.    
+Wronskian     
+ 
+Wronski Jozef  M.    
+Wronski matrix    
+
+Young David M.    
+Young G.     
+Zeeman E.  Christopher     zero  nullspace    
+zero  transformation    
+Z-matrix      z-scores     
+
