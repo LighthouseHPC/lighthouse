@@ -25,8 +25,10 @@ ST calcRowVariance(const RCP<MAT> &A) {
 			for (LO col = 0; col < cols; col++) {
 				locVariance += (values[col] - mean) * (values[col] - mean);
 			}
-			locVariance /= cols;
-			std::cout << "lmv" << myRank << "\t" << row << "\t" << locVariance << std::endl;
+			for (LO col = cols; col < A->getGlobalNumCols(); col++) {
+				locVariance += (-mean) * (-mean);
+			}
+			locVariance /= A->getGlobalNumCols();
 			if (locVariance > locMaxVariance) {
 				locMaxVariance = locVariance;
 			}
@@ -59,8 +61,10 @@ ST calcRowVariance(const RCP<MATC> &A) {
 			for (LO col = 0; col < cols; col++) {
 				locVariance += (std::real(values[col]) - mean) * (std::real(values[col]) - mean);
 			}
+			for (LO col = cols; col < A->getGlobalNumCols(); col++) {
+				locVariance += (-mean) * (-mean);
+			}
 			locVariance /= A->getGlobalNumCols();
-			std::cout << "lmv" << myRank << "\t" << row << "\t" << locVariance << std::endl;
 			if (locVariance > locMaxVariance) {
 				locMaxVariance = locVariance;
 			}
