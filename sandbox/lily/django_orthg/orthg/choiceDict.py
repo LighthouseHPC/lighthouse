@@ -64,8 +64,8 @@ NOYESBOTH_CHOICES = (
 
 #####----------- for LAPACK least square problem type, Sylvester routines -------------#####
 STANDARD_CHOICES = (
-        (u'standard',                   	u'Standard linear least squares problem with general matrix'),
-        (u'generalized',                	u'Generalized linear least squares problem with general matrices'), 
+        (u'standard',                   	u'Standard'),
+        (u'generalized',                	u'Generalized'), 
 )
 
 FullStorageNoYes_CHOICES = (
