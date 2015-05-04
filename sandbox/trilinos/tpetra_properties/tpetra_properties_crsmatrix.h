@@ -67,11 +67,13 @@
 #include <Ifpack2_ILUT.hpp>
 #include <Ifpack2_Factory.hpp>
 
-//  Tpetra Typedefs
+//  C++ Typedefs
 typedef double ST;
 typedef std::complex<double> STC;
 typedef int LO;
 typedef int64_t GO;
+
+//  Tpetra Typedefs
 typedef Tpetra::DefaultPlatform::DefaultPlatformType Platform;
 typedef Tpetra::Map<>::node_type NT;
 typedef Tpetra::CrsMatrix<ST, LO, GO, NT> MAT;
@@ -177,6 +179,7 @@ void calcInverseMethod(const RCP<MAT> &A);
 void runGauntlet(const RCP<MATC> &A);
 ST calcRowVariance(const RCP<MATC> &A);
 ST calcColVariance(const RCP<MATC> &A);
+ST calcDiagVariance(const RCP<MATC> &A);
 
 void initTimers();
 
