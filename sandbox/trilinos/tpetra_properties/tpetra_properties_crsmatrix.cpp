@@ -103,8 +103,8 @@ void runGauntlet(const RCP<MAT> &A) {
 	}
 	*fos << comm->getSize() << ", ";
 	*fos << calcRowVariance(A) << ", ";
-	/*
 	*fos << calcColVariance(A) << ", ";
+	/*
 	*fos << calcDiagVariance(A) << ", ";
 	*fos << calcNonzeros(A) << ", ";
 	*fos << calcDim(A) << ", ";
@@ -129,7 +129,7 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << calcDiagonalMean(A) << ", ";
 	*fos << calcDiagonalSign(A) << ", ";
 	*fos << calcDiagonalNonzeros(A) << ", ";
-  calcEigenValues(A, "LM");
+  Values(A, "LM");
   calcEigenValues(A, "LR");
   calcEigenValues(A, "SM");
   calcEigenValues(A, "SR"); 
@@ -144,8 +144,8 @@ void runGauntlet(const RCP<MATC> &A) {
 	}
 	*fos << comm->getSize() << ", ";
 	*fos << calcRowVariance(A) << ", ";
-	/*
 	*fos << calcColVariance(A) << ", ";
+	/*
 	*fos << calcDiagVariance(A) << ", ";
 	*fos << calcNonzeros(A) << ", ";
 	*fos << calcDim(A) << ", ";
@@ -177,12 +177,6 @@ void runGauntlet(const RCP<MATC> &A) {
   */
   *fos << std::endl;
 }
-
-
-
-
-
-
 
 void initTimers() {
 	timeRowVariance = TimeMonitor::getNewCounter("Row Variance");

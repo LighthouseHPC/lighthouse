@@ -176,35 +176,7 @@ void calcInverseMethod(const RCP<MAT> &A);
 //  Complex versions
 void runGauntlet(const RCP<MATC> &A);
 ST calcRowVariance(const RCP<MATC> &A);
-STC calcColVariance(const RCP<MATC> &A);
-STC calcDiagVariance(const RCP<MATC> &A);
-size_t calcNonzeros(const RCP<MATC> &A);
-size_t calcDim(const RCP<MATC> &A);
-STC calcFrobeniusNorm(const RCP<MATC> &A);
-STC calcSymmetricFrobeniusNorm(const RCP<MATC> &A);
-STC calcAntisymmetricFrobeniusNorm(const RCP<MATC> &A);
-STC calcInfNorm(const RCP<MATC> &A);
-STC calcOneNorm(const RCP<MATC> &A);
-STC calcSymmetricInfNorm(const RCP<MATC> &A);
-STC calcAntisymmetricInfNorm(const RCP<MATC> &A);
-size_t calcMaxNonzerosPerRow(const RCP<MATC> &A);
-size_t calcMinNonzerosPerRow(const RCP<MATC> &A);
-STC calcAvgNonzerosPerRow(const RCP<MATC> &A);
-STC calcTrace(const RCP<MATC> &A);
-STC calcAbsTrace(const RCP<MATC> &A);
-size_t calcDummyRows(const RCP<MATC> &A);
-std::vector<ST> calcSymmetry(const RCP<MATC> &A);
-int calcRowDiagonalDominance(const RCP<MATC> &A);
-int calcColDiagonalDominance(const RCP<MATC> &A);
-STC calcDiagonalMean(const RCP<MATC> &A);
-int calcDiagonalSign(const RCP<MATC> &A);
-size_t calcDiagonalNonzeros(const RCP<MATC> &A);
-size_t calcLowerBandwidth(const RCP<MATC> &A);
-size_t calcUpperBandwidth(const RCP<MATC> &A);
-void calcEigenValues(const RCP<MATC> &A, std::string eigenType);
-void calcNonzeroPatternSymmetryPercentage(const RCP<MATC> &A);
-void calcSmallestEigenvalues(const RCP<MATC> &A, std::string filename);
-void calcInverseMethod(const RCP<MATC> &A);
+ST calcColVariance(const RCP<MATC> &A);
 
 void initTimers();
 
