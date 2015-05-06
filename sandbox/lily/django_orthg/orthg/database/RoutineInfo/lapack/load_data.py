@@ -1,7 +1,7 @@
 import csv
 import sqlite3 as lite
 
-myDB = lite.connect('/home/lily/lighthouse/sandbox/lily/lily_4_15/django_orthg/orthg.db') 
+myDB = lite.connect('/home/lily/lighthouse/sandbox/lily/django_orthg/orthg.db') 
 
 cur = myDB.cursor()
 
@@ -21,7 +21,8 @@ else:
 for file in reader:
 	fd = open("RoutineTxt/"+file[0], "r")
         try: 
-       	    myDB.execute("insert or ignore into orthg_lapack_routineinfo(id, routine, info) values(?,?,?)", (i, file[0], fd.read()))
+       	    #myDB.execute("insert or ignore into orthg_lapack_routineinfo(id, routine, info) values(?,?,?)", (i, file[0], fd.read()))
+            myDB.execute("UPDATE orthg_lapack_routineinfo SET info = ? WHERE id = ?", (fd.read(), i))
         except lite.IntegrityError as err:
                print(err)
 	i += 1     
