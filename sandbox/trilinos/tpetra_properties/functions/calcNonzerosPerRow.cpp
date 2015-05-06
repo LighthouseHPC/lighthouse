@@ -1,12 +1,5 @@
 #include "tpetra_properties_crsmatrix.h"
 
-//  Total number of nonzeros in matrix
-size_t calcNonzeros(const RCP<MAT> &A) {
-	TimeMonitor LocalTimer (*timeNonzeros);
-	//*fos << "nonzeros:" << A->getGlobalNumEntries() << ", " << std::endl;
-	return A->getGlobalNumEntries();
-}
-
 size_t calcMinNonzerosPerRow(const RCP<MAT> &A) {
 	TimeMonitor LocalTimer (*timeMinNonzerosPerRow);
 	size_t rows = A->getGlobalNumRows();

@@ -105,10 +105,10 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << calcRowVariance(A) << ", ";
 	*fos << calcColVariance(A) << ", ";
 	*fos << calcDiagVariance(A) << ", ";
-	/*
 	*fos << calcNonzeros(A) << ", ";
 	*fos << calcDim(A) << ", ";
 	*fos << calcFrobeniusNorm(A) << ", ";
+	/*
 	*fos << calcSymmetricFrobeniusNorm(A) << ", ";
 	*fos << calcAntisymmetricFrobeniusNorm(A) << ", ";
 	*fos << calcOneNorm(A) << ", ";
@@ -142,11 +142,12 @@ void runGauntlet(const RCP<MATC> &A) {
 		*fos << "Not a square matrix, exiting." << std::endl;
 		exit(-1);
 	}
+	*fos << "Complex!, ";
+	/*
 	*fos << comm->getSize() << ", ";
 	*fos << calcRowVariance(A) << ", ";
 	*fos << calcColVariance(A) << ", ";
 	*fos << calcDiagVariance(A) << ", ";
-	/*
 	*fos << calcNonzeros(A) << ", ";
 	*fos << calcDim(A) << ", ";
 	*fos << calcFrobeniusNorm(A) << ", ";

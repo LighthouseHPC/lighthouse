@@ -6,9 +6,19 @@ size_t calcDim(const RCP<MAT> &A) {
 	//*fos << "dimension:" << A->getGlobalNumRows() << ", " << std::endl;
 	return A->getGlobalNumRows();
 }
+size_t calcDim(const RCP<MATC> &A) {
+	TimeMonitor LocalTimer (*timeDim);
+	//*fos << "dimension:" << A->getGlobalNumRows() << ", " << std::endl;
+	return A->getGlobalNumRows();
+}
 
 //  Frobenius norm of matrix
 ST calcFrobeniusNorm(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeFrobeniusNorm);
+	//*fos << "frob norm:" << A->getFrobeniusNorm() << ", " << std::endl;
+	return A->getFrobeniusNorm();
+}
+ST calcFrobeniusNorm(const RCP<MATC> &A) {
 	TimeMonitor LocalTimer (*timeFrobeniusNorm);
 	//*fos << "frob norm:" << A->getFrobeniusNorm() << ", " << std::endl;
 	return A->getFrobeniusNorm();
@@ -28,6 +38,13 @@ ST calcAntisymmetricFrobeniusNorm(const RCP<MAT> &A){
 	RCP<MAT> A_a = Tpetra::MatrixMatrix::add(0.5, false, *A, -0.5, true, *A);
 	//*fos << "antisymm frob norm:" << A_a->getFrobeniusNorm() << ", " << std::endl;
 	return A_a->getFrobeniusNorm();
+}
+
+//  Total number of nonzeros in matrix
+size_t calcNonzeros(const RCP<MAT> &A) {
+	TimeMonitor LocalTimer (*timeNonzeros);
+	//*fos << "nonzeros:" << A->getGlobalNumEntries() << ", " << std::endl;
+	return A->getGlobalNumEntries();
 }
 
 //  Self explanatory

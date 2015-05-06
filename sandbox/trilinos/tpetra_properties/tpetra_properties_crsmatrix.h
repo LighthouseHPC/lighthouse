@@ -180,6 +180,9 @@ void runGauntlet(const RCP<MATC> &A);
 ST calcRowVariance(const RCP<MATC> &A);
 ST calcColVariance(const RCP<MATC> &A);
 ST calcDiagVariance(const RCP<MATC> &A);
+size_t calcNonzeros(const RCP<MATC> &A);
+size_t calcDim(const RCP<MATC> &A);
+ST calcFrobeniusNorm(const RCP<MATC> &A);
 
 void initTimers();
 
