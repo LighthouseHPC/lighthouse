@@ -104,8 +104,8 @@ void runGauntlet(const RCP<MAT> &A) {
 	*fos << comm->getSize() << ", ";
 	*fos << calcRowVariance(A) << ", ";
 	*fos << calcColVariance(A) << ", ";
-	/*
 	*fos << calcDiagVariance(A) << ", ";
+	/*
 	*fos << calcNonzeros(A) << ", ";
 	*fos << calcDim(A) << ", ";
 	*fos << calcFrobeniusNorm(A) << ", ";
@@ -145,8 +145,8 @@ void runGauntlet(const RCP<MATC> &A) {
 	*fos << comm->getSize() << ", ";
 	*fos << calcRowVariance(A) << ", ";
 	*fos << calcColVariance(A) << ", ";
-	/*
 	*fos << calcDiagVariance(A) << ", ";
+	/*
 	*fos << calcNonzeros(A) << ", ";
 	*fos << calcDim(A) << ", ";
 	*fos << calcFrobeniusNorm(A) << ", ";
