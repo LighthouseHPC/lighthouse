@@ -8,6 +8,9 @@ Acknowledgment: This material is based upon work supported by the National Scien
 ### Version
 0.5.0
 
+### Funding
+This work is supported by the National Science Foundation (NSF) grants (award numbers CCF-0916474 and CCF-1219089).
+
 ### Publications
 
 * [Lighthouse: A User-Centered Web Service for Linear Algebra Software](http://arxiv.org/abs/1408.1363)
