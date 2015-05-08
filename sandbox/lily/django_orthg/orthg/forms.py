@@ -41,7 +41,7 @@ class sFullRankForm(forms.Form):
      
 ##---- complex form ----##
 class complexNumberForm(forms.Form):
-    orthg_complexNumber = forms.ChoiceField(label='Does your matrix have any complex number?', widget=forms.RadioSelect(), choices=COMPLEX_CHOICES)
+    orthg_complexNumber = forms.ChoiceField(label='Does your matrix has at least one complex number?', widget=forms.RadioSelect(), choices=COMPLEX_CHOICES)
 
 ##---- QR form ----##
 class qrForm(forms.Form):
