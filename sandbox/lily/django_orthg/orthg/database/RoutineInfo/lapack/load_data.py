@@ -19,7 +19,7 @@ else:
 	i = int(ID)
 	
 for file in reader:
-	fd = open("RoutineTxt/"+file[0], "r")
+	fd = open("test/"+file[0], "r")
         try: 
        	    #myDB.execute("insert or ignore into orthg_lapack_routineinfo(id, routine, info) values(?,?,?)", (i, file[0], fd.read()))
             myDB.execute("UPDATE orthg_lapack_routineinfo SET routine = ? WHERE id = ?", (file[0], i))
