@@ -32,22 +32,28 @@ for idn, precision, routine, url in reader:
         page = urllib.urlopen(URL)
         
         ###  save chopped info in the RoutineTxt directory.
-        copy_page= open('./RoutineTxt/'+file_name(precision, routine, idn), "w")
+        copy_page= open('./test/'+file_name(precision, routine, idn), "w")
         
         flag = 1
         while True:
             content = page.readline()[3:]
-            if "-- Univ. of" in content:
+            if "Arguments:" in content:
                 print idn, "--> find match!"
                 break
             else:
                 if "\par Purpose:" in content:
                     flag = 0
-                if "-- Univ. of" in content:
+                if "Arguments:" in content:
                     flag = 1
                 if not flag and not "\par Purpose:" in content:
                     if "=======" in content:
                         content = ''
+                    #if "\param[in]" in content:
+                    #    content = ''
+                    #if "\param[out]" in content:
+                    #    content = ''
+                    #if "\param[in,out]" in content:
+                    #    content = ''
                     if content.find("verbatim") > -1:
                         content = ''
                     copy_page.write(content)
