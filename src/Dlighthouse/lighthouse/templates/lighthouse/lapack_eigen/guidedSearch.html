@@ -4,7 +4,7 @@
   <table id="icon-table">
     <tr>
       <td id="icon-cell">
-        <img src={%static "images/guidedSearch.png" %} width="32" height="32"/>
+        <img src= "{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
       </td>
       <td id="title-cell">
         Guided Search
@@ -40,7 +40,7 @@
     <tr style="width:100%;">
     {% if not form %}
       <td style="text-align:left">
-	      <img src={%static "images/face-smile-2.png" %} width="20" height="20"/>
+	      <img src="{{ MEDIA_URL }}Images/face-smile-2.png" width="20" height="20"/>
       </td>
       <td style="text-align:left; color: #0c387e;">
 	      <b>End of guided search! Check out the result.</b>
@@ -53,7 +53,7 @@
                 onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
                 onmouseout="showTooltip('tooltip','');"
                 onclick="show_confirm('/lapack_eigen/')">
-              <img src={%static "images/clear.png" %} width="16" height="16"/> 
+              <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
         </button>      
       </td>
     {% else %}
@@ -62,7 +62,7 @@
                 onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');"
                 onmouseout="showTooltip('tooltip','');"
                 onclick="show_confirm('/lapack_eigen/')">
-            <img src={%static "images/clear.png" %} width="16" height="16"/> 
+            <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/> 
         </button>       
       </td>
       <td style="text-align:center;">
@@ -73,7 +73,7 @@
                 onmouseover="showTooltip('tooltip', 'Submit', '#009900');"
                 onmouseout="showTooltip('tooltip','');"
                 onclick="checkRadios();">
-            <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+            <img src=" {{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
         </button >
       </td>
     {% endif %}
