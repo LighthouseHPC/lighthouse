@@ -2,46 +2,48 @@
 
 
 <table style="padding:0px; margin:0px; border:0px;">
-        <tr>
-            <td>
-                    <label for="id_eigen_problem_0">
-                    <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
-                            <b>Which of the following problems would you like to compute?</b>
-                    </label>
-            </td>
+	<tr>
+		<td>
+                    	<label for="id_eigen_problem_0">
+                    	<img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+				<b>Which of the following problems would you like to compute?</b>
+                    	</label>
+            	</td>
         </tr>
 </table>
+
 <table style="padding-left:10px; padding-top:10px; border:0px;">
-    <tr>
-        <td>
-            1.
-        </td>
-        <td>
-            <label for="id_eigen_problem_0">
-                <input type="radio" id="id_eigen_problem_0" value="eigen" name="eigen_problem" />
-                Solve an eigenproblem (e.g., diagonalize a matrix to find eigenvalues)
-            </label>
-        </td>
-        <td>
-<!--            <div dataType="dijit.form.DropDownButton"  class="tooltipLink"> -->
-                <span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
-<!--                    <div dojoType="dijit.TooltipDialog" id="helpEigenStandard" title="Standard Eigenproblem">
-                           <div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
-                                    dojoType="dijit.form.Button">[Close]
-                                    <script type="dojo/method" event="onClick">
-                                            dijit.byId('helpEigenStandard').onCancel();
-                                    </script>
-                            </div>
-                            <h2>Standard Eigenproblem</h2>
-                            <div id="helpText_eigenStandard" style="background-color:#FFFFD6;">
-                                <iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/eigenStandard.html"></iframe> 		 		
-                            </div>
-                    </div>
-            </div> -->
-        </td>
-    </tr>
-	</table>
-	<table style="padding-left:10px; border:0px;">
+    	<tr>
+        	<td style="width:12px;">
+			1.
+        	</td>
+        	<td>
+			<label for="id_eigen_problem_0">
+                		<input type="radio" id="id_eigen_problem_0" value="eigen" name="eigen_problem" />
+                		Solve an eigenproblem (e.g., diagonalize a matrix to find eigenvalues)
+            		</label>
+        	</td>
+        	<td>
+	            	<div dojoType="dijit.form.DropDownButton"  class="tooltipLink">
+	                	<span><img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16"/></span>
+                    		<div dojoType="dijit.TooltipDialog" id="helpEigenStandard" title="Standard Eigenproblem">
+                           		<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0" 
+                                    		dojoType="dijit.form.Button">[Close]
+                                    		<script type="dojo/method" event="onClick">
+                                            		dijit.byId('helpEigenStandard').onCancel();
+                                    		</script>
+                            		</div>
+                            		<h2>Standard Eigenproblem</h2>
+                            		<div id="helpText_eigenStandard" style="background-color:#FFFFD6;">
+                                		<iframe width="500px" height="300px" src="{{ MEDIA_URL }}Help/eigenStandard.html"></iframe> 		 		
+                            		</div>
+                    		</div>
+            		</div>
+        	</td>
+    	</tr>
+</table>
+
+<table style="padding-left:10px; border:0px;">
     <tr>
         <td style="width:12px;">
             2.
