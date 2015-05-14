@@ -48,7 +48,7 @@
         <div id="main" dojoType="dijit.layout.BorderContainer">
         <div id="header" dojoType="dijit.layout.ContentPane" region="top" style="border-top:6px; border-color:#c9dcfa;">
 
-    		<img src="{{ MEDIA_URL }}Images/Petsc_header.png"/>
+    		<a href="{% url home %}" title=""><img src="{{ MEDIA_URL }}Images/NewHeader.png"/></a>
 			<div style="float:right; padding-top: 7px;">
 				{% if user.is_authenticated %}                            
 					<div style="text-align:right; color:#808080;">
@@ -78,6 +78,17 @@
 					</div>                                
 				{% endif %}
 			</div>
+			<!-- navigation starts-->
+			<div id="navcontainer">
+				<ul id="navlist">
+					<li><a href="{% url home %}">Home</a></li>
+					<li><a href="{% url forumList %}">Forum</a></li>
+					<li><a href="{% url blogindex %}">Blog</a></li>
+					<li><a href="">Contact</a></li>
+					<li><a href="https://code.google.com/p/lighthouse-taxonomy/issues/list" target="_blank">Report Issues</a></li>
+				</ul>
+			</div>
+			<!-- navigation ends-->	
 		 </div>
 
                 <!-- "mainSplit" BorderContainer has all the real content -->
