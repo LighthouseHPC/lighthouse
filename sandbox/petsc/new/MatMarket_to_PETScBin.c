@@ -88,7 +88,7 @@ int main(int argc,char **args)
 
   /* Do not convert pattern matrices */
   if (mm_is_pattern(matcode)) {
-    printf("Pattern matrix -- skipping.\n");
+    ierr = PetscPrintf(PETSC_COMM_SELF, "%s: Pattern matrix -- skipping.\n", inputFile);
     exit(0);
   }
 
@@ -100,24 +100,26 @@ int main(int argc,char **args)
   int ret_code;
   if ((ret_code = mm_read_mtx_crd_size(file, &m, &n, &nnz)) !=0)
         exit(1);
-  printf ("ROWS = %d, COLUMNS = %d, NO OF NON-ZEROS = %d\n",m,n,nnz);
+  ierr = PetscPrintf(PETSC_COMM_SELF, "%s: ROWS = %d, COLUMNS = %d, NO OF NON-ZEROS = %d\n",inputFile,m,n,nnz);
 
   /* Only consider symmetric matrices */
   if (m != n) {
-    printf("Nonsymmetric matrix -- skipping.\n");
+    printf("Nonsquare matrix -- skipping.\n");
     exit(0);
   }
 
   ierr = MatCreate(PETSC_COMM_WORLD,&pMat);CHKERRQ(ierr);
-  ierr = MatSetSizes(pMat,PETSC_DECIDE,PETSC_DECIDE,m,n);CHKERRQ(ierr);
-  //ierr = MatSetOption(pMat, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE); CHKERRQ(ierr);
-  if (mm_is_symmetric(matcode)) 
-    ierr = MatSetOption(pMat,MAT_SYMMETRIC,PETSC_TRUE); CHKERRQ(ierr);
   ierr = MatSetFromOptions(pMat);CHKERRQ(ierr);
+  //ierr = MatSetOption(pMat, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE); CHKERRQ(ierr);
+  if (mm_is_symmetric(matcode))  {
+    ierr = MatSetOption(pMat,MAT_SYMMETRIC,PETSC_TRUE); CHKERRQ(ierr);
+    ierr = MatSetOption(pMat,MAT_SYMMETRY_ETERNAL,PETSC_TRUE); CHKERRQ(ierr);
+  }
+  ierr = MatSetSizes(pMat,PETSC_DECIDE,PETSC_DECIDE,m,n);CHKERRQ(ierr);
   ierr = MatSetUp(pMat);CHKERRQ(ierr);
 
  
-  printf("\n MAX NONZERO FOR ANY ROW ARE : %d & ROW NUM IS : %d", maxNNZperRow, maxRowNum );
+  //printf("\n MAX NONZERO FOR ANY ROW ARE : %d & ROW NUM IS : %d", maxNNZperRow, maxRowNum );
   
 
   /* Its important to pre-allocate memory by passing max non zero for any row in the matrix */
@@ -147,7 +149,7 @@ int main(int argc,char **args)
 
   fclose(file);
   /*Matrix Read Complete */
-  ierr = PetscPrintf(PETSC_COMM_SELF,"\n MATRIX READ...DONE!\n");
+  ierr = PetscPrintf(PETSC_COMM_SELF,"%s MATRIX READ...DONE!\n", inputFile);
 
   /*Now assemeble the matrix */
   ierr = MatAssemblyBegin(pMat,MAT_FINAL_ASSEMBLY);
@@ -160,6 +162,8 @@ int main(int argc,char **args)
   /*Matview will dump the Mat object to binary file */
   ierr = MatView(pMat,view);CHKERRQ(ierr);
   //ierr = MatView(pMat,PETSC_VIEWER_STDOUT_WORLD);CHKERRQ(ierr);
+
+  ierr = PetscPrintf(PETSC_COMM_SELF,"%s PETSC MATRIX STORED\n", outputFile);
 
   /* Destroy the data structure */
   ierr = PetscViewerDestroy(&view);CHKERRQ(ierr);
