@@ -23,7 +23,7 @@
           <tr style="width:100%;">
             <td style="text-align:left;">       
               <button type="submit" name="guided" value="clear" id="clearButton" title="Clear Search" onmouseover="showTooltip('tooltip2', 'Clear Search','#cc0000');" onmouseout="showTooltip('tooltip2','');" onclick="return show_confirm()">
-                  <img src={%static "Images/clear.png" %} width="16" height="16"/> 
+                  <img src="{{ MEDIA_URL }}/Images/clear.png" width="16" height="16"/> 
               </button>       
             </td>     
             <td style="text-align:center;">
@@ -31,7 +31,7 @@
             </td>
             <td style="text-align:right;">
               <button type="submit" name="guided" value="submit" id="submitButton" title="Submit Answer" onmouseover="showTooltip('tooltip', 'Submit', '#009900');" onmouseout="showTooltip('tooltip','');" onclick="return checkRadios();">
-                  <img src={%static "Images/dialog-ok-4.png" %} width="16" height="16"/>
+                  <img src="{{ MEDIA_URL }}/Images/dialog-ok-4.png" width="16" height="16"/>
               </button >
             </td>
           </tr>

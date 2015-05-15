@@ -5,7 +5,7 @@
         <table id="icon-table">
                 <tr>
                         <td id="icon-cell">
-                                <img src={%static "Images/keywordSearch.png" %} width="32" height="32"/>
+                                <img src="{{ MEDIA_URL }}/Images/keywordSearch.png" width="32" height="32"/>
                         </td>           
                         <td id="title-cell">
                                 Keyword Search 
@@ -18,7 +18,7 @@
         <table  border="0" cellspacing="10" id="icon-table" style="margin-left: 10px; padding-top: 0px;">
                 <tr>
                         <td style="padding-top:5px; padding-bottom:5px;">
-                                <img src={%static "Images/arrow.png" %} width="8" height="8"/>
+                                <img src="{{ MEDIA_URL }}/Images/arrow.png" width="8" height="8"/>
                         </td>
                         <td  label for="id_q" colspan="2" >
                                 <b> Please enter a word or phrase: </b>
@@ -50,7 +50,7 @@
                         <td colspan="3" style="text-align:center; padding-left: 10px; width: 100%;">
                                 <button type="submit" name="keyword" value="search" id="searchButton" title="Search String"
                                         style="width: 60px;" onclick="return checkKeyword();">
-                                        <img src={%static "Images/dialog-ok-4.png" %} width="16" height="16"/>
+                                        <img src="{{ MEDIA_URL }}/Images/dialog-ok-4.png" width="16" height="16"/>
                                 </button >                      
                         </td>
                 </tr>

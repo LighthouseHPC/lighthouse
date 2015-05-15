@@ -81,22 +81,22 @@
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }} {% if item.notes %} ( {{item.notes }}) {% endif %}
 					</td>
 					<td class="hiddenStuff">
-						<img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
-						     onclick="showMore('sel_eigenguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
+						<img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16" title="About this routine"
+						     onclick="showMore('sel_eigenguid_{{ item.id }}', '"{{ MEDIA_URL }}/Doxygen/docs/html/"{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
 					</td>
 					<td class="hiddenStuff">
-						<img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
+						<img src="{{ MEDIA_URL }}/Images/remove.png" width="12" height="12" title="Delete"
 						     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
 					</td>
 					<td class="hiddenStuff">                                            
-						<img src={% static "images/move.png" %} width="15" height="15" title="Move up and down"
+						<img src="{{ MEDIA_URL }}/Images/move.png" width="15" height="15" title="Move up and down"
 						     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
 					</td>
 				</tr>
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('sel_eigenguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
+			<button onclick="showMore('sel_eigenguid_{{ item.id }}', '"{{ MEDIA_URL }}/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="sel_eigenguid_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
