@@ -85,7 +85,15 @@ int main(int argc,char **args)
 /* #define mm_is_hermitian(typecode)((typecode)[3]=='H') */
 /* int mm_is_valid(MM_typecode matcode); */
 
-   /* find out size of sparse matrix .... */
+
+  /* Do not convert pattern matrices */
+  if (mm_is_pattern(matcode)) {
+    printf("Pattern matrix -- skipping.\n");
+    exit(0);
+  }
+
+
+  /* find out size of sparse matrix .... */
 
  
   /*Reads size of sparse matrix from matrix market file */
@@ -94,9 +102,17 @@ int main(int argc,char **args)
         exit(1);
   printf ("ROWS = %d, COLUMNS = %d, NO OF NON-ZEROS = %d\n",m,n,nnz);
 
+  /* Only consider symmetric matrices */
+  if (m != n) {
+    printf("Nonsymmetric matrix -- skipping.\n");
+    exit(0);
+  }
+
   ierr = MatCreate(PETSC_COMM_WORLD,&pMat);CHKERRQ(ierr);
   ierr = MatSetSizes(pMat,PETSC_DECIDE,PETSC_DECIDE,m,n);CHKERRQ(ierr);
   //ierr = MatSetOption(pMat, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE); CHKERRQ(ierr);
+  if (mm_is_symmetric(matcode)) 
+    ierr = MatSetOption(pMat,MAT_SYMMETRIC,PETSC_TRUE); CHKERRQ(ierr);
   ierr = MatSetFromOptions(pMat);CHKERRQ(ierr);
   ierr = MatSetUp(pMat);CHKERRQ(ierr);
 
@@ -117,6 +133,7 @@ int main(int argc,char **args)
       ierr = MatSetValues(pMat,1,&i,1,&j,&zero,INSERT_VALUES);  CHKERRQ(ierr);
     }
   }
+  
   for (i=0; i<nnz; i++) 
   {
 	    /*Read matrix element from matrix market file*/
