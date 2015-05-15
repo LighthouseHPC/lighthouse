@@ -39,21 +39,23 @@ int main(int argc,char **args)
   ierr = MatSetFromOptions(A);CHKERRQ(ierr);
   // Load matrix from file
   ierr = MatLoad(A,fd);CHKERRQ(ierr);
+  ierr = PetscViewerDestroy(&fd);CHKERRQ(ierr);
   ierr = MatGetSize(A, &m, &n); CHKERRQ(ierr);
-  // Load RHS vector
+  // Assemble matrix
+  ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
+  ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
+
+
+  // Create RHS vector
   ierr = VecCreate(PETSC_COMM_WORLD,&b);CHKERRQ(ierr);
   ierr = VecSetSizes(b,PETSC_DECIDE,n); CHKERRQ(ierr);
   ierr = VecSetFromOptions(b);CHKERRQ(ierr);
   ierr = VecSet(b,one);  CHKERRQ(ierr);
   //ierr = VecLoad(b,fd);CHKERRQ(ierr);
-  // Destroy viewer
-  ierr = PetscViewerDestroy(&fd);CHKERRQ(ierr);
-  // Assemble matrix
-  ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
-  ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
   // Create vectors x and u
   ierr = VecDuplicate(b,&x);CHKERRQ(ierr);
   ierr = VecDuplicate(b,&u);CHKERRQ(ierr);
+
   // Create KSP
   ierr = KSPCreate(PETSC_COMM_WORLD,&ksp); CHKERRQ(ierr);
   ierr = KSPSetInitialGuessNonzero(ksp,PETSC_FALSE);CHKERRQ(ierr);
