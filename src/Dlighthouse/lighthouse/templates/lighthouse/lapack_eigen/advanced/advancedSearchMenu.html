@@ -5,7 +5,7 @@
   <table id="icon-table">
       <tr>
 	  <td id="icon-cell">
-	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	      <img src="{{ MEDIA_URL }}/Images/advancedSearch.png" width="32" height="32"/>
 	  </td>       
 	 <td id="title-cell">
 	      Advanced Search
@@ -27,7 +27,7 @@
 	    <tr>
 		<td>
 			<label for="id_advancedSearchMenu_0">
-			<img src={%static "images/arrow.png" %} width="8" height="8"/>
+			<img src="{{ MEDIA_URL }}/Images/arrow.png" width="8" height="8"/>
 				<b>Which of the following categories of eigen problems would you like to search?</b>
 			</label>
 		</td>
@@ -103,7 +103,7 @@
 		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
 		  onmouseout="showTooltip('tooltip_advanced','');"
 		  onclick="show_confirm('/lapack_eigen/')">
-	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
+	      <img src="{{ MEDIA_URL }}/Images/clear.png" width="16" height="16"/> 
 	  </button>       
 	</td>
 	<td style="text-align:center;">
@@ -113,7 +113,7 @@
 	  <button type="submit" name="guided" value="submit" id="submitButton_advanced" title="Submit Answer" class="myButton"
 		  onmouseover="showTooltip('tooltip_advanced', 'Submit', '#009900');"
 		  onmouseout="showTooltip('tooltip_advanced','');">
-	      <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+	      <img src="{{ MEDIA_URL }}/Images/dialog-ok-4.png" width="16" height="16"/>
 	  </button >
 	</td>
       </tr>
