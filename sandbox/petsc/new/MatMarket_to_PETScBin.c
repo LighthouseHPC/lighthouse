@@ -102,9 +102,9 @@ int main(int argc,char **args)
         exit(1);
   ierr = PetscPrintf(PETSC_COMM_SELF, "%s: ROWS = %d, COLUMNS = %d, NO OF NON-ZEROS = %d\n",inputFile,m,n,nnz);
 
-  /* Only consider symmetric matrices */
+  /* Only consider square matrices */
   if (m != n) {
-    printf("Nonsquare matrix -- skipping.\n");
+    ierr = PetscPrintf(PETSC_COMM_SELF, "%s: Nonsquare matrix -- skipping.\n", inputFile);
     exit(0);
   }
 
