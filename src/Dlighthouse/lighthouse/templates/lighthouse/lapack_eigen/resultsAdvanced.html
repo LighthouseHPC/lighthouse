@@ -65,7 +65,7 @@
 			</td>
 			<td >
 				<img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16" title="About this routine"
-				     onclick="showMore('sel_eigenadv_{{ item.id }}', '"{{ MEDIA_URL }}/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>	
+				     onclick="showMore('sel_eigenadv_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>	
 			</td>
 			<td class="hiddenStuff">
 				<img src="{{ MEDIA_URL }}/Images/remove.png" width="12" height="12" title="Delete"

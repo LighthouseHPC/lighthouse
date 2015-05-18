@@ -39,7 +39,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('nsel_sylguid_{{ item.id }}', '"{{ MEDIA_URL }}/Doxygen/docs/html/"{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
+			<button onclick="showMore('nsel_sylguid_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="nsel_sylguid_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -81,7 +81,7 @@
 					</td>
 					<td class="hiddenStuff">
 						<img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16" title="About this routine"
-						     onclick="showMore('sel_sylguid_{{ item.id }}', '"{{ MEDIA_URL }}/Doxygen/docs/html/"{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
+						     onclick="showMore('sel_sylguid_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
 					</td>
 					<td class="hiddenStuff">
 						<img src="{{ MEDIA_URL }}/Images/remove.png" width="12" height="12" title="Delete"
@@ -95,7 +95,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('sel_sylguid_{{ item.id }}', '"{{ MEDIA_URL }}/Doxygen/docs/html/"{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
+			<button onclick="showMore('sel_sylguid_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="sel_sylguid_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
