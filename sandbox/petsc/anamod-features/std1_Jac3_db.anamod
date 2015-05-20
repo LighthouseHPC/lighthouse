@@ -1,4 +1,4 @@
-reading matrix from petsc binary file <petsc/extr1b_A_15.petsc>, size: 2836 by 2836
+reading matrix from petsc binary file <petsc/std1_Jac3_db.petsc>, size: 21982 by 21982
 /home11/bnorris2/anamod-3/anamod-3.00/simple.c:285: __FUNCT__="compute_dd" does not agree with __func__="DiagonalDominance"
 /home11/bnorris2/anamod-3/anamod-3.00/structure.c:669: __FUNCT__="regularblocks" does not agree with __func__="BlockSize"
 /home11/bnorris2/anamod-3/anamod-3.00/normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
@@ -8,79 +8,79 @@ invoking slepc
 /home11/bnorris2/anamod-3/anamod-3.00/normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
 ========
 Category: <simple>
-  <trace> : <-2.519084e+01>
-  <trace-abs> : <2.519084e+01>
-  <norm1> : <6.207303e+04>
-  <normInf> : <9.195407e+04>
-  <normF> : <4.483115e+05>
-  <diagonal-dominance> : <-9.195407e+04>
+  <trace> : <1.075262e+09>
+  <trace-abs> : <1.634244e+09>
+  <norm1> : <4.244443e+11>
+  <normInf> : <6.875287e+11>
+  <normF> : <4.826891e+11>
+  <diagonal-dominance> : <-6.875287e+11>
 Category: <structure>
-  <nrows> : <2836>
-  <nnzeros> : <11886>
-  <max-nnzeros-per-row> : <11>
-  <min-nnzeros-per-row> : <2>
-  <left-bandwidth> : <2835>
-  <right-bandwidth> : <2486>
-  <n-dummy-rows> : <0>
-  <dummy-rows-kind> : <0>
+  <nrows> : <21982>
+  <nnzeros> : <531826>
+  <max-nnzeros-per-row> : <211>
+  <min-nnzeros-per-row> : <1>
+  <left-bandwidth> : <592>
+  <right-bandwidth> : <565>
+  <n-dummy-rows> : <10587>
+  <dummy-rows-kind> : <1>
   <dummy-rows> : ****
-  <diag-zerostart> : <1299>
+  <diag-zerostart> : <21982>
   <diag-definite> : <0>
-  <blocksize> : <1295>
+  <blocksize> : <6614>
 Category: <variance>
-  <row-variability> : <9.192277e+00>
-  <col-variability> : <1.373004e+01>
-  <diagonal-average> : <8.882524e-03>
-  <diagonal-variance> : <4.545542e-01>
-  <diagonal-sign> : <-1>
+  <row-variability> : <2.247418e+01>
+  <col-variability> : <2.195572e+01>
+  <diagonal-average> : <7.434465e+04>
+  <diagonal-variance> : <3.352426e+06>
+  <diagonal-sign> : <0>
 Category: <normal>
-  <ruhe75-bound> : <6.156583e+04>
+  <ruhe75-bound> : <4.824231e+11>
 Category: <spectrum>
-  <n-ritz-values> : <240>
+  <n-ritz-values> : <79>
   <ritz-values-r> : ****
   <ritz-values-c> : ****
-  <ellipse-ax> : <4.503772e+02>
-  <ellipse-ay> : <4.735546e+02>
-  <ellipse-cx> : <4.754759e+01>
+  <ellipse-ax> : <2.541722e+08>
+  <ellipse-ay> : <9.102600e+05>
+  <ellipse-cx> : <-9.086112e+06>
   <ellipse-cy> : <0.000000e+00>
-  <kappa> : <7.882301e+00>
-  <positive-fraction> : <4.875000e-01>
-  <sigma-max> : <6.206376e+04>
-  <sigma-min> : <1.152443e+04>
-  <lambda-max-by-magnitude-re> : <4.979248e+02>
+  <kappa> : <5.563252e+02>
+  <positive-fraction> : <6.075949e-01>
+  <sigma-max> : <4.826864e+11>
+  <sigma-min> : <6.741217e+07>
+  <lambda-max-by-magnitude-re> : <-2.632583e+08>
   <lambda-max-by-magnitude-im> : <0.000000e+00>
-  <lambda-min-by-magnitude-re> : <6.316998e+01>
-  <lambda-min-by-magnitude-im> : <0.000000e+00>
-  <lambda-max-by-real-part-re> : <4.979248e+02>
+  <lambda-min-by-magnitude-re> : <-1.508237e+05>
+  <lambda-min-by-magnitude-im> : <4.485302e+05>
+  <lambda-max-by-real-part-re> : <-2.632583e+08>
   <lambda-max-by-real-part-im> : <0.000000e+00>
-  <lambda-max-by-im-part-re> : <1.538672e+02>
-  <lambda-max-by-im-part-im> : <4.735546e+02>
+  <lambda-max-by-im-part-re> : <2.443105e+05>
+  <lambda-max-by-im-part-im> : <9.102600e+05>
 Category: <jpl>
-  <n-colours> : <6>
+  <n-colours> : <50>
   <colour-set-sizes> : ****
   <colour-offsets> : ****
   <colours> : ****
 Category: <iprs>
-  <nnzup> : <4749>
-  <nnzlow> : <4301>
-  <nnzdia> : <2836>
-  <nnz> : <11886>
-  <avgnnzprow> : <4>
-  <avgdistfromdiag> : <4>
-  <upband> : <2486>
-  <loband> : <2835>
-  <n-nonzero-diags> : <4289>
-  <avg-diag-dist> : <1.295211e+03>
-  <sigma-diag-dist> : <4.218068e+06>
+  <nnzup> : <257137>
+  <nnzlow> : <252707>
+  <nnzdia> : <21982>
+  <nnz> : <531826>
+  <avgnnzprow> : <24>
+  <avgdistfromdiag> : <24>
+  <upband> : <565>
+  <loband> : <592>
+  <n-nonzero-diags> : <1119>
+  <avg-diag-dist> : <2.808856e+02>
+  <sigma-diag-dist> : <2.029545e+05>
 Category: <lapack>
-  <departure> : <4.482585e+05>
-  <lambda-max-by-magnitude-re> : <4.979248e+02>
+  <departure> : <4.826888e+11>
+  <lambda-max-by-magnitude-re> : <2.442514e+07>
   <lambda-max-by-magnitude-im> : <0.000000e+00>
-  <lambda-min-by-magnitude-re> : <-7.369422e-04>
+  <lambda-min-by-magnitude-re> : <2.211938e-03>
   <lambda-min-by-magnitude-im> : <0.000000e+00>
-  <lambda-max-by-real-part-re> : <4.979248e+02>
+  <lambda-max-by-real-part-re> : <2.450861e+08>
   <lambda-max-by-real-part-im> : <0.000000e+00>
-  <lambda-max-by-im-part-re> : <4.979248e+02>
+  <lambda-max-by-im-part-re> : <2.155838e+07>
   <lambda-max-by-im-part-im> : <0.000000e+00>
 ========
 
@@ -90,15 +90,15 @@ Category: <lapack>
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-./anamod_all on a arch-linux2-c-intel14 named cn151 with 1 processor, by bnorris2 Sun May 17 22:39:13 2015
+./anamod_all on a arch-linux2-c-intel14 named cn179 with 1 processor, by bnorris2 Tue May 19 17:10:07 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           2.150e+02      1.00000   2.150e+02
-Objects:              5.816e+03      1.00000   5.816e+03
-Flops:                2.592e+08      1.00000   2.592e+08  2.592e+08
-Flops/sec:            1.206e+06      1.00000   1.206e+06  1.206e+06
-Memory:               9.536e+07      1.00000              9.536e+07
+Time (sec):           1.137e+04      1.00000   1.137e+04
+Objects:              4.411e+04      1.00000   4.411e+04
+Flops:                2.378e+09      1.00000   2.378e+09  2.378e+09
+Flops/sec:            2.091e+05      1.00000   2.091e+05  2.091e+05
+Memory:               3.980e+09      1.00000              3.980e+09
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Reductions:       0.000e+00      0.00000
@@ -109,7 +109,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 2.1500e+02 100.0%  2.5921e+08 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 1.1372e+04 100.0%  2.3780e+09 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -147,42 +147,43 @@ Event                Count      Time (sec)     Flops                            
 
 --- Event Stage 0: Main Stage
 
-ThreadCommRunKer       1 1.0 3.8147e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommRunKer       1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatMult              355 1.0 6.1157e-02 1.0 9.84e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   161
-MatConvert             4 1.0 5.9851e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyBegin       8 1.0 2.1434e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyEnd         8 1.0 2.2008e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatGetRow          40845 1.0 8.5614e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatLoad                1 1.0 2.6505e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatTranspose           2 1.0 8.4372e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecDot               256 1.0 1.9185e-02 1.0 2.90e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0   151
-VecNorm              281 1.0 3.6161e-03 1.0 3.19e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0   881
-VecScale             149 1.0 7.6301e-03 1.0 5.16e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0    68
-VecCopy              551 1.0 6.6214e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecSet                58 1.0 4.1401e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecAXPY              291 1.0 2.1439e-02 1.0 3.30e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0   154
-VecScatterBegin      482 1.0 2.2101e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecSetRandom           1 1.0 2.3711e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-SVDSetUp               2 1.0 1.4544e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-SVDSolve               2 1.0 1.7249e-01 1.0 3.17e+07 1.0 0.0e+00 0.0e+00 0.0e+00  0 12  0  0  0   0 12  0  0  0   184
-EPSSetUp               8 1.0 4.4565e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-EPSSolve               8 1.0 4.6681e-01 1.0 2.04e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 79  0  0  0   0 79  0  0  0   438
-STSetUp                3 1.0 3.8099e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-STApply              355 1.0 8.6833e-02 1.0 9.84e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   113
-BVCopy               511 1.0 1.1780e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-BVMult               469 1.0 1.7404e-01 1.0 1.81e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 70  0  0  0   0 70  0  0  0  1038
-BVDot                453 1.0 7.5093e-02 1.0 5.75e+07 1.0 0.0e+00 0.0e+00 0.0e+00  0 22  0  0  0   0 22  0  0  0   766
-BVOrthogonalize      328 1.0 2.0747e-01 1.0 1.21e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 47  0  0  0   0 47  0  0  0   582
-BVScale              360 1.0 1.7069e-02 1.0 1.25e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0    73
-BVNorm               213 1.0 3.4797e-03 1.0 2.39e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0   688
-BVSetRandom            8 1.0 2.4001e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-DSSolve                8 1.0 1.4394e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-DSVectors            132 1.0 2.2038e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-DSOther                8 1.0 8.2154e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-SFSetGraph             2 1.0 4.1008e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-SFReduceBegin          2 1.0 3.9172e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-SFReduceEnd            2 1.0 1.6928e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult              466 1.0 1.0892e+00 1.0 7.00e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 29  0  0  0   0 29  0  0  0   643
+MatConvert             4 1.0 1.1784e+00 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       8 1.0 2.1386e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         8 1.0 9.0919e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRow         637427 1.0 1.2269e+00 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 4.7676e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatTranspose           2 1.0 8.5744e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecDot              1647 1.0 1.9531e-01 1.0 1.45e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0  6  0  0  0   0  6  0  0  0   741
+VecNorm              530 1.0 2.7305e-02 1.0 4.66e+07 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0  1707
+VecScale              29 1.0 1.7908e-03 1.0 1.21e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0   675
+VecCopy              155 1.0 6.8583e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               119 1.0 1.5242e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPY             1673 1.0 1.3962e-01 1.0 1.47e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0  6  0  0  0   0  6  0  0  0  1054
+VecSwap                2 1.0 2.9016e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecScatterBegin      792 1.0 3.5710e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSetRandom           1 1.0 1.7583e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SVDSetUp               2 1.0 1.0334e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SVDSolve               2 1.0 1.6792e+00 1.0 8.76e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0   522
+EPSSetUp               8 1.0 1.1439e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+EPSSolve               8 1.0 3.2110e+00 1.0 2.31e+09 1.0 0.0e+00 0.0e+00 0.0e+00  0 97  0  0  0   0 97  0  0  0   720
+STSetUp                3 1.0 5.1904e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+STApply              466 1.0 1.3283e+00 1.0 7.00e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 29  0  0  0   0 29  0  0  0   527
+BVCopy               121 1.0 7.0930e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+BVMult               532 1.0 8.2896e-01 1.0 8.20e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 34  0  0  0   0 34  0  0  0   989
+BVDot                509 1.0 4.5880e-01 1.0 5.04e+08 1.0 0.0e+00 0.0e+00 0.0e+00  0 21  0  0  0   0 21  0  0  0  1098
+BVOrthogonalize      451 1.0 1.3174e+00 1.0 1.32e+09 1.0 0.0e+00 0.0e+00 0.0e+00  0 55  0  0  0   0 55  0  0  0   999
+BVScale              477 1.0 2.4219e-02 1.0 1.46e+07 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0   601
+BVNorm               480 1.0 2.6703e-02 1.0 4.20e+07 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0  1574
+BVSetRandom            8 1.0 1.7909e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+DSSolve               12 1.0 8.3730e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+DSVectors             89 1.0 4.7703e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+DSOther               12 1.0 1.0865e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SFSetGraph             2 1.0 3.3140e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SFReduceBegin          2 1.0 1.6177e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SFReduceEnd            2 1.0 1.5020e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 ------------------------------------------------------------------------------------------------------------------------
 
 Memory usage is given in bytes:
@@ -192,27 +193,27 @@ Reports information only for process 0.
 
 --- Event Stage 0: Main Stage
 
-              Matrix    37             34     65773520     0
+              Matrix    37             34   3901291880     0
               Viewer     2              1          760     0
-              Vector    69             68      7659392     0
+              Vector    69             68     58664336     0
       Vector Scatter     6              5         3260     0
-           Index Set  5677              7         5544     0
+           Index Set 43969              7        10020     0
 Singular Value Solver     1              1         1828     0
          PetscRandom     4              4         2560     0
 Eigenvalue Problem Solver     2              2         6748     0
   Spectral Transform     2              2         1704     0
        Krylov Solver     2              2         2336     0
       Preconditioner     2              2         1856     0
-       Basis Vectors     5              5        45008     0
+       Basis Vectors     5              5        26064     0
        Direct solver     3              3       388792     0
               Region     2              2         1312     0
 Star Forest Bipartite Graph     2              2         1744     0
 ========================================================================================================================
-Average time to get PetscTime(): 0
+Average time to get PetscTime(): 9.53674e-08
 #PETSc Option Table entries:
 -log_summary
 -matload_block_size 1
--petsc petsc/extr1b_A_15.petsc
+-petsc petsc/std1_Jac3_db.petsc
 -svd_eps_type lanczos
 -svd_ncv 40
 -svd_nsv 10
