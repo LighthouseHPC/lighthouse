@@ -5,10 +5,27 @@
         <tr>
                 <td>
                         <label for="id_sylvester_generalizedCondition_0">
-                                <img src={%static "images/arrow.png" %} width="8" height="8"/>
+                                <img src="{{ MEDIA_URL }}/Images/arrow.png" width="8" height="8"/>
                                 LAPACK only supports matrices A and D of upper quasi-triangular type in full storage, and matrices B and E of upper triangular type in full storage.
                                 Do you wish to continue the search?
-                                <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+                                <span>
+					<div dojoType="dijit.form.DropDownButton" class="tooltipLink">
+                                		<span><img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16"/></span>
+                                		<div dojoType="dijit.TooltipDialog" id="helpProblemType" title="Problem Type">
+                                        		<div class="buttonLink" style="float:right;font-size:small" title="close" tabindex="0"
+                                                		dojoType="dijit.form.Button">[Close]
+                                                		<script type="dojo/method" event="onClick">
+                                                        		dijit.byId('helpProblemType').onCancel();
+                                                		</script>
+                                        		</div>
+                                        		<h2>Problem Type</h2>
+                                        		<div id="helpText_problemType" style="background-color:#FFFFD6;">
+                                                		<iframe width="500px" height="300px" src="{{ MEDIA_URL }}/Help/lapack_eigen/problemType.html"></iframe>
+                                        		</div>
+                                		</div>
+                        		</div>
+	
+				</span>
                         </label>
                 </td>
         </tr>

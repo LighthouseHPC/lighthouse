@@ -14,7 +14,7 @@ cursor = myDB.cursor()
 ##### (2) MySQL storage engine must be set = MyISAM (old), not InnoDB (default) #####
 ##### -------------------------------------------------------------------------#####
 
-x = raw_input('Enter "G" for loading data to guided, "A" for loading data to advanced search table, or 'B' for both. ')
+x = raw_input('Enter "G" for loading data to guided, "A" for loading data to advanced search table, or "B" for both. ')
 
 
 

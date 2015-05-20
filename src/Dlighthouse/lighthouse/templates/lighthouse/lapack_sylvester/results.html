@@ -6,7 +6,7 @@
   <table style="width: 100%; border: 0px solid;">
     <tr>
       <td style="text-align:left; padding-left:5px; width:24px;">
-        <img src={%static "images/edit-find-10.png" %} width="32" height="32"/>
+        <img src="{{ MEDIA_URL }}/Images/edit-find-10.png" width="32" height="32"/>
       </td>   
       <td style="text-align:left">
         Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
@@ -39,7 +39,7 @@
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('nsel_sylguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
+			<button onclick="showMore('nsel_sylguid_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="nsel_sylguid_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
@@ -80,22 +80,22 @@
 						{{ item.thePrecision|upper }}{{ item.routineName|upper }} {% if item.notes %} ( {{item.notes }}) {% endif %}
 					</td>
 					<td class="hiddenStuff">
-						<img src={% static "images/question.png" %} width="16" height="16" title="About this routine"
-						     onclick="showMore('sel_sylguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
+						<img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16" title="About this routine"
+						     onclick="showMore('sel_sylguid_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')"/>
 					</td>
 					<td class="hiddenStuff">
-						<img src={% static "images/remove.png" %} width="12" height="12" title="Delete"
+						<img src="{{ MEDIA_URL }}/Images/remove.png" width="12" height="12" title="Delete"
 						     onclick="allRoutines_session = removeRoutine('sel_{{ item.thePrecision|upper }}{{ item.routineName|upper }}', allRoutines_session)"/>
 					</td>
 					<td class="hiddenStuff">                                            
-						<img src={% static "images/move.png" %} width="15" height="15" title="Move up and down"
+						<img src="{{ MEDIA_URL }}/Images/move.png" width="15" height="15" title="Move up and down"
 						     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.thePrecision|upper }}{{ item.routineName|upper }}');"/>
 					</td>
 				</tr>
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.thePrecision|upper }}{{ item.routineName|upper }}" max_length 500 %}
-			<button onclick="showMore('sel_sylguid_{{ item.id }}', '{%static "Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
+			<button onclick="showMore('sel_sylguid_{{ item.id }}', '{% static "/Doxygen/docs/html/" %}{{ item.thePrecision }}{{ item.routineName }}_8f.html')">more</button>
 		</div>
 		<div class="dijitHidden">
 			<div id="sel_sylguid_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">

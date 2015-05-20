@@ -4,7 +4,7 @@
   <table id="icon-table">
       <tr>
 	  <td id="icon-cell">
-	      <img src={%static "images/advancedSearch.png" %} width="32" height="32"/>
+	      <img src="{{ MEDIA_URL }}/Images/advancedSearch.png" width="32" height="32"/>
 	  </td>       
 	 <td id="title-cell">
 	      Advanced Search
@@ -138,7 +138,7 @@
       <td>
 	matrices <i>A</i> and <i>B</i> must be upper quasi-triangular
 	<div onClick="dialog_uqTri_real.show();">
-	    <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	    <span><img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16"/></span>
 	</div>
 <!--	<div data-dojo-type="dijit/Dialog" data-dojo-id="dialog_uqTri_real" title="Real upper quasi-triangular matrix">
 	    <div class="dijitDialogPaneContentArea">
@@ -154,7 +154,7 @@
       <td>
 	matrices <i>A</i> and <i>B</i> must be upper quasi-triangular, and matrices <i>D</i> and <i>E</i> must be upper triangular
 	<div onClick="dialog_uTri_real.show();">
-	    <span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	    <span><img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16"/></span>
 	</div>
 <!--	<div data-dojo-type="dijit/Dialog" data-dojo-id="dialog_uTri_real" title="Real upper triangular matrix">
 	    <div class="dijitDialogPaneContentArea">
@@ -174,11 +174,11 @@
       </th>
       <td>
 	matrices <i>A</i> and <i>B</i> must be upper triangular
-	<span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	<span><img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16"/></span>
       </td>
       <td>
 	matrices <i>A</i>, <i>B</i>, <i>D</i>, and <i>E</i> must be upper triangular
-	<span><img src={%static "images/question.png" %} width="16" height="16"/></span>
+	<span><img src="{{ MEDIA_URL }}/Images/question.png" width="16" height="16"/></span>
       </td>
     </tr>
     {% if form_submitted %}
@@ -250,7 +250,7 @@
 		  onmouseover="showTooltip('tooltip_advanced', 'Clear Search','#cc0000');"
 		  onmouseout="showTooltip('tooltip_advanced','');"
 		  onclick="show_confirm('/lapack_sylvester/')">
-	      <img src={%static "images/clear.png" %} width="16" height="16"/> 
+	      <img src="{{ MEDIA_URL }}/Images/clear.png" width="16" height="16"/> 
 	  </button>       
 	</td>
 	<td style="text-align:center;">
@@ -260,7 +260,7 @@
 	  <button type="submit" name="guided" value="submit" id="submitButton_advanced" title="Submit Answer" class="myButton"
 		  onmouseover="showTooltip('tooltip_advanced', 'Submit', '#009900');"
 		  onmouseout="showTooltip('tooltip_advanced','');">
-	      <img src={%static "images/dialog-ok-4.png" %} width="16" height="16"/>
+	      <img src="{{ MEDIA_URL }}/Images/dialog-ok-4.png" width="16" height="16"/>
 	  </button >
 	</td>
       </tr>
