@@ -136,11 +136,11 @@ user@localhost:~/lighthouse/src/Dlighthouse/lighthouse/database/lapack_le/databa
 You will need to do the same for each appropriate directory under
 `lighthouse/src/Dlighthouse/lighthouse/database/`, i.e., `lapack_svd`, `slepc_eprob`, etc as required.
 
-If you want to load all of them for LAPACK change to `src/Dlighthouse/lighthouse/database/dataLoad/lapack` and run 
+Similarly you can change to `lighthouse/src/Dlighthouse/lighthouse/database/dataLoad/lapack` and run 
 ```
-user@localhost:~/lighthouse/src/Dlighthouse/lighthouse/database/lapack_le/databaseMng$ python databaseLoad.py
+user@localhost:~/lighthouse/src/Dlighthouse/lighthouse/database/dataLoad/lapack$ python databaseLoad.py
 ```
-
+to load all of the LAPACK data if necessary.
 ###### Package links:
 * [whoosh](http://pypi.python.org/pypi/Whoosh/)
 * [django-haystack](http://haystacksearch.org/)
