@@ -16,6 +16,7 @@ int main(int argc,char **args)
   PetscBool      flg;
   PetscViewer    fd;         /* viewer */
   char           file[PETSC_MAX_PATH_LEN];
+  char           hash[20];
 
   PetscLogDouble solveTime,endTime,startTime;
   PetscInt       its;
@@ -27,6 +28,11 @@ int main(int argc,char **args)
 
   PetscInitialize(&argc,&args,(char *)0,help);
   ierr = MPI_Comm_rank(PETSC_COMM_WORLD,&rank);CHKERRQ(ierr);
+
+  ierr = PetscOptionsGetString(PETSC_NULL,"-hash",hash,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  if (!flg) {
+    strcpy(hash,"nohash");
+  }
 
   ierr = PetscOptionsGetString(PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
@@ -95,7 +101,11 @@ int main(int argc,char **args)
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp,&reason);
     // Print convergence code, solve time, preconditioned norm, iterations
+    ierr = PetscPrintf(PETSC_COMM_WORLD,"Hash: %s\n", hash);
     ierr = PetscPrintf(PETSC_COMM_WORLD," | %D | %e | %g | %D\n",reason,solveTime,norm,its);CHKERRQ(ierr);
+    ierr = KSPView(ksp,PETSC_VIEWER_STDOUT_WORLD);
+    ierr = PCView(pc,PETSC_VIEWER_STDOUT_WORLD);
+    ierr = PetscLogView(PETSC_VIEWER_STDOUT_WORLD);
   }
   else{
     // Disaster happened, bail out
@@ -106,5 +116,7 @@ int main(int argc,char **args)
   ierr = VecDestroy(&x);CHKERRQ(ierr);
   ierr = VecDestroy(&b);CHKERRQ(ierr);
   ierr = VecDestroy(&u);CHKERRQ(ierr);  
+
+  PetscFinalize();
   return 0;
 }
