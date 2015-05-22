@@ -28,9 +28,10 @@ for matname in donelist:
   # Pack cram invocations.
   # Usage:
   #   cf.pack(<num procs>, <working dir>, <command-line arguments>, <environment>)
-  #env["MY_SPECIAL_VAR"] = "my_value"
+  env["DARSHAN_DISABLE"] = "1"
   opts = ['-f ',wdir+'petsc/'+matname.strip()+'.petsc']
   cmd = os.path.join(cdir,'parallel-bgq')
+  buf += touch 
   buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + tdir + matname.strip() + '.log\n'
   print cmd + ' ' + ' '.join(opts)
   cf.pack(p, cmd, opts, env)
