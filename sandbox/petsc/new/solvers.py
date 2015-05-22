@@ -34,6 +34,6 @@ for solver in solvers:
         solveropts[hashstr] = optstr
 
 #print solveropts
-print "Total number of combinations:", len(solveropts.keys())
 for key,val in solveropts.items():
   print key, val
+print "Total number of combinations:", len(solveropts.keys())
