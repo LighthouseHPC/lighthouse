@@ -10,6 +10,9 @@
 #any matrix with (some) 0 diagonal entries:
 #-pc_fieldsplit_type schur in conjunction with -pc_fieldsplit_detect_saddle_point (Boyana will look into that)
 
+def genhash(somestr):
+  return  str(abs(hash(somestr.strip())) % (10 ** 8))
+
 solvers = ['gmres','fgmres','lgmres','bicg','bcgs','tmfqmr','tcqmr','lsqr','chebychev','cg', 'ibcgs']
 pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'asm': {'asm_overlap' : [0,1,2,3]},
@@ -24,13 +27,13 @@ for solver in solvers:
   for pc, pcopts in pcs.items():
     if len(pcopts) == 0:
       optstr = ' -ksp_type %s -pc_type %s ' % (solver, pc)
-      hashstr = str(abs(hash(optstr.strip())) % (10 ** 8))
+      hashstr = genhash(optstr)
       solveropts[hashstr] = optstr
       continue
     for pc_optname, pc_optvals in pcopts.items():
       for pc_optval in pc_optvals:
         optstr = ' -ksp_type %s -pc_type %s -pc_%s %s ' % (solver, pc, pc_optname, str(pc_optval))
-        hashstr = str(abs(hash(optstr.strip())) % (10 ** 8))
+        hashstr = genhash(optstr)
         solveropts[hashstr] = optstr
 
 #print solveropts
