@@ -18,14 +18,22 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'icc' : {'factor_levels':[0,1,2,3]}
     }
 
-commands = {}
+solveropts = {}
 	
 for solver in solvers:
   for pc, pcopts in pcs.items():
+    if len(pcopts) == 0:
+      optstr = ' -ksp_type %s -pc_type %s ' % (solver, pc)
+      hashstr = str(abs(hash(optstr.strip())) % (10 ** 8))
+      solveropts[hashstr] = optstr
+      continue
     for pc_optname, pc_optvals in pcopts.items():
       for pc_optval in pc_optvals:
         optstr = ' -ksp_type %s -pc_type %s -pc_%s %s ' % (solver, pc, pc_optname, str(pc_optval))
         hashstr = str(abs(hash(optstr.strip())) % (10 ** 8))
-        commands[hashstr] = optstr
+        solveropts[hashstr] = optstr
 
-print commands
+#print solveropts
+print "Total number of combinations:", len(solveropts.keys())
+for key,val in solveropts.items():
+  print key, val
