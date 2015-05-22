@@ -1,6 +1,6 @@
 CFLAGS	         = -g -O3
-EXAMPLESC        = solver.c parallel.c sequential.c convert.c mm2petsc.c properties.c
-CLEANFILES       = solver parallel sequential convert mm2petsc properties
+EXAMPLESC        = solver.c parallel.c parallel-bgq.c sequential.c convert.c mm2petsc.c properties.c
+CLEANFILES       = solver parallel parallel-bgq sequential convert mm2petsc properties
 NP               = 1
 
 include ${PETSC_DIR}/conf/variables
@@ -17,6 +17,10 @@ sequential: sequential.o  chkopts
 parallel: parallel.o  chkopts
 	-${CLINKER} -o parallel parallel.o  ${PETSC_KSP_LIB}
 	${RM} parallel.o
+
+parallel-bgq: parallel-bgq.o  chkopts
+	-${CLINKER} -o parallel-bgq parallel-bgq.o  ${PETSC_KSP_LIB} ${HOME}/cram/lib/libcram.a
+	${RM} parallel-bgq.o
 
 convert: convert.o  chkopts
 	-${CLINKER} -o convert convert.o  ${PETSC_MAT_LIB}
