@@ -1,1 +1,25 @@
-arnoldi test
+The variant of the Arnoldi method provided by slepc is based on explicit restart with locking.
+
+The method of Arnoldi [1951] was proposed as a means of reducing a matrix to Hessenberg form, but  Arnoldi already suggested that the process could provide good approximations to some eigenvalues if stopped before completion. This idea was fully developed in later work by Saad [1980] and other authors, making the method evolve into one of the most successful ones for non-Hermitian eigenproblems.
+
+Given a square matrix A of order n, if n steps  of Arnoldi's method are carried out then an orthogonal reduction to Hessenberg form is achieved, AV = VH, where H is an upper Hessen-berg matrix of order n with positive subdiagonal elements and V is an orthogonal matrix. V and H are uniquely determined by the first column of V, a unit-norm vector v1=Ve1 that is called the initial vector.
+
+The idea of explicit restart is to iteratively compute different m-step Arnoldi factorizations with successively "better" initial vectors. The initial vector for the next Arnoldi run is computed from the information available in the most recent factorization.
+
+In order for a restarted method to be effective in computing more than one eigenpair, it is necessary to keep track of already converged eigenpairs and perform some form of deflation. This  is done by a technique  usually called locking, in which vectors associated to converged eigenvalues are not modified in successive runs.
+
+REFERENCES
+
+Arnoldi, W. E. (1951). The Principle of Minimized Iterations in the Solution of the Matrix Eigenvalue Problem. Quart. Appl. Math., 9:17-29.
+
+Saad, Y. (1980).  Variations of Arnoldi's Method for Computing Eigenelements of Large Unsymmetric
+Matrices. Linear Algebra Appl., 34:269-295
+
+@TechReport{str-4,
+   author  = "V. Hernandez and J. E. Roman and A. Tomas and V. Vidal",
+   title   = "Arnoldi Methods in SLEPc",
+   number  = "STR-4",
+   institution = "Universitat Polit\`ecnica de Val\`encia",
+   note    = "Available at http://slepc.upv.es",
+   year    = "2006"
+}
