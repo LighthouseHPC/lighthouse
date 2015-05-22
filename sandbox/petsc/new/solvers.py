@@ -38,5 +38,5 @@ for solver in solvers:
 
 #print solveropts
 for key,val in solveropts.items():
-  print key, val
+  print key,',', val
 print "Total number of combinations:", len(solveropts.keys())
