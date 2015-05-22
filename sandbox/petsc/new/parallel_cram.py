@@ -36,7 +36,7 @@ for matname in donelist:
   cf.pack(p, cmd, opts, env)
   totalprocs += p
 
-f = open('parallel.sh','w')
+f = open('parallel%d.sh' %p,'w')
 f.write(buf)
 f.close()
 cf.close()
