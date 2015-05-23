@@ -50,7 +50,8 @@ int main(int argc,char **args)
     strncpy(dirname, tmpstr, i);
     dirname[i] = '\0';
     sprintf(lockfile,"%s/../timing/.%s.%s", dirname, basename(tmpstr), hash);
-    lock =  fopen(lockfile, O_RDWR|O_CREAT);
+    lock =  fopen(lockfile, "w");
+    fprintf(lock, "%s\n", file);
     fclose(lock);
   }
   /* Read file */
