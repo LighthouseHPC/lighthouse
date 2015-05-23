@@ -28,15 +28,12 @@ for hash, solver_optstr in solveropts.items():
   for matname in donelist:
     matname = matname.strip()
     if totalprocs > nprocs: break
+    lockfile = tdir + '.%s.%s' % (matname, str(hash))
     logfile = tdir + '%s.%s.log' % (matname, str(hash))
-    lockfile = tdir + '.%s.%s' % (matname,str(hash))
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
     opts = ['-f ',wdir+'petsc/'+matname+'.petsc', solver_optstr]
     cmd = os.path.join(cdir,'parallel-bgq')
-    #print lockfile
-    buf += 'touch %s && ' % (lockfile)
-    buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile 
-    buf += ' ; /bin/rm -f %s\n' % (lockfile)
+    buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + '\n'
     #print cmd + ' ' + ' '.join(opts)
     totalprocs += p
 

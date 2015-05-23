@@ -3,6 +3,8 @@ static char help[] = "Solves a linear system in parallel with various combinatio
 
 #include <petscksp.h>
 #include <petsctime.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 extern PetscErrorCode MyKSPMonitor(KSP,PetscInt,PetscReal,void*);
 
@@ -16,6 +18,7 @@ int main(int argc,char **args)
   PetscBool      flg;
   PetscViewer    fd;         /* viewer */
   char           file[PETSC_MAX_PATH_LEN];
+  char           lockfile[PETSC_MAX_PATH_LEN], tmpstr[PETSC_MAX_PATH_LEN], dirname[PETSC_MAX_PATH_LEN], matrix[PETSC_MAX_PATH_LEN];
   char           hash[20];
 
   PetscLogDouble solveTime,endTime,startTime;
@@ -24,7 +27,8 @@ int main(int argc,char **args)
   KSP            ksp; // Linear solver context
   Vec            b,x,u; // RHS, solution, vector for norm calculation
   PetscScalar    one = 1.0;
-  PetscInt	 m, n;
+  PetscInt	 m, n, i;
+  FILE           *lock;
 
   PetscInitialize(&argc,&args,(char *)0,help);
   ierr = MPI_Comm_rank(PETSC_COMM_WORLD,&rank);CHKERRQ(ierr);
@@ -38,6 +42,17 @@ int main(int argc,char **args)
   if (!flg) {
     SETERRQ(PETSC_COMM_WORLD,1,"Must indicate matrix file with the -f option");
   }
+  /* Create lock file */
+  if (rank == 0) {
+    for (i = strlen(file); i> 0; i--) if (file[i] == '.') break;
+    strncpy(tmpstr, file, i-1);
+    for (i = strlen(tmpstr); i> 0; i--) if (file[i] == '/') break;
+    strncpy(dirname, tmpstr, i);
+    dirname[i] = '\0';
+    sprintf(lockfile,"%s/../timing/.%s.%s", dirname, basename(tmpstr), hash);
+    lock =  fopen(lockfile, O_RDWR|O_CREAT);
+    fclose(lock);
+  }
   /* Read file */
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   // Create matrix
@@ -50,7 +65,6 @@ int main(int argc,char **args)
   // Assemble matrix
   ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
   ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
-
 
   // Create RHS vector
   ierr = VecCreate(PETSC_COMM_WORLD,&b);CHKERRQ(ierr);
@@ -116,5 +130,8 @@ int main(int argc,char **args)
   ierr = VecDestroy(&x);CHKERRQ(ierr);
   ierr = VecDestroy(&b);CHKERRQ(ierr);
   ierr = VecDestroy(&u);CHKERRQ(ierr);  
+
+  if (rank == 0) remove(lockfile);
+  PetscFinalize();
   return 0;
 }
