@@ -123,6 +123,7 @@ int main(int argc,char **args)
   }
   else{
     // Disaster happened, bail out
+    if (rank == 0) remove(lockfile);
     return 0;
   }
   // Again, destroy KSP and vector
