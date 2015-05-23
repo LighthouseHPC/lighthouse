@@ -4,7 +4,9 @@
 import sys, os, glob
 from solvers import *
 
+# Directory contaning the *.petsc matrices:
 wdir='/gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/'
+# Directory for storing results:
 tdir=wdir+'timing/'
 cdir=os.getcwd() 
 
