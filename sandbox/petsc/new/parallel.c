@@ -93,6 +93,7 @@ int main(int argc,char **args)
   PCType pt;
   ierr = PCGetType(pc,&pt);
   // Print method info
+  ierr = PetscPrintf(PETSC_COMM_WORLD,"Hash: %s\n", hash);
   ierr = PetscPrintf(PETSC_COMM_WORLD,"%s | %s",kt,pt);CHKERRQ(ierr);
   // Make sure the program doesn't crash 
   // while trying to solve the system
@@ -114,7 +115,6 @@ int main(int argc,char **args)
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp,&reason);
     // Print convergence code, solve time, preconditioned norm, iterations
-    ierr = PetscPrintf(PETSC_COMM_WORLD,"Hash: %s\n", hash);
     ierr = PetscPrintf(PETSC_COMM_WORLD," | %D | %e | %g | %D\n",reason,solveTime,norm,its);CHKERRQ(ierr);
     ierr = KSPView(ksp,PETSC_VIEWER_STDOUT_WORLD);
     ierr = PCView(pc,PETSC_VIEWER_STDOUT_WORLD);
