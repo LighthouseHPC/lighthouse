@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #KSP: fgmres, lgmres, gmres, bcgs, bicg, tfqmr, tcqmr, lsqr
-#ymmetric only: chebychev, cg
+#ymmetric only: chebyshev, cg
 #arallel only: ibcgs
 
 #PC: sor, jacobi, bjacobi, asm(k) [k=0..3], 
@@ -10,7 +10,7 @@
 #any matrix with (some) 0 diagonal entries:
 #-pc_fieldsplit_type schur in conjunction with -pc_fieldsplit_detect_saddle_point (Boyana will look into that)
 
-solvers = ['gmres','fgmres','lgmres','bicg','bcgs','tmfqmr','tcqmr','lsqr','chebychev','cg', 'ibcgs']
+solvers = ['gmres','fgmres','lgmres','bicg','bcgs','tmfqmr','tcqmr','lsqr','chebyshev','cg', 'ibcgs']
 pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'asm': {'asm_overlap' : [0,1,2,3]},
      	'jacobi' : {},
