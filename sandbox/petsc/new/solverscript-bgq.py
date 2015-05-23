@@ -8,8 +8,9 @@ wdir='/gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/'
 tdir=wdir+'timing/'
 cdir=os.getcwd() 
 
-nprocs = 2048    # run with qsub -n 512 --proccount 2048 -O Anamod --mode c4 -t 4:00:00
-#nprocs = 1024    # run with qsub -n 256 --proccount 1024 -O Anamod --mode c4 -t 1:00:00
+#nprocs = 4096    # run with qsub -n 256 --proccount 4096  --mode c16 -t 60
+nprocs = 2048    # run with qsub -n 128 --proccount 2048 --mode c16 -t 60
+#nprocs = 1024    # run with qsub -n 256 --proccount 1024 --mode c4 -t 60
 p = 16
 matrices = glob.glob(wdir+'petsc/*.petsc')
 donelist=[]
@@ -21,15 +22,16 @@ buf ="#!/bin/sh\n\n"
 
 totalprocs = 1
 env = os.environ
-for hash, opts in solveropts.items():
+for hash, solver_optstr in solveropts.items():
   for matname in donelist:
     matname = matname.strip()
     if totalprocs > nprocs: break
     logfile = tdir + '%s.%s.log' % (matname, str(hash))
     lockfile = tdir + '.%s.%s' % (matname,str(hash))
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
-    opts = ['-f ',wdir+'petsc/'+matname+'.petsc']
+    opts = ['-f ',wdir+'petsc/'+matname+'.petsc', solver_optstr]
     cmd = os.path.join(cdir,'parallel-bgq')
+    #print lockfile
     buf += 'touch %s && ' % (lockfile)
     buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile 
     buf += ' ; /bin/rm -f %s\n' % (lockfile)
