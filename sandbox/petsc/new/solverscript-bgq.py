@@ -31,9 +31,9 @@ for hash, solver_optstr in solveropts.items():
     lockfile = tdir + '.%s.%s' % (matname, str(hash))
     logfile = tdir + '%s.%s.log' % (matname, str(hash))
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
-    opts = ['-f ',wdir+'petsc/'+matname+'.petsc', solver_optstr]
+    opts = ['-f ',wdir+'petsc/'+matname+'.petsc', '-hash', hash, solver_optstr]
     cmd = os.path.join(cdir,'parallel-bgq')
-    buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + '\n'
+    buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + ' 2>&1\n'
     #print cmd + ' ' + ' '.join(opts)
     totalprocs += p
 
