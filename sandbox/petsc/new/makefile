@@ -19,8 +19,11 @@ parallel: parallel.o  chkopts
 	${RM} parallel.o
 
 parallel-bgq: parallel-bgq.o  chkopts
-	-${CLINKER} -o parallel-bgq parallel-bgq.o  ${PETSC_KSP_LIB} ${HOME}/cram/lib/libcram.a
+	-${CLINKER} -o parallel-bgq parallel-bgq.o  ${PETSC_KSP_LIB} 
 	${RM} parallel-bgq.o
+
+parallel-cram: parallel-bgq.o  chkopts
+	-${CLINKER} -o parallel-cram parallel-bgq.o  ${PETSC_KSP_LIB} ${HOME}/cram/lib/libcram.a
 
 convert: convert.o  chkopts
 	-${CLINKER} -o convert convert.o  ${PETSC_MAT_LIB}
