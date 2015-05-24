@@ -1,8 +1,9 @@
-#!/usr/bin/env cram-python
+#!/usr/bin/env python
 # This script requires all matrices to be in PETSc binary format in the petsc subdir
 
 import sys, os, glob
 from solvers import *
+
 
 # Directory contaning the *.petsc matrices:
 wdir='/gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/'
@@ -18,6 +19,8 @@ matrices = glob.glob(wdir+'petsc/*.petsc')
 donelist=[]
 if os.path.exists(wdir+'DONE'):
   donelist=open(wdir+'DONE','r').readlines()
+
+#  donelist = list(reversed(donelist))
 
 solveropts = getsolvers()
 buf ="#!/bin/sh\n\n"
@@ -35,9 +38,11 @@ for hash, solver_optstr in solveropts.items():
     cmd = os.path.join(cdir,'parallel-bgq')
     buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + ' 2>&1\n'
     #print cmd + ' ' + ' '.join(opts)
-    totalprocs += p
+
 
 f = open('parallel%d.sh' %p,'w')
 f.write(buf)
 f.close()
+
+
  

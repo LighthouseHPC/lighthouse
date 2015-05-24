@@ -17,7 +17,9 @@ int main(int argc,char **args)
   PetscMPIInt    rank;
   PetscBool      flg;
   PetscViewer    fd;         /* viewer */
+  PetscViewer    log;
   char           file[PETSC_MAX_PATH_LEN];
+  char           logfile[PETSC_MAX_PATH_LEN];
   char           lockfile[PETSC_MAX_PATH_LEN], tmpstr[PETSC_MAX_PATH_LEN], dirname[PETSC_MAX_PATH_LEN], matrix[PETSC_MAX_PATH_LEN];
   char           hash[20];
 
@@ -50,6 +52,7 @@ int main(int argc,char **args)
     strncpy(dirname, tmpstr, i);
     dirname[i] = '\0';
     sprintf(lockfile,"%s/../timing/.%s.%s", dirname, basename(tmpstr), hash);
+    sprintf(logfile,"%s/../timing/%s.%s.log", dirname, basename(tmpstr), hash);
     lock =  fopen(lockfile, "w");
     fprintf(lock, "%s\n", file);
     fclose(lock);
@@ -95,8 +98,9 @@ int main(int argc,char **args)
   PCType pt;
   ierr = PCGetType(pc,&pt);
   // Print method info
-  ierr = PetscPrintf(PETSC_COMM_WORLD,"Hash: %s\n", hash);
-  ierr = PetscPrintf(PETSC_COMM_WORLD,"%s | %s",kt,pt);CHKERRQ(ierr);
+  ierr = PetscViewerASCIIOpen(PETSC_COMM_WORLD, logfile, &log); CHKERRQ(ierr);
+  ierr = PetscViewerASCIIPrintf(log, "Hash: %s\n", hash);
+  ierr = PetscViewerASCIIPrintf(log, "%s | %s",kt,pt);CHKERRQ(ierr);
   // Make sure the program doesn't crash 
   // while trying to solve the system
   PetscPushErrorHandler(PetscIgnoreErrorHandler,NULL);
@@ -117,10 +121,10 @@ int main(int argc,char **args)
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp,&reason);
     // Print convergence code, solve time, preconditioned norm, iterations
-    ierr = PetscPrintf(PETSC_COMM_WORLD," | %D | %e | %g | %D\n",reason,solveTime,norm,its);CHKERRQ(ierr);
-    ierr = KSPView(ksp,PETSC_VIEWER_STDOUT_WORLD);
-    ierr = PCView(pc,PETSC_VIEWER_STDOUT_WORLD);
-    ierr = PetscLogView(PETSC_VIEWER_STDOUT_WORLD);
+    ierr = PetscViewerASCIIPrintf(log, " | %D | %e | %g | %D\n",reason,solveTime,norm,its);CHKERRQ(ierr);
+    ierr = KSPView(ksp,log);
+    ierr = PCView(pc,log);
+    ierr = PetscLogView(log);
   }
   else{
     // Disaster happened, bail out
