@@ -41,6 +41,14 @@ def slepc_eprob(request):
 	    context_instance=RequestContext(request,context)
     )
 
+def filterSelectedRoutines(request):	
+	request.session['notSelectedRoutines'] = request.session['Routines']
+
+	for item in request.session['selectedRoutines']:
+		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
+	
+	request.session.modified = True
+
 @csrf_exempt
 def update_slepc_session(request):
 	if request.is_ajax():
@@ -53,7 +61,7 @@ def update_slepc_session(request):
 		if selectedRoutineList[0] not in request.session['routineSelected']:
 			request.session['routineSelected'] = request.session['routineSelected'] + selectedRoutineList
 
-		return HttpResponse('Dropped ')
+		return HttpResponse('Dropped '+request.POST.get('routineName'))
 	else:
 		return HttpResponse('only AJAX requests are allowed!')
 		
@@ -90,3 +98,31 @@ def getCode():
 			code = f.read()
 	
 	return code
+
+###---------------- Ajax post to clear request.session['selectedRoutines']------------------###
+@csrf_exempt
+def clear_session(request):
+	if request.is_ajax():
+		request.session['selectedRoutines'] = []
+		return HttpResponse('All cleared!')		
+	else:
+		return HttpResponse('only AJAX requests are allowed!')
+	
+
+
+###---------------- Ajax post to remove ONE routine from request.session['selectedRoutines']------------------###
+@csrf_exempt
+def remove_session(request):
+	if request.is_ajax():
+		mode = [{'routine': request.POST.get('routine'),}]
+		routineName = mode[0]['routine'][0:]
+		for i, item in enumerate(request.session['selectedRoutines']):
+			if item.get('routineName') == routineName and item.get('thePrecision') == rouitnePrecision:
+				del request.session['selectedRoutines'][i]
+				
+		### important: mark the session as modified for it to save		
+		request.session.modified = True
+
+		return HttpResponse('Removed '+routineName)		
+	else:
+		return HttpResponse('only AJAX requests are allowed!')
