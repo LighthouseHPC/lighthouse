@@ -330,18 +330,29 @@ function getDateTime(){
 	/*--------------------------------------------------------------------------------- */
 
 	// Clear code template area and remove template file from server
-        function clearTemplateArea(){
-                dojo.byId("template_output").innerHTML = "";    
+        function clearCodeTemplateArea(){
+                dojo.byId("code_template_output").innerHTML = "";    
+        }
+
+        function clearScriptTemplateArea(){
+                dojo.byId("script_template_output").innerHTML = "";    
         }
 
         // Check if there's any code template, allow download if template is not empty
-        function downloadTemplate(time){
-                var content = dojo.byId("template_output").innerHTML;
+        function downloadCodeTemplate(time){
+                var content = dojo.byId("code_template_output").innerHTML;
                 if(content.length > 0 && time != '')                    
                         window.location = '/static/download/lighthouse_'+time+'.zip';
                 else
                         alert("No template code was generated!");
         }
 
+        function downloadScriptTemplate(time){
+                var content = dojo.byId("script_template_output").innerHTML;
+                if(content.length > 0 && time != '')                    
+                        window.location = '/static/download/lighthouse_'+time+'.zip';
+                else
+                        alert("No template code was generated!");
+        }
 
 </script>

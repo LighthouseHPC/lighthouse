@@ -10,7 +10,7 @@
         </tr>
     </table>        
 </div>
-<div id="question-div-petsc" style="margin: 0px auto; font-family: monospace; white-space: pre; font-size: 12px; overflow: auto;">{{ script }}
+<div id="script_template_output" style="margin: 0px auto; font-family: monospace; white-space: pre; font-size: 12px; overflow: auto;">{{ script }}
 <br></div>
 <!--
 <div id="title-div">
@@ -30,7 +30,7 @@
         <tr style="width:100%;">
             <td style="text-align:left;">
                 <button type="button" id="clearTemplate" class="myButton" title="Clear Template" style="width: 65px;" onmouseover="" onmouseout=""
-                        onclick="clearTemplateArea();">Clear
+                        onclick="clearScriptTemplateArea();">Clear
                 </button>
             </td>
 <!--            <td style="text-align:right;">
@@ -40,7 +40,7 @@
             </td>-->
             <td style="text-align:right; width: 80px;">
                 <button type="button" id="downloadTemplate" class="myButton" title="Download Template" style="width: 75px;" onmouseover="" onmouseout=""
-                        onclick="return downloadTemplate(time);">Download
+                        onclick="return downloadScriptTemplate(time);">Download
                 </button>
             </td>
         </tr>
