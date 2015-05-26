@@ -29,7 +29,15 @@
 			}).play();
 		}, 250);
 		
-			
+		var strayGlobals = [];
+		for(var i in window) {
+			if(!window.__globalList[i]) {
+				strayGlobals.push(i);
+			}
+		}
+		if(strayGlobals.length) {
+			console.warn("Stray globals: "+strayGlobals.join(", "));
+		}
 		
 		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
@@ -80,24 +88,7 @@
 		);
 	});
 	
-	function getCheckedRoutines(){
-        var checked_list = [];
-        dojo.query('[name=routines]').forEach(function(n){
-            /* n is one of the checkboxes */
-            if (n.checked == true){
-                /* note: n.id is uppercase */
-                checked_list.push(n.id.split('_')[1]);
-            }               
-        }); 
-        return checked_list;
-    }
-
-    function generateSlepCCode(){ 
-    	
-	window.location = '/slepc_eprob/generateCode/';
-
-        
-    }        
+	
 
 /*--------------------------------------------------------------------------------- */	
 /* ------------------------------ For Guided Search ------------------------------- */
@@ -122,7 +113,72 @@
 /*--------------------------------------------------------------------------------- */	
 /* ----------------------------- For Selected Routines ---------------------------- */
 /*--------------------------------------------------------------------------------- */
-function moveup(id, routines){
+function getDateTime(){
+		var newDate = new Date();
+		//For todays date;
+		Date.prototype.today = function(){ 
+		    return this.getFullYear() +(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + ((this.getDate() < 10)?"0":"") + this.getDate()
+		};
+		//For the time now
+		Date.prototype.timeNow = function(){
+		     return ((this.getHours() < 10)?"0":"") + this.getHours() +"_"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +"_"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+		};
+		var dateTime = newDate.today() + newDate.timeNow(); 
+		return dateTime;
+	}
+
+	function getCheckedRoutines(){
+        var checked_list = [];
+        dojo.query('[name=routines]').forEach(function(n){
+            /* n is one of the checkboxes */
+            if (n.checked == true){
+                /* note: n.id is uppercase */
+                checked_list.push(n.id.split('_')[1]);
+            }               
+        }); 
+        return checked_list;
+    }
+
+    function generateSlepCCode(){ 
+    	var checked_list = [];
+        var time = getDateTime();
+		
+        checked_list = getCheckedRoutines();
+        if (checked_list.length == 0)
+            alert('No boxes were checked!');
+    	else
+			window.location = '/slepc_eprob/generateCode/';
+
+        
+    }  
+
+    //*** for move up and down ***//
+	// Called when user clicks on the name of the routine in the selected routines area --> change color
+	function selectRoutine(selectedRoutine, id){
+		//console.log(id);
+		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
+			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
+				if(document.getElementById("tb_"+selectedRoutine))
+					document.getElementById("tb_"+selectedRoutine).style.background = "";				
+			}
+		}
+
+		var elem = document.getElementById("tb_"+id);
+		
+		// If the routine background was grey (i.e. it was selected)
+		if(elem.style.background == "rgb(170, 170, 170)"){
+			elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
+			document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
+			return "";
+		}
+		else{ // Routine was not selected
+			elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
+			document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
+			return id;
+		}
+	}
+
+	function moveup(id, routines){
 		if(id == "") return routines;
 
 		// Get the html element for the selected routine
@@ -268,5 +324,24 @@ function moveup(id, routines){
 		uncheckedRoutines.length = 0;
 		allRoutines_session.length = 0;			
 	}
+
+/*--------------------------------------------------------------------------------- */	
+	/* ----------------------------- For Code Template Area --------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	// Clear code template area and remove template file from server
+        function clearTemplateArea(){
+                dojo.byId("template_output").innerHTML = "";    
+        }
+
+        // Check if there's any code template, allow download if template is not empty
+        function downloadTemplate(time){
+                var content = dojo.byId("template_output").innerHTML;
+                if(content.length > 0 && time != '')                    
+                        window.location = '/static/download/lighthouse_'+time+'.zip';
+                else
+                        alert("No template code was generated!");
+        }
+
 
 </script>

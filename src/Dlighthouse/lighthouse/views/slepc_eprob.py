@@ -27,13 +27,14 @@ def slepc_eprob(request):
         request.session['form'] = SlepcGuidedForm()
         request.session['results'] = []
 
-    request.session['routineSelected'] = []
+    request.session['selectedRoutines'] = []
     #remove later
     context = {
-                'form'     : request.session['form'],
-                'results'  : request.session['results'],
-                #'message'  : request.session['message'],
-		'routineSelected':request.session['routineSelected'] 
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        #'message'  : request.session['message'],
+        'notSelectedRoutines': request.session['notSelectedRoutines'],
+		'selectedRoutines':request.session['selectedRoutines'] 
     }
 
     return render_to_response(
@@ -45,7 +46,7 @@ def filterSelectedRoutines(request):
 	request.session['notSelectedRoutines'] = request.session['Routines']
 
 	for item in request.session['selectedRoutines']:
-		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(thePrecision=item['thePrecision']), Q(routineName=item['routineName']))	
+		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(routineName=item['routineName']))	
 	
 	request.session.modified = True
 
@@ -57,9 +58,9 @@ def update_slepc_session(request):
 		selectedRoutineList = [{
 			"routine": request.POST.get('routineName'),
 		}]
-		request.session['method'] = request.POST.get('routineName');
-		if selectedRoutineList[0] not in request.session['routineSelected']:
-			request.session['routineSelected'] = request.session['routineSelected'] + selectedRoutineList
+
+		if selectedRoutineList[0] not in request.session['selectedRoutines']:
+			request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
 		return HttpResponse('Dropped '+request.POST.get('routineName'))
 	else:
@@ -78,7 +79,7 @@ def generateTemplate(request):
 	context = {
 	  		'form': request.session['form'],
 			'results'  : request.session['results'],
-			'routineSelected':request.session['routineSelected'],
+			'selectedRoutines':request.session['selectedRoutines'],
 	  		#'message': request.session['message'], # debug purpose use
 			'code': code,
 			'script':script, # Have not added makefile check if needed

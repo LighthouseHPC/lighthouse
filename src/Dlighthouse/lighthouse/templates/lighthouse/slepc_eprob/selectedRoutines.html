@@ -31,8 +31,8 @@
 				<tr>
 				<td>
 				<div id="sel_routineListNode" class="container2" style="padding: 0px;">
-				{% if routineSelected %}			
-					{% for item in routineSelected %}
+				{% if selectedRoutines %}			
+					{% for item in selectedRoutines %}
 						<script type="text/javascript">
 								allRoutines_session.push('{{ item.routine }}');	
 						</script>
