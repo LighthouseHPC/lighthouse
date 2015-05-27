@@ -14,7 +14,7 @@ int main(int argc,char **args)
 {
   Mat            A;        /* linear system matrix */
   PetscErrorCode ierr;
-  PetscMPIInt    rank;
+  PetscMPIInt    rank=0;
   PetscBool      flg;
   PetscViewer    fd;         /* viewer */
   PetscViewer    log;
@@ -32,6 +32,21 @@ int main(int argc,char **args)
   PetscInt	 m, n, i;
   FILE           *lock;
 
+/*
+  if (rank == 0) {
+    printf("Command line arguments:\n");
+    for (i=0; i < argc; i++) 
+      printf("%d: %s\n", i, args[i]);
+  }
+  // Save args
+  int argcount = argc;
+  char **argv = (char**) malloc (argc*sizeof(char*));
+  for (i=0; i < argc; i++) {
+    argv[i] = (char*) malloc(strlen(args[i]) + 1);
+    strcpy(argv[i],args[i]);
+  }
+  MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+*/
   PetscInitialize(&argc,&args,(char *)0,help);
   ierr = MPI_Comm_rank(PETSC_COMM_WORLD,&rank);CHKERRQ(ierr);
 
@@ -42,7 +57,7 @@ int main(int argc,char **args)
 
   ierr = PetscOptionsGetString(PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
-    SETERRQ(PETSC_COMM_WORLD,1,"Must indicate matrix file with the -f option");
+    PetscPrintf(PETSC_COMM_WORLD,"Must indicate matrix file with the -f option");
   }
   /* Create lock file */
   if (rank == 0) {
