@@ -7,11 +7,44 @@ from django.views.decorators.csrf import csrf_exempt
 from lighthouse.forms.slepc_eprob import *
 from lighthouse.models.slepc_eprob import *
 
+form_order = ('problemClassForm','SlepcGuidedForm')
+'''
+### help functions
+def find_nextForm(currentForm_name, request):
+    print request.session['form_order']
+    current_index = request.session['form_order'].index(currentForm_name)
+    nextForm_name = ""        
+    nextForm = ""
+    
+    try: 
+        ## search for 'none' and return the first column that has zero to be the next question/form
+        next_index = next(i for i in range(current_index+1, len(request.session['form_order'])))
+        nextForm_name = request.session['form_order'][next_index]
+        print nextForm_name
+        nextForm = getattr(sys.modules[__name__], nextForm_name)()
+    ## the end of the guided search or other errors
+    except Exception as e:          
+        print type(e)
+        print "e.message: ", e.message
+        print "e.args: ", e.args
+    
+    return {'nextForm_name': nextForm_name, 'nextForm': nextForm}
 
+    ### set up initial sessions
+def sessionSetup(request):
+    for item in ['problemClassForm','SlepcGuidedForm']:
+        key = 'sylvester_'+item[:-1]
+        request.session[key] = ''
+    request.session['currentForm_name'] = 'problemClassForm'
+    request.session['Results'] = slepc_eprob.objects.all()
+    request.session['slepc_eprob_guided_answered'] = OrderedDict()
+    request.session['form_order'] = []
+
+'''
 def slepc_eprob(request):
 
     if request.method == 'POST':
-        form = SlepcGuidedForm(request.POST)
+        form = problemClassForm(request.POST)
         data = []
         message = form.errors#request.POST#
         #type = request.POST.get('type')
@@ -24,7 +57,7 @@ def slepc_eprob(request):
     
     else:
         message = 'Checking'
-        request.session['form'] = SlepcGuidedForm()
+        request.session['form'] = problemClassForm()
         request.session['results'] = []
 
     request.session['selectedRoutines'] = []
@@ -33,7 +66,7 @@ def slepc_eprob(request):
         'form'     : request.session['form'],
         'results'  : request.session['results'],
         #'message'  : request.session['message'],
-        'notSelectedRoutines': request.session['notSelectedRoutines'],
+        #'notSelectedRoutines': request.session['notSelectedRoutines'],
 		'selectedRoutines':request.session['selectedRoutines'] 
     }
 
@@ -42,13 +75,6 @@ def slepc_eprob(request):
 	    context_instance=RequestContext(request,context)
     )
 
-def filterSelectedRoutines(request):	
-	request.session['notSelectedRoutines'] = request.session['Routines']
-
-	for item in request.session['selectedRoutines']:
-		request.session['notSelectedRoutines'] = request.session['notSelectedRoutines'].exclude(Q(routineName=item['routineName']))	
-	
-	request.session.modified = True
 
 @csrf_exempt
 def update_slepc_session(request):
