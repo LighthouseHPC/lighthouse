@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # This script requires all matrices to be in PETSc binary format in the petsc subdir
 
-import sys, os, glob
+import sys, os, glob, random
 from solvers import *
 
 
@@ -20,14 +20,21 @@ donelist=[]
 if os.path.exists(wdir+'DONE'):
   donelist=open(wdir+'DONE','r').readlines()
 
-#  donelist = list(reversed(donelist))
+import commands
+s = commands.getstatusoutput('qstat | grep norris | wc -l')[1]
+if (int(s) > 0):
+  donelist = list(reversed(donelist))
 
 solveropts = getsolvers()
 buf ="#!/bin/sh\n\n"
 
 totalprocs = 1
 env = os.environ
-for hash, solver_optstr in solveropts.items():
+hashlist = solveropts.keys()
+random.shuffle(hashlist)
+for hash in hashlist:
+  solver_optstr = solveropts[hash]
+  if totalprocs > nprocs: break
   for matname in donelist:
     matname = matname.strip()
     if totalprocs > nprocs: break
@@ -36,7 +43,7 @@ for hash, solver_optstr in solveropts.items():
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
     opts = ['-f ',wdir+'petsc/'+matname+'.petsc', '-hash', hash, solver_optstr]
     cmd = os.path.join(cdir,'parallel-bgq')
-    buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + ' 2>&1\n'
+    buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + ' \n'
     #print cmd + ' ' + ' '.join(opts)
 
 
