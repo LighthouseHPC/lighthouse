@@ -13,6 +13,7 @@ tdir=wdir+'timing/'
 cdir=os.getcwd() 
 
 nprocs = 256    # run with qsub -n 256 --proccount 4096 --mode c16  -t 1:00:00 --env CRAM_OUTPUT=ALL:CRAM_FILE=/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-cram.job ../parallel-cram
+nprocs = 1024    # 16 cores -> qsub -n 64 --proccount 1024 --mode c16 -t 5 --env CRAM_FILE=/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-cram.job ../parallel-cram
 num_matrices = 55
 
 p = 16
@@ -32,11 +33,12 @@ hashlist = solveropts.keys()
 random.shuffle(hashlist)
 for hash in hashlist:
   solver_optstr = solveropts[hash]
+  if totalprocs > nprocs: break
   nm = 0
   for matname in donelist:
-    if nm >= num_matrices: break
-    matname = matname.strip()
+    #if nm >= num_matrices: break
     if totalprocs > nprocs: break
+    matname = matname.strip()
     lockfile = tdir + '.%s.%s' % (matname, str(hash))
     logfile = tdir + '%s.%s.log' % (matname, str(hash))
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
@@ -49,7 +51,7 @@ for hash in hashlist:
     # CRAM script
     env["DARSHAN_DISABLE"] = "1"
     cf.pack(p,cmd, opts, env)
-  totalprocs += 1
+    totalprocs += p
 
 cf.close()
 

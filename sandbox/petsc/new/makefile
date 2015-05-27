@@ -23,7 +23,7 @@ parallel-bgq: parallel-bgq.o  chkopts
 	${RM} parallel-bgq.o
 
 parallel-cram: parallel-bgq.o  chkopts
-	-${CLINKER} -o parallel-cram parallel-bgq.o  ${PETSC_KSP_LIB} ${HOME}/cram/lib/libcram.a
+	-${CLINKER} -o parallel-cram parallel-bgq.o ${PETSC_KSP_CRAM_LIB}
 
 convert: convert.o  chkopts
 	-${CLINKER} -o convert convert.o  ${PETSC_MAT_LIB}
@@ -36,4 +36,7 @@ mm2petsc: mm2petsc.o  chkopts
 properties: properties.o  chkopts
 	-${CLINKER} -o properties properties.o  ${PETSC_MAT_LIB}
 	${RM} properties.o
+
+cpi-cram: cpi.o  chkopts
+	-${CLINKER} -o cpi-cram cpi.o  ${HOME}/cram/lib/libcram.a
 

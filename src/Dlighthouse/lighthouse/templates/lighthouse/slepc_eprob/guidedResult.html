@@ -1,90 +1,86 @@
+<!-- ########### Simple search result: ###########-->
+
 {% load highlight %}
 
-{% if results %}
+
+{% if results != 'start' %}
 <div id="title-div">
-  <table style="width: 100%; border: 0px solid;">
-    <tr>
-      <td style="text-align:left; padding-left:5px; width:24px;">
-        <img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
-      </td>   
-      <td style="text-align:left">
-        Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
-      </td>
-    </tr>
-  </table>  
-</div>
+	<table style="width: 100%; border: 0px solid;">
+		<tr>
+			<td style="text-align:left; padding-left:5px; width:24px;">
+				<img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
+			</td>		
+			<td style="text-align:left">
+				Lighthouse found <u>{{ results|length }}</u> routine{{ results|pluralize }} for you:
+			</td>
+		</tr>
+	</table>	
+</div>	
 
 <div id="routineListNode" class="container">
 
 {% for item in results %}
-  
-	<div class="dojoDndItem" id="nsel_{{ item.routine|upper }}"
-	     detail="{{ item.routine }}_{{ item.info }}"
-	     style="list-style-type: none;">
+	
+	
+
+	<div class="dojoDndItem" id="sel_{{ item.routine|upper }}"
+	     detail="{{ item.routine }}_{{ item.id }}">
 		<div class="routine">
-			<table id="ntb_{{ item.routine|upper }}" style="border-radius: 5px; padding-left: 4px;">
-				<tr>
+			<table id="tb_{{ item.routine|upper }}" style="border-radius: 5px; padding-left: 4px;">
+				<tr>					
 					<td class="hiddenStuff">
-						<input type="checkbox"/> <!--this is a dummy checkbox = for space-->
+						<input type="checkbox" name="routines"
+						       value="{{ item.routine }}_{{ item.id }}"
+						       id="cb_{{ item.routine|upper }}"/>
+						       <!--onclick="checkChanged('{{ item.thePrecision|upper }}{{ item.routine|upper }}', selectedroutines, selectedRoutine_session, uncheckedRoutines);"-->
 					</td>
-					<td style="width: 56px; font-weight: bold;">
+					<td style="width: 56px; font-weight: bold;" title="Check box to generate template">
 						{{ item.routine|upper }}
+					</td>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/question.png" width="16" height="16" title="About this routine"
+						     onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')"/>
+					</td>
+					<td class="hiddenStuff">
+						<img src="{{ MEDIA_URL }}Images/remove.png" width="12" height="12" title="Delete"
+						     onclick="allRoutines_session = removeRoutine('sel_{{ item.routine|upper }}', allRoutines_session)"/>
+					</td>
+					<td class="hiddenStuff">                                            
+						<img src="{{ MEDIA_URL }}Images/move.png" width="15" height="15" title="Move up and down"
+						     onclick="selectedRoutine = selectRoutine(selectedRoutine, '{{ item.routine|upper }}');"/>
 					</td>
 				</tr>
 			</table>			
 		</div>
 		<div class="routineInfo" style="margin-bottom: 15px;">{% highlight item.info with "{{ item.routine|upper }}" max_length 500 %}
-			<button onclick="showMore('nsel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
+			<button onclick="showMore('sel_{{ item.id }}', '{{ MEDIA_URL }}{{ item.url }}')">more</button>
 		</div>
 		<div class="dijitHidden">
-			<div id="nsel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.thePrecision|upper }}{{ item.routineName|upper }}">
+			<div id="sel_{{ item.id }}" dojoType="dijit.Dialog" title="Routine Info - {{ item.routine|upper }}">
 				<div align="center">
 					<table id="table_main" width="80%" border = "1">
 						<tr>
 						<th>Routine Name</th>
-						<th>Info</th>
 						</tr>
 						<tr>
-						<td>{{ item.routine|upper }}</td>
-						<td>{{ item.info|upper }}</td> 
+						<td>{{ item.routine|upper }}</td>      
 						</tr>
 					</table><br/>
-					<iframe id="nsel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
-					<button onClick="dijit.byId('nsel_{{ item.id }}').hide()">Close</button>
+					<iframe id="sel_{{ item.id }}Iframe" src="" width="750px" height="400px"></iframe><br/></br>
+					<button onClick="dijit.byId('sel_{{ item.id }}').hide()">Close</button>
 				</div>
 			</div>
 		</div>		
-	</div>
-
+	</div> 
+	
+	
 {% endfor %}
 
 </div>
-{% else %} 
-<div id="title-div">
-  <table style="width: 100%; border: 0px solid;">
-    <tr>
-      <td style="text-align:left; padding-left:5px; width:24px;">
-        <img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
-      </td>   
-      <td style="text-align:left">
-        Lighthouse found no results for your search!
-      </td>
-    </tr>
-  </table>  
-</div>
-
 {% endif %} 
-<!--
-<div id="title-div">
-  <table style="width: 100%; border: 0px solid;">
-    <tr>
-      <td style="text-align:left; padding-left:5px; width:24px;">
-        <img src="{{ MEDIA_URL }}Images/edit-find-10.png" width="32" height="32"/>
-      </td>   
-      <td style="text-align:left">
-        {{ message}}
-      </td>
-    </tr>
-  </table>  
-</div>-->
 
+<script type="text/javascript">
+	window.onload = function () {
+		dojo.style(dojo.byId('selectedListNode'), "display", "block");
+	}
+</script>

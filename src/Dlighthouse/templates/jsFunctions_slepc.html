@@ -29,7 +29,15 @@
 			}).play();
 		}, 250);
 		
-			
+		var strayGlobals = [];
+		for(var i in window) {
+			if(!window.__globalList[i]) {
+				strayGlobals.push(i);
+			}
+		}
+		if(strayGlobals.length) {
+			console.warn("Stray globals: "+strayGlobals.join(", "));
+		}
 		
 		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
@@ -79,12 +87,272 @@
 			}
 		);
 	});
+	
+	
+
+/*--------------------------------------------------------------------------------- */	
+/* ------------------------------ For Guided Search ------------------------------- */
+/*--------------------------------------------------------------------------------- */
+
+/* Ask for confirmation when user clicks on Restart Search button */
+	function show_confirm(link_q1){
+	var answer = confirm("Are you sure you want to start over the search?")
+		if (answer){
+			window.location = link_q1;
+		}	
+	}
+
+
+	
+	// Functions for faster tooltips for submit and clear buttons
+	function showTooltip(id, text, color){		
+		document.getElementById(id).innerHTML=text;
+		document.getElementById(id).style.color=color;
+	}
+	
+/*--------------------------------------------------------------------------------- */	
+/* ----------------------------- For Selected Routines ---------------------------- */
+/*--------------------------------------------------------------------------------- */
+function getDateTime(){
+		var newDate = new Date();
+		//For todays date;
+		Date.prototype.today = function(){ 
+		    return this.getFullYear() +(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) + ((this.getDate() < 10)?"0":"") + this.getDate()
+		};
+		//For the time now
+		Date.prototype.timeNow = function(){
+		     return ((this.getHours() < 10)?"0":"") + this.getHours() +"_"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +"_"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+		};
+		var dateTime = newDate.today() + newDate.timeNow(); 
+		return dateTime;
+	}
+
+	function getCheckedRoutines(){
+        var checked_list = [];
+        dojo.query('[name=routines]').forEach(function(n){
+            /* n is one of the checkboxes */
+            if (n.checked == true){
+                /* note: n.id is uppercase */
+                checked_list.push(n.id.split('_')[1]);
+            }               
+        }); 
+        return checked_list;
+    }
 
     function generateSlepCCode(){ 
-	window.location = '/slepc_eprob/generateCode/';
+    	var checked_list = [];
+        var time = getDateTime();
+		
+        checked_list = getCheckedRoutines();
+        if (checked_list.length == 0)
+            alert('No boxes were checked!');
+    	else
+			window.location = '/slepc_eprob/generateCode/';
 
         
-    }        
+    }  
 
+    //*** for move up and down ***//
+	// Called when user clicks on the name of the routine in the selected routines area --> change color
+	function selectRoutine(selectedRoutine, id){
+		//console.log(id);
+		if(selectedRoutine != ''){ // Selected routine name is a non-empty string
+			if(selectedRoutine != id){ // User did not click the same routine (id = previously selected routine)
+				if(document.getElementById("tb_"+selectedRoutine))
+					document.getElementById("tb_"+selectedRoutine).style.background = "";				
+			}
+		}
+
+		var elem = document.getElementById("tb_"+id);
+		
+		// If the routine background was grey (i.e. it was selected)
+		if(elem.style.background == "rgb(170, 170, 170)"){
+			elem.style.background = ""; // reset the color back to "" (i.e. unselect it)
+			document.getElementById("movebuttons").style.display = "none"; // hide the reordering button panel
+			return "";
+		}
+		else{ // Routine was not selected
+			elem.style.background = "rgb(170, 170, 170)"; //set the background color to grey 
+			document.getElementById("movebuttons").style.display = "block"; // show the reordering button panel
+			return id;
+		}
+	}
+
+	function moveup(id, routines){
+		if(id == "") return routines;
+
+		// Get the html element for the selected routine
+		var thisRoutine = document.getElementById("sel_ajax_"+id);
+		var prev_routine = "";
+		var prev_routine_index = -1;
+		var this_routine_index = -1;
+
+		// Find the index of this routine in the "routines" array, also save the index of the previous routine
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;
+				if(i > 0){
+					prev_routine = routines[i-1].toUpperCase();
+					prev_routine_index = i-1;
+				}
+				if (thisRoutine == null){	//combibe with the freshly dropped items
+					thisRoutine = document.getElementById("sel_"+id);
+				}
+			}
+		}		
+		
+		if(prev_routine != ""){ // If there is a routine above the selected routine
+			// Get the html element of the previous routine
+			var prevRoutine = document.getElementById("sel_ajax_"+prev_routine);
+			if (prevRoutine == null){
+				prevRoutine = document.getElementById("sel_"+prev_routine);
+			}			
+
+			// Swap the html contents of the routines
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = prevRoutine.innerHTML;
+			prevRoutine.innerHTML = temp;
+
+			// Swap their ids
+			temp = thisRoutine.id;
+			thisRoutine.id = prevRoutine.id;
+			prevRoutine.id = temp;
+
+			// Swap the routines in the "routines" array
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[prev_routine_index];
+			routines[prev_routine_index] = temp;
+		}
+		
+		return routines;
+	}
+
+
+	
+	// Swaps the selected routine with the routine right below it (if there's any)
+	function movedown(id, routines){
+		if(id == "") return routines;
+
+		// Get the html element for the selected routine
+		var thisRoutine = document.getElementById("sel_ajax_"+id);
+		var next_routine = "";
+		var this_routine_index = -1;
+		var next_routine_index = -1;
+
+		// Find the index of this routine in the "routines" array, also save the index of the next routine
+		for(var i = 0; i < routines.length; i++){
+			if(routines[i] == id.toLowerCase()){
+				this_routine_index = i;				
+				if(i < (routines.length - 1)){
+					next_routine = routines[i+1].toUpperCase();
+					next_routine_index = i+1;
+				}
+				if (thisRoutine == null){	//combibe with the freshly dropped items
+					thisRoutine = document.getElementById("sel_"+id);
+				}
+			}
+		}		
+		
+		// If there is a routine below the selected routine
+		if(next_routine != ""){
+
+			// Get the html element of the next routine
+			var nextRoutine = document.getElementById("sel_ajax_"+next_routine);
+			if (nextRoutine == null){
+				nextRoutine = document.getElementById("sel_"+next_routine);
+			}
+			
+			// Swap the routines
+			var temp = thisRoutine.innerHTML;	
+			thisRoutine.innerHTML = nextRoutine.innerHTML;
+			nextRoutine.innerHTML = temp;
+
+			// Swap their ids
+			temp = thisRoutine.id;
+			thisRoutine.id = nextRoutine.id;
+			nextRoutine.id = temp;
+
+			// Swap the routines in the "routines" array
+			temp = routines[this_routine_index];
+			routines[this_routine_index] = routines[next_routine_index];
+			routines[next_routine_index] = temp;
+		}		
+
+		return routines;
+	}
+
+
+	//remove routine
+	function removeRoutine(id, allRoutines_session){
+		var routine = id.split("_").pop().toLowerCase();
+		var i = allRoutines_session.indexOf(routine);
+
+		allRoutines_session.splice(i, 1);
+		
+		//Remove checked routine from the session
+		dojo.xhrPost( {
+			url: "/slepc_eprob/remove_session/",
+			content: {routine: routine,},
+			load: function(response){
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		
+		dojo.destroy(id);
+		return allRoutines_session;
+	}
+	
+	
+	/* Clear all routines from selected routines area */
+	function clearAllRoutines(){
+		//reset request.session['selectedRoutines'] = [] and empty the list			
+		dojo.xhrPost( {
+			url: "/slepc_eprob/clear_session/",
+			load: function(response){
+				dojo.empty("sel_routineListNode");
+				dojo.empty("selectedListNode");
+				console.log(response);
+			    },
+			error: function(){
+			    console.log("error");
+			    }
+		});
+		selectedRoutine_session.length = 0; 
+		uncheckedRoutines.length = 0;
+		allRoutines_session.length = 0;			
+	}
+
+/*--------------------------------------------------------------------------------- */	
+	/* ----------------------------- For Code Template Area --------------------------- */
+	/*--------------------------------------------------------------------------------- */
+
+	// Clear code template area and remove template file from server
+        function clearCodeTemplateArea(){
+                dojo.byId("code_template_output").innerHTML = "";    
+        }
+
+        function clearScriptTemplateArea(){
+                dojo.byId("script_template_output").innerHTML = "";    
+        }
+
+        // Check if there's any code template, allow download if template is not empty
+        function downloadCodeTemplate(time){
+                var content = dojo.byId("code_template_output").innerHTML;
+                if(content.length > 0 && time != '')                    
+                        window.location = '/static/download/lighthouse_'+time+'.zip';
+                else
+                        alert("No template code was generated!");
+        }
+
+        function downloadScriptTemplate(time){
+                var content = dojo.byId("script_template_output").innerHTML;
+                if(content.length > 0 && time != '')                    
+                        window.location = '/static/download/lighthouse_'+time+'.zip';
+                else
+                        alert("No template code was generated!");
+        }
 
 </script>
