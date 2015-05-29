@@ -117,10 +117,10 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,u
         buf += '@ATTRIBUTE solver {%s}\n' % (','.join(solvers.keys()))
         csvbuf += ', solver'
 
-    buf += '@ATTRIBUTE class {best,fair,worst}'
-    csvbuf += ', class'
-    #buf += '@ATTRIBUTE class {good,bad}'
+    #buf += '@ATTRIBUTE class {best,fair,worst}'
+    buf += '@ATTRIBUTE class {good,bad}'
     buf += '\n@DATA\n\n'
+    csvbuf += ', class'
     #print featureslist
     
     #buf+=','.join(featurenames)+'\n'
@@ -136,7 +136,7 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,u
             if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata['mintime']: 
                 label = 'good'
                 nbest += 1
-            elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata['mintime']: label = 'fair'
+            #elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata['mintime']: label = 'fair'
             else: label = 'bad'
             for f in featurenames:
                 v = params.get(f)
@@ -146,6 +146,9 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,u
             if includetimes:
                 buf += str(dtime) + ','
                 csvbuf += str(dtime) + ','
+            if usesolvers:
+                buf += str(solverID) + ','
+                csvbuf += str(solverID) + ','
             buf += label + '\n'
             csvbuf += label + '\n'
         
