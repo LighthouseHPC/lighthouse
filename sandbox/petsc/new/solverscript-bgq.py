@@ -17,8 +17,8 @@ nprocs = 2048    # run with qsub -n 128 --proccount 2048 --mode c16 -t 60
 p = 16
 matrices = glob.glob(wdir+'petsc/*.petsc')
 donelist=[]
-if os.path.exists(wdir+'DONE'):
-  donelist=open(wdir+'DONE','r').readlines()
+if os.path.exists(wdir+'DONE_TRILINOS'):
+  donelist=open(wdir+'DONE_TRILINOS','r').readlines()
 
 import commands
 s = commands.getstatusoutput('qstat | grep norris | wc -l')[1]
@@ -36,6 +36,9 @@ for hash in hashlist:
   solver_optstr = solveropts[hash]
   if totalprocs > nprocs: break
   for matname in donelist:
+    if not os.path.exists(wdir+'petsc/'+matname+'.petsc'): 
+      print "No PETSc matrix:", matname
+      continue
     matname = matname.strip()
     if totalprocs > nprocs: break
     lockfile = tdir + '.%s.%s' % (matname, str(hash))
