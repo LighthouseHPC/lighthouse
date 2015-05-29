@@ -4,9 +4,8 @@ Created on Feb 17, 2015
 
 @author: norris
 '''
-import re, sys, os, argparse, glob
-
-perf = dict()
+import re, sys, os, argparse, glob, time, datetime, socket
+from solvers import *
 
 def readFeatures(dirname='anamod_features'):
     files=glob.glob(dirname + '/*.anamod')
@@ -47,12 +46,15 @@ def readPerfData(features,dirname):
     tcqmr | icc | -3 | 1.926556e+02 | 84.0693 | 10000
     ...
     '''
-    global perf
+    #solvers = getsolvers()
     files = glob.glob(dirname+'/*.log')
     mintime = sys.float_info.max
     maxtime = 0
     perf = dict()
     for logfile in files:
+        print "Processing", logfile
+        statinfo = os.stat(logfile)
+        
         fname=os.path.basename(logfile)
         matrixname,hashid,_ = fname.split('.')
         if not matrixname in features.keys(): continue
@@ -63,23 +65,26 @@ def readPerfData(features,dirname):
             perf[matrixname] = dict()
 
         solverID = hashid
-        fd = open(fname,'r')
-        lines = fd.readlines()
+        fd = open(logfile,'r')
+        contents = fd.read()
+        fd.close()
+        if contents.find('Hash: ') < 0: continue
+        lines = contents.split('\n')
         if len(lines) < 2: continue
         data = [d.strip() for d in lines[1].split('|')]
-            #solvername = data[0]+'_' + data[1]
-            perf[matrixname][solverID] = data
-            timestr =  perf[matrixname][solverID][3].strip()
-            if not timestr or perf[matrixname][solverID][2] == 'Failed' \
-                or timestr.startswith('Errorcode'):
-                timestr = sys.float_info.max
-            dtime = float(timestr)
-            perf[matrixname][solverID][3] =str(dtime)
-            if dtime < mintime: 
-                print matrixname, solverID, features[matrixname]
-                mintime = dtime
-            if dtime > maxtime: maxtime = dtime
-            solverID += 1
+        #print data
+        #solvername = solvers[hashid]
+        perf[matrixname][solverID] = data
+        timestr =  perf[matrixname][solverID][3].strip()
+        if not timestr or perf[matrixname][solverID][2] == 'Failed' \
+            or timestr.startswith('Errorcode'):
+            timestr = sys.float_info.max
+        dtime = float(timestr)
+        perf[matrixname][solverID][3] =str(dtime)
+        if dtime < mintime:
+            print matrixname, solverID, features[matrixname]
+            mintime = dtime
+        if dtime > maxtime: maxtime = dtime
 
     perf['mintime'] = mintime
     perf['maxtime'] = maxtime
@@ -89,7 +94,7 @@ def readPerfData(features,dirname):
 '''
     @param lines list of lines (strings)
 '''
-def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False):
+def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,usesolvers=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
     nbest = 0
@@ -103,8 +108,12 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False):
         buf += '@ATTRIBUTE %s NUMERIC\n' % feature
     if includetimes:
         buf += '@ATTRIBUTE TIME NUMERIC\n'
-    #buf += '@ATTRIBUTE class {best,fair,worst}'
-    buf += '@ATTRIBUTE class {good,bad}'
+    if usesolvers:
+        solvers = getsolvers()
+        buf += '@ATTRIBUTE solver {%s}\n' % (','.join(solvers.keys()))
+
+    buf += '@ATTRIBUTE class {best,fair,worst}'
+    #buf += '@ATTRIBUTE class {good,bad}'
     buf += '\n@DATA\n\n'
     #print featureslist
     
@@ -121,7 +130,7 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False):
             if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata['mintime']: 
                 label = 'good'
                 nbest += 1
-            #elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata['mintime']: label = 'fair'
+            elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata['mintime']: label = 'fair'
             else: label = 'bad'
             for f in featurenames:
                 v = params.get(f)
@@ -146,8 +155,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-f','--fdir', default = 'anamod_features',
                         help="The directory name containing Anamod feature files", type=str)
-    parser.add_argument('-p','--pdir', default = 'data/raw_data/sequential_data',
-                        help="The directory name containing solver performance data", type=str)
+    parser.add_argument('-p','--pdir', default = 'timing',
+                        help="The directory name containing solver performance data (collection of matrixname.hash.log files", type=str)
     parser.add_argument('-b', '--besttol', default=250,    # Bayes: 250 or less  
                         help='The tolerance for assigning "best" to a time, e.g.,'+\
                               'if 20 is specified, then all times within 20%% of the minimum'+\
@@ -165,14 +174,19 @@ if __name__ == '__main__':
                         help='If True, include the minimum, maximum, and average times in the'+\
                               'features.', action='store_true')
 
+    parser.add_argument('-s', '--solvers', default=False,
+                        help='If True, include the solver ID in the '+\
+                        'features.', action='store_true')
+
     args = parser.parse_args()
 
     fdirname = args.fdir
     pdirname = args.pdir
-    minbest = args.minbest
+    minbest = int(args.minbest)
     besttol = args.besttol / 100.0
     fairtol = args.fairtol / 100.0
-    includetimes = args.times   
+    includetimes = args.times
+    usesolvers = args.solvers
 
     if not fdirname or not os.path.exists(fdirname): 
         print "Error: Please specify a valid directory containing Anamod feature files."
@@ -187,6 +201,9 @@ if __name__ == '__main__':
     
     features = readFeatures(fdirname)
     perfdata = readPerfData(features,pdirname)
-    buf = convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes)
-    writeToFile(buf,'petsc')
+    buf = '%% Generated on %s\n' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    buf += '%% Location %s: %s\n' % (socket.gethostname(), os.path.realpath(__file__))
+    buf += '%% %s\n' % ' '.join(sys.argv)
+    buf += convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes,usesolvers)
+    writeToFile(buf,'petsc3_%d_%d' % (besttol*100,minbest))
     pass
