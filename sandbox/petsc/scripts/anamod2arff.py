@@ -97,6 +97,7 @@ def readPerfData(features,dirname):
 def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,usesolvers=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
+    csvbuf = ''
     nbest = 0
     # Header info
     featurenames = None
@@ -106,13 +107,18 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,u
             break
     for feature in featurenames:
         buf += '@ATTRIBUTE %s NUMERIC\n' % feature
+
+    csvbuf = ','.join(featurenames)
     if includetimes:
         buf += '@ATTRIBUTE TIME NUMERIC\n'
+        csvbuf += ', time'
     if usesolvers:
         solvers = getsolvers()
         buf += '@ATTRIBUTE solver {%s}\n' % (','.join(solvers.keys()))
+        csvbuf += ', solver'
 
     buf += '@ATTRIBUTE class {best,fair,worst}'
+    csvbuf += ', class'
     #buf += '@ATTRIBUTE class {good,bad}'
     buf += '\n@DATA\n\n'
     #print featureslist
@@ -136,16 +142,20 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,u
                 v = params.get(f)
                 if not v: v = '?'
                 buf += str(v) + ','
+                csvbuf += str(v) + ','
             if includetimes:
                 buf += str(dtime) + ','
+                csvbuf += str(dtime) + ','
             buf += label + '\n'
+            csvbuf += label + '\n'
         
         buf = buf.replace('inf',str(sys.float_info.max))
+        csvbuf = csvbuf.replace('inf',str(sys.float_info.max))
         
-    return buf
+    return buf, csvbuf
 
-def writeToFile(buf, fname):
-    with open(os.path.basename(fname) + '.arff', "w") as arff_file:
+def writeToFile(buf, fname, suffix='.arff'):
+    with open(os.path.basename(fname) + suffix, "w") as arff_file:
         arff_file.write(buf)
         arff_file.close()
     return 
@@ -201,9 +211,13 @@ if __name__ == '__main__':
     
     features = readFeatures(fdirname)
     perfdata = readPerfData(features,pdirname)
-    buf = '%% Generated on %s\n' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    buf += '%% Location %s: %s\n' % (socket.gethostname(), os.path.realpath(__file__))
-    buf += '%% %s\n' % ' '.join(sys.argv)
-    buf += convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes,usesolvers)
-    writeToFile(buf,'petsc3_%d_%d' % (besttol*100,minbest))
+    buf = '%% Generated on %s, ' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
+    buf += 'Command: "%s"\n' % ' '.join(sys.argv)
+    csvbuf = buf
+    arff, csv = convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes,usesolvers)
+    buf += arff
+    csvbuf += csv
+    writeToFile(buf,'petsc_%d_%d' % (besttol*100,minbest))
+    writeToFile(csvbuf,'petsc_%d_%d' % (besttol*100,minbest), suffix='.csv')
     pass
