@@ -2,6 +2,13 @@ import os
 from django.db import models
 from django.db.models import Q
 
+PROBLEMCLASS_CHOICE = {
+	(u'eps',		u'Linear Eigenvalue Problem (Ax=\u03bbx, Ax=\u03bbBx)'),
+	(u'pep',		u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]'),
+	(u'nep',		u'Nonlinear Eigenvalue Problem (T(\u03bb)x=0)'),
+	(u'svd',		u'Singular Value Decomposition (Av=\u03c3u)'),
+	(u'mfn',		u'Matrix Function (y=f(A)v)'),
+}
 
 TYPE_CHOICES = (
 	(u'1',	'Hermitian'),
@@ -55,6 +62,17 @@ EIGEN_YESNO_CHOICES = (
     (u'n'    ,u'No')
 )
 
+PEP_POLYNOMIAL_DEGREE = {
+	(u'q',			u'Quadratic'),
+	(u'a',			u'Non-Quadratic'),
+}
+PEP_PROBLEM_TYPE = {
+	(u'general',				u'General Problem'),
+	(u'hermitian',				u'Hermitian (Symmetric) Problem'),
+	(u'gyroscopic',				u'Gyroscopic Problem'),
+	(u'Hyperbolic',				u'Hyperbolic Problem'),
+	(u'overdamped',				u'Overdamped Problem'),
+}
 """ for routine information  """
 class slepc_RoutineInfo(models.Model):
 	routine = models.CharField('Routine', max_length=30)
@@ -79,7 +97,7 @@ class slepc_treeLeft(models.Model):
 	sizeLL = models.DecimalField('Matrix size LL', max_digits=12, decimal_places=2, default=0)
 	sizeUL = models.DecimalField('Matrix size UL', max_digits=12, decimal_places=2, default=0)
 	numProcessorsLL = models.DecimalField('Number of processors LL',max_digits=12, decimal_places=2, default=1)
-	numProcessorsUL = models.DecimalField('Number of processors UL',max_digits=12, decimal_places=2, default=1)
+	numProcessorsUL = models.DecimalField('Number of processors UL',max_digits=20, decimal_places=20, default=1)
 	spectrumType = models.CommaSeparatedIntegerField('Portion of spectrum', max_length=20)
 	probType = models.CommaSeparatedIntegerField('Problem type', max_length=20)
 	nEigenValuesLL = models.DecimalField('Number of eigenvalues LL', max_digits=12, decimal_places=2, default=1)
