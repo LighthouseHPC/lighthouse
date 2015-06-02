@@ -31,7 +31,7 @@ for f in glob.glob("*.log"):
      writefile(fd2, newlines, stat)
      fd2.close()
      #os.remove(f)
-     os.system('git rm %s' % f)
+     os.system('rm %s' % f)
       
    if not lines or not newlines:
      fd.close()
