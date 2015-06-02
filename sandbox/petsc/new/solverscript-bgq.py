@@ -17,8 +17,11 @@ nprocs = 2048    # run with qsub -n 128 --proccount 2048 --mode c16 -t 60
 p = 16
 matrices = glob.glob(wdir+'petsc/*.petsc')
 donelist=[]
-if os.path.exists(wdir+'DONE_TRILINOS'):
-  donelist=open(wdir+'DONE_TRILINOS','r').readlines()
+if os.path.exists('DONE_TRILINOS'):
+  donelist=open('DONE_TRILINOS','r').readlines()
+else:
+  print "Error: can't find done matrix file"
+  exit(1)
 
 import commands
 s = commands.getstatusoutput('qstat | grep norris | wc -l')[1]
@@ -36,13 +39,17 @@ for hash in hashlist:
   solver_optstr = solveropts[hash]
   if totalprocs > nprocs: break
   for matname in donelist:
-    if not os.path.exists(wdir+'petsc/'+matname+'.petsc'): 
-      print "No PETSc matrix:", matname
-      continue
     matname = matname.strip()
+    matrixpath=wdir+'petsc/'+matname+'.petsc'
+    if not os.path.exists(matrixpath):
+      #print "No PETSc matrix:", matrixpath
+      continue
+    #else:
+      #print "PETSc matrix:", matrixpath
     if totalprocs > nprocs: break
     lockfile = tdir + '.%s.%s' % (matname, str(hash))
     logfile = tdir + '%s.%s.log' % (matname, str(hash))
+    #print "Logfile:", logfile
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
     opts = ['-f ',wdir+'petsc/'+matname+'.petsc', '-hash', hash, solver_optstr]
     cmd = os.path.join(cdir,'parallel-bgq')
