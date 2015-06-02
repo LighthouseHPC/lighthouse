@@ -87,8 +87,6 @@ def readPerfData(features,dirname):
     '''
     #solvers = getsolvers()
     files = glob.glob(dirname+'/*.log')
-    mintime = sys.float_info.max
-    maxtime = 0
     perf = dict()
     for logfile in files:
         print "Processing", logfile
@@ -103,7 +101,7 @@ def readPerfData(features,dirname):
 
         #print matrixname
         if matrixname not in perf.keys():
-            perf[matrixname] = dict()
+            perf[matrixname] = {'mintime':sys.float_info.max}
 
         solverID = hashid
         fd = open(logfile,'r')
@@ -122,20 +120,16 @@ def readPerfData(features,dirname):
             timestr = sys.float_info.max
         dtime = float(timestr)
         perf[matrixname][solverID][3] =str(dtime)
-        if dtime < mintime:
-            print matrixname, solverID, features[matrixname]
-            mintime = dtime
-        if dtime > maxtime: maxtime = dtime
-
-    perf['mintime'] = mintime
-    perf['maxtime'] = maxtime
+        if dtime < perf[matrixname]['mintime']:
+            #print matrixname, solverID, features[matrixname]
+            perf[matrixname]['mintime'] = dtime
     
     return perf
 
 '''
     @param lines list of lines (strings)
 '''
-def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,usesolvers=False):
+def convertToARFF(features,perfdata,besttol,fairtol,includetimes=False,usesolvers=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
     csvbuf = ''
@@ -165,19 +159,20 @@ def convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes=False,u
     #print featureslist
     
     #buf+=','.join(featurenames)+'\n'
- 
+    solvers = getsolvers()
     for matrixname in features.keys():
         #print matrixname, features[matrixname]
         if not perfdata.get(matrixname) or not features[matrixname]: continue
         params = features[matrixname]
 
-        for solverID in perfdata[matrixname].keys():
+        for solverID in solvers.keys():
             # solver, preconditioner, convergence reason, time, tolerance
+            if not solverID in perfdata[matrixname].keys(): continue
             dtime = float(perfdata[matrixname][solverID][3])
-            if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata['mintime']: 
+            if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata[matrixname]['mintime']:
                 label = 'good'
                 nbest += 1
-            #elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata['mintime']: label = 'fair'
+            #elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata[matrixname]['mintime']: label = 'fair'
             else: label = 'bad'
             for f in featurenames:
                 v = params.get(f)
@@ -213,16 +208,16 @@ if __name__ == '__main__':
                         help="The path to the TPetra feature CSV file", type=str)
     parser.add_argument('-p','--pdir', default = 'timing',
                         help="The directory name containing solver performance data (collection of matrixname.hash.log files", type=str)
-    parser.add_argument('-b', '--besttol', default=250,    # Bayes: 250 or less  
+    parser.add_argument('-b', '--besttol', default=25,    # Bayes: 25 or less
                         help='The tolerance for assigning "best" to a time, e.g.,'+\
                               'if 20 is specified, then all times within 20%% of the minimum'+\
                               'will be assigned the "best" label',
                         type=int)
-    parser.add_argument('-m', '--minbest', default=200,
-                        help='The minimum number of instances labeled with "best"')
+    #parser.add_argument('-m', '--minbest', default=20,
+    #                    help='The minimum number of instances labeled with "best"')
     parser.add_argument('-n', '--name', default='solvers',
                         help='Prefix for output file names', type=str)
-    parser.add_argument('-r', '--fairtol', default=650,
+    parser.add_argument('-r', '--fairtol', default=65,
                         help='The tolerance for assigning "fair" to a time, e.g.,'+\
                               'if 40 is specified, then all times greater than the "best"'+\
                               'criterion but within 40%% of the minimum'+\
@@ -241,7 +236,7 @@ if __name__ == '__main__':
     fdirname = args.fdir
     pdirname = args.pdir
     trilinosfeaturepath = args.tpath
-    minbest = int(args.minbest)
+    #minbest = int(args.minbest)
     besttol = args.besttol / 100.0
     fairtol = args.fairtol / 100.0
     includetimes = args.times
@@ -270,14 +265,13 @@ if __name__ == '__main__':
         parser.help()
 
     perfdata = readPerfData(features,pdirname)
-    print perfdata["mintime"]
     buf = '%% Generated on %s, ' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
     csvbuf = buf
-    arff, csv = convertToARFF(features,perfdata,minbest,besttol,fairtol,includetimes,usesolvers)
+    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,includetimes,usesolvers)
     buf += arff
     csvbuf += csv
-    writeToFile(buf, outfile+'_%d_%d' % (besttol*100,minbest))
-    writeToFile(csvbuf, outfile+'_%d_%d' % (besttol*100,minbest), suffix='.csv')
+    writeToFile(buf, outfile+'_%d' % (besttol*100))
+    writeToFile(csvbuf, outfile+'_%d' % (besttol*100), suffix='.csv')
     pass
