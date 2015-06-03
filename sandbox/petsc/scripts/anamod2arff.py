@@ -88,6 +88,7 @@ def readPerfData(features,dirname):
     #solvers = getsolvers()
     files = glob.glob(dirname+'/*.log')
     perf = dict()
+    solversamples = dict()
     for logfile in files:
         print "Processing", logfile
         statinfo = os.stat(logfile)
@@ -120,11 +121,30 @@ def readPerfData(features,dirname):
             timestr = sys.float_info.max
         dtime = float(timestr)
         perf[matrixname][solverID][3] =str(dtime)
+        if not solverID in solversamples.keys(): solversamples[solverID] = 0
+        solversamples[solverID] += 1
         if dtime < perf[matrixname]['mintime']:
             #print matrixname, solverID, features[matrixname]
             perf[matrixname]['mintime'] = dtime
-    
-    return perf
+
+    count1, count2 = 0, 0
+    threshold = 100
+    perf2 = dict()
+    if True:
+        for matrixname, solverdata in perf.items():
+            perf2[matrixname] = dict()
+            for solverID, data in solverdata.items():
+                if solverID in solversamples.keys() and solversamples[solverID] > threshold:
+                    perf2[matrixname][solverID] = data
+                    count1 += 1
+                elif solverID == 'mintime':
+                    perf2[matrixname][solverID] = data
+                else:
+                    count2 += 1
+    else:
+        perf2 = perf
+    print ">%d matrices, <=%d matrices: " % (threshold,threshold), count1, count2
+    return perf2
 
 '''
     @param lines list of lines (strings)
