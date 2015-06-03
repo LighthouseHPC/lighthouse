@@ -1,3 +1,7 @@
+{% extends "dojango/base_slepc.html" %}
+
+
+{% block dojango_content_guidedSearch %}
 <div id="title-div">
 	<table id="icon-table">
 		<tr>
@@ -11,7 +15,7 @@
 	</table>	
 </div>
 
-<form id="main_op"  action="/slepc_eprob/guided/class" name="main_op" method="post">
+<form id="main_op"  action="/slepc_eprob/guided/eps" name="main_op" method="post">
 	{% csrf_token %}
 	{% for field in form %}
 	<div id="questions-slepc">
@@ -68,3 +72,27 @@
     	</table>
 	</div>
 </form>
+{% endblock %}
+
+<!-- ########### Simple search result: ###########-->
+{% block dojango_content_guided_result %}
+{% include "lighthouse/slepc_eprob/guidedResult.html" %}
+{% endblock %}
+
+<!-- ########### Selected routines: ###########-->
+{% block dojango_content_selected_routines %}
+{% include "lighthouse/slepc_eprob/selectedRoutines.html" %}
+{% endblock %}
+
+{% block dojango_content_workarea %}
+{% include "lighthouse/slepc_eprob/selectedRoutines.html" %}
+{% endblock %}
+
+<!-- ########### Code Template: ###########-->
+{% block dojango_content_code %}
+{% include "lighthouse/slepc_eprob/codeTemplate.html" %}
+{% endblock %}
+
+{% block dojango_content_script %}
+{% include "lighthouse/slepc_eprob/scriptTemplate.html" %}
+{% endblock %}

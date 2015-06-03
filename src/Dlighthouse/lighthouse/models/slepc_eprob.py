@@ -73,6 +73,7 @@ PEP_PROBLEM_TYPE = {
 	(u'Hyperbolic',				u'Hyperbolic Problem'),
 	(u'overdamped',				u'Overdamped Problem'),
 }
+
 """ for routine information  """
 class slepc_RoutineInfo(models.Model):
 	routine = models.CharField('Routine', max_length=30)
@@ -97,7 +98,7 @@ class slepc_treeLeft(models.Model):
 	sizeLL = models.DecimalField('Matrix size LL', max_digits=12, decimal_places=2, default=0)
 	sizeUL = models.DecimalField('Matrix size UL', max_digits=12, decimal_places=2, default=0)
 	numProcessorsLL = models.DecimalField('Number of processors LL',max_digits=12, decimal_places=2, default=1)
-	numProcessorsUL = models.DecimalField('Number of processors UL',max_digits=20, decimal_places=20, default=1)
+	numProcessorsUL = models.DecimalField('Number of processors UL',max_digits=12, decimal_places=2, default=1)
 	spectrumType = models.CommaSeparatedIntegerField('Portion of spectrum', max_length=20)
 	probType = models.CommaSeparatedIntegerField('Problem type', max_length=20)
 	nEigenValuesLL = models.DecimalField('Number of eigenvalues LL', max_digits=12, decimal_places=2, default=1)
@@ -260,4 +261,3 @@ def getScript(data):
 	script += scriptRun
 	return script
 	
-
