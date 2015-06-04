@@ -70,7 +70,7 @@ PEP_PROBLEM_TYPE = {
 	(u'general',				u'General Problem'),
 	(u'hermitian',				u'Hermitian (Symmetric) Problem'),
 	(u'gyroscopic',				u'Gyroscopic Problem'),
-	(u'Hyperbolic',				u'Hyperbolic Problem'),
+	(u'hyperbolic',				u'Hyperbolic Problem'),
 	(u'overdamped',				u'Overdamped Problem'),
 }
 
