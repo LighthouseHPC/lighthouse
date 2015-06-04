@@ -31,8 +31,6 @@ def slepc_eprob(request):
 
 def guidedSearch_problem(request):
 	form_pClass = problemClassForm(request.POST or None)
-	request.session['Question_problem'] = []
-	request.session['queries'] = []
 
 	try:
 		request.session['selectedRoutines']
@@ -45,13 +43,14 @@ def guidedSearch_problem(request):
 
 	if form_pClass.is_valid():
     	    selected = form_pClass.cleaned_data['problemClass']
+    	    request.session
     
 	if form_pClass.is_valid() and selected == u'eps':
 		form = SlepcGuidedForm()
 		#action = '/lighthouse/slepc_eprob/guided/eps'
 
 		context = {
-			'query_prob': request.session['Question_problem'],
+			'query_prob': u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]',
 			'form' : form,
 			#'Action' : action,
 			'selectedRoutines': request.session['selectedRoutines'], 
@@ -65,7 +64,7 @@ def guidedSearch_problem(request):
 	else:
 			form = problemClassForm()
 			context = {
-				'query_prob': request.session['Question_problem'],
+				'query_prob': '',
 				'form' : form,
 				#'Action' : action,
 				'selectedRoutines': request.session['selectedRoutines'], 
@@ -99,6 +98,7 @@ def slepc_eprob_eps(request):
     request.session['selectedRoutines'] = []
     #remove later
     context = {
+    	'query_prob': u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]',
         'form'     : request.session['form'],
         'results'  : request.session['results'],
         #'message'  : request.session['message'],
@@ -119,6 +119,7 @@ def update_slepc_session(request):
             "routine": request.POST.get('routineName'),
         }]
 
+        request.session['method'] = request.POST.get('routineName')
         if selectedRoutineList[0] not in request.session['selectedRoutines']:
             request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
@@ -137,6 +138,7 @@ def generateTemplate(request):
     code = getCode();
     
     context = {
+    		'query_prob': u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]',
             'form': request.session['form'],
             'results'  : request.session['results'],
             'selectedRoutines':request.session['selectedRoutines'],
