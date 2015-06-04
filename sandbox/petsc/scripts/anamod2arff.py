@@ -88,6 +88,7 @@ def readPerfData(features,dirname):
     #solvers = getsolvers()
     files = glob.glob(dirname+'/*.log')
     perf = dict()
+    solversamples = dict()
     for logfile in files:
         print "Processing", logfile
         statinfo = os.stat(logfile)
@@ -120,16 +121,35 @@ def readPerfData(features,dirname):
             timestr = sys.float_info.max
         dtime = float(timestr)
         perf[matrixname][solverID][3] =str(dtime)
+        if not solverID in solversamples.keys(): solversamples[solverID] = 0
+        solversamples[solverID] += 1
         if dtime < perf[matrixname]['mintime']:
             #print matrixname, solverID, features[matrixname]
             perf[matrixname]['mintime'] = dtime
-    
-    return perf
+
+    count1, count2 = 0, 0
+    threshold = 100
+    perf2 = dict()
+    if True:
+        for matrixname, solverdata in perf.items():
+            perf2[matrixname] = dict()
+            for solverID, data in solverdata.items():
+                if solverID in solversamples.keys() and solversamples[solverID] > threshold:
+                    perf2[matrixname][solverID] = data
+                    count1 += 1
+                elif solverID == 'mintime':
+                    perf2[matrixname][solverID] = data
+                else:
+                    count2 += 1
+    else:
+        perf2 = perf
+    print ">%d matrices, <=%d matrices: " % (threshold,threshold), count1, count2
+    return perf2
 
 '''
     @param lines list of lines (strings)
 '''
-def convertToARFF(features,perfdata,besttol,fairtol,includetimes=False,usesolvers=False):
+def convertToARFF(features,perfdata,besttol,fairtol=0,includetimes=False,usesolvers=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
     csvbuf = ''
@@ -152,8 +172,10 @@ def convertToARFF(features,perfdata,besttol,fairtol,includetimes=False,usesolver
         buf += '@ATTRIBUTE solver {%s}\n' % (','.join(solvers.keys()))
         csvbuf += ', solver'
 
-    #buf += '@ATTRIBUTE class {best,fair,worst}'
-    buf += '@ATTRIBUTE class {good,bad}'
+    if fairtol > 0:
+        buf += '@ATTRIBUTE class {good,fair,bad}'
+    else:
+        buf += '@ATTRIBUTE class {good,bad}'
     buf += '\n@DATA\n\n'
     csvbuf += ', class\n'
     #print featureslist
@@ -172,7 +194,8 @@ def convertToARFF(features,perfdata,besttol,fairtol,includetimes=False,usesolver
             if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata[matrixname]['mintime']:
                 label = 'good'
                 nbest += 1
-            #elif dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata[matrixname]['mintime']: label = 'fair'
+            elif fairtol>0 and dtime != float("inf") and dtime >= (1.0+fairtol) * perfdata[matrixname]['mintime']:
+                label = 'fair'
             else: label = 'bad'
             for f in featurenames:
                 v = params.get(f)
@@ -217,7 +240,7 @@ if __name__ == '__main__':
     #                    help='The minimum number of instances labeled with "best"')
     parser.add_argument('-n', '--name', default='solvers',
                         help='Prefix for output file names', type=str)
-    parser.add_argument('-r', '--fairtol', default=65,
+    parser.add_argument('-r', '--fairtol', default=0,
                         help='The tolerance for assigning "fair" to a time, e.g.,'+\
                               'if 40 is specified, then all times greater than the "best"'+\
                               'criterion but within 40%% of the minimum'+\
@@ -232,13 +255,18 @@ if __name__ == '__main__':
                         'features.', action='store_true')
 
     args = parser.parse_args()
+    
+    
 
     fdirname = args.fdir
     pdirname = args.pdir
     trilinosfeaturepath = args.tpath
     #minbest = int(args.minbest)
     besttol = args.besttol / 100.0
-    fairtol = args.fairtol / 100.0
+    if args.fairtol > 0:
+        fairtol = args.fairtol / 100.0
+        nclasses = 3
+    else: fairtol = 0
     includetimes = args.times
     usesolvers = args.solvers
     outfile = args.name
@@ -272,6 +300,8 @@ if __name__ == '__main__':
     arff, csv = convertToARFF(features,perfdata,besttol,fairtol,includetimes,usesolvers)
     buf += arff
     csvbuf += csv
-    writeToFile(buf, outfile+'_%d' % (besttol*100))
-    writeToFile(csvbuf, outfile+'_%d' % (besttol*100), suffix='.csv')
+    basefilename = outfile+'_%d' % (args.besttol)
+    if fairtol > 0: basefilename += '_%d' % args.fairtol
+    writeToFile(buf, basefilename)
+    writeToFile(csvbuf, basefilename, suffix='.csv')
     pass

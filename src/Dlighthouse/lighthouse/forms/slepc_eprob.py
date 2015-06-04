@@ -1,14 +1,12 @@
 from django import forms
 from lighthouse.models.slepc_eprob import *
 
-
-
 ###
 # For Guided Search
 ###
 
 class problemClassForm(forms.Form):
-	problemClassPEP = forms.ChoiceField(label='Which of the following do you wish to compute?',
+	problemClass = forms.ChoiceField(label='Which of the following do you wish to compute?',
 		widget=forms.RadioSelect(),
 		choices=PROBLEMCLASS_CHOICE
 		)
