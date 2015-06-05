@@ -1,8 +1,8 @@
+
 <script type="text/javascript">
 	/* Loading themeTester */
 	//var loadingEl = dojo.byId("loaderInner");
 	//loadingEl.innerHTML += "<br />* Menu widgets - dijit.Menu";
-
 	dojo.ready( function() {
 	
 		
@@ -42,7 +42,6 @@
 		/* create dnd Sources */
 		var source1 = new dojo.dnd.Source("routineListNode");
 		var source2 = new dojo.dnd.Target("selectedListNode");		
-
 		/* update Django session for selected routines through javascript*/
 		dojo.connect( source1, "onDndDrop", 
 			function(source, nodes, copy, target){
@@ -51,7 +50,6 @@
 				if (dojo.cookie("nameList") != null){
 					cookieToArray = dojo.cookie("nameList").split(',');
 				}
-
 				for( i=0; i < nodes.length; i++){
 					item = this.getItem(nodes[i].id);
 					liId = nodes[i].id;
@@ -59,10 +57,8 @@
 					
 					var detail = dojo.attr(dojo.byId(liId), "detail")
 					var routineName = detail.split("_")[0];
-
 					allRoutines_session.push(routineName);
 					
-
 					//alert(detail);
 					
 					
@@ -80,20 +76,15 @@
 						    console.log("error");
 						    }
 					});
-
-
 				}
-
 			}
 		);
 	});
 	
 	
-
 /*--------------------------------------------------------------------------------- */	
 /* ------------------------------ For Guided Search ------------------------------- */
 /*--------------------------------------------------------------------------------- */
-
 /* Ask for confirmation when user clicks on Restart Search button */
 	function show_confirm(link_q1){
 	var answer = confirm("Are you sure you want to start over the search?")
@@ -101,8 +92,6 @@
 			window.location = link_q1;
 		}	
 	}
-
-
 	
 	// Functions for faster tooltips for submit and clear buttons
 	function showTooltip(id, text, color){		
@@ -126,7 +115,6 @@ function getDateTime(){
 		var dateTime = newDate.today() + newDate.timeNow(); 
 		return dateTime;
 	}
-
 	function getCheckedRoutines(){
         var checked_list = [];
         dojo.query('[name=routines]').forEach(function(n){
@@ -138,7 +126,6 @@ function getDateTime(){
         }); 
         return checked_list;
     }
-
     function generateSlepCCode(){ 
     	var checked_list = [];
         var time = getDateTime();
@@ -147,11 +134,9 @@ function getDateTime(){
         if (checked_list.length == 0)
             alert('No boxes were checked!');
     	else
-			window.location = '/slepc_eprob/generateCode/';
-
+			window.location = '/slepc_eprob/guided/eps/generateCode';
         
     }  
-
     //*** for move up and down ***//
 	// Called when user clicks on the name of the routine in the selected routines area --> change color
 	function selectRoutine(selectedRoutine, id){
@@ -162,7 +147,6 @@ function getDateTime(){
 					document.getElementById("tb_"+selectedRoutine).style.background = "";				
 			}
 		}
-
 		var elem = document.getElementById("tb_"+id);
 		
 		// If the routine background was grey (i.e. it was selected)
@@ -177,16 +161,13 @@ function getDateTime(){
 			return id;
 		}
 	}
-
 	function moveup(id, routines){
 		if(id == "") return routines;
-
 		// Get the html element for the selected routine
 		var thisRoutine = document.getElementById("sel_ajax_"+id);
 		var prev_routine = "";
 		var prev_routine_index = -1;
 		var this_routine_index = -1;
-
 		// Find the index of this routine in the "routines" array, also save the index of the previous routine
 		for(var i = 0; i < routines.length; i++){
 			if(routines[i] == id.toLowerCase()){
@@ -207,17 +188,14 @@ function getDateTime(){
 			if (prevRoutine == null){
 				prevRoutine = document.getElementById("sel_"+prev_routine);
 			}			
-
 			// Swap the html contents of the routines
 			var temp = thisRoutine.innerHTML;	
 			thisRoutine.innerHTML = prevRoutine.innerHTML;
 			prevRoutine.innerHTML = temp;
-
 			// Swap their ids
 			temp = thisRoutine.id;
 			thisRoutine.id = prevRoutine.id;
 			prevRoutine.id = temp;
-
 			// Swap the routines in the "routines" array
 			temp = routines[this_routine_index];
 			routines[this_routine_index] = routines[prev_routine_index];
@@ -226,19 +204,15 @@ function getDateTime(){
 		
 		return routines;
 	}
-
-
 	
 	// Swaps the selected routine with the routine right below it (if there's any)
 	function movedown(id, routines){
 		if(id == "") return routines;
-
 		// Get the html element for the selected routine
 		var thisRoutine = document.getElementById("sel_ajax_"+id);
 		var next_routine = "";
 		var this_routine_index = -1;
 		var next_routine_index = -1;
-
 		// Find the index of this routine in the "routines" array, also save the index of the next routine
 		for(var i = 0; i < routines.length; i++){
 			if(routines[i] == id.toLowerCase()){
@@ -255,7 +229,6 @@ function getDateTime(){
 		
 		// If there is a routine below the selected routine
 		if(next_routine != ""){
-
 			// Get the html element of the next routine
 			var nextRoutine = document.getElementById("sel_ajax_"+next_routine);
 			if (nextRoutine == null){
@@ -266,27 +239,21 @@ function getDateTime(){
 			var temp = thisRoutine.innerHTML;	
 			thisRoutine.innerHTML = nextRoutine.innerHTML;
 			nextRoutine.innerHTML = temp;
-
 			// Swap their ids
 			temp = thisRoutine.id;
 			thisRoutine.id = nextRoutine.id;
 			nextRoutine.id = temp;
-
 			// Swap the routines in the "routines" array
 			temp = routines[this_routine_index];
 			routines[this_routine_index] = routines[next_routine_index];
 			routines[next_routine_index] = temp;
 		}		
-
 		return routines;
 	}
-
-
 	//remove routine
 	function removeRoutine(id, allRoutines_session){
 		var routine = id.split("_").pop().toLowerCase();
 		var i = allRoutines_session.indexOf(routine);
-
 		allRoutines_session.splice(i, 1);
 		
 		//Remove checked routine from the session
@@ -324,20 +291,16 @@ function getDateTime(){
 		uncheckedRoutines.length = 0;
 		allRoutines_session.length = 0;			
 	}
-
 /*--------------------------------------------------------------------------------- */	
 	/* ----------------------------- For Code Template Area --------------------------- */
 	/*--------------------------------------------------------------------------------- */
-
 	// Clear code template area and remove template file from server
         function clearCodeTemplateArea(){
                 dojo.byId("code_template_output").innerHTML = "";    
         }
-
         function clearScriptTemplateArea(){
                 dojo.byId("script_template_output").innerHTML = "";    
         }
-
         // Check if there's any code template, allow download if template is not empty
         function downloadCodeTemplate(time){
                 var content = dojo.byId("code_template_output").innerHTML;
@@ -346,7 +309,6 @@ function getDateTime(){
                 else
                         alert("No template code was generated!");
         }
-
         function downloadScriptTemplate(time){
                 var content = dojo.byId("script_template_output").innerHTML;
                 if(content.length > 0 && time != '')                    
@@ -354,5 +316,4 @@ function getDateTime(){
                 else
                         alert("No template code was generated!");
         }
-
 </script>

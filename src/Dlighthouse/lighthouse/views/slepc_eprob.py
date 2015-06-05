@@ -8,19 +8,9 @@ from lighthouse.forms.slepc_eprob import *
 from lighthouse.models.slepc_eprob import *
 
 def slepc_eprob(request):
-	try:
-		request.session['selectedRoutines']
-		request.session['scriptOutput']
-		request.session['userScript']	
-	except (NameError,KeyError):
-		request.session['selectedRoutines'] = []
-		request.session['scriptOutput'] = ""
-		request.session['userScript'] = ""
+
 	context = {
 		'form' : problemClassForm(),
-		'selectedRoutines': request.session['selectedRoutines'], 
-  		'scriptCode': request.session['userScript'], 
-  		'scriptOutput': request.session['scriptOutput'],
 	}
 
 	return render_to_response(
@@ -29,54 +19,33 @@ def slepc_eprob(request):
 	)
 
 
-def guidedSearch_problem(request):
+def guidedSearch_class(request):
 	form_pClass = problemClassForm(request.POST or None)
-	request.session['Question_problem'] = []
-	request.session['queries'] = []
-
-	try:
-		request.session['selectedRoutines']
-		request.session['scriptOutput']
-		request.session['userScript']
-	except (NameError,KeyError):
-		request.session['selectedRoutines'] = []
-		request.session['scriptOutput'] = ""
-		request.session['userScript'] = ""
 
 	if form_pClass.is_valid():
-    	    selected = form_pClass.cleaned_data['problemClass']
-    
-	if form_pClass.is_valid() and selected == u'eps':
-		form = SlepcGuidedForm()
-		#action = '/lighthouse/slepc_eprob/guided/eps'
+		selected = form_pClass.cleaned_data['problemClass']
+
+		if selected == u'eps':
+			form = SlepcGuidedForm()
+			request.session['Question_Class'] = u'Linear Eigenvalue Problem (Ax=\u03bbx, Ax=\u03bbBx)'
+			action = '/slepc_eprob/guided/eps'
+
+		elif selected == u'pep':
+			form = problemTypeFormPEP()
+			request.session['Question_Class'] = u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]'
+			action = '/slepc_eprob/guided/pep'
 
 		context = {
-			'query_prob': request.session['Question_problem'],
+			'query_class': request.session['Question_Class'],
 			'form' : form,
-			#'Action' : action,
-			'selectedRoutines': request.session['selectedRoutines'], 
-	  		'scriptCode': request.session['userScript'], 
+			'Action' : action,
 		}
 
 		return render_to_response(
-			'lighthouse/slepc_eprob/problem.html',
-			context_instance=RequestContext(request,context)
+		'lighthouse/slepc_eprob/problem.html',
+		context_instance=RequestContext(request,context)
 		)
-	else:
-			form = problemClassForm()
-			context = {
-				'query_prob': request.session['Question_problem'],
-				'form' : form,
-				#'Action' : action,
-				'selectedRoutines': request.session['selectedRoutines'], 
-		  		'scriptCode': request.session['userScript'], 
-			}
 
-			return render_to_response(
-				'lighthouse/slepc_eprob/index.html',
-				context_instance=RequestContext(request,context)
-			)
-   
 def slepc_eprob_eps(request):
 
     if request.method == 'POST':
@@ -99,6 +68,7 @@ def slepc_eprob_eps(request):
     request.session['selectedRoutines'] = []
     #remove later
     context = {
+    	'query_class': request.session['Question_Class'],
         'form'     : request.session['form'],
         'results'  : request.session['results'],
         #'message'  : request.session['message'],
@@ -109,6 +79,60 @@ def slepc_eprob_eps(request):
             'lighthouse/slepc_eprob/problem.html', 
         context_instance=RequestContext(request,context)
     )
+def slepc_eprob_pep(request):
+    if request.method == 'POST':
+        form_pep = problemTypeFormPEP(request.POST)
+        data = []
+        message = form_pep.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_pep.is_valid():
+            data = form_pep.cleaned_data
+            message = form_pep.cleaned_data
+            data = data['problemTypePEP']
+
+            if data == u'general':
+            	request.session['Question_Type'] = u'General Problem'
+
+            elif data == u'hermitian':
+            	request.session['Question_Type'] = u'Hermitian (Symmetric) Problem'
+
+            elif data == u'gyroscopic':
+            	request.session['Question_Type'] = u'Gyroscopic Problem'
+
+            elif data == u'hyperbolic':
+            	request.session['Question_Type'] = u'Hyperbolic Problem'
+
+            elif data == u'overdamped':
+            	request.session['Question_Type'] = u'Overdamped Problem'
+
+
+        	
+        request.session['form'] = polynomialDegreeFormPEP()
+        request.session['results'] = []
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = problemTypeFormPEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+    	'query_class': request.session['Question_Class'],
+    	'query_type' : request.session['Question_Type'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+
+    return render_to_response(
+            'lighthouse/slepc_eprob/type.html', 
+        	context_instance=RequestContext(request,context)
+    	)
+		
+
 
 @csrf_exempt
 def update_slepc_session(request):
@@ -119,6 +143,7 @@ def update_slepc_session(request):
             "routine": request.POST.get('routineName'),
         }]
 
+        request.session['method'] = request.POST.get('routineName')
         if selectedRoutineList[0] not in request.session['selectedRoutines']:
             request.session['selectedRoutines'] = request.session['selectedRoutines'] + selectedRoutineList
 
@@ -137,6 +162,7 @@ def generateTemplate(request):
     code = getCode();
     
     context = {
+    		'query_class': request.session['Question_Class'],
             'form': request.session['form'],
             'results'  : request.session['results'],
             'selectedRoutines':request.session['selectedRoutines'],
@@ -178,7 +204,7 @@ def remove_session(request):
         mode = [{'routine': request.POST.get('routine'),}]
         routineName = mode[0]['routine'][0:]
         for i, item in enumerate(request.session['selectedRoutines']):
-            if item.get('routineName') == routineName and item.get('thePrecision') == rouitnePrecision:
+            if item.get('routineName') == routineName:
                 del request.session['selectedRoutines'][i]
                 
         ### important: mark the session as modified for it to save      
