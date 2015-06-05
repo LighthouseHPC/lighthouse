@@ -26,7 +26,8 @@ class problemTypeFormPEP(forms.Form):
 		choices=PEP_PROBLEM_TYPE
 		)
 
-class miscPEP(forms.Form):
+class miscFormPEP(forms.Form):
+	complex = forms.ChoiceField( choices=EIGEN_YESNO_CHOICES, label='Is your matrix complex?', widget=forms.RadioSelect(attrs={'onclick': "",'id':"complexid"}),required=False)
 	size = forms.IntegerField(label='Enter approximate size of the matrix.',required=False)
 	numEigenvalues = forms.IntegerField(label='How many eigenvalues do you want?',required=False)
 	spectrum = forms.ChoiceField( choices=SPECTRUM_CHOICES, label='Select the desired portion of spectrum', widget=forms.RadioSelect(attrs={'onclick': "",'id':"spectrumid"}),required=True)

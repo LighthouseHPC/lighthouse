@@ -105,10 +105,10 @@ def slepc_eprob_pep(request):
             elif data == u'overdamped':
             	request.session['Question_Type'] = u'Overdamped Problem'
 
-
         	
         request.session['form'] = polynomialDegreeFormPEP()
         request.session['results'] = []
+        action = '/slepc_eprob/guided/pep/degree'
 
     
     else:
@@ -123,6 +123,7 @@ def slepc_eprob_pep(request):
     	'query_type' : request.session['Question_Type'],
         'form'     : request.session['form'],
         'results'  : request.session['results'],
+        'Action' : action,
         #'message'  : request.session['message'],
         'selectedRoutines':request.session['selectedRoutines'] 
     }
@@ -132,7 +133,87 @@ def slepc_eprob_pep(request):
         	context_instance=RequestContext(request,context)
     	)
 		
+def slepc_eprob_degree_pep(request):
 
+    if request.method == 'POST':
+        form_eps_degree = polynomialDegreeFormPEP(request.POST)
+        data = []
+        message = form_eps_degree.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_eps_degree.is_valid():
+            data = form_eps_degree.cleaned_data
+            message = form_eps_degree.cleaned_data
+            data = data['polynomialDegreePEP']
+            if data == u'a':
+                request.session['Question_Degree'] = u'Non-Quadratic'
+
+            elif data == u'q':
+                request.session['Question_Degree'] = u'Quadratic'
+
+        request.session['form'] = miscFormPEP()
+        request.session['results'] = []
+        action = '/slepc_eprob/guided/pep/misc'
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = polynomialDegreeFormPEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+    	'query_class': request.session['Question_Class'],
+    	'query_type' : request.session['Question_Type'],
+    	'query_degree' : request.session['Question_Degree'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        'Action' : action,
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+
+    return render_to_response(
+            'lighthouse/slepc_eprob/degree.html', 
+        context_instance=RequestContext(request,context)
+    )
+
+def slepc_eprob_misc_pep(request):
+
+    if request.method == 'POST':
+        form_eps_misc = miscFormPEP(request.POST)
+        data = []
+        message = form_eps_misc.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_eps_misc.is_valid():
+            data = form_eps_misc.cleaned_data
+            message = form_eps_misc.cleaned_data
+
+        request.session['form'] = form_eps_misc
+        request.session['results'] = []
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = miscFormPEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+    	'query_class': request.session['Question_Class'],
+    	'query_type' : request.session['Question_Type'],
+    	'query_degree' : request.session['Question_Degree'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+
+    return render_to_response(
+            'lighthouse/slepc_eprob/degree.html', 
+        context_instance=RequestContext(request,context)
+    )
 
 @csrf_exempt
 def update_slepc_session(request):
