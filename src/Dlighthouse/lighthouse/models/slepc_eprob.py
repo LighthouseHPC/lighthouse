@@ -6,8 +6,8 @@ PROBLEMCLASS_CHOICE = {
 	(u'eps',		u'Linear Eigenvalue Problem (Ax=\u03bbx, Ax=\u03bbBx)'),
 	(u'pep',		u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]'),
 	(u'nep',		u'Nonlinear Eigenvalue Problem (T(\u03bb)x=0)'),
-	(u'svd',		u'Singular Value Decomposition (Av=\u03c3u)'),
-	(u'mfn',		u'Matrix Function (y=f(A)v)'),
+	#(u'svd',		u'Singular Value Decomposition (Av=\u03c3u)'),
+	#(u'mfn',		u'Matrix Function (y=f(A)v)'),
 }
 
 TYPE_CHOICES = (
@@ -72,6 +72,11 @@ PEP_PROBLEM_TYPE = {
 	(u'gyroscopic',				u'Gyroscopic Problem'),
 	(u'hyperbolic',				u'Hyperbolic Problem'),
 	(u'overdamped',				u'Overdamped Problem'),
+}
+
+NEP_DEFINITION = {
+	(u'callbacks',		u'With callbacks functions for T(\u03bb) and T\'(\u03bb)'),
+	(u'split',			u'In split form (T(\u03bb) = \u03a3A\u1d62f\u1d62(\u03a3) and T\'(\u03bb) = \u03a3A\u1d62f\'\u1d62(\u03a3))'),
 }
 
 """ for routine information  """
