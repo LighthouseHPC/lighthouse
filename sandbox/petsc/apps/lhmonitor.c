@@ -45,6 +45,7 @@ PetscErrorCode LHKSPMonitor(KSP ksp, PetscInt its, PetscScalar norm, void*  ctx)
 		ierr = PetscViewerDestroy(&view); CHKERRQ(ierr);
 		(monP->matrixCount)++;
 		monP->lastSNESit = monP->currentSNESit;
+		PetscPrintf(PETSC_COMM_WORLD, "Wrote matrix %s\n", fname);
 	}
 	//KSPView(ksp,PETSC_VIEWER_STDOUT_WORLD);
 	//VecView(x,monP->viewer);
