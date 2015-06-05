@@ -83,7 +83,7 @@ typedef struct {
 PetscErrorCode FormFunctionLocal(DMDALocalInfo*,Field**,Field**,void*);
 
 typedef struct {
-  PassiveReal lidvelocity,prandtl,grashof;  /* physical parameters */
+  PetscScalar lidvelocity,prandtl,grashof;  /* physical parameters */
   PetscBool   draw_contours;                /* flag - 1 indicates drawing contours */
 } AppCtx;
 
@@ -156,8 +156,13 @@ int main(int argc,char **argv)
 
   /*  Set user-defined monitoring routine for first linear system.*/
   ierr = SNESGetKSP(snes,&ksp);
+
+  PetscBool flg;
   PetscOptionsGetBool(NULL,"-lh_ksp_monitor",&flg,NULL);
-  if (flg) {KSPMonitorSet(ksp,LHKSPMonitor,NULL,0);}
+  sprintf(monP.matrixName,"ex19_l-%g_p-%g_g-%g", (double)user.lidvelocity, (double)user.prandtl, (double)user.grashof);
+  LHMonitorInit(&monP);
+
+  if (flg) {KSPMonitorSet(ksp,LHKSPMonitor,&monP,0);}
 
 
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
