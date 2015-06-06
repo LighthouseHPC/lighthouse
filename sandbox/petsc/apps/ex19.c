@@ -159,7 +159,7 @@ int main(int argc,char **argv)
 
   PetscBool flg;
   PetscOptionsGetBool(NULL,"-lh_ksp_monitor",&flg,NULL);
-  sprintf(monP.matrixName,"ex19_l-%g_p-%g_g-%g", (double)user.lidvelocity, (double)user.prandtl, (double)user.grashof);
+  sprintf(monP.matrixName,"ex19_s-%d_l-%g_p-%g_g-%g", mx, (double)user.lidvelocity, (double)user.prandtl, (double)user.grashof);
   LHMonitorInit(&monP);
 
   if (flg) {KSPMonitorSet(ksp,LHKSPMonitor,&monP,0);}
