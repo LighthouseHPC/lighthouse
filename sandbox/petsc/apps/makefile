@@ -2,7 +2,7 @@
 # nonlinear equations.
 
 #CPPFLAGS	 = -I/PETSc3/geodynamics/PetscSimulationsViewers/src
-CFLAGS           = -I${PETSC_DIR}/../include -I${PETSC_DIR}/include
+CFLAGS           = -I${PETSC_DIR}/include -I${PETSC_DIR}/${PETSC_ARCH}/include
 FFLAGS		 =
 CPPFLAGS         =
 FPPFLAGS         =
@@ -22,8 +22,8 @@ EXAMPLESMATLAB   = ex5m.m  ex61genm.m ex61m.m
 DIRS		 = ex10d network
 CLINKER	= ${SL_LINKER}
 
-include ${PETSC_DIR}/conf/petscvariables
-include ${PETSC_DIR}/conf/petscrules
+include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscvariables
+include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscrules
 
 chkopts:
 	date

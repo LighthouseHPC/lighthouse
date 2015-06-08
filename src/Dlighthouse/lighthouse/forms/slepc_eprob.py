@@ -26,7 +26,8 @@ class problemTypeFormPEP(forms.Form):
 		choices=PEP_PROBLEM_TYPE
 		)
 
-class miscPEP(forms.Form):
+class miscFormPEP(forms.Form):
+	complex = forms.ChoiceField( choices=EIGEN_YESNO_CHOICES, label='Is your matrix complex?', widget=forms.RadioSelect(attrs={'onclick': "",'id':"complexid"}),required=False)
 	size = forms.IntegerField(label='Enter approximate size of the matrix.',required=False)
 	numEigenvalues = forms.IntegerField(label='How many eigenvalues do you want?',required=False)
 	spectrum = forms.ChoiceField( choices=SPECTRUM_CHOICES, label='Select the desired portion of spectrum', widget=forms.RadioSelect(attrs={'onclick': "",'id':"spectrumid"}),required=True)
@@ -36,6 +37,40 @@ class miscPEP(forms.Form):
 
 #
 # End of PEP
+###
+
+###
+# For NEP
+#
+class definitionFormNEP(forms.Form):
+	definitionNEP = forms.ChoiceField(label='How is your problem defined?',
+		widget=forms.RadioSelect(),
+		choices=NEP_DEFINITION
+		)
+class numEPFormNEP(forms.Form):
+	numEPNEP = forms.ChoiceField(label = 'Would you like to compute more than one eigenpair?',
+		widget=forms.RadioSelect(),
+		choices=EIGEN_YESNO_CHOICES
+		)
+class miscForm1NEP(forms.Form):
+	complex = forms.ChoiceField( choices=EIGEN_YESNO_CHOICES, label='Is your matrix complex?', widget=forms.RadioSelect(attrs={'onclick': "",'id':"complexid"}),required=False)
+	size = forms.IntegerField(label='Enter approximate size of the matrix.',required=False)
+	spectrum = forms.ChoiceField( choices=SPECTRUM_CHOICES, label='Select the desired portion of spectrum', widget=forms.RadioSelect(attrs={'onclick': "",'id':"spectrumid"}),required=True)
+	tolerance = forms.DecimalField(label='Enter the desired tolerance for the residual.',required=False, initial=0.0001)
+	processors = forms.IntegerField(label='Enter the number of processors available to run the solver.', min_value=1,required=False)
+	precision = forms.ChoiceField( choices=PRECISION_CHOICES, label='Select your precision preference.', widget=forms.RadioSelect(attrs={'onclick': "",'id':"precisionid"}),required=False)
+
+class miscForm2NEP(forms.Form):
+	complex = forms.ChoiceField( choices=EIGEN_YESNO_CHOICES, label='Is your matrix complex?', widget=forms.RadioSelect(attrs={'onclick': "",'id':"complexid"}),required=False)
+	size = forms.IntegerField(label='Enter approximate size of the matrix.',required=False)
+	numEigenvalues = forms.IntegerField(label='How many eigenvalues do you want?',required=False)
+	spectrum = forms.ChoiceField( choices=SPECTRUM_CHOICES, label='Select the desired portion of spectrum', widget=forms.RadioSelect(attrs={'onclick': "",'id':"spectrumid"}),required=True)
+	tolerance = forms.DecimalField(label='Enter the desired tolerance for the residual.',required=False, initial=0.0001)
+	processors = forms.IntegerField(label='Enter the number of processors available to run the solver.', min_value=1,required=False)
+	precision = forms.ChoiceField( choices=PRECISION_CHOICES, label='Select your precision preference.', widget=forms.RadioSelect(attrs={'onclick': "",'id':"precisionid"}),required=False)
+
+#
+# End of NEP
 ###
 
 ###

@@ -1,0 +1,144 @@
+{% extends "dojango/base_slepc.html" %}
+
+
+{% block dojango_content_guidedSearch %}
+<div id="title-div">
+	<table id="icon-table">
+		<tr>
+			<td id="icon-cell">
+				<img src="{{ MEDIA_URL }}Images/guidedSearch.png" width="32" height="32"/>
+			</td>		
+			<td id="title-cell">
+				SLEPc Sparse Eigensolvers Guided Search 	
+			</td>
+		</tr>
+	</table>	
+</div>
+
+<!-- Question 1, 2, and 3 answered -->
+<tr>
+  <th>
+    <label for="id_question_prob">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b>  Which of the following do you wish to compute?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_class|safe }}
+  </li>
+</ul>
+</tr>
+
+<tr>
+  <th>
+    <label for="id_question_prob">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b>  What type of problem do you have?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_type|safe }}
+  </li>
+</ul>
+</tr>
+
+<tr>
+  <th>
+    <label for="id_question_prob">
+      <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+      <b>  What is the degree of your polynomial?</b>
+    </label>
+  </th>
+<ul style="margin-left: 0; padding-left: 20px;">
+  <li style="list-style-type: none; padding-left:-10px;">
+    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="8" height="8"/> 
+    {{ query_degree|safe }}
+  </li>
+</ul>
+</tr>
+
+<form id="main_op"  action="{{ Action }}" name="main_op" method="post">
+	{% csrf_token %}
+	{% for field in form %}
+	<div id="questions-slepc">
+
+		<table id="question">
+
+		<tr>
+			<td>			
+		        <img src="{{ MEDIA_URL }}Images/arrow.png" width="8" height="8"/>
+				<b>{{ field.label }}</b>			
+			</td>
+		</tr>
+
+		</table>
+		{% for option in field %}
+		<table id="option">
+		
+		<tr>				
+			<td>				
+				{{ option }}
+			</td>			
+		</tr>
+
+		</table>
+
+		{% endfor %}
+		<br>	
+	</div>
+	{% endfor %}
+
+
+	<div id="button-div">
+	    <table style="width:100%; margin: 0px auto;">
+		<tr style="width:100%;">
+			<td style="text-align:left;">
+				<button type="button" name="clear" id="clearButton" class="myButton" title="Clear Search" 
+					onmouseover="showTooltip('tooltip', 'Clear Search','#cc0000');" 
+					onmouseout="showTooltip('tooltip','');" 
+					onclick="show_confirm('/slepc_eprob/')">
+				    <img src="{{ MEDIA_URL }}Images/clear.png" width="16" height="16"/>
+				</button>			
+			</td>			
+			<td style="text-align:center;">
+				<div id="tooltip"></div>
+			</td>
+			<td style="text-align:right;">
+				<button type="submit" name="Submit" id="submitButton" class="myButton" title="Submit Answer" 
+					onmouseover="showTooltip('tooltip', 'Submit', '#009900');" 
+					onmouseout="showTooltip('tooltip','');">
+				    <img src="{{ MEDIA_URL }}Images/dialog-ok-4.png" width="16" height="16"/>
+				</button >
+			</td>
+		</tr>
+    	</table>
+	</div>
+</form>
+{% endblock %}
+
+<!-- ########### Simple search result: ###########-->
+{% block dojango_content_guided_result %}
+{% include "lighthouse/slepc_eprob/guidedResult.html" %}
+{% endblock %}
+
+<!-- ########### Selected routines: ###########-->
+{% block dojango_content_selected_routines %}
+{% include "lighthouse/slepc_eprob/selectedRoutines.html" %}
+{% endblock %}
+
+{% block dojango_content_workarea %}
+{% include "lighthouse/slepc_eprob/selectedRoutines.html" %}
+{% endblock %}
+
+<!-- ########### Code Template: ###########-->
+{% block dojango_content_code %}
+{% include "lighthouse/slepc_eprob/codeTemplate.html" %}
+{% endblock %}
+
+{% block dojango_content_script %}
+{% include "lighthouse/slepc_eprob/scriptTemplate.html" %}
+{% endblock %}

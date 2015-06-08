@@ -11,9 +11,15 @@
 PetscErrorCode LHMonitor(SNES,PetscInt,PetscReal,void*);
 PetscErrorCode LHKSPMonitor(KSP,PetscInt,PetscReal,void*);
 
+#define MAX_NUM_MATRICES 10
+
 typedef struct {
     int currentSNESit;
-
+    int lastSNESit;
+    int matrixCount;
+    char matrixName[50];
 } MonitorCtx;
+
+PetscErrorCode LHMonitorInit(MonitorCtx *monP);
 
 #endif /* LHMONITOR_H_ */
