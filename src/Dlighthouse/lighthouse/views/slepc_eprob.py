@@ -34,8 +34,8 @@ def guidedSearch_class(request):
 			action = '/slepc_eprob/guided/eps'
 
 		elif selected == u'pep':
-			form = problemTypeFormPEP()
-			request.session['Question_Class'] = u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]'
+			form = polynomialDegreeFormPEP()
+			request.session['Question_Class'] = u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+...+\u03bb\u207fA\u2099)x=0]'
 			action = '/slepc_eprob/guided/pep'
 
 		elif selected == u'nep':
@@ -87,7 +87,55 @@ def slepc_eprob_eps(request):
             'lighthouse/slepc_eprob/problem.html', 
         context_instance=RequestContext(request,context)
     )
+
+
 def slepc_eprob_pep(request):
+
+    if request.method == 'POST':
+        form_eps_degree = polynomialDegreeFormPEP(request.POST)
+        data = []
+        message = form_eps_degree.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_eps_degree.is_valid():
+            data = form_eps_degree.cleaned_data
+            message = form_eps_degree.cleaned_data
+            data = data['polynomialDegreePEP']
+            if data == u'a':
+                request.session['Question_Degree'] = u'Non-Quadratic'
+                action = '/slepc_eprob/guided/pep/misc'
+                request.session['form'] = miscFormPEP()
+
+            elif data == u'q':
+                request.session['Question_Degree'] = u'Quadratic'
+                action = '/slepc_eprob/guided/pep/type'
+                request.session['form'] = problemTypeFormPEP()
+
+        request.session['results'] = []
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = polynomialDegreeFormPEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+        'query_class': request.session['Question_Class'],
+        'query_type' : request.session['Question_Degree'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        'Action' : action,
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+
+    return render_to_response(
+            'lighthouse/slepc_eprob/type.html', 
+        context_instance=RequestContext(request,context)
+    )
+
+def slepc_eprob_type_pep(request):
     if request.method == 'POST':
         form_pep = problemTypeFormPEP(request.POST)
         data = []
@@ -99,24 +147,24 @@ def slepc_eprob_pep(request):
             data = data['problemTypePEP']
 
             if data == u'general':
-            	request.session['Question_Type'] = u'General Problem'
+                request.session['Question_Type'] = u'General Problem'
 
             elif data == u'hermitian':
-            	request.session['Question_Type'] = u'Hermitian (Symmetric) Problem'
+                request.session['Question_Type'] = u'Hermitian (Symmetric) Problem'
 
             elif data == u'gyroscopic':
-            	request.session['Question_Type'] = u'Gyroscopic Problem'
+                request.session['Question_Type'] = u'Gyroscopic Problem'
 
             elif data == u'hyperbolic':
-            	request.session['Question_Type'] = u'Hyperbolic Problem'
+                request.session['Question_Type'] = u'Hyperbolic Problem'
 
             elif data == u'overdamped':
-            	request.session['Question_Type'] = u'Overdamped Problem'
+                request.session['Question_Type'] = u'Overdamped Problem'
 
-        	
-        request.session['form'] = polynomialDegreeFormPEP()
+            
+        request.session['form'] = miscFormPEP()
         request.session['results'] = []
-        action = '/slepc_eprob/guided/pep/degree'
+        action = '/slepc_eprob/guided/pep/misc'
 
     
     else:
@@ -127,19 +175,61 @@ def slepc_eprob_pep(request):
     request.session['selectedRoutines'] = []
     #remove later
     context = {
-    	'query_class': request.session['Question_Class'],
-    	'query_type' : request.session['Question_Type'],
+        'query_class': request.session['Question_Class'],
+        'query_degree' : request.session['Question_Type'],
+        'query_type' : request.session['Question_Degree'],
         'form'     : request.session['form'],
         'results'  : request.session['results'],
         'Action' : action,
         #'message'  : request.session['message'],
         'selectedRoutines':request.session['selectedRoutines'] 
     }
-
     return render_to_response(
-            'lighthouse/slepc_eprob/type.html', 
-        	context_instance=RequestContext(request,context)
-    	)
+            'lighthouse/slepc_eprob/degree.html', 
+            context_instance=RequestContext(request,context)
+        )
+
+def slepc_eprob_misc_pep(request):
+
+    if request.method == 'POST':
+        form_pep_misc = miscFormPEP(request.POST)
+        data = []
+        message = form_pep_misc.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_pep_misc.is_valid():
+            data = form_pep_misc.cleaned_data
+            message = form_pep_misc.cleaned_data
+
+        request.session['form'] = form_pep_misc
+        request.session['results'] = []
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = miscFormPEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+        'query_class': request.session['Question_Class'],
+        'query_degree' : request.session['Question_Type'],
+        'query_type' : request.session['Question_Degree'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+    if results.session['Question_Degree'] == u'q':
+        return render_to_response(
+                'lighthouse/slepc_eprob/degree.html', 
+            context_instance=RequestContext(request,context)
+        )
+    else:
+        return render_to_response(
+                'lighthouse/slepc_eprob/type.html',
+                context_instance=RequestContext(request,context)
+        )
 
 def slepc_eprob_nep(request):
 	if request.method == 'POST':
@@ -186,87 +276,7 @@ def slepc_eprob_nep(request):
 	)
 
 		
-def slepc_eprob_degree_pep(request):
 
-    if request.method == 'POST':
-        form_eps_degree = polynomialDegreeFormPEP(request.POST)
-        data = []
-        message = form_eps_degree.errors#request.POST#
-        #type = request.POST.get('type')
-        if form_eps_degree.is_valid():
-            data = form_eps_degree.cleaned_data
-            message = form_eps_degree.cleaned_data
-            data = data['polynomialDegreePEP']
-            if data == u'a':
-                request.session['Question_Degree'] = u'Non-Quadratic'
-
-            elif data == u'q':
-                request.session['Question_Degree'] = u'Quadratic'
-
-        request.session['form'] = miscFormPEP()
-        request.session['results'] = []
-        action = '/slepc_eprob/guided/pep/misc'
-
-    
-    else:
-        message = 'Checking'
-        request.session['form'] = polynomialDegreeFormPEP()
-        request.session['results'] = []
-
-    request.session['selectedRoutines'] = []
-    #remove later
-    context = {
-    	'query_class': request.session['Question_Class'],
-    	'query_type' : request.session['Question_Type'],
-    	'query_degree' : request.session['Question_Degree'],
-        'form'     : request.session['form'],
-        'results'  : request.session['results'],
-        'Action' : action,
-        #'message'  : request.session['message'],
-        'selectedRoutines':request.session['selectedRoutines'] 
-    }
-
-    return render_to_response(
-            'lighthouse/slepc_eprob/degree.html', 
-        context_instance=RequestContext(request,context)
-    )
-
-def slepc_eprob_misc_pep(request):
-
-    if request.method == 'POST':
-        form_eps_misc = miscFormPEP(request.POST)
-        data = []
-        message = form_eps_misc.errors#request.POST#
-        #type = request.POST.get('type')
-        if form_eps_misc.is_valid():
-            data = form_eps_misc.cleaned_data
-            message = form_eps_misc.cleaned_data
-
-        request.session['form'] = form_eps_misc
-        request.session['results'] = []
-
-    
-    else:
-        message = 'Checking'
-        request.session['form'] = miscFormPEP()
-        request.session['results'] = []
-
-    request.session['selectedRoutines'] = []
-    #remove later
-    context = {
-    	'query_class': request.session['Question_Class'],
-    	'query_type' : request.session['Question_Type'],
-    	'query_degree' : request.session['Question_Degree'],
-        'form'     : request.session['form'],
-        'results'  : request.session['results'],
-        #'message'  : request.session['message'],
-        'selectedRoutines':request.session['selectedRoutines'] 
-    }
-
-    return render_to_response(
-            'lighthouse/slepc_eprob/degree.html', 
-        context_instance=RequestContext(request,context)
-    )
 
 def slepc_eprob_numep_nep(request):
 
@@ -280,14 +290,15 @@ def slepc_eprob_numep_nep(request):
             message = form_nep_numep.cleaned_data
             data = data['numEPNEP']
             if data == u'y':
-            	request.session['form'] = miscForm2NEP
-            	request.session['Question_Degree'] = u'yes'
+                request.session['form'] = miscForm2NEP
+                request.session['Question_Degree'] = u'yes'
+                action = '/slepc_eprob/guided/nep/misc1'
             elif data == u'n':
-        		request.session['form'] = miscForm1NEP
-        		request.session['Question_Degree'] = u'no'
+                request.session['form'] = miscForm1NEP
+                request.session['Question_Degree'] = u'no'
+                action = '/slepc_eprob/guided/nep/misc2'
 
         request.session['results'] = []
-        action = '/slepc_eprob_misc_nep'
 
     
     else:
@@ -301,6 +312,81 @@ def slepc_eprob_numep_nep(request):
     	'query_class': request.session['Question_Class'],
     	'query_type' : request.session['Question_Type'],
     	'query_degree' : request.session['Question_Degree'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        'Action'    : action,
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+
+    return render_to_response(
+            'lighthouse/slepc_eprob/degree.html', 
+        context_instance=RequestContext(request,context)
+    )
+
+def slepc_eprob_misc_nep1(request):
+
+    if request.method == 'POST':
+        form_nep_misc = miscForm1NEP(request.POST)
+        data = []
+        message = form_nep_misc.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_nep_misc.is_valid():
+            data = form_nep_misc.cleaned_data
+            message = form_nep_misc.cleaned_data
+
+        request.session['form'] = form_nep_misc
+        request.session['results'] = []
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = miscForm1NEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+        'query_class': request.session['Question_Class'],
+        'query_type' : request.session['Question_Type'],
+        'query_degree' : request.session['Question_Degree'],
+        'form'     : request.session['form'],
+        'results'  : request.session['results'],
+        #'message'  : request.session['message'],
+        'selectedRoutines':request.session['selectedRoutines'] 
+    }
+
+    return render_to_response(
+            'lighthouse/slepc_eprob/degree.html', 
+        context_instance=RequestContext(request,context)
+    )
+
+def slepc_eprob_misc_nep2(request):
+
+    if request.method == 'POST':
+        form_nep_misc = miscForm2NEP(request.POST)
+        data = []
+        message = form_nep_misc.errors#request.POST#
+        #type = request.POST.get('type')
+        if form_nep_misc.is_valid():
+            data = form_nep_misc.cleaned_data
+            message = form_nep_misc.cleaned_data
+
+        request.session['form'] = form_nep_misc
+        request.session['results'] = []
+
+    
+    else:
+        message = 'Checking'
+        request.session['form'] = miscForm2NEP()
+        request.session['results'] = []
+
+    request.session['selectedRoutines'] = []
+    #remove later
+    context = {
+        'query_class': request.session['Question_Class'],
+        'query_type' : request.session['Question_Type'],
+        'query_degree' : request.session['Question_Degree'],
         'form'     : request.session['form'],
         'results'  : request.session['results'],
         #'message'  : request.session['message'],
