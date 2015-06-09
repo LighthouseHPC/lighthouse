@@ -37,7 +37,7 @@ def readFeatures(dirname='anamod_features'):
                 tmpdictstr += " '" + nameval[0] + "' : " + nameval[1] + ','
         tmpdictstr.rstrip(',')
         tmpdictstr += '}'
-        features[matrixname] = eval(tmpdictstr.replace('****',"'?'").replace('-nan',"'?'"))
+        features[matrixname] = eval(tmpdictstr.replace('****',"'?'").replace('-nan',"'?'").replace('inf',"float('Inf')"))
        
     #print features 
     return features
