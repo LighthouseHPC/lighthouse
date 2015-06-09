@@ -4,7 +4,7 @@ from django.db.models import Q
 
 PROBLEMCLASS_CHOICE = {
 	(u'eps',		u'Linear Eigenvalue Problem (Ax=\u03bbx, Ax=\u03bbBx)'),
-	(u'pep',		u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+\u03bb\u207fA\u2099)x=0]'),
+	(u'pep',		u'Polynomial Eigenvalue Problem [(A\u2080+\u03bbA\u2081+...+\u03bb\u207fA\u2099)x=0]'),
 	(u'nep',		u'Nonlinear Eigenvalue Problem (T(\u03bb)x=0)'),
 	#(u'svd',		u'Singular Value Decomposition (Av=\u03c3u)'),
 	#(u'mfn',		u'Matrix Function (y=f(A)v)'),
@@ -72,6 +72,7 @@ PEP_PROBLEM_TYPE = {
 	(u'gyroscopic',				u'Gyroscopic Problem'),
 	(u'hyperbolic',				u'Hyperbolic Problem'),
 	(u'overdamped',				u'Overdamped Problem'),
+	(u'pdamped',				u'Proportionally Damped Problem'),
 }
 
 NEP_DEFINITION = {
