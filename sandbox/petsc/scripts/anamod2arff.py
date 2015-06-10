@@ -78,7 +78,7 @@ def readFeaturesTrilinos(path='tpetra_properties/12procs_results.csv'):
             i += 1
     return features
 
-def readPerfData(features,dirname):
+def readPerfData(features,dirname,threshold):
     '''Log format excerpt (solver, preconditioner, convergence reason, time, tolerance)
     Beginning of each matrixname.solverhash.log file
     Hash: 43373443
@@ -128,7 +128,6 @@ def readPerfData(features,dirname):
             perf[matrixname]['mintime'] = dtime
 
     count1, count2 = 0, 0
-    threshold = 100
     perf2 = dict()
     if True:
         for matrixname, solverdata in perf.items():
@@ -249,8 +248,10 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--times', default=False, 
                         help='If True, include the minimum, maximum, and average times in the'+\
                               'features.', action='store_true')
-
-    parser.add_argument('-s', '--solvers', default=False,
+    parser.add_argument('-m', '--minpoints', default=100,
+                        help='Minimum number of points per matrix (the data with fewer is discarded).',
+                        type=int)
+    parser.add_argument('-s', '--solvers', default=True,
                         help='If True, include the solver ID in the '+\
                         'features.', action='store_true')
 
@@ -292,7 +293,7 @@ if __name__ == '__main__':
         "You must specify either the -f or -T command-line options."
         parser.help()
 
-    perfdata = readPerfData(features,pdirname)
+    perfdata = readPerfData(features,pdirname,args.minpoints)
     buf = '%% Generated on %s, ' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
