@@ -4,7 +4,7 @@ Created on Feb 17, 2015
 
 @author: norris
 '''
-import re, sys, os, argparse, glob, time, datetime, socket
+import re, sys, os, argparse, glob, time, datetime, socket, random
 from solvers import *
 
 def readFeatures(dirname='anamod_features'):
@@ -89,6 +89,10 @@ def readPerfData(features,dirname,threshold):
     files = glob.glob(dirname+'/*.log')
     perf = dict()
     solversamples = dict()
+    
+    # Temporary fix to make sure this solver does not dominate the dataset
+    fixme = '89565283'
+    specialsolver = {}
     for logfile in files:
         print "Processing", logfile
         statinfo = os.stat(logfile)
@@ -115,6 +119,7 @@ def readPerfData(features,dirname,threshold):
         #print data
         #solvername = solvers[hashid]
         perf[matrixname][solverID] = data
+        if solverID == fixme: specialsolver[matrixname] = data
         timestr =  perf[matrixname][solverID][3].strip()
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
@@ -127,12 +132,27 @@ def readPerfData(features,dirname,threshold):
             #print matrixname, solverID, features[matrixname]
             perf[matrixname]['mintime'] = dtime
 
+    avgsamplespersolver = 0
+    maxsamples = 0
+    for t in solversamples.values():
+        avgsamplespersolver += t
+        if t > maxsamples: maxsamples = t
+    avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
+    specialsolver_matrices = random.sample(specialsolver.keys(),maxsamples)
+    
+
     count1, count2 = 0, 0
+    fixmeused = []
     perf2 = dict()
     if True:
         for matrixname, solverdata in perf.items():
             perf2[matrixname] = dict()
             for solverID, data in solverdata.items():
+                if solverID in solversamples.keys() and solverID == fixme:
+                    if matrixname in specialsolver_matrices:
+                        perf2[matrixname][solverID] = data
+                        count1 += 1
+                    continue
                 if solverID in solversamples.keys() and solversamples[solverID] > threshold:
                     perf2[matrixname][solverID] = data
                     count1 += 1
@@ -211,7 +231,7 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,includetimes=False,usesolv
             csvbuf += label + '\n'
         
         buf = buf.replace('inf',str(sys.float_info.max))
-        csvbuf = csvbuf.replace('inf',str(sys.float_info.max))
+        csvbuf = csvbuf.replace('inf',str(sys.float_info.max)).replace('?','0').replace('good','1').replace('bad','-1')
         
     return buf, csvbuf
 
