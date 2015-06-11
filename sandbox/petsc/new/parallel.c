@@ -3,6 +3,10 @@ static char help[] = "Solves a linear system in parallel with various combinatio
 
 #include <petscksp.h>
 #include <petsctime.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <libgen.h>
+
 
 extern PetscErrorCode MyKSPMonitor(KSP,PetscInt,PetscReal,void*);
 
@@ -12,10 +16,13 @@ int main(int argc,char **args)
 {
   Mat            A;        /* linear system matrix */
   PetscErrorCode ierr;
-  PetscMPIInt    rank;
+  PetscMPIInt    rank=0;
   PetscBool      flg;
   PetscViewer    fd;         /* viewer */
-  char           file[PETSC_MAX_PATH_LEN], tmpstr[PETSC_MAX_PATH_LEN], dirname[PETSC_MAX_PATH_LEN], matrix[PETSC_MAX_PATH_LEN];
+  PetscViewer    log;
+  char           file[PETSC_MAX_PATH_LEN];
+  char           logfile[PETSC_MAX_PATH_LEN];
+  char           lockfile[PETSC_MAX_PATH_LEN], tmpstr[PETSC_MAX_PATH_LEN], dirname[PETSC_MAX_PATH_LEN], matrix[PETSC_MAX_PATH_LEN];
   char           hash[20];
 
   PetscLogDouble solveTime,endTime,startTime;
@@ -27,6 +34,21 @@ int main(int argc,char **args)
   PetscInt	 m, n, i;
   FILE           *lock;
 
+/*
+  if (rank == 0) {
+    printf("Command line arguments:\n");
+    for (i=0; i < argc; i++) 
+      printf("%d: %s\n", i, args[i]);
+  }
+  // Save args
+  int argcount = argc;
+  char **argv = (char**) malloc (argc*sizeof(char*));
+  for (i=0; i < argc; i++) {
+    argv[i] = (char*) malloc(strlen(args[i]) + 1);
+    strcpy(argv[i],args[i]);
+  }
+  MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+*/
   PetscInitialize(&argc,&args,(char *)0,help);
   ierr = MPI_Comm_rank(PETSC_COMM_WORLD,&rank);CHKERRQ(ierr);
 
@@ -37,7 +59,7 @@ int main(int argc,char **args)
 
   ierr = PetscOptionsGetString(PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
-    SETERRQ(PETSC_COMM_WORLD,1,"Must indicate matrix file with the -f option");
+    PetscPrintf(PETSC_COMM_WORLD,"Must indicate matrix file with the -f option");
   }
   /* Create lock file */
   if (rank == 0) {
@@ -47,23 +69,24 @@ int main(int argc,char **args)
     strncpy(dirname, tmpstr, i);
     dirname[i] = '\0';
     sprintf(lockfile,"%s/../timing/.%s.%s", dirname, basename(tmpstr), hash);
-    lock =  fopen(lockfile, O_RDWR|O_CREAT);
+    sprintf(logfile,"%s/../timing/%s.%s.log", dirname, basename(tmpstr), hash);
+    lock =  fopen(lockfile, "w");
+    fprintf(lock, "%s\n", file);
     fclose(lock);
   }
-
   /* Read file */
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   // Create matrix
   ierr = MatCreate(PETSC_COMM_WORLD,&A);CHKERRQ(ierr);
+  ierr = MatSetType(A,MATMPIAIJ); CHKERRQ(ierr);
   ierr = MatSetFromOptions(A);CHKERRQ(ierr);
   // Load matrix from file
   ierr = MatLoad(A,fd);CHKERRQ(ierr);
   ierr = PetscViewerDestroy(&fd);CHKERRQ(ierr);
   ierr = MatGetSize(A, &m, &n); CHKERRQ(ierr);
   // Assemble matrix
-  ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
-  ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
-
+  //ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
+  //ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
 
   // Create RHS vector
   ierr = VecCreate(PETSC_COMM_WORLD,&b);CHKERRQ(ierr);
@@ -93,8 +116,9 @@ int main(int argc,char **args)
   PCType pt;
   ierr = PCGetType(pc,&pt);
   // Print method info
-  ierr = PetscPrintf(PETSC_COMM_WORLD,"Hash: %s\n", hash);
-  ierr = PetscPrintf(PETSC_COMM_WORLD,"%s | %s",kt,pt);CHKERRQ(ierr);
+  ierr = PetscViewerASCIIOpen(PETSC_COMM_WORLD, logfile, &log); CHKERRQ(ierr);
+  ierr = PetscViewerASCIIPrintf(log, "Hash: %s\n", hash);
+  ierr = PetscViewerASCIIPrintf(log, "%s | %s",kt,pt);CHKERRQ(ierr);
   // Make sure the program doesn't crash 
   // while trying to solve the system
   PetscPushErrorHandler(PetscIgnoreErrorHandler,NULL);
@@ -115,14 +139,15 @@ int main(int argc,char **args)
     KSPConvergedReason reason;
     KSPGetConvergedReason(ksp,&reason);
     // Print convergence code, solve time, preconditioned norm, iterations
-    ierr = PetscPrintf(PETSC_COMM_WORLD," | %D | %e | %g | %D\n",reason,solveTime,norm,its);CHKERRQ(ierr);
-    ierr = KSPView(ksp,PETSC_VIEWER_STDOUT_WORLD);
-    ierr = PCView(pc,PETSC_VIEWER_STDOUT_WORLD);
-    ierr = PetscLogView(PETSC_VIEWER_STDOUT_WORLD);
+    ierr = PetscViewerASCIIPrintf(log, " | %D | %e | %g | %D\n",reason,solveTime,norm,its);CHKERRQ(ierr);
+    ierr = KSPView(ksp,log);
+    ierr = PCView(pc,log);
+    ierr = PetscLogView(log);
   }
   else{
-    if (rank == 0) remove(lockfile);
     // Disaster happened, bail out
+    if (rank == 0) remove(lockfile);
+    PetscFinalize();
     return 0;
   }
   // Again, destroy KSP and vector
