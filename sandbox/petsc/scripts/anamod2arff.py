@@ -4,7 +4,7 @@ Created on Feb 17, 2015
 
 @author: norris
 '''
-import re, sys, os, argparse, glob, time, datetime, socket
+import re, sys, os, argparse, glob, time, datetime, socket, random
 from solvers import *
 
 def readFeatures(dirname='anamod_features'):
@@ -78,7 +78,7 @@ def readFeaturesTrilinos(path='tpetra_properties/12procs_results.csv'):
             i += 1
     return features
 
-def readPerfData(features,dirname):
+def readPerfData(features,dirname,threshold):
     '''Log format excerpt (solver, preconditioner, convergence reason, time, tolerance)
     Beginning of each matrixname.solverhash.log file
     Hash: 43373443
@@ -89,6 +89,10 @@ def readPerfData(features,dirname):
     files = glob.glob(dirname+'/*.log')
     perf = dict()
     solversamples = dict()
+    
+    # Temporary fix to make sure this solver does not dominate the dataset
+    fixme = '89565283'
+    specialsolver = {}
     for logfile in files:
         print "Processing", logfile
         statinfo = os.stat(logfile)
@@ -115,6 +119,7 @@ def readPerfData(features,dirname):
         #print data
         #solvername = solvers[hashid]
         perf[matrixname][solverID] = data
+        if solverID == fixme: specialsolver[matrixname] = data
         timestr =  perf[matrixname][solverID][3].strip()
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
@@ -127,13 +132,27 @@ def readPerfData(features,dirname):
             #print matrixname, solverID, features[matrixname]
             perf[matrixname]['mintime'] = dtime
 
+    avgsamplespersolver = 0
+    maxsamples = 0
+    for t in solversamples.values():
+        avgsamplespersolver += t
+        if t > maxsamples: maxsamples = t
+    avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
+    specialsolver_matrices = random.sample(specialsolver.keys(),maxsamples)
+    
+
     count1, count2 = 0, 0
-    threshold = 100
+    fixmeused = []
     perf2 = dict()
     if True:
         for matrixname, solverdata in perf.items():
             perf2[matrixname] = dict()
             for solverID, data in solverdata.items():
+                if solverID in solversamples.keys() and solverID == fixme:
+                    if matrixname in specialsolver_matrices:
+                        perf2[matrixname][solverID] = data
+                        count1 += 1
+                    continue
                 if solverID in solversamples.keys() and solversamples[solverID] > threshold:
                     perf2[matrixname][solverID] = data
                     count1 += 1
@@ -212,7 +231,7 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,includetimes=False,usesolv
             csvbuf += label + '\n'
         
         buf = buf.replace('inf',str(sys.float_info.max))
-        csvbuf = csvbuf.replace('inf',str(sys.float_info.max))
+        csvbuf = csvbuf.replace('inf',str(sys.float_info.max)).replace('?','0').replace('good','1').replace('bad','-1')
         
     return buf, csvbuf
 
@@ -249,8 +268,10 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--times', default=False, 
                         help='If True, include the minimum, maximum, and average times in the'+\
                               'features.', action='store_true')
-
-    parser.add_argument('-s', '--solvers', default=False,
+    parser.add_argument('-m', '--minpoints', default=100,
+                        help='Minimum number of points per matrix (the data with fewer is discarded).',
+                        type=int)
+    parser.add_argument('-s', '--solvers', default=True,
                         help='If True, include the solver ID in the '+\
                         'features.', action='store_true')
 
@@ -292,7 +313,7 @@ if __name__ == '__main__':
         "You must specify either the -f or -T command-line options."
         parser.help()
 
-    perfdata = readPerfData(features,pdirname)
+    perfdata = readPerfData(features,pdirname,args.minpoints)
     buf = '%% Generated on %s, ' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
