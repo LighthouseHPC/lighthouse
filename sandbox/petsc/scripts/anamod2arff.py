@@ -34,7 +34,8 @@ def readFeatures(dirname='anamod_features'):
             if fl.startswith(' '):
                 nameval = fl.split(':')
                 nameval = [n.strip().replace('>','').replace('<','') for n in nameval]
-                tmpdictstr += " '" + nameval[0] + "' : " + nameval[1] + ','
+                val = nameval[1].split(',')[0]
+                tmpdictstr += " '" + nameval[0] + "' : " + val + ','
         tmpdictstr.rstrip(',')
         tmpdictstr += '}'
         features[matrixname] = eval(tmpdictstr.replace('****',"'?'").replace('-nan',"'?'").replace('inf',"float('Inf')"))
@@ -47,6 +48,7 @@ def readFeaturesTrilinos(path='tpetra_properties/12procs_results.csv'):
     lines = fd.readlines()
     fd.close()
     features = dict()
+
     # features dictionary is indexed by matrix name
     # each value is a dictionary with keys corresponding to feature name and
     # value corresponding to feature value
@@ -77,6 +79,47 @@ def readFeaturesTrilinos(path='tpetra_properties/12procs_results.csv'):
                 features[matrixname][featurenames[i]] = c.replace('unconverged','?').replace('-nan','?')
             i += 1
     return features
+
+def readPerfDataBelos(features,filename):
+    matrices = open(filename).readlines()
+    perf = dict()
+    solvers = dict()
+    missing = []
+    for matrixline in matrices:
+        # 1138_bus.mtx, Block CG, RELAXATION, unconverged, 1000, 0.035481
+        data = [x.strip() for x in matrixline.split(',')]
+        solverID = data[1]+ ',' + data[2]  # KSP, PC
+        convergence = data[3]
+        matrixname = data[0].split('.')[0]
+        
+        if not matrixname in features.keys():
+            if matrixname not in missing: missing.append(matrixname)
+            continue
+        if not features[matrixname]: continue
+
+        if matrixname not in perf.keys():
+            perf[matrixname] = {'mintime':sys.float_info.max}
+        perf[matrixname][solverID] = [data[1],data[2],data[3],data[-1]]
+        
+        if solverID not in solvers.keys():
+            solvers[solverID] = 0
+        solvers[solverID] += 1
+
+        time = data[-1]
+        if convergence.strip() == 'unconverged':
+            time = str(sys.float_info.max)
+        perf[matrixname][solverID][3] = time
+
+
+        dtime = float(time)
+        if dtime < perf[matrixname]['mintime']:
+            #print matrixname, solverID, features[matrixname]
+            perf[matrixname]['mintime'] = dtime
+
+    print "No features found for these matrices, their solver times have not been included: ", ','.join(missing)
+    return perf, solvers
+
+
 
 def readPerfData(features,dirname,threshold):
     '''Log format excerpt (solver, preconditioner, convergence reason, time, tolerance)
@@ -168,7 +211,8 @@ def readPerfData(features,dirname,threshold):
 '''
     @param lines list of lines (strings)
 '''
-def convertToARFF(features,perfdata,besttol,fairtol=0,includetimes=False,usesolvers=False):
+def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
+                  includetimes=False,usesolvers=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
     csvbuf = ''
@@ -186,7 +230,7 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,includetimes=False,usesolv
     if includetimes:
         buf += '@ATTRIBUTE TIME NUMERIC\n'
         csvbuf += ', time'
-    if usesolvers:
+    if usesolvers and not solvers:
         solvers = getsolvers()
         buf += '@ATTRIBUTE solver {%s}\n' % (','.join(solvers.keys()))
         csvbuf += ', solver'
@@ -200,7 +244,8 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,includetimes=False,usesolv
     #print featureslist
     
     #buf+=','.join(featurenames)+'\n'
-    solvers = getsolvers()
+
+    if not solvers: solvers = getsolvers()
     for matrixname in features.keys():
         #print matrixname, features[matrixname]
         if not perfdata.get(matrixname) or not features[matrixname]: continue
@@ -248,8 +293,10 @@ if __name__ == '__main__':
                         help="The directory name containing Anamod feature files", type=str)
     parser.add_argument('-T','--tpath',
                         help="The path to the TPetra feature CSV file", type=str)
-    parser.add_argument('-p','--pdir', default = 'timing',
+    parser.add_argument('-p','--pdir',
                         help="The directory name containing solver performance data (collection of matrixname.hash.log files", type=str)
+    parser.add_argument('-B','--belos',
+                        help="The CSV file containing Belos sovler timing results", type=str)
     parser.add_argument('-b', '--besttol', default=25,    # Bayes: 25 or less
                         help='The tolerance for assigning "best" to a time, e.g.,'+\
                               'if 20 is specified, then all times within 20%% of the minimum'+\
@@ -282,6 +329,7 @@ if __name__ == '__main__':
     fdirname = args.fdir
     pdirname = args.pdir
     trilinosfeaturepath = args.tpath
+    belosfile = args.belos
     #minbest = int(args.minbest)
     besttol = args.besttol / 100.0
     if args.fairtol > 0:
@@ -291,14 +339,15 @@ if __name__ == '__main__':
     includetimes = args.times
     usesolvers = args.solvers
     outfile = args.name
+    solvers = {}
 
     if (not fdirname or not os.path.exists(fdirname)) and \
         (not trilinosfeaturepath or not os.path.exists(trilinosfeaturepath)):
         print "Error: Please specify a valid directory containing Anamod feature files or the CSV file containing Trilinos (TPetra) features."
         parser.print_usage(sys.stderr)
         sys.exit(1)
-        
-    if not pdirname or not os.path.exists(pdirname): 
+    
+    if not ((pdirname and os.path.exists(pdirname)) or (belosfile and os.path.exists(belosfile))):
         print "Error: Please specify a valid directory containing solver performance data."
         parser.print_usage(sys.stderr)
         sys.exit(1)
@@ -313,12 +362,15 @@ if __name__ == '__main__':
         "You must specify either the -f or -T command-line options."
         parser.help()
 
-    perfdata = readPerfData(features,pdirname,args.minpoints)
+    if pdirname:
+        perfdata = readPerfData(features,pdirname,args.minpoints)
+    elif belosfile:
+        perfdata, solvers = readPerfDataBelos(features,belosfile)
     buf = '%% Generated on %s, ' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
     csvbuf = buf
-    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,includetimes,usesolvers)
+    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,includetimes,usesolvers)
     buf += arff
     csvbuf += csv
     basefilename = outfile+'_%d' % (args.besttol)

@@ -21,7 +21,7 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 def genhash(somestr):
   return  str(abs(hash(somestr.strip())) % (10 ** 8))
 
-def getsolvers():
+def getsolvers(which='petsc'):
   solveropts = {}
 	
   for solver in solvers:
