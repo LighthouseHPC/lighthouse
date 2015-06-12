@@ -86,9 +86,10 @@ def readPerfDataBelos(features,filename):
     solvers = dict()
     missing = []
     for matrixline in matrices:
+        # Log format, example line:
         # 1138_bus.mtx, Block CG, RELAXATION, unconverged, 1000, 0.035481
         data = [x.strip() for x in matrixline.split(',')]
-        solverID = data[1]+ ',' + data[2]  # KSP, PC
+        solverID = data[1]+ '*' + data[2]  # KSP, PC
         convergence = data[3]
         matrixname = data[0].split('.')[0]
         
@@ -232,7 +233,8 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
         csvbuf += ', time'
     if usesolvers and not solvers:
         solvers = getsolvers()
-        buf += '@ATTRIBUTE solver {%s}\n' % (','.join(solvers.keys()))
+    if usesolvers:
+        buf += '@ATTRIBUTE solver {%s}\n' % (','.join(['"'+x+'"' for x in solvers.keys()]))
         csvbuf += ', solver'
 
     if fairtol > 0:
@@ -270,8 +272,8 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
                 buf += str(dtime) + ','
                 csvbuf += str(dtime) + ','
             if usesolvers:
-                buf += str(solverID) + ','
-                csvbuf += str(solverID) + ','
+                buf += '"' + str(solverID) + '"' + ','
+                csvbuf += '"'+ str(solverID) + '"' + ','
             buf += label + '\n'
             csvbuf += label + '\n'
         
