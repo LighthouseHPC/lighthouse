@@ -9,6 +9,7 @@ int main(int argc, char *argv[]) {
 	std::string outputDir;
 	if (argv[1] == NULL) {
 		std::cout << "No input file was specified" << std::endl;
+		std::cout << "Usage: ./tpetra_solvers <.mtx file> [<output_dir>]" << std::endl;
 		return -1;
 	} 
 	if (argv[2] != NULL) {
@@ -28,6 +29,7 @@ int main(int argc, char *argv[]) {
   std::ostream& out = (myRank == 0) ? std::cout : blackhole;
   std::ofstream outputFile;
 
+	//  How to output results
   if (outputDir.empty()) {
   	std::cout << "No output directory was specified. Printing to screen" << std::endl;
 	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
@@ -37,6 +39,7 @@ int main(int argc, char *argv[]) {
 		unsigned found = filename.find_last_of("/\\");
 	  std::string outputFilename = outputDir + "/" + filename.substr(found+1)+".out";
 	  filename = filename.substr(found+1);
+		//std::cout << "outputFilename:" << outputFilename << std::endl;
 	  outputFile.open(outputFilename.c_str());
 	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
 	  outputFile << "Matrix: " << filename << std::endl;
