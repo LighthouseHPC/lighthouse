@@ -62,7 +62,6 @@ public class GoodSolvers {
 		for(int j=0; j < testData.numInstances();j++){  	
 			System.out.println(testData.instance(j));
             double prediction = bn.classifyInstance(testData.instance(j)); 
-			//double[] prediction = bn.distributionForInstance(testData.instance(j)); 
             double actual = testData.instance(j).classValue(); 
             System.out.println(prediction + "<=========>" + actual);
             if (prediction == 0.0){  // for good solvers
@@ -117,7 +116,6 @@ public class GoodSolvers {
 				testData.add(instance);
 				testData.instance(i).setValue(8, i);
 			}
-			 //testData.delete(0);
 			System.out.println("Instance -->"+ instance);
 		
 		} catch (IOException e) {
