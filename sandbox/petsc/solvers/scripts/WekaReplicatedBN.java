@@ -62,18 +62,13 @@ public class WekaReplicatedBN {
 		System.out.println("=== Summary ===");
 		System.out.println(validation.toSummaryString());
 		System.out.println(validation.toClassDetailsString());
-		//System.out.println("Check this : " + validation.pctCorrect());
-		//System.out.println("TPR -->" + validation.truePositiveRate(1)); //0 for good class, 1 for bad class
 		System.out.println("accuracy : "+validation.confusionMatrix()[0][0]/(validation.confusionMatrix()[0][0] + validation.confusionMatrix()[0][1]));
-		//System.out.println(validation.confusionMatrix()[0][0] + "\t" + validation.confusionMatrix()[0][1] + "\t" + validation.confusionMatrix()[1][0] + "\t" 
-		//		+ validation.confusionMatrix()[1][1] + "\t" );
 		System.out.println("=== My confusion matrix === " );
 		System.out.println("a"+ "\t" +"b" + "\t" +"<-- classified as ");
 		System.out.println(validation.confusionMatrix()[0][0] + "\t" +validation.confusionMatrix()[0][1] + "\t" + "|" + "a = good");
 		System.out.println(validation.confusionMatrix()[1][0] + "\t" +validation.confusionMatrix()[1][1] + "\t" + "|" + "b = bad");
 		
 
-		//FileOutputStream outputFile = new FileOutputStream("/Users/kanikas/Desktop/PETSc_ReducedSets/Output/BayesNetClassificationResult.txt");
 		PrintWriter outputFile = new PrintWriter("../Output/BayesNetClassificationResult.txt", "UTF-8");
 		outputFile.println("This file is wriiten by WekaReplicatedBN.java program");
 		outputFile.println(validation.toSummaryString());
