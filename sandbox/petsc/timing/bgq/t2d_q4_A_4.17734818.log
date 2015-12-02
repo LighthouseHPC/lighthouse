@@ -1,8 +1,8 @@
 Hash: 17734818
-chebyshev | bjacobi | 2 | 3.577666e+00 | 0.00324688 | 520
+chebyshev | bjacobi | 2 | 3.618287e+00 | 0.00305666 | 523
 KSP Object: 1 MPI processes
   type: chebyshev
-    Chebyshev: eigenvalue estimates:  min = 0.11497, max = 1.26467
+    Chebyshev: eigenvalue estimates:  min = 0.114949, max = 1.26444
     Chebyshev: estimated using:  [0 0.1; 0 1.1]
     KSP Object:    (est_)     1 MPI processes
       type: gmres
@@ -142,14 +142,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I7-J00 with 1 processor, by Unknown Sun May 24 18:26:31 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I7-J05 with 1 processor, by Unknown Mon Nov 23 09:25:27 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           4.188e+00      1.00000   4.188e+00
+Time (sec):           4.225e+00      1.00000   4.225e+00
 Objects:              3.700e+01      1.00000   3.700e+01
-Flops:                2.184e+08      1.00000   2.184e+08  2.184e+08
-Flops/sec:            5.216e+07      1.00000   5.216e+07  5.216e+07
+Flops:                2.196e+08      1.00000   2.196e+08  2.196e+08
+Flops/sec:            5.198e+07      1.00000   5.198e+07  5.198e+07
 Memory:               4.391e+06      1.00000              4.391e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -161,7 +161,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 4.1877e+00 100.0%  2.1843e+08 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 4.2254e+00 100.0%  2.1965e+08 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -215,9 +215,9 @@ Reports information only for process 0.
       Preconditioner     3              0            0     0
            Index Set     3              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.18938e-07
+Average time to get PetscTime(): 1.19688e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/t2d_q4_A_41.petsc
+-f /home/norris/UFloridaSparseMat/petsc/t2d_q4_A_44.petsc
 -hash 17734818
 -ksp_type chebyshev
 -matload_block_size 1

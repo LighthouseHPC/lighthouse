@@ -1,5 +1,5 @@
 Hash: 30870720
-gmres | asm | 2 | 6.655377e-02 | 8.78502e-14 | 1
+gmres | asm | 2 | 5.050307e-02 | 1.14008e-05 | 3
 KSP Object: 1 MPI processes
   type: gmres
     GMRES: restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
@@ -30,23 +30,23 @@ PC Object: 1 MPI processes
           Factored matrix follows:
             Mat Object:             1 MPI processes
               type: seqaij
-              rows=19779, cols=19779
+              rows=6316, cols=6316
               package used to perform factorization: petsc
-              total: nonzeros=674195, allocated nonzeros=674195
+              total: nonzeros=168658, allocated nonzeros=168658
               total number of mallocs used during MatSetValues calls =0
                 not using I-node routines
       linear system matrix = precond matrix:
       Mat Object:       1 MPI processes
         type: seqaij
-        rows=19779, cols=19779
-        total: nonzeros=674195, allocated nonzeros=674195
+        rows=6316, cols=6316
+        total: nonzeros=168658, allocated nonzeros=168658
         total number of mallocs used during MatSetValues calls =0
           not using I-node routines
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=19779, cols=19779
-    total: nonzeros=674195, allocated nonzeros=674195
+    rows=6316, cols=6316
+    total: nonzeros=168658, allocated nonzeros=168658
     total number of mallocs used during MatSetValues calls =0
       not using I-node routines
 PC Object: 1 MPI processes
@@ -71,23 +71,23 @@ PC Object: 1 MPI processes
           Factored matrix follows:
             Mat Object:             1 MPI processes
               type: seqaij
-              rows=19779, cols=19779
+              rows=6316, cols=6316
               package used to perform factorization: petsc
-              total: nonzeros=674195, allocated nonzeros=674195
+              total: nonzeros=168658, allocated nonzeros=168658
               total number of mallocs used during MatSetValues calls =0
                 not using I-node routines
       linear system matrix = precond matrix:
       Mat Object:       1 MPI processes
         type: seqaij
-        rows=19779, cols=19779
-        total: nonzeros=674195, allocated nonzeros=674195
+        rows=6316, cols=6316
+        total: nonzeros=168658, allocated nonzeros=168658
         total number of mallocs used during MatSetValues calls =0
           not using I-node routines
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=19779, cols=19779
-    total: nonzeros=674195, allocated nonzeros=674195
+    rows=6316, cols=6316
+    total: nonzeros=168658, allocated nonzeros=168658
     total number of mallocs used during MatSetValues calls =0
       not using I-node routines
 ************************************************************************************************************************
@@ -96,15 +96,15 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J03 with 1 processor, by Unknown Tue May 26 20:23:51 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I6-J01 with 1 processor, by Unknown Tue Nov 24 23:01:24 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           9.863e-01      1.00000   9.863e-01
-Objects:              2.800e+01      1.00000   2.800e+01
-Flops:                6.339e+06      1.00000   6.339e+06  6.339e+06
-Flops/sec:            6.427e+06      1.00000   6.427e+06  6.427e+06
-Memory:               2.763e+07      1.00000              2.763e+07
+Time (sec):           4.592e-01      1.00000   4.592e-01
+Objects:              3.800e+01      1.00000   3.800e+01
+Flops:                4.156e+06      1.00000   4.156e+06  4.156e+06
+Flops/sec:            9.051e+06      1.00000   9.051e+06  9.051e+06
+Memory:               7.695e+06      1.00000              7.695e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Reductions:       0.000e+00      0.00000
@@ -115,7 +115,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 9.8627e-01 100.0%  6.3387e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 4.5916e-01 100.0%  4.1561e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -164,15 +164,15 @@ Reports information only for process 0.
 
               Viewer     2              1          752     0
               Matrix     3              0            0     0
-              Vector    12              2       319472     0
+              Vector    22              2       104064     0
       Vector Scatter     1              0            0     0
        Krylov Solver     2              0            0     0
       Preconditioner     2              0            0     0
            Index Set     6              2         1568     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.19062e-07
+Average time to get PetscTime(): 1.19438e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/raefsky4.petsc
+-f /home/norris/UFloridaSparseMat/petsc/raefsky5.petsc
 -hash 30870720
 -ksp_type gmres
 -matload_block_size 1

@@ -1,8 +1,8 @@
 Hash: 85490470
-chebyshev | ilu | 2 | 1.937352e-01 | 0.000507567 | 21
+chebyshev | ilu | 2 | 3.509386e+00 | 0.000488575 | 318
 KSP Object: 1 MPI processes
   type: chebyshev
-    Chebyshev: eigenvalue estimates:  min = 0.262219, max = 2.8844
+    Chebyshev: eigenvalue estimates:  min = 0.0999339, max = 1.09927
     Chebyshev: estimated using:  [0 0.1; 0 1.1]
     KSP Object:    (est_)     1 MPI processes
       type: gmres
@@ -19,22 +19,22 @@ KSP Object: 1 MPI processes
         tolerance for zero pivot 2.22045e-14
         using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
         matrix ordering: natural
-        factor fill ratio given 1, needed 1.72442
+        factor fill ratio given 1, needed 3.54855
           Factored matrix follows:
             Mat Object:             1 MPI processes
               type: seqaij
-              rows=3402, cols=3402
+              rows=3242, cols=3242
               package used to perform factorization: petsc
-              total: nonzeros=237702, allocated nonzeros=237702
+              total: nonzeros=1.04425e+06, allocated nonzeros=1.04425e+06
               total number of mallocs used during MatSetValues calls =0
-                not using I-node routines
+                using I-node routines: found 979 nodes, limit used is 5
       linear system matrix = precond matrix:
       Mat Object:       1 MPI processes
         type: seqaij
-        rows=3402, cols=3402
-        total: nonzeros=137845, allocated nonzeros=137845
+        rows=3242, cols=3242
+        total: nonzeros=294276, allocated nonzeros=294276
         total number of mallocs used during MatSetValues calls =0
-          not using I-node routines
+          using I-node routines: found 979 nodes, limit used is 5
   maximum iterations=10000, initial guess is zero
   tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
   left preconditioning
@@ -46,22 +46,22 @@ PC Object: 1 MPI processes
     tolerance for zero pivot 2.22045e-14
     using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
     matrix ordering: natural
-    factor fill ratio given 1, needed 1.72442
+    factor fill ratio given 1, needed 3.54855
       Factored matrix follows:
         Mat Object:         1 MPI processes
           type: seqaij
-          rows=3402, cols=3402
+          rows=3242, cols=3242
           package used to perform factorization: petsc
-          total: nonzeros=237702, allocated nonzeros=237702
+          total: nonzeros=1.04425e+06, allocated nonzeros=1.04425e+06
           total number of mallocs used during MatSetValues calls =0
-            not using I-node routines
+            using I-node routines: found 979 nodes, limit used is 5
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3402, cols=3402
-    total: nonzeros=137845, allocated nonzeros=137845
+    rows=3242, cols=3242
+    total: nonzeros=294276, allocated nonzeros=294276
     total number of mallocs used during MatSetValues calls =0
-      not using I-node routines
+      using I-node routines: found 979 nodes, limit used is 5
 PC Object: 1 MPI processes
   type: ilu
     ILU: out-of-place factorization
@@ -69,37 +69,37 @@ PC Object: 1 MPI processes
     tolerance for zero pivot 2.22045e-14
     using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
     matrix ordering: natural
-    factor fill ratio given 1, needed 1.72442
+    factor fill ratio given 1, needed 3.54855
       Factored matrix follows:
         Mat Object:         1 MPI processes
           type: seqaij
-          rows=3402, cols=3402
+          rows=3242, cols=3242
           package used to perform factorization: petsc
-          total: nonzeros=237702, allocated nonzeros=237702
+          total: nonzeros=1.04425e+06, allocated nonzeros=1.04425e+06
           total number of mallocs used during MatSetValues calls =0
-            not using I-node routines
+            using I-node routines: found 979 nodes, limit used is 5
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3402, cols=3402
-    total: nonzeros=137845, allocated nonzeros=137845
+    rows=3242, cols=3242
+    total: nonzeros=294276, allocated nonzeros=294276
     total number of mallocs used during MatSetValues calls =0
-      not using I-node routines
+      using I-node routines: found 979 nodes, limit used is 5
 ************************************************************************************************************************
 ***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
 ************************************************************************************************************************
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J04 with 1 processor, by Unknown Fri Jun  5 13:33:43 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J03 with 1 processor, by Unknown Sat Nov 21 05:33:26 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           7.065e-01      1.00000   7.065e-01
-Objects:              3.300e+01      1.00000   3.300e+01
-Flops:                2.931e+07      1.00000   2.931e+07  2.931e+07
-Flops/sec:            4.148e+07      1.00000   4.148e+07  4.148e+07
-Memory:               5.368e+06      1.00000              5.368e+06
+Time (sec):           7.083e+00      1.00000   7.083e+00
+Objects:              3.500e+01      1.00000   3.500e+01
+Flops:                1.068e+09      1.00000   1.068e+09  1.068e+09
+Flops/sec:            1.507e+08      1.00000   1.507e+08  1.507e+08
+Memory:               2.496e+07      1.00000              2.496e+07
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Reductions:       0.000e+00      0.00000
@@ -110,7 +110,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 7.0649e-01 100.0%  2.9305e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 7.0826e+00 100.0%  1.0676e+09 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -159,14 +159,14 @@ Reports information only for process 0.
 
               Viewer     2              1          752     0
               Matrix     2              0            0     0
-              Vector    22              1        28720     0
+              Vector    22              1        27440     0
        Krylov Solver     2              0            0     0
       Preconditioner     2              0            0     0
-           Index Set     3              0            0     0
+           Index Set     5              2         5484     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.20062e-07
+Average time to get PetscTime(): 1.19938e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/raefsky6.petsc
+-f /home/norris/UFloridaSparseMat/petsc/raefsky1.petsc
 -hash 85490470
 -ksp_type chebyshev
 -matload_block_size 1

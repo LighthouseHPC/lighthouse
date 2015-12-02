@@ -1,5 +1,5 @@
 Hash: 68908713
-chebyshev | jacobi | -4 | 2.066667e+00 | 3.79192e+22 | 285
+chebyshev | jacobi | -4 | 2.070927e+00 | 3.79192e+22 | 285
 KSP Object: 1 MPI processes
   type: chebyshev
     Chebyshev: eigenvalue estimates:  min = 0.16189, max = 1.78079
@@ -49,14 +49,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J03 with 1 processor, by Unknown Sun May 24 07:48:02 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J00 with 1 processor, by Unknown Sat Nov 21 20:05:14 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           2.319e+00      1.00000   2.319e+00
+Time (sec):           2.317e+00      1.00000   2.317e+00
 Objects:              3.000e+01      1.00000   3.000e+01
 Flops:                1.918e+08      1.00000   1.918e+08  1.918e+08
-Flops/sec:            8.270e+07      1.00000   8.270e+07  8.270e+07
+Flops/sec:            8.276e+07      1.00000   8.276e+07  8.276e+07
 Memory:               5.938e+06      1.00000              5.938e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -68,7 +68,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 2.3188e+00 100.0%  1.9176e+08 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 2.3169e+00 100.0%  1.9176e+08 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -121,9 +121,9 @@ Reports information only for process 0.
        Krylov Solver     2              0            0     0
       Preconditioner     2              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.18938e-07
+Average time to get PetscTime(): 1.19688e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/cbuckle_G.petsc
+-f /home/norris/UFloridaSparseMat/petsc/cbuckle_G.petsc
 -hash 68908713
 -ksp_type chebyshev
 -matload_block_size 1

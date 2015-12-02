@@ -1,5 +1,5 @@
 Hash: 37052870
-lsqr | asm | -3 | 4.470176e+01 | 52.4031 | 10000
+lsqr | asm | -3 | 4.469606e+01 | 52.4031 | 10000
 KSP Object: 1 MPI processes
   type: lsqr
   maximum iterations=10000, initial guess is zero
@@ -94,11 +94,11 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J04 with 1 processor, by Unknown Thu Jun  4 08:06:38 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J03 with 1 processor, by Unknown Mon Jun 22 00:13:39 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           4.507e+01      1.00000   4.507e+01
+Time (sec):           4.508e+01      1.00000   4.508e+01
 Objects:              3.100e+01      1.00000   3.100e+01
 Flops:                1.523e+09      1.00000   1.523e+09  1.523e+09
 Flops/sec:            3.379e+07      1.00000   3.379e+07  3.379e+07
@@ -113,7 +113,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 4.5073e+01 100.0%  1.5231e+09 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 4.5082e+01 100.0%  1.5231e+09 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -168,9 +168,9 @@ Reports information only for process 0.
       Preconditioner     2              0            0     0
            Index Set     6              2         1568     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.20062e-07
+Average time to get PetscTime(): 1.19812e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/wang2.petsc
+-f /home/norris/UFloridaSparseMat/petsc/wang2.petsc
 -hash 37052870
 -ksp_type lsqr
 -matload_block_size 1

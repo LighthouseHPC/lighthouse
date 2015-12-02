@@ -1,5 +1,5 @@
 Hash: 18868443
-ibcgs | ilu | 2 | 5.626737e-02 | 1.15671e-14 | 1
+ibcgs | ilu | 2 | 6.085433e-02 | 1.15671e-14 | 1
 KSP Object: 1 MPI processes
   type: ibcgs
   maximum iterations=10000, initial guess is zero
@@ -58,14 +58,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J07 with 1 processor, by Unknown Fri Jun  5 17:37:29 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I7-J01 with 1 processor, by Unknown Tue Nov 17 14:23:13 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           3.480e-01      1.00000   3.480e-01
+Time (sec):           3.133e-01      1.00000   3.133e-01
 Objects:              2.200e+01      1.00000   2.200e+01
 Flops:                2.065e+06      1.00000   2.065e+06  2.065e+06
-Flops/sec:            5.933e+06      1.00000   5.933e+06  5.933e+06
+Flops/sec:            6.589e+06      1.00000   6.589e+06  6.589e+06
 Memory:               5.160e+06      1.00000              5.160e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -77,7 +77,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 3.4794e-01 100.0%  2.0646e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 3.1328e-01 100.0%  2.0646e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -131,9 +131,9 @@ Reports information only for process 0.
       Preconditioner     1              0            0     0
            Index Set     3              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.20062e-07
+Average time to get PetscTime(): 1.19937e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/rail_20209_E.petsc
+-f /home/norris/UFloridaSparseMat/petsc/rail_20209_E.petsc
 -hash 18868443
 -ksp_type ibcgs
 -matload_block_size 1

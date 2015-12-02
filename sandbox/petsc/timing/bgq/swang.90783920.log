@@ -1,5 +1,5 @@
 Hash: 90783920
-gmres | jacobi | 2 | 4.901712e-02 | 0.000323402 | 11
+gmres | jacobi | 2 | 6.158183e-02 | 0.000323402 | 11
 KSP Object: 1 MPI processes
   type: gmres
     GMRES: restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
@@ -32,14 +32,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I6-J00 with 1 processor, by Unknown Fri Jun  5 15:12:41 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J05 with 1 processor, by Unknown Fri Nov 27 04:05:52 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           1.477e-01      1.00000   1.477e-01
+Time (sec):           1.917e-01      1.00000   1.917e-01
 Objects:              2.500e+01      1.00000   2.500e+01
 Flops:                1.540e+06      1.00000   1.540e+06  1.540e+06
-Flops/sec:            1.042e+07      1.00000   1.042e+07  1.042e+07
+Flops/sec:            8.032e+06      1.00000   8.032e+06  8.032e+06
 Memory:               8.961e+05      1.00000              8.961e+05
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -51,7 +51,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 1.4764e-01 100.0%  1.5395e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 1.9163e-01 100.0%  1.5395e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -104,9 +104,9 @@ Reports information only for process 0.
        Krylov Solver     1              0            0     0
       Preconditioner     1              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.20063e-07
+Average time to get PetscTime(): 1.19687e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/swang1.petsc
+-f /home/norris/UFloridaSparseMat/petsc/swang1.petsc
 -hash 90783920
 -ksp_type gmres
 -matload_block_size 1

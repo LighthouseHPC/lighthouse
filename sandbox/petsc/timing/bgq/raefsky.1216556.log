@@ -1,5 +1,5 @@
 Hash: 1216556
-ibcgs | jacobi | 2 | 1.086087e+00 | 0.000534543 | 154
+ibcgs | jacobi | 2 | 7.970220e-02 | 0.00119076 | 7
 KSP Object: 1 MPI processes
   type: ibcgs
   maximum iterations=10000, initial guess is zero
@@ -11,34 +11,34 @@ PC Object: 1 MPI processes
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3242, cols=3242
-    total: nonzeros=294276, allocated nonzeros=294276
+    rows=6316, cols=6316
+    total: nonzeros=168658, allocated nonzeros=168658
     total number of mallocs used during MatSetValues calls =0
-      using I-node routines: found 979 nodes, limit used is 5
+      not using I-node routines
 PC Object: 1 MPI processes
   type: jacobi
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3242, cols=3242
-    total: nonzeros=294276, allocated nonzeros=294276
+    rows=6316, cols=6316
+    total: nonzeros=168658, allocated nonzeros=168658
     total number of mallocs used during MatSetValues calls =0
-      using I-node routines: found 979 nodes, limit used is 5
+      not using I-node routines
 ************************************************************************************************************************
 ***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
 ************************************************************************************************************************
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I6-J01 with 1 processor, by Unknown Tue May 26 06:46:36 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J05 with 1 processor, by Unknown Fri Nov 27 12:48:16 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           1.219e+00      1.00000   1.219e+00
+Time (sec):           2.145e-01      1.00000   2.145e-01
 Objects:              1.900e+01      1.00000   1.900e+01
-Flops:                1.985e+08      1.00000   1.985e+08  1.985e+08
-Flops/sec:            1.628e+08      1.00000   1.628e+08  1.628e+08
-Memory:               4.019e+06      1.00000              4.019e+06
+Flops:                6.881e+06      1.00000   6.881e+06  6.881e+06
+Flops/sec:            3.209e+07      1.00000   3.209e+07  3.209e+07
+Memory:               2.867e+06      1.00000              2.867e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Reductions:       0.000e+00      0.00000
@@ -49,7 +49,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 1.2187e+00 100.0%  1.9847e+08 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 2.1442e-01 100.0%  6.8814e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -98,13 +98,13 @@ Reports information only for process 0.
 
               Viewer     2              1          752     0
               Matrix     1              0            0     0
-              Vector    14              1        27440     0
+              Vector    14              1        52032     0
        Krylov Solver     1              0            0     0
       Preconditioner     1              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.19e-07
+Average time to get PetscTime(): 1.19688e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/raefsky1.petsc
+-f /home/norris/UFloridaSparseMat/petsc/raefsky5.petsc
 -hash 1216556
 -ksp_type ibcgs
 -matload_block_size 1

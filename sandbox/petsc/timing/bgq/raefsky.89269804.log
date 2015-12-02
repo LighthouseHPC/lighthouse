@@ -1,11 +1,11 @@
 Hash: 89269804
-lgmres | asm | 2 | 2.654960e-01 | 0.00041604 | 30
+lgmres | asm | 2 | 7.203857e-02 | 8.78502e-14 | 1
 KSP Object: 1 MPI processes
   type: lgmres
     GMRES: restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
     GMRES: happy breakdown tolerance 1e-30
     LGMRES: aug. dimension=2
-    LGMRES: number of matvecs=30
+    LGMRES: number of matvecs=1
   maximum iterations=10000, initial guess is zero
   tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
   left preconditioning
@@ -32,25 +32,25 @@ PC Object: 1 MPI processes
           Factored matrix follows:
             Mat Object:             1 MPI processes
               type: seqaij
-              rows=3242, cols=3242
+              rows=19779, cols=19779
               package used to perform factorization: petsc
-              total: nonzeros=294276, allocated nonzeros=294276
+              total: nonzeros=674195, allocated nonzeros=674195
               total number of mallocs used during MatSetValues calls =0
-                using I-node routines: found 979 nodes, limit used is 5
+                not using I-node routines
       linear system matrix = precond matrix:
       Mat Object:       1 MPI processes
         type: seqaij
-        rows=3242, cols=3242
-        total: nonzeros=294276, allocated nonzeros=294276
+        rows=19779, cols=19779
+        total: nonzeros=674195, allocated nonzeros=674195
         total number of mallocs used during MatSetValues calls =0
-          using I-node routines: found 979 nodes, limit used is 5
+          not using I-node routines
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3242, cols=3242
-    total: nonzeros=294276, allocated nonzeros=294276
+    rows=19779, cols=19779
+    total: nonzeros=674195, allocated nonzeros=674195
     total number of mallocs used during MatSetValues calls =0
-      using I-node routines: found 979 nodes, limit used is 5
+      not using I-node routines
 PC Object: 1 MPI processes
   type: asm
     Additive Schwarz: total subdomain blocks = 1, amount of overlap = 3
@@ -73,40 +73,40 @@ PC Object: 1 MPI processes
           Factored matrix follows:
             Mat Object:             1 MPI processes
               type: seqaij
-              rows=3242, cols=3242
+              rows=19779, cols=19779
               package used to perform factorization: petsc
-              total: nonzeros=294276, allocated nonzeros=294276
+              total: nonzeros=674195, allocated nonzeros=674195
               total number of mallocs used during MatSetValues calls =0
-                using I-node routines: found 979 nodes, limit used is 5
+                not using I-node routines
       linear system matrix = precond matrix:
       Mat Object:       1 MPI processes
         type: seqaij
-        rows=3242, cols=3242
-        total: nonzeros=294276, allocated nonzeros=294276
+        rows=19779, cols=19779
+        total: nonzeros=674195, allocated nonzeros=674195
         total number of mallocs used during MatSetValues calls =0
-          using I-node routines: found 979 nodes, limit used is 5
+          not using I-node routines
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3242, cols=3242
-    total: nonzeros=294276, allocated nonzeros=294276
+    rows=19779, cols=19779
+    total: nonzeros=674195, allocated nonzeros=674195
     total number of mallocs used during MatSetValues calls =0
-      using I-node routines: found 979 nodes, limit used is 5
+      not using I-node routines
 ************************************************************************************************************************
 ***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
 ************************************************************************************************************************
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J01 with 1 processor, by Unknown Thu Jun  4 05:47:42 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I4-J05 with 1 processor, by Unknown Fri Nov 27 09:49:36 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           8.222e-01      1.00000   8.222e-01
-Objects:              6.500e+01      1.00000   6.500e+01
-Flops:                5.761e+07      1.00000   5.761e+07  5.761e+07
-Flops/sec:            7.007e+07      1.00000   7.007e+07  7.007e+07
-Memory:               1.219e+07      1.00000              1.219e+07
+Time (sec):           9.311e-01      1.00000   9.311e-01
+Objects:              3.400e+01      1.00000   3.400e+01
+Flops:                6.339e+06      1.00000   6.339e+06  6.339e+06
+Flops/sec:            6.808e+06      1.00000   6.808e+06  6.808e+06
+Memory:               2.843e+07      1.00000              2.843e+07
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Reductions:       0.000e+00      0.00000
@@ -117,7 +117,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 8.2213e-01 100.0%  5.7614e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 9.3102e-01 100.0%  6.3387e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -166,15 +166,15 @@ Reports information only for process 0.
 
               Viewer     2              1          752     0
               Matrix     3              0            0     0
-              Vector    47              3        82320     0
+              Vector    18              3       479208     0
       Vector Scatter     1              0            0     0
        Krylov Solver     2              0            0     0
       Preconditioner     2              0            0     0
-           Index Set     8              4         7052     0
+           Index Set     6              2         1568     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.20063e-07
+Average time to get PetscTime(): 1.19688e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/raefsky1.petsc
+-f /home/norris/UFloridaSparseMat/petsc/raefsky4.petsc
 -hash 89269804
 -ksp_type lgmres
 -matload_block_size 1

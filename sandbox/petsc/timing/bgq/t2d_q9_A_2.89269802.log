@@ -1,11 +1,11 @@
 Hash: 89269802
-lgmres | asm | 2 | 4.065857e-01 | 0.00217506 | 40
+lgmres | asm | 2 | 4.142213e-01 | 0.00351824 | 41
 KSP Object: 1 MPI processes
   type: lgmres
     GMRES: restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
     GMRES: happy breakdown tolerance 1e-30
     LGMRES: aug. dimension=2
-    LGMRES: number of matvecs=40
+    LGMRES: number of matvecs=41
   maximum iterations=10000, initial guess is zero
   tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
   left preconditioning
@@ -98,14 +98,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J03 with 1 processor, by Unknown Thu May 28 21:56:51 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I6-J07 with 1 processor, by Unknown Tue Jun 23 13:07:30 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           8.580e-01      1.00000   8.580e-01
+Time (sec):           8.408e-01      1.00000   8.408e-01
 Objects:              6.300e+01      1.00000   6.300e+01
-Flops:                3.585e+07      1.00000   3.585e+07  3.585e+07
-Flops/sec:            4.178e+07      1.00000   4.178e+07  4.178e+07
+Flops:                3.674e+07      1.00000   3.674e+07  3.674e+07
+Flops/sec:            4.369e+07      1.00000   4.369e+07  4.369e+07
 Memory:               7.502e+06      1.00000              7.502e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -117,7 +117,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 8.5794e-01 100.0%  3.5851e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 8.4078e-01 100.0%  3.6738e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -172,9 +172,9 @@ Reports information only for process 0.
       Preconditioner     2              0            0     0
            Index Set     6              2         1568     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.18937e-07
+Average time to get PetscTime(): 1.19813e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/t2d_q9_A_24.petsc
+-f /home/norris/UFloridaSparseMat/petsc/t2d_q9_A_21.petsc
 -hash 89269802
 -ksp_type lgmres
 -matload_block_size 1

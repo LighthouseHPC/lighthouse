@@ -1,8 +1,8 @@
 Hash: 68908713
-chebyshev | jacobi | -4 | 6.682272e-02 | 1.00553e+09 | 8
+chebyshev | jacobi | -4 | 9.224651e-02 | 4.99636e+07 | 10
 KSP Object: 1 MPI processes
   type: chebyshev
-    Chebyshev: eigenvalue estimates:  min = 23.2054, max = 255.26
+    Chebyshev: eigenvalue estimates:  min = 83.7576, max = 921.333
     Chebyshev: estimated using:  [0 0.1; 0 1.1]
     KSP Object:    (est_)     1 MPI processes
       type: gmres
@@ -17,8 +17,8 @@ KSP Object: 1 MPI processes
       linear system matrix = precond matrix:
       Mat Object:       1 MPI processes
         type: seqaij
-        rows=3198, cols=3198
-        total: nonzeros=59920, allocated nonzeros=59920
+        rows=4134, cols=4134
+        total: nonzeros=98213, allocated nonzeros=98213
         total number of mallocs used during MatSetValues calls =0
           not using I-node routines
   maximum iterations=10000, initial guess is zero
@@ -30,8 +30,8 @@ PC Object: 1 MPI processes
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3198, cols=3198
-    total: nonzeros=59920, allocated nonzeros=59920
+    rows=4134, cols=4134
+    total: nonzeros=98213, allocated nonzeros=98213
     total number of mallocs used during MatSetValues calls =0
       not using I-node routines
 PC Object: 1 MPI processes
@@ -39,8 +39,8 @@ PC Object: 1 MPI processes
   linear system matrix = precond matrix:
   Mat Object:   1 MPI processes
     type: seqaij
-    rows=3198, cols=3198
-    total: nonzeros=59920, allocated nonzeros=59920
+    rows=4134, cols=4134
+    total: nonzeros=98213, allocated nonzeros=98213
     total number of mallocs used during MatSetValues calls =0
       not using I-node routines
 ************************************************************************************************************************
@@ -49,15 +49,15 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/gpfs/mira-fs0/projects/PEACEndStation/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J04 with 1 processor, by Unknown Fri Jun  5 11:59:31 2015
+/gpfs/mira-home/norris/lighthouse/sandbox/petsc/new/parallel-bgq on a arch-linux2-c-debug named Q04-I5-J04 with 1 processor, by Unknown Thu Nov 19 09:07:00 2015
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           2.069e-01      1.00000   2.069e-01
+Time (sec):           2.438e-01      1.00000   2.438e-01
 Objects:              3.000e+01      1.00000   3.000e+01
-Flops:                3.367e+06      1.00000   3.367e+06  3.367e+06
-Flops/sec:            1.628e+07      1.00000   1.628e+07  1.628e+07
-Memory:               1.466e+06      1.00000              1.466e+06
+Flops:                5.601e+06      1.00000   5.601e+06  5.601e+06
+Flops/sec:            2.298e+07      1.00000   2.298e+07  2.298e+07
+Memory:               2.105e+06      1.00000              2.105e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Reductions:       0.000e+00      0.00000
@@ -68,7 +68,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 2.0683e-01 100.0%  3.3674e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 2.4371e-01 100.0%  5.6007e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -117,13 +117,13 @@ Reports information only for process 0.
 
               Viewer     2              1          752     0
               Matrix     1              0            0     0
-              Vector    23              1        27088     0
+              Vector    23              1        34576     0
        Krylov Solver     2              0            0     0
       Preconditioner     2              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.20063e-07
+Average time to get PetscTime(): 1.19688e-07
 #PETSc Option Table entries:
--f /gpfs/mira-fs0/projects/PEACEndStation/norris/UFloridaSparseMat/petsc/rdist2.petsc
+-f /home/norris/UFloridaSparseMat/petsc/rdist1.petsc
 -hash 68908713
 -ksp_type chebyshev
 -matload_block_size 1
