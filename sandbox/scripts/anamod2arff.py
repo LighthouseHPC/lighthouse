@@ -148,9 +148,7 @@ def readPerfData(features,dirname,threshold):
     perf = dict()
     solversamples = dict()
     
-    # Temporary fix to make sure this solver does not dominate the dataset
-    #fixme = '89565283'
-    specialsolver = {}
+    
     count = 0
     for logfile in files:
         #logfile = dirname + '/' + logfile.strip()
@@ -212,7 +210,7 @@ def readPerfData(features,dirname,threshold):
           perf[matrixname][solverID] = data
         else: 
           continue
-        #if solverID == fixme: specialsolver[matrixname] = data
+
         timestr =  perf[matrixname][solverID][3].strip()
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
@@ -227,44 +225,18 @@ def readPerfData(features,dirname,threshold):
 
     avgsamplespersolver = 0
     maxsamples = 0
-    for t in solversamples.values():
+    minsamples=100000000
+    for s,t in solversamples.items():
         avgsamplespersolver += t
-        if t > maxsamples: maxsamples = t
+        if t > maxsamples:
+            maxsamples = t
+        if t < minsamples:
+            minsamples = t
+    
     avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
-    
-    #specialsolver_matrices = random.sample(specialsolver.keys(),
-    #                                       min(len(specialsolver.keys()),maxsamples))
-    specialsolver_matrices = specialsolver.keys()
-    
+    print "Average, min, max samples per solver: ", avgsamplespersolver, minsamples, maxsamples
 
-    count1, count2 = 0, 0
-    fixmeused = []
-    tmpsolvers = []
-    perf2 = dict()
-    if False:
-        for matrixname, solverdata in perf.items():
-            perf2[matrixname] = dict()
-            for solverID, data in solverdata.items():
-                if solverID in solversamples.keys(): #and solverID == fixme:
-                    if matrixname in specialsolver_matrices:
-                        perf2[matrixname][solverID] = data
-                        count1 += 1
-                        if not solverID in tmpsolvers: tmpsolvers.append(solverID)
-                    continue
-                if solverID in solversamples.keys() and solversamples[solverID] > threshold:
-                    perf2[matrixname][solverID] = data
-                    count1 += 1
-                    if not solverID in tmpsolvers: tmpsolvers.append(solverID)
-                elif solverID == 'mintime':
-                    perf2[matrixname][solverID] = data
-                else:
-                    count2 += 1
-    else:
-        perf2 = perf
-    print ">%d matrices, <=%d matrices" % (threshold,threshold), count1,\
-            count2
-    print "Number of solvers considered:", len(tmpsolvers)
-    return perf2
+    return perf
 
 '''
     @param lines list of lines (strings)
