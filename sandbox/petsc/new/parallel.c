@@ -78,7 +78,7 @@ int main(int argc,char **args)
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   // Create matrix
   ierr = MatCreate(PETSC_COMM_WORLD,&A);CHKERRQ(ierr);
-  ierr = MatSetType(A,MATMPIAIJ); CHKERRQ(ierr);
+  //ierr = MatSetType(A,MATMPIAIJ); CHKERRQ(ierr);
   ierr = MatSetFromOptions(A);CHKERRQ(ierr);
   // Load matrix from file
   ierr = MatLoad(A,fd);CHKERRQ(ierr);

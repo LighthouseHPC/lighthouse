@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 #KSP: fgmres, lgmres, gmres, bcgs, bicg, tfqmr, tcqmr, lsqr
 #ymmetric only: chebyshev, cg
 #arallel only: ibcgs
@@ -17,6 +19,11 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'bjacobi' : {},
 	'icc' : {'factor_levels':[0,1,2,3]}
     }
+
+# Default, comment out for general random sampling testing
+if len(sys.argv) > 1 and sys.argv[1] == 'default':
+  solvers = ['gmres']
+  pcs = {'ilu' : {'factor_levels':[0]}}
 
 def genhash(somestr):
   return  str(abs(hash(somestr.strip())) % (10 ** 8))
