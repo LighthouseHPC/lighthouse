@@ -21,7 +21,8 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
     }
 
 # Default, comment out for general random sampling testing
-if len(sys.argv) > 1 and sys.argv[1] == 'default':
+#if len(sys.argv) > 1 and sys.argv[1] == 'default':
+if False:
   solvers = ['gmres']
   pcs = {'ilu' : {'factor_levels':[0]}}
 

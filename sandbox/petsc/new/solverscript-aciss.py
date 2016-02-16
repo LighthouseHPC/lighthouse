@@ -2,10 +2,10 @@
 # This script requires all matrices to be in PETSc binary format in the petsc subdir
 
 import sys, os, glob, random
-from solvers import *
 import datetime,time
 
-petsc = False
+from solvers import *
+petsc = True
 if petsc:
   tmdir = 'timing-aciss'
   matrixsubdir = 'petsc'
