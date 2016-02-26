@@ -110,7 +110,7 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
                 Belos::ReturnType result = solver->solve();
                 timer.stop();
                 *fos <<  solverIter  << ", "  << precIter; // output solver/prec pair
-                if (result == result) {
+                if (result == Belos::Converged) {
                     *fos << ", converged, "; 
                 } else {
                     *fos << ", unconverged, ";
