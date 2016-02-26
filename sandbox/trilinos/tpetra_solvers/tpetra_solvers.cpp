@@ -25,21 +25,24 @@ int main(int argc, char *argv[]) {
     std::ofstream outputFile;
 
     //  How to output results
-    if (outputDir.empty()) {
+    if (outputDir.empty()) { 
+     // Print to screen
         std::cout << "No output directory was specified. Printing to screen" << std::endl;
         fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
         unsigned found = filename.find_last_of("/\\");
         filename = filename.substr(found+1);
-    } else {
+    } else { 
+    // Print to file
         unsigned found = filename.find_last_of("/\\");
         std::string outputFilename = outputDir + "/" + filename.substr(found+1)+".out";
+        std::cout << "Printing to " << outputFilename << std::endl;
         filename = filename.substr(found+1);
-        //std::cout << "outputFilename:" << outputFilename << std::endl;
         outputFile.open(outputFilename.c_str());
         fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
         outputFile << "Matrix: " << filename << std::endl;
         outputFile << "Procs: " << comm->getSize() << std::endl;
     }
+    // Do all the work
     belosSolve(A, filename);
 }
 
@@ -74,7 +77,7 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
     RCP<BSM> solver; 
     Belos::SolverFactory<ST, MV, OP> belosFactory;
 
-    //  Create solver and preconditioner
+    //  Solving linear system with all prec/solver pairs
     for (auto solverIter : belosSolvers) {
         for (auto precIter : ifpack2Precs) {
             timer.start(true);
@@ -85,7 +88,7 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
                 solver = getBelosSolver(A, solverIter); 
                 prec = getIfpack2Preconditoner(A, precIter);
             } catch (...) {
-                *fos << solverIter << ", " << precIter << ", creation_error" << std::endl;
+                *fos << solverIter << ", " << precIter << ", Error selecting prec/solver" << std::endl;
                 continue;	
             }
             try {
@@ -103,17 +106,16 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
                 *fos << solverIter << ", " << precIter << ", Error creating linear problem" << std::endl;
             }
             try {
-                //  Solve the problem 
+                //  Solve the linear problem 
                 Belos::ReturnType result = solver->solve();
-                const int numIters = solver->getNumIters();
                 timer.stop();
-                *fos <<  solverIter  << ", "  << precIter;
-                if (result == Belos::Converged) {
+                *fos <<  solverIter  << ", "  << precIter; // output solver/prec pair
+                if (result == result) {
                     *fos << ", converged, "; 
                 } else {
                     *fos << ", unconverged, ";
                 } 
-                *fos << numIters << ", " << timer.totalElapsedTime() << std::endl;
+                *fos << solver->getNumIters() << ", " << timer.totalElapsedTime() << std::endl;
             } catch (...) {
                 *fos << solverIter << ", " << precIter << ", Error solving linear problem" << std::endl;
             }
