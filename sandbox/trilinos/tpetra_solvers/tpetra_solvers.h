@@ -45,12 +45,9 @@ using Teuchos::parameterList;
 //  Globals
 const	std::vector<std::string> ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL",
 	"RELAXATION", "CHEBYSHEV"};
-const std::vector<std::string> belosSolvers = {"Block GMRES", "CG", "CGPoly", 
-	"Flexible GMRES", "GMRES", "GmresPoly", "Pseudo Block CG", "Pseudo Block GMRES", 
-	"PseudoBlockCG", "PseudoBlockGmres", "Recycling CG", "Recycling GMRES", "Seed CG", 
-	"Seed GMRES", "Stochastic CG", "Transpose-Free QMR", "Block CG", "Block GMRES", 
-	"GCRODR", "Hybrid Block GMRES", "MINRES", "PCPG", "Pseudoblock CG", 
-	"Pseudoblock GMRES", "Pseudoblock Stochastic CG", "RCG", "TFQMR"};
+const std::vector<std::string> belosSolvers = {"Block GMRES", "Pseudoblock GMRES", "Block CG",
+    "Pseudoblock CG", "Pseudoblock Stochastic CG", "GCRODR", "RCG", "MINRES", "LSQR", "TFQMR",
+    "Pseudoblock TFQMR", "Hybrid Block GMRES", "PCPG", "Fixed Point"};
 
 //  Functions
 void belosSolve(const RCP<const MAT> &A, const std::string &filename);
