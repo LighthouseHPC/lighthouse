@@ -5,17 +5,20 @@ import sys, os, glob, random
 import datetime,time
 
 from solvers import *
-petsc = True
+petsc = False
 if petsc:
   tmdir = 'timing-aciss'
   matrixsubdir = 'petsc'
   petsc_matrix_suffix='.petsc'
   donefile = 'DONE'
+  jobname = 'petsc'
 else:
   tmdir = 'timing-moose-aciss'
   matrixsubdir = 'moose'
   petsc_matrix_suffix='.mat'
   donefile = 'DONE_moose'
+  jobname = 'moose'
+#jobname = 'default'
 
 def resetBuffer():
   global tmdir
@@ -23,11 +26,11 @@ def resetBuffer():
   b =  '#!/bin/bash\n\nmodule load gcc/4.9\n\n'
   b += 'export PETSC_DIR=/home11/bnorris2/petsc/petsc-3.5.3; export PETSC_ARCH=arch-linux2-c-mpich3.1-gcc4.9\n\n'
   b += 'export LD_LIBRARY_PATH=$PETSC_DIR/$PETSC_ARCH/lib:$LD_LIBRARY_PATH\n\n'
-  b += 'cd $HOME/UFloridaSparseMat/%s\n\n' % tmdir
+  b += 'cd /home11/bnorris2/UFloridaSparseMat/%s\n\n' % tmdir
   return b
 
 def getJobs():
-  s = commands.getstatusoutput('qstat | grep norris | grep short | wc -l')[1]
+  s = commands.getstatusoutput('qstat -a | grep norris | grep %s | wc -l' % jobname)[1]
   return int(s)
 
 # Directory contaning the *.petsc matrices:
@@ -36,7 +39,7 @@ wdir='/home11/bnorris2/UFloridaSparseMat/'
 # Directory for storing results:
 tdir=wdir + tmdir + '/'
 mdir=wdir + matrixsubdir + '/'
-cdir=os.getcwd() 
+cdir='/home11/bnorris2/research/lighthouse/sandbox/petsc/new/' #os.getcwd() 
 
 #nprocs = 4096    # run with qsub -n 256 --proccount 4096  --mode c16 -t 60
 nprocs = 2048    # run with qsub -n 128 --proccount 2048 --mode c16 -t 60
@@ -79,22 +82,23 @@ for hashnum in hashlist:
     else:
       print "PETSc matrix:", matrixpath
     if totalprocs > nprocs: break
-    lockfile = tdir + '.%s.%s' % (matname, str(hashnum))
     logfile = tdir + '%s.%s.log' % (matname, str(hashnum))
-    #print "Logfile:", logfile
+    lockfile = tdir + '.%s.%s.log' % (matname, str(hashnum))
+    print "Logfile:", logfile
     if os.path.exists(lockfile) or os.path.exists(logfile): continue
-    opts = [' -f ',mdir+matname+petsc_matrix_suffix, ' -hash', hashnum, solver_optstr, ' -ksp_view -options_left -log_summary ']
+    else: os.system("echo %s > %s" % (matname,lockfile))
+    opts = [' -f ',mdir+matname+petsc_matrix_suffix, ' -hash', hashnum, solver_optstr, ' -logfile', logfile, ' -ksp_view -log_summary -options_left -ksp_error_if_not_converged 1 -ksp_converged_reason ']
     cmd = os.path.join(cdir,'solvers-aciss')
     #buf += 'runjob --np 1 -p ' + str(p) + ' --block $COBALT_PARTNAME --verbose=INFO : ' + cmd + ' ' + ' '.join(opts) + ' > ' + logfile  + ' \n'
     #buf += 'mpiexec -np 1 ' + cmd + ' '.join(opts) + ' > ' + logfile  + ' \n' 
-    buf += cmd + ' '.join(opts) + ' > ' + logfile  + ' \n' 
+    buf += cmd + ' '.join(opts) +  '; \n' 
     print cmd + ' ' + ' '.join(opts)
 
-    pbsscriptfile = '%s/.timing_%s_%s.sh' % (tdir,matname,hashnum)
+    pbsscriptfile = '%s/.timing_%s_%s.sh' % (tdir,matname,str(hashnum))
     f = open(pbsscriptfile,'w')
     f.write(buf)
     f.close()
-    qsubcmd='qsub -q short -N "%s" -l walltime=4:00:00 %s' % (pbsscriptfile,pbsscriptfile)
+    qsubcmd='qsub -q short -N "%s" -l walltime=4:00:00 %s' % (jobname,pbsscriptfile)
     ts = time.time()
     ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     print ts, '\n', qsubcmd
