@@ -1,0 +1,45 @@
+This folder should contain 5 problem generators. Requires SLEPc and PETSc to make. You could modify it to only require PETSc. To make, just type make and the name of the file without the extension.
+
+These generators generate quadratic eigenvalue problems, but you can convert them to suit your needs. Because it generates quadratic eigenvalue problems, it outputs 3 matricies, M,C, and K. Therefore, if you need them to test an eigenproblem solver you need to convert them to a generalized eigenvalue problem via linearization. Anyway here are some that I use. The Gx are for general problems, Sx are for symmetric problems, and Hx is for Hamiltonian problems.
+
+G1  =  [0   I] 		  [I  0]
+	   [-K -C] -lamda [0  M]
+
+
+G2  =  [-K  0] 		  [C  M]
+	   [0   I] -lamda [I  0]
+
+
+S1  =  [0  -K] 		  [-K  0]
+	   [-K -C] -lamda [0   M]
+
+
+S2  =  [-K  0] 		  [C  M]
+	   [0   M] -lamda [M  0]
+
+
+H1  =  [K   0] 		  [0  K]
+	   [C   K] -lamda [-M 0]
+
+
+H2  =  [0  -K] 		  [M  C]
+	   [M   0] -lamda [0  M]
+
+Depending on the norms of the three matrices, you can use the 2 or infinite norm of M or K times I, instead of I.
+
+Be careful when you linearize one of these problems, because they will become a 2n x 2n matrix.
+
+If you just want 3 matrices for the price of 1, then you can just give it the size of the matrices you want. Be warned though, some of these matrices are very sparse. For acoustic_wave_1d I think the C matrix is a matrix with one entry in the bottom-left corner. I am not sure about the others. Ask me if you need to know, these are converted from matlab so I can generate ASCII matrices to check. You could also use the 3 matricies as building blocks for one larger matrix.
+
+If you want to know the input arguments just run it with a -help command line option.
+
+About the generators:
+acoustic_wave_1d - symmetric, *-even, sparse, parameter-dependent
+acoustic_wave_2d - symmetric, *-even, sparse, parameter-dependent
+damped_beam - real, symmetric, sparse
+sleeper - real, symmetric, sparse, proportionally-damped
+spring - real, symmetric, sparse, proportionally-damped, parameter-dependent
+
+If you have any questions feel free to ask.
+Cheers,
+Branden

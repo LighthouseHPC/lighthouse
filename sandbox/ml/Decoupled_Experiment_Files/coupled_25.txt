@@ -1,0 +1,150 @@
+=== Evaluation result ===
+
+Scheme: BayesNet
+Options: -D -Q weka.classifiers.bayes.net.search.local.K2 -- -P 1 -S BAYES -E weka.classifiers.bayes.net.estimate.SimpleEstimator -- -A 0.5
+Relation: petsc_data-weka.filters.unsupervised.attribute.RemoveUseless-M99.0
+
+
+Correctly Classified Instances       35342               89.7278 %
+Incorrectly Classified Instances      4046               10.2722 %
+Kappa statistic                          0.4695
+Mean absolute error                      0.1253
+Root mean squared error                  0.2776
+Relative absolute error                 73.006  %
+Root relative squared error             94.767  %
+Coverage of cases (0.95 level)          97.7633 %
+Mean rel. region size (0.95 level)      64.1363 %
+Total Number of Instances            39388     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.928    0.399    0.957      0.928    0.942      0.474    0.888     0.986     -1
+                 0.601    0.072    0.468      0.601    0.526      0.474    0.888     0.445     1
+Weighted Avg.    0.897    0.368    0.911      0.897    0.903      0.474    0.888     0.935     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 33096  2557 |     a = -1
+  1489  2246 |     b = 1
+=== Evaluation result ===
+
+Scheme: J48
+Options: -C 0.25 -M 2
+Relation: petsc_data-weka.filters.unsupervised.attribute.RemoveUseless-M99.0
+
+
+Correctly Classified Instances       37687               95.6814 %
+Incorrectly Classified Instances      1701                4.3186 %
+Kappa statistic                          0.7433
+Mean absolute error                      0.0565
+Root mean squared error                  0.1917
+Relative absolute error                 32.9237 %
+Root relative squared error             65.4347 %
+Coverage of cases (0.95 level)          98.2482 %
+Mean rel. region size (0.95 level)      57.0288 %
+Total Number of Instances            39388     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.978    0.250    0.974      0.978    0.976      0.744    0.938     0.989     -1
+                 0.750    0.022    0.785      0.750    0.767      0.744    0.938     0.730     1
+Weighted Avg.    0.957    0.228    0.956      0.957    0.956      0.744    0.938     0.965     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 34886   767 |     a = -1
+   934  2801 |     b = 1
+=== Evaluation result ===
+
+Scheme: RandomForest
+Options: -I 100 -K 0 -S 1 -num-slots 1
+Relation: petsc_data-weka.filters.unsupervised.attribute.RemoveUseless-M99.0
+
+
+Correctly Classified Instances       38007               96.4939 %
+Incorrectly Classified Instances      1381                3.5061 %
+Kappa statistic                          0.7805
+Mean absolute error                      0.0653
+Root mean squared error                  0.1638
+Relative absolute error                 38.0523 %
+Root relative squared error             55.9124 %
+Coverage of cases (0.95 level)          99.8223 %
+Mean rel. region size (0.95 level)      60.5019 %
+Total Number of Instances            39388     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.989    0.263    0.973      0.989    0.981      0.784    0.984     0.998     -1
+                 0.737    0.011    0.873      0.737    0.800      0.784    0.984     0.895     1
+Weighted Avg.    0.965    0.239    0.963      0.965    0.964      0.784    0.984     0.988     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 35253   400 |     a = -1
+   981  2754 |     b = 1
+=== Evaluation result ===
+
+Scheme: ADTree
+Options: -B 10 -E -3 -S 1
+Relation: petsc_data-weka.filters.unsupervised.attribute.RemoveUseless-M99.0
+
+
+Correctly Classified Instances       36933               93.7671 %
+Incorrectly Classified Instances      2455                6.2329 %
+Kappa statistic                          0.5926
+Mean absolute error                      0.1857
+Root mean squared error                  0.2548
+Relative absolute error                108.1437 %
+Root relative squared error             86.9779 %
+Coverage of cases (0.95 level)          99.9924 %
+Mean rel. region size (0.95 level)      87.7336 %
+Total Number of Instances            39388     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.978    0.450    0.954      0.978    0.966      0.599    0.885     0.984     -1
+                 0.550    0.022    0.726      0.550    0.626      0.599    0.885     0.547     1
+Weighted Avg.    0.938    0.409    0.932      0.938    0.934      0.599    0.885     0.942     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 34879   774 |     a = -1
+  1681  2054 |     b = 1
+=== Evaluation result ===
+
+Scheme: LibSVM
+Options: -S 0 -K 2 -D 3 -G 0.0 -R 0.0 -N 0.5 -M 40.0 -C 1.0 -E 0.001 -P 0.1 -model "C:\\Users\\Pate Motter\\Desktop" -seed 1
+Relation: petsc_data-weka.filters.unsupervised.attribute.RemoveUseless-M99.0
+
+
+Correctly Classified Instances       30281               76.8787 %
+Incorrectly Classified Instances      9107               23.1213 %
+Kappa statistic                          0.0433
+Mean absolute error                      0.2312
+Root mean squared error                  0.4808
+Relative absolute error                134.6664 %
+Root relative squared error            164.1256 %
+Coverage of cases (0.95 level)          76.8787 %
+Mean rel. region size (0.95 level)      50      %
+Total Number of Instances            39388     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.825    0.764    0.912      0.825    0.866      0.046    0.530     0.910     -1
+                 0.236    0.175    0.124      0.236    0.162      0.046    0.530     0.102     1
+Weighted Avg.    0.769    0.708    0.837      0.769    0.799      0.046    0.530     0.834     
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+ 29398  6255 |     a = -1
+  2852   883 |     b = 1
