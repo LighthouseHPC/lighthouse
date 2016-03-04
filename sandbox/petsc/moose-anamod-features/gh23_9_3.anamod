@@ -1,0 +1,496 @@
+reading matrix from petsc binary file <moose/gh23_9_3.mat>, size: 51 by 51
+simple.c:285: __FUNCT__="compute_dd" does not agree with __func__="DiagonalDominance"
+structure.c:669: __FUNCT__="regularblocks" does not agree with __func__="BlockSize"
+normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
+compute_singularvalues with SLEPc
+invoking slepc
+normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
+========
+Category: <simple>
+  <trace> : <9.263677e+00,6.115437e-04>
+  <trace-abs> : <9.263677e+00,2.384186e-06>
+  <norm1> : <9.554501e-01,9.775162e-06>
+  <normInf> : <9.554501e-01,5.006790e-06>
+  <normF> : <2.418055e+00,4.768372e-06>
+  <diagonal-dominance> : <-2.521021e-04,2.901554e-04>
+  <symmetry-snorm> : <9.554501e-01,4.506111e-05>
+  <symmetry-anorm> : <5.836747e-04,2.861023e-06>
+  <symmetry-fsnorm> : <2.418054e+00,3.337860e-06>
+  <symmetry-fanorm> : <1.287327e-03,3.337860e-06>
+Category: <structure>
+  <n-struct-unsymm> : <0,2.384186e-06>
+  <nrows> : <51,4.768372e-06>
+  <symmetry> : <0,1.764297e-05>
+  <nnzeros> : <151,2.501011e-04>
+  <max-nnzeros-per-row> : <3,2.861023e-06>
+  <min-nnzeros-per-row> : <2,3.099442e-06>
+  <left-bandwidth> : <1,2.622604e-06>
+  <right-bandwidth> : <1,3.576279e-06>
+  <n-dummy-rows> : <0,2.653599e-04>
+  <dummy-rows-kind> : <0,4.053116e-06>
+  <dummy-rows> : ****
+  <diag-zerostart> : <51,1.578331e-04>
+  <diag-definite> : <1,4.053116e-06>
+  <blocksize> : <1,3.063679e-04>
+Category: <variance>
+  <row-variability> : <5.777892e+00,3.850460e-04>
+  <col-variability> : <5.777892e+00,3.337860e-06>
+  <diagonal-average> : <1.816407e-01,9.107590e-05>
+  <diagonal-variance> : <2.074586e-01,3.337860e-06>
+  <diagonal-sign> : <2,3.576279e-06>
+Category: <normal>
+  <trace-asquared> : <5.846985e+00,9.510517e-04>
+  <commutator-normF> : <7.444950e-06,3.460646e-03>
+  <ruhe75-bound> : <2.434095e-01,2.623918e-01>
+  <lee95-bound> : <1.820555e-03,5.025864e-04>
+  <lee96-ubound> : <3.314421e-06,1.186132e-03>
+  <lee96-lbound> : <1.824282e-06,4.053116e-06>
+Category: <spectrum>
+  <n-ritz-values> : <93,3.814697e-06>
+  <ritz-values-r> : ****
+  <ritz-values-c> : ****
+  <ellipse-ax> : <4.711042e-01,3.337860e-06>
+  <ellipse-ay> : <2.027830e-04,3.814697e-06>
+  <ellipse-cx> : <4.711257e-01,2.861023e-06>
+  <ellipse-cy> : <0.000000e+00,4.291534e-06>
+  <kappa> : <4.375613e+04,5.245209e-06>
+  <positive-fraction> : <1.000000e+00,4.291534e-06>
+  <sigma-max> : <9.422299e-01,4.529953e-06>
+  <sigma-min> : <2.434311e-01,3.814697e-06>
+  <lambda-max-by-magnitude-re> : <9.422299e-01,4.291534e-06>
+  <lambda-max-by-magnitude-im> : <0.000000e+00,6.198883e-06>
+  <lambda-min-by-magnitude-re> : <2.153366e-05,6.198883e-06>
+  <lambda-min-by-magnitude-im> : <0.000000e+00,6.914139e-06>
+  <lambda-max-by-real-part-re> : <9.422299e-01,1.645088e-05>
+  <lambda-max-by-real-part-im> : <0.000000e+00,1.144409e-05>
+  <lambda-max-by-im-part-re> : <3.640207e-04,1.096725e-05>
+  <lambda-max-by-im-part-im> : <2.027830e-04,1.144409e-05>
+Category: <jpl>
+  <n-colours> : <3,9.431839e-04>
+  <colour-set-sizes> : ****
+  <colour-offsets> : ****
+  <colours> : ****
+Category: <iprs>
+  <nnzup> : <50,4.194498e-03>
+  <nnzlow> : <50,9.775162e-06>
+  <nnzdia> : <51,4.053116e-06>
+  <nnz> : <151,6.914139e-06>
+  <avgnnzprow> : <2,8.583069e-06>
+  <avgdistfromdiag> : <2,6.675720e-06>
+  <relsymm> : <1.000000e+00,1.716614e-05>
+  <upband> : <1,8.821487e-06>
+  <loband> : <1,8.344650e-06>
+  <n-nonzero-diags> : <3,4.768372e-06>
+  <avg-diag-dist> : <6.666667e-01,8.344650e-06>
+  <sigma-diag-dist> : <1.111111e+00,7.867813e-06>
+Category: <lapack>
+  <departure> : <1.820555e-03,1.686335e-03>
+  <lambda-max-by-magnitude-re> : <9.422299e-01,7.152557e-06>
+  <lambda-max-by-magnitude-im> : <0.000000e+00,5.960464e-06>
+  <lambda-min-by-magnitude-re> : <5.314583e-05,7.629395e-06>
+  <lambda-min-by-magnitude-im> : <0.000000e+00,4.291534e-06>
+  <lambda-max-by-real-part-re> : <9.422299e-01,5.722046e-06>
+  <lambda-max-by-real-part-im> : <0.000000e+00,6.914139e-06>
+  <lambda-max-by-im-part-re> : <9.422299e-01,6.198883e-06>
+  <lambda-max-by-im-part-im> : <0.000000e+00,5.960464e-06>
+========
+
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+./anamod_notimeout_timing_moose on a arch-linux2-c-debug named arya with 1 processor, by norris Thu Mar  3 17:23:12 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+
+                         Max       Max/Min        Avg      Total 
+Time (sec):           2.952e-01      1.00000   2.952e-01
+Objects:              2.120e+02      1.00000   2.120e+02
+Flops:                1.064e+07      1.00000   1.064e+07  1.064e+07
+Flops/sec:            3.603e+07      1.00000   3.603e+07  3.603e+07
+Memory:               2.954e+05      1.00000              2.954e+05
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 2.9519e-01 100.0%  1.0638e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+      ##########################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+ThreadCommRunKer       1 1.0 5.0068e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult              797 1.0 8.3482e-03 1.0 2.34e+05 1.0 0.0e+00 0.0e+00 0.0e+00  3  2  0  0  0   3  2  0  0  0    28
+MatConvert             5 1.0 1.0545e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       8 1.0 2.9087e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         8 1.0 2.5940e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRow           1273 1.0 2.2209e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+MatLoad                1 1.0 2.0075e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatTranspose           5 1.0 1.4553e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecDot               258 1.0 7.2742e-03 1.0 5.24e+04 1.0 0.0e+00 0.0e+00 0.0e+00  2  0  0  0  0   2  0  0  0  0     7
+VecNorm              326 1.0 9.2936e-04 1.0 6.62e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0    71
+VecScale              60 1.0 1.5550e-03 1.0 5.46e+03 1.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     4
+VecCopy              249 1.0 9.2340e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               127 1.0 4.2200e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPY              315 1.0 8.4410e-03 1.0 6.43e+04 1.0 0.0e+00 0.0e+00 0.0e+00  3  1  0  0  0   3  1  0  0  0     8
+VecSetRandom           1 1.0 3.9816e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SVDSetUp               2 1.0 2.7430e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+SVDSolve               2 1.0 4.9298e-02 1.0 7.50e+05 1.0 0.0e+00 0.0e+00 0.0e+00 17  7  0  0  0  17  7  0  0  0    15
+EPSSetUp               8 1.0 2.3270e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+EPSSolve               8 1.0 2.4266e-01 1.0 1.04e+07 1.0 0.0e+00 0.0e+00 0.0e+00 82 98  0  0  0  82 98  0  0  0    43
+STSetUp                3 1.0 3.0732e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+STApply              797 1.0 1.5645e-02 1.0 2.34e+05 1.0 0.0e+00 0.0e+00 0.0e+00  5  2  0  0  0   5  2  0  0  0    15
+BVCopy               185 1.0 2.9342e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+BVMult              1353 1.0 4.2295e-02 1.0 6.43e+06 1.0 0.0e+00 0.0e+00 0.0e+00 14 60  0  0  0  14 60  0  0  0   152
+BVDot               1316 1.0 3.2786e-02 1.0 3.74e+06 1.0 0.0e+00 0.0e+00 0.0e+00 11 35  0  0  0  11 35  0  0  0   114
+BVOrthogonalize      748 1.0 1.0852e-01 1.0 7.49e+06 1.0 0.0e+00 0.0e+00 0.0e+00 37 70  0  0  0  37 70  0  0  0    69
+BVScale              804 1.0 1.7828e-02 1.0 4.52e+04 1.0 0.0e+00 0.0e+00 0.0e+00  6  0  0  0  0   6  0  0  0  0     3
+BVNorm               214 1.0 1.4834e-03 1.0 4.30e+04 1.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0    29
+BVSetRandom            8 1.0 4.9925e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+DSSolve               29 1.0 2.2298e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  8  0  0  0  0   8  0  0  0  0     0
+DSVectors            123 1.0 8.1761e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0     0
+DSOther               29 1.0 3.7609e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 13  0  0  0  0  13  0  0  0  0     0
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Matrix    29             28       235360     0
+              Viewer     2              1          752     0
+              Vector    57             57       221736     0
+Singular Value Solver     1              1         1820     0
+         PetscRandom     4              4         2528     0
+Eigenvalue Problem Solver     2              2         6732     0
+  Spectral Transform     2              2         1688     0
+       Krylov Solver     2              2         2320     0
+      Preconditioner     2              2         1840     0
+       Basis Vectors     5              5        51112     0
+       Direct solver     3              3       388768     0
+              Region     2              2         1296     0
+           Index Set   101              1          796     0
+========================================================================================================================
+Average time to get PetscTime(): 4.76837e-08
+#PETSc Option Table entries:
+-log_summary
+-petsc moose/gh23_9_3.mat
+-svd_eps_type lanczos
+-svd_ncv 40
+-svd_nsv 10
+-svd_tol 1e-2
+-svd_type cyclic
+#End of PETSc Option Table entries
+Compiled without FORTRAN kernels
+Compiled with full precision matrices (default)
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --CFLAGS="-g -O3" --CXXFLAGS="-g -O3" --FFLAGS="-g -O3"
+-----------------------------------------
+Libraries compiled on Wed Jun 10 19:27:55 2015 on arya 
+Machine characteristics: Linux-3.19.0-18-generic-x86_64-with-Ubuntu-15.10-wily
+Using PETSc directory: /disks/large/shared/soft/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-debug
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/include -I/disks/large/shared/soft/petsc-3.5.3/include -I/disks/large/shared/soft/petsc-3.5.3/include -I/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/include -I/usr/include/mpich
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/lib -L/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/lib -lpetsc -llapack -lblas -lX11 -lpthread -lm -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -Wl,-rpath,/usr/lib/gcc/x86_64-linux-gnu/4.9 -L/usr/lib/gcc/x86_64-linux-gnu/4.9 -Wl,-rpath,/lib/x86_64-linux-gnu -L/lib/x86_64-linux-gnu -lmpichf90 -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpichcxx -lstdc++ -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -Wl,-rpath,/usr/lib/gcc/x86_64-linux-gnu/4.9 -L/usr/lib/gcc/x86_64-linux-gnu/4.9 -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -Wl,-rpath,/lib/x86_64-linux-gnu -L/lib/x86_64-linux-gnu -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -ldl -lmpich -lopa -lmpl -lrt -lcr -lpthread -lgcc_s -ldl  
+-----------------------------------------
+
+reading matrix from petsc binary file <moose/gh23_9_3.mat>, size: 51 by 51
+simple.c:285: __FUNCT__="compute_dd" does not agree with __func__="DiagonalDominance"
+structure.c:669: __FUNCT__="regularblocks" does not agree with __func__="BlockSize"
+normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
+compute_singularvalues with SLEPc
+invoking slepc
+normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
+========
+Category: <simple>
+  <trace> : <9.263677e+00,5.302429e-04>
+  <trace-abs> : <9.263677e+00,3.099442e-06>
+  <norm1> : <9.554501e-01,7.867813e-06>
+  <normInf> : <9.554501e-01,3.099442e-06>
+  <normF> : <2.418055e+00,2.384186e-06>
+  <diagonal-dominance> : <-2.521021e-04,1.776218e-04>
+  <symmetry-snorm> : <9.554501e-01,3.147125e-05>
+  <symmetry-anorm> : <5.836747e-04,1.430511e-06>
+  <symmetry-fsnorm> : <2.418054e+00,2.145767e-06>
+  <symmetry-fanorm> : <1.287327e-03,2.384186e-06>
+Category: <structure>
+  <n-struct-unsymm> : <0,1.192093e-06>
+  <nrows> : <51,2.861023e-06>
+  <symmetry> : <0,1.239777e-05>
+  <nnzeros> : <151,1.595020e-04>
+  <max-nnzeros-per-row> : <3,1.430511e-06>
+  <min-nnzeros-per-row> : <2,1.430511e-06>
+  <left-bandwidth> : <1,1.430511e-06>
+  <right-bandwidth> : <1,1.907349e-06>
+  <n-dummy-rows> : <0,1.621246e-04>
+  <dummy-rows-kind> : <0,2.622604e-06>
+  <dummy-rows> : ****
+  <diag-zerostart> : <51,8.368492e-05>
+  <diag-definite> : <1,2.384186e-06>
+  <blocksize> : <1,1.873970e-04>
+Category: <variance>
+  <row-variability> : <5.777892e+00,2.014637e-04>
+  <col-variability> : <5.777892e+00,1.907349e-06>
+  <diagonal-average> : <1.816407e-01,8.034706e-05>
+  <diagonal-variance> : <2.074586e-01,1.668930e-06>
+  <diagonal-sign> : <2,1.668930e-06>
+Category: <normal>
+  <trace-asquared> : <5.846985e+00,5.347729e-04>
+  <commutator-normF> : <7.444950e-06,1.907349e-03>
+  <ruhe75-bound> : <2.434095e-01,1.814969e-01>
+  <lee95-bound> : <1.820555e-03,2.493858e-04>
+  <lee96-ubound> : <3.314421e-06,6.375313e-04>
+  <lee96-lbound> : <1.824282e-06,1.907349e-06>
+Category: <spectrum>
+  <n-ritz-values> : <93,2.145767e-06>
+  <ritz-values-r> : ****
+  <ritz-values-c> : ****
+  <ellipse-ax> : <4.711042e-01,1.907349e-06>
+  <ellipse-ay> : <2.027830e-04,1.430511e-06>
+  <ellipse-cx> : <4.711257e-01,1.668930e-06>
+  <ellipse-cy> : <0.000000e+00,1.668930e-06>
+  <kappa> : <4.375613e+04,2.145767e-06>
+  <positive-fraction> : <1.000000e+00,2.145767e-06>
+  <sigma-max> : <9.422299e-01,1.668930e-06>
+  <sigma-min> : <2.434311e-01,1.907349e-06>
+  <lambda-max-by-magnitude-re> : <9.422299e-01,2.622604e-06>
+  <lambda-max-by-magnitude-im> : <0.000000e+00,2.622604e-06>
+  <lambda-min-by-magnitude-re> : <2.153366e-05,3.337860e-06>
+  <lambda-min-by-magnitude-im> : <0.000000e+00,3.099442e-06>
+  <lambda-max-by-real-part-re> : <9.422299e-01,8.821487e-06>
+  <lambda-max-by-real-part-im> : <0.000000e+00,5.483627e-06>
+  <lambda-max-by-im-part-re> : <3.640207e-04,5.006790e-06>
+  <lambda-max-by-im-part-im> : <2.027830e-04,5.483627e-06>
+Category: <jpl>
+  <n-colours> : <3,5.269051e-04>
+  <colour-set-sizes> : ****
+  <colour-offsets> : ****
+  <colours> : ****
+Category: <iprs>
+  <nnzup> : <50,2.146482e-03>
+  <nnzlow> : <50,5.960464e-06>
+  <nnzdia> : <51,3.337860e-06>
+  <nnz> : <151,4.768372e-06>
+  <avgnnzprow> : <2,4.529953e-06>
+  <avgdistfromdiag> : <2,4.053116e-06>
+  <relsymm> : <1.000000e+00,7.867813e-06>
+  <upband> : <1,4.529953e-06>
+  <loband> : <1,4.768372e-06>
+  <n-nonzero-diags> : <3,3.576279e-06>
+  <avg-diag-dist> : <6.666667e-01,3.576279e-06>
+  <sigma-diag-dist> : <1.111111e+00,3.576279e-06>
+Category: <lapack>
+  <departure> : <1.820555e-03,9.562969e-04>
+  <lambda-max-by-magnitude-re> : <9.422299e-01,4.768372e-06>
+  <lambda-max-by-magnitude-im> : <0.000000e+00,3.337860e-06>
+  <lambda-min-by-magnitude-re> : <5.314583e-05,4.291534e-06>
+  <lambda-min-by-magnitude-im> : <0.000000e+00,3.576279e-06>
+  <lambda-max-by-real-part-re> : <9.422299e-01,4.053116e-06>
+  <lambda-max-by-real-part-im> : <0.000000e+00,4.529953e-06>
+  <lambda-max-by-im-part-re> : <9.422299e-01,4.053116e-06>
+  <lambda-max-by-im-part-im> : <0.000000e+00,5.006790e-06>
+========
+
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+./anamod_notimeout_timing_moose on a arch-linux2-c-debug named arya with 1 processor, by norris Thu Mar  3 17:44:16 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+
+                         Max       Max/Min        Avg      Total 
+Time (sec):           2.025e-01      1.00000   2.025e-01
+Objects:              2.120e+02      1.00000   2.120e+02
+Flops:                1.064e+07      1.00000   1.064e+07  1.064e+07
+Flops/sec:            5.252e+07      1.00000   5.252e+07  5.252e+07
+Memory:               2.954e+05      1.00000              2.954e+05
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 2.0252e-01 100.0%  1.0638e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+      ##########################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+ThreadCommRunKer       1 1.0 3.5763e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 1.6689e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult              797 1.0 5.8560e-03 1.0 2.34e+05 1.0 0.0e+00 0.0e+00 0.0e+00  3  2  0  0  0   3  2  0  0  0    40
+MatConvert             5 1.0 5.7149e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       8 1.0 1.1683e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         8 1.0 1.2660e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRow           1273 1.0 1.3707e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+MatLoad                1 1.0 1.3781e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatTranspose           5 1.0 6.5899e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecDot               258 1.0 5.4781e-03 1.0 5.24e+04 1.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0    10
+VecNorm              326 1.0 6.1059e-04 1.0 6.62e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  1  0  0  0   0  1  0  0  0   108
+VecScale              60 1.0 1.1554e-03 1.0 5.46e+03 1.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     5
+VecCopy              249 1.0 5.9557e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               127 1.0 2.5773e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPY              315 1.0 6.4273e-03 1.0 6.43e+04 1.0 0.0e+00 0.0e+00 0.0e+00  3  1  0  0  0   3  1  0  0  0    10
+VecSetRandom           1 1.0 2.7418e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+SVDSetUp               2 1.0 1.3332e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+SVDSolve               2 1.0 3.3276e-02 1.0 7.50e+05 1.0 0.0e+00 0.0e+00 0.0e+00 16  7  0  0  0  16  7  0  0  0    23
+EPSSetUp               8 1.0 1.1780e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+EPSSolve               8 1.0 1.7041e-01 1.0 1.04e+07 1.0 0.0e+00 0.0e+00 0.0e+00 84 98  0  0  0  84 98  0  0  0    61
+STSetUp                3 1.0 1.4639e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+STApply              797 1.0 1.1054e-02 1.0 2.34e+05 1.0 0.0e+00 0.0e+00 0.0e+00  5  2  0  0  0   5  2  0  0  0    21
+BVCopy               185 1.0 1.7605e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+BVMult              1353 1.0 3.0298e-02 1.0 6.43e+06 1.0 0.0e+00 0.0e+00 0.0e+00 15 60  0  0  0  15 60  0  0  0   212
+BVDot               1316 1.0 2.4013e-02 1.0 3.74e+06 1.0 0.0e+00 0.0e+00 0.0e+00 12 35  0  0  0  12 35  0  0  0   156
+BVOrthogonalize      748 1.0 7.8217e-02 1.0 7.49e+06 1.0 0.0e+00 0.0e+00 0.0e+00 39 70  0  0  0  39 70  0  0  0    96
+BVScale              804 1.0 1.2984e-02 1.0 4.52e+04 1.0 0.0e+00 0.0e+00 0.0e+00  6  0  0  0  0   6  0  0  0  0     3
+BVNorm               214 1.0 9.7632e-04 1.0 4.30e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0    44
+BVSetRandom            8 1.0 3.2544e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+DSSolve               29 1.0 1.4248e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  7  0  0  0  0   7  0  0  0  0     0
+DSVectors            123 1.0 5.9788e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0     0
+DSOther               29 1.0 2.7054e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 13  0  0  0  0  13  0  0  0  0     0
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Matrix    29             28       235360     0
+              Viewer     2              1          752     0
+              Vector    57             57       221736     0
+Singular Value Solver     1              1         1820     0
+         PetscRandom     4              4         2528     0
+Eigenvalue Problem Solver     2              2         6732     0
+  Spectral Transform     2              2         1688     0
+       Krylov Solver     2              2         2320     0
+      Preconditioner     2              2         1840     0
+       Basis Vectors     5              5        51112     0
+       Direct solver     3              3       388768     0
+              Region     2              2         1296     0
+           Index Set   101              1          796     0
+========================================================================================================================
+Average time to get PetscTime(): 4.76837e-08
+#PETSc Option Table entries:
+-log_summary
+-petsc moose/gh23_9_3.mat
+-svd_eps_type lanczos
+-svd_ncv 40
+-svd_nsv 10
+-svd_tol 1e-2
+-svd_type cyclic
+#End of PETSc Option Table entries
+Compiled without FORTRAN kernels
+Compiled with full precision matrices (default)
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --CFLAGS="-g -O3" --CXXFLAGS="-g -O3" --FFLAGS="-g -O3"
+-----------------------------------------
+Libraries compiled on Wed Jun 10 19:27:55 2015 on arya 
+Machine characteristics: Linux-3.19.0-18-generic-x86_64-with-Ubuntu-15.10-wily
+Using PETSc directory: /disks/large/shared/soft/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-debug
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/include -I/disks/large/shared/soft/petsc-3.5.3/include -I/disks/large/shared/soft/petsc-3.5.3/include -I/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/include -I/usr/include/mpich
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/lib -L/disks/large/shared/soft/petsc-3.5.3/arch-linux2-c-debug/lib -lpetsc -llapack -lblas -lX11 -lpthread -lm -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -Wl,-rpath,/usr/lib/gcc/x86_64-linux-gnu/4.9 -L/usr/lib/gcc/x86_64-linux-gnu/4.9 -Wl,-rpath,/lib/x86_64-linux-gnu -L/lib/x86_64-linux-gnu -lmpichf90 -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpichcxx -lstdc++ -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -Wl,-rpath,/usr/lib/gcc/x86_64-linux-gnu/4.9 -L/usr/lib/gcc/x86_64-linux-gnu/4.9 -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -Wl,-rpath,/lib/x86_64-linux-gnu -L/lib/x86_64-linux-gnu -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -ldl -lmpich -lopa -lmpl -lrt -lcr -lpthread -lgcc_s -ldl  
+-----------------------------------------
+
