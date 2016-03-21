@@ -9,6 +9,8 @@
 //  Ifpack2
 #include <Ifpack2_Factory.hpp>
 
+#include <exception>
+
 //  Typedefs
 typedef double ST;
 typedef int LO;
@@ -43,11 +45,12 @@ using Teuchos::ParameterList;
 using Teuchos::parameterList;
 
 //  Globals
+//  5 precs, 14 solvers, 70 combinations
 const	std::vector<std::string> ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL",
-	"RELAXATION", "CHEBYSHEV"};
-const std::vector<std::string> belosSolvers = {"Block GMRES", "Pseudoblock GMRES", "Block CG",
-    "Pseudoblock CG", "Pseudoblock Stochastic CG", "GCRODR", "RCG", "MINRES", "LSQR", "TFQMR",
-    "Pseudoblock TFQMR", "Hybrid Block GMRES", "PCPG", "Fixed Point"};
+	"RELAXATION", "CHEBYSHEV", "None"};
+const std::vector<std::string> belosSolvers = {"BLOCK GMRES", "PSEUDOBLOCK GMRES", "BLOCK CG",
+    "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG", "GCRODR", "RCG", "MINRES", "TFQMR",
+    "PSEUDOBLOCK TFQMR", "HYBRID BLOCK GMRES", "PCPG", "FIXED POINT", "BICGSTAB"}; //LSQR
 
 //  Functions
 void belosSolve(const RCP<const MAT> &A, const std::string &filename);

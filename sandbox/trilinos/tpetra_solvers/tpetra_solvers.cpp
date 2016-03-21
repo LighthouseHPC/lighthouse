@@ -1,6 +1,7 @@
 #include "tpetra_solvers.h"
 
 int main(int argc, char *argv[]) {
+    double program_start, program_end;
     std::string outputDir;
     if (argv[1] == NULL) {
         std::cout << "No input file was specified" << std::endl;
@@ -19,6 +20,9 @@ int main(int argc, char *argv[]) {
     comm = platform.getComm();
     RCP<NT> node = platform.getNode();
     myRank = comm->getRank();
+
+    mpiSession.barrier();
+    program_start = MPI_Wtime();
     RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true); 
     Teuchos::oblackholestream blackhole;
     std::ostream& out = (myRank == 0) ? std::cout : blackhole;
@@ -27,23 +31,26 @@ int main(int argc, char *argv[]) {
     //  How to output results
     if (outputDir.empty()) { 
      // Print to screen
-        std::cout << "No output directory was specified. Printing to screen" << std::endl;
         fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+        *fos << "No output directory was specified. Printing to screen" << std::endl;
         unsigned found = filename.find_last_of("/\\");
         filename = filename.substr(found+1);
     } else { 
     // Print to file
         unsigned found = filename.find_last_of("/\\");
         std::string outputFilename = outputDir + "/" + filename.substr(found+1)+".out";
-        std::cout << "Printing to " << outputFilename << std::endl;
+        if (myRank == 0)
+            std::cout << "Printing to " << outputFilename << std::endl;
         filename = filename.substr(found+1);
         outputFile.open(outputFilename.c_str());
         fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
-        outputFile << "Matrix: " << filename << std::endl;
-        outputFile << "Procs: " << comm->getSize() << std::endl;
+        fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
     }
     // Do all the work
     belosSolve(A, filename);
+    program_end = MPI_Wtime();
+    *fos << "Total Time: " << program_end - program_start << std::endl;
+    return 0;
 }
 
 RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, 
@@ -73,53 +80,67 @@ RCP<BSM> getBelosSolver(const RCP<const MAT> &A,
 void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
     // Create solver and preconditioner 
     Teuchos::Time timer("timer", false);
+    Teuchos::Time overall_timer("overall_timer", false);
     RCP<PRE> prec;
     RCP<BSM> solver; 
     Belos::SolverFactory<ST, MV, OP> belosFactory;
-
+    
+    overall_timer.start(true);
     //  Solving linear system with all prec/solver pairs
     for (auto solverIter : belosSolvers) {
         for (auto precIter : ifpack2Precs) {
             timer.start(true);
             solver = Teuchos::null;
             prec = Teuchos::null;
-            *fos << filename << ", ";
             try {
                 solver = getBelosSolver(A, solverIter); 
-                prec = getIfpack2Preconditoner(A, precIter);
-            } catch (...) {
-                *fos << solverIter << ", " << precIter << ", Error selecting prec/solver" << std::endl;
-                continue;	
+                if (precIter.compare("None"))
+                    prec = getIfpack2Preconditoner(A, precIter);
+            } catch (const std::exception &exc) {
+                *fos << solverIter << ", " << precIter << ", Error selecting prec/solver, ";
+                *fos << timer.totalElapsedTime() << std::endl;
+                if (myRank == 0)
+                    std::cerr << exc.what() << std::endl;
             }
+            *fos << filename << ", " << comm->getSize() << ", ";
             try {
-                //  Create the X and randomized B multivectors
-                RCP<MV> X = rcp (new MV (A->getDomainMap(), 1));
-                RCP<MV> B = rcp (new MV (A->getRangeMap(), 1));
-                B->randomize();
+                //  Create the x and randomized b multivectors
+                RCP<MV> x = rcp (new MV (A->getDomainMap(), 1));
+                RCP<MV> b = rcp (new MV (A->getRangeMap(), 1));
+                b->randomize();
 
                 //  Create the linear problem
-                RCP<LP> problem = rcp (new LP(A, X, B));
-                problem->setLeftPrec(prec);
+                RCP<LP> problem = rcp (new LP(A, x, b));
+                if (precIter.compare("None"))
+                    problem->setLeftPrec(prec);
                 problem->setProblem(); //done adding to the linear problem
                 solver->setProblem(problem); //add the linear problem to the solver
-            } catch(...) {
-                *fos << solverIter << ", " << precIter << ", Error creating linear problem" << std::endl;
+            } catch(const std::exception &exc) {
+                *fos << solverIter << ", " << precIter << ", Error creating linear problem, ";
+                *fos << timer.totalElapsedTime() << std::endl;
+                if (myRank == 0)
+                    std::cerr << exc.what() << std::endl;
             }
             try {
                 //  Solve the linear problem 
                 Belos::ReturnType result = solver->solve();
                 timer.stop();
-                *fos <<  solverIter  << ", "  << precIter; // output solver/prec pair
+                *fos <<  std::string(solverIter)  << ", "  << precIter; // output solver/prec pair
                 if (result == Belos::Converged) {
                     *fos << ", converged, "; 
                 } else {
                     *fos << ", unconverged, ";
                 } 
                 *fos << solver->getNumIters() << ", " << timer.totalElapsedTime() << std::endl;
-            } catch (...) {
-                *fos << solverIter << ", " << precIter << ", Error solving linear problem" << std::endl;
+            } catch (const std::exception &exc) {
+                *fos << solverIter << ", " << precIter << ", Error solving linear problem, ";
+                *fos << timer.totalElapsedTime() << std::endl;
+                if (myRank == 0)
+                    std::cerr << exc.what() << std::endl;
             }
         }
     }
+    overall_timer.stop();
+    *fos << "Time to solve all permutations (Trilinos): " << overall_timer.totalElapsedTime() << std::endl;
 }
 
