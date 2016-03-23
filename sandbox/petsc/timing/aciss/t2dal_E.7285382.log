@@ -1,5 +1,5 @@
 Hash: 7285382
-cg | ilu | reason=2 | time=1.213074e-03 | norm=1.44738e-14 | its=1
+cg | ilu | reason=2 | time=1.188993e-03 | norm=1.44738e-14 | its=1
 KSP Object: 1 MPI processes
   type: cg
   maximum iterations=10000, initial guess is zero
@@ -58,14 +58,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn153 with 1 processor, by bnorris2 Tue Mar  8 15:21:53 2016
+/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn120 with 1 processor, by bnorris2 Wed Mar 23 15:15:34 2016
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           4.230e-01      1.00000   4.230e-01
+Time (sec):           3.546e-01      1.00000   3.546e-01
 Objects:              1.700e+01      1.00000   1.700e+01
 Flops:                8.939e+04      1.00000   8.939e+04  8.939e+04
-Flops/sec:            2.113e+05      1.00000   2.113e+05  2.113e+05
+Flops/sec:            2.521e+05      1.00000   2.521e+05  2.521e+05
 Memory:               6.437e+05      1.00000              6.437e+05
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -77,7 +77,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 4.2302e-01 100.0%  8.9392e+04 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 3.5460e-01 100.0%  8.9392e+04 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -116,26 +116,26 @@ Event                Count      Time (sec)     Flops                            
 --- Event Stage 0: Main Stage
 
 ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatMult                2 1.0 3.1948e-05 1.0 8.51e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0 10  0  0  0   0 10  0  0  0   266
-MatSolve               2 1.0 3.6955e-05 1.0 8.51e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0 10  0  0  0   0 10  0  0  0   230
-MatLUFactorNum         1 1.0 2.6298e-04 1.0 4.26e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0  5  0  0  0   0  5  0  0  0    16
-MatILUFactorSym        1 1.0 9.0909e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 2.1458e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult                2 1.0 3.0041e-05 1.0 8.51e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0 10  0  0  0   0 10  0  0  0   283
+MatSolve               2 1.0 3.6716e-05 1.0 8.51e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0 10  0  0  0   0 10  0  0  0   232
+MatLUFactorNum         1 1.0 2.6202e-04 1.0 4.26e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0  5  0  0  0   0  5  0  0  0    16
+MatILUFactorSym        1 1.0 9.2602e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 MatAssemblyBegin       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyEnd         1 1.0 2.1791e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatGetOrdering         1 1.0 5.2691e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatLoad                1 1.0 4.1819e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatView                6 1.0 3.0506e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 72  0  0  0  0  72  0  0  0  0     0
-VecTDot                2 1.0 8.3923e-05 1.0 1.70e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 19  0  0  0   0 19  0  0  0   203
-VecNorm                3 1.0 2.6464e-05 1.0 2.55e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 29  0  0  0   0 29  0  0  0   965
-VecCopy                2 1.0 1.7881e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecSet                 9 1.0 1.1396e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecAXPY                3 1.0 5.8889e-05 1.0 2.55e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 29  0  0  0   0 29  0  0  0   434
-KSPSetUp               1 1.0 1.8311e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-KSPSolve               1 1.0 6.4111e-04 1.0 6.39e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 71  0  0  0   0 71  0  0  0   100
-PCSetUp                1 1.0 1.8370e-03 1.0 4.26e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0  5  0  0  0   0  5  0  0  0     2
-PCApply                2 1.0 4.9829e-05 1.0 8.51e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0 10  0  0  0   0 10  0  0  0   171
+MatAssemblyEnd         1 1.0 2.2101e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRowIJ            1 1.0 2.8610e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 5.1999e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 1.0090e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                6 1.0 2.5887e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 73  0  0  0  0  73  0  0  0  0     0
+VecTDot                2 1.0 4.6253e-05 1.0 1.70e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 19  0  0  0   0 19  0  0  0   368
+VecNorm                3 1.0 2.6941e-05 1.0 2.55e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 29  0  0  0   0 29  0  0  0   948
+VecCopy                2 1.0 1.9073e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet                 9 1.0 1.1230e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPY                3 1.0 6.1989e-05 1.0 2.55e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 29  0  0  0   0 29  0  0  0   412
+KSPSetUp               1 1.0 1.8120e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 6.1703e-04 1.0 6.39e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 71  0  0  0   0 71  0  0  0   103
+PCSetUp                1 1.0 1.8470e-03 1.0 4.26e+03 1.0 0.0e+00 0.0e+00 0.0e+00  1  5  0  0  0   1  5  0  0  0     2
+PCApply                2 1.0 5.1022e-05 1.0 8.51e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0 10  0  0  0   0 10  0  0  0   167
 ------------------------------------------------------------------------------------------------------------------------
 
 Memory usage is given in bytes:

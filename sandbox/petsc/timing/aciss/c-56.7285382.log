@@ -1,5 +1,5 @@
 Hash: 7285382
-cg | ilu | reason=2 | time=5.149841e-03 | norm=9.67391e-10 | its=1
+cg | ilu | reason=2 | time=5.321026e-03 | norm=9.67391e-10 | its=1
 KSP Object: 1 MPI processes
   type: cg
   maximum iterations=10000, initial guess is zero
@@ -58,14 +58,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn153 with 1 processor, by bnorris2 Tue Mar  8 15:22:57 2016
+/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn59 with 1 processor, by bnorris2 Wed Mar 23 15:17:11 2016
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           3.184e-01      1.00000   3.184e-01
+Time (sec):           8.613e-01      1.00000   8.613e-01
 Objects:              1.700e+01      1.00000   1.700e+01
 Flops:                2.306e+06      1.00000   2.306e+06  2.306e+06
-Flops/sec:            7.244e+06      1.00000   7.244e+06  7.244e+06
+Flops/sec:            2.678e+06      1.00000   2.678e+06  2.678e+06
 Memory:               8.966e+06      1.00000              8.966e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -77,7 +77,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 3.1834e-01 100.0%  2.3062e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 8.6128e-01 100.0%  2.3062e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -115,27 +115,27 @@ Event                Count      Time (sec)     Flops                            
 
 --- Event Stage 0: Main Stage
 
-ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-ThreadCommBarrie       1 1.0 9.5367e-07 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatMult                2 1.0 7.1025e-04 1.0 7.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 33  0  0  0   0 33  0  0  0  1073
-MatSolve               2 1.0 7.0786e-04 1.0 7.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 33  0  0  0   0 33  0  0  0  1076
-MatLUFactorNum         1 1.0 8.0180e-03 1.0 2.08e+05 1.0 0.0e+00 0.0e+00 0.0e+00  3  9  0  0  0   3  9  0  0  0    26
-MatILUFactorSym        1 1.0 1.0931e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0     0
+ThreadCommRunKer       1 1.0 5.0068e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 2.1458e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult                2 1.0 7.2980e-04 1.0 7.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 33  0  0  0   0 33  0  0  0  1044
+MatSolve               2 1.0 7.3600e-04 1.0 7.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 33  0  0  0   0 33  0  0  0  1035
+MatLUFactorNum         1 1.0 8.8220e-03 1.0 2.08e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  9  0  0  0   1  9  0  0  0    24
+MatILUFactorSym        1 1.0 1.1624e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
 MatAssemblyBegin       1 1.0 2.8610e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyEnd         1 1.0 1.9670e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+MatAssemblyEnd         1 1.0 2.1789e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 MatGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatGetOrdering         1 1.0 3.7920e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
-MatLoad                1 1.0 4.7729e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
-MatView                6 1.0 2.0746e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 65  0  0  0  0  65  0  0  0  0     0
-VecTDot                2 1.0 1.2398e-04 1.0 1.44e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  6  0  0  0   0  6  0  0  0  1159
-VecNorm                3 1.0 1.2493e-04 1.0 2.15e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  9  0  0  0   0  9  0  0  0  1725
-VecCopy                2 1.0 8.4877e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecSet                 9 1.0 7.7605e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 3.9549e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 1.0645e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+MatView                6 1.0 5.5535e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 64  0  0  0  0  64  0  0  0  0     0
+VecTDot                2 1.0 1.3018e-04 1.0 1.44e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  6  0  0  0   0  6  0  0  0  1103
+VecNorm                3 1.0 1.3113e-04 1.0 2.15e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  9  0  0  0   0  9  0  0  0  1643
+VecCopy                2 1.0 7.6056e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet                 9 1.0 7.6580e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 VecAXPY                3 1.0 1.7810e-04 1.0 2.15e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  9  0  0  0   0  9  0  0  0  1210
-KSPSetUp               1 1.0 5.9700e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-KSPSolve               1 1.0 3.5942e-03 1.0 1.57e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 68  0  0  0   1 68  0  0  0   438
-PCSetUp                1 1.0 2.2865e-02 1.0 2.08e+05 1.0 0.0e+00 0.0e+00 0.0e+00  7  9  0  0  0   7  9  0  0  0     9
-PCApply                2 1.0 7.2432e-04 1.0 7.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 33  0  0  0   0 33  0  0  0  1052
+KSPSetUp               1 1.0 5.8389e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 3.7189e-03 1.0 1.57e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 68  0  0  0   0 68  0  0  0   423
+PCSetUp                1 1.0 2.4533e-02 1.0 2.08e+05 1.0 0.0e+00 0.0e+00 0.0e+00  3  9  0  0  0   3  9  0  0  0     8
+PCApply                2 1.0 7.5221e-04 1.0 7.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 33  0  0  0   0 33  0  0  0  1013
 ------------------------------------------------------------------------------------------------------------------------
 
 Memory usage is given in bytes:
@@ -189,4 +189,5 @@ Using C linker: mpicc
 Using Fortran linker: mpif90
 Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
 -----------------------------------------
+
 

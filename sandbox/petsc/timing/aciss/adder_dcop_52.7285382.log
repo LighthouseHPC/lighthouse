@@ -1,5 +1,5 @@
 Hash: 7285382
-cg | ilu | reason=2 | time=1.596928e-03 | norm=0.00883083 | its=3
+cg | ilu | reason=2 | time=1.600027e-03 | norm=0.00883083 | its=3
 KSP Object: 1 MPI processes
   type: cg
   maximum iterations=10000, initial guess is zero
@@ -58,85 +58,46 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn153 with 1 processor, by bnorris2 Tue Mar  8 15:30:55 2016
-Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn59 with 1 processor, by bnorris2 Wed Mar 23 15:26:37 2016UUsing Petsc Release Version 3.5.3, Jan, 31, 2015 
 
-                         Max       Max/Min        Avg      Total 
-Time (sec):           3.474e-01      1.00000   3.474e-01
-Objects:              1.700e+01      1.00000   1.700e+01
-Flops:                3.390e+05      1.00000   3.390e+05  3.390e+05
-Flops/sec:            9.757e+05      1.00000   9.757e+05  9.757e+05
-Memory:               6.205e+05      1.00000              6.205e+05
-MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
-MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
-MPI Reductions:       0.000e+00      0.00000
+                         Max       Max/Min        Avg      Total TTime (sec):           2.151e+00      1.00000   2.151e+00OObjects:              1.700e+01      1.00000   1.700e+01FFlops:                3.390e+05      1.00000   3.390e+05  3.390e+05FFlops/sec:            1.576e+05      1.00000   1.576e+05  1.576e+05MMemory:               6.205e+05      1.00000              6.205e+05MMPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00MMPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00MMPI Reductions:       0.000e+00      0.00000
 
-Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
-                            e.g., VecAXPY() for real vectors of length N --> 2N flops
-                            and VecAXPY() for complex vectors of length N --> 8N flops
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)                             e.g., VecAXPY() for real vectors of length N --> 2N flops                             and VecAXPY() for complex vectors of length N --> 8N flops
 
-Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
-                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 3.4740e-01 100.0%  3.3898e+05 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total   0:      Main Stage: 2.1513e+00 100.0%  3.3898e+05 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
-------------------------------------------------------------------------------------------------------------------------
-See the 'Profiling' chapter of the users' manual for details on interpreting output.
+------------------------------------------------------------------------------------------------------------------------SSee the 'Profiling' chapter of the users' manual for details on interpreting output.
 Phase summary info:
-   Count: number of times phase was executed
-   Time and Flops: Max - maximum over all processors
+   Count: number of times phase was executed    Time and Flops: Max - maximum over all processors
                    Ratio - ratio of maximum to minimum over all processors
-   Mess: number of messages sent
-   Avg. len: average message length (bytes)
-   Reduct: number of global reductions
-   Global: entire computation
-   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
-      %T - percent time in this phase         %F - percent flops in this phase
-      %M - percent messages in this phase     %L - percent message lengths in this phase
-      %R - percent reductions in this phase
-   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
-------------------------------------------------------------------------------------------------------------------------
+   Mess: number of messages sent    Avg. len: average message length (bytes)    Reduct: number of global reductions    Global: entire computation    Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().       %T - percent time in this phase         %F - percent flops in this phase       %M - percent messages in this phase     %L - percent message lengths in this phase       %R - percent reductions in this phase    Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)-------------------------------------------------------------------------------------------------------------------------
 
+       ##########################################################       #                                                        #       #                          WARNING!!!                    #       #                                                        #       #   This code was compiled with a debugging option,      #       #   To get timing results run ./configure                #       #   using --with-debugging=no, the performance will      #       #   be generally two or three times faster.              #       #                                                        #       ##########################################################
 
-      ##########################################################
-      #                                                        #
-      #                          WARNING!!!                    #
-      #                                                        #
-      #   This code was compiled with a debugging option,      #
-      #   To get timing results run ./configure                #
-      #   using --with-debugging=no, the performance will      #
-      #   be generally two or three times faster.              #
-      #                                                        #
-      ##########################################################
-
-
-Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
-                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
-------------------------------------------------------------------------------------------------------------------------
+EEvent                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total                    Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s-------------------------------------------------------------------------------------------------------------------------
 
 --- Event Stage 0: Main Stage
-
-ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatMult                4 1.0 1.3089e-04 1.0 8.28e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 24  0  0  0   0 24  0  0  0   633
+TThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0TThreadCommBarrie       1 1.0 2.1458e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult                4 1.0 1.2517e-04 1.0 8.28e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 24  0  0  0   0 24  0  0  0   662
 MatSolve               4 1.0 2.0504e-04 1.0 1.19e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 35  0  0  0   0 35  0  0  0   581
-MatLUFactorNum         1 1.0 5.1618e-04 1.0 6.46e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 19  0  0  0   0 19  0  0  0   125
-MatILUFactorSym        1 1.0 9.5320e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyBegin       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyEnd         1 1.0 9.0122e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLUFactorNum         1 1.0 5.1284e-04 1.0 6.46e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 19  0  0  0   0 19  0  0  0   126
+MatILUFactorSym        1 1.0 9.5010e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       1 1.0 2.1458e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         1 1.0 8.7976e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 MatGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatGetOrdering         1 1.0 2.7895e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatLoad                1 1.0 3.3092e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatView                6 1.0 2.5453e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 73  0  0  0  0  73  0  0  0  0     0
-VecTDot                6 1.0 1.0300e-04 1.0 2.18e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  6  0  0  0   0  6  0  0  0   211
-VecNorm                5 1.0 3.0041e-05 1.0 1.81e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  5  0  0  0   0  5  0  0  0   603
+MatGetOrdering         1 1.0 2.7299e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 4.3638e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 20  0  0  0  0  20  0  0  0  0     0
+MatView                6 1.0 1.3148e+00 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 61  0  0  0  0  61  0  0  0  0     0
+VecTDot                6 1.0 1.0204e-04 1.0 2.18e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  6  0  0  0   0  6  0  0  0   213
+VecNorm                5 1.0 2.7657e-05 1.0 1.81e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  5  0  0  0   0  5  0  0  0   655
 VecCopy                2 1.0 1.5020e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 VecSet                 9 1.0 5.6744e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecAXPY                7 1.0 1.0014e-04 1.0 2.54e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  7  0  0  0   0  7  0  0  0   253
-VecAYPX                2 1.0 1.1921e-05 1.0 7.25e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   608
-KSPSetUp               1 1.0 1.5497e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-KSPSolve               1 1.0 1.0529e-03 1.0 2.46e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 73  0  0  0   0 73  0  0  0   234
-PCSetUp                1 1.0 1.8892e-03 1.0 6.46e+04 1.0 0.0e+00 0.0e+00 0.0e+00  1 19  0  0  0   1 19  0  0  0    34
-PCApply                4 1.0 2.2984e-04 1.0 1.19e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 35  0  0  0   0 35  0  0  0   518
+VecAXPY                7 1.0 9.3222e-05 1.0 2.54e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  7  0  0  0   0  7  0  0  0   272
+VecAYPX                2 1.0 1.2159e-05 1.0 7.25e+03 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   596
+KSPSetUp               1 1.0 1.4710e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 1.0428e-03 1.0 2.46e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 73  0  0  0   0 73  0  0  0   236
+PCSetUp                1 1.0 1.8768e-03 1.0 6.46e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0 19  0  0  0   0 19  0  0  0    34
+PCApply                4 1.0 2.2697e-04 1.0 1.19e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0 35  0  0  0   0 35  0  0  0   525
 ------------------------------------------------------------------------------------------------------------------------
 
 Memory usage is given in bytes:
@@ -190,4 +151,5 @@ Using C linker: mpicc
 Using Fortran linker: mpif90
 Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
 -----------------------------------------
+
 
