@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
 
 
     //  General setup for Teuchos/communication
+    belosSolvers = determineSolvers(filename);
     Teuchos::GlobalMPISession mpiSession(&argc, &argv);
     Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
     comm = platform.getComm();
@@ -144,3 +145,28 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
     *fos << "Time to solve all permutations (Trilinos): " << overall_timer.totalElapsedTime() << std::endl;
 }
 
+STRINGS determineSolvers(const std::string &filename) {
+    std::ifstream file(filename);
+    std::string firstLine, firstNumbers;
+    unsigned int rows, cols;
+    if (file.good()) {
+        std::getline(file, firstLine);
+        std::getline(file, firstNumbers);
+        while (firstNumbers.find("%") == 0) {
+            std::getline(file, firstNumbers);
+        }
+        std::stringstream ss(firstNumbers);
+        ss >> rows >> cols;
+    }
+    file.close();
+    if (firstLine.find("symmetric") != std::string::npos){ // include all
+        std::cout << "In sym\n";
+        return belos_all;  
+    } else if (firstLine.find("general") != std::string::npos) { // only include sq+rec
+        std::cout << "In gen\n";
+        return belos_sq;        
+    } else {
+        std::cout << "Should never be here\n";
+        exit(-1);
+    }
+}

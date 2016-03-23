@@ -10,6 +10,7 @@
 #include <Ifpack2_Factory.hpp>
 
 #include <exception>
+#include <sstream>
 
 //  Typedefs
 typedef double ST;
@@ -29,6 +30,7 @@ typedef Teuchos::ScalarTraits<magnitude_type> STM;
 typedef Ifpack2::Preconditioner<ST, LO, GO, NT> PRE;
 typedef Belos::LinearProblem<ST, MV, OP> LP;
 typedef Belos::SolverManager<ST, MV, OP> BSM;
+typedef const std::vector<std::string> STRINGS;
 
 //  Namespaces
 using Tpetra::global_size_t;
@@ -46,13 +48,20 @@ using Teuchos::parameterList;
 
 //  Globals
 //  5 precs, 14 solvers, 70 combinations
-const	std::vector<std::string> ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL",
-	"RELAXATION", "CHEBYSHEV", "None"};
-const std::vector<std::string> belosSolvers = {"BLOCK GMRES", "PSEUDOBLOCK GMRES", "BLOCK CG",
+STRINGS ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL", "RELAXATION", "CHEBYSHEV", "None"};
+
+STRINGS belos_all = {"BLOCK GMRES", "PSEUDOBLOCK GMRES", "BLOCK CG",
     "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG", "GCRODR", "RCG", "MINRES", "TFQMR",
-    "PSEUDOBLOCK TFQMR", "HYBRID BLOCK GMRES", "PCPG", "FIXED POINT", "BICGSTAB"}; //LSQR
+    "PSEUDOBLOCK TFQMR", "HYBRID BLOCK GMRES", "PCPG", "BICGSTAB", "LSQR"};
+
+STRINGS belos_sq  = {"LSQR", "PSEUDOBLOCK TFQMR", "TFQMR", "BICGSTAB", "BLOCK GMRES", 
+    "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR"};
+STRINGS belos_sym = {"MINRES", "BLOCK CG", "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG", 
+    "RCG",  "PCPG"};
+std::vector<std::string> belosSolvers;
 
 //  Functions
+STRINGS determineSolvers(const std::string &filename);
 void belosSolve(const RCP<const MAT> &A, const std::string &filename);
 RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, std::string ifpack2PrecChoice);
 
