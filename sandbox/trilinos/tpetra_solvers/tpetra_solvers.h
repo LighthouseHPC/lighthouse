@@ -41,24 +41,25 @@ using Teuchos::ParameterList;
 using Teuchos::parameterList;
 
 //  Globals
-//  5 precs, 14 solvers, 70 combinations
+int myRank;
+RCP<Teuchos::FancyOStream> fos;
+RCP<const Teuchos::Comm<int> > comm;
+std::vector<std::string> belosSolvers;
+
+//  6 precs, 14 solvers, 84 combinations (incl no prec)
 STRINGS ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL", "RELAXATION", "CHEBYSHEV", "None"};
 
-STRINGS belos_all = {"BLOCK GMRES", "PSEUDOBLOCK GMRES", "BLOCK CG",
-    "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG", "GCRODR", "RCG", "MINRES", "TFQMR",
-    "PSEUDOBLOCK TFQMR", "HYBRID BLOCK GMRES", "PCPG", "BICGSTAB", "LSQR"};
+STRINGS belos_sq = {"PSEUDOBLOCK TFQMR", "TFQMR", "BICGSTAB", "BLOCK GMRES",
+                    "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR", "LSQR"};
 
-STRINGS belos_sq  = {"PSEUDOBLOCK TFQMR", "TFQMR", "BICGSTAB", "BLOCK GMRES", 
-    "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR", "LSQR"};
-STRINGS belos_sym = {"MINRES", "BLOCK CG", "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG", 
-    "RCG",  "PCPG"};
-std::vector<std::string> belosSolvers;
+STRINGS belos_all = {"PSEUDOBLOCK TFQMR", "TFQMR", "BICGSTAB", "BLOCK GMRES",
+                     "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR", "LSQR",
+                     "BLOCK CG", "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG",
+                     "RCG", "PCPG", "MINRES"};
 
 //  Functions
 STRINGS determineSolvers(const std::string &filename);
-void belosSolve(const RCP<const MAT> &A, const std::string &filename);
-RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, std::string ifpack2PrecChoice);
 
-RCP<const Teuchos::Comm<int> > comm;
-RCP<Teuchos::FancyOStream> fos;
-int myRank;
+void belosSolve(const RCP<const MAT> &A, const std::string &filename);
+
+RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, std::string ifpack2PrecChoice);
