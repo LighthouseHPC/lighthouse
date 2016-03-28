@@ -11,6 +11,7 @@
 
 #include <exception>
 #include <sstream>
+#include <istream>
 
 //  Typedefs
 typedef double ST;
