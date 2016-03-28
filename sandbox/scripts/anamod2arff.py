@@ -176,7 +176,7 @@ def readPerfData(features,dirname,threshold):
         if len(lines) < 2: continue
         bgqdata = []
         for l in lines: 
-          if l.startsWith('Machine characteristics: Linux-2.6.32-431.el6.ppc64-ppc64-with-redhat-6.5-Santiago'):
+          if l.startswith('Machine characteristics: Linux-2.6.32-431.el6.ppc64-ppc64-with-redhat-6.5-Santiago'):
              # This is a BG/Q log, which had some custom output
              bgqdata = [d.strip() for d in lines[1].split('|')]
              break
