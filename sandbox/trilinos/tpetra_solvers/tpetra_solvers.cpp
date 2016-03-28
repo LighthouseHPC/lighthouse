@@ -70,9 +70,9 @@ RCP<BSM> getBelosSolver(const RCP<const MAT> &A,
 {
     Belos::SolverFactory<ST, MV, OP> belosFactory;
     RCP<ParameterList> solverParams = parameterList();
-    solverParams->set ("Num Blocks", 40);
-    solverParams->set ("Maximum Iterations", 1000);
-    solverParams->set ("Convergence Tolerance", 1.0e-8);
+    //solverParams->set ("Num Blocks", 40);
+    solverParams->set ("Maximum Iterations", 10000);
+    solverParams->set ("Convergence Tolerance", 1.0e-5);
     RCP<BSM> solver = belosFactory.create(belosSolverChoice, solverParams);
     return solver;
 }
@@ -88,8 +88,8 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
     
     overall_timer.start(true);
     //  Solving linear system with all prec/solver pairs
-    for (auto solverIter : belosSolvers) {
-        for (auto precIter : ifpack2Precs) {
+    for (auto precIter : ifpack2Precs) {
+        for (auto solverIter : belosSolvers) {
             timer.start(true);
             solver = Teuchos::null;
             prec = Teuchos::null;
@@ -100,8 +100,9 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
             } catch (const std::exception &exc) {
                 *fos << solverIter << ", " << precIter << ", Error selecting prec/solver, ";
                 *fos << timer.totalElapsedTime() << std::endl;
-                if (myRank == 0)
-                    std::cerr << exc.what() << std::endl;
+                //if (myRank == 0)
+                //    std::cerr << exc.what() << std::endl;
+                continue;
             }
             *fos << filename << ", " << comm->getSize() << ", ";
             try {
@@ -113,14 +114,15 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
                 //  Create the linear problem
                 RCP<LP> problem = rcp (new LP(A, x, b));
                 if (precIter.compare("None"))
-                    problem->setLeftPrec(prec);
+                    problem->setRightPrec(prec);
                 problem->setProblem(); //done adding to the linear problem
                 solver->setProblem(problem); //add the linear problem to the solver
             } catch(const std::exception &exc) {
                 *fos << solverIter << ", " << precIter << ", Error creating linear problem, ";
                 *fos << timer.totalElapsedTime() << std::endl;
-                if (myRank == 0)
-                    std::cerr << exc.what() << std::endl;
+                //if (myRank == 0)
+                //    std::cerr << exc.what() << std::endl;
+                continue;
             }
             try {
                 //  Solve the linear problem 
@@ -136,8 +138,9 @@ void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
             } catch (const std::exception &exc) {
                 *fos << solverIter << ", " << precIter << ", Error solving linear problem, ";
                 *fos << timer.totalElapsedTime() << std::endl;
-                if (myRank == 0)
-                    std::cerr << exc.what() << std::endl;
+                //if (myRank == 0)
+                //    std::cerr << exc.what() << std::endl;
+                continue;
             }
         }
     }
