@@ -38,11 +38,11 @@ int main(int argc, char *argv[]) {
      // Print to screen
         fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
         *fos << "No output directory or file was specified. Printing to screen" << std::endl;
-        unsigned found = inputFile.find_last_of("/\\");
+        unsigned long found = inputFile.find_last_of("/\\");
         inputFile = inputFile.substr(found+1);
     } else if (outputDir.size() && outputFile.empty()){ 
     // Print to directory
-        unsigned found = inputFile.find_last_of("/\\");
+        unsigned long found = inputFile.find_last_of("/\\");
         std::string outputFilename = outputDir + "/" + inputFile.substr(found+1)+".out";
         if (myRank == 0)
             std::cout << "Printing to " << outputFilename << std::endl;
@@ -92,8 +92,7 @@ void belosSolve(const RCP<const MAT> &A, const std::string &inputFile) {
     Teuchos::Time overall_timer("overall_timer", false);
     RCP<PRE> prec;
     RCP<BSM> solver; 
-    Belos::SolverFactory<ST, MV, OP> belosFactory;
-    
+
     overall_timer.start(true);
     //  Solving linear system with all prec/solver pairs
     for (auto precIter : ifpack2Precs) {
