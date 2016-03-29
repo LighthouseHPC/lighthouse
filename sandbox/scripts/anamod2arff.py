@@ -175,9 +175,11 @@ def readPerfData(features,dirname,threshold):
         lines = contents.split('\n')
         if len(lines) < 2: continue
         bgqdata = []
-        if lines[0].startswith('Hash:'):
-          # This is a BG/Q log, which had some custom output
-          bgqdata = [d.strip() for d in lines[1].split('|')]
+        for l in lines: 
+          if l.startswith('Machine characteristics: Linux-2.6.32-431.el6.ppc64-ppc64-with-redhat-6.5-Santiago'):
+             # This is a BG/Q log, which had some custom output
+             bgqdata = [d.strip() for d in lines[1].split('|')]
+             break
         #else:
         options=False
         #data [solver, preconditioner, convergence reason, time, tolerance]
