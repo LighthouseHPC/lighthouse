@@ -1,5 +1,5 @@
 Hash: 32168837
-gmres | ilu | reason=2 | time=2.350783e-02 | norm=0.00351752 | its=18
+gmres | ilu | reason=2 | time=2.352309e-02 | norm=0.00351752 | its=18
 KSP Object: 1 MPI processes
   type: gmres
     GMRES: restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
@@ -60,14 +60,14 @@ PC Object: 1 MPI processes
 
 ---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
 
-/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn169 with 1 processor, by bnorris2 Mon Mar 28 10:19:56 2016
+/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn164 with 1 processor, by bnorris2 Mon Mar 28 16:55:13 2016
 Using Petsc Release Version 3.5.3, Jan, 31, 2015 
 
                          Max       Max/Min        Avg      Total 
-Time (sec):           4.909e-02      1.00000   4.909e-02
+Time (sec):           4.609e-02      1.00000   4.609e-02
 Objects:              3.900e+01      1.00000   3.900e+01
 Flops:                1.808e+07      1.00000   1.808e+07  1.808e+07
-Flops/sec:            3.683e+08      1.00000   3.683e+08  3.683e+08
+Flops/sec:            3.923e+08      1.00000   3.923e+08  3.923e+08
 Memory:               5.762e+06      1.00000              5.762e+06
 MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
 MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
@@ -79,7 +79,7 @@ Flop counting convention: 1 flop = 1 real number operation of type (multiply/div
 
 Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
                         Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
- 0:      Main Stage: 4.9073e-02 100.0%  1.8081e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 4.6074e-02 100.0%  1.8081e+07 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
 
 ------------------------------------------------------------------------------------------------------------------------
 See the 'Profiling' chapter of the users' manual for details on interpreting output.
@@ -117,31 +117,31 @@ Event                Count      Time (sec)     Flops                            
 
 --- Event Stage 0: Main Stage
 
-ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommRunKer       1 1.0 8.1062e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
 ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatMult               19 1.0 2.5072e-03 1.0 3.12e+06 1.0 0.0e+00 0.0e+00 0.0e+00  5 17  0  0  0   5 17  0  0  0  1245
-MatSolve              19 1.0 4.4751e-03 1.0 6.00e+06 1.0 0.0e+00 0.0e+00 0.0e+00  9 33  0  0  0   9 33  0  0  0  1340
-MatLUFactorNum         1 1.0 4.0700e-03 1.0 1.29e+06 1.0 0.0e+00 0.0e+00 0.0e+00  8  7  0  0  0   8  7  0  0  0   317
-MatILUFactorSym        1 1.0 6.8018e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 14  0  0  0  0  14  0  0  0  0     0
+MatMult               19 1.0 2.5012e-03 1.0 3.12e+06 1.0 0.0e+00 0.0e+00 0.0e+00  5 17  0  0  0   5 17  0  0  0  1248
+MatSolve              19 1.0 4.4870e-03 1.0 6.00e+06 1.0 0.0e+00 0.0e+00 0.0e+00 10 33  0  0  0  10 33  0  0  0  1336
+MatLUFactorNum         1 1.0 4.1108e-03 1.0 1.29e+06 1.0 0.0e+00 0.0e+00 0.0e+00  9  7  0  0  0   9  7  0  0  0   314
+MatILUFactorSym        1 1.0 6.7701e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 15  0  0  0  0  15  0  0  0  0     0
 MatAssemblyBegin       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatAssemblyEnd         1 1.0 5.2905e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+MatAssemblyEnd         1 1.0 5.2810e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
 MatGetRowIJ            1 1.0 2.8610e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-MatGetOrdering         1 1.0 1.0900e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  2  0  0  0  0   2  0  0  0  0     0
-MatLoad                1 1.0 1.6870e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0     0
-MatView                6 1.0 1.3483e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0     0
-VecMDot               18 1.0 1.0841e-03 1.0 3.35e+06 1.0 0.0e+00 0.0e+00 0.0e+00  2 19  0  0  0   2 19  0  0  0  3092
-VecNorm               20 1.0 2.6131e-04 1.0 3.92e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  2  0  0  0   1  2  0  0  0  1500
-VecScale              19 1.0 4.5919e-04 1.0 1.86e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  1  0  0  0   1  1  0  0  0   406
-VecCopy                1 1.0 1.7166e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
-VecSet                32 1.0 9.1481e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  2  0  0  0  0   2  0  0  0  0     0
-VecAXPY                2 1.0 6.2943e-05 1.0 3.92e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0   623
-VecMAXPY              19 1.0 1.0376e-03 1.0 3.70e+06 1.0 0.0e+00 0.0e+00 0.0e+00  2 20  0  0  0   2 20  0  0  0  3571
-VecNormalize          19 1.0 8.4686e-04 1.0 5.59e+05 1.0 0.0e+00 0.0e+00 0.0e+00  2  3  0  0  0   2  3  0  0  0   660
-KSPGMRESOrthog        18 1.0 2.2511e-03 1.0 6.70e+06 1.0 0.0e+00 0.0e+00 0.0e+00  5 37  0  0  0   5 37  0  0  0  2978
-KSPSetUp               1 1.0 3.8195e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
-KSPSolve               1 1.0 2.2669e-02 1.0 1.66e+07 1.0 0.0e+00 0.0e+00 0.0e+00 46 92  0  0  0  46 92  0  0  0   732
-PCSetUp                1 1.0 1.2095e-02 1.0 1.29e+06 1.0 0.0e+00 0.0e+00 0.0e+00 25  7  0  0  0  25  7  0  0  0   107
-PCApply               19 1.0 4.5805e-03 1.0 6.00e+06 1.0 0.0e+00 0.0e+00 0.0e+00  9 33  0  0  0   9 33  0  0  0  1309
+MatGetOrdering         1 1.0 1.1001e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  2  0  0  0  0   2  0  0  0  0     0
+MatLoad                1 1.0 1.7190e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  4  0  0  0  0   4  0  0  0  0     0
+MatView                6 1.0 1.3924e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  3  0  0  0  0   3  0  0  0  0     0
+VecMDot               18 1.0 1.0729e-03 1.0 3.35e+06 1.0 0.0e+00 0.0e+00 0.0e+00  2 19  0  0  0   2 19  0  0  0  3124
+VecNorm               20 1.0 2.7370e-04 1.0 3.92e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  2  0  0  0   1  2  0  0  0  1432
+VecScale              19 1.0 4.5395e-04 1.0 1.86e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  1  0  0  0   1  1  0  0  0   410
+VecCopy                1 1.0 1.6928e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet                32 1.0 8.5711e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  2  0  0  0  0   2  0  0  0  0     0
+VecAXPY                2 1.0 6.4135e-05 1.0 3.92e+04 1.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0   611
+VecMAXPY              19 1.0 1.0502e-03 1.0 3.70e+06 1.0 0.0e+00 0.0e+00 0.0e+00  2 20  0  0  0   2 20  0  0  0  3528
+VecNormalize          19 1.0 8.4543e-04 1.0 5.59e+05 1.0 0.0e+00 0.0e+00 0.0e+00  2  3  0  0  0   2  3  0  0  0   661
+KSPGMRESOrthog        18 1.0 2.2535e-03 1.0 6.70e+06 1.0 0.0e+00 0.0e+00 0.0e+00  5 37  0  0  0   5 37  0  0  0  2975
+KSPSetUp               1 1.0 3.8004e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  1  0  0  0  0   1  0  0  0  0     0
+KSPSolve               1 1.0 2.2688e-02 1.0 1.66e+07 1.0 0.0e+00 0.0e+00 0.0e+00 49 92  0  0  0  49 92  0  0  0   731
+PCSetUp                1 1.0 1.2131e-02 1.0 1.29e+06 1.0 0.0e+00 0.0e+00 0.0e+00 26  7  0  0  0  26  7  0  0  0   106
+PCApply               19 1.0 4.5910e-03 1.0 6.00e+06 1.0 0.0e+00 0.0e+00 0.0e+00 10 33  0  0  0  10 33  0  0  0  1306
 ------------------------------------------------------------------------------------------------------------------------
 
 Memory usage is given in bytes:
@@ -158,7 +158,7 @@ Reports information only for process 0.
       Preconditioner     1              0            0     0
            Index Set     3              0            0     0
 ========================================================================================================================
-Average time to get PetscTime(): 1.19209e-07
+Average time to get PetscTime(): 0
 #PETSc Option Table entries:
 -f /home11/bnorris2/UFloridaSparseMat/petsc/t2d_q9_A_36.petsc
 -hash 32168837
