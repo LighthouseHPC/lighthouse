@@ -20,8 +20,10 @@
 #
 
 
-cmake	-D TRILINOS_PATH:FILEPATH=~/project/TRILINOS_INTEL_MPI \
+cmake \
+    -D TRILINOS_PATH:FILEPATH=~/project/trilinos-petsc-testbed/trilinos-install \
 	-D CMAKE_BUILD_TYPE:STRING=RELEASE \
-	-D CMAKE_CXX_FLAGS="-lgfortran -g -O3 -std=c++0x" \
+	-D CMAKE_CXX_FLAGS="-Wall -fPIC -lgfortran -g -O3 -std=c++0x -fopenmp" \
+	-D CMAKE_C_FLAGS="-Wall -fPIC -lgfortran -g -O3 -std=c++0x -fopenmp" \
 	.
   
