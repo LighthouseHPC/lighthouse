@@ -6,6 +6,7 @@ Created on Feb 17, 2015
 '''
 import re, sys, os, argparse, glob, time, datetime, socket, random
 from solvers import *
+solveropts = getsolvers()
 
 def readFeatures(dirname='anamod_features'):
     files=glob.glob(dirname + '/*.anamod')
@@ -173,7 +174,15 @@ def readPerfData(features,dirname,threshold):
         fd.close()
         if contents.find('-hash ') < 0: continue
         lines = contents.split('\n')
-        if len(lines) < 2: continue
+        if len(lines) < 2:  #Check for timeout
+            if lines[-1].strip().endswith('timeout'):
+                perf[matrixname] = {'mintime':sys.float_info.max}
+                solverpc = solveropts[solverID].split()
+                s = solverpc[1]
+                p = ' '.join(solverpc[3:])
+                perf[matrixname][solverID] = [s,p,'-100',str(sys.float_info.max),str(sys.float_info.max)]
+            continue
+
         bgqdata = []
         for l in lines: 
           if l.startswith('Machine characteristics: Linux-2.6.32-431.el6.ppc64-ppc64-with-redhat-6.5-Santiago'):
