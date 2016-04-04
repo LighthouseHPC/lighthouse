@@ -4,6 +4,6 @@ while true; do
      echo "Adding $f"
      git add $f 
   done
-  git commit -m "more moose data" . && git pushh  
+  git commit -m "more moose data" . && git push  
   sleep 60
 done
