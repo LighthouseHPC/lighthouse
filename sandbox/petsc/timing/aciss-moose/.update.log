@@ -34886,3 +34886,170 @@ Adding split_order4_test_45_1_1.5890860.log
 Adding split_order6_test_30_1_1.5890860.log
 Adding split_order6_test_47_1_1.5890860.log
 Adding variable_1_1_1.5890860.log
+[master 8ac16f6] more moose data
+ 87 files changed, 16516 insertions(+)
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_coupled_test_10_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_coupled_test_2_5_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_12_4_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_12_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_16_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_20_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_6_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_7_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_9_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/AC_mobility_derivative_test_9_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/SmoothCircleIC_3D_test_1_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/TotalFreeEnergy_test_2_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_17_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_25_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_28_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_28_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_29_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_30_12_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_43_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_47_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_52_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_100_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_14_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_16_11_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_52_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_55_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_57_10_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_5_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_63_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_66_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_77_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_81_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_86_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_90_10_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_97_5_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order4_test_9_4_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_13_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_16_5_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_24_10_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_24_11_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_28_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_30_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_34_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_39_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_40_11_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_44_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_54_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_55_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_60_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_64_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_65_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_67_4_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_77_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_79_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_7_12_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_85_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_86_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order6_test_93_5_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_10_16_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_10_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_12_11_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_14_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_30_7_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_31_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_33_4_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_35_10_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_41_5_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_43_8_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_47_9_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_58_2_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_63_3_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_77_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_8_6_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_91_11_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_95_12_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/direct_order8_test_99_10_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/kobayashi_5_16_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/kobayashi_9_4_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/material_7_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/split_order4_test_22_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/split_order4_test_27_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/split_order4_test_28_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/split_order4_test_45_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/split_order6_test_30_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/split_order6_test_47_1_1.5890860.log
+ create mode 100644 sandbox/petsc/timing/aciss-moose/variable_1_1_1.5890860.log
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Adding AC_mobility_derivative_coupled_test_10_4_1.5890860.log
+Adding AC_mobility_derivative_coupled_test_5_4_1.5890860.log
+Adding AC_mobility_derivative_test_14_5_1.5890860.log
+Adding AC_mobility_derivative_test_14_8_1.5890860.log
+Adding AC_mobility_derivative_test_15_7_1.5890860.log
+Adding AC_mobility_derivative_test_16_9_1.5890860.log
+Adding AC_mobility_derivative_test_19_6_1.5890860.log
+Adding AC_mobility_derivative_test_19_7_1.5890860.log
+Adding AC_mobility_derivative_test_1_1_1.5890860.log
+Adding AC_mobility_derivative_test_3_3_1.5890860.log
+Adding AC_mobility_derivative_test_6_1_1.5890860.log
+Adding AC_mobility_derivative_test_8_7_1.5890860.log
+Adding direct_10_9_1.5890860.log
+Adding direct_18_9_1.5890860.log
+Adding direct_26_9_1.5890860.log
+Adding direct_28_10_1.5890860.log
+Adding direct_2_11_1.5890860.log
+Adding direct_2_1_1.5890860.log
+Adding direct_49_12_1.5890860.log
+Adding direct_7_9_1.5890860.log
+Adding direct_8_3_1.5890860.log
+Adding direct_9_1_1.5890860.log
+Adding direct_order4_test_18_6_1.5890860.log
+Adding direct_order4_test_24_7_1.5890860.log
+Adding direct_order4_test_26_2_1.5890860.log
+Adding direct_order4_test_27_6_1.5890860.log
+Adding direct_order4_test_27_9_1.5890860.log
+Adding direct_order4_test_29_10_1.5890860.log
+Adding direct_order4_test_33_8_1.5890860.log
+Adding direct_order4_test_40_6_1.5890860.log
+Adding direct_order4_test_42_6_1.5890860.log
+Adding direct_order4_test_44_3_1.5890860.log
+Adding direct_order4_test_4_4_1.5890860.log
+Adding direct_order4_test_56_8_1.5890860.log
+Adding direct_order4_test_57_6_1.5890860.log
+Adding direct_order4_test_7_10_1.5890860.log
+Adding direct_order4_test_85_1_1.5890860.log
+Adding direct_order4_test_8_1_1.5890860.log
+Adding direct_order4_test_91_6_1.5890860.log
+Adding direct_order6_test_17_12_1.5890860.log
+Adding direct_order6_test_20_9_1.5890860.log
+Adding direct_order6_test_23_10_1.5890860.log
+Adding direct_order6_test_38_6_1.5890860.log
+Adding direct_order6_test_50_10_1.5890860.log
+Adding direct_order6_test_50_7_1.5890860.log
+Adding direct_order6_test_61_6_1.5890860.log
+Adding direct_order6_test_66_1_1.5890860.log
+Adding direct_order6_test_86_7_1.5890860.log
+Adding direct_order6_test_92_2_1.5890860.log
+Adding direct_order6_test_94_11_1.5890860.log
+Adding direct_order6_test_95_11_1.5890860.log
+Adding direct_order6_test_96_9_1.5890860.log
+Adding direct_order6_test_9_14_1.5890860.log
+Adding direct_order8_test_14_3_1.5890860.log
+Adding direct_order8_test_16_11_1.5890860.log
+Adding direct_order8_test_18_6_1.5890860.log
+Adding direct_order8_test_23_12_1.5890860.log
+Adding direct_order8_test_24_11_1.5890860.log
+Adding direct_order8_test_29_12_1.5890860.log
+Adding direct_order8_test_37_7_1.5890860.log
+Adding direct_order8_test_39_1_1.5890860.log
+Adding direct_order8_test_41_8_1.5890860.log
+Adding direct_order8_test_59_10_1.5890860.log
+Adding direct_order8_test_5_5_1.5890860.log
+Adding direct_order8_test_60_9_1.5890860.log
+Adding direct_order8_test_81_11_1.5890860.log
+Adding direct_order8_test_9_10_1.5890860.log
+Adding material_6_1_1.5890860.log
+Adding mollified_langmuir_desorption_148_1_1.5890860.log
+Adding mollified_langmuir_desorption_193_1_1.5890860.log
+Adding split_order4_test_15_2_1.5890860.log
+Adding split_order4_test_34_1_1.5890860.log
+Adding split_order6_test_40_2_1.5890860.log
+Adding split_order6_test_47_2_1.5890860.log
