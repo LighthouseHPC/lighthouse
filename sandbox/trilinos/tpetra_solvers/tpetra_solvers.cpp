@@ -1,7 +1,8 @@
 #include "tpetra_solvers.h"
 
+int symm = 0;
+
 int main(int argc, char *argv[]) {
-    double program_start, program_end;
     std::string outputDir, outputFile;
     if (argv[1] == NULL) {
         std::cout << "No input file was specified" << std::endl;
@@ -9,7 +10,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     for (int i = 2; i < argc; i++) {
-        std::cout << "arg[" << i << "]: " << argv[i] << std::endl;
+        //std::cout << "arg[" << i << "]: " << argv[i] << std::endl;
         if (strcmp(argv[i], "-f") == 0) { //output to file
             i++;
             outputFile = argv[i];
@@ -90,6 +91,8 @@ void belosSolve(const RCP<const MAT> &A, const std::string &inputFile) {
     Teuchos::Time overall_timer("overall_timer", false);
     RCP<PRE> prec;
     RCP<BSM> solver;
+    RCP<MV> origVector = rcp(new MV(A->getRangeMap(), 1));
+    origVector->randomize();
 
     overall_timer.start(true);
     //  Solving linear system with all prec/solver pairs
@@ -98,6 +101,12 @@ void belosSolve(const RCP<const MAT> &A, const std::string &inputFile) {
             timer.start(true);
             solver = Teuchos::null;
             prec = Teuchos::null;
+            *fos << inputFile << ", " << comm->getSize() << ", ";
+            if (symm) {
+                *fos << "symm, ";
+            } else {
+                *fos << "general, ";
+            }
             try {
                 solver = getBelosSolver(A, solverIter);
                 if (precIter.compare("None"))
@@ -109,12 +118,10 @@ void belosSolve(const RCP<const MAT> &A, const std::string &inputFile) {
                 //    std::cerr << exc.what() << std::endl;
                 continue;
             }
-            *fos << inputFile << ", " << comm->getSize() << ", ";
             try {
                 //  Create the x and randomized b multivectors
                 RCP<MV> x = rcp(new MV(A->getDomainMap(), 1));
-                RCP<MV> b = rcp(new MV(A->getRangeMap(), 1));
-                b->randomize();
+                RCP<MV> b = origVector;
 
                 //  Create the linear problem
                 RCP<LP> problem = rcp(new LP(A, x, b));
@@ -168,8 +175,10 @@ STRINGS determineSolvers(const std::string &inputFile) {
     }
     file.close();
     if (firstLine.find("symmetric") != std::string::npos) { // include all
+        symm = 1;
         return belos_all;
     } else if (firstLine.find("general") != std::string::npos) { // only include sq+rec
+        symm = 0;
         return belos_sq;
     } else {
         //  Should never be here
