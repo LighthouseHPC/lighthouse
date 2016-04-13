@@ -47,13 +47,13 @@ RCP<const Teuchos::Comm<int> > comm;
 std::vector<std::string> belosSolvers;
 
 //  6 precs, 14 solvers, 84 combinations (incl no prec)
-STRINGS ifpack2Precs = {"ILUT", "RILUK", "DIAGONAL", "RELAXATION", "CHEBYSHEV", "None"};
+STRINGS ifpack2Precs = {"ILUT", "RILUK",/* "DIAGONAL",*/ "RELAXATION", "CHEBYSHEV", "None"};
 
 STRINGS belos_sq = {"PSEUDOBLOCK TFQMR", "TFQMR", "BICGSTAB", "BLOCK GMRES",
-                    "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR", "LSQR"};
+                    "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR"}; //, "LSQR"};
 
 STRINGS belos_all = {"PSEUDOBLOCK TFQMR", "TFQMR", "BICGSTAB", "BLOCK GMRES",
-                     "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR", "LSQR",
+                     "PSEUDOBLOCK GMRES", "HYBRID BLOCK GMRES", "GCRODR", //"LSQR",
                      "BLOCK CG", "PSEUDOBLOCK CG", "PSEUDOBLOCK STOCHASTIC CG",
                      "RCG", "PCPG", "MINRES"};
 

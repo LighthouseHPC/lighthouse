@@ -1,16 +1,16 @@
-# Usage for f in ~/lustre/12_redo_all/* ; do python parse2csv.py $f ~/tpetra/12_redo_all ; done
+#!/usr/bin/env python
 
-import re,sys
+import re,sys,os
 
-input_file = sys.argv[1]
-#results_file = open(sys.argv[2] + '_results.csv', 'a')
-results_file = open('results.csv', 'a')
-reading = open(input_file, 'r')
+root_dir = sys.argv[1] 
 
-results_line = ""
-
-for i, line in enumerate(reading):
-	if line.find('converge') >= 0:
-		results_file.write(line)
-reading.close()
-results_file.close()
+with open('results.csv', 'w') as results_file:
+    results_file.write('Root Location: ' + root_dir + '\n')
+    for fname in os.listdir(root_dir):
+        print fname
+        with open(root_dir + fname, 'r') as reading:
+            for i, line in enumerate(reading):
+                if line.find('converge') >= 0:
+                    results_file.write(line)
+                elif line.find('Error') >= 0:
+                    results_file.write(line)
