@@ -1,11 +1,11 @@
 import os,csv
 
 folder = "/home8/kanika/moose/mat_files/"
-output = '/home8/kanika/petsc2/src/ksp/ksp/examples/tutorials/moose_features/tutorials/script.sh'
+output = '/home8/kanika/petsc2/src/ksp/ksp/examples/tutorials/moose_features/tutorials/properties_script.sh'
 target = open(output,'w')
 target.write("clear \n")
 
-feat_file = open('/home8/kanika/petsc2/src/ksp/ksp/examples/tutorials/moose_features/tutorials/results.csv','w')
+feat_file = open('/home8/kanika/petsc2/src/ksp/ksp/examples/tutorials/moose_features/tutorials/properties_results.csv','w')
 #write the header to the new decoupled file before writing the feature values
 feat_file.write("MinNonzerosPerRow" + "," + "RowVariance" +  "," + "ColumnVariance" + "," + 
 "DiagonalVariance" + ","+ "Nonzeros " + ","+ "Dimension" + ","+ "FrobeniusNorm " + ","+ 
@@ -19,6 +19,6 @@ feat_file.write("MinNonzerosPerRow" + "," + "RowVariance" +  "," + "ColumnVarian
  ","+ "MatrixSymmetric " + "," +"matrix"+ "\n")
 
 for mat_file in os.listdir(folder):
-	target.write("./ex100 -f " + folder + mat_file + " >> results.csv" + "\n") 
+	target.write("./properties_moose -f " + folder + mat_file + " >> properties_results.csv" + "\n") 
 
 target.write("exit 0")
