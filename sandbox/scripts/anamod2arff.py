@@ -234,14 +234,15 @@ def readPerfData(features,dirname,threshold):
             minsamples = t
     
     avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
+    print solversamples
     print "Average, min, max samples per solver: ", avgsamplespersolver, minsamples, maxsamples
 
-    return perf
+    return perf, solversamples
 
 '''
     @param lines list of lines (strings)
 '''
-def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
+def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples={},
                   includetimes=False,usesolvers=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
@@ -285,6 +286,9 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
         for solverID in solvers.keys():
             # solver, preconditioner, convergence reason, time, tolerance
             if not solverID in perfdata[matrixname].keys(): continue
+            
+            # Remove solvers for which we have fewer than 10 samples
+            if solverID in solversamples.keys() and solversamples[solverID] < 10: continue
             dtime = float(perfdata[matrixname][solverID][3])
             if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata[matrixname]['mintime']:
                 label = 'good'
@@ -373,6 +377,7 @@ if __name__ == '__main__':
     usesolvers = args.solvers
     outfile = args.name
     solvers = {}
+    solversamples = {}
 
     if (not fdirname or not os.path.exists(fdirname)) and \
         (not trilinosfeaturepath or not os.path.exists(trilinosfeaturepath)):
@@ -387,7 +392,7 @@ if __name__ == '__main__':
 
     features = None
     feature_times = None
-    
+
     if fdirname:
         features, feature_times = readFeatures(fdirname)
     if trilinosfeaturepath:
@@ -397,7 +402,7 @@ if __name__ == '__main__':
         parser.help()
 
     if pdirname:
-        perfdata = readPerfData(features,pdirname,args.minpoints)
+        perfdata, solversamples = readPerfData(features,pdirname,args.minpoints)
     elif belosfile:
         perfdata, solvers = readPerfDataBelos(features,belosfile)
 
@@ -420,7 +425,7 @@ if __name__ == '__main__':
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
     csvbuf = buf
-    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,includetimes,usesolvers)
+    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,solversamples,includetimes,usesolvers)
     buf += arff
     csvbuf += csv
     basefilename = outfile+'_%d' % (args.besttol)
