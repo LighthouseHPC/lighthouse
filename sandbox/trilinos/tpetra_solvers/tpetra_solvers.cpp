@@ -1,173 +1,187 @@
 #include "tpetra_solvers.h"
 
-RCP<const Teuchos::Comm<int> > comm;
-RCP<Teuchos::FancyOStream> fos;
-int numNodes;
-int myRank;
+int symm = 0;
 
 int main(int argc, char *argv[]) {
-	std::string outputDir;
-	if (argv[1] == NULL) {
-		std::cout << "No input file was specified" << std::endl;
-		std::cout << "Usage: ./tpetra_solvers <.mtx file> [<output_dir>]" << std::endl;
-		return -1;
-	} 
-	if (argv[2] != NULL) {
-		outputDir = argv[2];	
-	}
-	std::string filename = argv[1];
-	
+    std::string outputDir, outputFile;
+    if (argv[1] == NULL) {
+        std::cout << "No input file was specified" << std::endl;
+        std::cout << "Usage: ./tpetra_solvers <.mtx file> ['-d output_dir' | '-f output_file']" << std::endl;
+        return -1;
+    }
+    for (int i = 2; i < argc; i++) {
+        //std::cout << "arg[" << i << "]: " << argv[i] << std::endl;
+        if (strcmp(argv[i], "-f") == 0) { //output to file
+            i++;
+            outputFile = argv[i];
+        } else if (strcmp(argv[i], "-d") == 0) {
+            i++;
+            outputDir = argv[i];
+        }
+    }
 
-	//  General setup for Teuchos/communication
-	Teuchos::GlobalMPISession mpiSession(&argc, &argv);
-	Platform& platform = Tpetra::DefaultPlatform::getDefaultPlatform();
-  comm = platform.getComm();
-  RCP<NT> node = platform.getNode();
-  myRank = comm->getRank();
-  RCP<MAT> A = Reader::readSparseFile(filename, comm, node, true); 
-  Teuchos::oblackholestream blackhole;
-  std::ostream& out = (myRank == 0) ? std::cout : blackhole;
-  std::ofstream outputFile;
+    //  General setup for Teuchos/communication
+    std::string inputFile = argv[1];
+    belosSolvers = determineSolvers(inputFile);
+    Teuchos::GlobalMPISession mpiSession(&argc, &argv);
+    Platform &platform = Tpetra::DefaultPlatform::getDefaultPlatform();
+    comm = platform.getComm();
+    RCP<NT> node = platform.getNode();
+    myRank = comm->getRank();
 
-	//  How to output results
-  if (outputDir.empty()) {
-  	std::cout << "No output directory was specified. Printing to screen" << std::endl;
-	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
-	  unsigned found = filename.find_last_of("/\\");
-	  filename = filename.substr(found+1);
-	} else {
-		unsigned found = filename.find_last_of("/\\");
-	  std::string outputFilename = outputDir + "/" + filename.substr(found+1)+".out";
-	  filename = filename.substr(found+1);
-		//std::cout << "outputFilename:" << outputFilename << std::endl;
-	  outputFile.open(outputFilename.c_str());
-	  fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputFile));
-	  outputFile << "Matrix: " << filename << std::endl;
-	  outputFile << "Procs: " << comm->getSize() << std::endl;
-	}
+    RCP<MAT> A = Reader::readSparseFile(inputFile, comm, node, true);
+    Teuchos::oblackholestream blackhole;
+    std::ostream &out = (myRank == 0) ? std::cout : blackhole;
+    std::ofstream outputLoc;
 
-  
-  belosSolve(A, filename);
+    //  How to output results
+    if (outputDir.empty() && outputFile.empty()) {
+        // Print to screen
+        fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(out));
+        *fos << "No output directory or file was specified. Printing to screen" << std::endl;
+        unsigned long found = inputFile.find_last_of("/\\");
+        inputFile = inputFile.substr(found + 1);
+    } else if (outputDir.size() && outputFile.empty()) {
+        // Print to directory
+        unsigned long found = inputFile.find_last_of("/\\");
+        std::string outputFilename = outputDir + "/" + inputFile.substr(found + 1) + ".out";
+        if (myRank == 0)
+            std::cout << "Printing to " << outputFilename << std::endl;
+        inputFile = inputFile.substr(found + 1);
+        outputLoc.open(outputFilename.c_str());
+        fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputLoc));
+    } else if (outputDir.empty() && outputFile.size()) {
+        if (myRank == 0)
+            std::cout << "Printing to " << outputFile << std::endl;
+        outputLoc.open(outputFile.c_str());
+        fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(outputLoc));
+
+    }
+    // Do all the work
+    belosSolve(A, inputFile);
+    return 0;
 }
 
-RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A, 
-																 std::string ifpack2PrecChoice) 
-{
-	RCP<PRE> prec;
-	Ifpack2::Factory ifpack2Factory;
-	prec = ifpack2Factory.create(ifpack2PrecChoice, A);
-	prec->initialize();
-	prec->compute();
-	return prec;
+RCP<PRE> getIfpack2Preconditoner(const RCP<const MAT> &A,
+                                 std::string ifpack2PrecChoice) {
+    RCP<PRE> prec;
+    Ifpack2::Factory ifpack2Factory;
+    prec = ifpack2Factory.create(ifpack2PrecChoice, A);
+    prec->initialize();
+    prec->compute();
+    return prec;
 }
 
-RCP<BSM> getBelosSolver(const RCP<const MAT> &A, 
-												std::string belosSolverChoice) 
-{
-	Belos::SolverFactory<ST, MV, OP> belosFactory;
-	RCP<ParameterList> solverParams = parameterList();
-	solverParams->set ("Num Blocks", 40);
-	solverParams->set ("Maximum Iterations", 1000);
-	solverParams->set ("Convergence Tolerance", 1.0e-8);
-	RCP<BSM> solver = belosFactory.create(belosSolverChoice, solverParams);
-	return solver;
+RCP<BSM> getBelosSolver(const RCP<const MAT> &A,
+                        std::string belosSolverChoice) {
+    Belos::SolverFactory<ST, MV, OP> belosFactory;
+    RCP<ParameterList> solverParams = parameterList();
+    solverParams->set("Verbosity", 0);
+    //solverParams->set ("Num Blocks", 40);
+    solverParams->set("Maximum Iterations", 10000);
+    solverParams->set("Convergence Tolerance", 1.0e-5);
+    RCP<BSM> solver = belosFactory.create(belosSolverChoice, solverParams);
+    return solver;
 }
 
 //  https://code.google.com/p/trilinos/wiki/Tpetra_Belos_CreateSolver
-void belosSolve(const RCP<const MAT> &A, const std::string &filename) {
-  // Create solver and preconditioner 
-  Teuchos::Time timer("timer", false);
-  RCP<PRE> prec;
-  RCP<BSM> solver; 
-  Belos::SolverFactory<ST, MV, OP> belosFactory;
+void belosSolve(const RCP<const MAT> &A, const std::string &inputFile) {
+    // Create solver and preconditioner 
+    Teuchos::Time timer("timer", false);
+    Teuchos::Time overall_timer("overall_timer", false);
+    RCP<PRE> prec;
+    RCP<BSM> solver;
+    RCP<MV> origVector = rcp(new MV(A->getRangeMap(), 1));
+    origVector->randomize();
 
-  //  Create solver and preconditioner
-  for (auto solverIter : belosSolvers) {
-  	for (auto precIter : ifpack2Precs) {
-  		timer.start(true);
-  		solver = Teuchos::null;
-  		prec = Teuchos::null;
-  		*fos << filename << ", ";
-		  try {
-		  	solver = getBelosSolver(A, solverIter); 
-		    prec = getIfpack2Preconditoner(A, precIter);
-		  } catch (...) {
-		  	*fos << solverIter << ", " << precIter << ", creation_error" << std::endl;
-		  	continue;	
-		  }
-		  try {
-			  //  Create the X and randomized B multivectors
-			  RCP<MV> X = rcp (new MV (A->getDomainMap(), 1));
-			  RCP<MV> B = rcp (new MV (A->getRangeMap(), 1));
-			  B->randomize();
+    overall_timer.start(true);
+    //  Solving linear system with all prec/solver pairs
+    for (auto precIter : ifpack2Precs) {
+        for (auto solverIter : belosSolvers) {
+            timer.start(true);
+            solver = Teuchos::null;
+            prec = Teuchos::null;
+            *fos << inputFile << ", " << comm->getSize() << ", ";
+            if (symm) {
+                *fos << "symm, ";
+            } else {
+                *fos << "general, ";
+            }
+            try {
+                solver = getBelosSolver(A, solverIter);
+                if (precIter.compare("None"))
+                    prec = getIfpack2Preconditoner(A, precIter);
+            } catch (const std::exception &exc) {
+                *fos << solverIter << ", " << precIter << ", Error selecting prec/solver, ";
+                *fos << timer.totalElapsedTime() << std::endl;
+                //if (myRank == 0)
+                //    std::cerr << exc.what() << std::endl;
+                continue;
+            }
+            try {
+                //  Create the x and randomized b multivectors
+                RCP<MV> x = rcp(new MV(A->getDomainMap(), 1));
+                RCP<MV> b = origVector;
 
-		  	//  Create the linear problem
-			  RCP<LP> problem = rcp (new LP(A, X, B));
-			  problem->setLeftPrec(prec);
-			  problem->setProblem(); //done adding to the linear problem
-			  solver->setProblem(problem); //add the linear problem to the solver
-
-		  //  Solve the problem 
-			  Belos::ReturnType result = solver->solve();
-			  const int numIters = solver->getNumIters();
-			  timer.stop();
-			  *fos <<  solverIter  << ", "  << precIter;
-			  if (result == Belos::Converged) {
-			    *fos << ", converged, "; 
-			  } else {
-			  	*fos << ", unconverged, ";
-			  } 
-			  *fos << numIters << ", " << timer.totalElapsedTime() << std::endl;
-			} catch (...) {
-				*fos << solverIter << ", " << precIter << ", solve_error" << std::endl;
-			}
-		}
-	}
+                //  Create the linear problem
+                RCP<LP> problem = rcp(new LP(A, x, b));
+                if (precIter.compare("None"))
+                    problem->setRightPrec(prec);
+                problem->setProblem(); //done adding to the linear problem
+                solver->setProblem(problem); //add the linear problem to the solver
+            } catch (const std::exception &exc) {
+                *fos << solverIter << ", " << precIter << ", Error creating linear problem, ";
+                *fos << timer.totalElapsedTime() << std::endl;
+                //if (myRank == 0)
+                //    std::cerr << exc.what() << std::endl;
+                continue;
+            }
+            try {
+                //  Solve the linear problem 
+                Belos::ReturnType result = solver->solve();
+                timer.stop();
+                *fos << std::string(solverIter) << ", " << precIter; // output solver/prec pair
+                if (result == Belos::Converged) {
+                    *fos << ", converged, ";
+                } else {
+                    *fos << ", unconverged, ";
+                }
+                *fos << solver->getNumIters() << ", " << timer.totalElapsedTime() << std::endl;
+            } catch (const std::exception &exc) {
+                *fos << solverIter << ", " << precIter << ", Error solving linear problem, ";
+                *fos << timer.totalElapsedTime() << std::endl;
+                //if (myRank == 0)
+                //    std::cerr << exc.what() << std::endl;
+                continue;
+            }
+        }
+    }
+    overall_timer.stop();
+    *fos << "Time to solve all permutations (Trilinos): " << overall_timer.totalElapsedTime() << std::endl;
 }
 
-bool calcSymmetry(const RCP<MAT> &A) {
-	Tpetra::RowMatrixTransposer<ST, LO, GO, NT> transposer(A);	
-	RCP<MAT> B = transposer.createTranspose();
-
-	GO rows = A->getGlobalNumRows(); 
-	ST result = 0.0;
-	GO match = 0, noMatch = 0, dne = 0;
-	GO totalMatch, totalNoMatch, totalDne;
-	GO locEntries = 0;
-
-	GO diagNonzeros = A->getGlobalNumDiags();
-	GO offDiagNonzeros = A->getGlobalNumEntries() - diagNonzeros;
-	for (GO row = 0; row < rows; row++) {
-		if (A->getRowMap()->isNodeGlobalElement(row)) {
-			size_t colsA = A->getNumEntriesInGlobalRow(row);
-			size_t colsB = B->getNumEntriesInGlobalRow(row);
-			Array<ST> valuesA(colsA), valuesB(colsB);
-			Array<GO> indicesA(colsA), indicesB(colsB);
-			A->getGlobalRowCopy(row, indicesA(), valuesA(), colsA); 
-			B->getGlobalRowCopy(row, indicesB(), valuesB(), colsB);
-
-			//  Make maps for each row, ignoring diagonal
-			std::map<GO, ST> mapA, mapB;
-			for (int colA = 0; colA < colsA; colA++) {
-				if (row != indicesA[colA])
-					mapA.insert( std::pair<GO,ST>(indicesA[colA], valuesA[colA]) );
-			}
-			for (int colB = 0; colB < colsB; colB++) {
-				if (row != indicesB[colB])
-					mapB.insert( std::pair<GO,ST>(indicesB[colB], valuesB[colB]) );
-			}
-			//  Compare the maps
-			std::map<GO, ST>::iterator iterA;
-			for (iterA = mapA.begin(); iterA != mapA.end(); iterA++) {
-				//  Matching indices found
-				if (mapB.count (iterA->first) ) {
-					//  Check if values for those indices match
-					if ( iterA->second != mapB[iterA->first] ) {
-						return false;	
-					}
-				}
-			}
-		}
-	}
-	return true;
+STRINGS determineSolvers(const std::string &inputFile) {
+    std::ifstream file(inputFile);
+    std::string firstLine, firstNumbers;
+    unsigned int rows, cols;
+    if (file.good()) {
+        std::getline(file, firstLine);
+        std::getline(file, firstNumbers);
+        while (firstNumbers.find("%") == 0) {
+            std::getline(file, firstNumbers);
+        }
+        std::stringstream ss(firstNumbers);
+        ss >> rows >> cols;
+    }
+    file.close();
+    if (firstLine.find("symmetric") != std::string::npos) { // include all
+        symm = 1;
+        return belos_all;
+    } else if (firstLine.find("general") != std::string::npos) { // only include sq+rec
+        symm = 0;
+        return belos_sq;
+    } else {
+        //  Should never be here
+        exit(-1);
+    }
 }
