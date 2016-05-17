@@ -244,14 +244,9 @@ def readPerfData(features,dirname,threshold):
         if t < minsamples:
             minsamples = t
     
-<<<<<<< HEAD
-    avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
-    print solversamples
-=======
     if (len(solversamples.keys()) > 0):
         avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
     
->>>>>>> 1d3d459d6e4d1a315fd2195a0e7a49a1af4ee754
     print "Average, min, max samples per solver: ", avgsamplespersolver, minsamples, maxsamples
 
     return perf, solversamples
