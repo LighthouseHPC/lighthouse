@@ -4,8 +4,8 @@ EXAMPLESC        = mm2petsc.c properties.c
 CLEANFILES       = mm2petsc properties
 NP               = 1
 
-include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscvariables
-include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscrules
+include ${PETSC_DIR}/lib/petsc/conf/variables
+include ${PETSC_DIR}/lib/petsc/conf/rules
 
 all: properties
 

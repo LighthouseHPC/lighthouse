@@ -43,6 +43,8 @@ extern PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
 extern PetscErrorCode lowerBandwidth(Mat,PetscInt*);
 extern PetscErrorCode upperBandwidth(Mat,PetscInt*);
 extern PetscErrorCode MatIsSymmetric(Mat,PetscReal,PetscBool *);
+extern PetscErrorCode RowVariability(Mat,PetscScalar*);
+extern PetscErrorCode ColVariability(Mat,PetscScalar*);
 
 
 #undef __FUNCT__
@@ -59,11 +61,11 @@ int main(int argc,char **args)
   PetscBool isSymmetric;
   
   PetscInitialize(&argc,&args,(char *)0,help);
-  ierr = PetscOptionsGetString(PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,"-f",PETSC_NULL,file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     PetscPrintf(PETSC_COMM_WORLD,"Must indicate matrix file with the -f option");
   }
-  ierr = PetscOptionsGetString(PETSC_NULL,"-logfile",logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,"-logfile",PETSC_NULL,logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   /* Read file */
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   // Create matrix
@@ -846,3 +848,82 @@ PetscErrorCode DiagonalVariance(Mat M, PetscScalar* dv){
   *dv = sum/n;
   return 0;
 }
+
+
+/*!
+  Variability in rows and columns.
+
+  - "row-variability" : \f$\max_i \log_{10} {\max_j|a_{ij}|\over\min_j|a_{ij}|} \f$
+  - "col-variability" : \f$\max_j \log_{10} {\max_i|a_{ij}|\over\min_i|a_{ij}|} \f$
+
+  This is a computational routine.
+ */
+#undef __FUNCT__
+#define __FUNCT__ "ComputeRowAndColVariability"
+static PetscErrorCode ComputeRowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv)
+{
+  MPI_Comm comm;
+  PetscScalar *rmax,*rmin,*cmax,*cmin,*cmaxx,*cminn,rr_local;
+  int m,n,M,N,first,last,i,id,row;
+  PetscBool has; PetscErrorCode ierr;
+
+  PetscFunctionBegin;
+  ierr = PetscObjectGetComm((PetscObject)A,&comm); CHKERRQ(ierr);
+  ierr = MatGetSize(A,&M,&N); CHKERRQ(ierr);
+  ierr = MatGetLocalSize(A,&m,&n); CHKERRQ(ierr);
+  ierr = MatGetOwnershipRange(A,&first,&last); CHKERRQ(ierr);
+  ierr = PetscMalloc(m*sizeof(PetscReal),&rmax); CHKERRQ(ierr);
+  ierr = PetscMalloc(m*sizeof(PetscReal),&rmin); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscReal),&cmax); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscReal),&cmin); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscReal),&cmaxx); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscReal),&cminn); CHKERRQ(ierr);
+
+  /* init; we take logs, so 1.e+5 is beyond infinity */
+  for (i=0; i<m; i++) {rmax[i] = 0; rmin[i] = 1.e+5;}
+  for (i=0; i<N; i++) {cmax[i] = 0; cmin[i] = 1.e+5;}
+  for (row=first; row<last; row++) {
+    int irow=row-first,ncols,icol; const int *cols; const PetscScalar *vals;
+    ierr = MatGetRow(A,row,&ncols,&cols,&vals); CHKERRQ(ierr);
+    for (icol=0; icol<ncols; icol++) {
+      int col=cols[icol];
+      if (vals[icol]) {
+	PetscReal logval = (PetscReal) log10(PetscAbsScalar(vals[icol]));
+	if (logval>rmax[irow]) rmax[irow] = logval;
+	if (logval<rmin[irow]) rmin[irow] = logval;
+	if (logval>cmax[col]) cmax[col] = logval;
+	if (logval<cmin[col]) cmin[col] = logval;
+      }
+    }
+    ierr = MatRestoreRow(A,row,&ncols,&cols,&vals); CHKERRQ(ierr);
+  }
+
+  /*
+   * now get global row spread
+   */
+  for (i=0; i<m; i++) rmax[i] -= rmin[i];
+  for (i=1; i<m; i++) if (rmax[i]>rmax[0]) rmax[0] = rmax[i];
+  rr_local = rmax[0];
+  MPI_Allreduce(&rr_local,rv,1,MPIU_SCALAR,MPI_MAX,comm);
+
+
+  /*
+   * global column spread: reduce the full length row of values,
+   * then local max is global
+   */
+  MPI_Allreduce(cmax,cmaxx,N,MPIU_SCALAR,MPI_MAX,comm);
+  MPI_Allreduce(cmin,cminn,N,MPIU_SCALAR,MPI_MIN,comm);
+  for (i=0; i<N; i++) cmaxx[i] = cmaxx[i] / cminn[i];
+  for (i=1; i<N; i++) if (cmaxx[i]>cmaxx[0]) cmaxx[0] = cmaxx[i];
+  *cv = cmaxx[0];
+
+  ierr = PetscFree(rmax); CHKERRQ(ierr);
+  ierr = PetscFree(cmax); CHKERRQ(ierr);
+  ierr = PetscFree(cmaxx); CHKERRQ(ierr);
+  ierr = PetscFree(rmin); CHKERRQ(ierr);
+  ierr = PetscFree(cmin); CHKERRQ(ierr);
+  ierr = PetscFree(cminn); CHKERRQ(ierr);
+  PetscFunctionReturn(0);
+}
+
+
