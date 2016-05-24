@@ -61,11 +61,11 @@ int main(int argc,char **args)
   PetscBool isSymmetric;
   
   PetscInitialize(&argc,&args,(char *)0,help);
-  ierr = PetscOptionsGetString(PETSC_NULL,"-f",PETSC_NULL,file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     PetscPrintf(PETSC_COMM_WORLD,"Must indicate matrix file with the -f option");
   }
-  ierr = PetscOptionsGetString(PETSC_NULL,"-logfile",PETSC_NULL,logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-logfile",logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   /* Read file */
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   // Create matrix
