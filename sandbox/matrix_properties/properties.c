@@ -44,7 +44,7 @@ PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
 PetscErrorCode lowerBandwidth(Mat,PetscInt*);
 PetscErrorCode upperBandwidth(Mat,PetscInt*);
 PetscErrorCode MatIsSymmetric(Mat,PetscReal,PetscBool *);
-PetscErrorCode rowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv);
+PetscErrorCode rowAndColLogSpread(Mat,PetscScalar *,PetscScalar *);
 
 
 #undef __FUNCT__
@@ -186,7 +186,7 @@ int main(int argc,char **args)
   upperBandwidth(A, &r);
   len += sprintf (buf + len, "%d, ",r);
 
-  ierr = rowAndColVariability(A, &rv, &cv); CHKERRQ(ierr);
+  ierr = rowAndColLogSpread(A, &rv, &cv); CHKERRQ(ierr);
   len += sprintf (buf + len, "%g, ",rv);
   len += sprintf (buf + len, "%g, ",cv);
    
@@ -852,7 +852,7 @@ PetscErrorCode DiagonalVariance(Mat M, PetscScalar* dv){
 
 
 /*!
-  Variability in rows and columns.
+  Spread of log of values in rows and columns.
 
   - "row-variability" : \f$\max_i \log_{10} {\max_j|a_{ij}|\over\min_j|a_{ij}|} \f$
   - "col-variability" : \f$\max_j \log_{10} {\max_i|a_{ij}|\over\min_i|a_{ij}|} \f$
@@ -860,13 +860,14 @@ PetscErrorCode DiagonalVariance(Mat M, PetscScalar* dv){
   This is a computational routine.
  */
 #undef __FUNCT__
-#define __FUNCT__ "rowAndColVariability"
-PetscErrorCode rowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv)
+#define __FUNCT__ "rowAndColLogSpread"
+PetscErrorCode rowAndColLogSpread(Mat A, PetscScalar *rv, PetscScalar *cv)
 {
   MPI_Comm comm;
   PetscScalar *rmax,*rmin,*cmax,*cmin,*cmaxx,*cminn,rr_local;
   int m,n,M,N,first,last,i,id,row;
   PetscBool has; PetscErrorCode ierr;
+  *rv = 0; *cv = 0;
 
   PetscFunctionBegin;
   ierr = PetscObjectGetComm((PetscObject)A,&comm); CHKERRQ(ierr);
@@ -880,7 +881,7 @@ PetscErrorCode rowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv)
   ierr = PetscMalloc(N*sizeof(PetscReal),&cmaxx); CHKERRQ(ierr);
   ierr = PetscMalloc(N*sizeof(PetscReal),&cminn); CHKERRQ(ierr);
 
-  /* init; we take logs, so 1.e+5 is beyond infinity */
+  /* init; we take logs, so 1.e+5 is large enough */
   for (i=0; i<m; i++) {rmax[i] = 0; rmin[i] = 1.e+5;}
   for (i=0; i<N; i++) {cmax[i] = 0; cmin[i] = 1.e+5;}
   for (row=first; row<last; row++) {
@@ -914,9 +915,11 @@ PetscErrorCode rowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv)
    */
   MPI_Allreduce(cmax,cmaxx,N,MPIU_SCALAR,MPI_MAX,comm);
   MPI_Allreduce(cmin,cminn,N,MPIU_SCALAR,MPI_MIN,comm);
-  for (i=0; i<N; i++) cmaxx[i] = cmaxx[i] / cminn[i];
-  for (i=1; i<N; i++) if (cmaxx[i]>cmaxx[0]) cmaxx[0] = cmaxx[i];
-  *cv = cmaxx[0];
+  PetscScalar t;
+  for (i=0; i<N; i++) {
+     t = cmaxx[i] - cminn[i];
+     if (t > *cv) *cv = t;
+  }
 
   ierr = PetscFree(rmax); CHKERRQ(ierr);
   ierr = PetscFree(cmax); CHKERRQ(ierr);
