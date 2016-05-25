@@ -9,6 +9,7 @@ static char help[] = "Computes 32 features of moose matrices .\n\
 #include <fcntl.h>
 #include <libgen.h>
 #include <petscmat.h>
+#include <unistd.h>
 
 PetscErrorCode Dimension(Mat,PetscInt*,PetscInt*);
 PetscErrorCode BlockSize(Mat,PetscInt*);
@@ -47,25 +48,43 @@ PetscErrorCode MatIsSymmetric(Mat,PetscReal,PetscBool *);
 PetscErrorCode rowAndColLogSpread(Mat,PetscScalar *,PetscScalar *);
 
 
+int file_exists (char *filename) {
+  struct stat   buffer;   
+  return (stat (filename, &buffer) == 0);
+}
+
 #undef __FUNCT__
 #define __FUNCT__ "main"
 int main(int argc,char **args)
 {
   Mat            A,B;        /* linear system matrix */
   PetscErrorCode ierr;
-  PetscBool      flg;
+  PetscBool      flg, hflg, lflg;
   PetscViewer    fd;         /* viewer */
+  PetscViewer    logviewer;    /* output log file (optional) */
   char           file[PETSC_MAX_PATH_LEN];
   char           logfile[PETSC_MAX_PATH_LEN];
-  PetscInt	 	 m, n;
-  PetscBool isSymmetric;
+  PetscInt	 m, n;
+  PetscBool      isSymmetric;
+  char           buf[300], header[500];
+  int            len = 0, rank;
   
   PetscInitialize(&argc,&args,(char *)0,help);
+  MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
+  if (rank == 0) sprintf(header, "%s", "MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, Dimension, FrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, Name");
+
+  PetscOptionsHasName(NULL,NULL, "-header", &hflg);
+  if (hflg) {
+     PetscPrintf(PETSC_COMM_WORLD, "%s\n", header);
+  }
+
   ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     PetscPrintf(PETSC_COMM_WORLD,"Must indicate matrix file with the -f option");
+    PetscFinalize();
+    exit(1);
   }
-  ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-logfile",logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-logfile",logfile,PETSC_MAX_PATH_LEN,&lflg);CHKERRQ(ierr);
   /* Read file */
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,file,FILE_MODE_READ,&fd);CHKERRQ(ierr);
   // Create matrix
@@ -89,11 +108,9 @@ int main(int argc,char **args)
 /* Compute and print matrix properties */ 
   PetscInt r=0,c=0,nz=0;
   PetscScalar x, rv, cv;
-  char buf[200];
-  int len = 0;
   
   MinNonzerosPerRow(A,&nz); //printing Min. nonzeros per row: 1
-  len = sprintf(buf, "%d, ", nz);
+  len += sprintf(buf + len, "%d, ", nz);
 
   RowVariance(A,&x); 
   len += sprintf (buf + len, "%G, ",x);
@@ -197,6 +214,20 @@ int main(int argc,char **args)
   len += sprintf (buf + len, "%s",fname);
 
   // Print the properties
+  if (lflg) {
+     FILE *logfd;
+     if (rank == 0) {
+        // Open local file for appending
+        if( file_exists(logfile) ) {
+           logfd = fopen(logfile,"a");
+        } else {
+           logfd = fopen(logfile, "w+"); 
+           fprintf(logfd, "%s\n", header);
+        }
+        fprintf(logfd, "%s\n", buf);
+        fclose(logfd);
+     }
+  }
   PetscPrintf (PETSC_COMM_WORLD, "%s\n ",buf) ; //matrix name
 
   ierr = MatDestroy(&A);CHKERRQ(ierr);
@@ -218,8 +249,8 @@ PetscErrorCode MinNonzerosPerRow(Mat M, PetscInt *minNz)
   PetscErrorCode ierr;
   PetscInt m, n, i, j, nnz=0, nc=0;
   
-  *minNz = n;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
+  *minNz = n;
 
   for(i = 0; i < m; i++){
     const PetscInt *cols[n];

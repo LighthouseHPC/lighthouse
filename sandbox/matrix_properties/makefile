@@ -1,3 +1,4 @@
+# On arya, do "module load petsc/git" before building with "make properties"
 CFLAGS	         = -g -O3 ${PETSC_CC_INCLUDES}
 CLINKER          = ${SL_LINKER}
 EXAMPLESC        = mm2petsc.c properties.c
