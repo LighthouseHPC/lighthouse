@@ -10,41 +10,41 @@ static char help[] = "Computes 32 features of moose matrices .\n\
 #include <libgen.h>
 #include <petscmat.h>
 
-extern PetscErrorCode Dimension(Mat,PetscInt*,PetscInt*);
-extern PetscErrorCode BlockSize(Mat,PetscInt*);
-extern PetscErrorCode NonzerosQ_(Mat,PetscInt*);
-extern PetscErrorCode MaxNonzerosPerRow(Mat,PetscInt*);
-extern PetscErrorCode MinNonzerosPerRow(Mat,PetscInt*);
-extern PetscErrorCode AvgNonzerosPerRow(Mat,PetscInt*);
-extern PetscErrorCode DummyRows(Mat,PetscInt*);
-extern PetscErrorCode DummyRowsKind(Mat,PetscInt*);
-extern PetscErrorCode AbsoluteNonZeroSum(Mat,PetscScalar*);  
-extern PetscErrorCode NumericValueSymmetryV1(Mat,PetscInt*);
-extern PetscErrorCode NonZeroPatternSymmetryV1(Mat,PetscInt*);
-extern PetscErrorCode NumericValueSymmetryV2(Mat,PetscScalar*);
-extern PetscErrorCode NonZeroPatternSymmetryV2(Mat,PetscScalar*);
-extern PetscErrorCode Trace(Mat,PetscScalar*);
-extern PetscErrorCode AbsoluteTrace(Mat,PetscScalar*);
-extern PetscErrorCode OneNorm(Mat,PetscScalar*);
-extern PetscErrorCode InfinityNorm(Mat,PetscScalar*);
-extern PetscErrorCode FrobeniusNorm(Mat,PetscScalar*);
-extern PetscErrorCode SymmetricInfinityNorm(Mat,PetscScalar*);
-extern PetscErrorCode SymmetricFrobeniusNorm(Mat,PetscScalar*);
-extern PetscErrorCode AntiSymmetricInfinityNorm(Mat,PetscScalar*);
-extern PetscErrorCode AntiSymmetricFrobeniusNorm(Mat,PetscScalar*);
-extern PetscErrorCode RowDiagonalDominance(Mat,PetscInt*); 
-extern PetscErrorCode ColumnDiagonalDominance(Mat,PetscInt*); 
-extern PetscErrorCode RowVariance(Mat,PetscScalar*);
-extern PetscErrorCode ColumnVariance(Mat,PetscScalar*);
-extern PetscErrorCode DiagonalAverage(Mat,PetscScalar*);
-extern PetscErrorCode DiagonalVariance(Mat,PetscScalar*);
-extern PetscErrorCode DiagonalSign(Mat,PetscInt*);
-extern PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
-extern PetscErrorCode lowerBandwidth(Mat,PetscInt*);
-extern PetscErrorCode upperBandwidth(Mat,PetscInt*);
-extern PetscErrorCode MatIsSymmetric(Mat,PetscReal,PetscBool *);
-extern PetscErrorCode RowVariability(Mat,PetscScalar*);
-extern PetscErrorCode ColVariability(Mat,PetscScalar*);
+PetscErrorCode Dimension(Mat,PetscInt*,PetscInt*);
+PetscErrorCode BlockSize(Mat,PetscInt*);
+PetscErrorCode Nonzeros(Mat, PetscInt *);
+PetscErrorCode NonzerosQ_(Mat,PetscInt*);
+PetscErrorCode MaxNonzerosPerRow(Mat,PetscInt*);
+PetscErrorCode MinNonzerosPerRow(Mat,PetscInt*);
+PetscErrorCode AvgNonzerosPerRow(Mat,PetscInt*);
+PetscErrorCode DummyRows(Mat,PetscInt*);
+PetscErrorCode DummyRowsKind(Mat,PetscInt*);
+PetscErrorCode AbsoluteNonZeroSum(Mat,PetscScalar*);  
+PetscErrorCode NumericValueSymmetryV1(Mat,PetscInt*);
+PetscErrorCode NonZeroPatternSymmetryV1(Mat,PetscInt*);
+PetscErrorCode NumericValueSymmetryV2(Mat,PetscScalar*);
+PetscErrorCode NonZeroPatternSymmetryV2(Mat,PetscScalar*);
+PetscErrorCode Trace(Mat,PetscScalar*);
+PetscErrorCode AbsoluteTrace(Mat,PetscScalar*);
+PetscErrorCode OneNorm(Mat,PetscScalar*);
+PetscErrorCode InfinityNorm(Mat,PetscScalar*);
+PetscErrorCode FrobeniusNorm(Mat,PetscScalar*);
+PetscErrorCode SymmetricInfinityNorm(Mat,PetscScalar*);
+PetscErrorCode SymmetricFrobeniusNorm(Mat,PetscScalar*);
+PetscErrorCode AntiSymmetricInfinityNorm(Mat,PetscScalar*);
+PetscErrorCode AntiSymmetricFrobeniusNorm(Mat,PetscScalar*);
+PetscErrorCode RowDiagonalDominance(Mat,PetscInt*); 
+PetscErrorCode ColumnDiagonalDominance(Mat,PetscInt*); 
+PetscErrorCode RowVariance(Mat,PetscScalar*);
+PetscErrorCode ColumnVariance(Mat,PetscScalar*);
+PetscErrorCode DiagonalAverage(Mat,PetscScalar*);
+PetscErrorCode DiagonalVariance(Mat,PetscScalar*);
+PetscErrorCode DiagonalSign(Mat,PetscInt*);
+PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
+PetscErrorCode lowerBandwidth(Mat,PetscInt*);
+PetscErrorCode upperBandwidth(Mat,PetscInt*);
+PetscErrorCode MatIsSymmetric(Mat,PetscReal,PetscBool *);
+PetscErrorCode rowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv);
 
 
 #undef __FUNCT__
@@ -73,7 +73,6 @@ int main(int argc,char **args)
   ierr = MatSetFromOptions(A);CHKERRQ(ierr);
   // Load matrix from file
   ierr = MatLoad(A,fd);CHKERRQ(ierr);
-  ierr = MatIsSymmetric(A,0.0,&isSymmetric);CHKERRQ(ierr);
   PetscBool doView = PETSC_TRUE;
   PetscViewer    viewer;
   if (doView) {
@@ -89,114 +88,116 @@ int main(int argc,char **args)
     
 /* Compute and print matrix properties */ 
   PetscInt r=0,c=0,nz=0;
-  PetscScalar x;
+  PetscScalar x, rv, cv;
+  char buf[200];
+  int len = 0;
   
   MinNonzerosPerRow(A,&nz); //printing Min. nonzeros per row: 1
-  printf ("%d,",nz);
+  len = sprintf(buf, "%d,", nz);
 
   RowVariance(A,&x); 
-  printf ("%G, ",x);
+  len += sprintf (buf + len, "%G, ",x);
   
   ColumnVariance(A,&x); 
-  printf ("%G, ",x);
+  len += sprintf (buf + len, "%G, ",x);
   
   DiagonalVariance(A,&x); 
-  printf ("%g, ",x);
+  len += sprintf (buf + len, "%g, ",x);
   
   Nonzeros(A,&nz);
-  printf ("%d, ",nz);
+  len += sprintf (buf + len, "%d, ",nz);
   
-  Dimension(A,&r,&c); //rows
-  printf ("%d, ",r);
+  Dimension(A,&r,&c); //rows, columns
+  len += sprintf (buf + len, "%d, ",r);
+  len += sprintf (buf + len, "%d, ",c);
 
   FrobeniusNorm(A,&x);
-  printf ("%G,",x);
+  len += sprintf (buf + len, "%G, ",x);
 
   SymmetricFrobeniusNorm(A,&x);
-  printf ("%G, ",x);
+  len += sprintf (buf + len, "%G, ",x);
 
   AntiSymmetricFrobeniusNorm(A,&x);
-  printf ("%G, ",x);
+  len += sprintf (buf + len, "%G, ",x);
 
   OneNorm(A,&x);
-  printf ("%G, ",x);
+  len += sprintf (buf + len, "%G, ",x);
 
   InfinityNorm(A,&x);
-  printf ("%G, ",x);
+  len += sprintf (buf + len, "%G, ",x);
 
   SymmetricInfinityNorm(A,&x);
-  printf ("%G,",x);
+  len += sprintf (buf + len, "%G, ",x);
   
   AntiSymmetricInfinityNorm(A,&x);
-  printf ("%G,",x);
+  len += sprintf (buf + len, "%G, ",x);
   
   MaxNonzerosPerRow(A,&nz);
-  printf ("%d,",nz);
+  len += sprintf (buf + len, "%G, ",x);
   
   Trace(A,&x);
-  printf ("%G,",x);
+  len += sprintf (buf + len, "%G, ",x);
   
   AbsoluteTrace(A,&x);
-  printf ("%G,",x);
+  len += sprintf (buf + len, "%G, ",x);
 
   MinNonzerosPerRow(A,&nz);
-  printf ("%d,",nz);
+  len += sprintf (buf + len, "%d,",nz);
   
   AvgNonzerosPerRow(A,&nz);
-  printf ("%d,",nz);
+  len += sprintf (buf + len, "%d,",nz);
   
   DummyRows(A,&nz);
-  printf ("%d,",nz);
+  len += sprintf (buf + len, "%d,",nz);
   
   DummyRowsKind(A,&nz);
-  printf ("%d,",nz);
+  len += sprintf (buf + len, "%d,",nz);
   
   NumericValueSymmetryV1(A,&r);
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
   
-  NonZeroPatternSymmetryV1(B,&r);
-  printf ("%d,",r);
+  NonZeroPatternSymmetryV1(A,&r);
+  len += sprintf (buf + len, "%d,",r);
 
   NumericValueSymmetryV2(A,&x);
-  printf ("%G,",x);
+  len += sprintf (buf + len, "%G, ",x);
 
-  NonZeroPatternSymmetryV2(B,&x);
-  printf ("%G,",x);
+  NonZeroPatternSymmetryV2(A,&x);
+  len += sprintf (buf + len, "%G, ",x);
 
   RowDiagonalDominance(A,&r); 
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
   
   ColumnDiagonalDominance(A,&r); 
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
   
   DiagonalAverage(A,&x); 
-  printf ("%g,",x);
+  len += sprintf (buf + len, "%g, ",x);
   
   DiagonalSign(A,&r); 
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
 
   DiagonalNonZeros(A,&r); 
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
 
   lowerBandwidth(A, &r);
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
 
   upperBandwidth(A, &r);
-  printf ("%d,",r);
+  len += sprintf (buf + len, "%d,",r);
+
+  ierr = rowAndColVariability(A, &rv, &cv); CHKERRQ(ierr);
+  len += sprintf (buf + len, "%g, ",rv);
+  len += sprintf (buf + len, "%g, ",cv);
    
-//getting matrix name from the path
-  char *path = file;
-  char *fname;
-  fname = strstr(path, "/");
-  int l = 0;
-  do{
-    l = strlen(fname) + 1;
-    path = &path[strlen(path)-l+2];
-    fname = strstr(path, "/");
-  }while(fname);
- 
-  PetscPrintf (PETSC_COMM_WORLD, "%d,", isSymmetric) ; //matrix symmetric or not : 1: is symmetric, 0 : not symmetric     
-  PetscPrintf (PETSC_COMM_WORLD, "%s\n ",path) ; //matrix name
+  ierr = MatIsSymmetric(A,0.0,&isSymmetric); CHKERRQ(ierr);
+  len += sprintf (buf + len, "%d,",isSymmetric);
+
+  char *fname = basename(file); // getting matrix name from the path 
+  len += sprintf (buf + len, "%s",fname);
+
+  // Print the properties
+  PetscPrintf (PETSC_COMM_WORLD, "%s\n ",buf) ; //matrix name
 
   ierr = MatDestroy(&A);CHKERRQ(ierr);
   ierr = PetscFinalize();
@@ -522,9 +523,9 @@ PetscErrorCode NonZeroPatternSymmetryV2(Mat B, PetscScalar *s)
   Mat S,T;
   PetscScalar nzS,nzB;
   ierr = MatTranspose(B,MAT_INITIAL_MATRIX,&T);
-  ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);//CHKERRQ(ierr);
-  ierr = MatAXPY(S,-1,T,SAME_NONZERO_PATTERN);//CHKERRQ(ierr);
-  ierr = MatAXPY(S,1,B,DIFFERENT_NONZERO_PATTERN);//CHKERRQ(ierr);
+  ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
+  ierr = MatAXPY(S,-1,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
+  ierr = MatAXPY(S,1,B,DIFFERENT_NONZERO_PATTERN);CHKERRQ(ierr);
   ierr = AbsoluteNonZeroSum(S,&nzS);
   ierr = AbsoluteNonZeroSum(B,&nzB);
   *s = 1-((nzS/2)/nzB);
@@ -859,8 +860,8 @@ PetscErrorCode DiagonalVariance(Mat M, PetscScalar* dv){
   This is a computational routine.
  */
 #undef __FUNCT__
-#define __FUNCT__ "ComputeRowAndColVariability"
-static PetscErrorCode ComputeRowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv)
+#define __FUNCT__ "rowAndColVariability"
+PetscErrorCode rowAndColVariability(Mat A, PetscScalar *rv, PetscScalar *cv)
 {
   MPI_Comm comm;
   PetscScalar *rmax,*rmin,*cmax,*cmin,*cmaxx,*cminn,rr_local;
