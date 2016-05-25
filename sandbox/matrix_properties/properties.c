@@ -93,7 +93,7 @@ int main(int argc,char **args)
   int len = 0;
   
   MinNonzerosPerRow(A,&nz); //printing Min. nonzeros per row: 1
-  len = sprintf(buf, "%d,", nz);
+  len = sprintf(buf, "%d, ", nz);
 
   RowVariance(A,&x); 
   len += sprintf (buf + len, "%G, ",x);
@@ -142,22 +142,22 @@ int main(int argc,char **args)
   len += sprintf (buf + len, "%G, ",x);
 
   MinNonzerosPerRow(A,&nz);
-  len += sprintf (buf + len, "%d,",nz);
+  len += sprintf (buf + len, "%d, ",nz);
   
   AvgNonzerosPerRow(A,&nz);
-  len += sprintf (buf + len, "%d,",nz);
+  len += sprintf (buf + len, "%d, ",nz);
   
   DummyRows(A,&nz);
-  len += sprintf (buf + len, "%d,",nz);
+  len += sprintf (buf + len, "%d, ",nz);
   
   DummyRowsKind(A,&nz);
-  len += sprintf (buf + len, "%d,",nz);
+  len += sprintf (buf + len, "%d, ",nz);
   
   NumericValueSymmetryV1(A,&r);
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
   
   NonZeroPatternSymmetryV1(A,&r);
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
 
   NumericValueSymmetryV2(A,&x);
   len += sprintf (buf + len, "%G, ",x);
@@ -166,32 +166,32 @@ int main(int argc,char **args)
   len += sprintf (buf + len, "%G, ",x);
 
   RowDiagonalDominance(A,&r); 
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
   
   ColumnDiagonalDominance(A,&r); 
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
   
   DiagonalAverage(A,&x); 
   len += sprintf (buf + len, "%g, ",x);
   
   DiagonalSign(A,&r); 
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
 
-  DiagonalNonZeros(A,&r); 
-  len += sprintf (buf + len, "%d,",r);
+  DiagonalNonZeros(A,&r);
+  len += sprintf (buf + len, "%d, ",r);
 
   lowerBandwidth(A, &r);
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
 
   upperBandwidth(A, &r);
-  len += sprintf (buf + len, "%d,",r);
+  len += sprintf (buf + len, "%d, ",r);
 
   ierr = rowAndColVariability(A, &rv, &cv); CHKERRQ(ierr);
   len += sprintf (buf + len, "%g, ",rv);
   len += sprintf (buf + len, "%g, ",cv);
    
   ierr = MatIsSymmetric(A,0.0,&isSymmetric); CHKERRQ(ierr);
-  len += sprintf (buf + len, "%d,",isSymmetric);
+  len += sprintf (buf + len, "%d, ",isSymmetric);
 
   char *fname = basename(file); // getting matrix name from the path 
   len += sprintf (buf + len, "%s",fname);
@@ -216,7 +216,7 @@ PetscErrorCode Dimension(Mat M, PetscInt *m, PetscInt *n)
 PetscErrorCode MinNonzerosPerRow(Mat M, PetscInt *minNz)
 {
   PetscErrorCode ierr;
-  PetscInt m, n, i, j, nnz, nc;
+  PetscInt m, n, i, j, nnz=0, nc=0;
   
   *minNz = n;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
