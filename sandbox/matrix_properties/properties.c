@@ -273,7 +273,7 @@ PetscErrorCode MinNonzerosPerRow(Mat M, PetscInt *minNz)
 // computes the row variance of a matrix
 PetscErrorCode RowVariance(Mat M, PetscScalar* vrn){  
   PetscScalar ssum,dv[1],mean = 0,var = 0,vecSum = 0; 
-  PetscInt m,n,i,j,nc;
+  PetscInt m,n,i,j,nc=0;
   PetscErrorCode ierr;
   Vec rowSum, V;
   PetscScalar* d;
@@ -346,7 +346,7 @@ PetscErrorCode BlockSize(Mat M, PetscInt *blockSize)
 // finds the total number of nonzeros
 PetscErrorCode Nonzeros(Mat M, PetscInt *nonzeros)
 {
-  PetscInt m,n,i,j,nc,nnz;
+  PetscInt m,n,i,j,nc=0,nnz;
   PetscErrorCode ierr;  
 
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);  
@@ -370,7 +370,7 @@ PetscErrorCode Nonzeros(Mat M, PetscInt *nonzeros)
 PetscErrorCode MaxNonzerosPerRow(Mat M, PetscInt *maxNz)
 {
   PetscErrorCode ierr;
-  PetscInt m, n, i, j, nnz, nc;
+  PetscInt m, n, i, j, nnz, nc=0;
   *maxNz = 0;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
@@ -397,7 +397,7 @@ PetscErrorCode MaxNonzerosPerRow(Mat M, PetscInt *maxNz)
 PetscErrorCode AvgNonzerosPerRow(Mat M, PetscInt *avgNz)
 {
   PetscErrorCode ierr;
-  PetscInt m, n, i, j, nc, nnz;
+  PetscInt m, n, i, j, nc=0, nnz=0;
   const PetscInt *cols[n];
   const PetscScalar *vals[n];
   PetscScalar sum=0;
@@ -426,7 +426,7 @@ PetscErrorCode AvgNonzerosPerRow(Mat M, PetscInt *avgNz)
 PetscErrorCode DummyRows(Mat M, PetscInt *dummyRows)
 {
   PetscErrorCode ierr;
-  PetscInt m, i, nz;
+  PetscInt m, i, nz=0;
   PetscInt n=0;
   const PetscInt *cols[n];
   const PetscScalar *vals[n];
@@ -450,7 +450,7 @@ PetscErrorCode DummyRows(Mat M, PetscInt *dummyRows)
 PetscErrorCode DummyRowsKind(Mat M, PetscInt *dummyRowsKind)
 {
   PetscErrorCode ierr;
-  PetscInt m, n, i, nz;
+  PetscInt m, n, i, nz=0;
   PetscInt kind_0=0, kind_1=0, kind_2=0, nDumRows=0;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
@@ -479,7 +479,7 @@ PetscErrorCode DummyRowsKind(Mat M, PetscInt *dummyRowsKind)
 // of all the nonzeros in a matrix
 PetscErrorCode AbsoluteNonZeroSum(Mat M, PetscScalar *asum){  
   PetscScalar absum; 
-  PetscInt m,n,i,j,nc;
+  PetscInt m,n,i,j,nc=0;
   PetscErrorCode ierr;  
 
   ierr = Dimension(M, &m, &n);//CHKERRQ(ierr);  
@@ -679,7 +679,7 @@ PetscErrorCode AntiSymmetricFrobeniusNorm(Mat A, PetscScalar *norm){
 // returns 2 if it's strictly diagonally dominant
 PetscErrorCode RowDiagonalDominance(Mat M, PetscInt *dom){  
   PetscScalar ii,absum; 
-  PetscInt m,n,i,j,nc, dom0=0, dom1=0, dom2=0;
+  PetscInt m,n,i,j,nc=0, dom0=0, dom1=0, dom2=0;
   PetscErrorCode ierr;  
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);  
   
@@ -800,7 +800,7 @@ PetscErrorCode DiagonalNonZeros(Mat M, PetscInt* nzd){
 // finds the lower bandwidth of a matrix
 PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
 {
-  PetscInt m,n,i,j,nc,lb;
+  PetscInt m,n,i,j,nc=0,lb;
   PetscErrorCode ierr;  
 
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
@@ -828,7 +828,7 @@ PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
 // finds the upper bandwidth of a matrix
 PetscErrorCode upperBandwidth(Mat M, PetscInt *lowerb)
 {
-  PetscInt m,n,i,j,nc,lb;
+  PetscInt m,n,i,j,nc=0,lb;
   PetscErrorCode ierr;  
 
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
