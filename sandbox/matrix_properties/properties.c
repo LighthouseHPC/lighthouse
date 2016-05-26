@@ -44,7 +44,7 @@ PetscErrorCode DiagonalSign(Mat,PetscInt*);
 PetscErrorCode DiagonalNonZeros(Mat,PetscInt*);
 PetscErrorCode lowerBandwidth(Mat,PetscInt*);
 PetscErrorCode upperBandwidth(Mat,PetscInt*);
-PetscErrorCode MatIsSymmetric(Mat,PetscReal,PetscBool *);
+PetscErrorCode MatIsSymmetric(Mat,PetscScalar,PetscBool *);
 PetscErrorCode rowAndColLogSpread(Mat,PetscScalar *,PetscScalar *);
 
 
@@ -71,7 +71,7 @@ int main(int argc,char **args)
   
   PetscInitialize(&argc,&args,(char *)0,help);
   MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
-  if (rank == 0) sprintf(header, "%s", "MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, NumRows, NumCols, FrobeniusNorm, SymmetricFrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, Name");
+  if (rank == 0) sprintf(header, "%s", "NumRows, NumCols, MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, FrobeniusNorm, SymmetricFrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, Name");
 
   PetscOptionsHasName(NULL,NULL, "-header", &hflg);
   if (hflg) {
@@ -108,6 +108,19 @@ int main(int argc,char **args)
 /* Compute and print matrix properties */ 
   PetscInt r=0,c=0,nz=0;
   PetscScalar x, rv, cv;
+
+  Dimension(A,&r,&c); //rows, columns
+  if (!r || !c) { 
+    PetscPrintf(PETSC_COMM_WORLD,"Error: %s has dimension %d, %d, cannot analyze, skipping it.\n", file, r, c);
+    PetscFinalize();
+    return(0);
+  } else if ( r != c ) {
+    PetscPrintf(PETSC_COMM_WORLD,"Skipping non-square %d x %d matrix %s\n", r , c, file);
+    return(0);
+  }
+  len += sprintf (buf + len, "%d, ",r);
+  len += sprintf (buf + len, "%d, ",c);
+
   
   MinNonzerosPerRow(A,&nz); //printing Min. nonzeros per row: 1
   len += sprintf(buf + len, "%d, ", nz);
@@ -124,10 +137,6 @@ int main(int argc,char **args)
   Nonzeros(A,&nz);
   len += sprintf (buf + len, "%d, ",nz);
   
-  Dimension(A,&r,&c); //rows, columns
-  len += sprintf (buf + len, "%d, ",r);
-  len += sprintf (buf + len, "%d, ",c);
-
   FrobeniusNorm(A,&x);
   len += sprintf (buf + len, "%G, ",x);
 
@@ -276,12 +285,15 @@ PetscErrorCode RowVariance(Mat M, PetscScalar* vrn){
   PetscInt m,n,i,j,nc=0;
   PetscErrorCode ierr;
   Vec rowSum, V;
-  PetscScalar* d;
+  PetscScalar *d;
+
+  *vrn=0;
   
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
+  if (!m || !n) PetscFunctionReturn(0);
   
   ierr = VecCreate(PETSC_COMM_WORLD,&rowSum);CHKERRQ(ierr);
-  ierr = VecSetSizes(rowSum,PETSC_DECIDE,n);CHKERRQ(ierr);
+  ierr = VecSetSizes(rowSum,PETSC_DECIDE,m);CHKERRQ(ierr);
   ierr = VecSetFromOptions(rowSum);CHKERRQ(ierr);
   
   ierr = VecCreate(PETSC_COMM_WORLD,&V);CHKERRQ(ierr);
@@ -289,9 +301,11 @@ PetscErrorCode RowVariance(Mat M, PetscScalar* vrn){
   ierr = VecSetFromOptions(V);CHKERRQ(ierr);
   
   ierr = MatGetRowSum(M, rowSum);CHKERRQ(ierr);
+  int ix[1];
   
-  for (i=0; i<m; i++){
-    ierr = VecGetValues(rowSum,1,&i,dv);CHKERRQ(ierr);
+  for (i=0; i<m; i++){ // iterate over rows
+    ix[0] = i;
+    ierr = VecGetValues(rowSum,1,ix,dv);CHKERRQ(ierr);
     const PetscInt *cols[n];
     const PetscScalar *vals[n];
     ssum = 0;
@@ -309,6 +323,7 @@ PetscErrorCode RowVariance(Mat M, PetscScalar* vrn){
     ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
   }
   VecAssemblyBegin(V); VecAssemblyEnd(V);
+
 
   ierr = VecSum(V,&vecSum);
   ierr = VecGetArray(V,&d); CHKERRQ(ierr);
@@ -506,7 +521,13 @@ PetscErrorCode NumericValueSymmetryV1(Mat A, PetscInt *s)
   PetscErrorCode ierr;
   Mat Atrans;
   PetscBool b;
+  PetscInt m, n;
   *s = 0;
+
+  // Only applicable to square matrices
+  Dimension(A,&m,&n);
+  if (m != n) return(0);
+
   ierr = MatTranspose(A, MAT_INITIAL_MATRIX,&Atrans);CHKERRQ(ierr);
   ierr = MatEqual(A, Atrans, &b);CHKERRQ(ierr);
   ierr = MatDestroy(&Atrans);CHKERRQ(ierr);
@@ -521,7 +542,13 @@ PetscErrorCode NonZeroPatternSymmetryV1(Mat B, PetscInt *s)
   PetscErrorCode ierr;
   Mat Btrans;
   PetscBool b;
+  PetscInt m, n;
   *s = 0;
+
+  // Only applicable to square matrices
+  Dimension(B,&m,&n); 
+  if (m != n) return(0);
+
   ierr = MatTranspose(B, MAT_INITIAL_MATRIX,&Btrans);
   ierr = MatEqual(B, Btrans, &b);//CHKERRQ(ierr);
   ierr = MatDestroy(&Btrans);CHKERRQ(ierr);  
@@ -535,6 +562,13 @@ PetscErrorCode NumericValueSymmetryV2(Mat A, PetscScalar *s)
   PetscErrorCode ierr;
   Mat S,T;
   PetscScalar nzsS,nzsA;
+  PetscInt m, n;
+  *s = 0;
+
+  // Only applicable to square matrices
+  Dimension(A,&m,&n);
+  if (m != n) return(0);
+
   ierr = MatTranspose(A,MAT_INITIAL_MATRIX,&T);CHKERRQ(ierr);
   ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
   ierr = MatAXPY(S,-0.5,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
@@ -553,6 +587,13 @@ PetscErrorCode NonZeroPatternSymmetryV2(Mat B, PetscScalar *s)
   PetscErrorCode ierr;
   Mat S,T;
   PetscScalar nzS,nzB;
+  PetscInt m, n;
+  *s = 0;
+
+  // Only applicable to square matrices
+  Dimension(B,&m,&n); 
+  if (m != n) return(0);
+  
   ierr = MatTranspose(B,MAT_INITIAL_MATRIX,&T);
   ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
   ierr = MatAXPY(S,-1,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
@@ -582,7 +623,7 @@ PetscErrorCode AbsoluteTrace(Mat M, PetscScalar *trace){
   
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
   ierr = VecCreate(PETSC_COMM_WORLD,&D);CHKERRQ(ierr);
-  ierr = VecSetSizes(D,PETSC_DECIDE,n);CHKERRQ(ierr);
+  ierr = VecSetSizes(D,PETSC_DECIDE,PetscMax(m,n));CHKERRQ(ierr);
   ierr = VecSetFromOptions(D);CHKERRQ(ierr);
   ierr = MatGetDiagonal(M,D); CHKERRQ(ierr);
   ierr = VecGetArray(D,&d); CHKERRQ(ierr);
@@ -621,6 +662,13 @@ PetscErrorCode InfinityNorm(Mat M, PetscScalar *norm){
 PetscErrorCode SymmetricInfinityNorm(Mat A, PetscScalar *norm){
   PetscErrorCode ierr;
   Mat S,T;
+  PetscInt m, n;
+  *norm = 0;
+
+  // Only applicable to square matrices
+  Dimension(A,&m,&n);
+  if (m != n) return(0);
+
   ierr = MatTranspose(A,MAT_INITIAL_MATRIX,&T);CHKERRQ(ierr);
   ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
   ierr = MatAXPY(S,0.5,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
@@ -635,6 +683,13 @@ PetscErrorCode SymmetricInfinityNorm(Mat A, PetscScalar *norm){
 PetscErrorCode SymmetricFrobeniusNorm(Mat A, PetscScalar *norm){
   PetscErrorCode ierr;
   Mat S,T;
+  PetscInt m, n;
+  *norm = 0;
+
+  // Only applicable to square matrices
+  Dimension(A,&m,&n);
+  if (m != n) return(0);
+
   ierr = MatTranspose(A,MAT_INITIAL_MATRIX,&T);CHKERRQ(ierr);
   ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
   ierr = MatAXPY(S,0.5,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
@@ -649,6 +704,13 @@ PetscErrorCode SymmetricFrobeniusNorm(Mat A, PetscScalar *norm){
 PetscErrorCode AntiSymmetricInfinityNorm(Mat A, PetscScalar *norm){
   PetscErrorCode ierr;
   Mat S,T;
+  PetscInt m, n;
+  *norm = 0;
+
+  // Only applicable to square matrices
+  Dimension(A,&m,&n);
+  if (m != n) return(0);
+
   ierr = MatTranspose(A,MAT_INITIAL_MATRIX,&T);CHKERRQ(ierr);
   ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
   ierr = MatAXPY(S,-0.5,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
@@ -663,6 +725,13 @@ PetscErrorCode AntiSymmetricInfinityNorm(Mat A, PetscScalar *norm){
 PetscErrorCode AntiSymmetricFrobeniusNorm(Mat A, PetscScalar *norm){
   PetscErrorCode ierr;
   Mat S,T;
+  PetscInt m, n;
+  *norm = 0;
+
+  // Only applicable to square matrices
+  Dimension(A,&m,&n);
+  if (m != n) return(0);
+
   ierr = MatTranspose(A,MAT_INITIAL_MATRIX,&T);CHKERRQ(ierr);
   ierr = MatDuplicate(T,MAT_SHARE_NONZERO_PATTERN,&S);CHKERRQ(ierr);
   ierr = MatAXPY(S,-0.5,T,SAME_NONZERO_PATTERN);CHKERRQ(ierr);
@@ -752,7 +821,7 @@ PetscErrorCode DiagonalSign(Mat M, PetscInt* ds){
   PetscScalar* d;
 
   ierr = VecCreate(PETSC_COMM_WORLD,&D);CHKERRQ(ierr);
-  ierr = VecSetSizes(D,PETSC_DECIDE,n);CHKERRQ(ierr);
+  ierr = VecSetSizes(D,PETSC_DECIDE,PetscMax(m,n));CHKERRQ(ierr);
   ierr = VecSetFromOptions(D);CHKERRQ(ierr);
   ierr = MatGetDiagonal(M,D); CHKERRQ(ierr);
   ierr = VecGetArray(D,&d); CHKERRQ(ierr);
@@ -783,7 +852,7 @@ PetscErrorCode DiagonalNonZeros(Mat M, PetscInt* nzd){
   PetscScalar* d;
 
   ierr = VecCreate(PETSC_COMM_WORLD,&D);CHKERRQ(ierr);
-  ierr = VecSetSizes(D,PETSC_DECIDE,n);CHKERRQ(ierr);
+  ierr = VecSetSizes(D,PETSC_DECIDE,PetscMax(m,n));CHKERRQ(ierr);
   ierr = VecSetFromOptions(D);CHKERRQ(ierr);
   ierr = MatGetDiagonal(M,D); CHKERRQ(ierr); // get the diagonals of the matrix
   ierr = VecGetArray(D,&d); CHKERRQ(ierr);
@@ -866,7 +935,7 @@ PetscErrorCode DiagonalVariance(Mat M, PetscScalar* dv){
   ierr = DiagonalAverage(M,&da);
 
   ierr = VecCreate(PETSC_COMM_WORLD,&D);CHKERRQ(ierr);
-  ierr = VecSetSizes(D,PETSC_DECIDE,n);CHKERRQ(ierr);
+  ierr = VecSetSizes(D,PETSC_DECIDE,PetscMax(m,n));CHKERRQ(ierr);
   ierr = VecSetFromOptions(D);CHKERRQ(ierr);
 
   ierr = MatGetDiagonal(M,D); CHKERRQ(ierr);
@@ -903,14 +972,15 @@ PetscErrorCode rowAndColLogSpread(Mat A, PetscScalar *rv, PetscScalar *cv)
   PetscFunctionBegin;
   ierr = PetscObjectGetComm((PetscObject)A,&comm); CHKERRQ(ierr);
   ierr = MatGetSize(A,&M,&N); CHKERRQ(ierr);
+  if (!M || !N) PetscFunctionReturn(0);
   ierr = MatGetLocalSize(A,&m,&n); CHKERRQ(ierr);
   ierr = MatGetOwnershipRange(A,&first,&last); CHKERRQ(ierr);
-  ierr = PetscMalloc(m*sizeof(PetscReal),&rmax); CHKERRQ(ierr);
-  ierr = PetscMalloc(m*sizeof(PetscReal),&rmin); CHKERRQ(ierr);
-  ierr = PetscMalloc(N*sizeof(PetscReal),&cmax); CHKERRQ(ierr);
-  ierr = PetscMalloc(N*sizeof(PetscReal),&cmin); CHKERRQ(ierr);
-  ierr = PetscMalloc(N*sizeof(PetscReal),&cmaxx); CHKERRQ(ierr);
-  ierr = PetscMalloc(N*sizeof(PetscReal),&cminn); CHKERRQ(ierr);
+  ierr = PetscMalloc(m*sizeof(PetscScalar),&rmax); CHKERRQ(ierr);
+  ierr = PetscMalloc(m*sizeof(PetscScalar),&rmin); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscScalar),&cmax); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscScalar),&cmin); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscScalar),&cmaxx); CHKERRQ(ierr);
+  ierr = PetscMalloc(N*sizeof(PetscScalar),&cminn); CHKERRQ(ierr);
 
   /* init; we take logs, so 1.e+5 is large enough */
   for (i=0; i<m; i++) {rmax[i] = 0; rmin[i] = 1.e+5;}
@@ -921,7 +991,7 @@ PetscErrorCode rowAndColLogSpread(Mat A, PetscScalar *rv, PetscScalar *cv)
     for (icol=0; icol<ncols; icol++) {
       int col=cols[icol];
       if (vals[icol]) {
-	PetscReal logval = (PetscReal) log10(PetscAbsScalar(vals[icol]));
+	PetscScalar logval = (PetscScalar) log10(PetscAbsScalar(vals[icol]));
 	if (logval>rmax[irow]) rmax[irow] = logval;
 	if (logval<rmin[irow]) rmin[irow] = logval;
 	if (logval>cmax[col]) cmax[col] = logval;
@@ -952,12 +1022,13 @@ PetscErrorCode rowAndColLogSpread(Mat A, PetscScalar *rv, PetscScalar *cv)
      if (t > *cv) *cv = t;
   }
 
-  ierr = PetscFree(rmax); CHKERRQ(ierr);
-  ierr = PetscFree(cmax); CHKERRQ(ierr);
-  ierr = PetscFree(cmaxx); CHKERRQ(ierr);
-  ierr = PetscFree(rmin); CHKERRQ(ierr);
-  ierr = PetscFree(cmin); CHKERRQ(ierr);
-  ierr = PetscFree(cminn); CHKERRQ(ierr);
+  if (rmax) { ierr = PetscFree(rmax); CHKERRQ(ierr); }
+  if (cmax) { ierr = PetscFree(cmax); CHKERRQ(ierr); }
+  if (cmaxx) { ierr = PetscFree(cmaxx); CHKERRQ(ierr); }
+  if (rmin) { ierr = PetscFree(rmin); CHKERRQ(ierr); }
+  if (cmin) { ierr = PetscFree(cmin); CHKERRQ(ierr); }
+  if (cminn) { ierr = PetscFree(cminn); CHKERRQ(ierr); }
+
   PetscFunctionReturn(0);
 }
 
