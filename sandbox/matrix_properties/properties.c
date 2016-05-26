@@ -71,7 +71,7 @@ int main(int argc,char **args)
   
   PetscInitialize(&argc,&args,(char *)0,help);
   MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
-  if (rank == 0) sprintf(header, "%s", "MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, Dimension, FrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, Name");
+  if (rank == 0) sprintf(header, "%s", "MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, NumRows, NumCols, FrobeniusNorm, SymmetricFrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, Name");
 
   PetscOptionsHasName(NULL,NULL, "-header", &hflg);
   if (hflg) {
@@ -150,7 +150,7 @@ int main(int argc,char **args)
   len += sprintf (buf + len, "%G, ",x);
   
   MaxNonzerosPerRow(A,&nz);
-  len += sprintf (buf + len, "%G, ",x);
+  len += sprintf (buf + len, "%d, ",nz);
   
   Trace(A,&x);
   len += sprintf (buf + len, "%G, ",x);
