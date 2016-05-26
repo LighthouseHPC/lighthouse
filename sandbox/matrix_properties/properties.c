@@ -66,7 +66,7 @@ int main(int argc,char **args)
   char           logfile[PETSC_MAX_PATH_LEN];
   PetscInt	 m, n;
   PetscBool      isSymmetric;
-  char           buf[300], header[500];
+  char           buf[300], header[600];
   int            len = 0, rank;
   
   PetscInitialize(&argc,&args,(char *)0,help);
