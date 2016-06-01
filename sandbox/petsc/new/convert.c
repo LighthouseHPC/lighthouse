@@ -28,7 +28,7 @@ int main(int argc,char **args)
   if (size != 1) SETERRQ(PETSC_COMM_WORLD,1,"This is a uniprocessor program only!");
 
   /* Read in matrix and RHS */
-  ierr = PetscOptionsGetString(PETSC_NULL,"-fin",filein,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-fin",filein,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     SETERRQ(PETSC_COMM_WORLD,1,"Must indicate input matrix file with the -fin option");
   }
@@ -41,6 +41,7 @@ int main(int argc,char **args)
     // Check if matrix is symmetric
     if(strstr(buf, "symmetric") != NULL){
       isSymmetric = PETSC_TRUE;      
+      //printf("Matrix is symmetric\n");
     }
   }while (buf[0] == '%');
 
@@ -71,10 +72,12 @@ int main(int argc,char **args)
     fscanf(file,"%d %d %le\n",&row,&col,(double*)&val);
     row = row-1; col = col-1 ;
     ierr = MatSetValues(A,1,&row,1,&col,&val,INSERT_VALUES);CHKERRQ(ierr);
+    //printf("%d %d %f\n", row, col, val);
     if(isSymmetric){
       if (row != col){
         // Matrix is symmetric, insert same value at the transpose location
         ierr = MatSetValues(A,1,&col,1,&row,&val,INSERT_VALUES);CHKERRQ(ierr);
+        //printf("%d %d %f\n", col, row, val);
       }
     }
     // If matrix A has a diagonal entry, set the entry of vector d
@@ -100,7 +103,7 @@ int main(int argc,char **args)
   ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);CHKERRQ(ierr);
 
   // Prepare for writing the matrix and rhs vector to file
-  ierr = PetscOptionsGetString(PETSC_NULL,"-fout",fileout,PETSC_MAX_PATH_LEN,PETSC_NULL);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL,PETSC_NULL,"-fout",fileout,PETSC_MAX_PATH_LEN,PETSC_NULL);CHKERRQ(ierr);
   ierr = PetscViewerBinaryOpen(PETSC_COMM_WORLD,fileout,FILE_MODE_WRITE,&view);CHKERRQ(ierr);
   ierr = MatView(A,view);CHKERRQ(ierr);
   ierr = VecView(b,view);CHKERRQ(ierr);

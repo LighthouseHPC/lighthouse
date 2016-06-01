@@ -216,7 +216,7 @@ int main(int argc,char **args)
   len += sprintf (buf + len, "%g, ",rv);
   len += sprintf (buf + len, "%g, ",cv);
    
-  ierr = MatIsSymmetric(A,0.0,&isSymmetric); CHKERRQ(ierr);
+  ierr = MatIsSymmetric(A,1e-6,&isSymmetric); CHKERRQ(ierr);
   len += sprintf (buf + len, "%d, ",isSymmetric);
 
   char *fname = basename(file); // getting matrix name from the path 
@@ -361,23 +361,12 @@ PetscErrorCode BlockSize(Mat M, PetscInt *blockSize)
 // finds the total number of nonzeros
 PetscErrorCode Nonzeros(Mat M, PetscInt *nonzeros)
 {
-  PetscInt m,n,i,j,nc=0,nnz;
   PetscErrorCode ierr;  
+  MatInfo matinfo;
 
-  ierr = Dimension(M, &m, &n);CHKERRQ(ierr);  
-  nnz = 0;
-  for (i=0; i<m; i++) { //loop over each row
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
-    if(nc != 0){      
-      for(j=0;j<nc;j++){                   
-        if(*(vals[0]+j) != 0) nnz++;
-      }
-    }
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
-  }
-  *nonzeros = nnz;
+  MatGetInfo(M,MAT_GLOBAL_SUM,&matinfo);
+  /*printf("matinfo.nz_used %g\n",matinfo.nz_used);*/
+  *nonzeros = matinfo.nz_used;
   return(0);
 }
 
@@ -926,27 +915,34 @@ PetscErrorCode upperBandwidth(Mat M, PetscInt *lowerb)
 PetscErrorCode DiagonalVariance(Mat M, PetscScalar* dv){  
   PetscErrorCode  ierr;
   PetscScalar da=0,sum=0;
-  PetscInt m,n,i;
+  PetscInt dn, m,n,i;
   Vec D;
   
   ierr = Dimension(M,&m,&n);
   PetscScalar* d;
 
-  ierr = DiagonalAverage(M,&da);
 
   ierr = VecCreate(PETSC_COMM_WORLD,&D);CHKERRQ(ierr);
-  ierr = VecSetSizes(D,PETSC_DECIDE,PetscMax(m,n));CHKERRQ(ierr);
+  dn = PetscMax(m,n);
+  ierr = VecSetSizes(D,PETSC_DECIDE,dn);CHKERRQ(ierr);
   ierr = VecSetFromOptions(D);CHKERRQ(ierr);
 
   ierr = MatGetDiagonal(M,D); CHKERRQ(ierr);
   ierr = VecGetArray(D,&d); CHKERRQ(ierr);
+
+  // Compute the diagonal average
+  da = 0;
+  for (i = 0; i < dn; i++ ) da+= d[i];
+  da = da / dn;
+
+  // Compute the variance
   sum = 0;
-  for (i=0; i<n; i++) {
+  for (i=0; i<m; i++) {
     sum += (d[i]-da)*(d[i]-da);
   }  
   ierr = VecRestoreArray(D,&d); CHKERRQ(ierr);
   ierr = VecDestroy(&D); CHKERRQ(ierr);
-  *dv = sum/n;
+  *dv = sum/m;
   return 0;
 }
 

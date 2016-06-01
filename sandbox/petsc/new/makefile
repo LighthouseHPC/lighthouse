@@ -4,8 +4,11 @@ EXAMPLESC        = solver.c parallel.c parallel-bgq.c sequential.c convert.c mm2
 CLEANFILES       = solver parallel parallel-bgq sequential convert mm2petsc properties
 NP               = 1
 
-include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscvariables
-include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscrules
+#include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscvariables
+#include ${PETSC_DIR}/${PETSC_ARCH}/conf/petscrules
+include ${PETSC_DIR}/lib/petsc/conf/variables
+include ${PETSC_DIR}/lib/petsc/conf/rules
+
 
 solver: solver.o  
 	-${CLINKER} -o solver solver.o  ${PETSC_KSP_LIB}
