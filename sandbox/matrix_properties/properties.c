@@ -262,19 +262,19 @@ PetscErrorCode MinNonzerosPerRow(Mat M, PetscInt *minNz)
   *minNz = n;
 
   for(i = 0; i < m; i++){
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     nnz = 0;
     if(nc != 0){      
       for(j=0;j<nc;j++){                   
-        if(*(vals[0]+j) != 0) nnz++;
+        if(vals[j] != 0) nnz++;
       }
     }
     if(nnz < *minNz){
       *minNz = nnz;
     }    
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   return(0);
 }
@@ -306,21 +306,21 @@ PetscErrorCode RowVariance(Mat M, PetscScalar* vrn){
   for (i=0; i<m; i++){ // iterate over rows
     ix[0] = i;
     ierr = VecGetValues(rowSum,1,ix,dv);CHKERRQ(ierr);
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
+    const PetscInt *cols;
+    const PetscScalar *vals;
     ssum = 0;
     mean = dv[0]/n;
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     if(nc != 0){
       for(j=0;j<nc;j++){
-        ssum = ssum + (*(vals[0]+j)-mean)*(*(vals[0]+j)-mean);
+        ssum = ssum + (vals[j]-mean)*(vals[j]-mean);
       }
     }else{
       ssum = 0;
     }
     var = ssum/n;
     ierr = VecSetValue(V,i,var,INSERT_VALUES);
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   VecAssemblyBegin(V); VecAssemblyEnd(V);
 
@@ -380,19 +380,19 @@ PetscErrorCode MaxNonzerosPerRow(Mat M, PetscInt *maxNz)
 
 //go through all rows
   for(i = 0; i < m; i++){
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     nnz = 0;
     if(nc != 0){   //go through all columns of each row   
       for(j=0;j<nc;j++){                   
-        if(*(vals[0]+j) != 0) nnz++;
+        if(vals[j] != 0) nnz++;
       }
     } //after every row keep updating the maxNz
     if(nnz > *maxNz){
       *maxNz = nnz;
     }    
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   return(0);
 }
@@ -402,23 +402,23 @@ PetscErrorCode AvgNonzerosPerRow(Mat M, PetscInt *avgNz)
 {
   PetscErrorCode ierr;
   PetscInt m, n, i, j, nc=0, nnz=0;
-  const PetscInt *cols[n];
-  const PetscScalar *vals[n];
+  const PetscInt *cols;
+  const PetscScalar *vals;
   PetscScalar sum=0;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
   for(i = 0; i < m; i++){ //go over each row
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     nnz = 0;
     if(nc != 0){      
       for(j=0;j<nc;j++){                   
-        if(*(vals[0]+j) != 0) nnz++;
+        if(vals[j] != 0) nnz++;
       }
     }
     if(nnz != 0){
       sum = sum + nnz;
     }  
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   *avgNz = sum/(PetscScalar)m;
   return(0);
@@ -459,18 +459,18 @@ PetscErrorCode DummyRowsKind(Mat M, PetscInt *dummyRowsKind)
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
   for(i = 0; i < m; i++){
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nz,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nz,&cols,&vals);CHKERRQ(ierr);
     if(nz == 1){
-      if(*cols[0] == i){
-        if(*vals[0] == 1) kind_0++;
+      if(cols[0] == i){
+        if(vals[0] == 1) kind_0++;
         else kind_1++;
       }
       else kind_2++;
       nDumRows++;
     }
-    ierr = MatRestoreRow(M,i,&nz,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nz,&cols,&vals);CHKERRQ(ierr);
   }
 
   if(kind_0 == nDumRows && kind_1 == 0 && kind_2 == 0) *dummyRowsKind = 0;
@@ -489,15 +489,15 @@ PetscErrorCode AbsoluteNonZeroSum(Mat M, PetscScalar *asum){
   ierr = Dimension(M, &m, &n);//CHKERRQ(ierr);  
   absum = 0;
   for (i=0; i<m; i++) {
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     if(nc != 0){      
       for(j=0;j<nc;j++){                   
-        absum = absum + PetscAbsScalar(*(vals[0]+j));
+        absum = absum + PetscAbsScalar(vals[j]);
       }
     }
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   *asum = absum;
   return(0);
@@ -744,15 +744,15 @@ PetscErrorCode RowDiagonalDominance(Mat M, PetscInt *dom){
   for (i=0; i<m; i++) {
     absum = 0;
     ii = 0;   
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     if(nc != 0){      
       for(j=0;j<nc;j++){        
-        if(*(cols[0]+j) == i){         
-          ii = PetscAbsScalar(*(vals[0]+j));
+        if(cols[j] == i){         
+          ii = PetscAbsScalar(vals[j]);
         }else{
-          absum = absum + PetscAbsScalar(*(vals[0]+j));
+          absum = absum + PetscAbsScalar(vals[j]);
         }
       }
       if(ii < absum){
@@ -770,7 +770,7 @@ PetscErrorCode RowDiagonalDominance(Mat M, PetscInt *dom){
     if(dom0 > 0) *dom = 0;
     else if(dom0 == 0 && dom1 > 0) *dom = 1;
     else if(dom0 == 0 && dom1 == 0 && dom2 > 0) *dom = 2;
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   return 0;
 }
@@ -865,19 +865,19 @@ PetscErrorCode lowerBandwidth(Mat M, PetscInt *lowerb)
   lb = 0;
 
   for (i=0; i<m; i++) {
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     if(nc != 0){      
       for(j=0;j<nc;j++){                   
-        if(*(vals[0]+j) != 0){
-          if((i - *(cols[0]+j)) > lb ){
-            lb = i - *(cols[0]+j);
+        if(vals[j] != 0){
+          if((i - cols[j]) > lb ){
+            lb = i - cols[j];
           }
         } 
       }
     }
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   *lowerb = lb;
   return(0);
@@ -893,19 +893,19 @@ PetscErrorCode upperBandwidth(Mat M, PetscInt *lowerb)
   lb = 0;
 
   for (i=0; i<m; i++) {
-    const PetscInt *cols[n];
-    const PetscScalar *vals[n];
-    ierr = MatGetRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
     if(nc != 0){      
       for(j=0;j<nc;j++){                   
-        if(*(vals[0]+j) != 0){
-          if((*(cols[0]+j)-i) > lb ){
-            lb = *(cols[0]+j)-i;
+        if(vals[j] != 0){
+          if((cols[j]-i) > lb ){
+            lb = cols[j]-i;
           }
         } 
       }
     }
-    ierr = MatRestoreRow(M,i,&nc,cols,vals);CHKERRQ(ierr);
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
   *lowerb = lb;
   return(0);
