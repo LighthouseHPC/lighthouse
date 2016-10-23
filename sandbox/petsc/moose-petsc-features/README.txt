@@ -16,3 +16,7 @@ For generating arff/csv with PETSc features for moose matrices(scaled):
 run the command: 
 python ../scripts/petsc2arff_moose.py -T ../petsc/moose_big_matrices/petsc-moose-features/properties_moose_1e4_6080.csv -p ../petsc/moose_big_matrices/moose-timing-logs -t -b 30 -n solvers_moose_petsc
 
+To remove logs with iterations <10: 
+From location: /Users/kanikas/Documents/github/Lighthouse_recent/lighthouse/sandbox/petsc/moose_big_matrices/timing-logs-backup
+Run command: grep -lir "its=1$"  *.log | xargs -I {} cp {} ../iter_geq10/
+for its = 1...9
