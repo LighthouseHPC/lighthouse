@@ -10,8 +10,7 @@ For generating arff/csv with PETSc features for moose matrices(scaled):
 1. In the properties csv file (properties_moose_1e4_6080.csv), move matrix name from last column to first column.
 2. Check for 
  character in the csv file, if found, remove by doing the following in vim: 
-:%s/
-/\r/g
+:%s/^M/\r/g
 (Note: to type 
  you should NOT use power and capital M, instead press Ctrl (V and M)) 
 3. Rename log file extensions from abc.p24.log to abc.log. Use script fileExtensionChange.py
