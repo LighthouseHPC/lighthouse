@@ -255,7 +255,7 @@ def readPerfData(features,dirname,threshold):
     @param lines list of lines (strings)
 '''
 def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples={},
-                  includetimes=False,usesolvers=False):
+                  includetimes=False,usesolvers=False,extrainfo=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
     csvbuf = ''
@@ -278,7 +278,8 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples=
     if usesolvers:
         buf += '@ATTRIBUTE solver {%s}\n' % (','.join(['"'+x+'"' for x in solvers.keys()]))
         csvbuf += ', solver'
-
+    if extrainfo:
+        csvbuf += ', solver_name, prec_name, matrix_name'
     if fairtol > 0:
         buf += '@ATTRIBUTE class {good,fair,bad}'
     else:
@@ -319,6 +320,10 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples=
             if usesolvers:
                 buf += '"' + str(solverID) + '"' + ','
                 csvbuf += '"'+ str(solverID) + '"' + ','
+            if extrainfo:
+                csvbuf += str(perfdata[matrixname][solverID][0]) + ', '
+                csvbuf += str(perfdata[matrixname][solverID][1]) + ', '
+                csvbuf += matrixname + ', '
             buf += label + '\n'
             csvbuf += label + '\n'
         
@@ -370,6 +375,9 @@ if __name__ == '__main__':
                         'features.', action='store_true')
     parser.add_argument('--feature_times', default = False, action='store_true',
                         help='If specified, produce a CSV file anamod_feauture_times.csv with feature timings')
+    parser.add_argument('-e','--extra_csv_info', default=False,
+                        help='Adds solver name, preconditioner name, and matrix name to csv output',
+                        action='store_true')
 
     args = parser.parse_args()
     
@@ -387,6 +395,7 @@ if __name__ == '__main__':
     else: fairtol = 0
     includetimes = args.times
     usesolvers = args.solvers
+    extrainfo = args.extra_csv_info
     outfile = args.name
     solvers = {}
     solversamples = {}
@@ -437,7 +446,7 @@ if __name__ == '__main__':
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
     csvbuf = buf
-    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,solversamples,includetimes,usesolvers)
+    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,solversamples,includetimes,usesolvers,extrainfo)
     buf += arff
     csvbuf += csv
     basefilename = outfile+'_%d' % (args.besttol)
