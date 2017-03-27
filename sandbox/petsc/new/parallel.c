@@ -1,11 +1,12 @@
 static char help[] = "Solves a linear system in parallel with various combinations of KSP + PC.\n\
   -f <input_file> : petsc binary matrix file\n\n";
 
-#include <petscksp.h>
-#include <petsctime.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <libgen.h>
+#include "petscksp.h"
+#include "petsctime.h"
+#include "petscsys.h"
 
 
 extern PetscErrorCode MyKSPMonitor(KSP,PetscInt,PetscReal,void*);
@@ -52,16 +53,16 @@ int main(int argc,char **args)
   PetscInitialize(&argc,&args,(char *)0,help);
   ierr = MPI_Comm_rank(PETSC_COMM_WORLD,&rank);CHKERRQ(ierr);
 
-  ierr = PetscOptionsGetString(PETSC_NULL,"-hash",hash,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL, PETSC_NULL, "-hash",hash,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     strcpy(hash,"nohash");
   }
 
-  ierr = PetscOptionsGetString(PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL, PETSC_NULL,"-f",file,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     PetscPrintf(PETSC_COMM_WORLD,"Must indicate matrix file with the -f option");
   }
-  ierr = PetscOptionsGetString(PETSC_NULL,"-logfile",logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(PETSC_NULL, PETSC_NULL,"-logfile",logfile,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
     PetscPrintf(PETSC_COMM_WORLD,"Must indicate log file name with -logfile option");
   }
@@ -109,7 +110,7 @@ int main(int argc,char **args)
   // Print method info
   //log = PETSC_VIEWER_STDOUT_WORLD;
 
-  
+  PetscLogDefaultBegin(); 
   // Make sure the program doesn't crash 
   // while trying to solve the system
   PetscPushErrorHandler(PetscIgnoreErrorHandler,NULL);
