@@ -20,6 +20,14 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'icc' : {'factor_levels':[0,1,2,3]}
     }
 
+solvers = ['gmres','fgmres','cg','bicg','tfqmr']
+pcs = {
+        'asm': {'asm_overlap' : [0,1,2,3]},
+        'jacobi' : {},
+        'bjacobi' : {},
+}
+
+
 # Default, comment out for general random sampling testing
 #if len(sys.argv) > 1 and sys.argv[1] == 'default':
 if False:

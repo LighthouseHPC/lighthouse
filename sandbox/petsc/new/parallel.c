@@ -17,7 +17,7 @@ int main(int argc,char **args)
 {
   Mat            A;        /* linear system matrix */
   PetscErrorCode ierr;
-  PetscMPIInt    rank=0;
+  PetscMPIInt    rank=0, nprocs=1;
   PetscBool      flg;
   PetscViewer    fd;         /* viewer */
   PetscViewer    log;
@@ -52,6 +52,7 @@ int main(int argc,char **args)
 */
   PetscInitialize(&argc,&args,(char *)0,help);
   ierr = MPI_Comm_rank(PETSC_COMM_WORLD,&rank);CHKERRQ(ierr);
+  ierr = MPI_Comm_size(PETSC_COMM_WORLD,&nprocs); CHKERRQ(ierr);
 
   ierr = PetscOptionsGetString(PETSC_NULL, PETSC_NULL, "-hash",hash,PETSC_MAX_PATH_LEN,&flg);CHKERRQ(ierr);
   if (!flg) {
@@ -117,6 +118,7 @@ int main(int argc,char **args)
   ierr = KSPSolve(ksp,b,x);
   PetscPopErrorHandler();
   // Check if anything went wrong
+  KSPConvergedReason reason;
   if(ierr == 0 || ierr == -1){ 
     // If no error occurred or stopped by MyKSPMonitor, 
     // compute normal and stuff
@@ -124,27 +126,26 @@ int main(int argc,char **args)
     ierr = MatMult(A,x,u);CHKERRQ(ierr);
     ierr = VecAXPY(u,-1.0,b);CHKERRQ(ierr);
     ierr = VecNorm(u,NORM_2,&norm);CHKERRQ(ierr);
-    ierr = PetscTime(&endTime);CHKERRQ(ierr);
-    // Compute solve time
-    solveTime = endTime - startTime;
-    // Check if KSP converged
-    KSPConvergedReason reason;
     KSPGetConvergedReason(ksp,&reason);
-    // Print convergence code, solve time, preconditioned norm, iterations
+  } else {
+    reason = -99; 
+    its = -99;
+  }
+  ierr = PetscTime(&endTime);CHKERRQ(ierr);
+  // Compute solve time
+  solveTime = endTime - startTime;
+  // Check if KSP converged
+  // Print convergence code, solve time, preconditioned norm, iterations
+//  if (rank == 0) {
     ierr = PetscViewerASCIIOpen(PETSC_COMM_WORLD, logfile, &log); CHKERRQ(ierr);
     ierr = PetscViewerASCIIPrintf(log, "Hash: %s\n", hash);
-    ierr = PetscViewerASCIIPrintf(log, "%s | %s | reason=%D | time=%e | norm=%g | its=%D\n",kt,pt,reason,solveTime,norm,its);CHKERRQ(ierr);
+    ierr = PetscViewerASCIIPrintf(log, "%s | %s | reason=%D | time=%e | norm=%g | its=%D | p=%d\n",kt,pt,reason,solveTime,norm,its,nprocs);CHKERRQ(ierr);
     ierr = KSPView(ksp,log);
     ierr = PCView(pc,log);
     ierr = PetscLogView(log);
     ierr = PetscViewerDestroy(&log);CHKERRQ(ierr);
-  }
-  else{
-    // Disaster happened, bail out
-    //if (rank == 0) remove(lockfile);
-    PetscFinalize();
-    return 0;
-  }
+ // }
+  
   // Again, destroy KSP and vector
   ierr = KSPDestroy(&ksp);CHKERRQ(ierr);
   ierr = VecDestroy(&x);CHKERRQ(ierr);
