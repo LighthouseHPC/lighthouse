@@ -136,7 +136,7 @@ int main(int argc,char **args)
   solveTime = endTime - startTime;
   // Check if KSP converged
   // Print convergence code, solve time, preconditioned norm, iterations
-//  if (rank == 0) {
+  if (rank == 0) {
     ierr = PetscViewerASCIIOpen(PETSC_COMM_WORLD, logfile, &log); CHKERRQ(ierr);
     ierr = PetscViewerASCIIPrintf(log, "Hash: %s\n", hash);
     ierr = PetscViewerASCIIPrintf(log, "%s | %s | reason=%D | time=%e | norm=%g | its=%D | p=%d\n",kt,pt,reason,solveTime,norm,its,nprocs);CHKERRQ(ierr);
@@ -144,7 +144,7 @@ int main(int argc,char **args)
     ierr = PCView(pc,log);
     ierr = PetscLogView(log);
     ierr = PetscViewerDestroy(&log);CHKERRQ(ierr);
- // }
+  }
   
   // Again, destroy KSP and vector
   ierr = KSPDestroy(&ksp);CHKERRQ(ierr);
