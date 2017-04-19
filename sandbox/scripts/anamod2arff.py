@@ -135,7 +135,7 @@ def readPerfDataBelos(features,filename):
 
 def readPerfData(features,dirname,threshold):
     '''Log format excerpt (solver, preconditioner, convergence reason, time, tolerance)
-    Beginning of each matrixname.solverhash.log file on BG/Q only
+    Beginning of each matrixname.solverhash.log file (more recent tests only)
     Hash: 43373443
     tcqmr | icc | -3 | 1.926556e+02 | 84.0693 | 10000
     ...
@@ -158,7 +158,12 @@ def readPerfData(features,dirname,threshold):
         statinfo = os.stat(logfile)
         
         fname=os.path.basename(logfile)
-        matrixname,hashid,_ = fname.split('.')
+        parts = fname.split('.')
+        pval = 'p1'
+        if len(parts) == 4: matrixname,hashid,pval = parts[:3]
+        else: matrixname,hashid = parts[:2]
+        nprocs = pval.strip('p')
+
         if not matrixname in features.keys():
             print "No features found for this matrix"
             continue
@@ -180,7 +185,7 @@ def readPerfData(features,dirname,threshold):
                 solverpc = solveropts[solverID].split()
                 s = solverpc[1]
                 p = ' '.join(solverpc[3:])
-                perf[matrixname][solverID] = [s,p,'-100',str(sys.float_info.max),str(sys.float_info.max)]
+                perf[matrixname][solverID] = [s,p,'-100',str(sys.float_info.max),str(sys.float_info.max),nprocs]
             continue
 
         bgqdata = []
@@ -191,7 +196,7 @@ def readPerfData(features,dirname,threshold):
              break
         #else:
         options=False
-        #data [solver, preconditioner, convergence reason, time, tolerance]
+        #data [solver, preconditioner, convergence reason, time, tolerance, numprocs]
         data = ['','','','','','']
         for l in lines: 
           tmp=''
@@ -211,11 +216,12 @@ def readPerfData(features,dirname,threshold):
           elif l.startswith("#End of PETSc Option Table entries"):
             break
           elif l.startswith("MatSolve"):
-            data[3] = l.split()[3]
+            data[3] = l.split()[3]     # time
           else: continue
           
         if bgqdata: data[3] = bgqdata[3]
-        #print data
+        data[5] = str(nprocs)
+        print data
         #solvername = solvers[hashid]
         if len(data)>3:
           perf[matrixname][solverID] = data
@@ -223,6 +229,9 @@ def readPerfData(features,dirname,threshold):
           continue
 
         timestr =  perf[matrixname][solverID][3].strip()
+        # Petsc sometimes gloms numbers together, e.g., 1.4687e-0414.3, 
+        # so we read just 3 chars past the e
+        if timestr.count('.')>1: timestr = timestr[:timestr.find('e')+4]
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
             timestr = sys.float_info.max
