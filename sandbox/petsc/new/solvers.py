@@ -19,13 +19,13 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'bjacobi' : {},
 	'icc' : {'factor_levels':[0,1,2,3]}
     }
-
-solvers = ['gmres','fgmres','cg','bicg','tfqmr']
-pcs = {
+if False:
+  solvers = ['gmres','fgmres','cg','bicg','tfqmr']
+  pcs = {
         'asm': {'asm_overlap' : [0,1,2,3]},
         'jacobi' : {},
         'bjacobi' : {},
-}
+  }
 
 
 # Default, comment out for general random sampling testing

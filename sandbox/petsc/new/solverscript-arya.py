@@ -5,6 +5,7 @@ import sys, os, glob, random
 import datetime,time
 
 nprocs = [1,4,8,16,24,32,48,54,72]
+nprocs = [8,1]
 
 from solvers import *
 petsc = True
@@ -67,8 +68,8 @@ for np in nprocs:
         continue
       else:
         print "PETSc matrix:", matrixpath
-      logfile = tdir + '%s.%s.log' % (matname, str(hashnum))
-      lockfile = tdir + '.%s.%s.log' % (matname, str(hashnum))
+      logfile = tdir + '%s.%s.p%d.log' % (matname, str(hashnum), np)
+      lockfile = tdir + '.%s.%s.p%d.log' % (matname, str(hashnum), np)
       print "Logfile:", logfile
       if os.path.exists(lockfile) or os.path.exists(logfile): continue
       else: os.system("echo %s > %s" % (matname,lockfile))
