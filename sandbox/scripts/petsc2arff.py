@@ -3,8 +3,7 @@
 Created on Feb 17, 2015
 @author: norris
 Modified by KS on April 17, 2017 for petsc features for the arff.
-To run: ../scripts/petsc2arff_moose.py -T ../petsc/moose_big_matrices/petsc-moose-features/properties_moose_1e4_6080.csv -p /home/users/norris/UFloridaSparseMat/timing-arya16  -b 30 -n petsc_petsc_arya_p16
-
+To run: python ../scripts/petsc2arff.py -T  /home/users/kanikas/research/lighthouse/sandbox/matrix_properties/uflorida-features1.csv -p /home/users/norris/UFloridaSparseMat/timing-arya16 -t -b 30 -n petsc_petsc_arya_p16_30
 '''
 import re, sys, os, argparse, glob, time, datetime, socket, random
 from solvers import *
