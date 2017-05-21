@@ -1,5 +1,6 @@
 # author : Kanika Sood 
 # Date : May 1, 2017
+#Input that should be in the same directory: edison-ex19-kspsolve_filtered_final.csv
 
 import csv
 from collections import OrderedDict
