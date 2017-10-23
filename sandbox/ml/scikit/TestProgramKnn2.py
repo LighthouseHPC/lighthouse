@@ -17,7 +17,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 from sklearn.metrics import accuracy_score
 import cv2
-datafile = input("Enter your datafile: "
+datafile = input("Enter your datafile: ")
 info = pandas.read_csv(datafile)
 print(info.head())
 

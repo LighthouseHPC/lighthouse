@@ -5,7 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report 
 from sklearn import tree
-datafile = input("Enter your datafile: "
+datafile = input("Enter your datafile: ")
 data = pandas.read_csv(datafile)
 a = len(data.T) - 1 #Because the indexing starts from zero!
 
