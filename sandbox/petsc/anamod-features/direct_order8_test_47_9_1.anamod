@@ -1,0 +1,371 @@
+reading matrix from petsc binary file <moose/direct_order8_test_47_9_1.mat>, size: 20002 by 20002
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see http://www.mcs.anl.gov/petsc/documentation/faq.html#valgrind
+[0]PETSC ERROR: or try http://valgrind.org on GNU/linux and Apple Mac OS X to find memory corruption errors
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see http://www.mcs.anl.gov/petsc/documentation/faq.html#valgrind
+[0]PETSC ERROR: or try http://valgrind.org on GNU/linux and Apple Mac OS X to find memory corruption errors
+[0]PETSC ERROR: likely location of problem given in stack below
+[0]PETSC ERROR: ---------------------  Stack Frames ------------------------------------
+[0]PETSC ERROR: Note: The EXACT line numbers in the stack are not available,
+[0]PETSC ERROR:       INSTEAD the line number of the start of the function
+[0]PETSC ERROR:       is given.
+[0]PETSC ERROR: [0] PetscSignalHandlerDefault line 75 /ibrix/home11/bnorris2/petsc/petsc-3.5.3/src/sys/error/signal.c
+[0]PETSC ERROR: [0] PetscSignalHandler_Private line 45 /ibrix/home11/bnorris2/petsc/petsc-3.5.3/src/sys/error/signal.c
+[0]PETSC ERROR: [0] eigenvaluecomp line 42 /home11/bnorris2/anamod-3/anamod-3.00/lapack.c
+[0]PETSC ERROR: [0] Departure line 191 /home11/bnorris2/anamod-3/anamod-3.00/lapack.c
+[0]PETSC ERROR: [0] ComponentCompute line 62 /home11/bnorris2/anamod-3/anamod-3.00/component.c
+[0]PETSC ERROR: [0] ComputeOrRetrieveQuantity line 488 /home11/bnorris2/anamod-3/anamod-3.00/module_functions.c
+[0]PETSC ERROR: [0] ComputeQuantity line 563 /home11/bnorris2/anamod-3/anamod-3.00/module_functions.c
+[0]PETSC ERROR: [0] analyze_matrix line 63 petsc.c
+[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Signal received
+[0]PETSC ERROR: See http://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.5.3, Jan, 31, 2015 
+[0]PETSC ERROR: ./anamod_all on a openmpi-1.8_gcc-4.9 named cn160 by bnorris2 Thu Mar 31 21:29:25 2016
+[0]PETSC ERROR: Configure options --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+[0]PETSC ERROR: #1 User provided function() line 0 in  unknown file
+[0]PETSC ERROR: likely location of problem given in stack below
+[0]PETSC ERROR: ---------------------  Stack Frames ------------------------------------
+[0]PETSC ERROR: Note: The EXACT line numbers in the stack are not available,
+[0]PETSC ERROR:       INSTEAD the line number of the start of the function
+[0]PETSC ERROR:       is given.
+[0]PETSC ERROR: [0] eigenvaluecomp line 42 /home11/bnorris2/anamod-3/anamod-3.00/lapack.c
+[0]PETSC ERROR: [0] Departure line 191 /home11/bnorris2/anamod-3/anamod-3.00/lapack.c
+[0]PETSC ERROR: [0] ComponentCompute line 62 /home11/bnorris2/anamod-3/anamod-3.00/component.c
+[0]PETSC ERROR: [0] ComputeOrRetrieveQuantity line 488 /home11/bnorris2/anamod-3/anamod-3.00/module_functions.c
+[0]PETSC ERROR: [0] ComputeQuantity line 563 /home11/bnorris2/anamod-3/anamod-3.00/module_functions.c
+[0]PETSC ERROR: [0] analyze_matrix line 63 petsc.c
+[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Signal received
+[0]PETSC ERROR: See http://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.5.3, Jan, 31, 2015 
+[0]PETSC ERROR: ./anamod_all on a openmpi-1.8_gcc-4.9 named cn160 by bnorris2 Thu Mar 31 21:29:25 2016
+[0]PETSC ERROR: Configure options --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+[0]PETSC ERROR: #2 User provided function() line 0 in  unknown file
+*** glibc detected *** ./anamod_all: corrupted double-linked list: 0x00007fa8b4000ea0 ***
+**
+======= Backtrace: =========
+======= Backtrace: =========
+/lib64/libc.so.6[0x3321075f4e]
+/lib64/libc.so.6[0x3321075f4e]
+/lib64/libc.so.6[0x3321078cf0]
+/lib64/libc.so.6[0x3321078fd6]
+/lib64/libc.so.6(fclose+0x14d)[0x33210664cd]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6(opal_show_help_yy_delete_buffer+0x41)[0x7fa8bda12261]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6(opal_show_help_yylex_destroy+0x1d)[0x7fa8bda1235d]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7(orte_show_help+0xb6)[0x7fa8bdfdae76]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6(opal_show_help_vstring+0x234)[0x7fa8bda10054]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7(orte_show_help+0xb6)[0x7fa8bdfdae76]
+/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5(PetscSignalHandlerDefault+0x370)[0x7fa8bfc108c0]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1(PMPI_Abort+0x6a)[0x7fa8bf6722ba]
+/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5(+0x139b65)[0x7fa8bfc10b65]
+/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5(PetscSignalHandlerDefault+0x370)[0x7fa8bfc108c0]
+/lib64/libc.so.6[0x33210326a0]
+/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5(+0x139b65)[0x7fa8bfc10b65]
+/usr/lib64/atlas/liblapack.so.3(dlaqr5_+0xb02)[0x33249ddad2]
+/lib64/libc.so.6[0x33210326a0]
+/usr/lib64/atlas/liblapack.so.3(dlaqr0_+0xd7f)[0x33249d74ef]
+/lib64/libc.so.6(__poll+0x53)[0x33210df113]
+/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6(+0x70121)[0x7fa8bda2a121]
+/usr/lib64/atlas/liblapack.so.3(dgeesx_+0x71c)[0x332495be0c]
+./anamod_all[0x42affd]
+./anamod_all[0x42eaf8]
+./anamod_all[0x4365b9]
+./anamod_all[0x432534]
+./anamod_all[0x432896]
+./anamod_all[0x403e89]
+./anamod_all[0x404b5f]
+00400000-0044d000 r-xp 00000000 00:1b 232455766159     ./anamod_all[0x4032d9]
+0.1
+308200a000-308200b000 rw-p 0000a000 08:03 17320844                       /lib64/libkrb5support.so.0.1
+3082200000-3082241000 r-xp 00000000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082241000-3082441000 ---p 00041000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082441000-3082442000 r--p 00041000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082442000-3082444000 rw-p 00042000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082600000-3082629000 r-xp 00000000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+3082629000-3082829000 ---p 00029000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+3082829000-308282a000 r--p 00029000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+308282a000-308282b000 rw-p 0002a000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+308282b000-308282c000 rw-p 00000000 00:00 0 
+3082a00000-3082a62000 r-xp 00000000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3082a62000-3082c61000 ---p 00062000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3082c61000-3082c65000 r--p 00061000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3082c65000-3082c6c000 rw-p 00065000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3320c00000-3320c20000 r-xp 00000000 08:03 17320610                       /lib64/ld-2.12.so
+3320e1f000-3320e20000 r--p 0001f000 08:03 17320610                       /lib64/ld-2.12.so
+3320e20000-3320e21000 rw-p 00020000 08:03 17320610                       /lib64/ld-2.12.so
+3320e21000-3320e22000 rw-p 00000000 00:00 0 
+3321000000-332118a000 r-xp 00000000 08:03 17320611                       /lib64/libc-2.12.so
+332118a000-332138a000 ---p 0018a000 08:03 17320611                       /lib64/libc-2.12.so
+332138a000-332138e000 r--p 0018a000 08:03 17320611                       /lib64/libc-2.12.so
+332138e000-332138f000 rw-p 0018e000 08:03 17320611                       /lib64/libc-2.12.so00400000-0044d000 r-xp 00000000 00:1b 232455766159                       /ibrix/users/home11/bnorris2/UFloridaSparseMat/anamod_all
+0064c000-0064e000 rw-p 0004c000 00:1b 232455766159                       /ibrix/users/home11/bnorris2/UFloridaSparseMat/anamod_all
+01523000-28b43000 rw-p 00000000 00:00 0                                  [heap]
+3081a00000-3081adb000 r-xp 00000000 08:03 17320846                       /lib64/libkrb5.so.3.3
+3081adb000-3081cdb000 ---p 000db000 08:03 17320846                       /lib64/libkrb5.so.3.3
+3081cdb000-3081ce5000 r--p 000db000 08:03 17320846                       /lib64/libkrb5.so.3.3
+3081ce5000-3081ce7000 rw-p 000e5000 08:03 17320846                       /lib64/libkrb5.so.3.3
+3081e00000-3081e0a000 r-xp 00000000 08:03 17320844                       /lib64/libkrb5support.so.0.1
+3081e0a000-3082009000 ---p 0000a000 08:03 17320844                       /lib64/libkrb5support.so.0.1
+3082009000-308200a000 r--p 00009000 08:03 17320844                       /lib64/libkrb5support.so.
+332138f000-3321394000 rw-p 00000000 00:00 0 
+3321400000-3321483000 r-xp 00000000 08:03 17320612                       /lib64/libm-2.12.so
+3321483000-3321682000 ---p 00083000 08:03 17320612                       /lib64/libm-2.12.so
+3321682000-3321683000 r--p 00082000 08:03 17320612                       /lib64/libm-2.12.so
+3321683000-3321684000 rw-p 00083000 08:03 17320612                       /lib64/libm-2.12.so
+3321800000-3321802000 r-xp 00000000 08:03 17320616                       /lib64/libdl-2.12.so
+3321802000-3321a02000 ---p 00002000 08:03 17320616                       /lib64/libdl-2.12.so
+3321a02000-3321a03000 r--p 00002000 08:03 17320616                       /lib64/libdl-2.12.so
+3321a03000-3321a04000 rw-p 00003000 08:03 17320616                       /lib64/libdl-2.12.so
+3321c00000-3321c17000 r-xp 00000000 08:03 17320615                       /lib64/libpthread-2.12.so
+3321c17000-3321e17000 ---p 00017000 08:03 17320615                       /lib64/libpthread-2.12.so
+3321e17000-3321e18000 r--p 000170.1
+308200a000-308200b000 rw-p 0000a000 08:03 17320844                       /lib64/libkrb5support.so.0.1
+3082200000-3082241000 r-xp 00000000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082241000-3082441000 ---p 00041000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082441000-3082442000 r--p 00041000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082442000-3082444000 rw-p 00042000 08:03 17320847                       /lib64/libgssapi_krb5.so.2.2
+3082600000-3082629000 r-xp 00000000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+3082629000-3082829000 ---p 00029000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+3082829000-308282a000 r--p 00029000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+308282a000-308282b000 rw-p 0002a000 08:03 17320845                       /lib64/libk5crypto.so.3.1
+308282b000-308282c000 rw-p 00000000 00:00 0 
+3082a00000-3082a62000 r-xp 00000000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3082a62000-3082c61000 ---p 00062000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3082c61000-3082c65000 r--p 00061000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3082c65000-3082c6c000 rw-p 00065000 08:03 16779245                       /usr/lib64/libssl.so.1.0.1e
+3320c00000-3320c20000 r-xp 00000000 08:03 17320610                       /lib64/ld-2.12.so
+3320e1f000-3320e20000 r--p 0001f000 08:03 17320610                       /lib64/ld-2.12.so
+3320e20000-3320e21000 rw-p 00020000 08:03 17320610                       /lib64/ld-2.12.so
+3320e21000-3320e22000 rw-p 00000000 00:00 0 
+3321000000-332118a000 r-xp 00000000 08:03 17320611                       /lib64/libc-2.12.so
+332118a000-332138a000 ---p 0018a000 08:03 17320611                       /lib64/libc-2.12.so
+332138a000-332138e000 r--p 0018a000 08:03 17320611                       /lib64/libc-2.12.so
+332138e000-332138f000 rw-p 0018e000 08:03 17320611                       /lib64/libc-2.12.so            /lib64/libselinux.so.1
+332281d000-3322a1c000 ---p 0001d000 08:03 17320626                       /lib64/libselinux.so.1
+3322a1c000-3322a1d000 r--p 0001c000 08:03 17320626                       /lib64/libselinux.so.1
+3322a1d000-3322a1e000 rw-p 0001d000 08:03 17320626                       /lib64/libselinux.so.1
+3322a1e000-3322a1f000 rw-p 00000000 00:00 0 
+3322c00000-3322c20000 r-xp 00000000 08:03 17043396                       /usr/lib64/atlas/libcblas.so.3.0
+3322c20000-3322e1f000 ---p 00020000 08:03 17043396                       /usr/lib64/atlas/libcblas.so.3.0
+3322e1f000-3322e20000 rw-p 0001f000 08:03 17043396                       /usr/lib64/atlas/libcblas.so.3.0
+3323800000-3323937000 r-xp 00000000 08:03 16780525                       /usr/lib64/libX11.so.6.3.0
+3323937000-3323b37000 ---p 00137000 08:03 16780525                       /usr/lib64/libX11.so.6.3.0
+3323b37000-3323b3d000 rw-p 00137000 08:03 16780525                       /usr/lib64/libX11.so.6.3.0
+3323c00000-3323c1e000 r-xp 00000000 08
+332138f000-3321394000 rw-p 00000000 00:00 0 
+3321400000-3321483000 r-xp 00000000 08:03 17320612                       /lib64/libm-2.12.so
+3321483000-3321682000 ---p 00083000 08:03 17320612                       /lib64/libm-2.12.so
+3321682000-3321683000 r--p 00082000 08:03 17320612                       /lib64/libm-2.12.so
+3321683000-3321684000 rw-p 00083000 08:03 17320612                       /lib64/libm-2.12.so
+3321800000-3321802000 r-xp 00000000 08:03 17320616                       /lib64/libdl-2.12.so
+3321802000-3321a02000 ---p 00002000 08:03 17320616                       /lib64/libdl-2.12.so
+3321a02000-3321a03000 r--p 00002000 08:03 17320616                       /lib64/libdl-2.12.so
+3321a03000-3321a04000 rw-p 00003000 08:03 17320616                       /lib64/libdl-2.12.so
+3321c00000-3321c17000 r-xp 00000000 08:03 17320615                       /lib64/libpthread-2.12.so
+3321c17000-3321e17000 ---p 00017000 08:03 17320615                       /lib64/libpthread-2.12.so
+3321e17000-3321e18000 r--p 00017:03 16780517                       /usr/lib64/libxcb.so.1.1.0
+3323c1e000-3323e1d000 ---p 0001e000 08:03 16780517                       /usr/lib64/libxcb.so.1.1.0
+3323e1d000-3323e1e000 rw-p 0001d000 08:03 16780517                       /usr/lib64/libxcb.so.1.1.0
+3324000000-332401f000 r-xp 00000000 08:03 17043419                       /usr/lib64/atlas/libf77blas.so.3.0
+332401f000-332421e000 ---p 0001f000 08:03 17043419                       /usr/lib64/atlas/libf77blas.so.3.0
+332421e000-332421f000 rw-p 0001e000 08:03 17043419                       /usr/lib64/atlas/libf77blas.so.3.0
+3324800000-3324d11000 r-xp 00000000 08:03 17043328                       /usr/lib64/atlas/liblapack.so.3.0
+3324d11000-3324f11000 ---p 00511000 08:03 17043328                       /usr/lib64/atlas/liblapack.so.3.0
+3324f11000-3324f14000 rw-p 00511000 08:03 17043328                       /usr/lib64/atlas/liblapack.so.3.0
+3324f14000-3325022000 rw-p 00000000 00:00 0 
+3325c00000-3325dba000 r-xp 00000000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325dba000-3325fb9000 ---p 001ba000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325fb9000-3325fd4000 r--p 001b9000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325fd4000-3325fe0000 rw-p 001d4000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325fe0000-3325fe4000 rw-p 00000000 00:00 0 
+3326400000-3326403000 r-xp 00000000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3326403000-3326602000 ---p 00003000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3326602000-3326603000 r--p 00002000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3326603000-3326604000 rw-p 00003000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3328000000-3328002000 r-xp 00000000 08:03 17320625                       /lib64/libkeyutils.so.1.3
+3328002000-3328201000 ---p 00002000 08:03 17320625                       /lib64/libkeyutils.so.1.3
+3328201000-3328202000 r--p 00001000 08:03 173            /lib64/libselinux.so.1
+332281d000-3322a1c000 ---p 0001d000 08:03 17320626                       /lib64/libselinux.so.1
+3322a1c000-3322a1d000 r--p 0001c000 08:03 17320626                       /lib64/libselinux.so.1
+3322a1d000-3322a1e000 rw-p 0001d000 08:03 17320626                       /lib64/libselinux.so.1
+3322a1e000-3322a1f000 rw-p 00000000 00:00 0 
+3322c00000-3322c20000 r-xp 00000000 08:03 17043396                       /usr/lib64/atlas/libcblas.so.3.0
+3322c20000-3322e1f000 ---p 00020000 08:03 17043396                       /usr/lib64/atlas/libcblas.so.3.0
+3322e1f000-3322e20000 rw-p 0001f000 08:03 17043396                       /usr/lib64/atlas/libcblas.so.3.0
+3323800000-3323937000 r-xp 00000000 08:03 16780525                       /usr/lib64/libX11.so.6.3.0
+3323937000-3323b37000 ---p 00137000 08:03 16780525                       /usr/lib64/libX11.so.6.3.0
+3323b37000-3323b3d000 rw-p 00137000 08:03 16780525                       /usr/lib64/libX11.so.6.3.0
+3323c00000-3323c1e000 r-xp 00000000 0820625                       /lib64/libkeyutils.so.1.3
+3328202000-3328203000 rw-p 00002000 08:03 17320625                       /lib64/libkeyutils.so.1.3
+3334400000-3334402000 r-xp 00000000 08:03 17311875                       /lib64/libutil-2.12.so
+3334402000-3334601000 ---p 00002000 08:03 17311875                       /lib64/libutil-2.12.so
+3334601000-3334602000 r--p 00001000 08:03 17311875                       /lib64/libutil-2.12.so
+3334602000-3334603000 rw-p 00002000 08:03 17311875                       /lib64/libutil-2.12.so
+376a000000-376a057000 r-xp 00000000 08:03 16786075                       /usr/lib64/libblas.so.3.2.1
+376a057000-376a256000 ---p 00057000 08:03 16786075                       /usr/lib64/libblas.so.3.2.1
+376a256000-376a257000 rw-p 00056000 08:03 16786075                       /usr/lib64/libblas.so.3.2.1
+7fa7f0000000-7fa7f0021000 rw-p 00000000 00:00 0 
+7fa7f0021000-7fa7f4000000 ---p 00000000 00:00 0 
+7fa7f53a1000-7fa8b4000000 rw-p 00000000 00:00 0 
+7fa8b4000000-7fa8b4021000 rw-p 000000:03 16780517                       /usr/lib64/libxcb.so.1.1.0
+3323c1e000-3323e1d000 ---p 0001e000 08:03 16780517                       /usr/lib64/libxcb.so.1.1.0
+3323e1d000-3323e1e000 rw-p 0001d000 08:03 16780517                       /usr/lib64/libxcb.so.1.1.0
+3324000000-332401f000 r-xp 00000000 08:03 17043419                       /usr/lib64/atlas/libf77blas.so.3.0
+332401f000-332421e000 ---p 0001f000 08:03 17043419                       /usr/lib64/atlas/libf77blas.so.3.0
+332421e000-332421f000 rw-p 0001e000 08:03 17043419                       /usr/lib64/atlas/libf77blas.so.3.0
+3324800000-3324d11000 r-xp 00000000 08:03 17043328                       /usr/lib64/atlas/liblapack.so.3.0
+3324d11000-3324f11000 ---p 00511000 08:03 17043328                       /usr/lib64/atlas/liblapack.so.3.0
+3324f11000-3324f14000 rw-p 00511000 08:03 17043328                       /usr/lib64/atlas/liblapack.so.3.0
+3324f14000-3325022000 rw-p 00000000 00:00 0 
+3325c00000-3325dba000 r-xp 00000000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325dba000-3325fb9000 ---p 001ba000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325fb9000-3325fd4000 r--p 001b9000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325fd4000-3325fe0000 rw-p 001d4000 08:03 16781490                       /usr/lib64/libcrypto.so.1.0.1e
+3325fe0000-3325fe4000 rw-p 00000000 00:00 0 
+3326400000-3326403000 r-xp 00000000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3326403000-3326602000 ---p 00003000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3326602000-3326603000 r--p 00002000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3326603000-3326604000 rw-p 00003000 08:03 17320629                       /lib64/libcom_err.so.2.1
+3328000000-3328002000 r-xp 00000000 08:03 17320625                       /lib64/libkeyutils.so.1.3
+3328002000-3328201000 ---p 00002000 08:03 17320625                       /lib64/libkeyutils.so.1.3
+3328201000-3328202000 r--p 00001000 08:03 173xp 00000000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bcf52000-7fa8bd152000 ---p 00016000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bd152000-7fa8bd153000 r--p 00016000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bd153000-7fa8bd154000 rw-p 00017000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bd154000-7fa8bd157000 rw-p 00000000 00:00 0 
+7fa8bd157000-7fa8bd159000 r-xp 00000000 08:03 16780485                   /usr/lib64/libXau.so.6.0.0
+7fa8bd159000-7fa8bd359000 ---p 00002000 08:03 16780485                   /usr/lib64/libXau.so.6.0.0
+7fa8bd359000-7fa8bd35a000 rw-p 00002000 08:03 16780485                   /usr/lib64/libXau.so.6.0.0
+7fa8bd35a000-7fa8bd7ad000 r-xp 00000000 08:03 17043386                   /usr/lib64/atlas/libatlas.so.3.0
+7fa8bd7ad000-7fa8bd9ac000 ---p 00453000 08:03 17043386                   /usr/lib64/atlas/libatlas.so.3.0
+7fa8bd9ac000-7fa8bd9b6000 rw-p 00452000 08:03 17043386                   /usr/lib64/atlas/libatlas.20625                       /lib64/libkeyutils.so.1.3
+3328202000-3328203000 rw-p 00002000 08:03 17320625                       /lib64/libkeyutils.so.1.3
+3334400000-3334402000 r-xp 00000000 08:03 17311875                       /lib64/libutil-2.12.so
+3334402000-3334601000 ---p 00002000 08:03 17311875                       /lib64/libutil-2.12.so
+3334601000-3334602000 r--p 00001000 08:03 17311875                       /lib64/libutil-2.12.so
+3334602000-3334603000 rw-p 00002000 08:03 17311875                       /lib64/libutil-2.12.so
+376a000000-376a057000 r-xp 00000000 08:03 16786075                       /usr/lib64/libblas.so.3.2.1
+376a057000-376a256000 ---p 00057000 08:03 16786075                       /usr/lib64/libblas.so.3.2.1
+376a256000-376a257000 rw-p 00056000 08:03 16786075                       /usr/lib64/libblas.so.3.2.1
+7fa7f0000000-7fa7f0021000 rw-p 00000000 00:00 0 
+7fa7f0021000-7fa7f4000000 ---p 00000000 00:00 0 
+7fa7f53a1000-7fa8b4000000 rw-p 00000000 00:00 0 
+7fa8b4000000-7fa8b4021000 rw-p 000000so.3.0
+7fa8bd9b6000-7fa8bd9ba000 rw-p 00000000 00:00 0 
+7fa8bd9ba000-7fa8bda94000 r-xp 00000000 00:1b 232534327368               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6.2.2
+7fa8bda94000-7fa8bdc94000 ---p 000da000 00:1b 232534327368               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6.2.2
+7fa8bdc94000-7fa8bdc9e000 rw-p 000da000 00:1b 232534327368               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6.2.2
+7fa8bdc9e000-7fa8bdca5000 rw-p 00000000 00:00 0 
+7fa8bdca5000-7fa8bdcd3000 r-xp 00000000 08:03 17177759                   /opt/torque-2.5.13/lib/libtorque.so.2.0.0
+7fa8bdcd3000-7fa8bded3000 ---p 0002e000 08:03 17177759                   /opt/torque-2.5.13/lib/libtorque.so.2.0.0
+7fa8bded3000-7fa8bded5000 rw-p 0002e000 08:03 17177759                   /opt/torque-2.5.13/lib/libtorque.so.2.0.0
+7fa8bded5000-7fa8bdfa8000 rw-p 00000000 00:00 0 
+7fa8bdfa8000-7fa8be08d000 r-xp 00000000 00:1b 215267098727               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7.0.6
+7fa8be08d000-7fa8be28d000 ---p 000e5000 00:1b 215267098727               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7.0.6
+7fa8be28d000-7fa8be298000 rw-p 000e5000 00:1b 215267098727               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7.0.6
+7fa8be298000-7fa8be29b000 rw-p 00000000 00:00 0 
+7fa8be29b000-7fa8be2b1000 r-xp 00000000 00:1b 241161191668               /ibrix/packages/gcc/4.9.3/lib64/libgcc_s.so.1
+7fa8be2b1000-7fa8be4b0000 ---p 00016000 00:1b 241161191668               /ibrix/packages/gcc/4.9.3/lib64/libgcc_s.so.1
+7fa8be4b0000-7fa8be4b1000 rw-p 00015000 00:1b 241161191668               /ibrix/packages/gcc/4.9.3/lib64/libgcc_s.so.1
+7fa8be4b1000-7fa8be4ee000 r-xp 00000000 00:1b 249691340852               /ibrix/packages/gcc/4.9.3/lib64/libquadmath.so.0.0.0
+7fa8be4ee000-7fa8be6ed000 ---p 0003d000 00:1b 249691340852               /ibrix/packages/gcc/4.9.3/lib64/libquadmath.so.0.0.0
+7fa8be6ed000-7fa8be6ee000 rw-p 0003c000 00:1bxp 00000000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bcf52000-7fa8bd152000 ---p 00016000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bd152000-7fa8bd153000 r--p 00016000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bd153000-7fa8bd154000 rw-p 00017000 08:03 17303811                   /lib64/libresolv-2.12.so
+7fa8bd154000-7fa8bd157000 rw-p 00000000 00:00 0 
+7fa8bd157000-7fa8bd159000 r-xp 00000000 08:03 16780485                   /usr/lib64/libXau.so.6.0.0
+7fa8bd159000-7fa8bd359000 ---p 00002000 08:03 16780485                   /usr/lib64/libXau.so.6.0.0
+7fa8bd359000-7fa8bd35a000 rw-p 00002000 08:03 16780485                   /usr/lib64/libXau.so.6.0.0
+7fa8bd35a000-7fa8bd7ad000 r-xp 00000000 08:03 17043386                   /usr/lib64/atlas/libatlas.so.3.0
+7fa8bd7ad000-7fa8bd9ac000 ---p 00453000 08:03 17043386                   /usr/lib64/atlas/libatlas.so.3.0
+7fa8bd9ac000-7fa8bd9b6000 rw-p 00452000 08:03 17043386                   /usr/lib64/atlas/libatlas. 249691340852               /ibrix/packages/gcc/4.9.3/lib64/libquadmath.so.0.0.0
+7fa8be6ee000-7fa8be6ef000 rw-p 00000000 00:00 0 
+7fa8be6ef000-7fa8be80b000 r-xp 00000000 00:1b 223679987759               /ibrix/packages/gcc/4.9.3/lib64/libgfortran.so.3.0.0
+7fa8be80b000-7fa8bea0b000 ---p 0011c000 00:1b 223679987759               /ibrix/packages/gcc/4.9.3/lib64/libgfortran.so.3.0.0
+7fa8bea0b000-7fa8bea0d000 rw-p 0011c000 00:1b 223679987759               /ibrix/packages/gcc/4.9.3/lib64/libgfortran.so.3.0.0
+7fa8bea0d000-7fa8bea65000 r-xp 00000000 00:1b 215267098729               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_mpifh.so.2.5.2
+7fa8bea65000-7fa8bec64000 ---p 00058000 00:1b 215267098729               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_mpifh.so.2.5.2
+7fa8bec64000-7fa8bec66000 rw-p 00057000 00:1b 215267098729               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_mpifh.so.2.5.2
+7fa8bec66000-7fa8bec6c000 r-xp 00000000 00:1b 249692438602               /ibrix/packages/oso.3.0
+7fa8bd9b6000-7fa8bd9ba000 rw-p 00000000 00:00 0 
+7fa8bd9ba000-7fa8bda94000 r-xp 00000000 00:1b 232534327368               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6.2.2
+7fa8bda94000-7fa8bdc94000 ---p 000da000 00:1b 232534327368               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6.2.2
+7fa8bdc94000-7fa8bdc9e000 rw-p 000da000 00:1b 232534327368               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-pal.so.6.2.2
+7fa8bdc9e000-7fa8bdca5000 rw-p 00000000 00:00 0 
+7fa8bdca5000-7fa8bdcd3000 r-xp 00000000 08:03 17177759                   /opt/torque-2.5.13/lib/libtorque.so.2.0.0
+7fa8bdcd3000-7fa8bded3000 ---p 0002e000 08:03 17177759                   /opt/torque-2.5.13/lib/libtorque.so.2.0.0
+7fa8bded3000-7fa8bded5000 rw-p 0002e000 08:03 17177759                   /opt/torque-2.5.13/lib/libtorque.so.2.0.0
+7fa8bded5000-7fa8bdfa8000 rw-p 00000000 00:00 0 
+7fa8bdfa8000-7fa8be08d000 r-xp 00000000 00:1b 215267098727               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7.0.6
+7fa8be08d000-7fa8be28d000 ---p 000e5000 00:1b 215267098727               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7.0.6
+7fa8be28d000-7fa8be298000 rw-p 000e5000 00:1b 215267098727               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libopen-rte.so.7.0.6
+7fa8be298000-7fa8be29b000 rw-p 00000000 00:00 0 
+7fa8be29b000-7fa8be2b1000 r-xp 00000000 00:1b 241161191668               /ibrix/packages/gcc/4.9.3/lib64/libgcc_s.so.1
+7fa8be2b1000-7fa8be4b0000 ---p 00016000 00:1b 241161191668               /ibrix/packages/gcc/4.9.3/lib64/libgcc_s.so.1
+7fa8be4b0000-7fa8be4b1000 rw-p 00015000 00:1b 241161191668               /ibrix/packages/gcc/4.9.3/lib64/libgcc_s.so.1
+7fa8be4b1000-7fa8be4ee000 r-xp 00000000 00:1b 249691340852               /ibrix/packages/gcc/4.9.3/lib64/libquadmath.so.0.0.0
+7fa8be4ee000-7fa8be6ed000 ---p 0003d000 00:1b 249691340852               /ibrix/packages/gcc/4.9.3/lib64/libquadmath.so.0.0.0
+7fa8be6ed000-7fa8be6ee000 rw-p 0003c000 00:1bo.6.0.20
+7fa8bf18f000-7fa8bf38e000 ---p 000f3000 00:1b 215221305407               /ibrix/packages/gcc/4.9.3/lib64/libstdc++.so.6.0.20
+7fa8bf38e000-7fa8bf397000 r--p 000f2000 00:1b 215221305407               /ibrix/packages/gcc/4.9.3/lib64/libstdc++.so.6.0.20
+7fa8bf397000-7fa8bf399000 rw-p 000fb000 00:1b 215221305407               /ibrix/packages/gcc/4.9.3/lib64/libstdc++.so.6.0.20
+7fa8bf399000-7fa8bf3af000 rw-p 00000000 00:00 0 
+7fa8bf3af000-7fa8bf3c7000 r-xp 00000000 00:1b 223516393543               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_cxx.so.1.1.3
+7fa8bf3c7000-7fa8bf5c6000 ---p 00018000 00:1b 223516393543               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_cxx.so.1.1.3
+7fa8bf5c6000-7fa8bf5c9000 rw-p 00017000 00:1b 223516393543               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_cxx.so.1.1.3
+7fa8bf5c9000-7fa8bf5cb000 rw-p 00000000 00:00 0 
+7fa8bf5ec000-7fa8bf5ed000 rw-p 00000000 00:00 0 
+7fa8bf5ee000-7fa8bf5f0000 rw-p 00000000 00:00 0 
+7fa8bf5f0000-7fa8bf82200 249691340852               /ibrix/packages/gcc/4.9.3/lib64/libquadmath.so.0.0.0
+7fa8be6ee000-7fa8be6ef000 rw-p 00000000 00:00 0 
+7fa8be6ef000-7fa8be80b000 r-xp 00000000 00:1b 223679987759               /ibrix/packages/gcc/4.9.3/lib64/libgfortran.so.3.0.0
+7fa8be80b000-7fa8bea0b000 ---p 0011c000 00:1b 223679987759               /ibrix/packages/gcc/4.9.3/lib64/libgfortran.so.3.0.0
+7fa8bea0b000-7fa8bea0d000 rw-p 0011c000 00:1b 223679987759               /ibrix/packages/gcc/4.9.3/lib64/libgfortran.so.3.0.0
+7fa8bea0d000-7fa8bea65000 r-xp 00000000 00:1b 215267098729               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_mpifh.so.2.5.2
+7fa8bea65000-7fa8bec64000 ---p 00058000 00:1b 215267098729               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_mpifh.so.2.5.2
+7fa8bec64000-7fa8bec66000 rw-p 00057000 00:1b 215267098729               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi_mpifh.so.2.5.2
+7fa8bec66000-7fa8bec6c000 r-xp 00000000 00:1b 249692438602               /ibrix/packages/o0 r-xp 00000000 00:1b 257819738380               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1.6.3
+7fa8bf822000-7fa8bfa22000 ---p 00232000 00:1b 257819738380               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1.6.3
+7fa8bfa22000-7fa8bfa43000 rw-p 00232000 00:1b 257819738380               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1.6.3
+7fa8bfa43000-7fa8bfad7000 rw-p 00000000 00:00 0 
+7fa8bfad7000-7fa8c0c92000 r-xp 00000000 00:1b 215324557456               /ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5.3
+7fa8c0c92000-7fa8c0e92000 ---p 011bb000 00:1b 215324557456               /ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5.3
+7fa8c0e92000-7fa8c0eab000 rw-p 011bb000 00:1b 215324557456               /ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5.3
+7fa8c0eab000-7fa8c10b3000 rw-p 00000000 00:00 0 
+7fa8c10b3000-7fa8c1390000 r-xp 00000000 00:1b 219307180255               /ibrix/users/home11/bnorris2/anamod-3/anamod-3.00/slepc-3.5.3/openmpi-1.8_gcc-4.9/lib/libslepc.so.3.5.3
+7fa8c1390000-7fa8c158f000 ---p 002dd000 00:1b 219307180255               /ibrix/users/home11/bnorris2/anamod-3/anamod-3.00/slepc-3.5.3/openmpi-1.8_gcc-4.9/lib/libslepc.so.3.5.3
+7fa8c158f000-7fa8c1594000 rw-p 002dc000 00:1b 219307180255               /ibrix/users/home11/bnorris2/anamod-3/anamod-3.00/slepc-3.5.3/openmpi-1.8_gcc-4.9/lib/libslepc.so.3.5.3
+7fa8c1594000-7fa8c1596000 rw-p 00000000 00:00 0 
+7fff786c6000-7fff786dc000 rw-p 00000000 00:00 0                          [stack]
+7fff787e7000-7fff787e8000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+/home11/bnorris2/anamod-3/anamod-3.00/simple.c:285: __FUNCT__="compute_dd" does not agree with __func__="DiagonalDominance"
+/home11/bnorris2/anamod-3/anamod-3.00/structure.c:669: __FUNCT__="regularblocks" does not agree with __func__="BlockSize"
+/home11/bnorris2/anamod-3/anamod-3.00/normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
+compute_singularvalues with SLEPc
+invoking slepc
+/home11/bnorris2/anamod-3/anamod-3.00/normal.c:227: __FUNCT__="compute_tracea2_seq" does not agree with __func__="compute_tracea2"
+0 r-xp 00000000 00:1b 257819738380               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1.6.3
+7fa8bf822000-7fa8bfa22000 ---p 00232000 00:1b 257819738380               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1.6.3
+7fa8bfa22000-7fa8bfa43000 rw-p 00232000 00:1b 257819738380               /ibrix/packages/openmpi/1.8.8_gcc-4.9.3-tm/lib/libmpi.so.1.6.3
+7fa8bfa43000-7fa8bfad7000 rw-p 00000000 00:00 0 
+7fa8bfad7000-7fa8c0c92000 r-xp 00000000 00:1b 215324557456               /ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5.3
+7fa8c0c92000-7fa8c0e92000 ---p 011bb000 00:1b 215324557456               /ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5.3
+7fa8c0e92000-7fa8c0eab000 rw-p 011bb000 00:1b 215324557456               /ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/openmpi-1.8_gcc-4.9/lib/libpetsc.so.3.5.3
+7fa8c0eab000-7fa8c10b3000 rw-p 00000000 00:00 0 
+7fa8c10b3000-7fa8c1390000 r-xp 00000000 00:1b 219307180255               /ibrix/users/home11/bnorris2/anamod-3/anamod-3.00/slepc-3.5.3/openmpi-1.8_gcc-4.9/lib/libslepc.so.3.5.3
+7fa8c1390000-7fa8c158f000 ---p 002dd000 00:1b 219307180255               /ibrix/users/home11/bnorris2/anamod-3/anamod-3.00/slepc-3.5.3/openmpi-1.8_gcc-4.9/lib/libslepc.so.3.5.3
+7fa8c158f000-7fa8c1594000 rw-p 002dc000 00:1b 219307180255               /ibrix/users/home11/bnorris2/anamod-3/anamod-3.00/slepc-3.5.3/openmpi-1.8_gcc-4.9/lib/libslepc.so.3.5.3
+7fa8c1594000-7fa8c1596000 rw-p 00000000 00:00 0 
+7fff786c6000-7fff786dc000 rw-p 00000000 00:00 0                          [stack]
+7fff787e7000-7fff787e8000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+[cn160:17741] Signal: Aborted (6)
+[cn160:17741] Signal code:  (-6)

@@ -1,0 +1,2251 @@
+Linear solve did not converge due to DIVERGED_DTOL iterations 26
+KSP Object: 1 MPI processes
+  type: bcgs
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: asm
+    Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+    Additive Schwarz: restriction/interpolation type - RESTRICT
+    Local solve is same for all blocks, in the following KSP and PC objects:
+    KSP Object:    (sub_)     1 MPI processes
+      type: preonly
+      maximum iterations=10000, initial guess is zero
+      tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+      left preconditioning
+      using NONE norm type for convergence test
+    PC Object:    (sub_)     1 MPI processes
+      type: ilu
+        ILU: out-of-place factorization
+        0 levels of fill
+        tolerance for zero pivot 2.22045e-14
+        using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+        matrix ordering: natural
+        factor fill ratio given 1, needed 1
+          Factored matrix follows:
+            Mat Object:             1 MPI processes
+              type: seqaij
+              rows=3008, cols=3008
+              package used to perform factorization: petsc
+              total: nonzeros=30582, allocated nonzeros=30582
+              total number of mallocs used during MatSetValues calls =0
+                not using I-node routines
+      linear system matrix = precond matrix:
+      Mat Object:       1 MPI processes
+        type: seqaij
+        rows=3008, cols=3008
+        total: nonzeros=30582, allocated nonzeros=30582
+        total number of mallocs used during MatSetValues calls =0
+          not using I-node routines
+  linear system matrix = precond matrix:
+  Mat Object:   1 MPI processes
+    type: seqaij
+    rows=3008, cols=3008
+    total: nonzeros=30582, allocated nonzeros=30582
+    total number of mallocs used during MatSetValues calls =0
+      not using I-node routines
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn160 with 1 processor, by bnorris2 Tue Mar  1 16:08:13 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+
+                         Max       Max/Min        Avg      Total 
+Time (sec):           2.407e-01      1.00000   2.407e-01
+Objects:              3.000e+01      1.00000   3.000e+01
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+Flops/sec:            3.371e+07      1.00000   3.371e+07  3.371e+07
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 2.4068e-01 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+      ##########################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 9.5367e-07 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult               52 1.0 2.5330e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 37  0  0  0   1 37  0  0  0  1194
+MatSolve              53 1.0 2.6035e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0  1184
+MatLUFactorNum         1 1.0 9.5606e-04 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   294
+MatILUFactorSym        1 1.0 2.8896e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         2 1.0 3.6001e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRowIJ            1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetSubMatrice       1 1.0 6.1488e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 3.5310e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatIncreaseOvrlp       1 1.0 2.4295e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 6.1083e-02 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 25  0  0  0  0  25  0  0  0  0     0
+MatView                3 1.0 1.0190e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecDot                52 1.0 1.0931e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   286
+VecDotNorm2           26 1.0 2.5201e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1241
+VecNorm               27 1.0 1.6546e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   982
+VecCopy                2 1.0 1.9073e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               123 1.0 5.4359e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPBYCZ            52 1.0 4.0030e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1563
+VecWAXPY              52 1.0 3.7074e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   844
+VecScatterBegin      106 1.0 7.6151e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 2.7394e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 4.5165e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00 19 97  0  0  0  19 97  0  0  0   173
+PCSetUp                2 1.0 3.1741e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  3  0  0  0   1  3  0  0  0    89
+PCSetUpOnBlocks        2 1.0 1.7600e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  3  0  0  0   1  3  0  0  0   160
+PCApply               53 1.0 1.1918e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  5 38  0  0  0   5 38  0  0  0   259
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+       Krylov Solver     2              0            0     0
+      Preconditioner     2              0            0     0
+           Index Set     6              2         1568     0
+========================================================================================================================
+Average time to get PetscTime(): 9.53674e-08
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+Compiled without FORTRAN kernels
+Compiled with full precision matrices (default)
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+There are no unused options.
+Linear solve did not converge due to DIVERGED_DTOL iterations 26
+KSP Object: 1 MPI processes
+  type: bcgs
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: asm
+    Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+    Additive Schwarz: restriction/interpolation type - RESTRICT
+    Local solve is same for all blocks, in the following KSP and PC objects:
+    KSP Object:    (sub_)     1 MPI processes
+      type: preonly
+      maximum iterations=10000, initial guess is zero
+      tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+      left preconditioning
+      using NONE norm type for convergence test
+    PC Object:    (sub_)     1 MPI processes
+      type: ilu
+        ILU: out-of-place factorization
+        0 levels of fill
+        tolerance for zero pivot 2.22045e-14
+        using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+        matrix ordering: natural
+        factor fill ratio given 1, needed 1
+          Factored matrix follows:
+            Mat Object:             1 MPI processes
+              type: seqaij
+              rows=3008, cols=3008
+              package used to perform factorization: petsc
+              total: nonzeros=30582, allocated nonzeros=30582
+              total number of mallocs used during MatSetValues calls =0
+                not using I-node routines
+      linear system matrix = precond matrix:
+      Mat Object:  Li  ar solve did not converge due to DIVERGED_DTOL iterations 26
+KSP Object:esses
+     MPI processes
+  type: bcgs
+  type: seqaij
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+  rows=3008, cols=3008
+D norm type for convergence test
+     Object:   1 MPI processes
+  total: nonzeros=30582, allocated nonzeros=30582
+      Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+  total number of mallocs used during MatSetValues calls =0
+  Additive Schwarz: restriction/interpolation type - RESTRICT
+      Local solve is same for all blocks, in the following KSP and PC objects:
+      t using I-node routines
+  linear system matrix = precond matrix:
+  P Object:  t Object:   1 MPI processes
+(sub_)  type: seqaij
+    rows=3008, cols=3008
+   MPI processes
+  total: nonzeros=30582, allocated nonzeros=30582
+      type: preonly
+  total number of mallocs used during MatSetValues calls =0
+      maximum iterations=10000, initial guess is zero
+    t using I-node routines
+  **********************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+  brix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn154 with 1 processor, by bnorris2 Tue Mar  1 16:08:14 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+  left preconditioning
+   Max       Max/Min        Avg      Total 
+  me (sec):           9.295e-01      1.00000   9.295e-01
+Objects:              3.000e+01      1.00000   3.000e+01
+  Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+  using NONE norm type for convergence test
+   8.730e+06  8.730e+06
+  mory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+PC Object:ions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                              e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+(sub_)ry of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 9.2947e-01 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+  
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+  ase summary info:
+   Count: number of times phase was executed
+     Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+  ILU: out-of-place factorization
+ase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+  ----------------------------------------------------------------------------------------------------------------------
+  0 levels of fill
+      ##########################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+  tolerance for zero pivot 2.22045e-14
+onfigure                #
+      #   using --with-debugging=no, the performance will      #
+        #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+  using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+               --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+  ------------------------------------------------------------------------------------------------------------------------
+  -- Event Stage 0: Main Stage
+
+  readCommRunKer       1 1.0 5.0068e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  matrix ordering: natural
+MatMult               52 1.0 2.5284e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1196
+MatSolve              53 1.0 2.6181e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1177
+  tLUFactorNum         1 1.0 1.0049e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   280
+MatILUFactorSym        1 1.0 2.8610e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 3.8147e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  factor fill ratio given 1, needed 1
+4 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetSubMatrice       1 1.0 6.3896e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  MatGetOrdering         1 1.0 3.5501e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatIncreaseOvrlp       1 1.0 2.4104e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+    Factored matrix follows:
+1.7850e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                3 1.0 4.1995e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 45  0  0  0  0  45  0  0  0  0     0
+  VecDot                52 1.0 1.0996e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   284
+  VecDotNorm2           26 1.0 2.4772e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1263
+  cNorm               27 1.0 1.6785e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   968
+  cCopy                2 1.0 1.6928e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               123 1.0 5.8579e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  VecAXPBYCZ            52 1.0 4.0555e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1543
+  VecWAXPY              52 1.0 3.8099e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   821
+VecScatterBegin      106 1.0 7.6699e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  PSetUp               2 1.0 3.0327e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  PSolve               1 1.0 3.4579e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  4 97  0  0  0   4 97  0  0  0   227
+PCSetUp                2 1.0 3.3302e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    85
+  PCSetUpOnBlocks        2 1.0 1.9090e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   147
+PCApply               53 1.0 1.1928e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   258
+  ----------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+  ports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+        Vector Scatter     1              0            0     0
+         Krylov Solver     2              0            0     0
+      Preconditioner     2              0            0     0
+  type: seqaij
+x Set     6              2         1568     0
+========================================================================================================================
+Average time to get PetscTime(): 0
+  ETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+  sp_converged_reason
+-ksp_error_if_not_converged 1
+  -ksp_type bcgs
+-ksp_view
+  og_summary
+-matload_block_size 1
+rows=3008, cols=3008
+-options_left
+-pc_asm_overlap 1
+  c_type asm
+#End of PETSc Option Table entries
+  mpiled without FORTRAN kernels
+  mpiled with full precision matrices (default)
+  zeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+  nfigure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+  sing C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+package used to perform factorization: petsc
+c/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+  
+#PETSc Option Table entries:
+   /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+  -ksp_converged_reason
+-ksp_error_if_not_converged 1
+  sp_type bcgs
+-ksp_view
+  -log_summary
+total: nonzeros=30582, allocated nonzeros=30582
+  ptions_left
+-pc_asm_overlap 1
+  -pc_type asm
+#End of PETSc Option Table entries
+  ere are no unused options.
+      total number of mallocs used during MatSetValues calls =0
+                not using I-node routines
+      linear system matrix = precond matrix:
+      Mat Object:       1 MPI processes
+        type: seqaij
+        rows=3008, cols=3008
+        total: nonzeros=30582, allocated nonzeros=30582
+        total number of mallocs used during MatSetValues calls =0
+          not using I-node routines
+  linear system matrix = precond matrix:
+  Mat Object:   1 MPI processes
+    type: seqaij
+    rows=3008, cols=3008
+    total: nonzeros=30582, allocated nonzeros=30582
+    total number of mallocs used during MatSetValues calls =0
+      not using I-node routines
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn153 with 1 processor, by bnorris2 Tue Mar  1 16:08:15 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+
+                         Max       Max/Min        Avg      Total 
+Time (sec):           1.000e+00      1.00000   1.000e+00
+Objects:              3.000e+01      1.00000   3.000e+01
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+Flops/sec:            8.112e+06      1.00000   8.112e+06  8.112e+06
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 1.0002e+00 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+      ##########################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult               52 1.0 2.5465e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1188
+MatSolve              53 1.0 2.6493e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1163
+MatLUFactorNum         1 1.0 9.9206e-04 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   284
+MatILUFactorSym        1 1.0 2.9492e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         2 1.0 3.5691e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetSubMatrice       1 1.0 6.2394e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 3.7193e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatIncreaseOvrlp       1 1.0 2.4414e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 1.9290e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                3 1.0 3.9757e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 40  0  0  0  0  40  0  0  0  0     0
+VecDot                52 1.0 1.1530e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   271
+VecDotNorm2           26 1.0 2.5725e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1216
+VecNorm               27 1.0 1.6665e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   975
+VecCopy                2 1.0 1.7881e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               123 1.0 5.4812e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPBYCZ            52 1.0 4.0221e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1556
+VecWAXPY              52 1.0 3.7456e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   835
+VecScatterBegin      106 1.0 7.8011e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 2.7370e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 4.3374e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  4 97  0  0  0   4 97  0  0  0   181
+PCSetUp                2 1.0 5.3852e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  3  0  0  0   1  3  0  0  0    52
+PCSetUpOnBlocks        2 1.0 1.8251e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   154
+PCApply               53 1.0 1.2032e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   256
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+       Krylov Solver     2              0            0     0
+      Preconditioner     2              0            0     0
+           Index Set     6              2         1568     0
+========================================================================================================================
+Average time to get PetscTime(): 0
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+ve did not converge due to DIVERGED_DTOL iterations 26
+KSP Object:y
+-matload_block_size 1
+ 1 MPI processes
+-options_left
+  type: bcgs
+-pc_asm_overlap 1
+  maximum iterations=10000, initial guess is zero
+-pc_type asm
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+#End of PETSc Option Table entries
+  left preconditioning
+Compiled without FORTRAN kernels
+  using PRECONDITIONED norm type for convergence test
+Compiled with full precision matrices (default)
+PC Object:sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+  sing C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+  Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+  sing C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+  Additive Schwarz: restriction/interpolation type - RESTRICT
+#PETSc Option Table entries:
+  Local solve is same for all blocks, in the following KSP and PC objects:
+-hash 80361467
+    sp_converged_reason
+KSP Object:if_not_converged 1
+  sp_type bcgs
+  sp_view
+(sub_)ummary
+  atload_block_size 1
+  ptions_left
+-pc_asm_overlap 1
+ 1 MPI processes
+-pc_type asm
+  #End of PETSc Option Table entries
+    type: preonly
+sed options.
+      maximum iterations=10000, initial guess is zero
+      tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+      left preconditioning
+      using NONE norm type for convergence test
+    PC Object:    (sub_)     1 MPI processes
+      type: ilu
+        ILU: out-of-place factorization
+        0 levels of fill
+        tolerance for zero pivot 2.22045e-14
+        using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+        matrix ordering: natural
+        factor fill ratio given 1, needed 1
+          Factored matrix follows:
+            Mat Object:             1 MPI processes
+              type: seqaij
+              rows=3008, cols=3008
+              package used to perform factorization: petsc
+              total: nonzeros=30582, allocated nonzeros=30582
+              total number of mallocs used during MatSetValues calls =0
+                not using I-node routines
+      linear system matrix = precond matrix:
+      Mat Object:       1 MPI processes
+        type: seqaij
+        rows=3008, cols=3008
+        total: nonzeros=30582, allocated nonzeros=30582
+        total number of mallocs used during MatSetValues calls =0
+          not using I-node routines
+  linear system matrix = precond matrix:
+  Mat Object:   1 MPI processes
+    type: seqaij
+    rows=3008, cols=3008
+    total: nonzeros=30582, allocated nonzeros=30582
+    total number of mallocs used during MatSetValues calls =0
+      not using I-node routines
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn152 with 1 processor, by bnorris2 Tue Mar  1 16:08:16 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+
+                         Max       Max/Min        Avg      Total 
+Time (sec):           7.467e-01      1.00000   7.467e-01
+Objects:              3.000e+01      1.00000   3.000e+01
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+Flops/sec:            1.087e+07      1.00000   1.087e+07  1.087e+07
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 7.4665e-01 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+      ##########################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+ThreadCommRunKer       1 1.0 8.1062e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult               52 1.0 4.8139e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 37  0  0  0   1 37  0  0  0   628
+MatSolve              53 1.0 4.9934e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   617
+MatLUFactorNum         1 1.0 1.8179e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   155
+MatILUFactorSym        1 1.0 4.5896e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 8.1062e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         2 1.0 6.9594e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRowIJ            1 1.0 5.0068e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetSubMatrice       1 1.0 1.1148e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 6.6400e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatIncreaseOvrlp       1 1.0 4.4417e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 2.8090e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                3 1.0 3.2177e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 43  0  0  0  0  43  0  0  0  0     0
+VecDot                52 1.0 1.8306e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   171
+VecDotNorm2           26 1.0 4.7541e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   658
+VecNorm               27 1.0 3.2163e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   505
+VecCopy                2 1.0 3.0994e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               123 1.0 1.0154e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPBYCZ            52 1.0 7.6556e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0   817
+VecWAXPY              52 1.0 7.1049e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   440
+VecScatterBegin      106 1.0 1.4746e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 4.7493e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 6.3003e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  8 97  0  0  0   8 97  0  0  0   124
+PCSetUp                2 1.0 5.7361e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  3  0  0  0   1  3  0  0  0    49
+PCSetUpOnBlocks        2 1.0 3.2198e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    87
+PCApply               53 1.0 2.2784e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  3 38  0  0  0   3 38  0  0  0   135
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+       Krylov Solver     2              0            0     0
+      Preconditioner     2              0            0     0
+           Index Set     6              2         1568     0
+========================================================================================================================
+Average time to get PetscTime(): 9.53674e-08
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+Compiled without FORTRAN kernels
+Compiled with full precision matrices (default)
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+There are no unused options.
+Linear solve did not converge due to DIVERGED_DTOL iterations 26
+KSP Object: 1 MPI processes
+  type: bcgs
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: asm
+    Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+    Additive Schwarz: restriction/interpolation type - RESTRICT
+    Local solve is same for all blocks, in the following KSP and PC objects:
+    KSP Object:    (sub_)     1 MPI processes
+      type: preonly
+      maximum iterations=10000, initial guess is zero
+      tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+      left preconditioning
+      using NONE norm type for convergence test
+    PC Object:    (sub_)     1 MPI processes
+      type: ilu
+    Linear solve did not converge due to DIVERGED_DTOL iterations 26
+    tolerance for zero pivot 2.22045e-14
+KSP Object:     MPI processes
+  type: bcgs
+nal shift on blocks to prevent zero pivot [INBLOCKS]
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: asm
+  factor fill ratio given 1, needed 1
+  Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+    Additive Schwarz: restriction/interpolation type - RESTRICT
+    Factored matrix follows:
+  Local solve is same for all blocks, in the following KSP and PC objects:
+      P Object:    (sub_)ject:     1 MPI processes
+      type: preonly
+ 1 MPI processes
+    maximum iterations=10000, initial guess is zero
+      tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+    type: seqaij
+  left preconditioning
+      using NONE norm type for convergence test
+    PC Object:  ws=3008, cols=3008
+    (sub_)       1 MPI processes
+      package used to perform factorization: petsc
+  type: ilu
+            ILU: out-of-place factorization
+      total: nonzeros=30582, allocated nonzeros=30582
+    0 levels of fill
+          tolerance for zero pivot 2.22045e-14
+    total number of mallocs used during MatSetValues calls =0
+      using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+        matrix ordering: natural
+  not using I-node routines
+        factor fill ratio given 1, needed 1
+  linear system matrix = precond matrix:
+          Factored matrix follows:
+  t Object:         MPI processes
+    t Object:    type: seqaij
+           MPI processes
+rows=3008, cols=3008
+          total: nonzeros=30582, allocated nonzeros=30582
+  type: seqaij
+          total number of mallocs used during MatSetValues calls =0
+        rows=3008, cols=3008
+          not using I-node routines
+    linear system matrix = precond matrix:
+  Mat Object:d to perform factorization: petsc
+     MPI processes
+    type: seqaij
+    rows=3008, cols=3008
+  tal: nonzeros=30582, allocated nonzeros=30582
+    total: nonzeros=30582, allocated nonzeros=30582
+            tal number of mallocs used during MatSetValues calls =0
+  total number of mallocs used during MatSetValues calls =0
+    t using I-node routines
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn147 with 1 processor, by bnorris2 Tue Mar  1 16:08:17 2016
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+not using I-node routines
+Max       Max/Min        Avg      Total 
+Time (sec):           1.055e+00      1.00000   1.055e+00
+Objects:              3.000e+01      1.00000   3.000e+01
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+  ops/sec:            7.692e+06      1.00000   7.692e+06  7.692e+06
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+  
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                              e.g., VecAXPY() for real vectors of length N --> 2N flops
+ 1 MPI processes
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+    ummary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+   0:      Main Stage: 1.0549e+00 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+  type: seqaij
+  -----------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+ed nonzeros=30582
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+        %R - percent reductions in this phase
+total number of mallocs used during MatSetValues calls =0
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+    ----------------------------------------------------------------------------------------------------------------------
+        ##########################################################
+        #                                                        #
+not using I-node routines
+      #                          WARNING!!!                    #
+  linear system matrix = precond matrix:
+      #                                                        #
+        #   This code was compiled with a debugging option,      #
+Mat Object:      #   To get timing results run ./configure                #
+ 1 MPI processes
+-with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+  type: seqaij
+                                                #
+      ##########################################################
+
+
+  ent                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+rows=3008, cols=3008
+x Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+  
+--- Event Stage 0: Main Stage
+
+total: nonzeros=30582, allocated nonzeros=30582
+ThreadCommRunKer       1 1.0 4.7684e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+    readCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+total number of mallocs used during MatSetValues calls =0
+.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1189
+  tSolve              53 1.0 2.6510e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1163
+  tLUFactorNum         1 1.0 9.5487e-04 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   295
+  tILUFactorSym        1 1.0 2.9206e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+not using I-node routines
+.0 4.7684e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+************************************************************************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+MatGetSubMatrice       1 1.0 6.2990e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+**
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn148 with 1 processor, by bnorris2 Tue Mar  1 16:08:17 2016
+MatLoad                1 1.0 7.0286e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+
+                         Max       Max/Min        Avg      Total 
+0e+00 0.0e+00 64  0  0  0  0  64  0  0  0  0     0
+Time (sec):           1.094e+00      1.00000   1.094e+00
+0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   273
+Objects:              3.000e+01      1.00000   3.000e+01
+0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1196
+VecNorm               27 1.0 1.7476e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   929
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+VecCopy                2 1.0 1.9073e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+Flops/sec:            7.417e+06      1.00000   7.417e+06  7.417e+06
+VecSet               123 1.0 5.5265e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1497
+VecWAXPY              52 1.0 3.7956e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   824
+VecScatterBegin      106 1.0 7.7844e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+  0  0  0  0     0
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+  0  0  0   3 97  0  0  0   224
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+ 0  0  0   0  3  0  0  0    88
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+Memory usage is given in bytes:
+
+e users' manual for details on interpreting output.
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+   Count: number of times phase was executed
+Reports information only for process 0.
+   Time and Flops: Max - maximum over all processors
+
+--- Event Stage 0: Main Stage
+
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+       1          752     0
+   Avg. len: average message length (bytes)
+         0     0
+              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+============================================================================
+Average time to get PetscTime(): 0
+lops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+ /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+      ##########################################################
+-ksp_converged_reason
+                                         #
+-ksp_error_if_not_converged 1
+   WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+-log_summary
+get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+#End of PETSc Option Table entries
+e (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+zeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+ThreadCommRunKer       1 1.0 8.1062e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+--download-superlu=yesThreadCommBarrie       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+stics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+MatMult               52 1.0 4.8423e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0   625
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+MatLUFactorNum         1 1.0 1.8151e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   155
+
+MatILUFactorSym        1 1.0 4.6897e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 7.8678e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         2 1.0 6.6304e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-hash 80361467
+MatGetRowIJ            1 1.0 5.9605e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-ksp_converged_reason
+MatGetSubMatrice       1 1.0 1.0948e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-ksp_error_if_not_converged 1
+MatGetOrdering         1 1.0 6.6590e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-ksp_type bcgs
+MatIncreaseOvrlp       1 1.0 4.5109e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-ksp_view
+-log_summary
+          1 1.0 3.1440e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                3 1.0 6.3527e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 58  0  0  0  0  58  0  0  0  0     0
+VecDot                52 1.0 1.8392e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   170
+-pc_asm_overlap 1
+VecDotNorm2           26 1.0 4.7445e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   659
+-pc_type asm
+VecNorm               27 1.0 3.2401e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   501
+#End of PETSc Option Table entries
+VecCopy                2 1.0 3.0994e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+There are no unused options.
+VecSet               123 1.0 1.0092e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPBYCZ            52 1.0 7.6318e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0   820
+VecWAXPY              52 1.0 9.1743e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   341
+VecScatterBegin      106 1.0 1.4801e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 4.8900e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 8.6508e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  8 97  0  0  0   8 97  0  0  0    91
+PCSetUp                2 1.0 5.7263e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  1  3  0  0  0   1  3  0  0  0    49
+PCSetUpOnBlocks        2 1.0 3.2320e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    87
+PCApply               53 1.0 2.2929e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  2 38  0  0  0   2 38  0  0  0   134
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+       Krylov Solver     2              0            0     0
+      Preconditioner     2              0            0     0
+           Index Set     6              2         1568     0
+========================================================================================================================
+Average time to get PetscTime(): 9.53674e-08
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+Compiled without FORTRAN kernels
+Compiled with full precision matrices (default)
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+There are no unused options.
+Linear solve did not converge due to DIVERGED_DTOL iterations 26
+KSP Object: 1 MPI processes
+  type: bcgs
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: asm
+    Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+    Additive Schwarz: restriction/interpolation type - RESTRICT
+    Local solve is same for all blocks, in the following KSP and PC objects:
+    KSP Object:    (sub_)Linear solve did not converge due to DIVERGED_DTOL iterations 26
+  KSP Object:   1 MPI processes
+  type: bcgs
+ses
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  type: preonly
+ioning
+  using PRECONDITIONED norm type for convergence test
+   Object: 1 MPI processes
+  type: asm
+erations=10000, initial guess is zero
+    Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+    Local solve is same for all blocks, in the following KSP and PC objects:
+      left preconditioning
+nverge due to DIVERGED_DTOL iterations 26
+    P Object:     MPI processes
+  using NONE norm type for convergence test
+    maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+  left preconditioning
+    type: preonly
+TIONED norm type for convergence test
+   Object:   1 MPI processes
+  maximum iterations=10000, initial guess is zero
+  type: asm
+        tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+p = 1
+    Additive Schwarz: restriction/interpolation type - RESTRICT
+  left preconditioning
+    pe: ilu
+Linear solve did not converge due to DIVERGED_DTOL iterations 26
+ objects:
+  using NONE norm type for convergence test
+KSP Object:     MPI processes
+  PC Object::of-place factorization
+  maximum iterations=10000, initial guess is zero
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+(sub_) preconditioning
+  using PRECONDITIONED norm type for convergence test
+  0 levels of fill
+ 1 MPI processes
+    type: asm
+   MPI processes
+    type: ilu
+chwarz: total subdomain blocks = 1, amount of overlap = 1
+    tolerance for zero pivot 2.22045e-14
+  Additive Schwarz: restriction/interpolation type - RESTRICT
+  type: preonly
+      Local solve is same for all blocks, in the following KSP and PC objects:
+  ILU: out-of-place factorization
+        maximum iterations=10000, initial guess is zero
+ivot [INBLOCKS]
+KSP Object:    0 levels of fill
+      ub_)    lerances:  relative=1e-05, absolute=1e-50, divergence=10000
+      tolerance for zero pivot 2.22045e-14
+ 1 MPI processes
+      left preconditioning
+  type: preonly
+    using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+  factor fill ratio given 1, needed 1
+  maximum iterations=10000, initial guess is zero
+    matrix ordering: natural
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+    Factored matrix follows:
+      left preconditioning
+ 1, needed 1
+          _)  using NONE norm type for convergence test
+    Factored matrix follows:
+  PC Object:   MPI processes
+    t Object:  ub_)      type: ilu
+Ma  Object:   MPI processes
+            ILU: out  f-place factorization
+   1 MPI processes
+   1 MPI processes
+ce factorization
+      0 levels of fill
+      0 levels of fill
+        type: seqai    tolerance for zero pivot 2.22045e-14
+            using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+    using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+      =3008, cols=3008
+  matrix ordering: natural
+    rows=3008, cols=3008
+  matrix ordering: natural
+      ctor fill ratio given 1, needed 1
+        package used to perform factorization: petsc
+    ctor fill ratio given 1, needed 1
+    Factored matrix follows:
+          package used to perform factorization: petsc
+    Factored matrix follows:
+    total: nonzeros=30582, allocated nonzeros=30582
+          near solve did not converge due to DIVERGED_DTOL iterations 26
+      Object:   1  PI processes
+    type: bcgs
+ses
+Mat Object:to  maximum iterations=10000, initial guess is zero
+ls =0
+      lerances:  relative=1e-05, absolute=1e-50, divergence=10000
+    left preconditioning
+      ing PRECONDITIONED norm type for convergence test
+  PC Object:qaij
+   1 MPI processes
+    not using I-node routines
+   MPI processes
+    linear system matrix = precond matrix:
+tValues calls =0
+overlap = 1
+    ws=3008, cols=3008
+    ditive Schwarz: restriction/interpolation type - RESTRICT
+    Object:    Local solve is same for all blocks, in the following KSP and PC objects:
+         MPI processes
+    P Object:  ckage used to perform factorization: petsc
+    t using I-node routines
+  type: seqaij
+    ub_)        linear system matrix = precond matrix:
+    ws=3008, cols=3008
+   1  tal: nonzeros=30582, allocated nonzeros=30582
+    ws=3008, cols=3008
+    t Object:    type: preonly
+30582, allocated nonzeros=30582
+              total number of mallocs used during MatSetValues calls =0
+  tal number of mallocs used during MatSetValues calls =0
+      package used to perform factorization: petsc
+    lerances:  relative=1e-05, absolute=1e-50, divergence=10000
+      pe: seqaij
+not using I-node routines
+  linear system matrix = precond matrix:
+      ft preconditioning
+  t Object:  t using I-node routines
+    PI processes
+    ws=3008, cols=3008
+    linear system matrix = precond matrix:
+
+to  l: nonzeros=30582, allocated nonzeros=30582
+    rows=3008, cols=3008
+PC Object:  t Object:  total: nonzeros=30582, allocated nonzeros=30582
+  tal: nonzeros=30582, allocated nonzeros=30582
+  (sub_)   MPI processes
+allocs used during MatSetValues calls =0
+         1 MPI processes
+allocs used during MatSetValues calls =0
+  type: seqaij
+e routines
+ed during MatSetValues calls =0
+    **********************************************************************************************************************
+**              WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+    type: ilu
+************************************************************************************************************
+
+-  ------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+  ws=3008, cols=3008
+2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn154 with 1 processor, by bnorris2 Tue Mar  1 16:08:28 2016
+Us  g Petsc Release Version 3.5.3, Jan, 31, 2015 
+                          Max       Max/Min        Avg      Total 
+not using I-node routines
+  ILU: out-of-place factorization
+   1.00000   8.986e-01
+  linear system matrix = precond matrix:
+000   3.000e+01
+    ops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+total: nonzeros=30582, allocated nonzeros=30582
+  ops/sec:            9.030e+06      1.00000   9.030e+06  9.030e+06
+MaMemory:               1.716e+06      1.00000              1.716e+06
+    I Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+ 1  0 levels of fill
+:  0.000e+00      0.00000   0.000e+00  0.000e+00
+    near system matrix = precond matrix:
+000
+to
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                              e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+  ummary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage:   9861e-01 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+  -----------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users'  anual for details on interpreting output.
+  Phase summary info:
+  t Object:umber of times phase was executed
+82
+  using diagonal shift on blocks to prevent zero pivot [INBLOCKS]
+ 1 MPI processes
+: Max - maximum over all processors
+   MPI processes
+  Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+to   Avg. len: average message length (bytes)
+es calls =0
+  type: seqaij
+   Reduct: number of global reductions
+    matrix ordering: natural
+on
+    type: seqaij
+s of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+rows=3008, cols=3008
+      %T - percent time in this phase         %F - percent flops in this phase
+  t using I-node routines
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+  **********************************************************************************************************************
+   Total Mflop/s: 10e-6 * (sum of flops over all  *             WIDEN YOUR WINDOW TO 120 CHA  CTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+  **********************************************************************************************************************
+  
+
+
+---------------------------------------------- PETSc Perf      ##########################################################
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn153 with 1 processor, by bnorris2 Tue Mar  1 16:08:28 2016
+      #                          WARNING!!!                    #
+Using Petsc Release Version 3not using I-node routines
+                                     #
+
+                         Max       Max/Min        Avg      Total 
+*****************************************************
+  *             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+  tal: nonzeros=30582, allocated nonzeros=30582
+Objects:              3.000e+01      1.00000   3.000e+01
+      #
+ Summary: ----------------------------------------------
+
+      #                                                        #
+ers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn160 with 1 processor, by bnorris2 Tue Mar  1 16:08:28 2016
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+  ing Petsc Release Version 3.5.3, Jan, 31, 2015 
+Flops/sec:            7.264e+06      1.00000   7.264e+06  7.264e+06
+                         Max       Max/Min        Avg      Total 
+Time (sec):           1.041e+00      1.00000   1.041e+00
+                        --- Global ---  --- Stage ---   Total
+Me                   Max Ratio  Max     Ratio   Max  Ratio  Mess   AMat Object:ct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+----------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+     1.00000   7.792e+06  7.792e+06
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+  readCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+ 37  0  0  0  1192
+  I Reductions:       0.000e+00      0.00000
+.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1173
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+  3  0  0  0   291
+                              e.g., VecAXPY() for real vectors of length N --> 2N flops
+0  0  0   0  0  0  0  0     0
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+e Lengths --  -- Reductions --
+                          Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+  :      Main Stage: 1.1171e+00 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+ 0:      Main Stage: 1.0414e+00 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+---------------------------------------------------------------------------------------------------------------------Mat Ob  tInSee the 'Profiling' chapter of the users' manual for details on interpreting output.
+ 0  0   0  0  0  0  0     0
+Phase summary info:
+   1 1.0 6.5398e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                3 1.0 5.0537e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 56  0  0  0  0  56  0  0  0  0     0
+ 1 MPI processes
+of times phase was executed
+   Count: number of times phase was executed
+.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   280
+VecDotNorm2           26 1.0 2.5201e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1241
+Ve  type: seqaij
+     27 1.0 1.6165e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0  1005
+Ve                   Ratio - ratio of maximum to minimum over all processors
++00  0  0  0  0  0   0  0  0  0  0     0
+     Avg. len: average message length (bytes)
+0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+   Mess: number of messages sent
+   Reduct: number of global reductions
+ 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1519
+  rows=3008, cols=3008
+putation
+.8052e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   822
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+   0  0  0  0  0     0
+   Reduct: number of global reductions
+      %T - percent time in this phase         %F - percent flops in this phase
+0  0  0  0  0  0   0  0  0  0  0     0
+        %M - percent messages in this phase     %L - percent message lengths in this phase
+  0  0   4 97  0  0  0   226
+  SetUp                2 1.0 3.1230e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    90
+   Stage: stages of a computation. Set stagetotal: nonzeros=30582, allocated nonzeros=30582
+e+0  1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   160
+      %T - percent time in this phase         %F - percent flops in this phase
+0  1 38  0  0  0   1 38  0  0  0   252
+------------------------------------------------------------------------------------------------------------------------
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+  total number of mallocs used during MatSetValues calls =0
+######
+Object Type             Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+  ports information only for process 0.
+------------------------------------------------------------------------------------------------------------------------
+      #                         
+
+                             #
+      #   This code was compiled with a debugging option,    not               Matrix        #   To get timing results run ./configure                #
+      #                                                        #
+*******************************************************
+      Vector Scatter     1              0            0     0
+  #
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+       Krylov Solver     2              0            0     0
+  #
+  ***************************************************************      ##################################################      Preconditioner     2              0            0     0
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+      #   To get timing results run ./configure                #
+Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+package used to perform factorization: petsc
+===========================================================================
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn147      #   using --with-debugging=no, the performance will      #
+#PETSc Option Table entries:
+.5.3, Jan, 31, 2015 
+ThreadCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 -f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+                     Max       Max/Min        Avg      Total 
+      #                                                        #
+0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+Ti      ##########################################################
+
+
+0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1200
+Objects:              3.000e+01      1.00000   3.000e+01
+0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1170
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+MatLUFactorNum         1 1.0 1  369e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   272
+MatILUFactorSym        1 1.0 2.8610e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+s
+--Flops/sec:            6.844e+06      1.00000   6.844e+06  6.844e+06
+--------------------------------------------------
+MatAssemblyEn          2 1.0 3.6907e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+Memory:               1.716e+06 MatGetRowIJ            1 1.0 3.8147e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tIncreaseOvrlp       1 1.0 2.5010e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MPI Reductions:       0.000e+00      0.00000
+.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1189
+MatLoad                1 1.0 7.0405e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  lop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+  0  0  0  0     0
+Compiled with full precision matrices (default)
+e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   289
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+  0  0  0   0  4  0  0  0   284
+  tILUFactorSym        1 1.0 2.8920e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+Linear solve did not converge due to DIVERGED_DTOL iterations 26
+length N --> 8N flops
+AGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yesVecNorm               27 1.0 1.6952e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   958
+
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+VecCopy                2 1.0 1.9073e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSP Object:mpiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+MatGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  sing include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+ 0:      Main Stage: 1.1857e+00 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+h-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+total number of mallocs used during MatSetValues calls =0
+.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   845
+ 
+-----------VecScatterBegin      106 1.0 7.7558e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  MatIncreaseOvrlp       1 1.0 2.4104e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0     0  0  0   0  0  0  0  0     0
+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+ 0.0e+00 0.0e+00  4 97  0  0  0   4 97  0  0  0   206
+   Count: number of times phase was executed
+.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  left preconditioning
+2 1.0 3.2778e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    86
+  tView                3 1.0 6PCSetUpOnBlocks        2 1.0 1.8420e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3     Time and Flops: Max - maxim  using PRECONDITIONED VecDot                52 1.0 1.  28e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   271
+-ksp_view
+         Ratio - ratio of maximum to minimum over all processors
+  cDotNorm2           26 1.0 2.5368e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1233
+--
+   Mess: numb
+r of messages sent
+ 1 MPI processes
+ze 1
+27 1.0 1.6737e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   970
+   Avg. len: average message lengVecCopy      type: asm
+pe          Creations   Destructions     Memory  Descendants' Mem.
+ 0  0   0  0  0  0  0     0
+   Reduct: number VecSet                 3 1.0 5.5051e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+#End of PETSc Option Table entriVec  Additive Schwarz: total subdomain blocks = 1, amount of overlap = 1
+0.0e+00  0  8  0  0  0   0  8  0  0  0  1519
+There are no unused options.
+tion. Set stages with PetscLogStVecWAXPY              52 1.0 3.7766e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   828
+              Matrix     3              0            0     0
+VecScatterBegin      106 1.0 7.8297e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+0              Vector    13              2        51136     0
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 3.4883e-02 1.0 7.83e+06 1.0 0.0e      %R - percent reductions in this phase
+  0  0   225
+  Local solve is same for all blocks, in the following KSP an   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+  0   0  3  0  0  0    87
+           Index Set     6              2         1568     0
+------------------------------------------------------------------------------------------------------------------------
+PCMat Object:         53 1.0 1.2069e-02 1.0 3
+
+8e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   255
+KSP Object:on Table entries:
+      ##########################################################
+-------------------------------------------------------
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+                                                #
+        #                          WARNING!!!                    #
+-ksp_error_if_not_converged 1
+ 1 MPI processes
+                                              #
+ants' Mem.
+  sp_type bcgs
+Reports information only for process 0.
+debugging option,      #
+  
+--- Event Stage 0: Main Stage
+
+run ./configure                #
+-matload_block_si              Viewer     3              1          752     0
+  #
+                Matrix     3              0            0     0
+#
+  c_asm_overlap 1
+-pc_type asm
+ Vector    13              2        51136     0
+  #
+      Vector Scatter     1              0            0     0
+###
+
+
+       Krylov Solver     2              0            0     0
+                    --- Global ---  --- Stage ---   Total
+Compiled with full precision matrices (default)
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+  maximum iterations=10000, initial guess is zero
+1568     0
+-----------------------------------------------------------
+ownload-superlu=yes
+--- Event Stage 0: Main Stage
+
+========================================================================================
+cs: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+ThreadCommRunKer       1 1.0 5.0068e-06 1.0 0
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+h-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+MatMult               52 1.0 2.5413e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1190
+-hash 80361467
+able entries:
+MatSolve              53 1.0 2.8024e-03 1.0 3.08-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+ 0  0  1100
+  left preconditioningMatLUFactorNum         1 1.0 9.5510e-04 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   295
+  sp_error_if_not_converged 1
+-ksp_error_if_not_converged 1
+.8181e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegi-ksp_type bcgs
+.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  using NOMatAssemblyEnd         2 1.0 3.6001e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-log_summary
+-matload_block_size 1
+s used during MatSetValues calls =0
+.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-matload_block_size 1
+  tGetSubMatrice       1 1.0 6.1798e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-pc_asm_overlap 1
+   Object:ring         1 1.0 3.5596e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+-pc_asm_overlap 1
+-pc_type asm
+ Option Table entries
+e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0   3992e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+#End of PETSc Option Table entries
+MatView                3 1.0 7.1559e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 60  0  0  0  0  60  0  0  0  0     0
+(sub_)ed without FORTRAN kernels
+VecDot                52 1.0 1.1585e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   270
+  mpiled with full precision matrices (default)
+  linear system matrix = precond matrix:
+.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1210
+VecNorm               27 1.0 1.6904e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   961
+ 1VecCopy                2 1.0 1.6928e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+download-superlu=yes
+----------VecSet               123 1.0 5.6863e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+x-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+  VecAXPBYCZ            52 1.0 4.1533e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1506
+3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+VecWAXPY              52 1.0 3.9077e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   801
+tsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+VecScatterBegin      106 1.0 7.8511e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+h-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+KSPSetUp               2 1.0 2.7084e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 3.6643e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  3 97  0  0  0   3 97  0  0  0   214
+   /home11/bnorris2/UFloridaSparsePCSetUp                2 1.0 3.1590e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    89
+rows=3008, cols=3008
+  2 1.0 1.7538e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   161
+-kPCApply               53 1.0 1.2275e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   251
+  sp_error_if_not_converged 1
+  ----------------------------------------------------------------------------------------------------------------------
+  0 levels of fill
+t-ksp_view
+eros=30582, allocated nonzeros=30582
+  Me-log_summary
+ given in bytes:
+
+Ob  ct Type          Creations   Destructions     Memory  Descendants' Mem.
+-matload_block_size 1
+Reports information only for process 0.
+etValues calls =0
+  ptions_left
+  -- Event Stage 0: Main Stage
+
+  c_asm_overlap 1
+              Viewer     3              1          752     0
+  c_type asm
+              Matrix     3              0            0     0
+  using diagonal shift on blocks to              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+***********************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+       Krylov Solver     2              0            0     0
+************************************************************************************************************************
+      Preconditioner     2              0            0     0
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+           Index Set     6              2         1568     0
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn152 with 1 processor, by bnorris2 Tue Mar  1 16:08:29 2016
+  ======================================================================================================================
+Using Petsc Release Version 3.5.3, Jan, 31, 2015 
+  erage time to get PetscTime(): 0
+
+                         Max       Max/Min        Avg      Total 
+  ETSc Option Table entries:
+Time (sec):           1.367e+00      1.00000   1.367e+00
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+Objects:              3.000e+01      1.00000   3.000e+01
+-hash 80361467
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+-ksp_converged_reason
+Flops/sec:            5.936e+06      1.00000   5.936e+06  5.936e+06
+  sp_error_if_not_converged 1
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+-lMPI Reductions:       0.000e+00      0.00000
+-matload_block_size 1
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+  ptions_left
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+  c_asm_overlap 1
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+  c_type asm
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+#End of PETSc Option Table entries
+Mat Object:Compiled without FORTRAN kernels
+Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+  Compiled with full precision matrices (default)
+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+  sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+-------------------
+LiSee the 'Profiling' chapter of the users' manual for details on interpreting output.
+KSP Object:ptions: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yesPhase summary info:
+ 1 MPI processes
+-------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+   Count: number of times phase was executed
+  type: bcgs
+iler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-  maximum iterations=10000, initial guess is zero
+e11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-r  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000
+cc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+  left preconditioning
+ages sent
+   Avg. len: average message length (bytes)
+  using PRECONDITIONED norm type for convergence test
+  -f /home11/bnorris2/UFloridaSparseMatPC Object:er08.petsc
+-hash 80361467
+re computation
+ 1 MPI processes
+-ksp_converged_reason
+computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+  type: asm
+-ksp_error_if_not_converged 1
+s phase         %F - percent flops in this phase
+  -ksp_type bcgs
+ent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+ 1, amount of overlap = 1
+-ksp_view
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+  atload_block_size 1
+    ptions_left
+-pc_asm_overlap 1
+##############################################
+ objects:
+-pc_type asm
+                                                  #
+      #              #End of PETSc Option Table entries
+       #
+There are no unused options.
+                                  #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+(sub_)#   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+  readCommRunKer       1 1.0 8.1062e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  maximum iterations=10000, initial guess is zero
+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tMult               52 1.0 4.7920e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0   631
+MatSolve              53 1.0 4.9729e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0   620
+MatLUFactorNum         1 1.0 1.8220e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   155
+MatILUFactorSym        1 1.0 4.7588e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tAssemblyBegin       2 1.0 8.1062e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         2 1.0 6.6710e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tGetRowIJ            1 1.0 6.1989e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetSubMatrice       1 1.0 1.0939e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 6.6686e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatIncreaseOvrlp       1 1.0 4.3201e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+total number of mallocs used during MatSetValues calls =0
+.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tView                3 1.0 7.3840e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 54  0  0  0  0  54  0  0  0  0     0
+VecDot                52 1.0 1.7953e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   174
+VecDotNorm2           26 1.0 4.6849e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   668
+VecNorm               27 1.0 3.1543e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   515
+VecCopy                2 1.0 2.8610e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  cSet               123 1.0 9.6917e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  cAXPBYCZ            52 1.0 7.4482e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0   840
+VecWAXPY              52 1.0 6.9976e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   447
+not using I-node routines
+.0 1.4424e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 4.8304e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 6.4740e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  5 97  0  0  0   5 97  0  0  0   121
+PCSetUp                2 1.0 5.9049e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    48
+  SetUpOnBlocks        2 1.0 3.2461e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    87
+  ILU: out-of-place factorization
+PCApply               53 1.0 2.2588e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  2 38  0  0  0   2 38  0  0  0   136
+  ------------------------------------------------------------------------------------------------------------------------
+Ma
+ Object:    0 levels of fill
+en in bytes:
+
+    ject Type          Creations   Destructions     Memory  Descendants' Mem.
+    ports information only for process 0.
+ 1 MPI processes
+  -- Event Stage 0: Main Stage
+
+                Viewer     3              1          752     0
+                Matrix     3              0            0     0
+                Vector    13              2        51136     0
+  type: seqaij
+      Vector Scatter     1              0            0     0
+       Krylov Solver     2              0            0     0
+CKS]
+      Preconditioner     2              0            0     0
+           Index Set     6              2         1568     0
+  ======================================================================================================================
+  matrix ordering: natural
+me(): 9.53674e-08
+  ETSc Option Table entries:
+   /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+  ash 80361467
+  factor fill ratio given 1, needed 1
+-ksp_error_if_not_converged 1
+ed nonzeros=30582
+-ksp_type bcgs
+-ksp_view
+-log_summary
+matrix follows:
+  atload_block_size 1
+  tal number of mallocs used during MatSetValues calls =0
+-options_left
+  -pc_asm_overlap 1
+    c_type asm
+  nd of PETSc Option Table entries
+  t Object:thout FORTRAN kernels
+not using I-node routines
+on matrices (default)
+  linear system matrix = precond matrix:
+) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+  nfigure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes  t Object:-------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+  sing C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+ 1 MPI processes
+ths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+  type: seqaij
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+=3008
+-ksp_converged_reason
+  sp_error_if_not_converged 1
+-ksp_type bcgs
+=30582, allocated nonzeros=30582
+-ksp_view
+-log_summary
+-matload_block_size 1
+s used during MatSetValues calls =0
+-options_left
+  -pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+*********************There are no unused options.
+**********************************************************************
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+/ibrix/home11/bnorris2/research/lighthouse/sandbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn130 with 1 processor, by bnorris2 Tue Mar  1 16:08:29 2016
+  ing Petsc Release Version 3.5.3, Jan, 31, 2015 
+                          Max       Max/Min        Avg      Total 
+  me (sec):           1.153e+00      1.00000   1.153e+00
+Objects:              3.000e+01      1.00000   3.000e+01
+  ops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+  ops/sec:            7.038e+06      1.00000   7.038e+06  7.038e+06
+  mory:               1.716e+06      1.00000              1.716e+06
+  I Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+                            and VecAXPY() for complex vectors of length N --> 8N flops
+
+Summary of Stages:   ----- Time ------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+   0:      Main Stage: 1.1530e+00 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+See the 'Profiling' chapter of the users' manual for details on interpreting output.
+Phase summary info:
+   Count: number of times phase was executed
+ues calls =0
+   Time and Flops: Max - maximum over all processors
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+      %T - percent time in this phase         %F - percent flops in this phase
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+not using I-node routines
+      %R - percent reductions in this phase
+     Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+    linear system matrix = precond matrix:
+-------------------------------------------------------------------------------
+        ##########################################################
+      #                                                        #
+Mat Object:                      WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+ 1 MPI processes
+-with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+  Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+  type: seqaij
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+  ----------------------------------------------------------------------------------------------------------------------
+  -- Event Stage 0: Main Stage
+
+  readCommRunKer       1 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+rows=3008, cols=3008
+  1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult               52 1.0 2.6987e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1121
+    tSolve              53 1.0 2.6419e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1167
+  tLUFactorNum         1 1.0 1.0009e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   281
+  tILUFactorSym        1 1.0 2.8396e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 4.0531e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+total: nonzeros=30582, allocated nonzeros=30582
+MatAssemblyEnd         2 1.0 3.4499e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  MatGetRowIJ            1 1.0 3.0994e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+    tGetSubMatrice       1 1.0 6.1393e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tGetOrdering         1 1.0 3.5787e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+total number of mallocs used during MatSetValues calls =0
+.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tLoad                1 1.0 1.9982e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  tView                3 1.0 5.3178e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 46  0  0  0  0  46  0  0  0  0     0
+  cDot                52 1.0 1.1358e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   275
+  cDotNorm2           26 1.0 2.5058e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1248
+  cNorm               27 1.0 1.6522e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   983
+VecCopy                2 1.0 1.5974e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  linear system matrix = precond matrix:
+.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+  cAXPBYCZ            52 1.0 4.0841e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1532
+Mat Object:           52 1.0 3.6836e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   849
+  cScatterBegin      106 1.0 7.7868e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 2.7800e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 4.5353e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  4 97  0  0  0   4 97  0  0  0   173
+PCSetUp                2 1.0 3.1919e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    88
+PCSetUpOnBlocks        2 1.0 1.7970e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   157
+PCApply               53 1.0 1.2002e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   257
+------------------------------------------------------------------------------------------------------------------------
+
+ Memory usage is given in bytes:
+
+total: nonzeros=30582, allocated nonzeros=30582
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+  
+--- Event Stage 0: Main Stage
+
+total number of mallocs used during MatSetValues calls =0
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+not using I-node routines
+              0            0     0
+       Krylov Solver     2              0            0     0
+************************************************************************************************************************
+      Preconditioner     2              0            0     0
+***             WIDEN YOUR WINDOW TO 120 CHARACTERS.  Use 'enscript -r -fCourier9' to print this document            ***
+************************************************************************************************************************
+
+---------------------------------------------- PETSc Performance Summary: ----------------------------------------------
+
+Average time to get PetscTime(): 1.19209e-07
+ndbox/petsc/new/solvers-aciss on a arch-linux2-c-mpich3.1-gcc4.9 named cn126 with 1 processor, by bnorris2 Tue Mar  1 16:08:30 2016
+#PETSc Option Table entries:
+.5.3, Jan, 31, 2015 
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+  Total 
+-hash 80361467
+       9.514e-01      1.00000   9.514e-01
+Objects:              3.000e+01      1.00000   3.000e+01
+Flops:                8.114e+06      1.00000   8.114e+06  8.114e+06
+Flops/sec:            8.529e+06      1.00000   8.529e+06  8.529e+06
+Memory:               1.716e+06      1.00000              1.716e+06
+MPI Messages:         0.000e+00      0.00000   0.000e+00  0.000e+00
+MPI Message Lengths:  0.000e+00      0.00000   0.000e+00  0.000e+00
+-options_left
+MPI Reductions:       0.000e+00      0.00000
+
+Flop counting convention: 1 flop = 1 real number operation of type (multiply/divide/add/subtract)
+                            e.g., VecAXPY() for real vectors of length N --> 2N flops
+#End of PETSc Option Table entries
+AXPY() for complex vectors of length N --> 8N flops
+Compiled without FORTRAN kernels
+------  ----- Flops -----  --- Messages ---  -- Message Lengths --  -- Reductions --
+                        Avg     %Total     Avg     %Total   counts   %Total     Avg         %Total   counts   %Total 
+ 0:      Main Stage: 9.5138e-01 100.0%  8.1144e+06 100.0%  0.000e+00   0.0%  0.000e+00        0.0%  0.000e+00   0.0% 
+
+------------------------------------------------------------------------------------------------------------------------
+wnload-superlu=yesSee the 'Profiling' chapter of the users' manual for details on interpreting output.
+2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+Phase summary info:
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+   Count: number of times phase was executed
+   Time and Flops: Max - maximum over all processors
+sing libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+                   Ratio - ratio of maximum to minimum over all processors
+   Mess: number of messages sent
+   Avg. len: average message length (bytes)
+bayer08.petsc
+   Reduct: number of global reductions
+   Global: entire computation
+   Stage: stages of a computation. Set stages with PetscLogStagePush() and PetscLogStagePop().
+-ksp_type bcgs
+      %T - percent time in this phase         %F - percent flops in this phase
+-ksp_view
+      %M - percent messages in this phase     %L - percent message lengths in this phase
+      %R - percent reductions in this phase
+   Total Mflop/s: 10e-6 * (sum of flops over all processors)/(max time over all processors)
+------------------------------------------------------------------------------------------------------------------------
+
+
+c_asm_overlap 1
+-pc_type asm
+###################################################
+      #                                                        #
+      #                          WARNING!!!                    #
+      #                                                        #
+      #   This code was compiled with a debugging option,      #
+      #   To get timing results run ./configure                #
+      #   using --with-debugging=no, the performance will      #
+      #   be generally two or three times faster.              #
+      #                                                        #
+      ##########################################################
+
+
+Event                Count      Time (sec)     Flops                             --- Global ---  --- Stage ---   Total
+                   Max Ratio  Max     Ratio   Max  Ratio  Mess   Avg len Reduct  %T %F %M %L %R  %T %F %M %L %R Mflop/s
+------------------------------------------------------------------------------------------------------------------------
+
+--- Event Stage 0: Main Stage
+
+ThreadCommRunKer       1 1.0 3.8147e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+ThreadCommBarrie       1 1.0 1.9073e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatMult               52 1.0 2.5523e-03 1.0 3.02e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 37  0  0  0   0 37  0  0  0  1185
+MatSolve              53 1.0 2.6517e-03 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  0 38  0  0  0   0 38  0  0  0  1162
+MatLUFactorNum         1 1.0 9.5892e-04 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   294
+MatILUFactorSym        1 1.0 2.9516e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyBegin       2 1.0 3.8147e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatAssemblyEnd         2 1.0 3.6192e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetRowIJ            1 1.0 2.8610e-06 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetSubMatrice       1 1.0 6.1989e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatGetOrdering         1 1.0 3.5095e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatIncreaseOvrlp       1 1.0 2.6107e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatLoad                1 1.0 1.6971e-03 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+MatView                3 1.0 4.3773e-01 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00 46  0  0  0  0  46  0  0  0  0     0
+VecDot                52 1.0 1.1461e-03 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   273
+VecDotNorm2           26 1.0 2.5487e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0  1227
+VecNorm               27 1.0 1.6952e-04 1.0 1.62e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  2  0  0  0   0  2  0  0  0   958
+VecCopy                2 1.0 1.7881e-05 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecSet               123 1.0 5.3811e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+VecAXPBYCZ            52 1.0 4.1056e-04 1.0 6.26e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  8  0  0  0   0  8  0  0  0  1524
+VecWAXPY              52 1.0 3.7360e-04 1.0 3.13e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  4  0  0  0   0  4  0  0  0   837
+VecScatterBegin      106 1.0 7.7629e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSetUp               2 1.0 2.7394e-04 1.0 0.00e+00 0.0 0.0e+00 0.0e+00 0.0e+00  0  0  0  0  0   0  0  0  0  0     0
+KSPSolve               1 1.0 3.6222e-02 1.0 7.83e+06 1.0 0.0e+00 0.0e+00 0.0e+00  4 97  0  0  0   4 97  0  0  0   216
+PCSetUp                2 1.0 3.1979e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0    88
+PCSetUpOnBlocks        2 1.0 1.7662e-03 1.0 2.82e+05 1.0 0.0e+00 0.0e+00 0.0e+00  0  3  0  0  0   0  3  0  0  0   159
+PCApply               53 1.0 1.2060e-02 1.0 3.08e+06 1.0 0.0e+00 0.0e+00 0.0e+00  1 38  0  0  0   1 38  0  0  0   256
+------------------------------------------------------------------------------------------------------------------------
+
+Memory usage is given in bytes:
+
+Object Type          Creations   Destructions     Memory  Descendants' Mem.
+Reports information only for process 0.
+
+--- Event Stage 0: Main Stage
+
+              Viewer     3              1          752     0
+              Matrix     3              0            0     0
+              Vector    13              2        51136     0
+      Vector Scatter     1              0            0     0
+       Krylov Solver     2              0            0     0
+      Preconditioner     2              0            0     0
+           Index Set     6              2         1568     0
+========================================================================================================================
+Average time to get PetscTime(): 1.19209e-07
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+Compiled without FORTRAN kernels
+Compiled with full precision matrices (default)
+sizeof(short) 2 sizeof(int) 4 sizeof(long) 8 sizeof(void*) 8 sizeof(PetscScalar) 8 sizeof(PetscInt) 4
+Configure options: --download-hypre=yes --COPTFLAGS="-g -O3" --FOPTFLAGS="-g -O3" --FFLAGS="-g -O3" --CFLAGS="-g -O3" --download-superlu=yes
+-----------------------------------------
+Libraries compiled on Fri Nov 27 17:45:54 2015 on cn164 
+Machine characteristics: Linux-2.6.32-358.23.2.el6.x86_64-x86_64-with-redhat-6.6-Santiago
+Using PETSc directory: /home11/bnorris2/petsc/petsc-3.5.3
+Using PETSc arch: arch-linux2-c-mpich3.1-gcc4.9
+-----------------------------------------
+
+Using C compiler: mpicc -g -O3 -fPIC -g -O3  ${COPTFLAGS} ${CFLAGS}
+Using Fortran compiler: mpif90 -g -O3 -fPIC -g -O3   ${FOPTFLAGS} ${FFLAGS} 
+-----------------------------------------
+
+Using include paths: -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/include -I/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/include -I/packages/mpich2/3.1.4_gcc-4.9.2/include
+-----------------------------------------
+
+Using C linker: mpicc
+Using Fortran linker: mpif90
+Using libraries: -Wl,-rpath,/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lpetsc -Wl,-rpath,/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -L/ibrix/users/home11/bnorris2/petsc/petsc-3.5.3/arch-linux2-c-mpich3.1-gcc4.9/lib -lsuperlu_4.3 -lHYPRE -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -lmpicxx -lstdc++ -llapack -lblas -lX11 -lssl -lcrypto -lpthread -lmpifort -lgfortran -lm -lgfortran -lm -lquadmath -lm -lmpicxx -lstdc++ -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -L/packages/mpich2/3.1.4_gcc-4.9.2/lib -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -L/ibrix/packages/gcc/4.9.3/lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib/gcc -L/ibrix/packages/gcc/4.9.3/lib/gcc -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib64 -L/ibrix/packages/gcc/4.9.3/lib64 -Wl,-rpath,/ibrix/packages/gcc/4.9.3/lib -L/ibrix/packages/gcc/4.9.3/lib -ldl -Wl,-rpath,/packages/mpich2/3.1.4_gcc-4.9.2/lib -lmpi -lgcc_s -ldl  
+-----------------------------------------
+
+#PETSc Option Table entries:
+-f /home11/bnorris2/UFloridaSparseMat/petsc/bayer08.petsc
+-hash 80361467
+-ksp_converged_reason
+-ksp_error_if_not_converged 1
+-ksp_type bcgs
+-ksp_view
+-log_summary
+-matload_block_size 1
+-options_left
+-pc_asm_overlap 1
+-pc_type asm
+#End of PETSc Option Table entries
+There are no unused options.

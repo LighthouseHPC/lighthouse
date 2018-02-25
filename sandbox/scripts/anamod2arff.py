@@ -6,11 +6,14 @@ Created on Feb 17, 2015
 '''
 import re, sys, os, argparse, glob, time, datetime, socket, random
 from solvers import *
+solveropts = getsolvers()
 
 def readFeatures(dirname='anamod_features'):
     files=glob.glob(dirname + '/*.anamod')
     featuresre= re.compile(r'========([^=]+)========')
     features = dict()
+    feature_times = dict()
+    
     # features dictionary is indexed by matrix name
     # each value is a dictionary with keys corresponding to feature name and
     # value corresponding to feature value
@@ -33,15 +36,21 @@ def readFeatures(dirname='anamod_features'):
         for fl in flines:
             if fl.startswith(' '):
                 nameval = fl.split(':')
+                
                 nameval = [n.strip().replace('>','').replace('<','') for n in nameval]
-                val = nameval[1].split(',')[0]
+                valtime = nameval[1].split(',')
+                val = valtime[0]
+                if len(valtime)>1:
+                    if not matrixname in feature_times.keys():
+                        feature_times[matrixname] = dict()
+                    feature_times[matrixname][nameval[0]] = valtime[1]
                 tmpdictstr += " '" + nameval[0] + "' : " + val + ','
         tmpdictstr.rstrip(',')
         tmpdictstr += '}'
         features[matrixname] = eval(tmpdictstr.replace('****',"'?'").replace('-nan',"'?'").replace('inf',"float('Inf')"))
        
-    #print features 
-    return features
+    #print feature_times
+    return features, feature_times
 
 def readFeaturesTrilinos(path='tpetra_properties/12procs_results.csv'):
     fd = open(path,'r')
@@ -77,6 +86,7 @@ def readFeaturesTrilinos(path='tpetra_properties/12procs_results.csv'):
                 i += 1
             else:
                 features[matrixname][featurenames[i]] = c.replace('unconverged','?').replace('-nan','?')
+            
             i += 1
     return features
 
@@ -118,31 +128,42 @@ def readPerfDataBelos(features,filename):
             perf[matrixname]['mintime'] = dtime
 
     print "No features found for these matrices, their solver times have not been included: ", ','.join(missing)
+    print "Number of solvers considered: ", len(solvers.keys())
     return perf, solvers
 
 
 
 def readPerfData(features,dirname,threshold):
     '''Log format excerpt (solver, preconditioner, convergence reason, time, tolerance)
-    Beginning of each matrixname.solverhash.log file
+    Beginning of each matrixname.solverhash.log file (more recent tests only)
     Hash: 43373443
     tcqmr | icc | -3 | 1.926556e+02 | 84.0693 | 10000
     ...
+    On other platforms, we need to extract this data from the petsc command line options, which 
+    are also in the log
     '''
     #solvers = getsolvers()
     files = glob.glob(dirname+'/*.log')
+    #files = open(".bgq",'r').readlines()
+    print "Reading performance data from", len(files), "files"
     perf = dict()
     solversamples = dict()
     
-    # Temporary fix to make sure this solver does not dominate the dataset
-    fixme = '89565283'
-    specialsolver = {}
+    
+    count = 0
     for logfile in files:
-        print "Processing", logfile
+        #logfile = dirname + '/' + logfile.strip()
+        print count, ": Processing", logfile
+        count += 1
         statinfo = os.stat(logfile)
         
         fname=os.path.basename(logfile)
-        matrixname,hashid,_ = fname.split('.')
+        parts = fname.split('.')
+        pval = 'p1'
+        if len(parts) == 4: matrixname,hashid,pval = parts[:3]
+        else: matrixname,hashid = parts[:2]
+        nprocs = pval.strip('p')
+
         if not matrixname in features.keys():
             print "No features found for this matrix"
             continue
@@ -156,15 +177,61 @@ def readPerfData(features,dirname,threshold):
         fd = open(logfile,'r')
         contents = fd.read()
         fd.close()
-        if contents.find('Hash: ') < 0: continue
+        if contents.find('-hash ') < 0: continue
         lines = contents.split('\n')
-        if len(lines) < 2: continue
-        data = [d.strip() for d in lines[1].split('|')]
-        #print data
+        if len(lines) < 2:  #Check for timeout
+            if lines[-1].strip().endswith('timeout'):
+                perf[matrixname] = {'mintime':sys.float_info.max}
+                solverpc = solveropts[solverID].split()
+                s = solverpc[1]
+                p = ' '.join(solverpc[3:])
+                perf[matrixname][solverID] = [s,p,'-100',str(sys.float_info.max),str(sys.float_info.max),nprocs]
+            continue
+
+        bgqdata = []
+        for l in lines: 
+          if l.startswith('Machine characteristics: Linux-2.6.32-431.el6.ppc64-ppc64-with-redhat-6.5-Santiago'):
+             # This is a BG/Q log, which had some custom output
+             bgqdata = [d.strip() for d in lines[1].split('|')]
+             break
+        #else:
+        options=False
+        #data [solver, preconditioner, convergence reason, time, tolerance, numprocs]
+        data = ['','','','','','']
+        for l in lines: 
+          tmp=''
+          if options:
+            if l.startswith('-ksp_type'):
+              data[0] = l.split()[-1]
+            elif l.startswith('-pc_type'):
+              if data[1]: tmp=data[1]
+              data[1] = l.split()[-1] + tmp
+            elif l.startswith('-pc_'):
+              if data[1]: tmp=data[1]
+              data[1] = tmp + l.split()[-1]
+
+          # ------
+          if l.startswith("#PETSc Option Table entries:"): 
+            options=True
+          elif l.startswith("#End of PETSc Option Table entries"):
+            break
+          elif l.startswith("MatSolve"):
+            data[3] = l.split()[3]     # time
+          else: continue
+          
+        if bgqdata: data[3] = bgqdata[3]
+        data[5] = str(nprocs)
+        print data
         #solvername = solvers[hashid]
-        perf[matrixname][solverID] = data
-        if solverID == fixme: specialsolver[matrixname] = data
+        if len(data)>3:
+          perf[matrixname][solverID] = data
+        else: 
+          continue
+
         timestr =  perf[matrixname][solverID][3].strip()
+        # Petsc sometimes gloms numbers together, e.g., 1.4687e-0414.3, 
+        # so we read just 3 chars past the e
+        if timestr.count('.')>1: timestr = timestr[:timestr.find('e')+4]
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
             timestr = sys.float_info.max
@@ -178,42 +245,26 @@ def readPerfData(features,dirname,threshold):
 
     avgsamplespersolver = 0
     maxsamples = 0
-    for t in solversamples.values():
+    minsamples=100000000
+    for s,t in solversamples.items():
         avgsamplespersolver += t
-        if t > maxsamples: maxsamples = t
-    avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
-    specialsolver_matrices = random.sample(specialsolver.keys(),maxsamples)
+        if t > maxsamples:
+            maxsamples = t
+        if t < minsamples:
+            minsamples = t
     
+    if (len(solversamples.keys()) > 0):
+        avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
+    
+    print "Average, min, max samples per solver: ", avgsamplespersolver, minsamples, maxsamples
 
-    count1, count2 = 0, 0
-    fixmeused = []
-    perf2 = dict()
-    if True:
-        for matrixname, solverdata in perf.items():
-            perf2[matrixname] = dict()
-            for solverID, data in solverdata.items():
-                if solverID in solversamples.keys() and solverID == fixme:
-                    if matrixname in specialsolver_matrices:
-                        perf2[matrixname][solverID] = data
-                        count1 += 1
-                    continue
-                if solverID in solversamples.keys() and solversamples[solverID] > threshold:
-                    perf2[matrixname][solverID] = data
-                    count1 += 1
-                elif solverID == 'mintime':
-                    perf2[matrixname][solverID] = data
-                else:
-                    count2 += 1
-    else:
-        perf2 = perf
-    print ">%d matrices, <=%d matrices: " % (threshold,threshold), count1, count2
-    return perf2
+    return perf, solversamples
 
 '''
     @param lines list of lines (strings)
 '''
-def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
-                  includetimes=False,usesolvers=False):
+def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples={},
+                  includetimes=False,usesolvers=False,extrainfo=False):
     if not features: return ''
     buf = '@RELATION petsc_data\n'
     csvbuf = ''
@@ -236,7 +287,8 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
     if usesolvers:
         buf += '@ATTRIBUTE solver {%s}\n' % (','.join(['"'+x+'"' for x in solvers.keys()]))
         csvbuf += ', solver'
-
+    if extrainfo:
+        csvbuf += ', solver_name, prec_name, matrix_name'
     if fairtol > 0:
         buf += '@ATTRIBUTE class {good,fair,bad}'
     else:
@@ -256,6 +308,9 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
         for solverID in solvers.keys():
             # solver, preconditioner, convergence reason, time, tolerance
             if not solverID in perfdata[matrixname].keys(): continue
+            
+            # Remove solvers for which we have fewer than 10 samples
+            if solverID in solversamples.keys() and solversamples[solverID] < 10: continue
             dtime = float(perfdata[matrixname][solverID][3])
             if dtime != float("inf") and dtime <= (1.0+besttol) * perfdata[matrixname]['mintime']:
                 label = 'good'
@@ -274,6 +329,10 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={},
             if usesolvers:
                 buf += '"' + str(solverID) + '"' + ','
                 csvbuf += '"'+ str(solverID) + '"' + ','
+            if extrainfo:
+                csvbuf += str(perfdata[matrixname][solverID][0]) + ', '
+                csvbuf += str(perfdata[matrixname][solverID][1]) + ', '
+                csvbuf += matrixname + ', '
             buf += label + '\n'
             csvbuf += label + '\n'
         
@@ -317,12 +376,17 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--times', default=False, 
                         help='If True, include the minimum, maximum, and average times in the'+\
                               'features.', action='store_true')
-    parser.add_argument('-m', '--minpoints', default=100,
+    parser.add_argument('-m', '--minpoints', default=10,
                         help='Minimum number of points per matrix (the data with fewer is discarded).',
                         type=int)
     parser.add_argument('-s', '--solvers', default=True,
                         help='If True, include the solver ID in the '+\
                         'features.', action='store_true')
+    parser.add_argument('--feature_times', default = False, action='store_true',
+                        help='If specified, produce a CSV file anamod_feauture_times.csv with feature timings')
+    parser.add_argument('-e','--extra_csv_info', default=False,
+                        help='Adds solver name, preconditioner name, and matrix name to csv output',
+                        action='store_true')
 
     args = parser.parse_args()
     
@@ -340,8 +404,10 @@ if __name__ == '__main__':
     else: fairtol = 0
     includetimes = args.times
     usesolvers = args.solvers
+    extrainfo = args.extra_csv_info
     outfile = args.name
     solvers = {}
+    solversamples = {}
 
     if (not fdirname or not os.path.exists(fdirname)) and \
         (not trilinosfeaturepath or not os.path.exists(trilinosfeaturepath)):
@@ -355,9 +421,10 @@ if __name__ == '__main__':
         sys.exit(1)
 
     features = None
-    
+    feature_times = None
+
     if fdirname:
-        features = readFeatures(fdirname)
+        features, feature_times = readFeatures(fdirname)
     if trilinosfeaturepath:
         features = readFeaturesTrilinos(trilinosfeaturepath)
     if not features:
@@ -365,18 +432,35 @@ if __name__ == '__main__':
         parser.help()
 
     if pdirname:
-        perfdata = readPerfData(features,pdirname,args.minpoints)
+        perfdata, solversamples = readPerfData(features,pdirname,args.minpoints)
     elif belosfile:
         perfdata, solvers = readPerfDataBelos(features,belosfile)
+
+
+    print len(perfdata.keys())
+    if args.feature_times and feature_times:
+        import csv
+        writer = csv.writer(open('anamod_feature_times.csv', 'wb'))
+        first = True
+        for matrixname, value in feature_times.items():
+            if matrixname not in perfdata.keys(): continue
+            if first:
+                first = False
+                writer.writerow([''] + value.keys() + ['Best solver time'])
+            times = value.values()
+            writer.writerow([matrixname] + times + [perfdata[matrixname]['mintime']])
+
+
     buf = '%% Generated on %s, ' % datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     buf += ' %s: %s, ' % (socket.gethostname(), os.path.realpath(__file__))
     buf += 'Command: "%s"\n' % ' '.join(sys.argv)
     csvbuf = buf
-    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,includetimes,usesolvers)
+    arff, csv = convertToARFF(features,perfdata,besttol,fairtol,solvers,solversamples,includetimes,usesolvers,extrainfo)
     buf += arff
     csvbuf += csv
     basefilename = outfile+'_%d' % (args.besttol)
     if fairtol > 0: basefilename += '_%d' % args.fairtol
     writeToFile(buf, basefilename)
     writeToFile(csvbuf, basefilename, suffix='.csv')
+
     pass
