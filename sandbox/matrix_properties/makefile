@@ -18,3 +18,7 @@ properties: properties.o
 	-${CLINKER} -o properties properties.o  ${PETSC_MAT_LIB}
 	${RM} properties.o
 
+test: properties
+	mpirun -np 1 ./properties -header -f ${PETSC_DIR}/share/petsc/datafiles/matrices/ns-real-int32-float32
+	mpirun -np 1 ./properties -header -f ${PETSC_DIR}/share/petsc/datafiles/matrices/hpd-complex-int32-float32
+

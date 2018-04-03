@@ -1077,13 +1077,14 @@ PetscErrorCode GerschgorinMax(Mat M, PetscReal* g){
     }
     ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
   }
+  *g = gmax;
   return 0;
 }
 // Computes the minimum real bound of any eigenvalue of M
 PetscErrorCode GerschgorinMin(Mat M, PetscReal* g){
   PetscScalar ii,center;
   PetscInt m,n,i,j,nc=0;
-  PetscReal radius, gmax=INFINITY;
+  PetscReal radius, gmin=INFINITY;
   PetscErrorCode ierr;
   ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
@@ -1098,18 +1099,19 @@ PetscErrorCode GerschgorinMin(Mat M, PetscReal* g){
         if(cols[j] == i){
           ii = vals[j];
         }else{
-          radius = radius + PetscAbsScalar(vals[j]);
+          radius += PetscAbsScalar(vals[j]);
         }
       }
-      if(PetscRealPart(ii) - radius < gmax){
-        gmax = PetscRealPart(ii) - radius;
+      if(PetscRealPart(ii) - radius < gmin){
+        gmin = PetscRealPart(ii) - radius;
       }
     }else{
-      if(gmax>0.0){
-        gmax = 0.0;
+      if(gmin>0.0){
+        gmin = 0.0;
       }
     }
     ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
+	*g = gmin;
   }
   return 0;
 }
