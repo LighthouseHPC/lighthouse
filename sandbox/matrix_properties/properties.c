@@ -10,6 +10,7 @@ static char help[] = "Computes 32 features of moose matrices .\n\
 #include <libgen.h>
 #include <petscmat.h>
 #include <unistd.h>
+#include <math.h>
 
 PetscErrorCode Dimension(Mat,PetscInt*,PetscInt*);
 PetscErrorCode BlockSize(Mat,PetscInt*);
@@ -46,6 +47,8 @@ PetscErrorCode lowerBandwidth(Mat,PetscInt*);
 PetscErrorCode upperBandwidth(Mat,PetscInt*);
 PetscErrorCode MatIsSymmetric(Mat,PetscScalar,PetscBool *);
 PetscErrorCode rowAndColLogSpread(Mat,PetscScalar *,PetscScalar *);
+PetscErrorCode GerschgorinMax(Mat,PetscReal*);
+PetscErrorCode GerschgorinMin(Mat,PetscReal*);
 
 
 int file_exists (char *filename) {
@@ -71,7 +74,7 @@ int main(int argc,char **args)
   
   PetscInitialize(&argc,&args,(char *)0,help);
   MPI_Comm_rank(PETSC_COMM_WORLD,&rank);
-  if (rank == 0) sprintf(header, "%s", "NumRows, NumCols, MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, FrobeniusNorm, SymmetricFrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, Name");
+  if (rank == 0) sprintf(header, "%s", "NumRows, NumCols, MinNNZperRow, RowVariance, ColVariance, DiagVariance, Nonzeros, FrobeniusNorm, SymmetricFrobeniusNorm, AntiSymmetricFrobeniusNorm, OneNorm, InfinityNorm, SymmetricInfinityNorm, AntiSymmetricInfinityNorm, MaxNNZperRow, Trace, AbsTrace, MinNNZperRow, AvgNNZperRow, DummyRows, DummyRowsKind, NumericValueSymmetry1, NNZPatternSymmetry1, NumericValueSymmetry2, NNZPatternSymmetry2, RowDiagDominance, ColDiagDominancy, DiagAverage, DiagSign, DiagNNZ, LowerBW, UpperBW, RowLogValSpread, ColLogValSpread, Symmetric, GerschgorinMax, GerschgorinMin, Name");
 
   PetscOptionsHasName(NULL,NULL, "-header", &hflg);
   if (hflg) {
@@ -218,6 +221,12 @@ int main(int argc,char **args)
    
   ierr = MatIsSymmetric(A,1e-6,&isSymmetric); CHKERRQ(ierr);
   len += sprintf (buf + len, "%d, ",isSymmetric);
+
+  GerschgorinMax(A, &rv);
+  len += sprintf (buf + len, "%g, ",rv);
+
+  GerschgorinMin(A, &rv);
+  len += sprintf (buf + len, "%g, ",rv);
 
   char *fname = basename(file); // getting matrix name from the path 
   len += sprintf (buf + len, "%s",fname);
@@ -1028,4 +1037,79 @@ PetscErrorCode rowAndColLogSpread(Mat A, PetscScalar *rv, PetscScalar *cv)
   PetscFunctionReturn(0);
 }
 
+/* Gerschgorin Circle Theorem: Let A be an n x n matrix and let
+ * D_i be a disk in \mathbb{C} such that D_i is centered at a_{ii}
+ * with radius r_i = \sum_{i \ne j} a_{ij}. Then all eigenvalues of A
+ * lie within D_i for 1 <= i <= n.
+ * We get the maximum/minimum possible real part for all D_i of A.
+ * Note that we could also compute the largest and smallest magnitudes
+ * of any eigenvalue
+ */
+// Computes the maximum real bound of any eigenvalue of M
+PetscErrorCode GerschgorinMax(Mat M, PetscReal* g){
+  PetscScalar ii,center;
+  PetscInt m,n,i,j,nc=0;
+  PetscReal radius, gmax=-INFINITY;
+  PetscErrorCode ierr;
+  ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
 
+  for (i=0; i<m; i++) {
+    radius = 0.0;
+    ii = 0;
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
+    if(nc != 0){
+      for(j=0;j<nc;j++){
+        if(cols[j] == i){
+          ii = vals[j];
+        }else{
+          radius = radius + PetscAbsScalar(vals[j]);
+        }
+      }
+      if(PetscRealPart(ii) + radius > gmax){
+        gmax = PetscRealPart(ii) + radius;
+      }
+    }else{
+      if(gmax<0.0){
+        gmax = 0.0;
+      }
+    }
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
+  }
+  return 0;
+}
+// Computes the minimum real bound of any eigenvalue of M
+PetscErrorCode GerschgorinMin(Mat M, PetscReal* g){
+  PetscScalar ii,center;
+  PetscInt m,n,i,j,nc=0;
+  PetscReal radius, gmax=INFINITY;
+  PetscErrorCode ierr;
+  ierr = Dimension(M, &m, &n);CHKERRQ(ierr);
+
+  for (i=0; i<m; i++) {
+    radius = 0.0;
+    ii = 0;
+    const PetscInt *cols;
+    const PetscScalar *vals;
+    ierr = MatGetRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
+    if(nc != 0){
+      for(j=0;j<nc;j++){
+        if(cols[j] == i){
+          ii = vals[j];
+        }else{
+          radius = radius + PetscAbsScalar(vals[j]);
+        }
+      }
+      if(PetscRealPart(ii) - radius < gmax){
+        gmax = PetscRealPart(ii) - radius;
+      }
+    }else{
+      if(gmax>0.0){
+        gmax = 0.0;
+      }
+    }
+    ierr = MatRestoreRow(M,i,&nc,&cols,&vals);CHKERRQ(ierr);
+  }
+  return 0;
+}
