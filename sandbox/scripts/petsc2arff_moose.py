@@ -144,7 +144,10 @@ def readPerfData(features,dirname,threshold):
         statinfo = os.stat(logfile)
         
         fname=os.path.basename(logfile)
-        matrixname,hashid,_ = fname.split('.')
+        #for filenames with the following format: split_order4_test_49_1_1.1216556.p1.log
+        matrixname = fname.split('.', 1)[0]
+        hashid = fname.split('.', 1)[1].split('.')[0]
+        #matrixname,hashid,_ = fname.split('.')
         if not matrixname in features.keys():
             print "No features found for this matrix"
             continue
