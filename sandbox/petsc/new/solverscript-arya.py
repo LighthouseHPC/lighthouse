@@ -8,7 +8,7 @@ nprocs = [1,4,8,16,24,32,48,54,72]
 nprocs = [8,1]
 
 from solvers import *
-petsc = True
+petsc = False
 if petsc:
   tmdir = 'timing-arya'
   matrixsubdir = 'petsc'
@@ -88,6 +88,6 @@ for np in nprocs:
       ts = time.time()
       ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
       print ts, '\n', buf
-      os.system(buf)
+      #os.system(buf)
   
    
