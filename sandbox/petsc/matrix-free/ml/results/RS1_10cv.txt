@@ -1,0 +1,44 @@
+Filename: RS1_petsc_mfree_UF_arya_p16_30_30
+Data size: 36,574 data points
+# Good instances: 7341
+# Bad instances: 29,233
+# features: 7
+
+|-----------------------------------------------------|
+|            10 cv       | RS1 ( 7 features)          |
+|-----------------------------------------------------|
+| ML methods | Good accuracy % |  Overall accuracy %  |
+|-----------------------------------------------------|
+| BayesNet   |     80.9        |     95.6             |
+| knn(10)    |	   57.8         |     88.1             |
+| ADT        |     56.2        |     89.8             |
+| J48        |     85.4        |     94.9             |
+| RF         |     88.7        |     96.0             |
+| LibSVM     |            Too slow                    |
+|-----------------------------------------------------|
+
+Best classifier: RF: confusion matrix: 
+=== Stratified cross-validation ===
+=== Summary ===
+
+Correctly Classified Instances       35137               96.071  %
+Incorrectly Classified Instances      1437                3.929  %
+Kappa statistic                          0.8761
+Mean absolute error                      0.0617
+Root mean squared error                  0.1755
+Relative absolute error                 19.2365 %
+Root relative squared error             43.8116 %
+Total Number of Instances            36574     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.887     0.021      0.915     0.887     0.901      0.984    good
+                 0.979     0.113      0.972     0.979     0.976      0.984    bad
+Weighted Avg.    0.961     0.095      0.96      0.961     0.96       0.984
+
+=== Confusion Matrix ===
+
+     a     b   <-- classified as
+  6511   830 |     a = good
+   607 28626 |     b = bad
