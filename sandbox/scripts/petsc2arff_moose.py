@@ -138,6 +138,7 @@ def readPerfData(features,dirname,threshold):
     
     count = 0
     for logfile in files:
+        timefound = False
         #logfile = dirname + '/' + logfile.strip()
         print count, ": Processing", logfile
         count += 1
@@ -200,6 +201,8 @@ def readPerfData(features,dirname,threshold):
           elif l.startswith("#End of PETSc Option Table entries"):
             break
           elif l.startswith("MatSolve"):
+            data[3] = l.split()[3]
+          if l.startswith("KSPSolve") and not timefound:
             data[3] = l.split()[3]
           else: continue
           
