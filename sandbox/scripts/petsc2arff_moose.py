@@ -214,6 +214,7 @@ def readPerfData(features,dirname,threshold):
         else: 
           continue
 
+        if timestr.count('.')>1: timestr = timestr[:timestr.find('e')+4]
         timestr =  perf[matrixname][solverID][3].strip()
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
