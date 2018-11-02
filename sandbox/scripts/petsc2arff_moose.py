@@ -138,6 +138,7 @@ def readPerfData(features,dirname,threshold):
     
     count = 0
     for logfile in files:
+        timefound = False
         #logfile = dirname + '/' + logfile.strip()
         print count, ": Processing", logfile
         count += 1
@@ -201,6 +202,8 @@ def readPerfData(features,dirname,threshold):
             break
           elif l.startswith("MatSolve"):
             data[3] = l.split()[3]
+          if l.startswith("KSPSolve") and not timefound:
+            data[3] = l.split()[3]
           else: continue
           
         if bgqdata: data[3] = bgqdata[3]
@@ -211,6 +214,7 @@ def readPerfData(features,dirname,threshold):
         else: 
           continue
 
+        if timestr.count('.')>1: timestr = timestr[:timestr.find('e')+4]
         timestr =  perf[matrixname][solverID][3].strip()
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
             or timestr.startswith('Errorcode'):
