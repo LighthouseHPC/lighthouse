@@ -33,7 +33,7 @@ class Command(object):
         return self.process.returncode, out, err
     
     
-    def run(self, inputs='', timeout = -1, cwd = None, shell = True, kill_tree = True, env = None):
+    def run(self, inputs='', timeout = -1, cwd = None, shell = True, kill_tree = True, env = None, failstring=None):
         '''
         Run a command with a timeout after which it will be forcibly
         killed.
@@ -64,7 +64,9 @@ class Command(object):
                     kill(pid, SIGKILL)
                 except OSError:
                     pass
-            return -9, stdout, stderr + "Killed!"
+            if not failstring: failstring = stderr + "Killed!"
+            else: failstring += stderr
+            return -9, stdout, failstring
         return p.returncode, stdout, stderr
     
     def get_process_children(self, pid):

@@ -12,19 +12,28 @@ import sys
 #any matrix with (some) 0 diagonal entries:
 #-pc_fieldsplit_type schur in conjunction with -pc_fieldsplit_detect_saddle_point (Boyana will look into that)
 
+matrix_free = True
 solvers = ['gmres','fgmres','lgmres','bicg','bcgs','tfqmr','tcqmr','lsqr','chebyshev','cg', 'ibcgs']
 pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
+	'bjacobi' : {},
 	'asm': {'asm_overlap' : [0,1,2,3]},
      	'jacobi' : {},
-	'bjacobi' : {},
 	'icc' : {'factor_levels':[0,1,2,3]}
     }
-if False:
-  solvers = ['gmres','fgmres','cg','bicg','tfqmr']
+if True:    # Parallel solvers 
+  solvers = ['gmres','preonly','fgmres','dgmres','cg','fcg', 'tfqmr','hypre','chebychev','gcr','lcd','lgmres','pipefgmres','pipefcg','richardson']
+  if not matrix_free: solvers += 'bicg'
   pcs = {
+        'none' : {},
+        'hypre' : {'pilut':[],'boomeramg':[],'parasails':[]},
+        'preonly' : {'lu':[],'cholesky':[]},
         'asm': {'asm_overlap' : [0,1,2,3]},
+        'gasm' : {'gasm_overlap' : [0,1,2,3]},
+        'mg' : {'mg_levels' : [1,2,3], 'mg_cycle_type':['v','w']},
         'jacobi' : {},
         'bjacobi' : {},
+        'sor' : {},
+        'svd' : {},
   }
 
 
