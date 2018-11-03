@@ -21,7 +21,7 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 	'icc' : {'factor_levels':[0,1,2,3]}
     }
 if True:    # Parallel solvers 
-  solvers = ['gmres','preonly','fgmres','dgmres','cg','fcg', 'tfqmr','hypre','chebychev','gcr','lcd','lgmres','pipefgmres','pipefcg','richardson']
+  solvers = ['gmres','preonly','fgmres','dgmres','cg','fcg', 'tfqmr','hypre','chebyshev','gcr','lcd','lgmres','pipefgmres','pipefcg','richardson']
   if not matrix_free: solvers += 'bicg'
   pcs = {
         'none' : {},
