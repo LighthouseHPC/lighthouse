@@ -23,6 +23,7 @@ pcs = { 'ilu': {'factor_levels':[0,1,2,3]},
 if True:    # Parallel solvers 
   solvers = ['gmres','preonly','fgmres','dgmres','cg','fcg', 'tfqmr','hypre','chebyshev','gcr','lcd','lgmres','pipefgmres','pipefcg','richardson']
   if not matrix_free: solvers += 'bicg'
+#  solvers=['preonly']
   pcs = {
         'none' : {},
         'hypre' : {'pilut':[],'boomeramg':[],'parasails':[]},
@@ -58,7 +59,7 @@ def getsolvers(which='petsc'):
         solveropts[hashstr] = optstr
         continue
       if solver == 'preonly': 
-        for ppc in pcs[solver].items():
+        for ppc in pcs[solver].keys():
           optstr = ' -ksp_type %s -pc_type %s ' % (solver, ppc)
           hashstr = genhash(optstr)
           solveropts[hashstr] = optstr
