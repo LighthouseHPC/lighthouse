@@ -29,13 +29,13 @@ if True:    # Parallel solvers
         'preonly' : {'lu':[],'cholesky':[]},
         'asm': {'asm_overlap' : [0,1,2,3]},
         'gasm' : {'gasm_overlap' : [0,1,2,3]},
-        'mg' : {'mg_levels' : [1,2,3], 'mg_cycle_type':['v','w']},
         'jacobi' : {},
         'bjacobi' : {},
         'sor' : {},
         'svd' : {},
   }
 
+        #'mg' : {'mg_levels' : [1,2,3], 'mg_cycle_type':['v','w']},
 
 # Default, comment out for general random sampling testing
 #if len(sys.argv) > 1 and sys.argv[1] == 'default':
@@ -51,10 +51,17 @@ def getsolvers(which='petsc'):
 	
   for solver in solvers:
     for pc, pcopts in pcs.items():
+      if solver == 'preonly' and pc  != 'preonly': continue
       if len(pcopts) == 0:
         optstr = ' -ksp_type %s -pc_type %s ' % (solver, pc)
         hashstr = genhash(optstr)
         solveropts[hashstr] = optstr
+        continue
+      if solver == 'preonly': 
+        for ppc in pcs[solver].items():
+          optstr = ' -ksp_type %s -pc_type %s ' % (solver, ppc)
+          hashstr = genhash(optstr)
+          solveropts[hashstr] = optstr
         continue
       for pc_optname, pc_optvals in pcopts.items():
         for pc_optval in pc_optvals:
