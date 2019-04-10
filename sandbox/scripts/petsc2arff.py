@@ -23,12 +23,12 @@ def readFeatures(dirname='anamod_features'):
         basename = os.path.basename(filename)
         matrixname = basename.split('.')[0]
         print matrixname
-	f = open(filename,'r')
+        f = open(filename,'r')
         contents = f.read()
         f.close()
         features[matrixname] = dict()
         m = featuresre.search(contents)
-        if not m: 
+        if not m:
             print "Could not extract features for " + str(filename)
             continue
         
@@ -50,7 +50,7 @@ def readFeatures(dirname='anamod_features'):
         tmpdictstr.rstrip(',')
         tmpdictstr += '}'
         features[matrixname] = eval(tmpdictstr.replace('****',"'?'").replace('-nan',"'?'").replace('inf',"float('Inf')"))
-       
+
     #print feature_times
     return features, feature_times
 
@@ -74,10 +74,10 @@ def readFeaturesPETSc(path='uflorida-features1.csv'):
         features[matrixname] = dict()
         i = 0
         for c in contents[1:]:
-            features[matrixname][featurenames[i]] = c.replace('unconverged','?').replace('-nan','?') 
+            features[matrixname][featurenames[i]] = c.replace('unconverged','?').replace('-nan','?')
             i += 1
 
-    print featurenames    
+    print featurenames
     return features
 
 
@@ -127,10 +127,10 @@ def readPerfDataBelos(features,filename):
 def readPerfData(features,dirname,threshold):
     '''Log format excerpt (solver, preconditioner, convergence reason, time, tolerance)
     Beginning of each matrixname.solverhash.log file (more recent tests only)
-    Hash: 43373443
-    tcqmr | icc | -3 | 1.926556e+02 | 84.0693 | 10000
+Hash: 74995666
+preonly | lu | reason=4 | time=4.778624e-03 | norm=2.67043e-11 | its=1 | p=38
     ...
-    On other platforms, we need to extract this data from the petsc command line options, which 
+    On other platforms, we need to extract this data from the petsc command line options, which
     are also in the log
     '''
     #solvers = getsolvers()
@@ -171,17 +171,29 @@ def readPerfData(features,dirname,threshold):
         fd.close()
         if contents.find('-hash ') < 0: continue
         lines = contents.split('\n')
+        norm = 0.0
+        timeout = False
+        if lines[1].count('|') > 4:
+            summary = lines[1].split('|')
+            for item in summary:
+                if item.startswith('norm='):
+                    # This is the 2-norm of Au - b where u is the solution vector
+                    # so a large nonzero value indicates the solution was not
+                    # computed successfully
+                    norm = float(item.split('=')[-1].strip())
         if len(lines) < 2:  #Check for timeout
             if lines[-1].strip().endswith('timeout'):
-                perf[matrixname] = {'mintime':sys.float_info.max}
-                solverpc = solveropts[solverID].split()
-                s = solverpc[1]
-                p = ' '.join(solverpc[3:])
-                perf[matrixname][solverID] = [s,p,'-100',str(sys.float_info.max),str(sys.float_info.max),nprocs]
+                timeout = True
+        if abs(norm) > 0.1 or timeout:
+            perf[matrixname] = {'mintime':sys.float_info.max}
+            solverpc = solveropts[solverID].split()
+            s = solverpc[1]
+            p = ' '.join(solverpc[3:])
+            perf[matrixname][solverID] = [s,p,'-100',str(sys.float_info.max),str(sys.float_info.max),nprocs]
             continue
 
         bgqdata = []
-        for l in lines: 
+        for l in lines:
           if l.startswith('Machine characteristics: Linux-2.6.32-431.el6.ppc64-ppc64-with-redhat-6.5-Santiago'):
              # This is a BG/Q log, which had some custom output
              bgqdata = [d.strip() for d in lines[1].split('|')]
@@ -190,7 +202,7 @@ def readPerfData(features,dirname,threshold):
         options=False
         #data [solver, preconditioner, convergence reason, time, tolerance, numprocs]
         data = ['','','','','','']
-        for l in lines: 
+        for l in lines:
           tmp=''
           if options:
             if l.startswith('-ksp_type'):
@@ -203,7 +215,7 @@ def readPerfData(features,dirname,threshold):
               data[1] = tmp + l.split()[-1]
 
           # ------
-          if l.startswith("#PETSc Option Table entries:"): 
+          if l.startswith("#PETSc Option Table entries:"):
             options=True
           elif l.startswith("#End of PETSc Option Table entries"):
             break
@@ -212,18 +224,18 @@ def readPerfData(features,dirname,threshold):
           if l.startswith("KSPSolve") and not timefound:
             data[3] = l.split()[3]
           else: continue
-          
+
         if bgqdata: data[3] = bgqdata[3]
         data[5] = str(nprocs)
         print data
         #solvername = solvers[hashid]
         if len(data)>3:
           perf[matrixname][solverID] = data
-        else: 
+        else:
           continue
 
         timestr =  perf[matrixname][solverID][3].strip()
-        # Petsc sometimes gloms numbers together, e.g., 1.4687e-0414.3, 
+        # Petsc sometimes gloms numbers together, e.g., 1.4687e-0414.3,
         # so we read just 3 chars past the e
         if timestr.count('.')>1: timestr = timestr[:timestr.find('e')+4]
         if not timestr or perf[matrixname][solverID][2] == 'Failed' \
@@ -249,7 +261,7 @@ def readPerfData(features,dirname,threshold):
     
     if (len(solversamples.keys()) > 0):
         avgsamplespersolver = avgsamplespersolver / len(solversamples.keys())
-    
+
     print "Average, min, max samples per solver: ", avgsamplespersolver, minsamples, maxsamples
 
     return perf, solversamples
@@ -266,7 +278,7 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples=
     # Header info
     featurenames = None
     for k in features.keys():
-        if features[k]: 
+        if features[k]:
             featurenames = features[k].keys()
             break
     for feature in featurenames:
@@ -329,18 +341,18 @@ def convertToARFF(features,perfdata,besttol,fairtol=0,solvers={}, solversamples=
                 csvbuf += matrixname + ', '
             buf += label + '\n'
             csvbuf += label + '\n'
-        
+
         buf = buf.replace('inf',str(sys.float_info.max))
         csvbuf = csvbuf.replace('inf',str(sys.float_info.max)).replace('?','0').replace('good','1').replace('bad','-1')
-        
+
     return buf, csvbuf
 
 def writeToFile(buf, fname, suffix='.arff'):
     with open(os.path.basename(fname) + suffix, "w") as arff_file:
         arff_file.write(buf)
         arff_file.close()
-    return 
-        
+    return
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -367,7 +379,7 @@ if __name__ == '__main__':
                               'criterion but within 40%% of the minimum'+\
                               'will be assigned the "fair" label',
                         type=int)
-    parser.add_argument('-t', '--times', default=False, 
+    parser.add_argument('-t', '--times', default=False,
                         help='If True, include the minimum, maximum, and average times in the'+\
                               'features.', action='store_true')
     parser.add_argument('-m', '--minpoints', default=10,
